@@ -1,10 +1,10 @@
 
-  <!DOCTYPE HTML>
+ <!DOCTYPE HTML>
 <html >
 <head>
   <meta charset="UTF-8">
   
-    <title>Archives: 2016 | lunge博客</title>
+    <title>categories | lunge博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="张伦">
@@ -12,11 +12,12 @@
 
     
     <meta property="og:type" content="website">
-<meta property="og:title" content="lunge博客">
-<meta property="og:url" content="https://mrzhangboss.github.io/archives/2016/index.html">
+<meta property="og:title" content="categories">
+<meta property="og:url" content="https://mrzhangboss.github.io/categories/index.html">
 <meta property="og:site_name" content="lunge博客">
+<meta property="og:updated_time" content="2016-07-17T08:52:22.554Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="lunge博客">
+<meta name="twitter:title" content="categories">
 
     
     <link rel="alternative" href="/atom.xml" title="lunge博客" type="application/atom+xml">
@@ -70,35 +71,15 @@
 </div>
       </header>
       <div id="container">
-        
-
+          
 <div class="archive-title" >
-  <h2 class="archive-icon">2016</h2>
-  
-  <div class="archiveslist archive-float clearfix">
-   <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">Jul 2016</a><span class="archive-list-count">1</span></li></ul>
- </div>
-  
+<h2 class="category-icon">Categories</h2>
+
 </div>
-<div id="main" class="archive-part clearfix">
-  <div id="archive-page">
-
-  <section class="post" itemscope itemprop="blogPost">
-  
-    <a href="/2016/07/17/test/" title="test" itemprop="url">
-  
-
-    <time datetime="2016-07-17T09:58:21.000Z" itemprop="datePublished">2016-07-17</time>
-
-
-    <h1 itemprop="name">test</h1>
-
-  </a>
-</section>
-
-
-  </div>
+<div id="main" class="archive-part">
+<div class="all-list-box"></div>
 </div>
+
 
       </div>
       <footer><div id="footer" >
@@ -193,10 +174,40 @@ $(document).ready(function(){
 
 
 
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lungeblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
 
 
 
 
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var list    = $('.archive-title a'),
+      box     = $('.all-list-box'),
+      first   = $('.archive-title a:first-of-type');
+      box.load(first.attr('data-src').toString()+' #archive-page');
+      first.addClass('current');
+  list.each(function(){
+    $(this).click(function(){
+      var listSrc=$(this).attr('data-src').toString()+' #archive-page';
+      box.load(listSrc);
+      list.removeClass('current');
+      $(this).addClass('current');
+     });  
+    });
+  }); 
+</script>
 
 
 <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
