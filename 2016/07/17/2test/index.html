@@ -162,16 +162,6 @@
 <aside class="clearfix">
 
   
-<div class="github-card">
-<p class="asidetitle">Github Card</p>
-<div class="github-card" data-github="mrzhangboss" data-width="220" data-height="119" data-theme="medium">
-<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
-</div>
-  </div>
-
-
-
-  
 
   
 <div class="tagslist">
@@ -448,7 +438,20 @@ $(document).ready(function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-ga('create', 'UA-80810286-1', 'auto');  
+
+var hostUrl = window.location.href.match(/https?:\/\/([.\w]+):?.+/)[1];
+if(hostUrl=== 'blog.zhanglun.me'){
+ga('create', 'UA-80810286-1', 'auto');
+alert('add ' + 'UA-80810286-1' + 'UA-80810286-1');
+}
+
+var hostUrl = window.location.href.match(/https?:\/\/([.\w]+):?.+/)[1];
+if(hostUrl=== 'b.lunge.me'){
+ga('create', 'UA-80810286-2', 'auto');
+alert('add ' + 'UA-80810286-2' + 'UA-80810286-2');
+}
+
+
 ga('send', 'pageview');
 </script>
 
