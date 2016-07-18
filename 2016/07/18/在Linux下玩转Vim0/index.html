@@ -1,0 +1,506 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-cn">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>在Linux下玩转Vim | lunge博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="张伦">
+    
+
+    
+    <meta name="description" content="学了鸟哥的书前面基础后，突然想在Linux下用gcc玩C语言，然后了解到了Vim这个神一样的编译器，接下来经过超长时间虐心的安装无数插件无数依赖包，突然有种打自己一顿的感觉，还好终于把Vim装的和VS差不多了，接下来我介绍我安装Vim的经验吧。我虚拟机下的Linux原来是红旗6的，但是我改了一下yum的包源成CentOS的并且全部update一下后就神奇的变成了CentOS6，虽然他们两个是同一家">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在Linux下玩转Vim">
+<meta property="og:url" content="https://mrzhangboss.github.io/2016/07/18/在Linux下玩转Vim0/index.html">
+<meta property="og:site_name" content="lunge博客">
+<meta property="og:description" content="学了鸟哥的书前面基础后，突然想在Linux下用gcc玩C语言，然后了解到了Vim这个神一样的编译器，接下来经过超长时间虐心的安装无数插件无数依赖包，突然有种打自己一顿的感觉，还好终于把Vim装的和VS差不多了，接下来我介绍我安装Vim的经验吧。我虚拟机下的Linux原来是红旗6的，但是我改了一下yum的包源成CentOS的并且全部update一下后就神奇的变成了CentOS6，虽然他们两个是同一家">
+<meta property="og:updated_time" content="2016-07-18T08:16:36.383Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在Linux下玩转Vim">
+<meta name="twitter:description" content="学了鸟哥的书前面基础后，突然想在Linux下用gcc玩C语言，然后了解到了Vim这个神一样的编译器，接下来经过超长时间虐心的安装无数插件无数依赖包，突然有种打自己一顿的感觉，还好终于把Vim装的和VS差不多了，接下来我介绍我安装Vim的经验吧。我虚拟机下的Linux原来是红旗6的，但是我改了一下yum的包源成CentOS的并且全部update一下后就神奇的变成了CentOS6，虽然他们两个是同一家">
+<meta name="twitter:creator" content="@mrzhangboss">
+
+    
+    <link rel="alternative" href="/atom.xml" title="lunge博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/lunge.png">
+    
+    
+    <link rel="apple-touch-icon" href="/img/lunge.png">
+    <link rel="apple-touch-icon-precomposed" href="/img/lunge.png">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/lunge.png" alt="lunge博客" title="lunge博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="Search" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/07/18/在Linux下玩转Vim0/" title="在Linux下玩转Vim" itemprop="url">在Linux下玩转Vim</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
+		
+  <p class="article-time">
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#学了鸟哥的书前面基础后，突然想在Linux下用gcc玩C语言，然后了解到了Vim这个神一样的编译器，接下来经过超长时间虐心的安装无数插件无数依赖包，突然有种打自己一顿的感觉，还好终于把Vim装的和VS差不多了，接下来我介绍我安装Vim的经验吧。"><span class="toc-number">1.</span> <span class="toc-text">学了鸟哥的书前面基础后，突然想在Linux下用gcc玩C语言，然后了解到了Vim这个神一样的编译器，接下来经过超长时间虐心的安装无数插件无数依赖包，突然有种打自己一顿的感觉，还好终于把Vim装的和VS差不多了，接下来我介绍我安装Vim的经验吧。</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#我虚拟机下的Linux原来是红旗6的，但是我改了一下yum的包源成CentOS的并且全部update一下后就神奇的变成了CentOS6，虽然他们两个是同一家公司，但是总给我一种由盗版成了正版的感觉。。"><span class="toc-number"></span> <span class="toc-text">我虚拟机下的Linux原来是红旗6的，但是我改了一下yum的包源成CentOS的并且全部update一下后就神奇的变成了CentOS6，虽然他们两个是同一家公司，但是总给我一种由盗版成了正版的感觉。。</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#闲话不多说，刚开始装第一个插件是Ctags"><span class="toc-number"></span> <span class="toc-text">闲话不多说，刚开始装第一个插件是Ctags</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#make-install"><span class="toc-number"></span> <span class="toc-text">make install</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#后来我发现不用这么复杂直接在X-Window下面复制到Terminal里面就可以了，毕竟后面安装的代码都是十几行，根本扛不住。。。。"><span class="toc-number">0.0.1.</span> <span class="toc-text">后来我发现不用这么复杂直接在X-Window下面复制到Terminal里面就可以了，毕竟后面安装的代码都是十几行，根本扛不住。。。。</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安上一些实用的插件后，最后安装调试神器gdb，有三种方式使vim可以调试程序（与gdb一起工作），"><span class="toc-number"></span> <span class="toc-text">安上一些实用的插件后，最后安装调试神器gdb，有三种方式使vim可以调试程序（与gdb一起工作），</span></a>
+		
+		</div>
+		
+		<h4 id="学了鸟哥的书前面基础后，突然想在Linux下用gcc玩C语言，然后了解到了Vim这个神一样的编译器，接下来经过超长时间虐心的安装无数插件无数依赖包，突然有种打自己一顿的感觉，还好终于把Vim装的和VS差不多了，接下来我介绍我安装Vim的经验吧。"><a href="#学了鸟哥的书前面基础后，突然想在Linux下用gcc玩C语言，然后了解到了Vim这个神一样的编译器，接下来经过超长时间虐心的安装无数插件无数依赖包，突然有种打自己一顿的感觉，还好终于把Vim装的和VS差不多了，接下来我介绍我安装Vim的经验吧。" class="headerlink" title="学了鸟哥的书前面基础后，突然想在Linux下用gcc玩C语言，然后了解到了Vim这个神一样的编译器，接下来经过超长时间虐心的安装无数插件无数依赖包，突然有种打自己一顿的感觉，还好终于把Vim装的和VS差不多了，接下来我介绍我安装Vim的经验吧。"></a>学了鸟哥的书前面基础后，突然想在Linux下用gcc玩C语言，然后了解到了Vim这个神一样的编译器，接下来经过超长时间虐心的安装无数插件无数依赖包，突然有种打自己一顿的感觉，还好终于把Vim装的和VS差不多了，接下来我介绍我安装Vim的经验吧。</h4><h3 id="我虚拟机下的Linux原来是红旗6的，但是我改了一下yum的包源成CentOS的并且全部update一下后就神奇的变成了CentOS6，虽然他们两个是同一家公司，但是总给我一种由盗版成了正版的感觉。。"><a href="#我虚拟机下的Linux原来是红旗6的，但是我改了一下yum的包源成CentOS的并且全部update一下后就神奇的变成了CentOS6，虽然他们两个是同一家公司，但是总给我一种由盗版成了正版的感觉。。" class="headerlink" title="我虚拟机下的Linux原来是红旗6的，但是我改了一下yum的包源成CentOS的并且全部update一下后就神奇的变成了CentOS6，虽然他们两个是同一家公司，但是总给我一种由盗版成了正版的感觉。。"></a>我虚拟机下的Linux原来是红旗6的，但是我改了一下yum的包源成CentOS的并且全部update一下后就神奇的变成了CentOS6，虽然他们两个是同一家公司，但是总给我一种由盗版成了正版的感觉。。</h3><h2 id="闲话不多说，刚开始装第一个插件是Ctags"><a href="#闲话不多说，刚开始装第一个插件是Ctags" class="headerlink" title="闲话不多说，刚开始装第一个插件是Ctags"></a>闲话不多说，刚开始装第一个插件是Ctags</h2><p>刚开始装的时候我是在X-Windows里面的<a href="http://ctags.sourceforge.net" target="_blank" rel="external">这里</a>下载再转回shell敲</p>
+<pre><code>$ tar -xzvf ctags-5.6.tar.gz
+$ cd ctags-5.6
+$ make
+</code></pre><h1 id="make-install"><a href="#make-install" class="headerlink" title="make install"></a>make install</h1><h6 id="后来我发现不用这么复杂直接在X-Window下面复制到Terminal里面就可以了，毕竟后面安装的代码都是十几行，根本扛不住。。。。"><a href="#后来我发现不用这么复杂直接在X-Window下面复制到Terminal里面就可以了，毕竟后面安装的代码都是十几行，根本扛不住。。。。" class="headerlink" title="后来我发现不用这么复杂直接在X-Window下面复制到Terminal里面就可以了，毕竟后面安装的代码都是十几行，根本扛不住。。。。"></a>后来我发现不用这么复杂直接在X-Window下面复制到Terminal里面就可以了，毕竟后面安装的代码都是十几行，根本扛不住。。。。</h6><p>装完三个感觉整个我太苦逼，简直是辛苦啊，不是说好的敲几下键盘就可以吗。<br>后来了解到linux有几个软件可以帮忙安装而且解决依赖性，比如ubuntu的apt-get，redhat的rmp，yum，但是问题来了，我的黄狗（yum：yellow dog）怎么没用啊，全都装不上，一查错误提示，原来我没用被授权，原来RedHat更新软件是要收钱的，但是CentOS不用，然后我就用了CentOS的源，当时我就想只想装个git，然后就没用然后了。终于全部更新完了，yum也可以用了，用yum果然爽多了，直接</p>
+<pre><code>yum install git    
+</code></pre><p>git就装好了。如果想知道怎么改源，<a href="http://blog.chinaunix.net/uid-23683795-id-3477603.html" target="_blank" rel="external">点击这里</a></p>
+<hr>
+<p>好了装好了源接下来装软件就敲一敲代码就行，不用去网上找包下载再安装。</p>
+<p>装好一些热门的插件后，我碰到了第一个最难装的插件YouCompleteMe(YCM)，装完之后感觉就是神器一般的存在，但是装完之前一直在感慨，我去怎么没个卵用啊，而且装llvm（安装YCM必须先安装的软件)时，我用编译安装方法因为一些库的缺失一直报错，后面采用二进制安装方法安装完llvm才成功按上YCM。<br>推荐新手采用二进制安装方法安装llvm，想知道怎么安装YCM这些<a href="http://www.linuxzen.com/vim-dai-ma-bu-quan-he-jian-cha-youcompleteme-syntastic.html" target="_blank" rel="external">点击这里</a></p>
+<h2 id="安上一些实用的插件后，最后安装调试神器gdb，有三种方式使vim可以调试程序（与gdb一起工作），"><a href="#安上一些实用的插件后，最后安装调试神器gdb，有三种方式使vim可以调试程序（与gdb一起工作），" class="headerlink" title="安上一些实用的插件后，最后安装调试神器gdb，有三种方式使vim可以调试程序（与gdb一起工作），"></a>安上一些实用的插件后，最后安装调试神器gdb，有三种方式使vim可以调试程序（与gdb一起工作），</h2><p>vimgdb，pyclewn，clewn，三个我都试了，第一个要编译一下vim，我失败了，第二个要用python2.4+支持，我python2.6然并卵，每次都说不支持python2，第三个是用c写的，终于成功，安装非常简单，<br><a href="http://blog.csdn.net/linlianghui2004/article/details/7676792" target="_blank" rel="external">点击这里</a>了解详情.<br>装完了，我终于可以使用clewn打开gdb和gvim，然并卵，我写的程序并不能在gdb里面运行，一直说无法识别。。。。。。搜了一下原来是编译的时候的问题，用gcc编译的程序要带上<code>-g</code>参数才能在gdb里面用（我还以为我clewn没装好）<br>例如</p>
+<pre><code>gcc -g test.c -o test
+</code></pre><p>加上<code>-g</code>参数就行了。终于我的vim可以用了。。。。。。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://mrzhangboss.github.io/2016/07/18/在Linux下玩转Vim0/" data-title="在Linux下玩转Vim | lunge博客" data-tsina="5364356330" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/07/18/关于python3和python2 import区别0/" title="关于python3和python2 import区别">
+  <strong>上一篇：</strong><br/>
+  <span>
+  关于python3和python2 import区别</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/07/18/大数据学习小总结0/"  title="大数据学习小总结">
+ <strong>下一篇：</strong><br/> 
+ <span>大数据学习小总结
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/07/18/在Linux下玩转Vim0/" data-title="在Linux下玩转Vim" data-url="https://mrzhangboss.github.io/2016/07/18/在Linux下玩转Vim0/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#学了鸟哥的书前面基础后，突然想在Linux下用gcc玩C语言，然后了解到了Vim这个神一样的编译器，接下来经过超长时间虐心的安装无数插件无数依赖包，突然有种打自己一顿的感觉，还好终于把Vim装的和VS差不多了，接下来我介绍我安装Vim的经验吧。"><span class="toc-number">1.</span> <span class="toc-text">学了鸟哥的书前面基础后，突然想在Linux下用gcc玩C语言，然后了解到了Vim这个神一样的编译器，接下来经过超长时间虐心的安装无数插件无数依赖包，突然有种打自己一顿的感觉，还好终于把Vim装的和VS差不多了，接下来我介绍我安装Vim的经验吧。</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#我虚拟机下的Linux原来是红旗6的，但是我改了一下yum的包源成CentOS的并且全部update一下后就神奇的变成了CentOS6，虽然他们两个是同一家公司，但是总给我一种由盗版成了正版的感觉。。"><span class="toc-number"></span> <span class="toc-text">我虚拟机下的Linux原来是红旗6的，但是我改了一下yum的包源成CentOS的并且全部update一下后就神奇的变成了CentOS6，虽然他们两个是同一家公司，但是总给我一种由盗版成了正版的感觉。。</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#闲话不多说，刚开始装第一个插件是Ctags"><span class="toc-number"></span> <span class="toc-text">闲话不多说，刚开始装第一个插件是Ctags</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#make-install"><span class="toc-number"></span> <span class="toc-text">make install</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#后来我发现不用这么复杂直接在X-Window下面复制到Terminal里面就可以了，毕竟后面安装的代码都是十几行，根本扛不住。。。。"><span class="toc-number">0.0.1.</span> <span class="toc-text">后来我发现不用这么复杂直接在X-Window下面复制到Terminal里面就可以了，毕竟后面安装的代码都是十几行，根本扛不住。。。。</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安上一些实用的插件后，最后安装调试神器gdb，有三种方式使vim可以调试程序（与gdb一起工作），"><span class="toc-number"></span> <span class="toc-text">安上一些实用的插件后，最后安装调试神器gdb，有三种方式使vim可以调试程序（与gdb一起工作），</span></a>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+		
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://segmentfault.com/ " target="_blank" title="一个面向程序员交流分享的新一代社区">segmentfault</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">Weibo</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5364356330&verifier=&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m lunge. <br/>
+			This is my blog.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/5364356330" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/mrzhangboss" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/6599843" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		<a href="https://twitter.com/mrzhangboss" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/100011375031071" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/zhang-lun-59-53" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		
+		<a href="mailto:2529450174@qq.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="张伦">张伦</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lunge"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+var hostUrl = window.location.href.match(/https?:\/\/([.\w]+):?.+/)[1];
+if(hostUrl=== 'blog.zhanglun.me'){
+ga('create', 'UA-80810286-1', 'auto');
+console.log('add ' + 'UA-80810286-1' + 'auto');
+}
+
+var hostUrl = window.location.href.match(/https?:\/\/([.\w]+):?.+/)[1];
+if(hostUrl=== 'b.zhanglun.me'){
+ga('create', 'UA-80810286-2', 'auto');
+console.log('add ' + 'UA-80810286-2' + 'auto');
+}
+
+
+ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

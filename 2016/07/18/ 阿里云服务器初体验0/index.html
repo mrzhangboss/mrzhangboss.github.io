@@ -1,0 +1,504 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-cn">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>阿里云服务器初体验 | lunge博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="张伦">
+    
+
+    
+    <meta name="description" content="申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。1.用户名和密码找了半天没有找到那个是用户名，试了实例的id，没有用，最后终于在登录帮助名里面找到了，用户名竟然是root！！！！,我用的是Ubuntu系统，说好的Ubuntu不提供root权限的呢，阿里还真会改造Linux系统，但是我觉得用root登录还是不安全，我觉得新建一个用户吧
+在root权限下
+useradd -s /b">
+<meta property="og:type" content="article">
+<meta property="og:title" content="阿里云服务器初体验">
+<meta property="og:url" content="https://mrzhangboss.github.io/2016/07/18/ 阿里云服务器初体验0/index.html">
+<meta property="og:site_name" content="lunge博客">
+<meta property="og:description" content="申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。1.用户名和密码找了半天没有找到那个是用户名，试了实例的id，没有用，最后终于在登录帮助名里面找到了，用户名竟然是root！！！！,我用的是Ubuntu系统，说好的Ubuntu不提供root权限的呢，阿里还真会改造Linux系统，但是我觉得用root登录还是不安全，我觉得新建一个用户吧
+在root权限下
+useradd -s /b">
+<meta property="og:updated_time" content="2016-07-18T08:16:36.379Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="阿里云服务器初体验">
+<meta name="twitter:description" content="申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。1.用户名和密码找了半天没有找到那个是用户名，试了实例的id，没有用，最后终于在登录帮助名里面找到了，用户名竟然是root！！！！,我用的是Ubuntu系统，说好的Ubuntu不提供root权限的呢，阿里还真会改造Linux系统，但是我觉得用root登录还是不安全，我觉得新建一个用户吧
+在root权限下
+useradd -s /b">
+<meta name="twitter:creator" content="@mrzhangboss">
+
+    
+    <link rel="alternative" href="/atom.xml" title="lunge博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/lunge.png">
+    
+    
+    <link rel="apple-touch-icon" href="/img/lunge.png">
+    <link rel="apple-touch-icon-precomposed" href="/img/lunge.png">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/lunge.png" alt="lunge博客" title="lunge博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="Search" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/07/18/ 阿里云服务器初体验0/" title="阿里云服务器初体验" itemprop="url">阿里云服务器初体验</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
+		
+  <p class="article-time">
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。"><span class="toc-number">1.</span> <span class="toc-text">申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-用户名和密码"><span class="toc-number">2.</span> <span class="toc-text">1.用户名和密码</span></a></li></ol>
+		
+		</div>
+		
+		<h3 id="申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。"><a href="#申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。" class="headerlink" title="申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。"></a>申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。</h3><h3 id="1-用户名和密码"><a href="#1-用户名和密码" class="headerlink" title="1.用户名和密码"></a>1.用户名和密码</h3><p>找了半天没有找到那个是用户名，试了实例的id，没有用，最后终于在登录帮助名里面找到了，用户名竟然是<code>root</code>！！！！,我用的是Ubuntu系统，说好的Ubuntu不提供root权限的呢，阿里还真会改造Linux系统<br>，但是我觉得用root登录还是不安全，我觉得新建一个用户吧</p>
+<p>在root权限下</p>
+<pre><code>useradd -s /bin/bash -r -m yourname
+</code></pre><p>解释一下，本来直接<code>useradd yourname</code> 就可以新建一个<code>yourname</code>账号，但是如果用你新建的用户登录的话，你无法使用Tab键和上下左右键 ，你键入 <code>echo $SHELL</code>，会发现是<code>/bin/sh</code>，因为Ubuntu默认创建账号使用<code>/bin/sh</code>，假如你没加这个可以删掉 用这个<code>userdel yourname</code>重新来一遍，搞完这个只是创建了一个普通用户，你使用不了sudo获取最高权限，这个怎么办，很简单在<code>/etc/sudoers</code>里面找到<br>        root ALL=(ALL:ALL) ALL</p>
+<p>模仿它加上自己的账号名就可以了。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://mrzhangboss.github.io/2016/07/18/ 阿里云服务器初体验0/" data-title="阿里云服务器初体验 | lunge博客" data-tsina="5364356330" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/07/18/python学习0/" title="python学习">
+  <strong>上一篇：</strong><br/>
+  <span>
+  python学习</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/07/18/python的编码问题研究------使用scrapy体验  0/"  title="python的编码问题研究------使用scrapy体验">
+ <strong>下一篇：</strong><br/> 
+ <span>python的编码问题研究------使用scrapy体验
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/07/18/ 阿里云服务器初体验0/" data-title="阿里云服务器初体验" data-url="https://mrzhangboss.github.io/2016/07/18/ 阿里云服务器初体验0/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。"><span class="toc-number">1.</span> <span class="toc-text">申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-用户名和密码"><span class="toc-number">2.</span> <span class="toc-text">1.用户名和密码</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+		
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://segmentfault.com/ " target="_blank" title="一个面向程序员交流分享的新一代社区">segmentfault</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">Weibo</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5364356330&verifier=&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m lunge. <br/>
+			This is my blog.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/5364356330" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/mrzhangboss" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/6599843" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		<a href="https://twitter.com/mrzhangboss" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/100011375031071" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/zhang-lun-59-53" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		
+		<a href="mailto:2529450174@qq.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="张伦">张伦</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lunge"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+var hostUrl = window.location.href.match(/https?:\/\/([.\w]+):?.+/)[1];
+if(hostUrl=== 'blog.zhanglun.me'){
+ga('create', 'UA-80810286-1', 'auto');
+console.log('add ' + 'UA-80810286-1' + 'auto');
+}
+
+var hostUrl = window.location.href.match(/https?:\/\/([.\w]+):?.+/)[1];
+if(hostUrl=== 'b.zhanglun.me'){
+ga('create', 'UA-80810286-2', 'auto');
+console.log('add ' + 'UA-80810286-2' + 'auto');
+}
+
+
+ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

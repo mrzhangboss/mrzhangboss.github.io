@@ -1,0 +1,552 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-cn">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>富文本编辑器CKEditor配置CKFinder | lunge博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="张伦">
+    
+
+    
+    <meta name="description" content="由于网站要实现图片和文字的混排的上传所以在网上找了富文本编辑器的插件，发现CKEditor这款还不错的插件
+我用的是4.5.1这个版本，的确很好用，只是引用了一个js文件就可以实现。
+
+将网上下的CKEditor包解压放在根目录下
+在页面上引用CKEditor的核心包ckeditor.js
+
+
+&amp;lt;script src=&amp;quot;ckeditor/ckeditor.js&amp;quot; ty">
+<meta property="og:type" content="article">
+<meta property="og:title" content="富文本编辑器CKEditor配置CKFinder">
+<meta property="og:url" content="https://mrzhangboss.github.io/2016/07/18/富文本编辑器CKEditor配置CKFinder0/index.html">
+<meta property="og:site_name" content="lunge博客">
+<meta property="og:description" content="由于网站要实现图片和文字的混排的上传所以在网上找了富文本编辑器的插件，发现CKEditor这款还不错的插件
+我用的是4.5.1这个版本，的确很好用，只是引用了一个js文件就可以实现。
+
+将网上下的CKEditor包解压放在根目录下
+在页面上引用CKEditor的核心包ckeditor.js
+
+
+&amp;lt;script src=&amp;quot;ckeditor/ckeditor.js&amp;quot; ty">
+<meta property="og:updated_time" content="2016-07-18T08:16:36.363Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="富文本编辑器CKEditor配置CKFinder">
+<meta name="twitter:description" content="由于网站要实现图片和文字的混排的上传所以在网上找了富文本编辑器的插件，发现CKEditor这款还不错的插件
+我用的是4.5.1这个版本，的确很好用，只是引用了一个js文件就可以实现。
+
+将网上下的CKEditor包解压放在根目录下
+在页面上引用CKEditor的核心包ckeditor.js
+
+
+&amp;lt;script src=&amp;quot;ckeditor/ckeditor.js&amp;quot; ty">
+<meta name="twitter:creator" content="@mrzhangboss">
+
+    
+    <link rel="alternative" href="/atom.xml" title="lunge博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/lunge.png">
+    
+    
+    <link rel="apple-touch-icon" href="/img/lunge.png">
+    <link rel="apple-touch-icon-precomposed" href="/img/lunge.png">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/lunge.png" alt="lunge博客" title="lunge博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="Search" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/07/18/富文本编辑器CKEditor配置CKFinder0/" title="富文本编辑器CKEditor配置CKFinder" itemprop="url">富文本编辑器CKEditor配置CKFinder</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
+		
+  <p class="article-time">
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#我用的是4-5-1这个版本，的确很好用，只是引用了一个js文件就可以实现。"><span class="toc-number">1.</span> <span class="toc-text">我用的是4.5.1这个版本，的确很好用，只是引用了一个js文件就可以实现。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#只要通过上面上面几个步骤就能实现富文本编辑器，但是点开图片上传功能，发现只有上传url的功能，并不能本地上传图片，百度了一下发现由于安全性问题CKEditor没有上传功能，只有安上CKFinder才能实现上传功能，于是我在官网下了ckfinder-aspnet-2-5-0-1-同CKEditor一样引用JS文件（只要引用ckfinder-js"><span class="toc-number">2.</span> <span class="toc-text">只要通过上面上面几个步骤就能实现富文本编辑器，但是点开图片上传功能，发现只有上传url的功能，并不能本地上传图片，百度了一下发现由于安全性问题CKEditor没有上传功能，只有安上CKFinder才能实现上传功能，于是我在官网下了ckfinder__aspnet_2.5.0.1,同CKEditor一样引用JS文件（只要引用ckfinder.js)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#接下来要配置CKEditor来让CKFinder引用进来，在CKEditor文件夹下config-js在CKEDITOR-editorConfig-function-config-方法中添加如下代码："><span class="toc-number">3.</span> <span class="toc-text">接下来要配置CKEditor来让CKFinder引用进来，在CKEditor文件夹下config.js在CKEDITOR.editorConfig = function (config) {};方法中添加如下代码：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#注意在配置Url的时候要修改成相对于网站本地网站磁盘文件路径，比如说，你的网址是http-example-com-cn-你把ckfinder文件夹放在Admin下的Editor文件夹，那么所有url要改成下面类似的格式"><span class="toc-number">3.1.</span> <span class="toc-text">注意在配置Url的时候要修改成相对于网站本地网站磁盘文件路径，比如说，你的网址是http://example.com.cn ,你把ckfinder文件夹放在Admin下的Editor文件夹，那么所有url要改成下面类似的格式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#否则会报404错误，"><span class="toc-number">3.2.</span> <span class="toc-text">否则会报404错误，</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#最后一步是修改一个函数让所有人能看到服务器上传文件夹里面的文件，在ckfinder文件夹下面的cofig-ascx文件，找到-CheckAuthentication函数将返回值改成true"><span class="toc-number">3.3.</span> <span class="toc-text">最后一步是修改一个函数让所有人能看到服务器上传文件夹里面的文件，在ckfinder文件夹下面的cofig.ascx文件，找到 CheckAuthentication函数将返回值改成true</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#—–"><span class="toc-number"></span> <span class="toc-text">—–</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#PS："><span class="toc-number">1.</span> <span class="toc-text">PS：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#我是在在VS里面进行调试的，由于VS的IIS在调试的时候不允许对磁盘文件的路由地址访问，就是CKFinder通过ckfinder-html这个html来实现上传图片的功能，但是这个在调试的时候VS无法访问这个文件，所以一直报404错误，可以修改IIS来允许IIS访问磁盘文件，步骤如下："><span class="toc-number">1.1.</span> <span class="toc-text">我是在在VS里面进行调试的，由于VS的IIS在调试的时候不允许对磁盘文件的路由地址访问，就是CKFinder通过ckfinder.html这个html来实现上传图片的功能，但是这个在调试的时候VS无法访问这个文件，所以一直报404错误，可以修改IIS来允许IIS访问磁盘文件，步骤如下：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如果你是用MVC进行表单传值的话，你必须在post方法上面添加-ValidateInput-false-属性，如果不这样的话就会报下面的错"><span class="toc-number">2.</span> <span class="toc-text">如果你是用MVC进行表单传值的话，你必须在post方法上面添加 [ValidateInput(false)] 属性，如果不这样的话就会报下面的错</span></a></li></ol>
+		
+		</div>
+		
+		<hr>
+<blockquote>
+<p>由于网站要实现图片和文字的混排的上传<br>所以在网上找了富文本编辑器的插件，发现<a href="http://ckeditor.com/download" target="_blank" rel="external">CKEditor</a>这款还不错的插件</p>
+<h3 id="我用的是4-5-1这个版本，的确很好用，只是引用了一个js文件就可以实现。"><a href="#我用的是4-5-1这个版本，的确很好用，只是引用了一个js文件就可以实现。" class="headerlink" title="我用的是4.5.1这个版本，的确很好用，只是引用了一个js文件就可以实现。"></a>我用的是<strong>4.5.1</strong>这个版本，的确很好用，只是引用了一个<strong>js</strong>文件就可以实现。</h3><hr>
+<ol>
+<li>将网上下的CKEditor包解压放在根目录下</li>
+<li>在页面上引用CKEditor的核心包<strong>ckeditor.js</strong></li>
+</ol>
+</blockquote>
+<pre><code>&lt;script src=&quot;ckeditor/ckeditor.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;;
+</code></pre><ol>
+<li><p>在页面添加一个输入框<strong>textarea</strong></p>
+<pre><code>&lt;textarea name=&quot;individual&quot; id=&quot;individual&quot; runat=&quot;server&quot;&gt;&lt;/textarea&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+ CKEDITOR.replace(&apos;individual&apos;);
+ &lt;/script&gt;
+</code></pre></li>
+</ol>
+<hr>
+<h3 id="只要通过上面上面几个步骤就能实现富文本编辑器，但是点开图片上传功能，发现只有上传url的功能，并不能本地上传图片，百度了一下发现由于安全性问题CKEditor没有上传功能，只有安上CKFinder才能实现上传功能，于是我在官网下了ckfinder-aspnet-2-5-0-1-同CKEditor一样引用JS文件（只要引用ckfinder-js"><a href="#只要通过上面上面几个步骤就能实现富文本编辑器，但是点开图片上传功能，发现只有上传url的功能，并不能本地上传图片，百度了一下发现由于安全性问题CKEditor没有上传功能，只有安上CKFinder才能实现上传功能，于是我在官网下了ckfinder-aspnet-2-5-0-1-同CKEditor一样引用JS文件（只要引用ckfinder-js" class="headerlink" title="只要通过上面上面几个步骤就能实现富文本编辑器，但是点开图片上传功能，发现只有上传url的功能，并不能本地上传图片，百度了一下发现由于安全性问题CKEditor没有上传功能，只有安上CKFinder才能实现上传功能，于是我在官网下了ckfinder__aspnet_2.5.0.1,同CKEditor一样引用JS文件（只要引用ckfinder.js)"></a>只要通过上面上面几个步骤就能实现富文本编辑器，但是点开图片上传功能，发现只有上传url的功能，并不能本地上传图片，百度了一下发现由于安全性问题<strong>CKEditor</strong>没有上传功能，只有安上<a href="http://ckfinder.com/download" title="CKFinder" target="_blank" rel="external">CKFinder</a>才能实现上传功能，于是我在官网下了<strong>ckfinder__aspnet_2.5.0.1</strong>,同CKEditor一样引用JS文件（只要引用ckfinder.js)</h3><pre><code>&lt;script src=&quot;ckfinder/ckfinder.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+</code></pre><ul>
+<li>由于我是MVC的网站基于.net4.5，在官方给的包里面有一个asp.net网站实例放在<strong>_source</strong>文件夹里面，里面有一个基于.net2的示例网站，一运行就报找不到 <strong>System.Web.UI.Design</strong>这个命名空间的错，所以我把它从项目中排除，把项目中bin中debug文件夹下的<strong>CKFinder.dll</strong>复制出来，引用到我自己的项目中。<h3 id="接下来要配置CKEditor来让CKFinder引用进来，在CKEditor文件夹下config-js在CKEDITOR-editorConfig-function-config-方法中添加如下代码："><a href="#接下来要配置CKEditor来让CKFinder引用进来，在CKEditor文件夹下config-js在CKEDITOR-editorConfig-function-config-方法中添加如下代码：" class="headerlink" title="接下来要配置CKEditor来让CKFinder引用进来，在CKEditor文件夹下config.js在CKEDITOR.editorConfig = function (config) {};方法中添加如下代码："></a>接下来要配置<strong>CKEditor</strong>来让CKFinder引用进来，在CKEditor文件夹下config.js在CKEDITOR.editorConfig = function (config) {};方法中添加如下代码：</h3>   config.filebrowserImageBrowseUrl = ‘ckfinder/ckfinder.html?Type=Images’;<br>   config.filebrowserFlashBrowseUrl = ‘ckfinder/ckfinder.html?Type=Flash’;<pre><code>config.filebrowserUploadUrl = &apos;ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&amp;type=Files&apos;;
+</code></pre>  config.filebrowserImageUploadUrl = ‘ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&amp;type=Images’;<br>  config.filebrowserFlashUploadUrl = ‘ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&amp;type=Flash’;<br>  config.filebrowserWindowWidth = ‘800’;  //“浏览服务器”弹出框的size设置<br>  config.filebrowserWindowHeight = ‘500’;</li>
+</ul>
+<hr>
+<h4 id="注意在配置Url的时候要修改成相对于网站本地网站磁盘文件路径，比如说，你的网址是http-example-com-cn-你把ckfinder文件夹放在Admin下的Editor文件夹，那么所有url要改成下面类似的格式"><a href="#注意在配置Url的时候要修改成相对于网站本地网站磁盘文件路径，比如说，你的网址是http-example-com-cn-你把ckfinder文件夹放在Admin下的Editor文件夹，那么所有url要改成下面类似的格式" class="headerlink" title="注意在配置Url的时候要修改成相对于网站本地网站磁盘文件路径，比如说，你的网址是http://example.com.cn ,你把ckfinder文件夹放在Admin下的Editor文件夹，那么所有url要改成下面类似的格式"></a>注意在配置Url的时候要修改成相对于网站本地网站磁盘文件路径，比如说，你的网址是<a href="http://example.com.cn" target="_blank" rel="external">http://example.com.cn</a> ,你把ckfinder文件夹放在Admin下的Editor文件夹，那么所有url要改成下面类似的格式</h4><pre><code>config.filebrowserImageBrowseUrl =&apos;/Admin/Editor/ckfinder/ckfinder.html?Type=Images&apos;;
+</code></pre><h4 id="否则会报404错误，"><a href="#否则会报404错误，" class="headerlink" title="否则会报404错误，"></a>否则会报404错误，</h4><h4 id="最后一步是修改一个函数让所有人能看到服务器上传文件夹里面的文件，在ckfinder文件夹下面的cofig-ascx文件，找到-CheckAuthentication函数将返回值改成true"><a href="#最后一步是修改一个函数让所有人能看到服务器上传文件夹里面的文件，在ckfinder文件夹下面的cofig-ascx文件，找到-CheckAuthentication函数将返回值改成true" class="headerlink" title="最后一步是修改一个函数让所有人能看到服务器上传文件夹里面的文件，在ckfinder文件夹下面的cofig.ascx文件，找到 CheckAuthentication函数将返回值改成true"></a>最后一步是修改一个函数让所有人能看到服务器上传文件夹里面的文件，在ckfinder文件夹下面的cofig.ascx文件，找到 CheckAuthentication函数将返回值改成true</h4><p>当然如果你想修改上传文件的地址，你可以在上面方法里面找到SetConfig()方法，找到BaseUrl，修改为你想上传的地址，</p>
+<h2 id="—–"><a href="#—–" class="headerlink" title="—–"></a>—–</h2><h3 id="PS："><a href="#PS：" class="headerlink" title="PS："></a>PS：</h3><h4 id="我是在在VS里面进行调试的，由于VS的IIS在调试的时候不允许对磁盘文件的路由地址访问，就是CKFinder通过ckfinder-html这个html来实现上传图片的功能，但是这个在调试的时候VS无法访问这个文件，所以一直报404错误，可以修改IIS来允许IIS访问磁盘文件，步骤如下："><a href="#我是在在VS里面进行调试的，由于VS的IIS在调试的时候不允许对磁盘文件的路由地址访问，就是CKFinder通过ckfinder-html这个html来实现上传图片的功能，但是这个在调试的时候VS无法访问这个文件，所以一直报404错误，可以修改IIS来允许IIS访问磁盘文件，步骤如下：" class="headerlink" title="我是在在VS里面进行调试的，由于VS的IIS在调试的时候不允许对磁盘文件的路由地址访问，就是CKFinder通过ckfinder.html这个html来实现上传图片的功能，但是这个在调试的时候VS无法访问这个文件，所以一直报404错误，可以修改IIS来允许IIS访问磁盘文件，步骤如下："></a>我是在在VS里面进行调试的，由于VS的IIS在调试的时候不允许对磁盘文件的路由地址访问，就是CKFinder通过<strong>ckfinder.html</strong>这个html来实现上传图片的功能，但是这个在调试的时候VS无法访问这个文件，所以一直报404错误，可以修改IIS来允许IIS访问磁盘文件，步骤如下：</h4><ol>
+<li>右键点击IIS Express，选择显示所有应用程序</li>
+<li>找到运行网站的配置，进入applicationhost.config文件夹</li>
+<li>ctrl+f 寻找UrlRoutingModule</li>
+<li><p>将preCodition设置为空字符</p>
+<pre><code>&lt;add name=&quot;UrlRoutingModule-4.0&quot; type=&quot;System.Web.Routing.UrlRoutingModule&quot; preCondition=&quot;&quot; /&gt;
+</code></pre></li>
+</ol>
+<hr>
+<h3 id="如果你是用MVC进行表单传值的话，你必须在post方法上面添加-ValidateInput-false-属性，如果不这样的话就会报下面的错"><a href="#如果你是用MVC进行表单传值的话，你必须在post方法上面添加-ValidateInput-false-属性，如果不这样的话就会报下面的错" class="headerlink" title="如果你是用MVC进行表单传值的话，你必须在post方法上面添加 [ValidateInput(false)] 属性，如果不这样的话就会报下面的错"></a>如果你是用MVC进行表单传值的话，你必须在post方法上面添加 <strong>[ValidateInput(false)]</strong> 属性，如果不这样的话就会报下面的错</h3><pre><code>“/”应用程序中的服务器错误。
+从客户端(content=&quot;&lt;p&gt;sdfsdafwewo shdfh...&quot;)中检测到有潜在危险的 Request.Form 值。
+</code></pre>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://mrzhangboss.github.io/2016/07/18/富文本编辑器CKEditor配置CKFinder0/" data-title="富文本编辑器CKEditor配置CKFinder | lunge博客" data-tsina="5364356330" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/07/18/字符串处理0/" title="字符串处理">
+  <strong>上一篇：</strong><br/>
+  <span>
+  字符串处理</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/07/18/数据处理pandas库学习0/"  title="数据处理pandas库学习">
+ <strong>下一篇：</strong><br/> 
+ <span>数据处理pandas库学习
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/07/18/富文本编辑器CKEditor配置CKFinder0/" data-title="富文本编辑器CKEditor配置CKFinder" data-url="https://mrzhangboss.github.io/2016/07/18/富文本编辑器CKEditor配置CKFinder0/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#我用的是4-5-1这个版本，的确很好用，只是引用了一个js文件就可以实现。"><span class="toc-number">1.</span> <span class="toc-text">我用的是4.5.1这个版本，的确很好用，只是引用了一个js文件就可以实现。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#只要通过上面上面几个步骤就能实现富文本编辑器，但是点开图片上传功能，发现只有上传url的功能，并不能本地上传图片，百度了一下发现由于安全性问题CKEditor没有上传功能，只有安上CKFinder才能实现上传功能，于是我在官网下了ckfinder-aspnet-2-5-0-1-同CKEditor一样引用JS文件（只要引用ckfinder-js"><span class="toc-number">2.</span> <span class="toc-text">只要通过上面上面几个步骤就能实现富文本编辑器，但是点开图片上传功能，发现只有上传url的功能，并不能本地上传图片，百度了一下发现由于安全性问题CKEditor没有上传功能，只有安上CKFinder才能实现上传功能，于是我在官网下了ckfinder__aspnet_2.5.0.1,同CKEditor一样引用JS文件（只要引用ckfinder.js)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#接下来要配置CKEditor来让CKFinder引用进来，在CKEditor文件夹下config-js在CKEDITOR-editorConfig-function-config-方法中添加如下代码："><span class="toc-number">3.</span> <span class="toc-text">接下来要配置CKEditor来让CKFinder引用进来，在CKEditor文件夹下config.js在CKEDITOR.editorConfig = function (config) {};方法中添加如下代码：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#注意在配置Url的时候要修改成相对于网站本地网站磁盘文件路径，比如说，你的网址是http-example-com-cn-你把ckfinder文件夹放在Admin下的Editor文件夹，那么所有url要改成下面类似的格式"><span class="toc-number">3.1.</span> <span class="toc-text">注意在配置Url的时候要修改成相对于网站本地网站磁盘文件路径，比如说，你的网址是http://example.com.cn ,你把ckfinder文件夹放在Admin下的Editor文件夹，那么所有url要改成下面类似的格式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#否则会报404错误，"><span class="toc-number">3.2.</span> <span class="toc-text">否则会报404错误，</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#最后一步是修改一个函数让所有人能看到服务器上传文件夹里面的文件，在ckfinder文件夹下面的cofig-ascx文件，找到-CheckAuthentication函数将返回值改成true"><span class="toc-number">3.3.</span> <span class="toc-text">最后一步是修改一个函数让所有人能看到服务器上传文件夹里面的文件，在ckfinder文件夹下面的cofig.ascx文件，找到 CheckAuthentication函数将返回值改成true</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#—–"><span class="toc-number"></span> <span class="toc-text">—–</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#PS："><span class="toc-number">1.</span> <span class="toc-text">PS：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#我是在在VS里面进行调试的，由于VS的IIS在调试的时候不允许对磁盘文件的路由地址访问，就是CKFinder通过ckfinder-html这个html来实现上传图片的功能，但是这个在调试的时候VS无法访问这个文件，所以一直报404错误，可以修改IIS来允许IIS访问磁盘文件，步骤如下："><span class="toc-number">1.1.</span> <span class="toc-text">我是在在VS里面进行调试的，由于VS的IIS在调试的时候不允许对磁盘文件的路由地址访问，就是CKFinder通过ckfinder.html这个html来实现上传图片的功能，但是这个在调试的时候VS无法访问这个文件，所以一直报404错误，可以修改IIS来允许IIS访问磁盘文件，步骤如下：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如果你是用MVC进行表单传值的话，你必须在post方法上面添加-ValidateInput-false-属性，如果不这样的话就会报下面的错"><span class="toc-number">2.</span> <span class="toc-text">如果你是用MVC进行表单传值的话，你必须在post方法上面添加 [ValidateInput(false)] 属性，如果不这样的话就会报下面的错</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+		
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://segmentfault.com/ " target="_blank" title="一个面向程序员交流分享的新一代社区">segmentfault</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">Weibo</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5364356330&verifier=&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m lunge. <br/>
+			This is my blog.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/5364356330" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/mrzhangboss" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/6599843" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		<a href="https://twitter.com/mrzhangboss" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/100011375031071" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/zhang-lun-59-53" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		
+		<a href="mailto:2529450174@qq.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="张伦">张伦</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lunge"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+var hostUrl = window.location.href.match(/https?:\/\/([.\w]+):?.+/)[1];
+if(hostUrl=== 'blog.zhanglun.me'){
+ga('create', 'UA-80810286-1', 'auto');
+console.log('add ' + 'UA-80810286-1' + 'auto');
+}
+
+var hostUrl = window.location.href.match(/https?:\/\/([.\w]+):?.+/)[1];
+if(hostUrl=== 'b.zhanglun.me'){
+ga('create', 'UA-80810286-2', 'auto');
+console.log('add ' + 'UA-80810286-2' + 'auto');
+}
+
+
+ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

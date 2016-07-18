@@ -1,0 +1,542 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-cn">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>PIL （Pillow） | lunge博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="张伦">
+    
+
+    
+    <meta name="description" content="Pillow 是 PIL的对Python3支持的另外一个分支，当然他对Python2也兼容，由于PIL安装起来比较烦，而使用pip可以很轻松的安装Pillow，所以我选择Pillow使用，但是其核心还是PIL库的。
+
+Python的图形处理库如PIL一直很强大，但是要想使用好它必须对图片有一定的知识储备。使用起来很简单
+from PIL import Image
+引用Image包
+im = Ima">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PIL （Pillow）">
+<meta property="og:url" content="https://mrzhangboss.github.io/2016/07/18/PIL （Pillow）0/index.html">
+<meta property="og:site_name" content="lunge博客">
+<meta property="og:description" content="Pillow 是 PIL的对Python3支持的另外一个分支，当然他对Python2也兼容，由于PIL安装起来比较烦，而使用pip可以很轻松的安装Pillow，所以我选择Pillow使用，但是其核心还是PIL库的。
+
+Python的图形处理库如PIL一直很强大，但是要想使用好它必须对图片有一定的知识储备。使用起来很简单
+from PIL import Image
+引用Image包
+im = Ima">
+<meta property="og:image" content="http://img1.imgtn.bdimg.com/it/u=214288124,4080808149&fm=21&gp=0.jpg">
+<meta property="og:updated_time" content="2016-07-18T08:16:36.371Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="PIL （Pillow）">
+<meta name="twitter:description" content="Pillow 是 PIL的对Python3支持的另外一个分支，当然他对Python2也兼容，由于PIL安装起来比较烦，而使用pip可以很轻松的安装Pillow，所以我选择Pillow使用，但是其核心还是PIL库的。
+
+Python的图形处理库如PIL一直很强大，但是要想使用好它必须对图片有一定的知识储备。使用起来很简单
+from PIL import Image
+引用Image包
+im = Ima">
+<meta name="twitter:image" content="http://img1.imgtn.bdimg.com/it/u=214288124,4080808149&fm=21&gp=0.jpg">
+<meta name="twitter:creator" content="@mrzhangboss">
+
+    
+    <link rel="alternative" href="/atom.xml" title="lunge博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/lunge.png">
+    
+    
+    <link rel="apple-touch-icon" href="/img/lunge.png">
+    <link rel="apple-touch-icon-precomposed" href="/img/lunge.png">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/lunge.png" alt="lunge博客" title="lunge博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="Search" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/07/18/PIL （Pillow）0/" title="PIL （Pillow）" itemprop="url">PIL （Pillow）</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
+		
+  <p class="article-time">
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			
+		
+		</div>
+		
+		<p>Pillow 是 PIL的对Python3支持的另外一个分支，当然他对Python2也兼容，由于PIL安装起来比较烦，而使用pip可以很轻松的安装Pillow，所以我选择Pillow使用，但是其核心还是PIL库的。</p>
+<hr>
+<p>Python的图形处理库如PIL一直很强大，但是要想使用好它必须对图片有一定的知识储备。<br>使用起来很简单</p>
+<pre><code>from PIL import Image
+</code></pre><p>引用Image包</p>
+<pre><code>im = Image.open(&apos;1.png&apos;)
+</code></pre><p>打开图片，得到一个im对象，我们接下来就可以对这个对象进行操作（前提有这个1.png图片）</p>
+<p>我们先看一下他的一些属性</p>
+<pre><code>&gt;&gt;&gt; print im.format, im.size, im.mode
+PNG (83, 81) RGB
+</code></pre><p>第一个我们输出图片的格式，图片有很多种格式，常用的有jpg、png还有gif动图啊，PIL支持很多种格式，我们可以使用PIL轻松的将格式转换，<code>im.save(&#39;1.jpg&#39;)</code>,当然你可以选择格式假如你没选好后缀名的话，im.size就是图片大小，他返回的是一个元组第一个长度第二个是宽度，单位是像素。<br>现在就谈谈 这三个属性对应的关系吧<br> 首先我们使用一张像素图来说吧</p>
+<p><img src="http://img1.imgtn.bdimg.com/it/u=214288124,4080808149&amp;fm=21&amp;gp=0.jpg" alt=""></p>
+<p>我们存贮图片的时候是将整个图像分成很多个相同的小方块，每个小方块我们称为像素，当然一张图片分的越小，像素越多，那么图片就越接近真实图片，上面的<code>im.size</code>属性就告诉我们，这张图片分成了，长为83px，宽为81px的图片，那么一共有83*81=6723个像素点，每个像素点里面存什么呢，这就是<code>im.mode</code>属性告诉我们的，贴一下属性有什么吧</p>
+<ol>
+<li>1 (1-bit pixels, black and white, stored with one pixel per byte)</li>
+<li>L (8-bit pixels, black and white)</li>
+<li>P (8-bit pixels, mapped to any other mode using a color palette)</li>
+<li>RGB (3x8-bit pixels, true color)</li>
+<li>RGBA (4x8-bit pixels, true color with transparency mask)</li>
+<li>CMYK (4x8-bit pixels, color separation)</li>
+<li>YCbCr (3x8-bit pixels, color video format)</li>
+<li>I (32-bit signed integer pixels)</li>
+<li>F (32-bit floating point pixels)</li>
+</ol>
+<p>像素存贮就是涉及到颜色的存贮，在早期的黑白游戏机，只有黑和白两种，那么每个像素点就只有1位颜色来存贮，1位只能存贮两种颜色，八位色就能存256种颜色，像八位我们能用256个油漆桶/256色调色板来形容，像上面我们使用的RGB是由三种三原色红绿蓝混合而成，我们知道大自然所有的颜色都可以用红绿蓝三种颜色调配出来，所以RGB又被称为真彩（true color），每种颜色我们都分成256种，所以我们一共有256<em>256</em>256=16777216种颜色可以调配，像素的其他模式我们不介绍太多，有兴趣的可以自己钻研。<br>那么我们知道每个像素占多少字节，又知道共有多少个像素，那我们是不是就可以直接计算出来图片大小，来验证一下</p>
+<p>以第一张图片为例，共有83<em>81=6723个像素点，用RGB模式，每个像素三个字节，共有6723</em>3=20667b=20kb，但是我这张图片只有11.6kb，误差太大了吧，这时候我们就要介绍一下上面那个<code>im.format</code>属性了，这张图片采用png格式，我们先尝试一下把他转成JPG格式吧</p>
+<pre><code>im.save(&apos;1.jpg&apos;)
+</code></pre><p>我们再查看一下这个<code>1.jpg</code>的大小，只有2.24kb了，我们用PIL打开这张图片</p>
+<pre><code>&gt;&gt;&gt; im2 = Image.open(&apos;1.jpg&apos;)
+&gt;&gt;&gt; print im2.format, im2.size, im2.mode 
+JPEG (83, 81) RGB
+</code></pre><p>图片大小没有改变，但是format变成了JPEG，而且文件大小变成原来的1/5,<br>JPEG和GIF和PNG是三种图片压缩技术，他们使用压缩算法把图片压缩成很小，当我们打开图片时，解密算法把他还原出来，所以我们算出来的大小与压缩后的大小是不一样的。<br>有了这些概念我们就能更好的使用PIL提供给我们的magic方法，下次在谈我对PIL的高级应用吧。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://mrzhangboss.github.io/2016/07/18/PIL （Pillow）0/" data-title="PIL （Pillow） | lunge博客" data-tsina="5364356330" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/07/18/Numpy的简析0/" title="Numpy的简析">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Numpy的简析</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/07/18/Python 线程(threading) 进程(multiprocessing)0/"  title="Python 线程(threading) 进程(multiprocessing)">
+ <strong>下一篇：</strong><br/> 
+ <span>Python 线程(threading) 进程(multiprocessing)
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/07/18/PIL （Pillow）0/" data-title="PIL （Pillow）" data-url="https://mrzhangboss.github.io/2016/07/18/PIL （Pillow）0/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+		
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://segmentfault.com/ " target="_blank" title="一个面向程序员交流分享的新一代社区">segmentfault</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">Weibo</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5364356330&verifier=&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m lunge. <br/>
+			This is my blog.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/5364356330" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/mrzhangboss" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/6599843" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		<a href="https://twitter.com/mrzhangboss" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/100011375031071" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/zhang-lun-59-53" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		
+		<a href="mailto:2529450174@qq.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="张伦">张伦</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lunge"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+var hostUrl = window.location.href.match(/https?:\/\/([.\w]+):?.+/)[1];
+if(hostUrl=== 'blog.zhanglun.me'){
+ga('create', 'UA-80810286-1', 'auto');
+console.log('add ' + 'UA-80810286-1' + 'auto');
+}
+
+var hostUrl = window.location.href.match(/https?:\/\/([.\w]+):?.+/)[1];
+if(hostUrl=== 'b.zhanglun.me'){
+ga('create', 'UA-80810286-2', 'auto');
+console.log('add ' + 'UA-80810286-2' + 'auto');
+}
+
+
+ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
