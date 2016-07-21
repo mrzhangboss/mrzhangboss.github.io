@@ -4,26 +4,53 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>python学习 | lunge博客</title>
+    <title>js的this引发的思考 | lunge博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="张伦">
     
 
     
-    <meta name="description" content="由于有其他编程语言基础，所以对于python的学习并不吃力，但是整体感觉python的确与前面学习c、c———1. 实时编译VS静态编译不需要输入任何前缀，直接将代码放在python解释器上面就能运行，虽然window下不支持直接点开文件就能使用，但是只要安装了python解释器就能很轻松的运行。
-分量轻是他的特点吧！相比打开vs等半天然后，编译连接最后执行。python是一门很轻巧的语言，没有满">
+    <meta name="description" content="最近这几天在开发一个hmtl5的游戏, 但是对于js怎么使用面对对象来编程有点困惑,查了一些资料整理如下.
+
+js的this用法
+非对象属性函数(内部函数)
+var point = { 
+ x : 0, 
+ y : 0, 
+moveTo : function(x, y) { 
+    // 内部函数
+    var moveX = function(x) { 
+this.x = x;//this">
 <meta property="og:type" content="article">
-<meta property="og:title" content="python学习">
-<meta property="og:url" content="https://mrzhangboss.github.io/2016/07/18/python学习0/index.html">
+<meta property="og:title" content="js的this引发的思考">
+<meta property="og:url" content="https://mrzhangboss.github.io/2016/07/20/js的this引发的思考/index.html">
 <meta property="og:site_name" content="lunge博客">
-<meta property="og:description" content="由于有其他编程语言基础，所以对于python的学习并不吃力，但是整体感觉python的确与前面学习c、c———1. 实时编译VS静态编译不需要输入任何前缀，直接将代码放在python解释器上面就能运行，虽然window下不支持直接点开文件就能使用，但是只要安装了python解释器就能很轻松的运行。
-分量轻是他的特点吧！相比打开vs等半天然后，编译连接最后执行。python是一门很轻巧的语言，没有满">
-<meta property="og:updated_time" content="2016-07-18T08:16:36.367Z">
+<meta property="og:description" content="最近这几天在开发一个hmtl5的游戏, 但是对于js怎么使用面对对象来编程有点困惑,查了一些资料整理如下.
+
+js的this用法
+非对象属性函数(内部函数)
+var point = { 
+ x : 0, 
+ y : 0, 
+moveTo : function(x, y) { 
+    // 内部函数
+    var moveX = function(x) { 
+this.x = x;//this">
+<meta property="og:updated_time" content="2016-07-21T02:06:51.415Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="python学习">
-<meta name="twitter:description" content="由于有其他编程语言基础，所以对于python的学习并不吃力，但是整体感觉python的确与前面学习c、c———1. 实时编译VS静态编译不需要输入任何前缀，直接将代码放在python解释器上面就能运行，虽然window下不支持直接点开文件就能使用，但是只要安装了python解释器就能很轻松的运行。
-分量轻是他的特点吧！相比打开vs等半天然后，编译连接最后执行。python是一门很轻巧的语言，没有满">
+<meta name="twitter:title" content="js的this引发的思考">
+<meta name="twitter:description" content="最近这几天在开发一个hmtl5的游戏, 但是对于js怎么使用面对对象来编程有点困惑,查了一些资料整理如下.
+
+js的this用法
+非对象属性函数(内部函数)
+var point = { 
+ x : 0, 
+ y : 0, 
+moveTo : function(x, y) { 
+    // 内部函数
+    var moveX = function(x) { 
+this.x = x;//this">
 <meta name="twitter:creator" content="@mrzhangboss">
 
     
@@ -83,14 +110,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/07/18/python学习0/" title="python学习" itemprop="url">python学习</a>
+      <a href="/2016/07/20/js的this引发的思考/" title="js的this引发的思考" itemprop="url">js的this引发的思考</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
+    <time datetime="2016-07-20T15:01:02.000Z" itemprop="datePublished"> Published 2016-07-20</time>
     
   </p>
 </header>
@@ -99,17 +126,97 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#由于有其他编程语言基础，所以对于python的学习并不吃力，但是整体感觉python的确与前面学习c、c———"><span class="toc-number">1.</span> <span class="toc-text">由于有其他编程语言基础，所以对于python的学习并不吃力，但是整体感觉python的确与前面学习c、c———</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-实时编译VS静态编译"><span class="toc-number"></span> <span class="toc-text">1. 实时编译VS静态编译</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#这门强类型语言则不允许，在同级作用域内他只允许声明一次，python或许已经没有声明了，每个名字只是一个对象而已并没有他的归属。"><span class="toc-number"></span> <span class="toc-text">这门强类型语言则不允许，在同级作用域内他只允许声明一次，python或许已经没有声明了，每个名字只是一个对象而已并没有他的归属。</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-动态语言VS静态语言"><span class="toc-number">1.</span> <span class="toc-text">2.动态语言VS静态语言</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#给我感受是一颗静止的树的话，那么python就是一匹‘野马’，C"><span class="toc-number"></span> <span class="toc-text">给我感受是一颗静止的树的话，那么python就是一匹‘野马’，C</span></a>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#js的this用法"><span class="toc-number">1.</span> <span class="toc-text">js的this用法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#ps-严格模式在函数或变量前加上-39-use-strict-39"><span class="toc-number">1.0.0.1.</span> <span class="toc-text">ps: 严格模式在函数或变量前加上 'use strict';</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">2.</span> <span class="toc-text">总结</span></a></li></ol>
 		
 		</div>
 		
-		<h4 id="由于有其他编程语言基础，所以对于python的学习并不吃力，但是整体感觉python的确与前面学习c、c———"><a href="#由于有其他编程语言基础，所以对于python的学习并不吃力，但是整体感觉python的确与前面学习c、c———" class="headerlink" title="由于有其他编程语言基础，所以对于python的学习并不吃力，但是整体感觉python的确与前面学习c、c———"></a>由于有其他编程语言基础，所以对于python的学习并不吃力，但是整体感觉python的确与前面学习c、c———</h4><h3 id="1-实时编译VS静态编译"><a href="#1-实时编译VS静态编译" class="headerlink" title="1. 实时编译VS静态编译"></a>1. 实时编译VS静态编译</h3><p>不需要输入任何前缀，直接将代码放在python解释器上面就能运行，虽然window下不支持直接点开文件就能使用，但是只要安装了python解释器就能很轻松的运行。</p>
-<p>分量轻是他的特点吧！相比打开vs等半天然后，编译连接最后执行。python是一门很轻巧的语言，没有满屏的分号，大括号，基本类型比如int、string、float不区分直接拿来用就可以了，任何一个变量都是一个对象，对象可以千变万化，感觉python是一门很野的熊孩子什么都不在乎，比如说你什么了相同的两个变量</p>
-<h1 id="这门强类型语言则不允许，在同级作用域内他只允许声明一次，python或许已经没有声明了，每个名字只是一个对象而已并没有他的归属。"><a href="#这门强类型语言则不允许，在同级作用域内他只允许声明一次，python或许已经没有声明了，每个名字只是一个对象而已并没有他的归属。" class="headerlink" title="这门强类型语言则不允许，在同级作用域内他只允许声明一次，python或许已经没有声明了，每个名字只是一个对象而已并没有他的归属。"></a>这门强类型语言则不允许，在同级作用域内他只允许声明一次，python或许已经没有声明了，每个名字只是一个对象而已并没有他的归属。</h1><h4 id="2-动态语言VS静态语言"><a href="#2-动态语言VS静态语言" class="headerlink" title="2.动态语言VS静态语言"></a>2.动态语言VS静态语言</h4><h1 id="给我感受是一颗静止的树的话，那么python就是一匹‘野马’，C"><a href="#给我感受是一颗静止的树的话，那么python就是一匹‘野马’，C" class="headerlink" title="给我感受是一颗静止的树的话，那么python就是一匹‘野马’，C"></a>给我感受是一颗静止的树的话，那么python就是一匹‘野马’，C</h1>  
+		<blockquote>
+<p>最近这几天在开发一个hmtl5的游戏, 但是对于js怎么使用面对对象来编程有点困惑,查了一些资料<br>整理如下.</p>
+</blockquote>
+<h2 id="js的this用法"><a href="#js的this用法" class="headerlink" title="js的this用法"></a>js的this用法</h2><ul>
+<li><p>非对象属性函数(内部函数)</p>
+<pre><code>var point = { 
+ x : 0, 
+ y : 0, 
+moveTo : function(x, y) { 
+    // 内部函数
+    var moveX = function(x) { 
+this.x = x;//this 绑定到了哪里？
+    }; 
+      // 内部函数
+    var moveY = function(y) { 
+        this.y = y;//this 绑定到了哪里？
+     }; 
+
+     moveX(x); 
+   moveY(y); 
+ } 
+}; 
+point.moveTo(1, 1); 
+ point.x; //==&gt;0 
+ point.y; //==&gt;0 
+ x; //==&gt;1 
+y; //==&gt;1
+</code></pre></li>
+</ul>
+<ul>
+<li>对象属性函数</li>
+</ul>
+<pre><code>var point = { 
+        x : 0, 
+        y : 0, 
+        moveTo : function(x, y) { 
+                this.x = this.x + x; 
+                this.y = this.y + y; 
+                             } 
+         };
+
+ point.x; // ==&gt; 1
+ point.y; // == &gt;1 
+
+ point.moveTo(1, 1)//this 绑定到当前对象，即 point 对象
+ point.x; // ==&gt; 1
+ point.y; // == &gt;1 
+</code></pre><p>其实this的用法还有很多,我为什么只列出上面两种是因为所有的this用法都可以归为这两类.</p>
+<blockquote>
+<p>非对象属性就是这个函数不存在对象的内存空间里面的函数<br>对象属性就是说这个函数存在于对象内存空间的函数</p>
+</blockquote>
+<p>这样说很绕, 抽象的来说, 把每个函数都看做是对象, 我们把这个对象point想象成一个上锁的柜子A, 每个变量名就是一把钥匙, 我们这个柜子A里面可用放很多钥匙,每个钥匙又对应着其他柜子,我们也可以放东西,但是这些东西只能是一些数字字符串什么的,这就对应着对象的这种继承性,</p>
+<p>现在我们来看放在柜子A里面的钥匙,有一个钥匙可用开其他某一个的柜子B(相当于对象的属性的<code>moveTo</code>函数),当我们就在柜子B里面使用<code>this</code>时,这个<code>this</code>是什么呢.</p>
+<p>这个this就要找一个柜子, 那为什么要找一个柜子(对象呢)</p>
+<blockquote>
+<p>这就是js语言设计的松散, 当在非严格模式下, <code>this</code> 会被强制转换成一个对象, 对于例子一,因为内部函数 <code>this</code> 并没有给他赋值(你可以把他看做一个我们找不到他的钥匙的柜子), 所以<code>this</code>被强制转换成了全局的柜子(全局变量)</p>
+</blockquote>
+<h5 id="ps-严格模式在函数或变量前加上-39-use-strict-39"><a href="#ps-严格模式在函数或变量前加上-39-use-strict-39" class="headerlink" title="ps: 严格模式在函数或变量前加上 &#39;use strict&#39;;"></a>ps: 严格模式在函数或变量前加上 <code>&#39;use strict&#39;;</code></h5><pre><code>怎么解决这个问题了, 有两种方法, 不是没有赋值给`this`嘛, 我们可用call来给函数内部的`this`赋值,       
+
+          moveX.call(this, x);   // 我们把当前函数的this赋给内部函数
+
+    但是这种方法不够优美, 我们还可以直接把 `this`用个变量`that`给内部函数用,
+
+                    var that = this;
+                    var moveY = function(y) { 
+                            that.y = y;//this 
+                     }; 
+
+ 这样这个`this` 就不会被强制转换成全局变量了, 当然你可以开启严格模式, 这样this的话就会变成`undefined`, 你也不会因为你的代码问题而污染全部变量.
+</code></pre><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>js 的 <code>this</code> 是面对对象编程的一种体现, 但是js的<code>this</code>由于有点不严格,所以有时候会出现一些令人意向不到的结果,</p>
+<p><em>引用</em></p>
+<ul>
+<li><p><a href="https://www.ibm.com/developerworks/cn/web/1207_wangqf_jsthis/" target="_blank" rel="external">深入浅出 JavaScript 中的 this</a></p>
+</li>
+<li><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Strict_mode" target="_blank" rel="external">严格模式</a></p>
+</li>
+</ul>
+  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/编程思想/">编程思想</a>
+  </div>
 
 </div>
 
@@ -117,7 +224,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://mrzhangboss.github.io/2016/07/18/python学习0/" data-title="python学习 | lunge博客" data-tsina="5364356330" class="share clearfix">
+	  <div data-url="https://mrzhangboss.github.io/2016/07/20/js的this引发的思考/" data-title="js的this引发的思考 | lunge博客" data-tsina="5364356330" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -130,19 +237,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2016/07/18/ 阿里云服务器初体验0/" title="阿里云服务器初体验">
-  <strong>上一篇：</strong><br/>
-  <span>
-  阿里云服务器初体验</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2016/07/18/0/"  title="">
+<a href="/2016/07/19/关于技术栈的总结/"  title="关于技术栈的总结">
  <strong>下一篇：</strong><br/> 
- <span>(no title)
+ <span>关于技术栈的总结
 </span>
 </a>
 </div>
@@ -151,7 +250,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2016/07/18/python学习0/" data-title="python学习" data-url="https://mrzhangboss.github.io/2016/07/18/python学习0/"></div>
+	<div class="ds-thread" data-thread-key="2016/07/20/js的this引发的思考/" data-title="js的this引发的思考" data-url="https://mrzhangboss.github.io/2016/07/20/js的this引发的思考/"></div>
 </section>
 
 
@@ -161,7 +260,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#由于有其他编程语言基础，所以对于python的学习并不吃力，但是整体感觉python的确与前面学习c、c———"><span class="toc-number">1.</span> <span class="toc-text">由于有其他编程语言基础，所以对于python的学习并不吃力，但是整体感觉python的确与前面学习c、c———</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-实时编译VS静态编译"><span class="toc-number"></span> <span class="toc-text">1. 实时编译VS静态编译</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#这门强类型语言则不允许，在同级作用域内他只允许声明一次，python或许已经没有声明了，每个名字只是一个对象而已并没有他的归属。"><span class="toc-number"></span> <span class="toc-text">这门强类型语言则不允许，在同级作用域内他只允许声明一次，python或许已经没有声明了，每个名字只是一个对象而已并没有他的归属。</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-动态语言VS静态语言"><span class="toc-number">1.</span> <span class="toc-text">2.动态语言VS静态语言</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#给我感受是一颗静止的树的话，那么python就是一匹‘野马’，C"><span class="toc-number"></span> <span class="toc-text">给我感受是一颗静止的树的话，那么python就是一匹‘野马’，C</span></a>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#js的this用法"><span class="toc-number">1.</span> <span class="toc-text">js的this用法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#ps-严格模式在函数或变量前加上-39-use-strict-39"><span class="toc-number">1.0.0.1.</span> <span class="toc-text">ps: 严格模式在函数或变量前加上 'use strict';</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">2.</span> <span class="toc-text">总结</span></a></li></ol>
  
   </div>
 
