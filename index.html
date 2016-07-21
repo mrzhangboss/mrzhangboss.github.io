@@ -148,19 +148,15 @@ y; //==&gt;1
 <blockquote>
 <p>这就是js语言设计的松散, 当在非严格模式下, <code>this</code> 会被强制转换成一个对象, 对于例子一,因为内部函数 <code>this</code> 并没有给他赋值(你可以把他看做一个我们找不到他的钥匙的柜子), 所以<code>this</code>被强制转换成了全局的柜子(全局变量)</p>
 </blockquote>
-<h5 id="ps-严格模式在函数或变量前加上-39-use-strict-39"><a href="#ps-严格模式在函数或变量前加上-39-use-strict-39" class="headerlink" title="ps: 严格模式在函数或变量前加上 &#39;use strict&#39;;"></a>ps: 严格模式在函数或变量前加上 <code>&#39;use strict&#39;;</code></h5><pre><code>怎么解决这个问题了, 有两种方法, 不是没有赋值给`this`嘛, 我们可用call来给函数内部的`this`赋值,       
-
-          moveX.call(this, x);   // 我们把当前函数的this赋给内部函数
-
-    但是这种方法不够优美, 我们还可以直接把 `this`用个变量`that`给内部函数用,
-
-                    var that = this;
-                    var moveY = function(y) { 
-                            that.y = y;//this 
-                     }; 
-
- 这样这个`this` 就不会被强制转换成全局变量了, 当然你可以开启严格模式, 这样this的话就会变成`undefined`, 你也不会因为你的代码问题而污染全部变量.
-</code></pre><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>js 的 <code>this</code> 是面对对象编程的一种体现, 但是js的<code>this</code>由于有点不严格,所以有时候会出现一些令人意向不到的结果,</p>
+<h5 id="ps-严格模式在函数或变量前加上-39-use-strict-39"><a href="#ps-严格模式在函数或变量前加上-39-use-strict-39" class="headerlink" title="ps: 严格模式在函数或变量前加上 &#39;use strict&#39;;"></a>ps: 严格模式在函数或变量前加上 <code>&#39;use strict&#39;;</code></h5><p>怎么解决这个问题了, 有两种方法, 不是没有赋值给<code>this</code>嘛, 我们可用call来给函数内部的<code>this</code>赋值,       </p>
+<pre><code>moveX.call(this, x);   // 我们把当前函数的this赋给内部函数
+</code></pre><p>但是这种方法不够优美, 我们还可以直接把 <code>this</code>用个变量<code>that</code>给内部函数用,</p>
+<pre><code>var that = this;
+var moveY = function(y) { 
+        that.y = y;//this 
+ }; 
+</code></pre><p>这样这个<code>this</code> 就不会被强制转换成全局变量了, 当然你可以开启严格模式, 这样this的话就会变成<code>undefined</code>, 你也不会因为你的代码问题而污染全部变量.</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>js 的 <code>this</code> 是面对对象编程的一种体现, 但是js的<code>this</code>由于有点不严格,所以有时候会出现一些令人意向不到的结果,</p>
 <p><em>引用</em></p>
 <ul>
 <li><p><a href="https://www.ibm.com/developerworks/cn/web/1207_wangqf_jsthis/" target="_blank" rel="external">深入浅出 JavaScript 中的 this</a></p>
