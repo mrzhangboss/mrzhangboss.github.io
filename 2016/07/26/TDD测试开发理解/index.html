@@ -4,29 +4,41 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>阿里云服务器初体验 | lunge博客</title>
+    <title>TDD测试开发理解 | lunge博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="张伦">
     
 
     
-    <meta name="description" content="申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。1.用户名和密码找了半天没有找到那个是用户名，试了实例的id，没有用，最后终于在登录帮助名里面找到了，用户名竟然是root！！！！,我用的是Ubuntu系统，说好的Ubuntu不提供root权限的呢，阿里还真会改造Linux系统，但是我觉得用root登录还是不安全，我觉得新建一个用户吧
-在root权限下
-useradd -s /b">
+    <meta name="description" content="看了 &amp;lt;&amp;lt; Python Web 开发 测试驱动方法&amp;gt;&amp;gt; 以后, 感觉自己找到自己的一些项目之所以不能够很好的 维护下去的原因.总结了一下自己的理解, 记录下来.
+
+什么是 TDD
+Test-Driven Development
+
+ TDD 是一种以测试为驱动开发的方法, 自己以前也听到过这个名词, 但是平常只是稍微写一点测试,并没有让测试领导开发节奏.
+简单来说TDD是">
 <meta property="og:type" content="article">
-<meta property="og:title" content="阿里云服务器初体验">
-<meta property="og:url" content="https://mrzhangboss.github.io/2016/07/18/ 阿里云服务器初体验0/index.html">
+<meta property="og:title" content="TDD测试开发理解">
+<meta property="og:url" content="https://mrzhangboss.github.io/2016/07/26/TDD测试开发理解/index.html">
 <meta property="og:site_name" content="lunge博客">
-<meta property="og:description" content="申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。1.用户名和密码找了半天没有找到那个是用户名，试了实例的id，没有用，最后终于在登录帮助名里面找到了，用户名竟然是root！！！！,我用的是Ubuntu系统，说好的Ubuntu不提供root权限的呢，阿里还真会改造Linux系统，但是我觉得用root登录还是不安全，我觉得新建一个用户吧
-在root权限下
-useradd -s /b">
-<meta property="og:updated_time" content="2016-07-18T08:16:36.379Z">
+<meta property="og:description" content="看了 &amp;lt;&amp;lt; Python Web 开发 测试驱动方法&amp;gt;&amp;gt; 以后, 感觉自己找到自己的一些项目之所以不能够很好的 维护下去的原因.总结了一下自己的理解, 记录下来.
+
+什么是 TDD
+Test-Driven Development
+
+ TDD 是一种以测试为驱动开发的方法, 自己以前也听到过这个名词, 但是平常只是稍微写一点测试,并没有让测试领导开发节奏.
+简单来说TDD是">
+<meta property="og:updated_time" content="2016-07-26T15:46:24.699Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="阿里云服务器初体验">
-<meta name="twitter:description" content="申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。1.用户名和密码找了半天没有找到那个是用户名，试了实例的id，没有用，最后终于在登录帮助名里面找到了，用户名竟然是root！！！！,我用的是Ubuntu系统，说好的Ubuntu不提供root权限的呢，阿里还真会改造Linux系统，但是我觉得用root登录还是不安全，我觉得新建一个用户吧
-在root权限下
-useradd -s /b">
+<meta name="twitter:title" content="TDD测试开发理解">
+<meta name="twitter:description" content="看了 &amp;lt;&amp;lt; Python Web 开发 测试驱动方法&amp;gt;&amp;gt; 以后, 感觉自己找到自己的一些项目之所以不能够很好的 维护下去的原因.总结了一下自己的理解, 记录下来.
+
+什么是 TDD
+Test-Driven Development
+
+ TDD 是一种以测试为驱动开发的方法, 自己以前也听到过这个名词, 但是平常只是稍微写一点测试,并没有让测试领导开发节奏.
+简单来说TDD是">
 <meta name="twitter:creator" content="@mrzhangboss">
 
     
@@ -86,14 +98,14 @@ useradd -s /b">
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/07/18/ 阿里云服务器初体验0/" title="阿里云服务器初体验" itemprop="url">阿里云服务器初体验</a>
+      <a href="/2016/07/26/TDD测试开发理解/" title="TDD测试开发理解" itemprop="url">TDD测试开发理解</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
+    <time datetime="2016-07-26T14:48:12.000Z" itemprop="datePublished"> Published 2016-07-26</time>
     
   </p>
 </header>
@@ -102,20 +114,53 @@ useradd -s /b">
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。"><span class="toc-number">1.</span> <span class="toc-text">申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-用户名和密码"><span class="toc-number">2.</span> <span class="toc-text">1.用户名和密码</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是-TDD"><span class="toc-number">1.</span> <span class="toc-text">什么是 TDD</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#怎么进行TDD"><span class="toc-number">2.</span> <span class="toc-text">怎么进行TDD</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#功能测试"><span class="toc-number">2.1.</span> <span class="toc-text">功能测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#单元测试"><span class="toc-number">2.2.</span> <span class="toc-text">单元测试</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<h3 id="申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。"><a href="#申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。" class="headerlink" title="申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。"></a>申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。</h3><h3 id="1-用户名和密码"><a href="#1-用户名和密码" class="headerlink" title="1.用户名和密码"></a>1.用户名和密码</h3><p>找了半天没有找到那个是用户名，试了实例的id，没有用，最后终于在登录帮助名里面找到了，用户名竟然是<code>root</code>！！！！,我用的是Ubuntu系统，说好的Ubuntu不提供root权限的呢，阿里还真会改造Linux系统<br>，但是我觉得用root登录还是不安全，我觉得新建一个用户吧</p>
-<p>在root权限下</p>
-<pre><code>useradd -s /bin/bash -r -m yourname
-</code></pre><p>解释一下，本来直接<code>useradd yourname</code> 就可以新建一个<code>yourname</code>账号，但是如果用你新建的用户登录的话，你无法使用Tab键和上下左右键 ，你键入 <code>echo $SHELL</code>，会发现是<code>/bin/sh</code>，因为Ubuntu默认创建账号使用<code>/bin/sh</code>，假如你没加这个可以删掉 用这个<code>userdel yourname</code>重新来一遍，搞完这个只是创建了一个普通用户，你使用不了sudo获取最高权限，这个怎么办，很简单在<code>/etc/sudoers</code>里面找到<br>        root ALL=(ALL:ALL) ALL</p>
-<p>模仿它加上自己的账号名就可以了。</p>
+		<blockquote>
+<p>看了 &lt;&lt; Python Web 开发 测试驱动方法&gt;&gt; 以后, 感觉自己找到自己的一些项目之所以不能够很好的 维护下去的原因.总结了一下自己的理解, 记录下来.</p>
+</blockquote>
+<h2 id="什么是-TDD"><a href="#什么是-TDD" class="headerlink" title="什么是 TDD"></a>什么是 TDD</h2><blockquote>
+<p>Test-Driven Development</p>
+</blockquote>
+<p> TDD 是一种以测试为驱动开发的方法, 自己以前也听到过这个名词, 但是平常只是稍微写一点测试,并没有让测试领导开发节奏.</p>
+<p>简单来说TDD是先写测试再写代码, 这于我们平时开发的时候有很大不同,比如我们写一个web页面, 我们一般是先写好代码,然后在浏览器上调试(相当于测试),然而测试驱动开发就不同了,我们一开始只写测试, 然后写代码让他通过我们的测试.</p>
+<p>TDD的主题基本上很多人都知道,但是具体步骤和诀窍很多人不明就里.下面来详细介绍怎么让<code>Test</code><br>引导你的开发.</p>
+<h2 id="怎么进行TDD"><a href="#怎么进行TDD" class="headerlink" title="怎么进行TDD"></a>怎么进行TDD</h2><blockquote>
+<p>首先让我来看一看<code>Test</code>是什么, Test 分两种</p>
+</blockquote>
+<ol>
+<li>功能测试</li>
+<li>单元测试</li>
+</ol>
+<h3 id="功能测试"><a href="#功能测试" class="headerlink" title="功能测试"></a>功能测试</h3><blockquote>
+<p>很多人知道单元测试却很少听到功能测试, 功能测试在开发过程中经常被人忽略,但是功能测试能很好的把握开发方向</p>
+</blockquote>
+<p>功能测试就是从用户角度出发, 从用户的角度测试代码.</p>
+<p>用web项目开发来打比方, 用户只能通过浏览器来浏览你的web, 所有的交互只能通过浏览器来实现,功能测试就是模拟用户进行浏览器上的操作,具体来说我们可用使用<code>selenium</code>来操控<strong>firefox</strong>或<strong>chrome</strong>,通过我们使用<code>selenium</code>提供的接口操作浏览器访问页面获取<code>html</code>, 来进行功能测试.</p>
+<p>功能测试就是测试一个项目成品的功能, 在平常的项目开发中,这个测试往往是提到项目完成之后人工进行, 然而在<strong>TDD</strong>中这个却被提到了最前面,他成了一个风向标,所有的代码目的都是为了实现这个功能测试.</p>
+<h3 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h3><blockquote>
+<p>单元测试这个很多人都很了解, python里面有<code>unittest</code> 这个单元测试框架.就是专门为单元测试而开发的.</p>
+</blockquote>
+<p>单元测试历史悠久,很多人都写过单元测试,不过大部分人写单元测试都是在函数或者类完成之后写的.</p>
+<p>在TDD中,单元测试进行最频繁的测试, 在功能测试完, 写每一个函数都提倡先写单元测试, 然后进行开发.</p>
+<p>单元测试关注点与功能测试不同, 单元测试注重的是每一个函数执行的结果, 给定一个输入就一定要得到一个确定的输出,比功能测试他更关注底层代码,毕竟功能测试只关注用户最后得到结果,单元测试将你的代码函数形成一个单元,逐个运行,逐个测试.</p>
+<blockquote>
+<p>前面介绍了一大堆概念,却没有落到实处, 功能测试很简单,我们评价一个项目,能很快的写出测试方法,但是对于单元测试来说,我到底该怎么进行,这同我平时的开发有什么不同,下面就详细的介绍单元测试的几个重要的要点.</p>
+</blockquote>
+<hr>
+<p>留个坑慢慢填.</p>
   
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/python/">python</a><a href="/tags/测试/">测试</a>
+  </div>
 
 </div>
 
@@ -123,7 +168,7 @@ useradd -s /b">
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://mrzhangboss.github.io/2016/07/18/ 阿里云服务器初体验0/" data-title="阿里云服务器初体验 | lunge博客" data-tsina="5364356330" class="share clearfix">
+	  <div data-url="https://mrzhangboss.github.io/2016/07/26/TDD测试开发理解/" data-title="TDD测试开发理解 | lunge博客" data-tsina="5364356330" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -136,19 +181,11 @@ useradd -s /b">
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2016/07/18/PIL （Pillow）0/" title="PIL （Pillow）">
-  <strong>上一篇：</strong><br/>
-  <span>
-  PIL （Pillow）</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2016/07/18/Python 线程(threading) 进程(multiprocessing)0/"  title="Python 线程(threading) 进程(multiprocessing)">
+<a href="/2016/07/20/js的this引发的思考/"  title="js的this引发的思考">
  <strong>下一篇：</strong><br/> 
- <span>Python 线程(threading) 进程(multiprocessing)
+ <span>js的this引发的思考
 </span>
 </a>
 </div>
@@ -157,7 +194,7 @@ useradd -s /b">
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2016/07/18/ 阿里云服务器初体验0/" data-title="阿里云服务器初体验" data-url="https://mrzhangboss.github.io/2016/07/18/ 阿里云服务器初体验0/"></div>
+	<div class="ds-thread" data-thread-key="2016/07/26/TDD测试开发理解/" data-title="TDD测试开发理解" data-url="https://mrzhangboss.github.io/2016/07/26/TDD测试开发理解/"></div>
 </section>
 
 
@@ -167,7 +204,7 @@ useradd -s /b">
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。"><span class="toc-number">1.</span> <span class="toc-text">申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-用户名和密码"><span class="toc-number">2.</span> <span class="toc-text">1.用户名和密码</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是-TDD"><span class="toc-number">1.</span> <span class="toc-text">什么是 TDD</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#怎么进行TDD"><span class="toc-number">2.</span> <span class="toc-text">怎么进行TDD</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#功能测试"><span class="toc-number">2.1.</span> <span class="toc-text">功能测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#单元测试"><span class="toc-number">2.2.</span> <span class="toc-text">单元测试</span></a></li></ol></li></ol>
  
   </div>
 
