@@ -33,7 +33,7 @@
 这两个的简单原则构成了TDD的核心,但是他能规划一个复杂的项目乃至一个团队.这里有一些TDD的建议.
 
 你的项目设计不能太过全面,只要有一个模型或者相应的功能,然后你让你的测试代码测试你模型,通过反馈来完">
-<meta property="og:updated_time" content="2016-08-22T01:15:32.000Z">
+<meta property="og:updated_time" content="2016-08-23T03:22:15.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="用例子学TDD">
 <meta name="twitter:description" content="翻译自TDD-byexample作者Kent Beck, Three Rivers Institute有删减
@@ -120,7 +120,7 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#表现"><span class="toc-number">1.</span> <span class="toc-text">表现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#测试驱动开发核心"><span class="toc-number">1.1.</span> <span class="toc-text">测试驱动开发核心:</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#担忧"><span class="toc-number">2.</span> <span class="toc-text">担忧</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#表现"><span class="toc-number">1.</span> <span class="toc-text">表现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#测试驱动开发核心"><span class="toc-number">1.1.</span> <span class="toc-text">测试驱动开发核心:</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#担忧"><span class="toc-number">2.</span> <span class="toc-text">担忧</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TDD答疑"><span class="toc-number">3.</span> <span class="toc-text">TDD答疑</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#你的测试步伐到底该多大"><span class="toc-number">3.1.</span> <span class="toc-text">你的测试步伐到底该多大?</span></a></li></ol></li></ol>
 		
 		</div>
 		
@@ -173,6 +173,17 @@
 <p><code>TDD</code>给你一种控制的能力.当年在外面开车碰到下雪,你可以迅速停车去做其他琐事,当雪停了,你可以继续开车.</p>
 <p>所以很多人说他们使用<code>TDD</code>对于项目的变化更有控制力.</p>
 <p>接下来我会用一个例子来详细的介绍<code>TDD</code>开发的流程.</p>
+<blockquote>
+<p>由于原作者是用<code>java</code>来介绍的,本人用<code>Python</code>较多,所以就用自己写的一个项目<code>sample</code>来做介绍,<a href="/2016/08/18/hookman-development-blog/">详细链接</a><br>接下来翻译一下书后面关于<code>TDD</code>的一些答疑</p>
+</blockquote>
+<h2 id="TDD答疑"><a href="#TDD答疑" class="headerlink" title="TDD答疑"></a><code>TDD</code>答疑</h2><blockquote>
+<p>我希望在这里提出一些或大或小问题帮助你思考如何将<code>TDD</code>引入到你的个人实践里面</p>
+</blockquote>
+<h3 id="你的测试步伐到底该多大"><a href="#你的测试步伐到底该多大" class="headerlink" title="你的测试步伐到底该多大?"></a>你的测试步伐到底该多大?</h3><p>这里有两个引申过来的问题</p>
+<ul>
+<li>每个测试覆盖范围该多大</li>
+<li>当你重构时到底有要迈多大步伐</li>
+</ul>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -229,7 +240,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#表现"><span class="toc-number">1.</span> <span class="toc-text">表现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#测试驱动开发核心"><span class="toc-number">1.1.</span> <span class="toc-text">测试驱动开发核心:</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#担忧"><span class="toc-number">2.</span> <span class="toc-text">担忧</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#表现"><span class="toc-number">1.</span> <span class="toc-text">表现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#测试驱动开发核心"><span class="toc-number">1.1.</span> <span class="toc-text">测试驱动开发核心:</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#担忧"><span class="toc-number">2.</span> <span class="toc-text">担忧</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TDD答疑"><span class="toc-number">3.</span> <span class="toc-text">TDD答疑</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#你的测试步伐到底该多大"><span class="toc-number">3.1.</span> <span class="toc-text">你的测试步伐到底该多大?</span></a></li></ol></li></ol>
  
   </div>
 
