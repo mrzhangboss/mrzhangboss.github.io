@@ -4,23 +4,34 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>深入···计算机 | lunge博客</title>
+    <title>git 工作流程 | lunge博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="张伦">
     
 
     
-    <meta name="description" content="什么是计算机，是一堆电子元件堆积成的一个整体，从占地几十公顷到今天的掌上电脑，计算机的变得越来越小。了解计算机">
+    <meta name="description" content="git是当今流行的版本控制工具,一般我们可能只要会push, pull就可以了,但是当我们同别人共同工作的时候,我们必须要了解git协同开发的一些重要流程.
+
+前言
+git作为当今最流行的版本控制工具之一,当时开发出来就是为了管理Linux庞大源代码的分布式版本控制工具.由于Linux源代码过于巨大,仅靠一个人的力量是完成不了的,那就必须把工作分配下去,然后将代码合并,所以git一开始设计的时候">
 <meta property="og:type" content="article">
-<meta property="og:title" content="深入···计算机">
-<meta property="og:url" content="https://mrzhangboss.github.io/2016/07/18/深入···计算机0/index.html">
+<meta property="og:title" content="git 工作流程">
+<meta property="og:url" content="https://mrzhangboss.github.io/2016/09/07/git-working-streamline/index.html">
 <meta property="og:site_name" content="lunge博客">
-<meta property="og:description" content="什么是计算机，是一堆电子元件堆积成的一个整体，从占地几十公顷到今天的掌上电脑，计算机的变得越来越小。了解计算机">
-<meta property="og:updated_time" content="2016-07-18T08:16:36.000Z">
+<meta property="og:description" content="git是当今流行的版本控制工具,一般我们可能只要会push, pull就可以了,但是当我们同别人共同工作的时候,我们必须要了解git协同开发的一些重要流程.
+
+前言
+git作为当今最流行的版本控制工具之一,当时开发出来就是为了管理Linux庞大源代码的分布式版本控制工具.由于Linux源代码过于巨大,仅靠一个人的力量是完成不了的,那就必须把工作分配下去,然后将代码合并,所以git一开始设计的时候">
+<meta property="og:image" content="https://raw.githubusercontent.com/quickhack/translations/master/git-workflows-and-tutorials/images/git-workflow-release-cycle-4maintenance.png">
+<meta property="og:updated_time" content="2016-09-10T15:47:27.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="深入···计算机">
-<meta name="twitter:description" content="什么是计算机，是一堆电子元件堆积成的一个整体，从占地几十公顷到今天的掌上电脑，计算机的变得越来越小。了解计算机">
+<meta name="twitter:title" content="git 工作流程">
+<meta name="twitter:description" content="git是当今流行的版本控制工具,一般我们可能只要会push, pull就可以了,但是当我们同别人共同工作的时候,我们必须要了解git协同开发的一些重要流程.
+
+前言
+git作为当今最流行的版本控制工具之一,当时开发出来就是为了管理Linux庞大源代码的分布式版本控制工具.由于Linux源代码过于巨大,仅靠一个人的力量是完成不了的,那就必须把工作分配下去,然后将代码合并,所以git一开始设计的时候">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/quickhack/translations/master/git-workflows-and-tutorials/images/git-workflow-release-cycle-4maintenance.png">
 <meta name="twitter:creator" content="@mrzhangboss">
 
     
@@ -80,14 +91,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/07/18/深入···计算机0/" title="深入···计算机" itemprop="url">深入···计算机</a>
+      <a href="/2016/09/07/git-working-streamline/" title="git 工作流程" itemprop="url">git 工作流程</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
+    <time datetime="2016-09-07T11:22:51.000Z" itemprop="datePublished"> 发表于 2016-09-07</time>
     
   </p>
 </header>
@@ -96,16 +107,40 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是计算机，是一堆电子元件堆积成的一个整体，从占地几十公顷到今天的掌上电脑，计算机的变得越来越小。"><span class="toc-number">1.</span> <span class="toc-text">什么是计算机，是一堆电子元件堆积成的一个整体，从占地几十公顷到今天的掌上电脑，计算机的变得越来越小。</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#概念"><span class="toc-number">2.</span> <span class="toc-text">概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分支工作流程"><span class="toc-number">3.</span> <span class="toc-text">分支工作流程</span></a></li></ol>
 		
 		</div>
 		
-		<h3 id="什么是计算机，是一堆电子元件堆积成的一个整体，从占地几十公顷到今天的掌上电脑，计算机的变得越来越小。"><a href="#什么是计算机，是一堆电子元件堆积成的一个整体，从占地几十公顷到今天的掌上电脑，计算机的变得越来越小。" class="headerlink" title="什么是计算机，是一堆电子元件堆积成的一个整体，从占地几十公顷到今天的掌上电脑，计算机的变得越来越小。"></a>什么是计算机，是一堆电子元件堆积成的一个整体，从占地几十公顷到今天的掌上电脑，计算机的变得越来越小。</h3><p>了解计算机</p>
+		<blockquote>
+<p><code>git</code>是当今流行的版本控制工具,一般我们可能只要会<code>push</code>, <code>pull</code>就可以了,<br>但是当我们同别人共同工作的时候,我们必须要了解<code>git</code>协同开发的一些重要流程.</p>
+</blockquote>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p><code>git</code>作为当今最流行的版本控制工具之一,当时开发出来就是为了管理<code>Linux</code>庞大源代码的分布式版本控制工具.<br>由于<code>Linux</code>源代码过于巨大,仅靠一个人的力量是完成不了的,那就必须把工作分配下去,然后将代码合并,所以<code>git</code>一开始设计的时候就是一种分布式的、多分支的</p>
+</blockquote>
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>所以<code>git</code>最重要的就是<strong>分支</strong>这个性质,分支是什么呢.</p>
+<p>要了解<strong>分支</strong>必须要了解<code>git</code>工作原理.</p>
+<p><code>git</code>工作原理很简单就是<code>add</code>、<code>commit</code>，<code>add</code>、<code>commit</code>….,简单来说就是添加记录,添加记录,保存快照,添加记录,添加记录,保存快照</p>
+<p><img src="https://raw.githubusercontent.com/quickhack/translations/master/git-workflows-and-tutorials/images/git-workflow-release-cycle-4maintenance.png" alt="git工作分支流程-来源网上"></p>
+<p>  如上图,随着master分支快照的一个一个建立,软件就慢慢的迭代下去了</p>
+<h2 id="分支工作流程"><a href="#分支工作流程" class="headerlink" title="分支工作流程"></a>分支工作流程</h2><p>  接下来我们要着重讲一下分支,我们看到<code>master</code>分支的<code>v0.1</code>版本,我们已经开发出稳定的<code>v0.1</code>版,这时候我们决定开发一个新功能.</p>
+<p> 在这里我们分了一个<code>Develop</code>分支,我们在<code>Develop</code>分支开发新代码.</p>
+<p> 这时候我们发现<code>v0,1</code>的一个<code>bug</code>,假如是没有使用版本控制的话,一般人会停下手中的活,然后从当前的新代码处来修复这个<code>bug</code>,当这个<code>bug</code>很简单的时候,我们不会遇到很大困难,但是当<code>bug</code>藏的很深,而且新代码隐藏了这个<code>bug</code>,或者被这个<code>bug</code>影响,这时修复工作就变得很困难.</p>
+<p> 还好我们有<code>git</code>,我们从<code>v0.1</code>直接分一个<code>Hotfix</code>分支,这两个分支的父都是<code>v0.1</code>,我们直接从稳定版本修复,不牵涉到新代码,这样修改好后我们就能很快从<code>Develop</code>分支继续工作了</p>
+<p> 而且这样有一个好处我们将<code>master</code>和<code>Develop</code>分支合并的时候很大可能不会产生冲突.</p>
+<p> <em>冲突(coflic)是什么了,怎么能避免呢?</em></p>
+<p> 从两个分支的父亲<code>v0.1</code>看起,我们每次改动一个保存文件就会产生一个<code>modify</code>(修改)的动作,我们假如分支里面都对同一个文件产生了<code>modify</code>(修改)动作,当我们合并的时候这就是一个冲突,<code>git</code>无法理解采用哪个分支的<code>modify</code>动作,这时候就要你人工来修改采用哪个分支.</p>
+<p> 假如没有相同的文件有<code>modify</code>(修改)动作,<code>git</code>就会聪明的知道采用每个分支的最新的<code>modify</code>(修改)修改出一份所以文件的最新版.</p>
+<p> 那我们怎么来避免这个冲突呢,这就要求我们分支要分的合理,分支只要完成特定的工作,不要越俎代庖,那有些人会说我这个分支一定要改父的耦合地方否则我的代码工作不了,这时我们要好好思考自己的分支的功能,把合并耦合的代码放在主分支里面,次分支只要完成特定功能就可以了,这样合并分支时候不但可以安全的<code>merge</code>(合并)了, 而且修改<code>bug</code>的时候也可以对症下药,直接在问题开始的地方修改.</p>
   
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/git/">git</a><a href="/tags/工作/">工作</a><a href="/tags/工具心得/">工具心得</a>
+  </div>
 
 </div>
 
@@ -113,7 +148,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://mrzhangboss.github.io/2016/07/18/深入···计算机0/" data-title="深入···计算机 | lunge博客" data-tsina="5364356330" class="share clearfix">
+	  <div data-url="https://mrzhangboss.github.io/2016/09/07/git-working-streamline/" data-title="git 工作流程 | lunge博客" data-tsina="5364356330" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -126,19 +161,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2016/07/18/泛型继承的理解0/" title="泛型继承的理解">
-  <strong>上一篇：</strong><br/>
-  <span>
-  泛型继承的理解</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2016/07/18/PIL （Pillow）0/"  title="PIL （Pillow）">
+<a href="/2016/08/21/刷题笔记/"  title="刷题笔记">
  <strong>下一篇：</strong><br/> 
- <span>PIL （Pillow）
+ <span>刷题笔记
 </span>
 </a>
 </div>
@@ -147,7 +174,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2016/07/18/深入···计算机0/" data-title="深入···计算机" data-url="https://mrzhangboss.github.io/2016/07/18/深入···计算机0/"></div>
+	<div class="ds-thread" data-thread-key="2016/09/07/git-working-streamline/" data-title="git 工作流程" data-url="https://mrzhangboss.github.io/2016/09/07/git-working-streamline/"></div>
 </section>
 
 
@@ -157,7 +184,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是计算机，是一堆电子元件堆积成的一个整体，从占地几十公顷到今天的掌上电脑，计算机的变得越来越小。"><span class="toc-number">1.</span> <span class="toc-text">什么是计算机，是一堆电子元件堆积成的一个整体，从占地几十公顷到今天的掌上电脑，计算机的变得越来越小。</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#概念"><span class="toc-number">2.</span> <span class="toc-text">概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分支工作流程"><span class="toc-number">3.</span> <span class="toc-text">分支工作流程</span></a></li></ol>
  
   </div>
 
