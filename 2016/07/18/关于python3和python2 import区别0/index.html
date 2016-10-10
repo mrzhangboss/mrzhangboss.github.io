@@ -55,7 +55,7 @@ python2是默认相对路径导入,python3是默认绝对路径导入首先这�
 				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -71,7 +71,7 @@ python2是默认相对路径导入,python3是默认绝对路径导入首先这�
  					
 					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="Search" />
 					</form>
 					
 					</li>
@@ -93,14 +93,14 @@ python2是默认相对路径导入,python3是默认绝对路径导入首先这�
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目录</strong>
+			<strong class="toc-title">Contents</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#python2是默认相对路径导入-python3是默认绝对路径导入"><span class="toc-number">1.</span> <span class="toc-text">python2是默认相对路径导入,python3是默认绝对路径导入</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#以module的方式运行"><span class="toc-number"></span> <span class="toc-text">以module的方式运行</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#python里面的module分三种-一种是build-in-module-内建库-一种是第三方库-还有一种是你自己写的库-如上面的flask"><span class="toc-number">0.1.</span> <span class="toc-text">python里面的module分三种,一种是build-in module(内建库),一种是第三方库,还有一种是你自己写的库(如上面的flask).</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#当你直接使用"><span class="toc-number">1.</span> <span class="toc-text">当你直接使用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#python3默认绝对路径-自己的库不会优先于第三方库被扫描-有两个解决方法-把自己的库重命名-第二个方法就是把包含主文件的文件夹加上init-py-你可以在sys-path的路径里加上-或者具体上一个上一个文件夹的路径-怪绕口的-其实你只要python能找到你的上一个文件夹-就行"><span class="toc-number">2.</span> <span class="toc-text">python3默认绝对路径,自己的库不会优先于第三方库被扫描.有两个解决方法,把自己的库重命名,第二个方法就是把包含主文件的文件夹加上init.py,你可以在sys.path的路径里加上..或者具体上一个上一个文件夹的路径.怪绕口的,其实你只要python能找到你的上一个文件夹,就行.</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#由于我平时喜欢一边写代码一遍测试功能-图方便就使用doctest直接插在方法里面-在代码后面加上"><span class="toc-number">3.</span> <span class="toc-text">由于我平时喜欢一边写代码一遍测试功能,图方便就使用doctest直接插在方法里面,在代码后面加上</span></a></li></ol>
 		
@@ -183,22 +183,22 @@ python2是默认相对路径导入,python3是默认绝对路径导入首先这�
 
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目录</strong>
+  <strong class="toc-title">Contents</strong>
  
  <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#python2是默认相对路径导入-python3是默认绝对路径导入"><span class="toc-number">1.</span> <span class="toc-text">python2是默认相对路径导入,python3是默认绝对路径导入</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#以module的方式运行"><span class="toc-number"></span> <span class="toc-text">以module的方式运行</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#python里面的module分三种-一种是build-in-module-内建库-一种是第三方库-还有一种是你自己写的库-如上面的flask"><span class="toc-number">0.1.</span> <span class="toc-text">python里面的module分三种,一种是build-in module(内建库),一种是第三方库,还有一种是你自己写的库(如上面的flask).</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#当你直接使用"><span class="toc-number">1.</span> <span class="toc-text">当你直接使用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#python3默认绝对路径-自己的库不会优先于第三方库被扫描-有两个解决方法-把自己的库重命名-第二个方法就是把包含主文件的文件夹加上init-py-你可以在sys-path的路径里加上-或者具体上一个上一个文件夹的路径-怪绕口的-其实你只要python能找到你的上一个文件夹-就行"><span class="toc-number">2.</span> <span class="toc-text">python3默认绝对路径,自己的库不会优先于第三方库被扫描.有两个解决方法,把自己的库重命名,第二个方法就是把包含主文件的文件夹加上init.py,你可以在sys.path的路径里加上..或者具体上一个上一个文件夹的路径.怪绕口的,其实你只要python能找到你的上一个文件夹,就行.</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#由于我平时喜欢一边写代码一遍测试功能-图方便就使用doctest直接插在方法里面-在代码后面加上"><span class="toc-number">3.</span> <span class="toc-text">由于我平时喜欢一边写代码一遍测试功能,图方便就使用doctest直接插在方法里面,在代码后面加上</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
 
   
 <div class="github-card">
-<p class="asidetitle">Github 名片</p>
+<p class="asidetitle">Github Card</p>
 <div class="github-card" data-github="mrzhangboss" data-width="220" data-height="119" data-theme="medium">
 <script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
 </div>
@@ -210,7 +210,7 @@ python2是默认相对路径导入,python3是默认绝对路径导入首先这�
 
   
 <div class="tagslist">
-	<p class="asidetitle">标签</p>
+	<p class="asidetitle">Tags</p>
 		<ul class="clearfix">
 		
 			
@@ -298,7 +298,7 @@ python2是默认相对路径导入,python3是默认绝对路径导入首先这�
 
 
   <div class="linkslist">
-  <p class="asidetitle">友情链接</p>
+  <p class="asidetitle">Links</p>
     <ul>
         
           <li>
@@ -314,11 +314,11 @@ python2是默认相对路径导入,python3是默认绝对路径导入首先这�
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">新浪微博</p>
+  <p class="asidetitle">Weibo</p>
     <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5364356330&verifier=&dpc=1"></iframe>
 </div>
 
@@ -591,7 +591,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
