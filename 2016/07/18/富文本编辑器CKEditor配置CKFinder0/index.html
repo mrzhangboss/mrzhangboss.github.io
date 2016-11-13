@@ -70,7 +70,7 @@
 				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -86,7 +86,7 @@
  					
 					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="Search" />
 					</form>
 					
 					</li>
@@ -108,14 +108,14 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 發表於 2016-07-18</time>
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目錄</strong>
+			<strong class="toc-title">Contents</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#我用的是4-5-1这个版本，的确很好用，只是引用了一个js文件就可以实现。"><span class="toc-number">1.</span> <span class="toc-text">我用的是4.5.1这个版本，的确很好用，只是引用了一个js文件就可以实现。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#只要通过上面上面几个步骤就能实现富文本编辑器，但是点开图片上传功能，发现只有上传url的功能，并不能本地上传图片，百度了一下发现由于安全性问题CKEditor没有上传功能，只有安上CKFinder才能实现上传功能，于是我在官网下了ckfinder-aspnet-2-5-0-1-同CKEditor一样引用JS文件（只要引用ckfinder-js"><span class="toc-number">2.</span> <span class="toc-text">只要通过上面上面几个步骤就能实现富文本编辑器，但是点开图片上传功能，发现只有上传url的功能，并不能本地上传图片，百度了一下发现由于安全性问题CKEditor没有上传功能，只有安上CKFinder才能实现上传功能，于是我在官网下了ckfinder__aspnet_2.5.0.1,同CKEditor一样引用JS文件（只要引用ckfinder.js)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#接下来要配置CKEditor来让CKFinder引用进来，在CKEditor文件夹下config-js在CKEDITOR-editorConfig-function-config-方法中添加如下代码："><span class="toc-number">3.</span> <span class="toc-text">接下来要配置CKEditor来让CKFinder引用进来，在CKEditor文件夹下config.js在CKEDITOR.editorConfig = function (config) {};方法中添加如下代码：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#注意在配置Url的时候要修改成相对于网站本地网站磁盘文件路径，比如说，你的网址是http-example-com-cn-你把ckfinder文件夹放在Admin下的Editor文件夹，那么所有url要改成下面类似的格式"><span class="toc-number">3.1.</span> <span class="toc-text">注意在配置Url的时候要修改成相对于网站本地网站磁盘文件路径，比如说，你的网址是http://example.com.cn ,你把ckfinder文件夹放在Admin下的Editor文件夹，那么所有url要改成下面类似的格式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#否则会报404错误，"><span class="toc-number">3.2.</span> <span class="toc-text">否则会报404错误，</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#最后一步是修改一个函数让所有人能看到服务器上传文件夹里面的文件，在ckfinder文件夹下面的cofig-ascx文件，找到-CheckAuthentication函数将返回值改成true"><span class="toc-number">3.3.</span> <span class="toc-text">最后一步是修改一个函数让所有人能看到服务器上传文件夹里面的文件，在ckfinder文件夹下面的cofig.ascx文件，找到 CheckAuthentication函数将返回值改成true</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#—–"><span class="toc-number"></span> <span class="toc-text">—–</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#PS："><span class="toc-number">1.</span> <span class="toc-text">PS：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#我是在在VS里面进行调试的，由于VS的IIS在调试的时候不允许对磁盘文件的路由地址访问，就是CKFinder通过ckfinder-html这个html来实现上传图片的功能，但是这个在调试的时候VS无法访问这个文件，所以一直报404错误，可以修改IIS来允许IIS访问磁盘文件，步骤如下："><span class="toc-number">1.1.</span> <span class="toc-text">我是在在VS里面进行调试的，由于VS的IIS在调试的时候不允许对磁盘文件的路由地址访问，就是CKFinder通过ckfinder.html这个html来实现上传图片的功能，但是这个在调试的时候VS无法访问这个文件，所以一直报404错误，可以修改IIS来允许IIS访问磁盘文件，步骤如下：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如果你是用MVC进行表单传值的话，你必须在post方法上面添加-ValidateInput-false-属性，如果不这样的话就会报下面的错"><span class="toc-number">2.</span> <span class="toc-text">如果你是用MVC进行表单传值的话，你必须在post方法上面添加 [ValidateInput(false)] 属性，如果不这样的话就会报下面的错</span></a></li></ol>
 		
@@ -210,22 +210,22 @@
 
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目錄</strong>
+  <strong class="toc-title">Contents</strong>
  
  <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#我用的是4-5-1这个版本，的确很好用，只是引用了一个js文件就可以实现。"><span class="toc-number">1.</span> <span class="toc-text">我用的是4.5.1这个版本，的确很好用，只是引用了一个js文件就可以实现。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#只要通过上面上面几个步骤就能实现富文本编辑器，但是点开图片上传功能，发现只有上传url的功能，并不能本地上传图片，百度了一下发现由于安全性问题CKEditor没有上传功能，只有安上CKFinder才能实现上传功能，于是我在官网下了ckfinder-aspnet-2-5-0-1-同CKEditor一样引用JS文件（只要引用ckfinder-js"><span class="toc-number">2.</span> <span class="toc-text">只要通过上面上面几个步骤就能实现富文本编辑器，但是点开图片上传功能，发现只有上传url的功能，并不能本地上传图片，百度了一下发现由于安全性问题CKEditor没有上传功能，只有安上CKFinder才能实现上传功能，于是我在官网下了ckfinder__aspnet_2.5.0.1,同CKEditor一样引用JS文件（只要引用ckfinder.js)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#接下来要配置CKEditor来让CKFinder引用进来，在CKEditor文件夹下config-js在CKEDITOR-editorConfig-function-config-方法中添加如下代码："><span class="toc-number">3.</span> <span class="toc-text">接下来要配置CKEditor来让CKFinder引用进来，在CKEditor文件夹下config.js在CKEDITOR.editorConfig = function (config) {};方法中添加如下代码：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#注意在配置Url的时候要修改成相对于网站本地网站磁盘文件路径，比如说，你的网址是http-example-com-cn-你把ckfinder文件夹放在Admin下的Editor文件夹，那么所有url要改成下面类似的格式"><span class="toc-number">3.1.</span> <span class="toc-text">注意在配置Url的时候要修改成相对于网站本地网站磁盘文件路径，比如说，你的网址是http://example.com.cn ,你把ckfinder文件夹放在Admin下的Editor文件夹，那么所有url要改成下面类似的格式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#否则会报404错误，"><span class="toc-number">3.2.</span> <span class="toc-text">否则会报404错误，</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#最后一步是修改一个函数让所有人能看到服务器上传文件夹里面的文件，在ckfinder文件夹下面的cofig-ascx文件，找到-CheckAuthentication函数将返回值改成true"><span class="toc-number">3.3.</span> <span class="toc-text">最后一步是修改一个函数让所有人能看到服务器上传文件夹里面的文件，在ckfinder文件夹下面的cofig.ascx文件，找到 CheckAuthentication函数将返回值改成true</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#—–"><span class="toc-number"></span> <span class="toc-text">—–</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#PS："><span class="toc-number">1.</span> <span class="toc-text">PS：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#我是在在VS里面进行调试的，由于VS的IIS在调试的时候不允许对磁盘文件的路由地址访问，就是CKFinder通过ckfinder-html这个html来实现上传图片的功能，但是这个在调试的时候VS无法访问这个文件，所以一直报404错误，可以修改IIS来允许IIS访问磁盘文件，步骤如下："><span class="toc-number">1.1.</span> <span class="toc-text">我是在在VS里面进行调试的，由于VS的IIS在调试的时候不允许对磁盘文件的路由地址访问，就是CKFinder通过ckfinder.html这个html来实现上传图片的功能，但是这个在调试的时候VS无法访问这个文件，所以一直报404错误，可以修改IIS来允许IIS访问磁盘文件，步骤如下：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如果你是用MVC进行表单传值的话，你必须在post方法上面添加-ValidateInput-false-属性，如果不这样的话就会报下面的错"><span class="toc-number">2.</span> <span class="toc-text">如果你是用MVC进行表单传值的话，你必须在post方法上面添加 [ValidateInput(false)] 属性，如果不这样的话就会报下面的错</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
 
   
 <div class="github-card">
-<p class="asidetitle">Github 名片</p>
+<p class="asidetitle">Github Card</p>
 <div class="github-card" data-github="mrzhangboss" data-width="220" data-height="119" data-theme="medium">
 <script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
 </div>
@@ -237,7 +237,7 @@
 
   
 <div class="tagslist">
-	<p class="asidetitle">標簽</p>
+	<p class="asidetitle">Tags</p>
 		<ul class="clearfix">
 		
 			
@@ -325,7 +325,7 @@
 
 
   <div class="linkslist">
-  <p class="asidetitle">友情鏈接</p>
+  <p class="asidetitle">Links</p>
     <ul>
         
           <li>
@@ -341,11 +341,11 @@
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 訂閱</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">新浪微博</p>
+  <p class="asidetitle">Weibo</p>
     <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5364356330&verifier=&dpc=1"></iframe>
 </div>
 
@@ -618,7 +618,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
