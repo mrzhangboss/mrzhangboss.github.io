@@ -49,7 +49,7 @@
 				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -65,7 +65,7 @@
  					
 					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
 					</form>
 					
 					</li>
@@ -87,14 +87,14 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 發表於 2016-07-18</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
+			<strong class="toc-title">文章目錄</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#首先谈谈自己对EF的接触的过程吧，最先接触EF只是因为EF支持从数据库把关系扒下来，可以省掉自己写Select、Update、Insert这些SQL语句，而且修改非常方便，后来在使用的过程中发现导航属性这个关系，然后才慢慢知道数据库的索引是什么，由于自己接管的是大学生社团的数据库，大多时候创建者并不会考虑表的联系，一般创个主键就完事了（顺便吐槽一句，握草，数据库的表名和列名是什么鬼全用拼音首字母，为了兼容前面的内容我们还得花一半时间猜你们的列名，简直醉了，除了ID这个英文他们会，你们的英语是体育老师教的吗？？？）言归正传，用EF的确学到了对数据库表的的建立的理解，毕竟自己刚学数据库的时候就是把所有的字段塞到一张表里面，刚开始自己使用EF从数据库拔下来的表然后修改实体的关系的数据（感觉其实就是使用EF的EMDX的Code-First），使用这个并没有出现很多问题，后来又接触完整的Code-First，就是直接用代码生成数据库，虽然中间遇到无数的BUG但是这些BUG让我对数据库和EF的关系有了更深的理解，话不多说，直接上BUG。"><span class="toc-number">1.</span> <span class="toc-text">首先谈谈自己对EF的接触的过程吧，最先接触EF只是因为EF支持从数据库把关系扒下来，可以省掉自己写Select、Update、Insert这些SQL语句，而且修改非常方便，后来在使用的过程中发现导航属性这个关系，然后才慢慢知道数据库的索引是什么，由于自己接管的是大学生社团的数据库，大多时候创建者并不会考虑表的联系，一般创个主键就完事了（顺便吐槽一句，握草，数据库的表名和列名是什么鬼全用拼音首字母，为了兼容前面的内容我们还得花一半时间猜你们的列名，简直醉了，除了ID这个英文他们会，你们的英语是体育老师教的吗？？？）言归正传，用EF的确学到了对数据库表的的建立的理解，毕竟自己刚学数据库的时候就是把所有的字段塞到一张表里面，刚开始自己使用EF从数据库拔下来的表然后修改实体的关系的数据（感觉其实就是使用EF的EMDX的Code First），使用这个并没有出现很多问题，后来又接触完整的Code First，就是直接用代码生成数据库，虽然中间遇到无数的BUG但是这些BUG让我对数据库和EF的关系有了更深的理解，话不多说，直接上BUG。</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-EF未能确定外键，请用注解属性或Fluent-API标记外键"><span class="toc-number"></span> <span class="toc-text">1.    EF未能确定外键，请用注解属性或Fluent API标记外键</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#首先ID是独一无二的，而Name不是（重名的有很多），当我们给ID套上主键的时候，这时候插入这张表的ID只能有一种（这是数据库的一种约束，当然你可以不选择这种约束），一个人除了姓名还有其他东西，假如这时我们还有帮他加入性别这个信息，我们可以修改上一张表添加一个字段，也可以新建一张表存贮性别这个信息（当然在实际生活中只用一张表存一个信息很少），我们新建的这张表是这样的，"><span class="toc-number">1.</span> <span class="toc-text">首先ID是独一无二的，而Name不是（重名的有很多），当我们给ID套上主键的时候，这时候插入这张表的ID只能有一种（这是数据库的一种约束，当然你可以不选择这种约束），一个人除了姓名还有其他东西，假如这时我们还有帮他加入性别这个信息，我们可以修改上一张表添加一个字段，也可以新建一张表存贮性别这个信息（当然在实际生活中只用一张表存一个信息很少），我们新建的这张表是这样的，</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#ps：说到外键不能为空我插一句，有些教科书上说外键不能为空也是对的，外键只是一个列名，当这个列名不唯一（也就是不为主键的时候）这是外键可以为空，为空的含义是不确定对应主表的值。"><span class="toc-number">1.0.1.</span> <span class="toc-text">ps：说到外键不能为空我插一句，有些教科书上说外键不能为空也是对的，外键只是一个列名，当这个列名不唯一（也就是不为主键的时候）这是外键可以为空，为空的含义是不确定对应主表的值。</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#注假设在EF中没有给属性添加-Key-注解属性或在Fluent-API中声明一个属性为主键的话，EF会自动将有ID后缀的属性设置为主键并让他为标志字段自增，还有表中没有主键无法导入到EF中。"><span class="toc-number">1.0.2.</span> <span class="toc-text">注假设在EF中没有给属性添加[Key]注解属性或在Fluent API中声明一个属性为主键的话，EF会自动将有ID后缀的属性设置为主键并让他为标志字段自增，还有表中没有主键无法导入到EF中。</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#BUG：模型验证错误····多重性与关系“········”中-Role“··············”中的引用约束冲突。因为-Dependent-Role-中的所有属性都不可以为-null，Principal-Role-的多重性必须为“1”。"><span class="toc-number">2.</span> <span class="toc-text">BUG：模型验证错误····多重性与关系“········”中 Role“··············”中的引用约束冲突。因为 Dependent Role 中的所有属性都不可以为 null，Principal Role 的多重性必须为“1”。</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#里面值类型不能为空（如果没有初始化时为0），所以EF报错，你要么给外键加上Required标记指定它必须存在，要么给一个可为空的int型，像这个示例里面外键PersonID是必须的，然后有些对应是0-1-对-1，所以这时候就疑惑了我们怎么给外键赋值，我们有一种办法命名一种类型他的值可以int也可以为空，但是EF会认识我们这种独特的外键吗？还好EF早想到了这点，有一种泛型可以为空也可以为你想要的类型，这种就是Nullable-lt-T-gt-在这个方法中我们只要将外键PersonID的类型换成-这个"><span class="toc-number"></span> <span class="toc-text">里面值类型不能为空（如果没有初始化时为0），所以EF报错，你要么给外键加上Required标记指定它必须存在，要么给一个可为空的int型，像这个示例里面外键PersonID是必须的，然后有些对应是0-1 对 1，所以这时候就疑惑了我们怎么给外键赋值，我们有一种办法命名一种类型他的值可以int也可以为空，但是EF会认识我们这种独特的外键吗？还好EF早想到了这点，有一种泛型可以为空也可以为你想要的类型，这种就是Nullable<T> ,在这个方法中我们只要将外键PersonID的类型换成 这个</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#自己本身与数据库类型的对应，C"><span class="toc-number"></span> <span class="toc-text">自己本身与数据库类型的对应，C</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#BUG：······-引用约束的-Dependent-Role-中所有属性的类型都必须与-Principal-Role-中相应的属性类型相同。引用约束“·····”中，实体“····”的属性“····”的类型与实体“·····”的属性“·····”的类型不匹配。"><span class="toc-number">1.</span> <span class="toc-text">BUG：······: 引用约束的 Dependent Role 中所有属性的类型都必须与 Principal Role 中相应的属性类型相同。引用约束“·····”中，实体“····”的属性“····”的类型与实体“·····”的属性“·····”的类型不匹配。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ps：导航属性是指对象，比如说Person类实例person，而外键是指存贮在数据库里面的一个特殊的列名。"><span class="toc-number">2.</span> <span class="toc-text">ps：导航属性是指对象，比如说Person类实例person，而外键是指存贮在数据库里面的一个特殊的列名。</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#充分认识导航属性和外键是搭建一个扎实的数据库结构的基础，在学习和应用EF的过程中也是了解数据库的结构的学习过程，EF或许在运行速度方法上比一般的SQL语句要慢，但是用EF我们可以更加方便的搭建一个好的数据体系，搭建一个好的数据体系可以让你在完成项目的时候事半功倍。"><span class="toc-number"></span> <span class="toc-text">充分认识导航属性和外键是搭建一个扎实的数据库结构的基础，在学习和应用EF的过程中也是了解数据库的结构的学习过程，EF或许在运行速度方法上比一般的SQL语句要慢，但是用EF我们可以更加方便的搭建一个好的数据体系，搭建一个好的数据体系可以让你在完成项目的时候事半功倍。</span></a>
 		
@@ -228,22 +228,22 @@ public SexInfo{
 
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">Contents</strong>
+  <strong class="toc-title">文章目錄</strong>
  
  <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#首先谈谈自己对EF的接触的过程吧，最先接触EF只是因为EF支持从数据库把关系扒下来，可以省掉自己写Select、Update、Insert这些SQL语句，而且修改非常方便，后来在使用的过程中发现导航属性这个关系，然后才慢慢知道数据库的索引是什么，由于自己接管的是大学生社团的数据库，大多时候创建者并不会考虑表的联系，一般创个主键就完事了（顺便吐槽一句，握草，数据库的表名和列名是什么鬼全用拼音首字母，为了兼容前面的内容我们还得花一半时间猜你们的列名，简直醉了，除了ID这个英文他们会，你们的英语是体育老师教的吗？？？）言归正传，用EF的确学到了对数据库表的的建立的理解，毕竟自己刚学数据库的时候就是把所有的字段塞到一张表里面，刚开始自己使用EF从数据库拔下来的表然后修改实体的关系的数据（感觉其实就是使用EF的EMDX的Code-First），使用这个并没有出现很多问题，后来又接触完整的Code-First，就是直接用代码生成数据库，虽然中间遇到无数的BUG但是这些BUG让我对数据库和EF的关系有了更深的理解，话不多说，直接上BUG。"><span class="toc-number">1.</span> <span class="toc-text">首先谈谈自己对EF的接触的过程吧，最先接触EF只是因为EF支持从数据库把关系扒下来，可以省掉自己写Select、Update、Insert这些SQL语句，而且修改非常方便，后来在使用的过程中发现导航属性这个关系，然后才慢慢知道数据库的索引是什么，由于自己接管的是大学生社团的数据库，大多时候创建者并不会考虑表的联系，一般创个主键就完事了（顺便吐槽一句，握草，数据库的表名和列名是什么鬼全用拼音首字母，为了兼容前面的内容我们还得花一半时间猜你们的列名，简直醉了，除了ID这个英文他们会，你们的英语是体育老师教的吗？？？）言归正传，用EF的确学到了对数据库表的的建立的理解，毕竟自己刚学数据库的时候就是把所有的字段塞到一张表里面，刚开始自己使用EF从数据库拔下来的表然后修改实体的关系的数据（感觉其实就是使用EF的EMDX的Code First），使用这个并没有出现很多问题，后来又接触完整的Code First，就是直接用代码生成数据库，虽然中间遇到无数的BUG但是这些BUG让我对数据库和EF的关系有了更深的理解，话不多说，直接上BUG。</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-EF未能确定外键，请用注解属性或Fluent-API标记外键"><span class="toc-number"></span> <span class="toc-text">1.    EF未能确定外键，请用注解属性或Fluent API标记外键</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#首先ID是独一无二的，而Name不是（重名的有很多），当我们给ID套上主键的时候，这时候插入这张表的ID只能有一种（这是数据库的一种约束，当然你可以不选择这种约束），一个人除了姓名还有其他东西，假如这时我们还有帮他加入性别这个信息，我们可以修改上一张表添加一个字段，也可以新建一张表存贮性别这个信息（当然在实际生活中只用一张表存一个信息很少），我们新建的这张表是这样的，"><span class="toc-number">1.</span> <span class="toc-text">首先ID是独一无二的，而Name不是（重名的有很多），当我们给ID套上主键的时候，这时候插入这张表的ID只能有一种（这是数据库的一种约束，当然你可以不选择这种约束），一个人除了姓名还有其他东西，假如这时我们还有帮他加入性别这个信息，我们可以修改上一张表添加一个字段，也可以新建一张表存贮性别这个信息（当然在实际生活中只用一张表存一个信息很少），我们新建的这张表是这样的，</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#ps：说到外键不能为空我插一句，有些教科书上说外键不能为空也是对的，外键只是一个列名，当这个列名不唯一（也就是不为主键的时候）这是外键可以为空，为空的含义是不确定对应主表的值。"><span class="toc-number">1.0.1.</span> <span class="toc-text">ps：说到外键不能为空我插一句，有些教科书上说外键不能为空也是对的，外键只是一个列名，当这个列名不唯一（也就是不为主键的时候）这是外键可以为空，为空的含义是不确定对应主表的值。</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#注假设在EF中没有给属性添加-Key-注解属性或在Fluent-API中声明一个属性为主键的话，EF会自动将有ID后缀的属性设置为主键并让他为标志字段自增，还有表中没有主键无法导入到EF中。"><span class="toc-number">1.0.2.</span> <span class="toc-text">注假设在EF中没有给属性添加[Key]注解属性或在Fluent API中声明一个属性为主键的话，EF会自动将有ID后缀的属性设置为主键并让他为标志字段自增，还有表中没有主键无法导入到EF中。</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#BUG：模型验证错误····多重性与关系“········”中-Role“··············”中的引用约束冲突。因为-Dependent-Role-中的所有属性都不可以为-null，Principal-Role-的多重性必须为“1”。"><span class="toc-number">2.</span> <span class="toc-text">BUG：模型验证错误····多重性与关系“········”中 Role“··············”中的引用约束冲突。因为 Dependent Role 中的所有属性都不可以为 null，Principal Role 的多重性必须为“1”。</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#里面值类型不能为空（如果没有初始化时为0），所以EF报错，你要么给外键加上Required标记指定它必须存在，要么给一个可为空的int型，像这个示例里面外键PersonID是必须的，然后有些对应是0-1-对-1，所以这时候就疑惑了我们怎么给外键赋值，我们有一种办法命名一种类型他的值可以int也可以为空，但是EF会认识我们这种独特的外键吗？还好EF早想到了这点，有一种泛型可以为空也可以为你想要的类型，这种就是Nullable-lt-T-gt-在这个方法中我们只要将外键PersonID的类型换成-这个"><span class="toc-number"></span> <span class="toc-text">里面值类型不能为空（如果没有初始化时为0），所以EF报错，你要么给外键加上Required标记指定它必须存在，要么给一个可为空的int型，像这个示例里面外键PersonID是必须的，然后有些对应是0-1 对 1，所以这时候就疑惑了我们怎么给外键赋值，我们有一种办法命名一种类型他的值可以int也可以为空，但是EF会认识我们这种独特的外键吗？还好EF早想到了这点，有一种泛型可以为空也可以为你想要的类型，这种就是Nullable<T> ,在这个方法中我们只要将外键PersonID的类型换成 这个</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#自己本身与数据库类型的对应，C"><span class="toc-number"></span> <span class="toc-text">自己本身与数据库类型的对应，C</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#BUG：······-引用约束的-Dependent-Role-中所有属性的类型都必须与-Principal-Role-中相应的属性类型相同。引用约束“·····”中，实体“····”的属性“····”的类型与实体“·····”的属性“·····”的类型不匹配。"><span class="toc-number">1.</span> <span class="toc-text">BUG：······: 引用约束的 Dependent Role 中所有属性的类型都必须与 Principal Role 中相应的属性类型相同。引用约束“·····”中，实体“····”的属性“····”的类型与实体“·····”的属性“·····”的类型不匹配。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ps：导航属性是指对象，比如说Person类实例person，而外键是指存贮在数据库里面的一个特殊的列名。"><span class="toc-number">2.</span> <span class="toc-text">ps：导航属性是指对象，比如说Person类实例person，而外键是指存贮在数据库里面的一个特殊的列名。</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#充分认识导航属性和外键是搭建一个扎实的数据库结构的基础，在学习和应用EF的过程中也是了解数据库的结构的学习过程，EF或许在运行速度方法上比一般的SQL语句要慢，但是用EF我们可以更加方便的搭建一个好的数据体系，搭建一个好的数据体系可以让你在完成项目的时候事半功倍。"><span class="toc-number"></span> <span class="toc-text">充分认识导航属性和外键是搭建一个扎实的数据库结构的基础，在学习和应用EF的过程中也是了解数据库的结构的学习过程，EF或许在运行速度方法上比一般的SQL语句要慢，但是用EF我们可以更加方便的搭建一个好的数据体系，搭建一个好的数据体系可以让你在完成项目的时候事半功倍。</span></a>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
 <aside class="clearfix">
 
   
 <div class="github-card">
-<p class="asidetitle">Github Card</p>
+<p class="asidetitle">Github 名片</p>
 <div class="github-card" data-github="mrzhangboss" data-width="220" data-height="119" data-theme="medium">
 <script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
 </div>
@@ -255,7 +255,7 @@ public SexInfo{
 
   
 <div class="tagslist">
-	<p class="asidetitle">Tags</p>
+	<p class="asidetitle">標簽</p>
 		<ul class="clearfix">
 		
 			
@@ -343,7 +343,7 @@ public SexInfo{
 
 
   <div class="linkslist">
-  <p class="asidetitle">Links</p>
+  <p class="asidetitle">友情鏈接</p>
     <ul>
         
           <li>
@@ -359,11 +359,11 @@ public SexInfo{
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 訂閱</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">Weibo</p>
+  <p class="asidetitle">新浪微博</p>
     <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5364356330&verifier=&dpc=1"></iframe>
 </div>
 
@@ -636,7 +636,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
