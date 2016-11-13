@@ -31,7 +31,7 @@ Python对正则匹配的库是re，re是基于Perl所用的正则表达式,并�
 第一种是知道文本内容直接使用普通字符搜索出来,比如要从abcdefg中搜到cd
 第二种就是模糊查询,比如我想从英文中找一个数字,一般借助特殊符号(.+*?)或者转义符号(\w\d等)
 第三种就是结合前两种,比如我记得一个单词的前两个字母想把那个单词">
-<meta property="og:updated_time" content="2016-07-18T08:16:36.000Z">
+<meta property="og:updated_time" content="2016-07-18T08:16:36.375Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="正则表达式(regular expression)">
 <meta name="twitter:description" content="re
@@ -70,7 +70,7 @@ Python对正则匹配的库是re，re是基于Perl所用的正则表达式,并�
 				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -86,7 +86,7 @@ Python对正则匹配的库是re，re是基于Perl所用的正则表达式,并�
  					
 					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
 					</form>
 					
 					</li>
@@ -108,14 +108,14 @@ Python对正则匹配的库是re，re是基于Perl所用的正则表达式,并�
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
+			<strong class="toc-title">文章目录</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#re"><span class="toc-number">1.</span> <span class="toc-text">re</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#正则里面我觉得很重要的一个概念就是组概念-当我们的文本比较复杂的时候将其分成多个小组是利于我们正则的后期维护和改进"><span class="toc-number">1.0.0.0.1.</span> <span class="toc-text">正则里面我觉得很重要的一个概念就是组概念,当我们的文本比较复杂的时候将其分成多个小组是利于我们正则的后期维护和改进</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#正则的断言"><span class="toc-number">1.0.1.</span> <span class="toc-text">正则的断言</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#举个例子"><span class="toc-number">1.0.1.1.</span> <span class="toc-text">举个例子</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#两个字符串a1和a-1-第一个我们称为A-第二个我们称他为B-假如我们想把数字和字母分出来-对于B来说-很简单因为数字和字母之间有一个空格-我们可以直接使用字符自带的split就行-但是对于A来说-就不那么简单了"><span class="toc-number">1.0.2.</span> <span class="toc-text">两个字符串a1和a 1,第一个我们称为A,第二个我们称他为B,假如我们想把数字和字母分出来,对于B来说,很简单因为数字和字母之间有一个空格,我们可以直接使用字符自带的split就行,但是对于A来说,就不那么简单了.</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#字母a和数字1中间没有字符-我们必须把字母和数字之间的”空格”给选择出来-这时候就可以用到断言了"><span class="toc-number">1.0.2.1.</span> <span class="toc-text">字母a和数字1中间没有字符,我们必须把字母和数字之间的”空格”给选择出来,这时候就可以用到断言了.</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#遗憾的是由于python的正则并不把隐形的空格当做字符-所以我们不能简单的使用正则的r-split方法-选择字符分割-直接将字符串分解开"><span class="toc-number">1.0.3.</span> <span class="toc-text">遗憾的是由于python的正则并不把隐形的空格当做字符,所以我们不能简单的使用正则的r.split方法(选择字符分割)直接将字符串分解开.</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#我们就得写几步"><span class="toc-number">1.0.3.1.</span> <span class="toc-text">我们就得写几步</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第一先把空格换成-或其他"><span class="toc-number">1.0.4.</span> <span class="toc-text">第一先把空格换成 $$$(或其他)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#然后在分割"><span class="toc-number">1.0.5.</span> <span class="toc-text">然后在分割</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#正则的变量"><span class="toc-number">1.0.6.</span> <span class="toc-text">正则的变量</span></a></li></ol></li></ol></li></ol>
 		
@@ -213,9 +213,9 @@ VERBOSE  [简X]  --------------神器,会无视代码中的注释空格和换行
 
 
 <div class="next">
-<a href="/2016/07/18/泛型继承的理解0/"  title="泛型继承的理解">
+<a href="/2016/07/18/深入···计算机0/"  title="深入···计算机">
  <strong>下一篇：</strong><br/> 
- <span>泛型继承的理解
+ <span>深入···计算机
 </span>
 </a>
 </div>
@@ -229,22 +229,22 @@ VERBOSE  [简X]  --------------神器,会无视代码中的注释空格和换行
 
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">Contents</strong>
+  <strong class="toc-title">文章目录</strong>
  
  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#re"><span class="toc-number">1.</span> <span class="toc-text">re</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#正则里面我觉得很重要的一个概念就是组概念-当我们的文本比较复杂的时候将其分成多个小组是利于我们正则的后期维护和改进"><span class="toc-number">1.0.0.0.1.</span> <span class="toc-text">正则里面我觉得很重要的一个概念就是组概念,当我们的文本比较复杂的时候将其分成多个小组是利于我们正则的后期维护和改进</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#正则的断言"><span class="toc-number">1.0.1.</span> <span class="toc-text">正则的断言</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#举个例子"><span class="toc-number">1.0.1.1.</span> <span class="toc-text">举个例子</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#两个字符串a1和a-1-第一个我们称为A-第二个我们称他为B-假如我们想把数字和字母分出来-对于B来说-很简单因为数字和字母之间有一个空格-我们可以直接使用字符自带的split就行-但是对于A来说-就不那么简单了"><span class="toc-number">1.0.2.</span> <span class="toc-text">两个字符串a1和a 1,第一个我们称为A,第二个我们称他为B,假如我们想把数字和字母分出来,对于B来说,很简单因为数字和字母之间有一个空格,我们可以直接使用字符自带的split就行,但是对于A来说,就不那么简单了.</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#字母a和数字1中间没有字符-我们必须把字母和数字之间的”空格”给选择出来-这时候就可以用到断言了"><span class="toc-number">1.0.2.1.</span> <span class="toc-text">字母a和数字1中间没有字符,我们必须把字母和数字之间的”空格”给选择出来,这时候就可以用到断言了.</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#遗憾的是由于python的正则并不把隐形的空格当做字符-所以我们不能简单的使用正则的r-split方法-选择字符分割-直接将字符串分解开"><span class="toc-number">1.0.3.</span> <span class="toc-text">遗憾的是由于python的正则并不把隐形的空格当做字符,所以我们不能简单的使用正则的r.split方法(选择字符分割)直接将字符串分解开.</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#我们就得写几步"><span class="toc-number">1.0.3.1.</span> <span class="toc-text">我们就得写几步</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第一先把空格换成-或其他"><span class="toc-number">1.0.4.</span> <span class="toc-text">第一先把空格换成 $$$(或其他)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#然后在分割"><span class="toc-number">1.0.5.</span> <span class="toc-text">然后在分割</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#正则的变量"><span class="toc-number">1.0.6.</span> <span class="toc-text">正则的变量</span></a></li></ol></li></ol></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
 <div class="github-card">
-<p class="asidetitle">Github Card</p>
+<p class="asidetitle">Github 名片</p>
 <div class="github-card" data-github="mrzhangboss" data-width="220" data-height="119" data-theme="medium">
 <script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
 </div>
@@ -256,7 +256,7 @@ VERBOSE  [简X]  --------------神器,会无视代码中的注释空格和换行
 
   
 <div class="tagslist">
-	<p class="asidetitle">Tags</p>
+	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
 		
 			
@@ -280,6 +280,10 @@ VERBOSE  [简X]  --------------神器,会无视代码中的注释空格和换行
 			
 		
 			
+				<li><a href="/tags/工作/" title="工作">工作<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/patch/" title="patch">patch<sup>1</sup></a></li>
 			
 		
@@ -288,47 +292,15 @@ VERBOSE  [简X]  --------------神器,会无视代码中的注释空格和换行
 			
 		
 			
-				<li><a href="/tags/TDD/" title="TDD">TDD<sup>1</sup></a></li>
+				<li><a href="/tags/ansible/" title="ansible">ansible<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/impression/" title="impression">impression<sup>1</sup></a></li>
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/blog/" title="blog">blog<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/mock/" title="mock">mock<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/js/" title="js">js<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/心得/" title="心得">心得<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/技术栈/" title="技术栈">技术栈<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/conclusion/" title="conclusion">conclusion<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/工作/" title="工作">工作<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/工具心得/" title="工具心得">工具心得<sup>1</sup></a></li>
+				<li><a href="/tags/负载均衡/" title="负载均衡">负载均衡<sup>1</sup></a></li>
 			
 		
 			
@@ -336,7 +308,35 @@ VERBOSE  [简X]  --------------神器,会无视代码中的注释空格和换行
 			
 		
 			
-				<li><a href="/tags/ansible/" title="ansible">ansible<sup>1</sup></a></li>
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/心得/" title="心得">心得<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/工具心得/" title="工具心得">工具心得<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/TDD/" title="TDD">TDD<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/conclusion/" title="conclusion">conclusion<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/blog/" title="blog">blog<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/js/" title="js">js<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/编程思想/" title="编程思想">编程思想<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -344,7 +344,7 @@ VERBOSE  [简X]  --------------神器,会无视代码中的注释空格和换行
 
 
   <div class="linkslist">
-  <p class="asidetitle">Links</p>
+  <p class="asidetitle">友情链接</p>
     <ul>
         
           <li>
@@ -360,11 +360,11 @@ VERBOSE  [简X]  --------------神器,会无视代码中的注释空格和换行
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">Weibo</p>
+  <p class="asidetitle">新浪微博</p>
     <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5364356330&verifier=&dpc=1"></iframe>
 </div>
 
@@ -637,7 +637,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
