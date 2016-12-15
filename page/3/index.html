@@ -45,7 +45,7 @@
 				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -61,7 +61,7 @@
  					
 					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
 					</form>
 					
 					</li>
@@ -78,23 +78,24 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/07/18/pandas的DataFrame和Series0/" title="pandas的DataFrame和Series" itemprop="url">pandas的DataFrame和Series</a>
+      <a href="/2016/07/18/ 阿里云服务器初体验0/" title="阿里云服务器初体验" itemprop="url">阿里云服务器初体验</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <blockquote>
-<p>pandas的基本数据结构是DataFrame和Series,DataFrame可以看做是一张表<br>,Series可以看做一个有序队列,我们队数据的处理就通过操作者两个东西来<br>实现的</p>
-</blockquote>
-<p>对于</p>
+        <h3 id="申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。"><a href="#申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。" class="headerlink" title="申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。"></a>申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。</h3><h3 id="1-用户名和密码"><a href="#1-用户名和密码" class="headerlink" title="1.用户名和密码"></a>1.用户名和密码</h3><p>找了半天没有找到那个是用户名，试了实例的id，没有用，最后终于在登录帮助名里面找到了，用户名竟然是<code>root</code>！！！！,我用的是Ubuntu系统，说好的Ubuntu不提供root权限的呢，阿里还真会改造Linux系统<br>，但是我觉得用root登录还是不安全，我觉得新建一个用户吧</p>
+<p>在root权限下</p>
+<pre><code>useradd -s /bin/bash -r -m yourname
+</code></pre><p>解释一下，本来直接<code>useradd yourname</code> 就可以新建一个<code>yourname</code>账号，但是如果用你新建的用户登录的话，你无法使用Tab键和上下左右键 ，你键入 <code>echo $SHELL</code>，会发现是<code>/bin/sh</code>，因为Ubuntu默认创建账号使用<code>/bin/sh</code>，假如你没加这个可以删掉 用这个<code>userdel yourname</code>重新来一遍，搞完这个只是创建了一个普通用户，你使用不了sudo获取最高权限，这个怎么办，很简单在<code>/etc/sudoers</code>里面找到<br>        root ALL=(ALL:ALL) ALL</p>
+<p>模仿它加上自己的账号名就可以了。</p>
 
         
         
@@ -114,7 +115,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/07/18/pandas的DataFrame和Series0/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/07/18/pandas的DataFrame和Series0/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/07/18/ 阿里云服务器初体验0/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/07/18/ 阿里云服务器初体验0/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -141,7 +142,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
     
   </p>
 </header>
@@ -195,7 +196,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
     
   </p>
 </header>
@@ -246,25 +247,20 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/07/18/ 阿里云服务器初体验0/" title="阿里云服务器初体验" itemprop="url">阿里云服务器初体验</a>
+      <a href="/2016/07/18/CLR0/" title="CLR" itemprop="url">CLR</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h3 id="申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。"><a href="#申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。" class="headerlink" title="申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。"></a>申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。</h3><h3 id="1-用户名和密码"><a href="#1-用户名和密码" class="headerlink" title="1.用户名和密码"></a>1.用户名和密码</h3><p>找了半天没有找到那个是用户名，试了实例的id，没有用，最后终于在登录帮助名里面找到了，用户名竟然是<code>root</code>！！！！,我用的是Ubuntu系统，说好的Ubuntu不提供root权限的呢，阿里还真会改造Linux系统<br>，但是我觉得用root登录还是不安全，我觉得新建一个用户吧</p>
-<p>在root权限下</p>
-<pre><code>useradd -s /bin/bash -r -m yourname
-</code></pre><p>解释一下，本来直接<code>useradd yourname</code> 就可以新建一个<code>yourname</code>账号，但是如果用你新建的用户登录的话，你无法使用Tab键和上下左右键 ，你键入 <code>echo $SHELL</code>，会发现是<code>/bin/sh</code>，因为Ubuntu默认创建账号使用<code>/bin/sh</code>，假如你没加这个可以删掉 用这个<code>userdel yourname</code>重新来一遍，搞完这个只是创建了一个普通用户，你使用不了sudo获取最高权限，这个怎么办，很简单在<code>/etc/sudoers</code>里面找到<br>        root ALL=(ALL:ALL) ALL</p>
-<p>模仿它加上自己的账号名就可以了。</p>
-
+        <h3 id="CLR—-Common-Language-Runtime"><a href="#CLR—-Common-Language-Runtime" class="headerlink" title="CLR—-Common Language Runtime"></a>CLR—-Common Language Runtime</h3>
         
         
         <p class="article-more-link">
@@ -283,7 +279,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/07/18/ 阿里云服务器初体验0/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/07/18/ 阿里云服务器初体验0/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/07/18/CLR0/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/07/18/CLR0/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -310,7 +306,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
     
   </p>
 </header>
@@ -376,7 +372,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
     
   </p>
 </header>
@@ -455,58 +451,6 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/07/18/CLR0/" title="CLR" itemprop="url">CLR</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
-		
-  <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="CLR—-Common-Language-Runtime"><a href="#CLR—-Common-Language-Runtime" class="headerlink" title="CLR—-Common Language Runtime"></a>CLR—-Common Language Runtime</h3>
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/07/18/CLR0/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/07/18/CLR0/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
       <a href="/2016/07/18/GitHub Education Pack0/" title="GitHub Education Pack" itemprop="url">GitHub Education Pack</a>
   </h1>
   <p class="article-author">By
@@ -514,7 +458,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
     
   </p>
 </header>
@@ -572,6 +516,135 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/07/18/EFCode First 导航属性0/" title="EFCode First 导航属性" itemprop="url">EFCode First 导航属性</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
+		
+  <p class="article-time">
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h4 id="首先谈谈自己对EF的接触的过程吧，最先接触EF只是因为EF支持从数据库把关系扒下来，可以省掉自己写Select、Update、Insert这些SQL语句，而且修改非常方便，后来在使用的过程中发现导航属性这个关系，然后才慢慢知道数据库的索引是什么，由于自己接管的是大学生社团的数据库，大多时候创建者并不会考虑表的联系，一般创个主键就完事了（顺便吐槽一句，握草，数据库的表名和列名是什么鬼全用拼音首字母，为了兼容前面的内容我们还得花一半时间猜你们的列名，简直醉了，除了ID这个英文他们会，你们的英语是体育老师教的吗？？？）言归正传，用EF的确学到了对数据库表的的建立的理解，毕竟自己刚学数据库的时候就是把所有的字段塞到一张表里面，刚开始自己使用EF从数据库拔下来的表然后修改实体的关系的数据（感觉其实就是使用EF的EMDX的Code-First），使用这个并没有出现很多问题，后来又接触完整的Code-First，就是直接用代码生成数据库，虽然中间遇到无数的BUG但是这些BUG让我对数据库和EF的关系有了更深的理解，话不多说，直接上BUG。"><a href="#首先谈谈自己对EF的接触的过程吧，最先接触EF只是因为EF支持从数据库把关系扒下来，可以省掉自己写Select、Update、Insert这些SQL语句，而且修改非常方便，后来在使用的过程中发现导航属性这个关系，然后才慢慢知道数据库的索引是什么，由于自己接管的是大学生社团的数据库，大多时候创建者并不会考虑表的联系，一般创个主键就完事了（顺便吐槽一句，握草，数据库的表名和列名是什么鬼全用拼音首字母，为了兼容前面的内容我们还得花一半时间猜你们的列名，简直醉了，除了ID这个英文他们会，你们的英语是体育老师教的吗？？？）言归正传，用EF的确学到了对数据库表的的建立的理解，毕竟自己刚学数据库的时候就是把所有的字段塞到一张表里面，刚开始自己使用EF从数据库拔下来的表然后修改实体的关系的数据（感觉其实就是使用EF的EMDX的Code-First），使用这个并没有出现很多问题，后来又接触完整的Code-First，就是直接用代码生成数据库，虽然中间遇到无数的BUG但是这些BUG让我对数据库和EF的关系有了更深的理解，话不多说，直接上BUG。" class="headerlink" title="首先谈谈自己对EF的接触的过程吧，最先接触EF只是因为EF支持从数据库把关系扒下来，可以省掉自己写Select、Update、Insert这些SQL语句，而且修改非常方便，后来在使用的过程中发现导航属性这个关系，然后才慢慢知道数据库的索引是什么，由于自己接管的是大学生社团的数据库，大多时候创建者并不会考虑表的联系，一般创个主键就完事了（顺便吐槽一句，握草，数据库的表名和列名是什么鬼全用拼音首字母，为了兼容前面的内容我们还得花一半时间猜你们的列名，简直醉了，除了ID这个英文他们会，你们的英语是体育老师教的吗？？？）言归正传，用EF的确学到了对数据库表的的建立的理解，毕竟自己刚学数据库的时候就是把所有的字段塞到一张表里面，刚开始自己使用EF从数据库拔下来的表然后修改实体的关系的数据（感觉其实就是使用EF的EMDX的Code First），使用这个并没有出现很多问题，后来又接触完整的Code First，就是直接用代码生成数据库，虽然中间遇到无数的BUG但是这些BUG让我对数据库和EF的关系有了更深的理解，话不多说，直接上BUG。"></a>首先谈谈自己对EF的接触的过程吧，最先接触EF只是因为EF支持从数据库把关系扒下来，可以省掉自己写Select、Update、Insert这些SQL语句，而且修改非常方便，后来在使用的过程中发现导航属性这个关系，然后才慢慢知道数据库的索引是什么，由于自己接管的是大学生社团的数据库，大多时候创建者并不会考虑表的联系，一般创个主键就完事了（顺便吐槽一句，握草，数据库的表名和列名是什么鬼全用拼音首字母，为了兼容前面的内容我们还得花一半时间猜你们的列名，简直醉了，除了ID这个英文他们会，你们的英语是体育老师教的吗？？？）言归正传，用EF的确学到了对数据库表的的建立的理解，毕竟自己刚学数据库的时候就是把所有的字段塞到一张表里面，刚开始自己使用EF从数据库拔下来的表然后修改实体的关系的数据（感觉其实就是使用EF的EMDX的Code First），使用这个并没有出现很多问题，后来又接触完整的<strong>Code First</strong>，就是直接用代码生成数据库，虽然中间遇到无数的BUG但是这些BUG让我对数据库和EF的关系有了更深的理解，话不多说，直接上BUG。</h4><hr>
+<h2 id="1-EF未能确定外键，请用注解属性或Fluent-API标记外键"><a href="#1-EF未能确定外键，请用注解属性或Fluent-API标记外键" class="headerlink" title="1.    EF未能确定外键，请用注解属性或Fluent API标记外键"></a>1.    EF未能确定外键，请用注解属性或Fluent API标记外键</h2><p>网上关于如何用代码的（<a href="http://www.cnblogs.com/Gyoung/archive/2013/01/22/2869782.html" target="_blank" rel="external">Fluent API或注解属性</a>）指定外键的文章有很多有很多。在这里我想谈谈对外键的理解，首先建立起一张主表</p>
+<table class="table table-bordered table-striped table-condensed"><br>主表<br><tr><br><th><br>列名<br></th><br><th><br>类型<br></th><br></tr><br><tr><br><br><td><br>ID<br></td><br><td><br>int<br></td><br></tr><br><tr><br><td><br>Name<br></td><br><td><br>nvarchar(50)<br></td><br></tr><br></table>
+
+
+<h4 id="首先ID是独一无二的，而Name不是（重名的有很多），当我们给ID套上主键的时候，这时候插入这张表的ID只能有一种（这是数据库的一种约束，当然你可以不选择这种约束），一个人除了姓名还有其他东西，假如这时我们还有帮他加入性别这个信息，我们可以修改上一张表添加一个字段，也可以新建一张表存贮性别这个信息（当然在实际生活中只用一张表存一个信息很少），我们新建的这张表是这样的，"><a href="#首先ID是独一无二的，而Name不是（重名的有很多），当我们给ID套上主键的时候，这时候插入这张表的ID只能有一种（这是数据库的一种约束，当然你可以不选择这种约束），一个人除了姓名还有其他东西，假如这时我们还有帮他加入性别这个信息，我们可以修改上一张表添加一个字段，也可以新建一张表存贮性别这个信息（当然在实际生活中只用一张表存一个信息很少），我们新建的这张表是这样的，" class="headerlink" title="首先ID是独一无二的，而Name不是（重名的有很多），当我们给ID套上主键的时候，这时候插入这张表的ID只能有一种（这是数据库的一种约束，当然你可以不选择这种约束），一个人除了姓名还有其他东西，假如这时我们还有帮他加入性别这个信息，我们可以修改上一张表添加一个字段，也可以新建一张表存贮性别这个信息（当然在实际生活中只用一张表存一个信息很少），我们新建的这张表是这样的，"></a>首先ID是独一无二的，而Name不是（重名的有很多），当我们给ID套上主键的时候，这时候插入这张表的ID只能有一种（这是数据库的一种约束，当然你可以不选择这种约束），一个人除了姓名还有其他东西，假如这时我们还有帮他加入性别这个信息，我们可以修改上一张表添加一个字段，也可以新建一张表存贮性别这个信息（当然在实际生活中只用一张表存一个信息很少），我们新建的这张表是这样的，</h4><table class="table table-bordered table-striped table-condensed"><br>附表<br><tr><br><th><br>列名<br></th><br><th><br>类型<br></th><br></tr><br><br><tr><br><td><br>Sex<br></td><br><td><br>bit<br></td><br></tr><br></table>
+
+
+<p>这张表存贮了性别这个信息，但是如何将他从主表联系起来呢，我们先提取主表中的ID作为联系（我们称为外键）表改为</p>
+<table class="table table-bordered table-striped table-condensed"><br>附表<br><tr><br><th><br>列名<br></th><br><th><br>类型<br></th><br></tr><br><tr><br><br><td><br>ID<br></td><br><td><br>int<br></td><br></tr><br><tr><br><td><br>Sex<br></td><br><td><br>bit<br></td><br></tr><br></table>
+
+<p>我们把列名ID设为主键，这样我们就建立了一对一的关系，这个附表的ID必须不为空，这种关系还有一种就是将外键存贮在主表里面，就是将主表里面添加一个外键SexID，主表和附表要改成下面这种</p>
+<table class="table table-bordered table-striped table-condensed"><br>主表<br><tr><br><th><br>列名<br></th><br><th><br>类型<br></th><br></tr><br><tr><br><br><td><br>ID<br></td><br><td><br>int<br></td><br></tr><br><tr><br><td><br>Name<br></td><br><td><br>nvarchar(50)<br></td><br></tr><br><tr><br><br><td><br>SexID<br></td><br><td><br>int<br></td><br></tr><br><tr><br></tr></table>
+
+<table class="table table-bordered table-striped table-condensed"><br>附表<br><tr><br><th><br>列名<br></th><br><th><br>类型<br></th><br></tr><br><br><tr><br><td><br>Sex<br></td><br><td><br>bit<br></td><br></tr><br></table>
+
+<p>现在这种结构就是外键SexID可以为空（注上面的外键不能为空），</p>
+<h6 id="ps：说到外键不能为空我插一句，有些教科书上说外键不能为空也是对的，外键只是一个列名，当这个列名不唯一（也就是不为主键的时候）这是外键可以为空，为空的含义是不确定对应主表的值。"><a href="#ps：说到外键不能为空我插一句，有些教科书上说外键不能为空也是对的，外键只是一个列名，当这个列名不唯一（也就是不为主键的时候）这是外键可以为空，为空的含义是不确定对应主表的值。" class="headerlink" title="ps：说到外键不能为空我插一句，有些教科书上说外键不能为空也是对的，外键只是一个列名，当这个列名不唯一（也就是不为主键的时候）这是外键可以为空，为空的含义是不确定对应主表的值。"></a>ps：说到外键不能为空我插一句，有些教科书上说外键不能为空也是对的，外键只是一个列名，当这个列名不唯一（也就是不为主键的时候）这是外键可以为空，为空的含义是不确定对应主表的值。</h6><p>现在开始谈谈这种情况在EF发生的原因，你吧主表设为Person表，附表为SexInfo表，对应的代码如下</p>
+<pre><code>public Person{
+    public int ID{get;set;}
+    public string name{get;set;}
+    public virtual SexInfo Sex{get;set;
+                                            }
+
+
+public SexInfo{
+    public int ID{get;set;
+    public bool Sex{get;set;
+    public Person person{get;set;}
+                            }
+</code></pre><p>这个时候EF无法判断哪个是主表那个是附表，就是无法将外键加在哪个表的ID上，或者像上面的表中在Person表中添加一个外键。也就是在这种情况里面有四种可能的情况</p>
+<ol>
+<li>在Person表里面添加一个外键（假设为Person_SexInfoID)</li>
+<li>将Person表中的ID设为主键和外键</li>
+<li>在SexInfo表中添加一个外键（假设为SexInfo_PersonID)</li>
+<li>将SexInfo表中的ID设为主键和外键。</li>
+</ol>
+<h6 id="注假设在EF中没有给属性添加-Key-注解属性或在Fluent-API中声明一个属性为主键的话，EF会自动将有ID后缀的属性设置为主键并让他为标志字段自增，还有表中没有主键无法导入到EF中。"><a href="#注假设在EF中没有给属性添加-Key-注解属性或在Fluent-API中声明一个属性为主键的话，EF会自动将有ID后缀的属性设置为主键并让他为标志字段自增，还有表中没有主键无法导入到EF中。" class="headerlink" title="注假设在EF中没有给属性添加[Key]注解属性或在Fluent API中声明一个属性为主键的话，EF会自动将有ID后缀的属性设置为主键并让他为标志字段自增，还有表中没有主键无法导入到EF中。"></a>注假设在EF中没有给属性添加[Key]注解属性或在Fluent API中声明一个属性为主键的话，EF会自动将有ID后缀的属性设置为主键并让他为标志字段自增，还有表中没有主键无法导入到EF中。</h6><p>虽然EF有自动检测代码生成关系，但是本人还是比较推崇自己在Code First时就想好外键，这样在用模型绑定的时候就不会发生一些很可能发生的错误。在这张表里面为了节约数据库空间最好在SexInfo里面添加一个外键，现在我就来谈谈分别在两个表里面添加外键可能会遇到的BUG。</p>
+<ol>
+<li>在SexInfo里面添加外键PersonID</li>
+</ol>
+<p>类修改成为</p>
+<pre><code>public Person{
+    public int ID{get;set;}
+    public string name{get;set;}
+    public virtual SexInfo Sex{get;set;
+                                            }
+
+
+public SexInfo{
+    public int ID{get;set;
+    public bool Sex{get;set;
+    public int PersonID{get;set;}
+    public Person person{get;set;}
+                            }
+</code></pre><p>然后我们可以选择在PersonID上加上<code>[ForeignKey(&quot;Person&quot;)]</code>和<code>[Requird]</code>,或者在重写的OnModelCreating方法中加入 这样一句代码 </p>
+<pre><code>modelBuilder.Entity&lt;SexInfo&gt;().HasRequired(x =&gt; x.Person)
+.WithRequiredPrincipal(x =&gt; x.BindingRole).HasForeignKey(x =&gt; x.MenusManageID)        
+</code></pre><p>其实我更推崇写Fluent API 来约束，因为将注解属性放在Model里面太乱而且容易错，比如说假如你在<strong>PersonID</strong>上面少注释了一个<code>[Required]</code> 你又会得到一个模型验证错误，这个BUG是隐藏的最深的，现在来重点提一提这个BUG</p>
+<h4 id="BUG：模型验证错误····多重性与关系“········”中-Role“··············”中的引用约束冲突。因为-Dependent-Role-中的所有属性都不可以为-null，Principal-Role-的多重性必须为“1”。"><a href="#BUG：模型验证错误····多重性与关系“········”中-Role“··············”中的引用约束冲突。因为-Dependent-Role-中的所有属性都不可以为-null，Principal-Role-的多重性必须为“1”。" class="headerlink" title="BUG：模型验证错误····多重性与关系“········”中 Role“··············”中的引用约束冲突。因为 Dependent Role 中的所有属性都不可以为 null，Principal Role 的多重性必须为“1”。"></a>BUG：模型验证错误····多重性与关系“········”中 Role“··············”中的引用约束冲突。因为 Dependent Role 中的所有属性都不可以为 null，Principal Role 的多重性必须为“1”。</h4><h1 id="里面值类型不能为空（如果没有初始化时为0），所以EF报错，你要么给外键加上Required标记指定它必须存在，要么给一个可为空的int型，像这个示例里面外键PersonID是必须的，然后有些对应是0-1-对-1，所以这时候就疑惑了我们怎么给外键赋值，我们有一种办法命名一种类型他的值可以int也可以为空，但是EF会认识我们这种独特的外键吗？还好EF早想到了这点，有一种泛型可以为空也可以为你想要的类型，这种就是Nullable-lt-T-gt-在这个方法中我们只要将外键PersonID的类型换成-这个"><a href="#里面值类型不能为空（如果没有初始化时为0），所以EF报错，你要么给外键加上Required标记指定它必须存在，要么给一个可为空的int型，像这个示例里面外键PersonID是必须的，然后有些对应是0-1-对-1，所以这时候就疑惑了我们怎么给外键赋值，我们有一种办法命名一种类型他的值可以int也可以为空，但是EF会认识我们这种独特的外键吗？还好EF早想到了这点，有一种泛型可以为空也可以为你想要的类型，这种就是Nullable-lt-T-gt-在这个方法中我们只要将外键PersonID的类型换成-这个" class="headerlink" title="里面值类型不能为空（如果没有初始化时为0），所以EF报错，你要么给外键加上Required标记指定它必须存在，要么给一个可为空的int型，像这个示例里面外键PersonID是必须的，然后有些对应是0-1 对 1，所以这时候就疑惑了我们怎么给外键赋值，我们有一种办法命名一种类型他的值可以int也可以为空，但是EF会认识我们这种独特的外键吗？还好EF早想到了这点，有一种泛型可以为空也可以为你想要的类型，这种就是Nullable&lt;T&gt; ,在这个方法中我们只要将外键PersonID的类型换成 这个"></a>里面值类型不能为空（如果没有初始化时为0），所以EF报错，你要么给外键加上<code>Required</code>标记指定它必须存在，要么给一个可为空的int型，像这个示例里面外键PersonID是必须的，然后有些对应是0-1 对 1，所以这时候就疑惑了我们怎么给外键赋值，我们有一种办法命名一种类型他的值可以int也可以为空，但是EF会认识我们这种独特的外键吗？还好EF早想到了这点，有一种泛型可以为空也可以为你想要的类型，这种就是<code>Nullable&lt;T&gt;</code> ,在这个方法中我们只要将外键PersonID的类型换成 这个</h1><pre><code>public Nullable&lt;int&gt; PersonID{get;set;}
+</code></pre><h1 id="自己本身与数据库类型的对应，C"><a href="#自己本身与数据库类型的对应，C" class="headerlink" title="自己本身与数据库类型的对应，C"></a>自己本身与数据库类型的对应，C</h1><p>还有一个比较常见的BUG吧，来提一提。</p>
+<h4 id="BUG：······-引用约束的-Dependent-Role-中所有属性的类型都必须与-Principal-Role-中相应的属性类型相同。引用约束“·····”中，实体“····”的属性“····”的类型与实体“·····”的属性“·····”的类型不匹配。"><a href="#BUG：······-引用约束的-Dependent-Role-中所有属性的类型都必须与-Principal-Role-中相应的属性类型相同。引用约束“·····”中，实体“····”的属性“····”的类型与实体“·····”的属性“·····”的类型不匹配。" class="headerlink" title="BUG：······: 引用约束的 Dependent Role 中所有属性的类型都必须与 Principal Role 中相应的属性类型相同。引用约束“·····”中，实体“····”的属性“····”的类型与实体“·····”的属性“·····”的类型不匹配。"></a>BUG：······: 引用约束的 Dependent Role 中所有属性的类型都必须与 Principal Role 中相应的属性类型相同。引用约束“·····”中，实体“····”的属性“····”的类型与实体“·····”的属性“·····”的类型不匹配。</h4><p>这个bug就是相对应主体和外键不匹配的情况，相对应的类如下</p>
+<pre><code>    public Person{
+    public long ID{get;set;}
+    public string name{get;set;}
+    public virtual SexInfo Sex{get;set;
+                                            }
+
+
+public SexInfo{
+    public int ID{get;set;
+    public bool Sex{get;set;
+    public int PersonID{get;set;}
+    public Person person{get;set;}
+                            }
+</code></pre><p>Person里面的主键我改成了long型，然而外键PersonID却是int型，出现这个错误是对外键的认识还不够，外键其实就是主键的“分身”,主键是long型，外键必须也是long型，同理主键是int型外键也必须是ing型，</p>
+<h4 id="ps：导航属性是指对象，比如说Person类实例person，而外键是指存贮在数据库里面的一个特殊的列名。"><a href="#ps：导航属性是指对象，比如说Person类实例person，而外键是指存贮在数据库里面的一个特殊的列名。" class="headerlink" title="ps：导航属性是指对象，比如说Person类实例person，而外键是指存贮在数据库里面的一个特殊的列名。"></a>ps：导航属性是指对象，比如说Person类实例person，而外键是指存贮在数据库里面的一个特殊的列名。</h4><hr>
+<h3 id="充分认识导航属性和外键是搭建一个扎实的数据库结构的基础，在学习和应用EF的过程中也是了解数据库的结构的学习过程，EF或许在运行速度方法上比一般的SQL语句要慢，但是用EF我们可以更加方便的搭建一个好的数据体系，搭建一个好的数据体系可以让你在完成项目的时候事半功倍。"><a href="#充分认识导航属性和外键是搭建一个扎实的数据库结构的基础，在学习和应用EF的过程中也是了解数据库的结构的学习过程，EF或许在运行速度方法上比一般的SQL语句要慢，但是用EF我们可以更加方便的搭建一个好的数据体系，搭建一个好的数据体系可以让你在完成项目的时候事半功倍。" class="headerlink" title="充分认识导航属性和外键是搭建一个扎实的数据库结构的基础，在学习和应用EF的过程中也是了解数据库的结构的学习过程，EF或许在运行速度方法上比一般的SQL语句要慢，但是用EF我们可以更加方便的搭建一个好的数据体系，搭建一个好的数据体系可以让你在完成项目的时候事半功倍。"></a>充分认识导航属性和外键是搭建一个扎实的数据库结构的基础，在学习和应用EF的过程中也是了解数据库的结构的学习过程，EF或许在运行速度方法上比一般的SQL语句要慢，但是用EF我们可以更加方便的搭建一个好的数据体系，搭建一个好的数据体系可以让你在完成项目的时候事半功倍。</h3>
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/07/18/EFCode First 导航属性0/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/07/18/EFCode First 导航属性0/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/07/18/在Linux下玩转Vim0/" title="在Linux下玩转Vim" itemprop="url">在Linux下玩转Vim</a>
   </h1>
   <p class="article-author">By
@@ -579,7 +652,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
     
   </p>
 </header>
@@ -644,7 +717,7 @@ $ make
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
     
   </p>
 </header>
@@ -695,15 +768,15 @@ $ make
   </nav>
 
 </div>
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
 <div class="github-card">
-<p class="asidetitle">Github Card</p>
+<p class="asidetitle">Github 名片</p>
 <div class="github-card" data-github="mrzhangboss" data-width="220" data-height="119" data-theme="medium">
 <script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
 </div>
@@ -715,7 +788,7 @@ $ make
 
   
 <div class="tagslist">
-	<p class="asidetitle">Tags</p>
+	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
 		
 			
@@ -803,7 +876,7 @@ $ make
 
 
   <div class="linkslist">
-  <p class="asidetitle">Links</p>
+  <p class="asidetitle">友情链接</p>
     <ul>
         
           <li>
@@ -819,11 +892,11 @@ $ make
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">Weibo</p>
+  <p class="asidetitle">新浪微博</p>
     <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5364356330&verifier=&dpc=1"></iframe>
 </div>
 
@@ -1007,7 +1080,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
