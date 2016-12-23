@@ -4,38 +4,19 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>刷题笔记 | lunge博客</title>
+    <title>lunge博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="张伦">
     
 
     
-    <meta name="description" content="在牛客网刷了16道题了,在这做个总结
-
-概况编程题无非两种一种考算法,一种考数据结构
-算法的话,考验你对事情的分析程度和脑袋的灵光,用好的算法还是又大又重的算法,用算法复杂度来看,一般能到 o(n)就算勉强可以,当到了o(n * n)你就要考虑是不是你算法有问题了.
-数据结构的话,队列和链表和二叉树是比较常见的,当然有些奇怪的一般算法反倒很简单.
-算法谈算法的话不得不谈递归了,递归其实我感觉更想">
-<meta property="og:type" content="article">
-<meta property="og:title" content="刷题笔记">
-<meta property="og:url" content="https://mrzhangboss.github.io/2016/08/21/刷题笔记/index.html">
+    <meta property="og:type" content="website">
+<meta property="og:title" content="lunge博客">
+<meta property="og:url" content="https://mrzhangboss.github.io/page/5/index.html">
 <meta property="og:site_name" content="lunge博客">
-<meta property="og:description" content="在牛客网刷了16道题了,在这做个总结
-
-概况编程题无非两种一种考算法,一种考数据结构
-算法的话,考验你对事情的分析程度和脑袋的灵光,用好的算法还是又大又重的算法,用算法复杂度来看,一般能到 o(n)就算勉强可以,当到了o(n * n)你就要考虑是不是你算法有问题了.
-数据结构的话,队列和链表和二叉树是比较常见的,当然有些奇怪的一般算法反倒很简单.
-算法谈算法的话不得不谈递归了,递归其实我感觉更想">
-<meta property="og:updated_time" content="2016-08-21T13:23:33.314Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="刷题笔记">
-<meta name="twitter:description" content="在牛客网刷了16道题了,在这做个总结
-
-概况编程题无非两种一种考算法,一种考数据结构
-算法的话,考验你对事情的分析程度和脑袋的灵光,用好的算法还是又大又重的算法,用算法复杂度来看,一般能到 o(n)就算勉强可以,当到了o(n * n)你就要考虑是不是你算法有问题了.
-数据结构的话,队列和链表和二叉树是比较常见的,当然有些奇怪的一般算法反倒很简单.
-算法谈算法的话不得不谈递归了,递归其实我感觉更想">
+<meta name="twitter:title" content="lunge博客">
 <meta name="twitter:creator" content="@mrzhangboss">
 
     
@@ -89,108 +70,71 @@
 </div>
     </header>
     <div id="container">
-      <div id="main" class="post" itemscope itemprop="blogPost">
-  
-	<article itemprop="articleBody"> 
-		<header class="article-info clearfix">
+      <div id="main">
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/08/21/刷题笔记/" title="刷题笔记" itemprop="url">刷题笔记</a>
+      <a href="/2016/07/18/pandas的DataFrame和Series0/" title="pandas的DataFrame和Series" itemprop="url">pandas的DataFrame和Series</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-08-21T12:26:34.000Z" itemprop="datePublished"> 发表于 2016-08-21</time>
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
     
   </p>
 </header>
-	<div class="article-content">
-		
-		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目录</strong>
-		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#概况"><span class="toc-number">1.</span> <span class="toc-text">概况</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#算法"><span class="toc-number">1.1.</span> <span class="toc-text">算法</span></a></li></ol></li></ol>
-		
-		</div>
-		
-		<blockquote>
-<p>在牛客网刷了16道题了,在这做个总结</p>
+    <div class="article-content">
+        
+        <blockquote>
+<p>pandas的基本数据结构是DataFrame和Series,DataFrame可以看做是一张表<br>,Series可以看做一个有序队列,我们队数据的处理就通过操作者两个东西来<br>实现的</p>
 </blockquote>
-<h2 id="概况"><a href="#概况" class="headerlink" title="概况"></a>概况</h2><p>编程题无非两种一种考算法,一种考数据结构</p>
-<p>算法的话,考验你对事情的分析程度和脑袋的灵光,用好的算法还是又大又重的算法,用算法复杂度来看,一般能到 <code>o(n)</code>就算勉强可以,当到了<code>o(n * n)</code>你就要考虑是不是你算法有问题了.</p>
-<p>数据结构的话,队列和链表和二叉树是比较常见的,当然有些奇怪的一般算法反倒很简单.</p>
-<h3 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h3><p>谈算法的话不得不谈递归了,递归其实我感觉更想一种思想</p>
-<p>话不多说请看题,斐波那契数列一直是递归的代表</p>
-<pre><code>                      0                 n= 1    
-f(n) ={           1                   n= 2
-            f(n-1) + f(n-2)     n&gt;2
-</code></pre><p>  虽然</p>
-  
-	</div>
-		<footer class="article-footer clearfix">
+<p>对于</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
 <div class="article-catetags">
 
 
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/notebook/">notebook</a>
-  </div>
-
 </div>
 
 
 
-	<div class="article-share" id="share">
-	
-	  <div data-url="https://mrzhangboss.github.io/2016/08/21/刷题笔记/" data-title="刷题笔记 | lunge博客" data-tsina="5364356330" class="share clearfix">
-	  </div>
-	
-	</div>
 
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/07/18/pandas的DataFrame和Series0/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/07/18/pandas的DataFrame和Series0/" data-count-type="comments">&nbsp;</a>
+	
+</div>
 
 </footer>
 
-   	       
-	</article>
-	
-<nav class="article-nav clearfix">
- 
- <div class="prev" >
- <a href="/2016/09/07/git-working-streamline/" title="git 工作流程">
-  <strong>上一篇：</strong><br/>
-  <span>
-  git 工作流程</span>
-</a>
+
+    </article>
+
+
+
+
+
+
+
+  <nav id="page-nav" class="clearfix">
+    <a class="extend prev" rel="prev" href="/page/4/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span>
+  </nav>
+
 </div>
-
-
-<div class="next">
-<a href="/2016/08/21/8-conclusion/"  title="8月 总结">
- <strong>下一篇：</strong><br/> 
- <span>8月 总结
-</span>
-</a>
-</div>
-
-</nav>
-
-	
-<section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2016/08/21/刷题笔记/" data-title="刷题笔记" data-url="https://mrzhangboss.github.io/2016/08/21/刷题笔记/"></div>
-</section>
-
-
-</div>  
       <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
-
-  <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目录</strong>
- 
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#概况"><span class="toc-number">1.</span> <span class="toc-text">概况</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#算法"><span class="toc-number">1.1.</span> <span class="toc-text">算法</span></a></li></ol></li></ol>
- 
-  </div>
 
 <div id="asidepart">
 <div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
@@ -421,103 +365,14 @@ $(document).ready(function(){
       m.removeClass('moveMain');
       a.css('display', 'block').removeClass('fadeOut');
       o.css('display', 'none');
-      
-      $('#toc.toc-aside').css('display', 'none');
         
     }
   });
 });
 </script>
 
-<script type="text/javascript">
-$(document).ready(function(){ 
-  var ai = $('.article-content>iframe'),
-      ae = $('.article-content>embed'),
-      t  = $('#toc'),
-      ta = $('#toc.toc-aside'),
-      o  = $('.openaside'),
-      c  = $('.closeaside');
-  if(ai.length>0){
-    ai.wrap('<div class="video-container" />');
-  };
-  if(ae.length>0){
-   ae.wrap('<div class="video-container" />');
-  };
-  c.click(function(){
-    ta.css('display', 'block').addClass('fadeIn');
-  });
-  o.click(function(){
-    ta.css('display', 'none');
-  });
-  $(window).scroll(function(){
-    ta.css("top",Math.max(140,320-$(this).scrollTop()));
-  });
-});
-</script>
 
 
-<script type="text/javascript">
-$(document).ready(function(){ 
-  var $this = $('.share'),
-      url = $this.attr('data-url'),
-      encodedUrl = encodeURIComponent(url),
-      title = $this.attr('data-title'),
-      tsina = $this.attr('data-tsina'),
-      description = $this.attr('description');
-  var html = [
-  '<div class="hoverqrcode clearfix"></div>',
-  '<a class="overlay" id="qrcode"></a>',
-  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
-  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
-  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
-  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
-  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
-  '<span title="Share to"></span>'
-  ].join('');
-  $this.append(html);
-
-  $('.hoverqrcode').hide();
-
-  var myWidth = 0;
-  function updatehoverqrcode(){
-    if( typeof( window.innerWidth ) == 'number' ) {
-      myWidth = window.innerWidth;
-    } else if( document.documentElement && document.documentElement.clientWidth) {
-      myWidth = document.documentElement.clientWidth;
-    };
-    var qrsize = myWidth > 1024 ? 200:100;
-    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
-    var p = $('.article-share-qrcode').position();
-    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
-                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
-                          .qrcode(options);
-  };
-  $(window).resize(function(){
-    $('.hoverqrcode').hide();
-  });
-  $('.article-share-qrcode').click(function(){
-    updatehoverqrcode();
-    $('.hoverqrcode').toggle();
-  });
-  $('.article-share-qrcode').hover(function(){}, function(){
-      $('.hoverqrcode').hide();
-  });
-});   
-</script>
-
-
-
-<script type="text/javascript">
-  var duoshuoQuery = {short_name:"lunge"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-    || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-</script> 
 
 
 
@@ -608,4 +463,4 @@ var _hmt = _hmt || [];
 <!-- Tiny_search End -->
 
   </body>
-</html>
+ </html>
