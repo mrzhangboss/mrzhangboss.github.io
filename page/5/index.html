@@ -45,7 +45,7 @@
 				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -78,69 +78,23 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/07/18/Numpy的简析0/" title="Numpy的简析" itemprop="url">Numpy的简析</a>
+      <a href="/2016/07/18/pandas的DataFrame和Series0/" title="pandas的DataFrame和Series" itemprop="url">pandas的DataFrame和Series</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 發表於 2016-07-18</time>
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <p>numpy简单来说就是python的C版数组实现,因为python原生列表虽然好使,但是生成大量数据时开销很大,而numpy是基于C的,生成大量数组非常简单,而且操作他们速度非常快.</p>
-<h3 id="由于numpy是基于C的-所以numpy是一种强类型的-当然numpy是可以判断数组里面是数据类型-但是我们可以显示声明他们-dtype是声明的参数-一般我们通过下面的方式简单声明一个narray"><a href="#由于numpy是基于C的-所以numpy是一种强类型的-当然numpy是可以判断数组里面是数据类型-但是我们可以显示声明他们-dtype是声明的参数-一般我们通过下面的方式简单声明一个narray" class="headerlink" title="由于numpy是基于C的,所以numpy是一种强类型的,当然numpy是可以判断数组里面是数据类型,但是我们可以显示声明他们,dtype是声明的参数,一般我们通过下面的方式简单声明一个narray"></a>由于numpy是基于C的,所以numpy是一种强类型的,当然numpy是可以判断数组里面是数据类型,但是我们可以显示声明他们,dtype是声明的参数,一般我们通过下面的方式简单声明一个narray</h3><pre><code>import numpy as np
-arr = np.array([1, 2, 3], dtype=np.int32)
-</code></pre><p>numpy还有一个强大的地方是多维数组,numpy对多维数组的支持很好.只要简单的使用嵌套序列就能被转化成多维数组.<br>比如<br>        arr2 = np.array([[1, 2], [3, 4]])</p>
-<h6 id="numpy另一个强大的地方是矢量化-这对于科学计算来说非常有用"><a href="#numpy另一个强大的地方是矢量化-这对于科学计算来说非常有用" class="headerlink" title="numpy另一个强大的地方是矢量化,这对于科学计算来说非常有用"></a>numpy另一个强大的地方是<strong>矢量化</strong>,这对于科学计算来说非常有用</h6><p>比如前面的<code>arr</code>,<br>我们可以简单使用</p>
-<pre><code>arr3 = arr * arr
-</code></pre><p>得到另外一个序列 <code>[1, 4, 9]</code>,数组间的运算应用到了元素级.</p>
-<h5 id="numpy之所以成为数据分析的基本数据结构-还在用取数据的灵活性"><a href="#numpy之所以成为数据分析的基本数据结构-还在用取数据的灵活性" class="headerlink" title="numpy之所以成为数据分析的基本数据结构,还在用取数据的灵活性"></a>numpy之所以成为数据分析的基本数据结构,还在用取数据的灵活性</h5><p>对于一维数组来说,python自身的列表就支持切片处理,numpy不仅支持切片处理,还支持列表取出,比如:</p>
-<pre><code>&gt;&gt;&gt; num =  np.arange(10)
-&gt;&gt;&gt; num[[3, 1, 0]]
-array([3, 1, 0])
-</code></pre><h5 id="在一维数组里面这个并没有什么优势-因为我们可以通过数据简单一个构造器-num-x-for-x-in-3-1-0-构造出来"><a href="#在一维数组里面这个并没有什么优势-因为我们可以通过数据简单一个构造器-num-x-for-x-in-3-1-0-构造出来" class="headerlink" title="在一维数组里面这个并没有什么优势,因为我们可以通过数据简单一个构造器[num[x] for x in [3, 1, 0]]构造出来."></a>在一维数组里面这个并没有什么优势,因为我们可以通过数据简单一个构造器<code>[num[x] for x in [3, 1, 0]]</code>构造出来.</h5><p>当但在多维数组我们使用构造器非常繁琐了, numpy使用了很多技术使我们很方便的取出多维数组</p>
-<h4 id="我们先创建一个多维数组"><a href="#我们先创建一个多维数组" class="headerlink" title="我们先创建一个多维数组"></a>我们先创建一个多维数组</h4><pre><code>arr = np.arange(32).reshape((8, 4))
-</code></pre><p>生成的arr是</p>
-<pre><code>array([[ 0,  1,  2,  3],
-   [ 4,  5,  6,  7],
-   [ 8,  9, 10, 11],
-   [12, 13, 14, 15],
-   [16, 17, 18, 19],
-   [20, 21, 22, 23],
-   [24, 25, 26, 27],
-   [28, 29, 30, 31]])
-</code></pre><p>现在像一维数组一样的取出数据</p>
-<pre><code>In[13]: arr[[0, 3]]
-Out[13]: 
-array([[ 0,  1,  2,  3],
-   [12, 13, 14, 15]])
-</code></pre><p>我们取出了一个二维数组</p>
-<h2 id="试试用这个"><a href="#试试用这个" class="headerlink" title="试试用这个"></a>试试用这个</h2><pre><code>In[14]: arr[arr &gt; 8]
-Out[14]: 
-array([ 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
-   26, 27, 28, 29, 30, 31])
-</code></pre><p>我们取出一个一维数组,这个<code>arr &gt; 8</code> 是也是一个二维数组对应原来数组的每个位置都有一个布尔值代替,当numpy判断得到是一个array数组时会广播每个值来判断是否获取,这个可比你用for循环快了很多.</p>
-<pre><code>array([[False, False, False, False],
-   [False, False, False, False],
-   [False,  True,  True,  True],
-   [ True,  True,  True,  True],
-   [ True,  True,  True,  True],
-   [ True,  True,  True,  True],
-   [ True,  True,  True,  True],
-   [ True,  True,  True,  True]], dtype=bool)
-</code></pre><h5 id="numpy很善于处理不同的选择-当你直接给一个数组时-如上面的arr-0-3-4-它默认第二维为全部选择也就是想当与arr-0-3-4-当你给确定的值时-他就会在第二维上取响应的值-比如"><a href="#numpy很善于处理不同的选择-当你直接给一个数组时-如上面的arr-0-3-4-它默认第二维为全部选择也就是想当与arr-0-3-4-当你给确定的值时-他就会在第二维上取响应的值-比如" class="headerlink" title="numpy很善于处理不同的选择,当你直接给一个数组时,如上面的arr[[0, 3, 4]],它默认第二维为全部选择也就是想当与arr[[0, 3, 4], :],当你给确定的值时,他就会在第二维上取响应的值,比如"></a>numpy很善于处理不同的选择,当你直接给一个数组时,如上面的<code>arr[[0, 3, 4]]</code>,它默认第二维为全部选择也就是想当与<code>arr[[0, 3, 4], :]</code>,当你给确定的值时,他就会在第二维上取响应的值,比如</h5><pre><code>arr[[0, 3, 4], 1] 或 arr[[0, 3, 4], [1, 1, 1]]
-</code></pre><p>从上面你可以看到,如果第二维你每个都想取第二个,你可以直接写一个整数就行,numpy会广播过去,假如想你分别再第一维的每个上分别对应取哪个你就可以用数组来分别选择.</p>
-<h5 id="有时候我们想在二维数组上面取出一个矩形块-直接使用-arr-0-3-4-1-2-3-只能取出二维数组矩形块的对角线-我们这时候就可以先取出第一维的矩形列-然后再在取出的列中取出矩形行"><a href="#有时候我们想在二维数组上面取出一个矩形块-直接使用-arr-0-3-4-1-2-3-只能取出二维数组矩形块的对角线-我们这时候就可以先取出第一维的矩形列-然后再在取出的列中取出矩形行" class="headerlink" title="有时候我们想在二维数组上面取出一个矩形块,直接使用 arr[[0, 3, 4], [1, 2, 3]]只能取出二维数组矩形块的对角线,我们这时候就可以先取出第一维的矩形列,然后再在取出的列中取出矩形行"></a>有时候我们想在二维数组上面取出一个矩形块,直接使用 <code>arr[[0, 3, 4], [1, 2, 3]]</code>只能取出二维数组矩形块的对角线,我们这时候就可以先取出第一维的矩形列,然后再在取出的列中取出矩形行</h5><pre><code>arr[[0, 3, 4]][:, [1, 2, 3]]
-</code></pre><p>当然我们还可以用二维数组来取出数据<br>        arr[[[0], [3], [4]], [[1, 2, 3]]]</p>
-<p><code>[[0], [3], [4]]</code>代表第一维的1, 4, 5列, <code>[[1, 2, 3]]</code>代表第二维的2, 3, 4行.</p>
-<h5 id="numpy给我们提供一个函数将一维数组转换成二维数组我们可以简单使用"><a href="#numpy给我们提供一个函数将一维数组转换成二维数组我们可以简单使用" class="headerlink" title="numpy给我们提供一个函数将一维数组转换成二维数组我们可以简单使用"></a>numpy给我们提供一个函数将一维数组转换成二维数组我们可以简单使用</h5><pre><code>np.ix_([0, 3, 4], [1, 2, 3])
-</code></pre><p>生成二维数组,这样我们使用</p>
-<pre><code>arr[np.ix_([0, 3, 4], [1, 2, 3])]
-</code></pre><p>就可以取出矩形块了.</p>
+        <blockquote>
+<p>pandas的基本数据结构是DataFrame和Series,DataFrame可以看做是一张表<br>,Series可以看做一个有序队列,我们队数据的处理就通过操作者两个东西来<br>实现的</p>
+</blockquote>
+<p>对于</p>
 
         
         
@@ -160,61 +114,7 @@ array([ 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/07/18/Numpy的简析0/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/07/18/Numpy的简析0/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/07/18/python学习0/" title="python学习" itemprop="url">python学习</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
-		
-  <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 發表於 2016-07-18</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h4 id="由于有其他编程语言基础，所以对于python的学习并不吃力，但是整体感觉python的确与前面学习c、c———"><a href="#由于有其他编程语言基础，所以对于python的学习并不吃力，但是整体感觉python的确与前面学习c、c———" class="headerlink" title="由于有其他编程语言基础，所以对于python的学习并不吃力，但是整体感觉python的确与前面学习c、c———"></a>由于有其他编程语言基础，所以对于python的学习并不吃力，但是整体感觉python的确与前面学习c、c———</h4><h3 id="1-实时编译VS静态编译"><a href="#1-实时编译VS静态编译" class="headerlink" title="1. 实时编译VS静态编译"></a>1. 实时编译VS静态编译</h3><p>不需要输入任何前缀，直接将代码放在python解释器上面就能运行，虽然window下不支持直接点开文件就能使用，但是只要安装了python解释器就能很轻松的运行。</p>
-<p>分量轻是他的特点吧！相比打开vs等半天然后，编译连接最后执行。python是一门很轻巧的语言，没有满屏的分号，大括号，基本类型比如int、string、float不区分直接拿来用就可以了，任何一个变量都是一个对象，对象可以千变万化，感觉python是一门很野的熊孩子什么都不在乎，比如说你什么了相同的两个变量</p>
-<h1 id="这门强类型语言则不允许，在同级作用域内他只允许声明一次，python或许已经没有声明了，每个名字只是一个对象而已并没有他的归属。"><a href="#这门强类型语言则不允许，在同级作用域内他只允许声明一次，python或许已经没有声明了，每个名字只是一个对象而已并没有他的归属。" class="headerlink" title="这门强类型语言则不允许，在同级作用域内他只允许声明一次，python或许已经没有声明了，每个名字只是一个对象而已并没有他的归属。"></a>这门强类型语言则不允许，在同级作用域内他只允许声明一次，python或许已经没有声明了，每个名字只是一个对象而已并没有他的归属。</h1><h4 id="2-动态语言VS静态语言"><a href="#2-动态语言VS静态语言" class="headerlink" title="2.动态语言VS静态语言"></a>2.动态语言VS静态语言</h4><h1 id="给我感受是一颗静止的树的话，那么python就是一匹‘野马’，C"><a href="#给我感受是一颗静止的树的话，那么python就是一匹‘野马’，C" class="headerlink" title="给我感受是一颗静止的树的话，那么python就是一匹‘野马’，C"></a>给我感受是一颗静止的树的话，那么python就是一匹‘野马’，C</h1>
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/07/18/python学习0/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/07/18/python学习0/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/07/18/pandas的DataFrame和Series0/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/07/18/pandas的DataFrame和Series0/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -234,10 +134,10 @@ array([ 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
   </nav>
 
 </div>
-      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
@@ -254,7 +154,7 @@ array([ 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
 
   
 <div class="tagslist">
-	<p class="asidetitle">標簽</p>
+	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
 		
 			
@@ -342,7 +242,7 @@ array([ 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
 
 
   <div class="linkslist">
-  <p class="asidetitle">友情鏈接</p>
+  <p class="asidetitle">友情链接</p>
     <ul>
         
           <li>
@@ -358,7 +258,7 @@ array([ 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 訂閱</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
   <div class="weiboshow">
@@ -546,7 +446,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
