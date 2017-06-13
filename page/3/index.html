@@ -45,7 +45,7 @@
 				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -61,7 +61,7 @@
  					
 					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
 					</form>
 					
 					</li>
@@ -78,33 +78,46 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/07/18/python的编码问题研究------使用scrapy体验  0/" title="python的编码问题研究------使用scrapy体验" itemprop="url">python的编码问题研究------使用scrapy体验</a>
+      <a href="/2016/07/19/关于技术栈的总结/" title="关于技术栈的总结" itemprop="url">关于技术栈的总结</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
+    <time datetime="2016-07-19T13:51:01.000Z" itemprop="datePublished"> 发表于 2016-07-19</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h5 id="基于python2"><a href="#基于python2" class="headerlink" title="基于python2"></a>基于python2</h5><h4 id="scrapy是一款非常轻量级的爬虫框架，但是由于它隐藏了太多关于网络请求的细节，所以我们有时候会遭遇到一下很尴尬的bug，当然这主要是因为碰到一些不规范的网站。"><a href="#scrapy是一款非常轻量级的爬虫框架，但是由于它隐藏了太多关于网络请求的细节，所以我们有时候会遭遇到一下很尴尬的bug，当然这主要是因为碰到一些不规范的网站。" class="headerlink" title="scrapy是一款非常轻量级的爬虫框架，但是由于它隐藏了太多关于网络请求的细节，所以我们有时候会遭遇到一下很尴尬的bug，当然这主要是因为碰到一些不规范的网站。"></a>scrapy是一款非常轻量级的爬虫框架，但是由于它隐藏了太多关于网络请求的细节，所以我们有时候会遭遇到一下很尴尬的bug，当然这主要是因为碰到一些不规范的网站。</h4><p>python的编码转码网上有很多文章，如果你不了解这个你可以参考下面了解。</p>
-<p><a href="http://nedbatchelder.com/text/unipain.html" target="_blank" rel="external">Ned Batchelder 关于python unicode和str的理解，通俗易懂</a></p>
-<p><a href="http://www.tuicool.com/articles/ZbEFnya" target="_blank" rel="external">关于scrapy 入门</a></p>
-<p><a href="http://blog.csdn.net/crazyhacking/article/details/39375535" target="_blank" rel="external"> 关于 encode的认识</a></p>
-<p>通过上面我们可以很好的理解python的转码译码，在这里我想谈一下我自己对其的认识吧，我一开始接触的c语言序列的基本上都是强类型，比如C里面假如我想写一个函数每个传人的参数都得是有类型的，但是python弱化了类型这一点，python也是面对对象的，但是他的对象就是鸡同鸭讲，照猫画虎就能运行，弱类型适合动态语言，我们不确定下一行代码输入的是什么，自从学python起，一直感觉python对类型一直不严格，这样就给了我一种错觉，只要长得差不多就能一样的比划，比如在两个string，<code>&#39;中国&#39;</code>,<code>u&#39;中国&#39;</code>,看起来差不多但是如果你把<code>u&#39;中国&#39;</code>存入文件中就会出错（假如你没定义编码规则)<br><code>UnicodeEncodeError: &#39;ascii&#39; codec can&#39;t encode characters in position 344-351: ordinal not in range(128)</code><br>unicode字符编码错误，要想理解这个要对unicode字符集和unicode编码有一定的理解，推荐你读一下这篇博客<a href="http://www.techug.com/character-set" target="_blank" rel="external">字符编码的知识</a>,python内部使用unicode字符集存贮所以的编码的字符，为什么要用unicode字符集举个栗子吧：</p>
-<p>A是米国的程序员，他使用asicc编码的文件上传了一封邮件，<br>B是中国的程序员他使用gbk编码的文件上传了一封邮件，<br>现在C要用程序同时处理A和B的邮件，有两种解决方法他把A的文件译码再编码成B的gbk，或者将B的文件译码成asicc但是中文无法处理，那么只能使用第一种方法将A的文件编码成gbk，但是改天D又来啦，他是俄国人，天啊噜gbk可能没有把俄语编进去，那肿么办，我们迫切需要一种编码可以把所以的字符放进去，所以unicode出现了，Unicode中将字符集按照一定的类别划分到0~16这17个层面（Planes）中，每个层面中拥有216=65536个字符码，因此Unicode总共拥有的字符码，也即是Unicode的字符空间总共有17*65536=1114112，一共有1114112这么多的字符可以用，这下我们不用担心了吧，太好了这下不用愁了，</p>
-<p>python 内部使用unicode字符集作为一个译码中转站，因为他编码了所以的字符集，只要你能在自己编码方案上找到自己的字，我就能在unicode字符集找到你的位置，所以使用unicode可以很好的解决多种编码方案产生的问题（比如gbk，utf-8）<br>当然其他编码方案如果想使用unicode解码成其他的必须同unicode有一一对应关系，不过现在主流的编码方案如gbk，gb2312，utf-8都是unicode系的。</p>
-<p>了解了这些基础知识就可以知道了为什么存贮<code>u&#39;中国&#39;</code>存不进文件里面去了，因为unicode并不提供给当今字符解析器的方法，就是<code>\u234e</code>一个16进制数字，屏幕上不知道他对应什么图形，所以python系统要求存进文件的必须是字节流，也就是可以unicode是一种更高级的字符流，这个字符流能存贮当今世界所以定义的字符，但是他只是一个规定字符集合，我们只需要把发现的字符放进去占据一个位置，但是我们不需要考虑屏幕是否认识这个字符，这个字符的存贮由编码方案负责，如utf-8这些，假如没有字符编码方案可以存贮这些，我们虽然在unicode上有这个字符但是我们无法print出来，所以我们必须将unicode转换成普通字符流，有人就会问了，假如我真的没有找到一个合适编码方案可以存贮所有语言，我们可以将他编码成unicode—escape类型，这里我们不多讲。</p>
-<p>这就可以解释我们大部分碰到的错误unicodedecodeerror和unicodeencodeerror错误，都是因为字符编码方案不了解造成的，网上很多说碰到这种错误就encode，decode搞一下就行但是不弄清楚这背后的知识就会犯迷糊。</p>
-<p>接下来我谈谈我遇到的错误吧，在爬取<code>http://yjsy.ncu.edu.cn/yjs_showmsg.asp?id=2770</code>这个页面时（这是一个不规范的页面没有设置charset），因为每个spider调用的</p>
-<pre><code>response.xpath(&apos;//xpath&apos;).extract()    
-</code></pre><p>选择器返回的是一个unicode编码的字符集，但是他是接受的是一个字符流，spider可能调用了<br><code>response.body.decode(response.encoding)</code>进行转码，但是这个response.encoding有时候会判断错误，比如将我一个gbk编码的文件判断成cp1253,这个时候假如我把他解码成encode成其他编码方式的话，我们就会得到乱码，那怎么纠正呢，我们可以这样干<br>先将得到的列表中每个<code>content</code>取出来，然后使用<code>content.encode(resonse.encoding)</code>转码成原始字符流，现在你可以将它用正确的编码转换成unicode了</p>
-<p>下面是我github上的关于这个scrapy的项目，在coding_pitch.py文件里面就是对于这个乱码的处理</p>
-<p><a href="https://github.com/MrZhangLoveLearning/ncuscrapy.git" target="_blank" rel="external">南昌大学教务处公告爬取</a></p>
+        <blockquote>
+<p>这段时间重新学习了web前端的技术栈,其实一开始加入社团时就是从前端开始入门的,等到了会仿写几个页面后就跳到了后端的坑,从html、css、js（只学了一点）又马不停蹄的转到.net平台、后来在老司机的带领下我们放弃了不开放的.net平台投入了python的怀抱</p>
+</blockquote>
+<p> python的确很好，“内裤”很多，相对于.net 相对于封闭的生态圈， python对第三方的类库的依赖很大，<code>pip</code> 是程序的常客，看到一个好的类库就pip下来了。</p>
+<blockquote>
+<p>学了不少程序语言，从静态语言到动态语言，这其中的转变刚开始的确让人很苦闷。</p>
+</blockquote>
+<p> 自己从c系的语言过来，刚接触C的时候对于“过程编程”有很深的体会，结果并不重要，重要的是过程，有时候为了写好一个完美的函数自己苦思冥想好几天，花在一个函数上的时间比项目的时间都多。</p>
+<blockquote>
+<p>然而到了学习python, 自己把C系的学习习惯带到python , 在做项目的过程中,当自己写完一个函数的时候总在想怎么优化代码,怎么抽象化对象让事情简单,慢慢的走入一个误区,让我忘记了python的口号  <strong>life is short, I use python</strong> .</p>
+</blockquote>
+<h5 id="python是一门目的性很强的语言-先让我实现功能-其他以后再说-我以前使用的时候对过程强调的太多了-一个函数我得测试测试很多遍-确定每个参数的作用还有影响-花了太多时间-适得其反-我的代码一点都不-pythonic"><a href="#python是一门目的性很强的语言-先让我实现功能-其他以后再说-我以前使用的时候对过程强调的太多了-一个函数我得测试测试很多遍-确定每个参数的作用还有影响-花了太多时间-适得其反-我的代码一点都不-pythonic" class="headerlink" title="python是一门目的性很强的语言, 先让我实现功能,其他以后再说, 我以前使用的时候对过程强调的太多了, 一个函数我得测试测试很多遍,确定每个参数的作用还有影响, 花了太多时间, 适得其反,我的代码一点都不 pythonic"></a>python是一门目的性很强的语言, <strong>先让我实现功能,其他以后再说</strong>, 我以前使用的时候对过程强调的太多了, 一个函数我得测试测试很多遍,确定每个参数的作用还有影响, 花了太多时间, 适得其反,我的代码一点都不 <strong>pythonic</strong></h5><p>我在学习 python的过程中走了很多误区,总结起来有几点:</p>
+<ul>
+<li>太注重过程,不注重结果</li>
+<li>太注重功能丰富,不注重简单</li>
+</ul>
+<h4 id="在我看来-pythonic-就是用最简短清晰的代码最快的完成自己的目的"><a href="#在我看来-pythonic-就是用最简短清晰的代码最快的完成自己的目的" class="headerlink" title="在我看来, pythonic 就是用最简短清晰的代码最快的完成自己的目的"></a>在我看来, <strong>pythonic</strong> 就是<strong>用最简短清晰的代码最快的完成自己的目的</strong></h4><h2 id="python和javascript"><a href="#python和javascript" class="headerlink" title="python和javascript"></a>python和javascript</h2><blockquote>
+<p>这个都是动态的脚本语言,javascript更倾向于脚本</p>
+</blockquote>
+<p>两个家伙在我看来都是<strong>鸭式</strong>语言, 当然js更倾向函数式,而python更倾向于对象式.</p>
+<h3 id="python-是目的性强-javascrip-是表现力强"><a href="#python-是目的性强-javascrip-是表现力强" class="headerlink" title="python 是目的性强, javascrip 是表现力强"></a>python 是目的性强, javascrip 是表现力强</h3><p>以前在后端的时候总觉得只要把自己那端的语言学好就行了, 任何事python都能用来解决, 无论是数据库还是服务器,就算是图像都能用python处理(使用PIL),虽然有着GIL,有这性能低下等等的问题 .<br>颇有一番”学好数理化走遍全天下都不怕”的念头,</p>
+<p>  然而在实际项目中慢慢发现, 计算我能用几百行python代码画出一朵花来,用js几句话就在canvas上弄出来了,而且很轻松就能换成其他的东西.</p>
+<p>  得益于node.js社区的火热, 现在javascript也能在后端大显身手了, 学习了一点node.js,感觉通过node.js对js的封装,让javascript变成了一门类python的语言, 原本js文件只能运行在浏览器里面,通过node.js将每个文件封装成模块,就像python将每个文件封装成package,通过模块与模块的合作,js也能像python那样简单的用几行代码就构成一个强壮的服务器(虽然说现在node.js有点不稳定,但是随着node社区的努力也能将node.js强壮起来)</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><blockquote>
+<p> 通过一个星期的重温js, 自己简单的涉猎了现在很火的Angular,Ionic.和Node.js,并简单的搭建 Electron + Cordova + Ionic + Angular <a href="http://www.zhanglun.me" target="_blank" rel="external">原来博客</a> 的 Desktop端<br>  (linux + windows + OS)的软件版,还有移动版(由于本人没有OS操作系统,只做了Android版),还花了半天时间搭建了这个基于hexo的博客,算是完成了全平台的搭建 </p>
+</blockquote>
+<p> 接下来我会自己工作前的大学时光好好的培养自己解决问题的能力,希望能在工作前爱上并享受自己将要做的工作!</p>
 
         
         
@@ -116,6 +129,11 @@
 <div class="article-catetags">
 
 
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/总结/">总结</a><a href="/tags/技术栈/">技术栈</a>
+  </div>
+
 </div>
 
 
@@ -124,7 +142,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/07/18/python的编码问题研究------使用scrapy体验  0/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/07/18/python的编码问题研究------使用scrapy体验  0/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/07/19/关于技术栈的总结/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/07/19/关于技术栈的总结/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -151,7 +169,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
     
   </p>
 </header>
@@ -237,7 +255,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
     
   </p>
 </header>
@@ -361,7 +379,7 @@ for t in threading.enumerate():
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
     
   </p>
 </header>
@@ -418,7 +436,7 @@ for t in threading.enumerate():
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
     
   </p>
 </header>
@@ -483,7 +501,7 @@ $ make
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
     
   </p>
 </header>
@@ -541,7 +559,7 @@ $ make
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
     
   </p>
 </header>
@@ -621,7 +639,7 @@ print textwrap.fill(dedented_text, width=50)
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
     
   </p>
 </header>
@@ -711,7 +729,7 @@ print textwrap.fill(dedented_text, width=50)
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
     
   </p>
 </header>
@@ -767,7 +785,7 @@ print textwrap.fill(dedented_text, width=50)
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
     
   </p>
 </header>
@@ -821,19 +839,19 @@ print textwrap.fill(dedented_text, width=50)
 
 
   <nav id="page-nav" class="clearfix">
-    <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
   </nav>
 
 </div>
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
 <div class="github-card">
-<p class="asidetitle">Github Card</p>
+<p class="asidetitle">Github 名片</p>
 <div class="github-card" data-github="mrzhangboss" data-width="220" data-height="119" data-theme="medium">
 <script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
 </div>
@@ -845,15 +863,11 @@ print textwrap.fill(dedented_text, width=50)
 
   
 <div class="tagslist">
-	<p class="asidetitle">Tags</p>
+	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/python/" title="python">python<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/总结/" title="总结">总结<sup>2</sup></a></li>
+				<li><a href="/tags/python/" title="python">python<sup>3</sup></a></li>
 			
 		
 			
@@ -865,11 +879,15 @@ print textwrap.fill(dedented_text, width=50)
 			
 		
 			
+				<li><a href="/tags/总结/" title="总结">总结<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/notebook/" title="notebook">notebook<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/工具心得/" title="工具心得">工具心得<sup>1</sup></a></li>
+				<li><a href="/tags/blog/" title="blog">blog<sup>1</sup></a></li>
 			
 		
 			
@@ -905,7 +923,11 @@ print textwrap.fill(dedented_text, width=50)
 			
 		
 			
-				<li><a href="/tags/transform/" title="transform">transform<sup>1</sup></a></li>
+				<li><a href="/tags/工具心得/" title="工具心得">工具心得<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/crawl/" title="crawl">crawl<sup>1</sup></a></li>
 			
 		
 			
@@ -914,10 +936,6 @@ print textwrap.fill(dedented_text, width=50)
 		
 			
 				<li><a href="/tags/conclusion/" title="conclusion">conclusion<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/blog/" title="blog">blog<sup>1</sup></a></li>
 			
 		
 			
@@ -933,7 +951,7 @@ print textwrap.fill(dedented_text, width=50)
 
 
   <div class="linkslist">
-  <p class="asidetitle">Links</p>
+  <p class="asidetitle">友情链接</p>
     <ul>
         
           <li>
@@ -949,11 +967,11 @@ print textwrap.fill(dedented_text, width=50)
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">Weibo</p>
+  <p class="asidetitle">新浪微博</p>
     <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5364356330&verifier=&dpc=1"></iframe>
 </div>
 
@@ -1137,7 +1155,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

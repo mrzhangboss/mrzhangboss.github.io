@@ -49,7 +49,7 @@
 				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -65,7 +65,7 @@
  					
 					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
 					</form>
 					
 					</li>
@@ -87,14 +87,14 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
+			<strong class="toc-title">文章目录</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#学了鸟哥的书前面基础后，突然想在Linux下用gcc玩C语言，然后了解到了Vim这个神一样的编译器，接下来经过超长时间虐心的安装无数插件无数依赖包，突然有种打自己一顿的感觉，还好终于把Vim装的和VS差不多了，接下来我介绍我安装Vim的经验吧。"><span class="toc-number">1.</span> <span class="toc-text">学了鸟哥的书前面基础后，突然想在Linux下用gcc玩C语言，然后了解到了Vim这个神一样的编译器，接下来经过超长时间虐心的安装无数插件无数依赖包，突然有种打自己一顿的感觉，还好终于把Vim装的和VS差不多了，接下来我介绍我安装Vim的经验吧。</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#我虚拟机下的Linux原来是红旗6的，但是我改了一下yum的包源成CentOS的并且全部update一下后就神奇的变成了CentOS6，虽然他们两个是同一家公司，但是总给我一种由盗版成了正版的感觉。。"><span class="toc-number"></span> <span class="toc-text">我虚拟机下的Linux原来是红旗6的，但是我改了一下yum的包源成CentOS的并且全部update一下后就神奇的变成了CentOS6，虽然他们两个是同一家公司，但是总给我一种由盗版成了正版的感觉。。</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#闲话不多说，刚开始装第一个插件是Ctags"><span class="toc-number"></span> <span class="toc-text">闲话不多说，刚开始装第一个插件是Ctags</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#make-install"><span class="toc-number"></span> <span class="toc-text">make install</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#后来我发现不用这么复杂直接在X-Window下面复制到Terminal里面就可以了，毕竟后面安装的代码都是十几行，根本扛不住。。。。"><span class="toc-number">0.0.1.</span> <span class="toc-text">后来我发现不用这么复杂直接在X-Window下面复制到Terminal里面就可以了，毕竟后面安装的代码都是十几行，根本扛不住。。。。</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安上一些实用的插件后，最后安装调试神器gdb，有三种方式使vim可以调试程序（与gdb一起工作），"><span class="toc-number"></span> <span class="toc-text">安上一些实用的插件后，最后安装调试神器gdb，有三种方式使vim可以调试程序（与gdb一起工作），</span></a>
 		
@@ -164,22 +164,22 @@ $ make
 
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">Contents</strong>
+  <strong class="toc-title">文章目录</strong>
  
  <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#学了鸟哥的书前面基础后，突然想在Linux下用gcc玩C语言，然后了解到了Vim这个神一样的编译器，接下来经过超长时间虐心的安装无数插件无数依赖包，突然有种打自己一顿的感觉，还好终于把Vim装的和VS差不多了，接下来我介绍我安装Vim的经验吧。"><span class="toc-number">1.</span> <span class="toc-text">学了鸟哥的书前面基础后，突然想在Linux下用gcc玩C语言，然后了解到了Vim这个神一样的编译器，接下来经过超长时间虐心的安装无数插件无数依赖包，突然有种打自己一顿的感觉，还好终于把Vim装的和VS差不多了，接下来我介绍我安装Vim的经验吧。</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#我虚拟机下的Linux原来是红旗6的，但是我改了一下yum的包源成CentOS的并且全部update一下后就神奇的变成了CentOS6，虽然他们两个是同一家公司，但是总给我一种由盗版成了正版的感觉。。"><span class="toc-number"></span> <span class="toc-text">我虚拟机下的Linux原来是红旗6的，但是我改了一下yum的包源成CentOS的并且全部update一下后就神奇的变成了CentOS6，虽然他们两个是同一家公司，但是总给我一种由盗版成了正版的感觉。。</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#闲话不多说，刚开始装第一个插件是Ctags"><span class="toc-number"></span> <span class="toc-text">闲话不多说，刚开始装第一个插件是Ctags</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#make-install"><span class="toc-number"></span> <span class="toc-text">make install</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#后来我发现不用这么复杂直接在X-Window下面复制到Terminal里面就可以了，毕竟后面安装的代码都是十几行，根本扛不住。。。。"><span class="toc-number">0.0.1.</span> <span class="toc-text">后来我发现不用这么复杂直接在X-Window下面复制到Terminal里面就可以了，毕竟后面安装的代码都是十几行，根本扛不住。。。。</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安上一些实用的插件后，最后安装调试神器gdb，有三种方式使vim可以调试程序（与gdb一起工作），"><span class="toc-number"></span> <span class="toc-text">安上一些实用的插件后，最后安装调试神器gdb，有三种方式使vim可以调试程序（与gdb一起工作），</span></a>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
 <div class="github-card">
-<p class="asidetitle">Github Card</p>
+<p class="asidetitle">Github 名片</p>
 <div class="github-card" data-github="mrzhangboss" data-width="220" data-height="119" data-theme="medium">
 <script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
 </div>
@@ -191,15 +191,11 @@ $ make
 
   
 <div class="tagslist">
-	<p class="asidetitle">Tags</p>
+	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/python/" title="python">python<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/总结/" title="总结">总结<sup>2</sup></a></li>
+				<li><a href="/tags/python/" title="python">python<sup>3</sup></a></li>
 			
 		
 			
@@ -211,11 +207,15 @@ $ make
 			
 		
 			
+				<li><a href="/tags/总结/" title="总结">总结<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/notebook/" title="notebook">notebook<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/工具心得/" title="工具心得">工具心得<sup>1</sup></a></li>
+				<li><a href="/tags/blog/" title="blog">blog<sup>1</sup></a></li>
 			
 		
 			
@@ -251,7 +251,11 @@ $ make
 			
 		
 			
-				<li><a href="/tags/transform/" title="transform">transform<sup>1</sup></a></li>
+				<li><a href="/tags/工具心得/" title="工具心得">工具心得<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/crawl/" title="crawl">crawl<sup>1</sup></a></li>
 			
 		
 			
@@ -260,10 +264,6 @@ $ make
 		
 			
 				<li><a href="/tags/conclusion/" title="conclusion">conclusion<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/blog/" title="blog">blog<sup>1</sup></a></li>
 			
 		
 			
@@ -279,7 +279,7 @@ $ make
 
 
   <div class="linkslist">
-  <p class="asidetitle">Links</p>
+  <p class="asidetitle">友情链接</p>
     <ul>
         
           <li>
@@ -295,11 +295,11 @@ $ make
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">Weibo</p>
+  <p class="asidetitle">新浪微博</p>
     <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5364356330&verifier=&dpc=1"></iframe>
 </div>
 
@@ -572,7 +572,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
