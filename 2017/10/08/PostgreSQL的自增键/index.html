@@ -4,32 +4,35 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>天池大赛-口碑预测参赛感想 | lunge博客</title>
+    <title>PostgreSQL的自增键 | lunge博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="张伦">
     
 
     
-    <meta name="description" content="第一次听说这个比赛还是去年在知乎上，当时也不知道这个比赛具体是怎么回事，当时自己还是一个小白，忙着搞懂各种主流的机器学习模型算法。
+    <meta name="description" content="平常在Django项目中大量使用自增这个键，平常都是使用ORM，很少去了解这个东西在数据库中具体使用，最近遇到要备份和复原数据的事情，趁着这次好好探索一下这个自增键的使用
 
-当时在我心中，模型算法是数据挖掘的最重要的组成部分，搞懂这些才能真正搞定数据挖掘。我当时对算法模型和数据的理解是：模型就是风车，数据就是流水。我要做的事就是撘一个强健的风车，让数据流过。
-当我还没接触实际的工作前，我还没有没有从编程工转向挖掘工。我太注重编程本身了">
+Django里面大部分都是将其作为Int自增主键来使用，第一个不需要维护一个唯一值，第二个使用Int作为主键的话，搜索和外键关联速度比较快。
+我们这次从原生SQL出发，探索一下这个自增主键在数据库中的具体使用
+新建数据库我们">
 <meta property="og:type" content="article">
-<meta property="og:title" content="天池大赛-口碑预测参赛感想">
-<meta property="og:url" content="https://mrzhangboss.github.io/2017/02/17/天池大赛-口碑预测参赛感想/index.html">
+<meta property="og:title" content="PostgreSQL的自增键">
+<meta property="og:url" content="https://mrzhangboss.github.io/2017/10/08/PostgreSQL的自增键/index.html">
 <meta property="og:site_name" content="lunge博客">
-<meta property="og:description" content="第一次听说这个比赛还是去年在知乎上，当时也不知道这个比赛具体是怎么回事，当时自己还是一个小白，忙着搞懂各种主流的机器学习模型算法。
+<meta property="og:description" content="平常在Django项目中大量使用自增这个键，平常都是使用ORM，很少去了解这个东西在数据库中具体使用，最近遇到要备份和复原数据的事情，趁着这次好好探索一下这个自增键的使用
 
-当时在我心中，模型算法是数据挖掘的最重要的组成部分，搞懂这些才能真正搞定数据挖掘。我当时对算法模型和数据的理解是：模型就是风车，数据就是流水。我要做的事就是撘一个强健的风车，让数据流过。
-当我还没接触实际的工作前，我还没有没有从编程工转向挖掘工。我太注重编程本身了">
-<meta property="og:updated_time" content="2017-02-17T14:21:55.205Z">
+Django里面大部分都是将其作为Int自增主键来使用，第一个不需要维护一个唯一值，第二个使用Int作为主键的话，搜索和外键关联速度比较快。
+我们这次从原生SQL出发，探索一下这个自增主键在数据库中的具体使用
+新建数据库我们">
+<meta property="og:updated_time" content="2017-10-08T13:20:14.896Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="天池大赛-口碑预测参赛感想">
-<meta name="twitter:description" content="第一次听说这个比赛还是去年在知乎上，当时也不知道这个比赛具体是怎么回事，当时自己还是一个小白，忙着搞懂各种主流的机器学习模型算法。
+<meta name="twitter:title" content="PostgreSQL的自增键">
+<meta name="twitter:description" content="平常在Django项目中大量使用自增这个键，平常都是使用ORM，很少去了解这个东西在数据库中具体使用，最近遇到要备份和复原数据的事情，趁着这次好好探索一下这个自增键的使用
 
-当时在我心中，模型算法是数据挖掘的最重要的组成部分，搞懂这些才能真正搞定数据挖掘。我当时对算法模型和数据的理解是：模型就是风车，数据就是流水。我要做的事就是撘一个强健的风车，让数据流过。
-当我还没接触实际的工作前，我还没有没有从编程工转向挖掘工。我太注重编程本身了">
+Django里面大部分都是将其作为Int自增主键来使用，第一个不需要维护一个唯一值，第二个使用Int作为主键的话，搜索和外键关联速度比较快。
+我们这次从原生SQL出发，探索一下这个自增主键在数据库中的具体使用
+新建数据库我们">
 <meta name="twitter:creator" content="@mrzhangboss">
 
     
@@ -89,14 +92,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/02/17/天池大赛-口碑预测参赛感想/" title="天池大赛-口碑预测参赛感想" itemprop="url">天池大赛-口碑预测参赛感想</a>
+      <a href="/2017/10/08/PostgreSQL的自增键/" title="PostgreSQL的自增键" itemprop="url">PostgreSQL的自增键</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2017-02-17T13:15:19.000Z" itemprop="datePublished"> Published 2017-02-17</time>
+    <time datetime="2017-10-07T16:00:00.000Z" itemprop="datePublished"> Published 2017-10-08</time>
     
   </p>
 </header>
@@ -105,21 +108,71 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#参赛感想"><span class="toc-number">1.</span> <span class="toc-text">参赛感想</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#模型本身不重要，他只是一个载体，更重要的是数据。"><span class="toc-number">1.0.1.</span> <span class="toc-text">模型本身不重要，他只是一个载体，更重要的是数据。</span></a></li></ol></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#新建数据库"><span class="toc-number">1.</span> <span class="toc-text">新建数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#增删查减"><span class="toc-number">2.</span> <span class="toc-text">增删查减</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#主键自增"><span class="toc-number">3.</span> <span class="toc-text">主键自增</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a></li></ol>
 		
 		</div>
 		
 		<blockquote>
-<p>第一次听说这个比赛还是去年在知乎上，当时也不知道这个比赛具体是怎么回事，当时自己还是一个小白，忙着搞懂各种主流的机器学习模型算法。</p>
+<p>平常在Django项目中大量使用自增这个键，平常都是使用ORM，很少去了解这个东西在数据库中具体使用，最近遇到要备份和复原数据的事情，趁着这次好好探索一下这个自增键的使用</p>
 </blockquote>
-<p>当时在我心中，模型算法是数据挖掘的最重要的组成部分，搞懂这些才能真正搞定数据挖掘。我当时对算法模型和数据的理解是：模型就是风车，数据就是流水。我要做的事就是撘一个强健的风车，让数据流过。</p>
-<p>当我还没接触实际的工作前，我还没有没有从编程工转向挖掘工。我太注重编程本身了，而忘记我自己真正要挖掘的宝藏。</p>
-<p>我以前在<code>Quora</code>上搜如何成为数据科学家，我发现很多有经验的数据科学家他们都把“对数据的敏感和兴趣”作为数据科学家最重要的特征，而“了解各种算法模型并能应用到数据上”才是第二重要的。我当时不是太理解，我觉得后者才是更重要的。</p>
-<h2 id="参赛感想"><a href="#参赛感想" class="headerlink" title="参赛感想"></a>参赛感想</h2><p>这次参赛算是我学习数据挖掘第一次实际的挖掘，以前学习各种算法模型都是准备的很好的数据，只要套上算法模型就能跑的很好。所以我一开始就拼命的去找类似的大赛，看看获胜者他们用的模型是什么。</p>
-<p>这几天我好像抱着一堆瓶子，拼命的想把巨大的石头（数据）塞进瓶口里，看起来工作量很大，流了很多汗，其实什么都没有干。今天在看一个类似的比赛选手答辩的时候的视频，突然明白自己好像走了一个死胡同。自己拼命的想这找一个合适的瓶子（模型），其实我更应该做的是把石头（数据）磨碎。</p>
-<h4 id="模型本身不重要，他只是一个载体，更重要的是数据。"><a href="#模型本身不重要，他只是一个载体，更重要的是数据。" class="headerlink" title="模型本身不重要，他只是一个载体，更重要的是数据。"></a>模型本身不重要，他只是一个载体，更重要的是数据。</h4><p>第一次参加这样大型比赛，有点激动也有点惶恐，如何将所学的应用到实际，还有在实际中提高自己还有待自己“挖掘”。虽然这个比赛奖金“丰富”，但是我觉得在这个比赛中得到的体会乐趣比奖金更诱人。</p>
-<hr>
-<p>比赛还有一个月，在这里立个小目标，争取跑到到前五页，我也会尽量抽时间把自己感想写出来。<br>未完待续。</p>
+<p><code>Django</code>里面大部分都是将其作为<code>Int</code>自增主键来使用，第一个不需要维护一个唯一值，第二个使用<code>Int</code>作为主键的话，搜索和外键关联速度比较快。</p>
+<p>我们这次从原生<code>SQL</code>出发，探索一下这个自增主键在数据库中的具体使用</p>
+<h3 id="新建数据库"><a href="#新建数据库" class="headerlink" title="新建数据库"></a>新建数据库</h3><p>我们先新建一个数据库</p>
+<pre><code>create table inc(
+id serial not null,
+name text
+);
+</code></pre><p>在<code>PG</code>里面简单的使用<code>serial</code>关键字就会生成一个自增键，默认会在数据库新建一个索引表，例如上面就会新建一个<code>inc_id_seq</code>的索引表，这个字段类型为<code>int</code>，如果数据库很大，我们可以使用<code>BIGSERIAL</code>键申请一个<code>bigint</code>类型的字段</p>
+<p>我们可以看一下这个索引表里面有什么</p>
+<pre><code>         Sequence &quot;public.inc_id_seq&quot;
+    Column     |  Type   |        Value        
+---------------+---------+---------------------
+ sequence_name | name    | inc_id_seq
+ last_value    | bigint  | 1
+ start_value   | bigint  | 1
+ increment_by  | bigint  | 1
+ max_value     | bigint  | 9223372036854775807
+ min_value     | bigint  | 1
+ cache_value   | bigint  | 1
+ log_cnt       | bigint  | 30
+ is_cycled     | boolean | f
+ is_called     | boolean | t
+</code></pre><p>我们可以这个索引表其实就是维护了一个参数，通过字段我们可以知道，这是一个自增为1的键，下一个值为2，目前没有插入一个值</p>
+<h3 id="增删查减"><a href="#增删查减" class="headerlink" title="增删查减"></a>增删查减</h3><p>我们通过一些基本操作来看看这个自增键的作用</p>
+<ul>
+<li>首先是插入</li>
+</ul>
+<pre><code>insert into inc (name) values (&apos;1&apos;),(&apos;2&apos;), (&apos;3&apos;);
+</code></pre><p>我们插入三个值，我们再查看索引表，发现<code>last_value</code>变成了3</p>
+<p>这个是没有指定<code>id</code>的值插入，我们试试显式声明插入</p>
+<pre><code>insert into inc  values (1, &apos;1&apos;),(2, &apos;2&apos;), (3, &apos;3&apos;), (4, &apos;4&apos;);
+</code></pre><p>我们惊奇的发现，在我们显式声明自增键的值的时候，索引表并没有变化，<code>last_value</code>还是3,<strong>这说明只有在不声明自增键，让数据库自己新建的时候，索引表才会更新</strong></p>
+<p><strong>我们可以把自增键看做一个默认值，当没有给自增键赋值的时候，这个自增键会从这个键的索引表中得到下一次自增的值</strong></p>
+<p>所以我们再尝试使用不声明自增键值的方法插入一个新值</p>
+<pre><code>insert into inc (name) values (&apos;4&apos;)
+</code></pre><p>我们发现索引表中<code>last_value</code>变成了4</p>
+<h3 id="主键自增"><a href="#主键自增" class="headerlink" title="主键自增"></a>主键自增</h3><p>由于我们在<code>Django</code>里面使用自增，一般都是将其声明为主键，设为唯一值，所以如果我们将声明表的结构变成</p>
+<pre><code>    create table inc(
+id serial not null PRIMARY KEY,
+name text
+    );
+</code></pre><p>上面的情况就不可能发生了，因为我们把自增键声明为主键，不过有意思的事就是如果你像上面一样指定了一个自增主键值为4，然后不指定再插入4，你会发现第一次会报主键不允许重复的错误，第二次则会成功插入，而且索引表的<code>last_value</code>变成了5</p>
+<p>看来并不是每次成功的时候才会更新<code>last_value</code>值，只要让系统自己去申请自增值就会更新索引表，我尝试了对表的增删查改，发现只有<code>insert</code>并且申请自增值的时候才会更新索引表，而且这个索引表之后增加，不会减少，所以有时候你删掉最大的值，自增键默认又从最后一次开始更新</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>在对单个数据表备份还原的时候，由于简单的使用了<code>COPY</code>命令进行备份还原，通过上面的探索我们发现如果涉及到自增主键的导入导出，在新表导入旧数据是不会出错的，但是由于我们没有考虑自增键的影响（我们导入自增键是显示赋值），在后面插入数据的时候有可能会报主键重复的错误</p>
+<p>为了避免以后插入入数据出现这样的错误，我们有两种措施</p>
+<ol>
+<li>使用<code>COPY</code>命令导入导出时候不获取自增键值</li>
+<li>在<code>COPY</code>导入新表后自己更新索引表</li>
+</ol>
+<p>第一种的话<code>SQL</code>比较繁琐（必须写出表所有字段值），推荐使用第二种</p>
+<p>我们可以简单的使用</p>
+<pre><code>SELECT MAX(id) FROM your_table;
+</code></pre><p>先获取自增键最大值，然后更新索引值(999为上面你获取的最大值）</p>
+<pre><code>SELECT setval(&apos;your_table_id_seq&apos;, 999, false);
+</code></pre><p>当然我们可以将这条语句合正一句话</p>
+<pre><code>SELECT setval(&apos;your_table_id_seq&apos;, COALESCE((SELECT MAX(id)+1 FROM your_table), 1), false);
+</code></pre><p>这样我们就可以开心的完成单表导入导出了</p>
+<p>ps：<br>在使用<code>COPY</code>命令时必须是superuser才能从文件中读取和导入数据，最简单的方法是用superuser账号加权使用<code>alter user xxx superuser</code>，待倒完数据后再降权<code>alter user xxx nosuperuser</code></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -128,7 +181,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/competition/">competition</a>
+  <span></span> <a href="/tags/database/">database</a>
   </div>
 
 </div>
@@ -137,7 +190,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://mrzhangboss.github.io/2017/02/17/天池大赛-口碑预测参赛感想/" data-title="天池大赛-口碑预测参赛感想 | lunge博客" data-tsina="5364356330" class="share clearfix">
+	  <div data-url="https://mrzhangboss.github.io/2017/10/08/PostgreSQL的自增键/" data-title="PostgreSQL的自增键 | lunge博客" data-tsina="5364356330" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -150,19 +203,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2017/04/04/爬虫分布式总结/" title="爬虫分布式总结">
-  <strong>上一篇：</strong><br/>
-  <span>
-  爬虫分布式总结</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2016/12/23/how-to-be-data-scientist/"  title="怎么成为数据科学家（翻译）">
+<a href="/2017/08/09/vip_ctrip_competitions_summary/"  title="唯品会预测和携程房屋预测总结">
  <strong>下一篇：</strong><br/> 
- <span>怎么成为数据科学家（翻译）
+ <span>唯品会预测和携程房屋预测总结
 </span>
 </a>
 </div>
@@ -171,7 +216,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2017/02/17/天池大赛-口碑预测参赛感想/" data-title="天池大赛-口碑预测参赛感想" data-url="https://mrzhangboss.github.io/2017/02/17/天池大赛-口碑预测参赛感想/"></div>
+	<div class="ds-thread" data-thread-key="2017/10/08/PostgreSQL的自增键/" data-title="PostgreSQL的自增键" data-url="https://mrzhangboss.github.io/2017/10/08/PostgreSQL的自增键/"></div>
 </section>
 
 
@@ -181,7 +226,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#参赛感想"><span class="toc-number">1.</span> <span class="toc-text">参赛感想</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#模型本身不重要，他只是一个载体，更重要的是数据。"><span class="toc-number">1.0.1.</span> <span class="toc-text">模型本身不重要，他只是一个载体，更重要的是数据。</span></a></li></ol></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#新建数据库"><span class="toc-number">1.</span> <span class="toc-text">新建数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#增删查减"><span class="toc-number">2.</span> <span class="toc-text">增删查减</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#主键自增"><span class="toc-number">3.</span> <span class="toc-text">主键自增</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a></li></ol>
  
   </div>
 

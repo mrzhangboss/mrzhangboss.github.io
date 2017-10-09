@@ -45,7 +45,7 @@
 				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -61,7 +61,7 @@
  					
 					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="Search" />
 					</form>
 					
 					</li>
@@ -78,6 +78,136 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/07/20/js的this引发的思考/" title="js的this引发的思考" itemprop="url">js的this引发的思考</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
+		
+  <p class="article-time">
+    <time datetime="2016-07-20T15:01:02.000Z" itemprop="datePublished"> Published 2016-07-20</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <blockquote>
+<p>最近这几天在开发一个hmtl5的游戏, 但是对于js怎么使用面对对象来编程有点困惑,查了一些资料<br>整理如下.</p>
+</blockquote>
+<h2 id="js的this用法"><a href="#js的this用法" class="headerlink" title="js的this用法"></a>js的this用法</h2><ul>
+<li><p>非对象属性函数(内部函数)</p>
+<pre><code>var point = { 
+ x : 0, 
+ y : 0, 
+moveTo : function(x, y) { 
+    // 内部函数
+    var moveX = function(x) { 
+this.x = x;//this 绑定到了哪里？
+    }; 
+      // 内部函数
+    var moveY = function(y) { 
+        this.y = y;//this 绑定到了哪里？
+     }; 
+
+     moveX(x); 
+   moveY(y); 
+ } 
+}; 
+point.moveTo(1, 1); 
+ point.x; //==&gt;0 
+ point.y; //==&gt;0 
+ x; //==&gt;1 
+y; //==&gt;1
+</code></pre></li>
+</ul>
+<ul>
+<li>对象属性函数</li>
+</ul>
+<pre><code>var point = { 
+        x : 0, 
+        y : 0, 
+        moveTo : function(x, y) { 
+                this.x = this.x + x; 
+                this.y = this.y + y; 
+                             } 
+         };
+
+ point.x; // ==&gt; 1
+ point.y; // == &gt;1 
+
+ point.moveTo(1, 1)//this 绑定到当前对象，即 point 对象
+ point.x; // ==&gt; 1
+ point.y; // == &gt;1 
+</code></pre><p>其实this的用法还有很多,我为什么只列出上面两种是因为所有的this用法都可以归为这两类.</p>
+<blockquote>
+<p>非对象属性就是这个函数不存在对象的内存空间里面的函数<br>对象属性就是说这个函数存在于对象内存空间的函数</p>
+</blockquote>
+<p>这样说很绕, 抽象的来说, 把每个函数都看做是对象, 我们把这个对象point想象成一个上锁的柜子A, 每个变量名就是一把钥匙, 我们这个柜子A里面可用放很多钥匙,每个钥匙又对应着其他柜子,我们也可以放东西,但是这些东西只能是一些数字字符串什么的,这就对应着对象的这种继承性,</p>
+<p>现在我们来看放在柜子A里面的钥匙,有一个钥匙可用开其他某一个的柜子B(相当于对象的属性的<code>moveTo</code>函数),当我们就在柜子B里面使用<code>this</code>时,这个<code>this</code>是什么呢.</p>
+<p>这个this就要找一个柜子, 那为什么要找一个柜子(对象呢)</p>
+<blockquote>
+<p>这就是js语言设计的松散, 当在非严格模式下, <code>this</code> 会被强制转换成一个对象, 对于例子一,因为内部函数 <code>this</code> 并没有给他赋值(你可以把他看做一个我们找不到他的钥匙的柜子), 所以<code>this</code>被强制转换成了全局的柜子(全局变量)</p>
+</blockquote>
+<h5 id="ps-严格模式在函数或变量前加上-39-use-strict-39"><a href="#ps-严格模式在函数或变量前加上-39-use-strict-39" class="headerlink" title="ps: 严格模式在函数或变量前加上 &#39;use strict&#39;;"></a>ps: 严格模式在函数或变量前加上 <code>&#39;use strict&#39;;</code></h5><p>怎么解决这个问题了, 有两种方法, 不是没有赋值给<code>this</code>嘛, 我们可用call来给函数内部的<code>this</code>赋值,       </p>
+<pre><code>moveX.call(this, x);   // 我们把当前函数的this赋给内部函数
+</code></pre><p>但是这种方法不够优美, 我们还可以直接把 <code>this</code>用个变量<code>that</code>给内部函数用,</p>
+<pre><code>var that = this;
+var moveY = function(y) { 
+        that.y = y;//this 
+ }; 
+</code></pre><p>这样这个<code>this</code> 就不会被强制转换成全局变量了, 当然你可以开启严格模式, 这样this的话就会变成<code>undefined</code>, 你也不会因为你的代码问题而污染全部变量.</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>js 的 <code>this</code> 是面对对象编程的一种体现, 但是js的<code>this</code>由于有点不严格,所以有时候会出现一些令人意向不到的结果,</p>
+<p><em>引用</em></p>
+<ul>
+<li><p><a href="https://www.ibm.com/developerworks/cn/web/1207_wangqf_jsthis/" target="_blank" rel="external">深入浅出 JavaScript 中的 this</a></p>
+</li>
+<li><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Strict_mode" target="_blank" rel="external">严格模式</a></p>
+</li>
+</ul>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/编程思想/">编程思想</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/07/20/js的this引发的思考/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/07/20/js的this引发的思考/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/07/19/关于技术栈的总结/" title="关于技术栈的总结" itemprop="url">关于技术栈的总结</a>
   </h1>
   <p class="article-author">By
@@ -85,7 +215,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-19T13:51:01.000Z" itemprop="datePublished"> 发表于 2016-07-19</time>
+    <time datetime="2016-07-19T13:51:01.000Z" itemprop="datePublished"> Published 2016-07-19</time>
     
   </p>
 </header>
@@ -162,92 +292,6 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/07/18/关于python3和python2 import区别0/" title="关于python3和python2 import区别" itemprop="url">关于python3和python2 import区别</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
-		
-  <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <blockquote>
-<p>最近从python2转到python3,发现还是有一些不同,一些库改名字很好解决,但是这个import机制不了解原理是不好理解的.</p>
-</blockquote>
-<h4 id="python2是默认相对路径导入-python3是默认绝对路径导入"><a href="#python2是默认相对路径导入-python3是默认绝对路径导入" class="headerlink" title="python2是默认相对路径导入,python3是默认绝对路径导入"></a>python2是默认相对路径导入,python3是默认绝对路径导入</h4><p>首先这个包的导入机制,就是你在一个module里面引用另一个module,python运行文件有两种方式,一种是直接以主文件运行(默认以这种方式运行,同下面一种有点区别),一种是以module形式运行,就是用<code>python -m filename</code>方式调用.</p>
-<h2 id="以module的方式运行"><a href="#以module的方式运行" class="headerlink" title="以module的方式运行"></a>以module的方式运行</h2><p>####### 什么是相对导入和绝对导入呢<br>相对导入是用一个<code>.</code>来声明的,相当于Unix上的选择当前文件夹.</p>
-<p>假设你的文件目录为下面的</p>
-<pre><code>main
-|    main.py
-|     __init__py
-|   momod+
-|      | __init__.py
-|      | pack.py
-|       | flask
-|      |    |  __init__.py
-|       |    |  myflask.py
---------------------
-</code></pre><h5 id="python里面的module分三种-一种是build-in-module-内建库-一种是第三方库-还有一种是你自己写的库-如上面的flask"><a href="#python里面的module分三种-一种是build-in-module-内建库-一种是第三方库-还有一种是你自己写的库-如上面的flask" class="headerlink" title="python里面的module分三种,一种是build-in module(内建库),一种是第三方库,还有一种是你自己写的库(如上面的flask)."></a>python里面的module分三种,一种是build-in module(内建库),一种是第三方库,还有一种是你自己写的库(如上面的flask).</h5><p>在python2里面,当你import 一个module时,搜索的顺序是 内建库,自己的库,第三方库.</p>
-<p>####### 而在python3里面顺序为 内建库,第三方库,你自己的库.</p>
-<p>我自己感觉python3的import的机制更为清晰,因为当你import一个库时,假如你写的库和第三方库重合时,你优先导入第三方库,如果你不适用声明相对导入的话,你无法正确的导入自己的库,而使用<code>.</code>来声明库来自自己的代码让代码的结构更加清晰了.所以如果你想让你的代码兼容py2和py3,你自己的库都要采用相对导入方法来导入.<br>比如在momod 里面的pack.py假如想引用flask的myflask.py要这样写</p>
-<pre><code>from .flask import myflask
-</code></pre><p>########### 假如你在py2中写了 <code>from flask import myflask</code>(并且你安装了flask库),这个是可以成功运行但是在py3中就会报错,因为他会优先导入flask库假如你没有显示声明相对导入的话.</p>
-<hr>
-<p>上面成立的前提是将pack.py以module方式运行,或者运行main.py在其中引入pack.py.接下来讲讲以主文件运行的不同.</p>
-<h4 id="当你直接使用"><a href="#当你直接使用" class="headerlink" title="当你直接使用"></a>当你直接使用</h4><pre><code>python pack.py
-</code></pre><p>你假如在pack.py里面使用了这个</p>
-<pre><code>from .flask import myflask
-</code></pre><p>引用了自己的myflaskmodule,在py2和py3中都会下面报这个错</p>
-<pre><code>SystemError: Parent module &apos;&apos; not loaded, cannot perform relative import
-</code></pre><p>因为当你以主文件方式运行 pack.py ,python会吧pack.py重命名为<code>__main__</code>,所以用.相对路径也不会是当前文件.所以全部都只能用绝对引用.所以在主文件运行在python3里面有个问题,假如你自己的库与第三方库有重名.</p>
-<h4 id="python3默认绝对路径-自己的库不会优先于第三方库被扫描-有两个解决方法-把自己的库重命名-第二个方法就是把包含主文件的文件夹加上init-py-你可以在sys-path的路径里加上-或者具体上一个上一个文件夹的路径-怪绕口的-其实你只要python能找到你的上一个文件夹-就行"><a href="#python3默认绝对路径-自己的库不会优先于第三方库被扫描-有两个解决方法-把自己的库重命名-第二个方法就是把包含主文件的文件夹加上init-py-你可以在sys-path的路径里加上-或者具体上一个上一个文件夹的路径-怪绕口的-其实你只要python能找到你的上一个文件夹-就行" class="headerlink" title="python3默认绝对路径,自己的库不会优先于第三方库被扫描.有两个解决方法,把自己的库重命名,第二个方法就是把包含主文件的文件夹加上init.py,你可以在sys.path的路径里加上..或者具体上一个上一个文件夹的路径.怪绕口的,其实你只要python能找到你的上一个文件夹,就行."></a>python3默认绝对路径,自己的库不会优先于第三方库被扫描.有两个解决方法,把自己的库重命名,第二个方法就是把包含主文件的文件夹加上<strong>init</strong>.py,你可以在sys.path的路径里加上<code>..</code>或者具体上一个上一个文件夹的路径.怪绕口的,其实你只要python能找到你的上一个文件夹,就行.</h4><p>说到这里顺便插一句对doctest和集成测试的理解.</p>
-<h4 id="由于我平时喜欢一边写代码一遍测试功能-图方便就使用doctest直接插在方法里面-在代码后面加上"><a href="#由于我平时喜欢一边写代码一遍测试功能-图方便就使用doctest直接插在方法里面-在代码后面加上" class="headerlink" title="由于我平时喜欢一边写代码一遍测试功能,图方便就使用doctest直接插在方法里面,在代码后面加上"></a>由于我平时喜欢一边写代码一遍测试功能,图方便就使用doctest直接插在方法里面,在代码后面加上</h4><pre><code>if __name__ == &apos;__main__&apos;:
-        import doctest
-        doctest.tesmod()
-</code></pre><p>平时写小module的时候没有问题,在将python2转python3时候,出现问题,因为我要测试这个module时,会报上面的那个错,因为我要测试他的话必须将它作为主文件.查了资料知道,其实doctest虽然在当前页面代码测试,但是对于module的话,最好采用集成测试,一是module很多,假如一个一个运行很麻烦,二是有时候module必须多个一起测试,所以测试module时要用集成测试来取代doctest.</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/07/18/关于python3和python2 import区别0/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/07/18/关于python3和python2 import区别0/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
       <a href="/2016/07/18/Python 线程(threading) 进程(multiprocessing)0/" title="Python 线程(threading) 进程(multiprocessing)" itemprop="url">Python 线程(threading) 进程(multiprocessing)</a>
   </h1>
   <p class="article-author">By
@@ -255,7 +299,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
     
   </p>
 </header>
@@ -379,7 +423,7 @@ for t in threading.enumerate():
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
     
   </p>
 </header>
@@ -436,7 +480,7 @@ for t in threading.enumerate():
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
     
   </p>
 </header>
@@ -501,7 +545,7 @@ $ make
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
     
   </p>
 </header>
@@ -559,7 +603,7 @@ $ make
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
     
   </p>
 </header>
@@ -639,7 +683,7 @@ print textwrap.fill(dedented_text, width=50)
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
     
   </p>
 </header>
@@ -729,7 +773,7 @@ print textwrap.fill(dedented_text, width=50)
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
     
   </p>
 </header>
@@ -785,7 +829,7 @@ print textwrap.fill(dedented_text, width=50)
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
     
   </p>
 </header>
@@ -843,15 +887,15 @@ print textwrap.fill(dedented_text, width=50)
   </nav>
 
 </div>
-      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
 
   
 <div class="github-card">
-<p class="asidetitle">Github 名片</p>
+<p class="asidetitle">Github Card</p>
 <div class="github-card" data-github="mrzhangboss" data-width="220" data-height="119" data-theme="medium">
 <script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
 </div>
@@ -863,7 +907,7 @@ print textwrap.fill(dedented_text, width=50)
 
   
 <div class="tagslist">
-	<p class="asidetitle">标签</p>
+	<p class="asidetitle">Tags</p>
 		<ul class="clearfix">
 		
 			
@@ -927,7 +971,7 @@ print textwrap.fill(dedented_text, width=50)
 			
 		
 			
-				<li><a href="/tags/crawl/" title="crawl">crawl<sup>1</sup></a></li>
+				<li><a href="/tags/scrapy/" title="scrapy">scrapy<sup>1</sup></a></li>
 			
 		
 			
@@ -951,7 +995,7 @@ print textwrap.fill(dedented_text, width=50)
 
 
   <div class="linkslist">
-  <p class="asidetitle">友情链接</p>
+  <p class="asidetitle">Links</p>
     <ul>
         
           <li>
@@ -967,11 +1011,11 @@ print textwrap.fill(dedented_text, width=50)
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">新浪微博</p>
+  <p class="asidetitle">Weibo</p>
     <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5364356330&verifier=&dpc=1"></iframe>
 </div>
 
@@ -1155,7 +1199,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
