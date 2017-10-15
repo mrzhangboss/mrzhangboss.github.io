@@ -4,35 +4,29 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>PostgreSQL的自增键 | lunge博客</title>
+    <title>Python异步的理解 | lunge博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="张伦">
     
 
     
-    <meta name="description" content="平常在Django项目中大量使用自增这个键，平常都是使用ORM，很少去了解这个东西在数据库中具体使用，最近遇到要备份和复原数据的事情，趁着这次好好探索一下这个自增键的使用
-
-Django里面大部分都是将其作为Int自增主键来使用，第一个不需要维护一个唯一值，第二个使用Int作为主键的话，搜索和外键关联速度比较快。
-我们这次从原生SQL出发，探索一下这个自增主键在数据库中的具体使用
-新建数据库我们">
+    <meta name="description" content="占坑。。。。。
+引用Python异步并发框架
+Python 中的异步编程：AsyncioTulip: Async I/O for Python 3【译】深入理解python3.4中Asyncio库与Node.js的异步IO机制">
 <meta property="og:type" content="article">
-<meta property="og:title" content="PostgreSQL的自增键">
-<meta property="og:url" content="https://mrzhangboss.github.io/2017/10/08/PostgreSQL的自增键/index.html">
+<meta property="og:title" content="Python异步的理解">
+<meta property="og:url" content="https://mrzhangboss.github.io/2017/10/09/Python异步的理解/index.html">
 <meta property="og:site_name" content="lunge博客">
-<meta property="og:description" content="平常在Django项目中大量使用自增这个键，平常都是使用ORM，很少去了解这个东西在数据库中具体使用，最近遇到要备份和复原数据的事情，趁着这次好好探索一下这个自增键的使用
-
-Django里面大部分都是将其作为Int自增主键来使用，第一个不需要维护一个唯一值，第二个使用Int作为主键的话，搜索和外键关联速度比较快。
-我们这次从原生SQL出发，探索一下这个自增主键在数据库中的具体使用
-新建数据库我们">
-<meta property="og:updated_time" content="2017-10-08T13:20:14.896Z">
+<meta property="og:description" content="占坑。。。。。
+引用Python异步并发框架
+Python 中的异步编程：AsyncioTulip: Async I/O for Python 3【译】深入理解python3.4中Asyncio库与Node.js的异步IO机制">
+<meta property="og:updated_time" content="2017-10-15T13:40:35.174Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="PostgreSQL的自增键">
-<meta name="twitter:description" content="平常在Django项目中大量使用自增这个键，平常都是使用ORM，很少去了解这个东西在数据库中具体使用，最近遇到要备份和复原数据的事情，趁着这次好好探索一下这个自增键的使用
-
-Django里面大部分都是将其作为Int自增主键来使用，第一个不需要维护一个唯一值，第二个使用Int作为主键的话，搜索和外键关联速度比较快。
-我们这次从原生SQL出发，探索一下这个自增主键在数据库中的具体使用
-新建数据库我们">
+<meta name="twitter:title" content="Python异步的理解">
+<meta name="twitter:description" content="占坑。。。。。
+引用Python异步并发框架
+Python 中的异步编程：AsyncioTulip: Async I/O for Python 3【译】深入理解python3.4中Asyncio库与Node.js的异步IO机制">
 <meta name="twitter:creator" content="@mrzhangboss">
 
     
@@ -92,14 +86,14 @@ Django里面大部分都是将其作为Int自增主键来使用，第一个不�
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/10/08/PostgreSQL的自增键/" title="PostgreSQL的自增键" itemprop="url">PostgreSQL的自增键</a>
+      <a href="/2017/10/09/Python异步的理解/" title="Python异步的理解" itemprop="url">Python异步的理解</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2017-10-07T16:00:00.000Z" itemprop="datePublished"> Published 2017-10-08</time>
+    <time datetime="2017-10-08T16:00:00.000Z" itemprop="datePublished"> Published 2017-10-09</time>
     
   </p>
 </header>
@@ -108,71 +102,13 @@ Django里面大部分都是将其作为Int自增主键来使用，第一个不�
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#新建数据库"><span class="toc-number">1.</span> <span class="toc-text">新建数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#增删查减"><span class="toc-number">2.</span> <span class="toc-text">增删查减</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#主键自增"><span class="toc-number">3.</span> <span class="toc-text">主键自增</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#引用"><span class="toc-number">1.</span> <span class="toc-text">引用</span></a></li></ol>
 		
 		</div>
 		
-		<blockquote>
-<p>平常在Django项目中大量使用自增这个键，平常都是使用ORM，很少去了解这个东西在数据库中具体使用，最近遇到要备份和复原数据的事情，趁着这次好好探索一下这个自增键的使用</p>
-</blockquote>
-<p><code>Django</code>里面大部分都是将其作为<code>Int</code>自增主键来使用，第一个不需要维护一个唯一值，第二个使用<code>Int</code>作为主键的话，搜索和外键关联速度比较快。</p>
-<p>我们这次从原生<code>SQL</code>出发，探索一下这个自增主键在数据库中的具体使用</p>
-<h3 id="新建数据库"><a href="#新建数据库" class="headerlink" title="新建数据库"></a>新建数据库</h3><p>我们先新建一个数据库</p>
-<pre><code>create table inc(
-id serial not null,
-name text
-);
-</code></pre><p>在<code>PG</code>里面简单的使用<code>serial</code>关键字就会生成一个自增键，默认会在数据库新建一个索引表，例如上面就会新建一个<code>inc_id_seq</code>的索引表，这个字段类型为<code>int</code>，如果数据库很大，我们可以使用<code>BIGSERIAL</code>键申请一个<code>bigint</code>类型的字段</p>
-<p>我们可以看一下这个索引表里面有什么</p>
-<pre><code>         Sequence &quot;public.inc_id_seq&quot;
-    Column     |  Type   |        Value        
----------------+---------+---------------------
- sequence_name | name    | inc_id_seq
- last_value    | bigint  | 1
- start_value   | bigint  | 1
- increment_by  | bigint  | 1
- max_value     | bigint  | 9223372036854775807
- min_value     | bigint  | 1
- cache_value   | bigint  | 1
- log_cnt       | bigint  | 30
- is_cycled     | boolean | f
- is_called     | boolean | t
-</code></pre><p>我们可以这个索引表其实就是维护了一个参数，通过字段我们可以知道，这是一个自增为1的键，下一个值为2，目前没有插入一个值</p>
-<h3 id="增删查减"><a href="#增删查减" class="headerlink" title="增删查减"></a>增删查减</h3><p>我们通过一些基本操作来看看这个自增键的作用</p>
-<ul>
-<li>首先是插入</li>
-</ul>
-<pre><code>insert into inc (name) values (&apos;1&apos;),(&apos;2&apos;), (&apos;3&apos;);
-</code></pre><p>我们插入三个值，我们再查看索引表，发现<code>last_value</code>变成了3</p>
-<p>这个是没有指定<code>id</code>的值插入，我们试试显式声明插入</p>
-<pre><code>insert into inc  values (1, &apos;1&apos;),(2, &apos;2&apos;), (3, &apos;3&apos;), (4, &apos;4&apos;);
-</code></pre><p>我们惊奇的发现，在我们显式声明自增键的值的时候，索引表并没有变化，<code>last_value</code>还是3,<strong>这说明只有在不声明自增键，让数据库自己新建的时候，索引表才会更新</strong></p>
-<p><strong>我们可以把自增键看做一个默认值，当没有给自增键赋值的时候，这个自增键会从这个键的索引表中得到下一次自增的值</strong></p>
-<p>所以我们再尝试使用不声明自增键值的方法插入一个新值</p>
-<pre><code>insert into inc (name) values (&apos;4&apos;)
-</code></pre><p>我们发现索引表中<code>last_value</code>变成了4</p>
-<h3 id="主键自增"><a href="#主键自增" class="headerlink" title="主键自增"></a>主键自增</h3><p>由于我们在<code>Django</code>里面使用自增，一般都是将其声明为主键，设为唯一值，所以如果我们将声明表的结构变成</p>
-<pre><code>    create table inc(
-id serial not null PRIMARY KEY,
-name text
-    );
-</code></pre><p>上面的情况就不可能发生了，因为我们把自增键声明为主键，不过有意思的事就是如果你像上面一样指定了一个自增主键值为4，然后不指定再插入4，你会发现第一次会报主键不允许重复的错误，第二次则会成功插入，而且索引表的<code>last_value</code>变成了5</p>
-<p>看来并不是每次成功的时候才会更新<code>last_value</code>值，只要让系统自己去申请自增值就会更新索引表，我尝试了对表的增删查改，发现只有<code>insert</code>并且申请自增值的时候才会更新索引表，而且这个索引表之后增加，不会减少，所以有时候你删掉最大的值，自增键默认又从最后一次开始更新</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>在对单个数据表备份还原的时候，由于简单的使用了<code>COPY</code>命令进行备份还原，通过上面的探索我们发现如果涉及到自增主键的导入导出，在新表导入旧数据是不会出错的，但是由于我们没有考虑自增键的影响（我们导入自增键是显示赋值），在后面插入数据的时候有可能会报主键重复的错误</p>
-<p>为了避免以后插入入数据出现这样的错误，我们有两种措施</p>
-<ol>
-<li>使用<code>COPY</code>命令导入导出时候不获取自增键值</li>
-<li>在<code>COPY</code>导入新表后自己更新索引表</li>
-</ol>
-<p>第一种的话<code>SQL</code>比较繁琐（必须写出表所有字段值），推荐使用第二种</p>
-<p>我们可以简单的使用</p>
-<pre><code>SELECT MAX(id) FROM your_table;
-</code></pre><p>先获取自增键最大值，然后更新索引值(999为上面你获取的最大值）</p>
-<pre><code>SELECT setval(&apos;your_table_id_seq&apos;, 999, false);
-</code></pre><p>当然我们可以将这条语句合正一句话</p>
-<pre><code>SELECT setval(&apos;your_table_id_seq&apos;, COALESCE((SELECT MAX(id)+1 FROM your_table), 1), false);
-</code></pre><p>这样我们就可以开心的完成单表导入导出了</p>
-<p>ps：<br>在使用<code>COPY</code>命令时必须是superuser才能从文件中读取和导入数据，最简单的方法是用superuser账号加权使用<code>alter user xxx superuser</code>，待倒完数据后再降权<code>alter user xxx nosuperuser</code></p>
+		<p>占坑。。。。。</p>
+<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><p><a href="http://blog.csdn.net/screaming/article/details/51377870" target="_blank" rel="external">Python异步并发框架</a></p>
+<p><a href="http://python.jobbole.com/87988/" target="_blank" rel="external">Python 中的异步编程：Asyncio</a><br><a href="https://www.youtube.com/watch?v=1coLC-MUCJc" target="_blank" rel="external">Tulip: Async I/O for Python 3</a><br><a href="https://xidui.github.io/2015/10/29/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3python3-4-Asyncio%E5%BA%93%E4%B8%8ENode-js%E7%9A%84%E5%BC%82%E6%AD%A5IO%E6%9C%BA%E5%88%B6/" target="_blank" rel="external">【译】深入理解python3.4中Asyncio库与Node.js的异步IO机制</a></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -181,7 +117,7 @@ name text
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/database/">database</a>
+  <span></span> <a href="/tags/python3/">python3</a>
   </div>
 
 </div>
@@ -190,7 +126,7 @@ name text
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://mrzhangboss.github.io/2017/10/08/PostgreSQL的自增键/" data-title="PostgreSQL的自增键 | lunge博客" data-tsina="5364356330" class="share clearfix">
+	  <div data-url="https://mrzhangboss.github.io/2017/10/09/Python异步的理解/" data-title="Python异步的理解 | lunge博客" data-tsina="5364356330" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -204,18 +140,18 @@ name text
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2017/10/09/Python异步的理解/" title="Python异步的理解">
+ <a href="/2017/10/10/HTTP复用/" title="HTTP复用">
   <strong>上一篇：</strong><br/>
   <span>
-  Python异步的理解</span>
+  HTTP复用</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2017/10/07/my_college_mistakes/"  title="大学的错觉">
+<a href="/2017/10/08/PostgreSQL的自增键/"  title="PostgreSQL的自增键">
  <strong>下一篇：</strong><br/> 
- <span>大学的错觉
+ <span>PostgreSQL的自增键
 </span>
 </a>
 </div>
@@ -224,7 +160,7 @@ name text
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2017/10/08/PostgreSQL的自增键/" data-title="PostgreSQL的自增键" data-url="https://mrzhangboss.github.io/2017/10/08/PostgreSQL的自增键/"></div>
+	<div class="ds-thread" data-thread-key="2017/10/09/Python异步的理解/" data-title="Python异步的理解" data-url="https://mrzhangboss.github.io/2017/10/09/Python异步的理解/"></div>
 </section>
 
 
@@ -234,7 +170,7 @@ name text
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#新建数据库"><span class="toc-number">1.</span> <span class="toc-text">新建数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#增删查减"><span class="toc-number">2.</span> <span class="toc-text">增删查减</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#主键自增"><span class="toc-number">3.</span> <span class="toc-text">主键自增</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#引用"><span class="toc-number">1.</span> <span class="toc-text">引用</span></a></li></ol>
  
   </div>
 

@@ -78,6 +78,222 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/10/10/HTTP复用/" title="HTTP复用" itemprop="url">HTTP复用</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
+		
+  <p class="article-time">
+    <time datetime="2017-10-09T16:00:00.000Z" itemprop="datePublished"> Published 2017-10-10</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <blockquote>
+<p>曾经有人问过我一个问题什么是TCP复用，我当时没有回答上来，后面我又遇到一些并发性能问题的时候，我才开始慢慢明白为什么会有这个问题，以及这个问题背后的秘密</p>
+</blockquote>
+<p>其实当时应该他想考我的是爬虫的请求优化，准确来说是HTTP持久连接（HTTP persistent connection），并不是TCP复用，这才导致我当时查阅很多资料，并没有发现TCP复用能优化客户端，因为<a href="http://gaibianziji.blog.51cto.com/1082897/1211940" target="_blank" rel="external">TCP复用</a>是服务端的事，现在就让我从源头开始慢慢解读这个问题</p>
+<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>我们知道我们每次发的HTTP请求在底层都是一个套接字的通信，我们可以从底层开始做一个测试</p>
+<p>我们使用个for循环，申请1024个socket</p>
+<pre><code>import socket
+l = [ ]
+for  i in range(1024):
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.bind((&apos;www.baidu.com&apos;),80))
+    print(i)
+    l.append(sock)
+</code></pre><p>这个过程有点慢，但是你会发现在申请到1000左右的时候，会直接报<code>Open too many file</code> 这个错误，但是我们并没有打开文件，为什么会报这个错误</p>
+<p>原来在Unix系统下，我们申请的套接字也就是<code>socket</code>在底层是以文件的形式存在的，<strong>客户端通过申请一个<code>socket</code>来写入和接受服务端的请求</strong>，这是一个非常重要的概念，对我们后面解析库函数有很大的帮助。</p>
+<p>由于系统资源有限而且打开很多文件系统响应会变慢，所以Unix系统或者Windows都对单个进程申请套接字有限制，在Unix系统下我们可以通过<code>ulimit -n</code>查看这个值，在笔者的<code>Ubuntu</code>上这个值为1024，基本没有修改过都是这个值，我们可以通过我们可以在命令行执行<code>ulimit -HSn 4096</code>临时增加至4096,</p>
+<p>所以我们一般来说单台机器单个进程最多只能并发1024个请求，在不修改配置的情况下这个值是固定的，所以我们提高并发数只有两种方法</p>
+<ol>
+<li>修改系统配置</li>
+<li>使用多进程</li>
+</ol>
+<p>在写这篇文章之前，我一直以为HTTP复用能在作用在并发上提高爬虫性能，但是其实并不是，它能提高性能但是却不是在并发上提高，接下来我们仔细介绍HTTP复用是怎么提高爬虫性能的</p>
+<h2 id="HTTP复用"><a href="#HTTP复用" class="headerlink" title="HTTP复用"></a>HTTP复用</h2><p>说道HTTP复用，我们不得不介绍一下HTTP和TCP协议，我们都知道Internet是由OSI七层协议构成的，但是OSI只是规定了框架，具体协议我们是通过TCP/IP来实现的</p>
+<p>我们先来说说这个TCP，我们都说互联网能够发展到现在这么稳定可靠多亏了这个TCP可靠协议，但是这个可靠是要付出代价的，建立一次连接的过程要经过三次握手，断开的过程也得四次分手，而且这个连接的过程完全不涉及我们要请求的内容，我们知道爬虫一般请求一个站点只有通过一两次请求就行，如果每次请求都得握三次手，还得分四次手，这样的代价也太大了</p>
+<p>所以HTTP的复用优化的方向就是减少TCP的连接，谈到如何减少TCP连接，我们就得说说HTTP长连接（HTTP persistent connection）</p>
+<h3 id="HTTP长连接"><a href="#HTTP长连接" class="headerlink" title="HTTP长连接"></a>HTTP长连接</h3><p><strong>在HTTP1.1规定了默认都是长连接，TCP不断开，并且在请求头添加一个<code>Connection</code>的header，如果是值为<code>keep-alive</code>则保留TCP连接，假如为<code>Close</code>请求完成之后就会关闭，在HTTP1.0的下默认为关闭状态</strong></p>
+<p>怎么来理解这个长连接呢，我们都听说过<strong>HTTP是无状态的</strong>这句话，从HTTP协议上来看，<strong>服务器客户端就是一个“Request”，“Response”组成，无论多复杂的页面都是由一个个“Request”组成</strong></p>
+<p>为了更好的理解上面的话，我们回到那个套接字，我们把HTTP请求比作打电话，对于每个电话，我们只需要先拨号，然后滴滴滴三下后确定我们同对面连上了（服务器“协商”好），然后我们把我们要说的话通过话筒传给对方，等我们说完之后，由于信号差，对面听完还要想怎么回，然后我们安安静静的在听筒那等，等他想好说什么，在慢慢的说给我们听。</p>
+<p>在HTTP1.0的时代，我们每次拨完一次好，说完一句话，听完对面的回应后，我们就会挂断电话，如果我们还想说就得再重复这个过程，在HTTP1.1下我们增加了长连接这个概念，就是如果你想这个电话里多聊几句，那么就在最后加上“你等下不要挂了，我还要说”（在header加上“Connection: Keep-alive”），那么对方就不会挂断电话，等它说完之后也想你一样在听筒那而等着，这样我们就省掉了一次拨号的时间</p>
+<p>我们现在了解为什么HTTP复用能够节省爬虫的性能了，接下来我们就从编程语言对HTTP复用的实现上了解如何实现HTTP复用</p>
+<h2 id="存贮单元—ConnectionPool"><a href="#存贮单元—ConnectionPool" class="headerlink" title="存贮单元—ConnectionPool"></a>存贮单元—ConnectionPool</h2><p>在介绍ConnectionPool之前我们先简单介绍一下HTTP复用的具体表现</p>
+<h3 id="TCP与URL的关系"><a href="#TCP与URL的关系" class="headerlink" title="TCP与URL的关系"></a>TCP与URL的关系</h3><p>我们知道HTTP复用的是TCP的连接，而TCP连接由四个部分组成</p>
+<ol>
+<li>本地ip</li>
+<li>本地port</li>
+<li>服务器ip</li>
+<li>服务器port</li>
+</ol>
+<p>简单来说就是两个二元组（local_ip, local_port), (server_ip, server_port)</p>
+<p>但是我们发一次的请求是一般是通过URL，也就是类似“<a href="http://www.baidu.com”，这样的url来请求的，这个同我们TCP有什么关系呢？" target="_blank" rel="external">http://www.baidu.com”，这样的url来请求的，这个同我们TCP有什么关系呢？</a></p>
+<p>首先介绍一下“http”代表通信协议，这里使用的是HTTP协议，“://”后面的就是请求的域名，域名后面如果有冒号就是我们请求的端口号这里没有，根据HTTP协议这里默认是80端口（HTTPS是443），域名后面的就是请求路径，这里也没有就默认问“/”，也就是我们通过这个“url”就知道我们这次请求的具体位置了，现在我们找到了端口，但是请求的IP在哪呢？</p>
+<p>这里就要介绍一下DNS了，我们为了让我们的站点更好记，我们使用域名代替ip地址，通过在DNS服务上注册我们域名，以及绑定我们域名对应的IP地址，我们就能让计算机通过域名来转换成IP地址，这里就不详细介绍了</p>
+<p>所以呢我们现在了解了，一个TCP连接只是涉及到URL的域名和端口号，我们请求站点的时候主要是通过不同的路径来获取内容，所以我们可以很清楚的知道，只要我们URL的域名和端口一样，那么我们所以的URL都能共用这个TCP接口</p>
+<h3 id="ConnectionPool的实现"><a href="#ConnectionPool的实现" class="headerlink" title="ConnectionPool的实现"></a>ConnectionPool的实现</h3><p>简单来说为了实现HTTP复用，我们只需要保存TCP连接就行了，但是通过前面我们知道，我们保留的TCP连接必须和你要请求的url要域名端口一样，有时候一个站点的服务可能由多个域名多个端口组成，所以原本我们只要用一个变量保留上一次请求的TCP连接，为了程序更加健壮，我们需要一个TCP连接池，存贮不同的TCP连接。</p>
+<p>每次新的URL来的时候我们就是先从TCP连接池中查看有没有相同的域名和端口，如果有就用它发请求，如果没有就新建一个TCP连接，这就是TCP连接的基本原理，当然还要一点编程的时候要注意，我们从池子里面取出一个用完必须放回，否则池子用完了又得新建，那就完全丢掉了复用这个概念了</p>
+<h2 id="HTTP复用在Requests的具体表现"><a href="#HTTP复用在Requests的具体表现" class="headerlink" title="HTTP复用在Requests的具体表现"></a>HTTP复用在Requests的具体表现</h2><p>前面介绍了一大堆概念，但是从头到尾如果让我们自己来做一个实在太难了，幸好我们有<code>Requests</code>这个库，它的<code>Session</code>对象在<a href="http://requests-docs-cn.readthedocs.io/zh_CN/latest/user/advanced.html" target="_blank" rel="external">文档</a>介绍了它就维护了一个TCP连接池并且能够复用TCP连接</p>
+<p>接下来我们就从代码入手来更好的理解这个进程池的高级用法，我们为了更好看到每一次请求底层的操作，我们这里自己先自己搭建一个本地服务器，我们使用<code>Flask</code>来搭建一个本地服务器<br>新建一个<code>web.py</code>文件，在运行</p>
+<pre><code>from flask import Flask, request
+from werkzeug.serving import WSGIRequestHandler
+
+app = Flask(__name__)
+WSGIRequestHandler.protocol_version = &quot;HTTP/1.1&quot;
+
+
+@app.route(&apos;/&apos;)
+def hello_world():
+    return &apos;%s %s&apos; % (request.remote_addr, request.environ.get(&apos;REMOTE_PORT&apos;))
+
+
+if __name__ == &apos;__main__&apos;:
+    app.run(host=&apos;0.0.0.0&apos;, port=8000)
+</code></pre><p>这里我们在8000端口开了一个服务器并且设置为HTTP/1.1协议，我们返回用户请求的ip和端口</p>
+<p>接下来我们开一个Python解释器来看看这个进程池的用法</p>
+<pre><code>&gt;&gt;&gt; import requests, logging
+&gt;&gt;&gt; logging.basicConfig(level=logging.DEBUG)
+&gt;&gt;&gt; session = requests.Session()
+&gt;&gt;&gt; session.get(&apos;https://baidu.com&apos;)
+DEBUG:requests.packages.urllib3.connectionpool:Starting new HTTP connection (1): www.baidu.com
+            DEBUG:requests.packages.urllib3.connectionpool:http://www.baidu.com:80 &quot;GET / HTTP/1.1&quot; 200 None
+&lt;Response [200]&gt;
+</code></pre><p>看我们可以从打印的logging日志看到我们在进程池中新建了一个TCP连接，我们在试着再请求一次</p>
+<pre><code>&gt;&gt;&gt; session.get(&apos;https://www.baidu.com&apos;)
+    DEBUG:requests.packages.urllib3.connectionpool:https://www.baidu.com:443 &quot;GET / HTTP/1.1&quot; 200 None
+&lt;Response [200]&gt;
+</code></pre><p>看我们的HTTP复用实现了，在同一个TCP连接中我们请求了两次</p>
+<h2 id="深入requests的ConnectionPool"><a href="#深入requests的ConnectionPool" class="headerlink" title="深入requests的ConnectionPool"></a>深入<code>requests</code>的ConnectionPool</h2><p>在上面我们验证了<code>requests</code>的<code>Session</code>对象的确实现连接池，但是似乎<code>requests</code>并没有给我们接口来操作这个值，通过分析代码和资料，我们发现在<code>Session</code>初始化的时候，绑定了一个    <code>HTTPAdapter</code>对象，这个对象就是<code>requests</code>封装了<code>urllib3.connectionpool.ConnectionPool</code>来实现TCP池</p>
+<p>我们查看这个<code>HTTPAdapter</code>文档发现它的用法是这个</p>
+<pre><code>&gt;&gt;&gt; import requests
+&gt;&gt;&gt; s = requests.Session()
+&gt;&gt;&gt; a = requests.adapters.HTTPAdapter(max_retries=3)
+&gt;&gt;&gt; s.mount(&apos;http://&apos;, a)
+</code></pre><p>我们可以通过创建将一个TCP池绑定到一个<code>session</code>对象上，我们可以看一下这个创建一个<code>HTTPAdapter</code>的参数</p>
+<pre><code>HTTPAdapter(self, pool_connections=10, pool_maxsize=10, max_retries=0, pool_block=False)
+</code></pre><p>我们主要看这两个参数<code>pool_connections</code>和<code>pool_maxsize</code>，通过一番测试（比较长就不演示了，可以参考引用来进行实验），我们发现这个<code>pool_connections</code>主要控制TCP池的种类数，我们知道在进程池中我们可以有很多相同的TCP连接（主要是并发新建的），这些连接有些是连接相同的域名和端口，这个<code>pool_connections</code>就是控制有多少种类的域名和端口同时能够存在池中，那么这个<code>pool_maxsize</code>代表的就是池中不管种类有多少总共的TCP连接数</p>
+<p>当然这里有个非常重要的知识点，<strong>TCP池并不会限制新建TCP连接</strong>,它只是限制存贮量和种类，这个知识点非常重要，这对后面我们理解异步请求时候为什么要限制并发数有非常大的帮助</p>
+<h2 id="TCP连接池的作用"><a href="#TCP连接池的作用" class="headerlink" title="TCP连接池的作用"></a>TCP连接池的作用</h2><p>经过上面的探索，我们知道TCP连接池一方面能够实现HTTP复用达到减少TCP连接时耗的作用，另一方面我们通过复用TCP连接可以节省套接字，避免经常碰到”Too many file“的错误，顺便提一下，由于TCP连接具有冷启动的特点，在刚连接上TCP时，速度会非常慢，只有系统发现负载不多才会恢复正常速度，所以这就是我们有时候用浏览器打开一个新页面要加载很久的原因。</p>
+<p>前面一直在介绍HTTP复用的理论基础，最后我们实战演练一下在异步框架<code>aiohttp</code>使用HTTP复用</p>
+<h2 id="异步框架下HTTP复用"><a href="#异步框架下HTTP复用" class="headerlink" title="异步框架下HTTP复用"></a>异步框架下HTTP复用</h2><p>在这里我们使用<code>Python</code>的<code>aiohttp</code>异步请求框架（在这里我们要求<code>Python</code>的版本必须大于等于3.5），<code>aiohttp</code>也提供了<code>TCP</code>连接池的功能，要想共享TCP连接池，我们先新建一个<code>Session</code>对象</p>
+<pre><code>connector = aiohttp.TCPConnector(limit=50)
+session = aiohttp.ClientSession(connector=connector)
+</code></pre><p>我们直接创建了一个最大容量为50的TCP池，并把它绑定到session对象上，接下来先试试跑个200个请求（要先在按照前面的代码搭建本地服务器）</p>
+<pre><code>async def fetch(url, session):
+    async with session.get(url, timeout=500) as resp:
+        print(resp.status, await resp.text())
+
+loop = asyncio.get_event_loop()
+</code></pre><p>引用：</p>
+<p><a href="https://laike9m.com/blog/requests-secret-pool_connections-and-pool_maxsize,89/" target="_blank" rel="external">Requests’ secret: pool_connections and pool_maxsize</a></p>
+<p><a href="https://pawelmhm.github.io/asyncio/python/aiohttp/2016/04/22/asyncio-aiohttp.html" target="_blank" rel="external">Making 1 million requests with python-aiohttp</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/HTTP/">HTTP</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/10/10/HTTP复用/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/10/10/HTTP复用/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/10/09/Python异步的理解/" title="Python异步的理解" itemprop="url">Python异步的理解</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
+		
+  <p class="article-time">
+    <time datetime="2017-10-08T16:00:00.000Z" itemprop="datePublished"> Published 2017-10-09</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>占坑。。。。。</p>
+<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><p><a href="http://blog.csdn.net/screaming/article/details/51377870" target="_blank" rel="external">Python异步并发框架</a></p>
+<p><a href="http://python.jobbole.com/87988/" target="_blank" rel="external">Python 中的异步编程：Asyncio</a><br><a href="https://www.youtube.com/watch?v=1coLC-MUCJc" target="_blank" rel="external">Tulip: Async I/O for Python 3</a><br><a href="https://xidui.github.io/2015/10/29/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3python3-4-Asyncio%E5%BA%93%E4%B8%8ENode-js%E7%9A%84%E5%BC%82%E6%AD%A5IO%E6%9C%BA%E5%88%B6/" target="_blank" rel="external">【译】深入理解python3.4中Asyncio库与Node.js的异步IO机制</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/python3/">python3</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/10/09/Python异步的理解/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/10/09/Python异步的理解/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/10/08/PostgreSQL的自增键/" title="PostgreSQL的自增键" itemprop="url">PostgreSQL的自增键</a>
   </h1>
   <p class="article-author">By
@@ -832,326 +1048,6 @@ name text
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/12/23/how-to-be-data-scientist/" title="怎么成为数据科学家（翻译）" itemprop="url">怎么成为数据科学家（翻译）</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
-		
-  <p class="article-time">
-    <time datetime="2016-12-23T14:05:56.000Z" itemprop="datePublished"> Published 2016-12-23</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <blockquote>
-<p>这是我从<code>Quora</code>上看到的一篇非常简短但详细的数据科学家的‘技能点’<br>来自eBay的一个数据科学家的回答<br>翻译来自<a href="https://www.quora.com/How-do-I-become-Data-analyst-scientist-Do-I-need-to-have-good-programming-skills/answer/Paul-Jeon-3?srid=ue3s8" target="_blank" rel="external">Quora回答</a></p>
-</blockquote>
-<p>这是面试谷歌、英特尔、脸书等大的世界五百强公司的数据科学家相关岗位常见的技术要求，在我看来主要有七点</p>
-<ul>
-<li>基本的编程基础</li>
-</ul>
-<blockquote>
-<p>你应该了解一门统计学相关的编程语言，比如说<code>R</code>或<code>Python</code>（同时要了解<code>Numpy</code>和<code>Pandas</code>库），还要一门数据库查询语言比如<code>SQL</code></p>
-</blockquote>
-<ul>
-<li>统计学</li>
-</ul>
-<blockquote>
-<p>你应该要能解释零假设、P值、最大似然估计和置信空间这些短语，统计学在非常巨大的数据库里压缩数据和从挑选最重要的特征非常重要，在你得出结论和设计实验过程中也帮助巨大</p>
-</blockquote>
-<ul>
-<li>机器学习</li>
-</ul>
-<blockquote>
-<p>你必须能够搞懂K-近邻、随机森林和集合方法等机器学习算法，这些算法基本上都在<code>R</code>或<code>Python</code>中得到实现，这些算法能告诉你雇主你能够将计算机科学运用在实际的管理中。</p>
-</blockquote>
-<ul>
-<li>数据重组</li>
-</ul>
-<blockquote>
-<p>你应该要能够“清理”数据。比如数据库中”California” （加利福利亚）和“CA”是一样的，数据库里面可能出现用负值代表人口。这个总的来说就是识别坏（或者不正确）的数据然后校正（或删除)他们。</p>
-</blockquote>
-<ul>
-<li>数据可视化</li>
-</ul>
-<blockquote>
-<p>数据科学家不能就只是自己搞懂就行，他们需要把他们发现告诉你的产品经理，这样就能确保数据能很好的应用到程序里面去。所以，熟悉数据可视化工具比如说<code>ggplot</code>非常重要（这样你就能展示你的数据而不是仅仅谈谈而已）</p>
-</blockquote>
-<ul>
-<li>软件工程</li>
-</ul>
-<blockquote>
-<p>你应该了解算法和数据结构，因为这些东西在你写高效率的机器学习算法时非常重要，知道如何使用分支和使用高效的数据结构：队列、数组、列表、堆栈、树等等。</p>
-</blockquote>
-<ul>
-<li>产品管理</li>
-</ul>
-<blockquote>
-<p>这个绝对是有争议的，但是那些了解产品的人将会知道什么指标是最重要的。这里有很多数据可以用来做A/B测试，但是产品导向的数据科学家将会把最好的指标用来做测试。你要知道这些的意思：可用性测试、线框、保留和转换率、流量分析、客户反馈、内部日志、A/B测试。</p>
-</blockquote>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/transform/">transform</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/12/23/how-to-be-data-scientist/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/12/23/how-to-be-data-scientist/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/11/13/协程解决递归错误/" title="协程解决递归错误原理" itemprop="url">协程解决递归错误原理</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
-		
-  <p class="article-time">
-    <time datetime="2016-11-13T05:22:17.493Z" itemprop="datePublished"> Published 2016-11-13</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
-<p>递归是高度抽象化问题的一个好东西，我们能从很多算法书里面看到这个，<br>但是递归虽然对于人来说好理解，但是计算机执行起来会损失性能，一个差的递归可能会耗光计算机的资源</p>
-</blockquote>
-<p>接下来我们来看一个非常经典的算法问题<code>Fibonacci数</code></p>
-<pre><code>f(n) = n (n &lt; 2)
-f(n) = f(n-1) + f(n-2)   (n &gt;= 2)
-</code></pre><p>  我们可以很轻松的用递归解决掉它</p>
-<pre><code>def fibonacci(n):
-  if n &lt; 2:
-      return n
-  else:
-      return fibonacci(n-1) + fibonacci(n-2)
-</code></pre><p> 当<code>n</code>比较小的时候很快就出结果了，但是当<code>n</code>大于100时候要很久才能出结果，如果<code>n</code>大于1000，直接报出超出迭代深度的错误（python默认迭代深度是1000）</p>
-<p>现在我们来解决两个问题</p>
-<ol>
-<li>为什么<code>n</code>大于100时候就很久才能算出结果</li>
-<li>为什么<code>n</code>大于1000就报迭代深度的错误</li>
-</ol>
-<p>首先我们要知道一个概念就是堆栈段，每个进程开始运行时都会初始化一个堆栈段，这在物理上就是一小块内存，初始化堆栈段的时候计算机要做一些看起来同程序毫无关系的事情，比如说将寄存器的值推入堆栈里面等等</p>
-<p>当你在运行主程序的时候你调用一个子函数，系统又会在当前堆栈段新建一个堆栈段，你子程序运行完了后会删掉这个堆栈段回到主程序，但是递归有个问题，就是他调用子程序的时候不会立即返回又会再调用自己</p>
-<p>没办法因为子程序还没返回，所以计算机又初始化一个堆栈段，一个<code>n</code>为10的<code>fibonacci</code>函数就会初始化掉 <code>2 ** 10 = 1024</code>个堆栈段，<code>n</code>越大值会指数型增长，虽然1000个初始化在当今计算机上发不了多少时间，但是当我们<code>n</code>大于20就要 百万次初始化了</p>
-<p>这就是为什么<code>n</code>很大的时候要很久才能算出结果，在一些单片机上面，循环调用空函数就是延时的功能，原理也就是堆栈初始化耗时间，而且不但耗时间假如像递归这样调用上百万次初始化而不返回将会耗掉大量内存在堆栈段上。</p>
-<h2 id="对策"><a href="#对策" class="headerlink" title="对策"></a>对策</h2><blockquote>
-<p>要解决这两个问题，一种方法是改算法，使用非递归算法，这个网上有很多，感兴趣的可以去搜一下，第二种是使用协程解决递归问题</p>
-</blockquote>
-<p>如何使用协程来解决递归呢我们先改主程序，将<code>return</code>换成<code>yield</code></p>
-<pre><code>def _fibonacci(n):
-  if n &lt; 2:
-      yield n
-  else:
-      yield ( (yield (_fibonacci(n-1)) + (yield (_fibonacci(n-2)))
-</code></pre><p>接下啦我们运行一下函数</p>
-<pre><code>&gt;&gt;&gt; _fibonacci(10)
- &lt;generator object _fibonacci at 0x00000013A74779E8&gt;
-</code></pre><p>没有返回结果,返回一个生成器，那我们用<code>list</code>简单的试一下吧</p>
-<pre><code>&gt;&gt;&gt; list(_)
-......
-......
-TypeError: unsupported operand type(s) for +: &apos;NoneType&apos; and &apos;NoneType&apos;
-</code></pre><h4 id="生成器小知识"><a href="#生成器小知识" class="headerlink" title="生成器小知识"></a>生成器小知识</h4><blockquote>
-<p>这里补充几点生成器的知识，懂得可以跳过</p>
-</blockquote>
-<p>生成器大家都用过，无论是<code>Python2</code>或<code>Python3</code>都不陌生,最简单的生成器是这种</p>
-<pre><code>&gt;&gt;&gt; items = ( x for x in range(10))
-</code></pre><p>我们一般搭配<code>for</code>来使用</p>
-<pre><code>&gt;&gt;&gt; for i in items:
-...         print(i)
-...
-</code></pre><p>我们也可以用协程来实现这个生成器</p>
-<pre><code>def iter_func(n):
-    for i in range(n):
-        yield n
-</code></pre><p>像上面一样使用<code>for</code>就能实现一样的功能，在这个例子里面<code>yield</code>好像变成了一个<code>return</code>的作用，在<code>for</code>语句中，随着每次请求都会<code>return</code>一个数过来</p>
-<p>在这个里面<code>yield</code>好像就是这么个功能，但是<code>yield</code>的作用远远不止于此</p>
-<p>我们现在来改一下这个函数</p>
-<pre><code>def iter_func(n):
-    for i in range(n):
-        r = yield i
-        print(&apos;result&apos;, r)
-</code></pre><p>我们用<code>list</code>来运行一下这个函数</p>
-<pre><code>&gt;&gt;&gt; list(iter_fun(2))
-0
-result None
-1
-result None
-</code></pre><p><code>r</code>返回了一个<code>None</code>，我们尝试自己实现一下<code>for</code>循环,有两种方式</p>
-<ul>
-<li>next(generator)</li>
-<li>generator.send(msg)</li>
-</ul>
-<p>先尝试用<code>next</code></p>
-<pre><code>&gt;&gt;&gt; it = iter_fun(2)
-&gt;&gt;&gt; next(it)
-0
-&gt;&gt;&gt; next(it)
-result None
-1
-</code></pre><p>我们介绍一下<code>next</code>函数, <code>next</code>接受两个参数，第一个是生成器，第二个是返回的默认值,<code>next</code>函数在这里相当于下面这个函数</p>
-<pre><code>def next(iterator, default=None):
-    try:
-        iterator.send(None)
-    except StopIteration:
-        if default:
-            return default
-        else:
-            raise StopIteration()
-</code></pre><p><strong>为什么第二个执行了<code>print</code>函数而第一个没有执行?</strong></p>
-<h4 id="生成器工作原理"><a href="#生成器工作原理" class="headerlink" title="生成器工作原理"></a>生成器工作原理</h4><blockquote>
-<p>这里我们介绍一下生成器的工作原理</p>
-</blockquote>
-<p>当我们使用调用一个函数的时候，一般是碰到<code>return</code>或者执行全部函数就会返回父函数</p>
-<p>但是<strong>生成器</strong>不同，假如他执行函数碰到<code>yield</code>，他就会直接返回一个生成器。</p>
-<p>这个生成器我们可以把它看做是邮递员，我们必须写好目的地,他才会帮我们把信寄出去。</p>
-<p>现在我们分析一下生成器的具体流程，我们先定义一个简单的生成器</p>
-<pre><code>def mygenerator(n):
-    while True:
-        r = yield n
-        n -= 1
-        print(&apos;result&apos;, r)
-</code></pre><p> 然后我们调用这个生成器</p>
-<pre><code>&gt;&gt;&gt; i = mygenerator(10)
-&gt;&gt;&gt; i
-&lt;generator object mygenerator at 0x7f420a339d00&gt;
-</code></pre><p>我们得到一个生成器，我们先尝试发送一个地址给“邮递员”</p>
-<pre><code>&gt;&gt;&gt; i.send(0)
-...
-TypeError: can&apos;t send non-None value to a just-started generator
-</code></pre><p>我们得到一个错误，必须传递一个<code>None</code>，我们先不管，先送一个<code>None</code>值过去</p>
-<pre><code>&gt;&gt;&gt; i.send(None)
-10
-</code></pre><p>我们得到一个<code>10</code>，再送一个地址过去</p>
-<pre><code>&gt;&gt;&gt; i.send(None)
-result None
-9
-</code></pre><p>我们现在来分析一下代码，第一次调用的时候直接返回了，第二次调用我们从<code>r = yield n</code>那行开始执行，并且运行到第二个<code>r = yield n</code>那里停止了</p>
-<p><strong>就可以解释上面为什么要第一次传递<code>None</code>过去，因为第一次调用它会直接返回<code>yield</code>后面的值给我们，第二次调用 我们可以根据第一次生成器递给我们的值，决定我们第二次想寄的“信”，因为第一次传递过去“信”并不能被处理，所以Python强制我们传递一个None值过去</strong></p>
-<hr>
-<blockquote>
-<p>我们回到上面的函数</p>
-</blockquote>
-<pre><code>def _fibonacci(n):
-    if n &lt; 2:
-        yield n
-    else:
-        yield ( (yield (_fibonacci(n-1)) + (yield (_fibonacci(n-2)))
-</code></pre><p>我们来分析一下流程，为了解决上面的问题我们先把函数简化，去掉递归</p>
-<pre><code>def f(n):
-    yield (yield n) + (yield n - 1)
-</code></pre><p>我们先创建一个生成器<code>i</code></p>
-<pre><code>&gt;&gt;&gt; i = f(5)
-&gt;&gt;&gt; i
- &lt;generator object f at 0x7f4a421d8f10&gt;
-</code></pre><p>我们先启动i</p>
-<pre><code>&gt;&gt;&gt; i.send(None)
-5
-</code></pre><p>我们再把得到<code>5</code>传给<code>i</code></p>
-<pre><code>&gt;&gt;&gt; i.send(5)
-4
-</code></pre><p>我们得到<code>yield n -1</code>返回的4，我们再把4传给<code>i</code>，得到最终结果</p>
-<pre><code>&gt;&gt;&gt; i.send(5)
-9
-</code></pre><p>假如我们把后面两个<code>send</code>的值换成其他值我们会得到不同的结果，这里我们可以看到我们，要实现上面函数必须要依靠一个<code>栈</code>，保存我们返回的生成器，然后依次调用生成器返回结果，具体代码如下</p>
-<pre><code>def fibonacci(n):
-    stack = [ _fibonacci(n)]
-    last_result = None
-    while stack:
-        last = stack[-1]
-        try:
-            if isinstance(last, types.GeneratorType):
-                stack.append(last.send(last_result))
-                last_result = None
-            else:
-                last_result = stack.pop()
-         except StopIteration:
-             stack.pop()
-     return result
-</code></pre><p>我们这里用<code>stack</code>作为我们的堆栈，用<code>last_result</code>保存上一个生成器返回的值</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>我们使用协程解决掉了递归错误，但是这个方法并不可以给我们算法加速，虽然n为1000以上不会报递归错误，但是等待的时间还是很长很长。。。</p>
-<p>虽然协程在这个方法里面并没有起到多大作业，协程在算法方面还是没有太多帮助，协程在计算机<code>I/O</code>还有网络请求方面有更好的效率，但是这次尝试让我们对协程如何使用有了一个清晰的了解</p>
-<p>有兴趣的可以去了解一下协程在异步网络请求的应用</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/python3/">python3</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/11/13/协程解决递归错误/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/11/13/协程解决递归错误/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -1202,6 +1098,10 @@ result None
 			
 		
 			
+				<li><a href="/tags/python3/" title="python3">python3<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/competition/" title="competition">competition<sup>2</sup></a></li>
 			
 		
@@ -1210,11 +1110,7 @@ result None
 			
 		
 			
-				<li><a href="/tags/blog/" title="blog">blog<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/感想/" title="感想">感想<sup>1</sup></a></li>
+				<li><a href="/tags/js/" title="js">js<sup>1</sup></a></li>
 			
 		
 			
@@ -1242,7 +1138,7 @@ result None
 			
 		
 			
-				<li><a href="/tags/scrapy/" title="scrapy">scrapy<sup>1</sup></a></li>
+				<li><a href="/tags/database/" title="database">database<sup>1</sup></a></li>
 			
 		
 			
@@ -1250,11 +1146,11 @@ result None
 			
 		
 			
-				<li><a href="/tags/conclusion/" title="conclusion">conclusion<sup>1</sup></a></li>
+				<li><a href="/tags/blog/" title="blog">blog<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/js/" title="js">js<sup>1</sup></a></li>
+				<li><a href="/tags/conclusion/" title="conclusion">conclusion<sup>1</sup></a></li>
 			
 		
 			
