@@ -11,22 +11,40 @@
     
 
     
-    <meta name="description" content="占坑。。。。。
-引用Python异步并发框架
-Python 中的异步编程：AsyncioTulip: Async I/O for Python 3【译】深入理解python3.4中Asyncio库与Node.js的异步IO机制">
+    <meta name="description" content="起因
+异步的出现主要是单线程的io等待，由于任务大部分是io处于等待，假如让一个线程工作，所有任务按照流水线形式执行，假如一个请求需要1秒，五个请求需要五秒，那么如果能让他们同时运行的话，那么速度就能增加五倍
+
+如何让五个任务同时进行有两种方法
+
+多线程
+异步
+
+调试过过多线程的人都知道，线程就是从头到复制主线程一遍，开多个线程不仅成本高，而且调试成本高，异步就不一样呢，你可以把它当做一个单线程来">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Python异步的理解">
 <meta property="og:url" content="https://mrzhangboss.github.io/2017/10/09/Python异步的理解/index.html">
 <meta property="og:site_name" content="lunge博客">
-<meta property="og:description" content="占坑。。。。。
-引用Python异步并发框架
-Python 中的异步编程：AsyncioTulip: Async I/O for Python 3【译】深入理解python3.4中Asyncio库与Node.js的异步IO机制">
-<meta property="og:updated_time" content="2017-10-15T13:40:35.174Z">
+<meta property="og:description" content="起因
+异步的出现主要是单线程的io等待，由于任务大部分是io处于等待，假如让一个线程工作，所有任务按照流水线形式执行，假如一个请求需要1秒，五个请求需要五秒，那么如果能让他们同时运行的话，那么速度就能增加五倍
+
+如何让五个任务同时进行有两种方法
+
+多线程
+异步
+
+调试过过多线程的人都知道，线程就是从头到复制主线程一遍，开多个线程不仅成本高，而且调试成本高，异步就不一样呢，你可以把它当做一个单线程来">
+<meta property="og:updated_time" content="2017-10-24T15:55:53.798Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python异步的理解">
-<meta name="twitter:description" content="占坑。。。。。
-引用Python异步并发框架
-Python 中的异步编程：AsyncioTulip: Async I/O for Python 3【译】深入理解python3.4中Asyncio库与Node.js的异步IO机制">
+<meta name="twitter:description" content="起因
+异步的出现主要是单线程的io等待，由于任务大部分是io处于等待，假如让一个线程工作，所有任务按照流水线形式执行，假如一个请求需要1秒，五个请求需要五秒，那么如果能让他们同时运行的话，那么速度就能增加五倍
+
+如何让五个任务同时进行有两种方法
+
+多线程
+异步
+
+调试过过多线程的人都知道，线程就是从头到复制主线程一遍，开多个线程不仅成本高，而且调试成本高，异步就不一样呢，你可以把它当做一个单线程来">
 <meta name="twitter:creator" content="@mrzhangboss">
 
     
@@ -102,12 +120,114 @@ Python 中的异步编程：AsyncioTulip: Async I/O for Python 3【译】深入�
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#引用"><span class="toc-number">1.</span> <span class="toc-text">引用</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#起因"><span class="toc-number">1.</span> <span class="toc-text">起因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Python异步的多种实现"><span class="toc-number">2.</span> <span class="toc-text">Python异步的多种实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#了解异步基础"><span class="toc-number">3.</span> <span class="toc-text">了解异步基础</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#浅析Python异步实现"><span class="toc-number">4.</span> <span class="toc-text">浅析Python异步实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#深入asyncio了解Python异步"><span class="toc-number">5.</span> <span class="toc-text">深入asyncio了解Python异步</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#引用"><span class="toc-number">5.1.</span> <span class="toc-text">引用</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<p>占坑。。。。。</p>
-<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><p><a href="http://blog.csdn.net/screaming/article/details/51377870" target="_blank" rel="external">Python异步并发框架</a></p>
+		<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><blockquote>
+<p>异步的出现主要是单线程的io等待，由于任务大部分是io处于等待，假如让一个线程工作，所有任务按照流水线形式执行，假如一个请求需要1秒，五个请求需要五秒，那么如果能让他们同时运行的话，那么速度就能增加五倍</p>
+</blockquote>
+<p>如何让五个任务同时进行有两种方法</p>
+<ol>
+<li>多线程</li>
+<li>异步</li>
+</ol>
+<p>调试过过多线程的人都知道，线程就是从头到复制主线程一遍，开多个线程不仅成本高，而且调试成本高，异步就不一样呢，你可以把它当做一个单线程来进行编程，而且比多线程更加高效</p>
+<h2 id="Python异步的多种实现"><a href="#Python异步的多种实现" class="headerlink" title="Python异步的多种实现"></a>Python异步的多种实现</h2><p>Python实现异步的框架有很多，但是核心思想大概是基于下面两种方式</p>
+<ul>
+<li>twister</li>
+<li>gevent</li>
+</ul>
+<p>twister思想是将异步操作封装起来，通过回调的方式来操作，我们看<code>scrapy</code>里面中间请求的实现就是<code>twister</code>方式</p>
+<pre><code>scrapy.Request(url=&apos;xxx&apos;, callback=func)
+</code></pre><p>通过传递封装的<code>request</code>，当框架帮我们请求完后，会通过callback进行回调，如果你的请求很简单那还好，只需要回调一次就可以，假如你的请求较复杂，那么你就会进入<code>回调地狱（callback hell）</code></p>
+<p>而且你还要写处理各种回调产生的异常，你可以看看<code>scrapy</code>中间件的实现就知道<code>scrapy</code>的异常处理有多繁琐了。但是中间间的存在的确让我们代码模块话更加容易，这里暂且不谈。</p>
+<p><code>twister</code>这种回调比较反人类，它必须依赖背后的核心进行调度，离开了背后核心的支持，这个根本跑不起来，而且由于它依赖回调来进行后续步骤处理，所以我们的代码必须被切分为不同的部分，假如我们不知道背后的核心如何回调函数或者约束，我们根本不知道这两个函数是有关联的</p>
+<p>这种编程方式比较有利于模块话开发，但是对于我们熟悉顺序编程来看，这种回调方式显然是一场噩梦，相比于<code>twister</code>这种回调方式，<code>gevent</code>采用的是绿色协程的方式进行回调。</p>
+<p>PEP-380定义了<code>yield from</code>的语句，Python3.3开始使用，为了区别协程和生成器，Python3.5开始使用<code>await</code>代替<code>yield from</code>，这样协程就有了一个专门的方法来声明（<code>await</code>和<code>async</code>），后者用来标记异步函数</p>
+<p>协程之所以能够在异步中大方光彩，其中很大一部分就是协程天生就是异步的，理解协程我们可以从一个简单的生成器与普通函数来对比</p>
+<pre><code>a = (x for x in range(10))
+b = [x for x in range(10))
+</code></pre><p>我们来看这样一个生成器a，一般我们来用这个生成器必须加    <code>for</code>循环才能得到里面的值，假如我们尝试使用<code>a.send(None)</code>，我们会发现，我们依次从返回值得到了b里面的序列</p>
+<p>就是这么一个send与接受的功能让我们实现了一种”绿色“回调，就是协程这个性质让他写异步变得更加顺理成章了，而且相比<code>twister</code>回调，协程的回调更为彻底，它把”自己”包装起来全部回调回去了。</p>
+<h2 id="了解异步基础"><a href="#了解异步基础" class="headerlink" title="了解异步基础"></a>了解异步基础</h2><p>前面简单的聊了协程的性质，现在谈谈异步存在的基础，异步的存在最关键的在于等待，为了了解这个等待意思和后面解读<code>asycio</code>库，我们先使用<code>selectors</code> （Python3对<code>select</code>的封装）来做个演示</p>
+<pre><code>import selectors
+sel = selectors.DefaultSelector()
+</code></pre><p>声明一个<code>select</code>对象sel，现在我们要调用这个核心函数</p>
+<pre><code>sel.select(10)
+</code></pre><p>这个10是代表<code>timeout</code>的时长，也就是最长等待时间，10秒之后我们发现，这个结果返回了一个空列表，这是显而易见的，我们并没有指明让它等待什么</p>
+<p><code>selectors</code>这个库的功能非常好理解，类比寄信，你如果想等别人回信，假如你没有寄出去你自己的信，你一直在邮箱那等，除了等到你不想等，否则你是收不到你的回信的，所以这个库的核心在于，“寄信”（register）和等信（select），然后自己选择处理信件</p>
+<pre><code>import selectors
+import socket
+
+sel = selectors.DefaultSelector()
+
+def accept(sock, mask):
+    conn, addr = sock.accept() 
+    print(&apos;accepted&apos;, conn, &apos;from&apos;, addr)
+
+sock = socket.socket()
+sock.bind((&apos;localhost&apos;, 8000))
+sock.listen(100)
+sock.setblocking(False)
+sel.register(sock, selectors.EVENT_READ, accept)
+
+while True:
+    events = sel.select()
+    for key, mask in events:
+        callback = key.data
+        callback(key.fileobj, mask)
+</code></pre><p>这个程序最关键的地方在于<code>sel.register</code>、<code>sel.select</code>和<code>callback</code>那里，前者是注册函数，后面是等待，最后就是回调</p>
+<p>上面就是<code>twister</code>式最简单的回调，你可以看到，为了得到连接<code>sock</code>的连接，我们必须把处理注册到等待中去，但是这只是得到<code>sock</code>连接，为了成功建立一个<code>TCP</code>连接，我们还得进行三次握手，还得处理每次回调时的错误</p>
+<p>而且你可以看到回调函数与核心驱动<code>select.select()</code>耦合度非常高，我们必须完全了解系统如何回调，处理一件事被回调分割成一段一段</p>
+<p>接下来我们来看看基于<code>gevent</code>的<code>asyncio</code>实现</p>
+<pre><code>async def wget(host):
+    connect = asyncio.open_connection(host, 80)
+    reader, writer = await connect
+    header = &apos;GET / HTTP/1.0\r\nHost: %s\r\n\r\n&apos; % host
+    writer.write(header.encode(&apos;utf-8&apos;))
+    await writer.drain()
+    while True:
+        line = await reader.readline()
+        if line == b&apos;\r\n&apos;:
+            break
+    writer.close()
+</code></pre><p>我们成功的用一个函数描绘了建立一次连接并且进行通信的过程，假如你懂一点<code>asyncio</code>，你就会发现它与<code>twister</code>回调的不同，使用<code>await</code>关键字把函数挂起，然后等待回调，根据回调接着进行下面的操作，我们成功的用同步的语句把异步写出来，而且是使用Python的原生实现，所以当<code>asyncio</code>出来的时候Guido（Python之父）是多么自豪，你可以看下面引用 <a href="https://www.youtube.com/watch?v=1coLC-MUCJc" target="_blank" rel="external">Tulip: Async I/O for Python 3</a>演讲的视频</p>
+<h2 id="浅析Python异步实现"><a href="#浅析Python异步实现" class="headerlink" title="浅析Python异步实现"></a>浅析Python异步实现</h2><p>前面我们知道了异步的基础就是等待，那么Guido是如何在协程的帮助下将异步实现出来的呢，接下来我们就简单的谈一下这个实现基础</p>
+<p>我们先将上面<code>twister</code>改成<code>gevent</code>方式的</p>
+<pre><code>sel = selectors.DefaultSelector()
+
+
+@asyncio.coroutine
+def get_connection(sock):
+    sel.register(sock, selectors.EVENT_READ)
+    yield True
+
+
+async def create_connection():
+    sock = socket.socket()
+    sock.bind((&apos;localhost&apos;, 8000))
+    sock.listen(100)
+    sock.setblocking(False)
+    await get_connection(sock)
+    conn, addr = sock.accept()
+    print(&apos;accepted&apos;, conn, &apos;from&apos;, addr)
+
+
+event = create_connection()
+event.send(None)
+events = sel.select(100)
+for key, mask in events:
+    try:
+        event.send(None)
+    except StopIteration:
+        pass
+</code></pre><p>我们稍稍修改一下上面的<code>twister</code>函数，我们创建一个<code>get_connection</code>函数把<code>sock</code>绑定到我们的<code>sel</code>上面，然后回调一个<code>True</code>，当然这个回调没有处理异常什么的，然后我们将得到的协程向其发送一个<code>None</code>让它启动，这时候你在在另外一个<code>ipython</code>客户端执行</p>
+<pre><code>import socket
+socket.socket()..connect((&apos;localhost&apos;, 8000))
+</code></pre><p>然后你就会发现在主线程里面打印出来客户端的连接信息</p>
+<p>通过这个小例子我们知道，实现异步要解决的问题就是一个公用注册器（能够注册所以的io等待），一个容器（能够存贮所以的协程），一个核心能够一直执行等待回调和处理回调（多个协程）</p>
+<h2 id="深入asyncio了解Python异步"><a href="#深入asyncio了解Python异步" class="headerlink" title="深入asyncio了解Python异步"></a>深入asyncio了解Python异步</h2><h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><p><a href="http://blog.csdn.net/screaming/article/details/51377870" target="_blank" rel="external">Python异步并发框架</a></p>
 <p><a href="http://python.jobbole.com/87988/" target="_blank" rel="external">Python 中的异步编程：Asyncio</a><br><a href="https://www.youtube.com/watch?v=1coLC-MUCJc" target="_blank" rel="external">Tulip: Async I/O for Python 3</a><br><a href="https://xidui.github.io/2015/10/29/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3python3-4-Asyncio%E5%BA%93%E4%B8%8ENode-js%E7%9A%84%E5%BC%82%E6%AD%A5IO%E6%9C%BA%E5%88%B6/" target="_blank" rel="external">【译】深入理解python3.4中Asyncio库与Node.js的异步IO机制</a></p>
   
 	</div>
@@ -117,7 +237,7 @@ Python 中的异步编程：AsyncioTulip: Async I/O for Python 3【译】深入�
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/python3/">python3</a>
+  <span></span> <a href="/tags/python3-async/">python3, async</a>
   </div>
 
 </div>
@@ -170,7 +290,7 @@ Python 中的异步编程：AsyncioTulip: Async I/O for Python 3【译】深入�
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#引用"><span class="toc-number">1.</span> <span class="toc-text">引用</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#起因"><span class="toc-number">1.</span> <span class="toc-text">起因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Python异步的多种实现"><span class="toc-number">2.</span> <span class="toc-text">Python异步的多种实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#了解异步基础"><span class="toc-number">3.</span> <span class="toc-text">了解异步基础</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#浅析Python异步实现"><span class="toc-number">4.</span> <span class="toc-text">浅析Python异步实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#深入asyncio了解Python异步"><span class="toc-number">5.</span> <span class="toc-text">深入asyncio了解Python异步</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#引用"><span class="toc-number">5.1.</span> <span class="toc-text">引用</span></a></li></ol></li></ol>
  
   </div>
 
@@ -216,10 +336,6 @@ Python 中的异步编程：AsyncioTulip: Async I/O for Python 3【译】深入�
 			
 		
 			
-				<li><a href="/tags/python3/" title="python3">python3<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/competition/" title="competition">competition<sup>2</sup></a></li>
 			
 		
@@ -229,6 +345,10 @@ Python 中的异步编程：AsyncioTulip: Async I/O for Python 3【译】深入�
 		
 			
 				<li><a href="/tags/js/" title="js">js<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/感想/" title="感想">感想<sup>1</sup></a></li>
 			
 		
 			
@@ -256,7 +376,7 @@ Python 中的异步编程：AsyncioTulip: Async I/O for Python 3【译】深入�
 			
 		
 			
-				<li><a href="/tags/database/" title="database">database<sup>1</sup></a></li>
+				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>1</sup></a></li>
 			
 		
 			

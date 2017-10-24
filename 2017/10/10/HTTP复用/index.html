@@ -21,7 +21,7 @@
 <meta property="og:description" content="曾经有人问过我一个问题什么是TCP复用，我当时没有回答上来，后面我又遇到一些并发性能问题的时候，我才开始慢慢明白为什么会有这个问题，以及这个问题背后的秘密
 
 其实当时应该他想考我的是爬虫的请求优化，准确来说是HTTP持久连接（HTTP persistent connection），并不是TCP复用，这才导致我当时查阅很多资料，并没有发现TCP复用能优化客户端，因为TCP复用是服务端的事，现在就让">
-<meta property="og:updated_time" content="2017-10-15T06:00:03.028Z">
+<meta property="og:updated_time" content="2017-10-15T13:43:12.259Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTTP复用">
 <meta name="twitter:description" content="曾经有人问过我一个问题什么是TCP复用，我当时没有回答上来，后面我又遇到一些并发性能问题的时候，我才开始慢慢明白为什么会有这个问题，以及这个问题背后的秘密
@@ -102,7 +102,7 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#起因"><span class="toc-number">1.</span> <span class="toc-text">起因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP复用"><span class="toc-number">2.</span> <span class="toc-text">HTTP复用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP长连接"><span class="toc-number">2.1.</span> <span class="toc-text">HTTP长连接</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#存贮单元—ConnectionPool"><span class="toc-number">3.</span> <span class="toc-text">存贮单元—ConnectionPool</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP与URL的关系"><span class="toc-number">3.1.</span> <span class="toc-text">TCP与URL的关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ConnectionPool的实现"><span class="toc-number">3.2.</span> <span class="toc-text">ConnectionPool的实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP复用在Requests的具体表现"><span class="toc-number">4.</span> <span class="toc-text">HTTP复用在Requests的具体表现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#深入requests的ConnectionPool"><span class="toc-number">5.</span> <span class="toc-text">深入requests的ConnectionPool</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP连接池的作用"><span class="toc-number">6.</span> <span class="toc-text">TCP连接池的作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#异步框架下HTTP复用"><span class="toc-number">7.</span> <span class="toc-text">异步框架下HTTP复用</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#起因"><span class="toc-number">1.</span> <span class="toc-text">起因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP复用"><span class="toc-number">2.</span> <span class="toc-text">HTTP复用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP长连接"><span class="toc-number">2.1.</span> <span class="toc-text">HTTP长连接</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#存贮单元—ConnectionPool"><span class="toc-number">3.</span> <span class="toc-text">存贮单元—ConnectionPool</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP与URL的关系"><span class="toc-number">3.1.</span> <span class="toc-text">TCP与URL的关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ConnectionPool的实现"><span class="toc-number">3.2.</span> <span class="toc-text">ConnectionPool的实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP复用在Requests的具体表现"><span class="toc-number">4.</span> <span class="toc-text">HTTP复用在Requests的具体表现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#深入requests的ConnectionPool"><span class="toc-number">5.</span> <span class="toc-text">深入requests的ConnectionPool</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP连接池的作用"><span class="toc-number">6.</span> <span class="toc-text">TCP连接池的作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#异步框架下HTTP复用"><span class="toc-number">7.</span> <span class="toc-text">异步框架下HTTP复用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">8.</span> <span class="toc-text">总结</span></a></li></ol>
 		
 		</div>
 		
@@ -197,12 +197,32 @@ DEBUG:requests.packages.urllib3.connectionpool:Starting new HTTP connection (1):
 <pre><code>connector = aiohttp.TCPConnector(limit=50)
 session = aiohttp.ClientSession(connector=connector)
 </code></pre><p>我们直接创建了一个最大容量为50的TCP池，并把它绑定到session对象上，接下来先试试跑个200个请求（要先在按照前面的代码搭建本地服务器）</p>
-<pre><code>async def fetch(url, session):
-    async with session.get(url, timeout=500) as resp:
-        print(resp.status, await resp.text())
+<pre><code>async def fetch(url, session, semaphore):
+    async with semaphore:
+        async with session.get(url) as response:
+            print(await response.read())
+
+
 
 loop = asyncio.get_event_loop()
-</code></pre><p>引用：</p>
+</code></pre><p>接下来我们就可以直接使用aiohttp框架</p>
+<pre><code>semaphore = asyncio.Semaphore(20)
+tasks = [fetch(url, session, semaphore) for x in range(nums)]
+begin = time.time()
+try:
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(asyncio.wait(tasks))
+except:
+    pass
+finally:
+    end = time.time()
+    loop.close()
+    session.close()
+    print(&apos;cost&apos;, end - begin, &apos;speed&apos;, nums / (end - begin), &apos;req/s&apos;)
+</code></pre><p>在我的电脑测试测试下<code>421.73 req/s</code></p>
+<p>在这里解释一下为什么要使用<code>semaphore</code>（asyncio锁），由于当前版本（aiohttp==2.2.5）下<code>aiohttp</code>的HTTP连接池无法在没有锁的情况下复用TCP连接（具体可以看一下我提的这个<a href="https://github.com/aio-libs/aiohttp/issues/2323" target="_blank" rel="external">issue</a>,这里由于牵扯到太多异步框架的知识，我就详细不介绍异步库，如果想了解更多的话就看我上一片博文<a href="">Python异步的理解</a></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在如何提高请求效率和速度上，HTTP复用算是从协议出发上的一种优化，他主要利用方向是在单个站点多次请求上面，假如每个站点都只是一个请求的话，那他就无用武之地，不过现在站点不可能一次请求就完成交互，所以了解这个HTTP复用如何是非常有帮助的。</p>
+<p>引用：</p>
 <p><a href="https://laike9m.com/blog/requests-secret-pool_connections-and-pool_maxsize,89/" target="_blank" rel="external">Requests’ secret: pool_connections and pool_maxsize</a></p>
 <p><a href="https://pawelmhm.github.io/asyncio/python/aiohttp/2016/04/22/asyncio-aiohttp.html" target="_blank" rel="external">Making 1 million requests with python-aiohttp</a></p>
   
@@ -258,7 +278,7 @@ loop = asyncio.get_event_loop()
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#起因"><span class="toc-number">1.</span> <span class="toc-text">起因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP复用"><span class="toc-number">2.</span> <span class="toc-text">HTTP复用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP长连接"><span class="toc-number">2.1.</span> <span class="toc-text">HTTP长连接</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#存贮单元—ConnectionPool"><span class="toc-number">3.</span> <span class="toc-text">存贮单元—ConnectionPool</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP与URL的关系"><span class="toc-number">3.1.</span> <span class="toc-text">TCP与URL的关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ConnectionPool的实现"><span class="toc-number">3.2.</span> <span class="toc-text">ConnectionPool的实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP复用在Requests的具体表现"><span class="toc-number">4.</span> <span class="toc-text">HTTP复用在Requests的具体表现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#深入requests的ConnectionPool"><span class="toc-number">5.</span> <span class="toc-text">深入requests的ConnectionPool</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP连接池的作用"><span class="toc-number">6.</span> <span class="toc-text">TCP连接池的作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#异步框架下HTTP复用"><span class="toc-number">7.</span> <span class="toc-text">异步框架下HTTP复用</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#起因"><span class="toc-number">1.</span> <span class="toc-text">起因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP复用"><span class="toc-number">2.</span> <span class="toc-text">HTTP复用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP长连接"><span class="toc-number">2.1.</span> <span class="toc-text">HTTP长连接</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#存贮单元—ConnectionPool"><span class="toc-number">3.</span> <span class="toc-text">存贮单元—ConnectionPool</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP与URL的关系"><span class="toc-number">3.1.</span> <span class="toc-text">TCP与URL的关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ConnectionPool的实现"><span class="toc-number">3.2.</span> <span class="toc-text">ConnectionPool的实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP复用在Requests的具体表现"><span class="toc-number">4.</span> <span class="toc-text">HTTP复用在Requests的具体表现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#深入requests的ConnectionPool"><span class="toc-number">5.</span> <span class="toc-text">深入requests的ConnectionPool</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP连接池的作用"><span class="toc-number">6.</span> <span class="toc-text">TCP连接池的作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#异步框架下HTTP复用"><span class="toc-number">7.</span> <span class="toc-text">异步框架下HTTP复用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">8.</span> <span class="toc-text">总结</span></a></li></ol>
  
   </div>
 
@@ -304,10 +324,6 @@ loop = asyncio.get_event_loop()
 			
 		
 			
-				<li><a href="/tags/python3/" title="python3">python3<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/competition/" title="competition">competition<sup>2</sup></a></li>
 			
 		
@@ -317,6 +333,10 @@ loop = asyncio.get_event_loop()
 		
 			
 				<li><a href="/tags/js/" title="js">js<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/感想/" title="感想">感想<sup>1</sup></a></li>
 			
 		
 			
@@ -344,7 +364,7 @@ loop = asyncio.get_event_loop()
 			
 		
 			
-				<li><a href="/tags/database/" title="database">database<sup>1</sup></a></li>
+				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>1</sup></a></li>
 			
 		
 			
