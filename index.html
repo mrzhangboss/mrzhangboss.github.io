@@ -45,7 +45,7 @@
 				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -61,7 +61,7 @@
  					
 					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
 					</form>
 					
 					</li>
@@ -78,6 +78,100 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/10/28/编程小结/" title="编程小结" itemprop="url">编程小结</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
+		
+  <p class="article-time">
+    <time datetime="2017-10-27T16:00:00.000Z" itemprop="datePublished"> 发表于 2017-10-28</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
+<p>编程开发有时候也像雕刻一件艺术品</p>
+</blockquote>
+<p> 以前一直有一种错觉，觉得编程开发就是会用库会用框架，这阶段的感悟只是停留在库的使用上面，然而当你持续工作在一件产品上的时候，你就把思维聚焦在产品，这时候你的感悟就会是架构的搭建，库只会变成你的工具</p>
+<p> 所以慢慢明白编程届的前辈们一直劝我们在大学不要为了钱选择做一些外包项目，外包项目这种东西就像一次性编程产物，你写完之后就再也不会<code>code review</code>了，而对于编程来说，编程就是在写BUG，只不过对于大神来说写的少，对新手来说就是写的多</p>
+<p> 诚然大神们也是从一个一个BUG中慢慢走过来的，然而对于我们菜鸡来说，很多时候我们并不能发现自己的BUG，所以让自己成长最快的方法就是立马纠正自己的BUG</p>
+<p> 当然这里我们所说的BUG有的时候并不是我们经常说的系统无法运行的BUG，我们这里说的BUG可以算成缺陷，有时候是在特殊情况下才触发。比如说运行时，这时候我们称它未漏洞；重构时，我们称它为SHIT代码；测试时，我们称它为过耦合。</p>
+<p> 这里我也不想过多谈技巧如何去发现这些BUG，以为技巧是死的人是活的，我们不需要太多技巧去避免或者去查找这些BUG，还有重要的一点在于BUG是无法避免的，我们要关注的是产品本身。有幸在实习几个月的时间一直专注于一个产品的开发，期间一直经历了大大小小的重构，随着产品的成型，自己也慢慢感悟到一些方法加速查找系统BUG和如何快速开发。</p>
+<p> 接下来就介绍一些我自己的浅显感悟</p>
+<h2 id="迭代开发-CODE-REVIEW"><a href="#迭代开发-CODE-REVIEW" class="headerlink" title="迭代开发 + CODE REVIEW"></a>迭代开发 + CODE REVIEW</h2><p> 如何从零开始搭建一个产品，除非你是超级大牛，几个小时就能搞定一个完整的代码的开发流程，普通人都是一步一步来迭代开发，但是这个迭代开发也有讲究，有些人喜欢从头写到尾，然后看看能不能跑起来，再疯狂DEBUG，也有些人喜欢先写局部，慢慢测试，最后把所以组件都串联起来。</p>
+<p> 这两种方式萝卜青菜各有所爱，第一种速度最快，但是不适合团队合作和CODE REVIEW，第二种速度慢，但是灵活可靠，容错率更高，对于新手来说，选择第二种能让自己的错误不会对系统造成系统性崩塌，而且可以慢慢发现自己的BUG，从而从BUG中提高自己</p>
+<p> 对于迭代式开发我们就不得不提一下git，作为一个版本控制工具，它在迭代开发的作用堪称神器。然而这个神器我却一直没有找到正确的打开方式，只是把它当做上传服务器的工具，最近才开始慢慢掌握一点小小的技巧。</p>
+<p> 我原来的git的工作流程用命令概况下来就是</p>
+<ul>
+<li>git add -A</li>
+<li>git commit</li>
+<li><p>git push</p>
+<p>这三条，然而我大部分时间都只是发挥了<code>git push</code>的功能，纯粹把它当成代码的备份，然而git的核心在于<code>git add</code>和<code>git commit</code>这两个命令上，这里要检讨一下我以前的做法，以前一般完成一个组件的功能就直接快速<code>git add -A</code>然后<code>git commit</code>，虽然我是遵循迭代开发，但是我很少去REVIEW自己这次提交的<code>commit</code></p>
+<p>所以最主要的问题在于如何在快速迭代开发的时候慢下来，好好思考和REVIEW一下自己这次提交的代码，所以在这里不得不介绍<code>git diff</code>这个命令了，对于在每个新修改的文件来说，在你执行<code>git add</code>之前，你最好<code>git diff</code>一下这个新提交的文件，git会把你所做的修改和原始代码做一个对比。</p>
+<p>有的时候我们并不能记得原始代码是什么，我们到底对代码做了什么改变，幸亏我们有这个神器，只需要<code>git diff</code>一下，我们所做的修改和原始版本的差异就会显示出来，REVIEW代码的过程也就是我们发现错误的过程</p>
+<p>我们要想提高自己的就要<strong>不断的改变修正</strong>，所以正确的git的工作流程应该是这样</p>
+</li>
+<li><p>git diff</p>
+</li>
+<li>git add</li>
+<li>git commit</li>
+<li>git push</li>
+</ul>
+<p>当然每个<code>commit</code>可以由很多个<code>git diff</code> + <code>git add</code> 组成，但是我们必须要保证自己对<code>git add</code>的每一个文件都要<code>REVIEW</code>一遍，而且我们在每次<code>git add</code>之前，要思考这次的改变是否能够改进，是否必要等</p>
+<p><strong>产品开发就像爬山，你不可能一步登山，所以我们要做的就是，在每次停下来的时候确定方向，修正自己，甚至回头</strong></p>
+<h2 id="拥抱变化-快速开发"><a href="#拥抱变化-快速开发" class="headerlink" title="拥抱变化 + 快速开发"></a>拥抱变化 + 快速开发</h2><p>前面我们谈了在每一个<code>commit</code>的时候我们都得慎重再慎重，小心又小心，但是这种思想有时候如果把它带入开发过程中则会让你寸步难行，具体是什么呢，我来根据我自己经历来介绍</p>
+<p>我自己是一个有一点叫做代码“洁癖”的人，由于看了不少编程理论的书，我容忍不了自己写出很SHIT的代码，面对新东西，我一般喜欢研究个透再下手，我要确保我的设计是万无一失的，所以这就造成如果我接触一个新的库或者新的功能我会花上很长时间在上面，而且由于我自己思考原来越深，我可能会把原来简单的问题搞得越来越复杂，等到我觉得开始CODING完的时候，我发现自己把一个超简单的问题搞得那么复杂，牺牲了太多时间却适得其反</p>
+<p>造成这种原因主要是吸收太多而没有消化，我看过很多编程理论的书，技术大牛用他们的开发经验告诉我们要模块话开发，要注意设计模式，要考虑系统灵活性耦合性，这种大牛经验是很宝贵，但是这些经验就好像最高的武功秘籍，假如你没有相应的基础，贸然去练的话你会走火入魔，对于新东西新功能，我们就要想爬山者先驱一样，我们不是要找一条最锻炼自己的路去走，而是<strong>找一条最简单的路</strong>，只有爬到山顶我们才需要考虑其他问题</p>
+<p>这种快速开发的思想还有很重要的一点就是“拥抱变化”，我们在快速开发的过程中无法避免由于快速开发造成的部分SHIT代码，当你写出这部分的时候，其实对于菜鸟来说，这部分代码才是你最宝贵的代码，因为它暴露了你的缺点，要想提高自己，必须<strong>发现自己的缺点</strong>，所以快速开发的过程中不但激发自己的潜能，而且让自己对自己的缺点有了更好的了解，了解了自己缺点，才能慢慢改进，所以快速开发第一能够节省时间，第二个就是能缓慢提高自己，当然前提是去修正它，所以快速开发你必须要把自己的代码”洁癖“和速度结合起来，抱着一颗永不满足的心去不断锤炼自己的”代码“</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在我看来编程开发就像是打太极，<strong>一方面我们得快，以目标为驱动，快速开发；一方面我们得慢，以变化为驱动，迭代开发</strong></p>
+<p>看似快慢是两个极端，其实两者相得益彰，快促进慢，慢促进快，两者相互促进</p>
+<p>当然这只是我的自己小小感悟，编程开发博大精深，这些只是技巧，关键在于自己，思考并转换才是最核心的</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/summary/">summary</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/10/28/编程小结/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/10/28/编程小结/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/10/10/HTTP复用/" title="HTTP复用" itemprop="url">HTTP复用</a>
   </h1>
   <p class="article-author">By
@@ -85,7 +179,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2017-10-09T16:00:00.000Z" itemprop="datePublished"> Published 2017-10-10</time>
+    <time datetime="2017-10-09T16:00:00.000Z" itemprop="datePublished"> 发表于 2017-10-10</time>
     
   </p>
 </header>
@@ -174,8 +268,9 @@ DEBUG:requests.packages.urllib3.connectionpool:Starting new HTTP connection (1):
 &gt;&gt;&gt; s.mount(&apos;http://&apos;, a)
 </code></pre><p>我们可以通过创建将一个TCP池绑定到一个<code>session</code>对象上，我们可以看一下这个创建一个<code>HTTPAdapter</code>的参数</p>
 <pre><code>HTTPAdapter(self, pool_connections=10, pool_maxsize=10, max_retries=0, pool_block=False)
-</code></pre><p>我们主要看这两个参数<code>pool_connections</code>和<code>pool_maxsize</code>，通过一番测试（比较长就不演示了，可以参考引用来进行实验），我们发现这个<code>pool_connections</code>主要控制TCP池的种类数，我们知道在进程池中我们可以有很多相同的TCP连接（主要是并发新建的），这些连接有些是连接相同的域名和端口，这个<code>pool_connections</code>就是控制有多少种类的域名和端口同时能够存在池中，那么这个<code>pool_maxsize</code>代表的就是池中不管种类有多少总共的TCP连接数</p>
-<p>当然这里有个非常重要的知识点，<strong>TCP池并不会限制新建TCP连接</strong>,它只是限制存贮量和种类，这个知识点非常重要，这对后面我们理解异步请求时候为什么要限制并发数有非常大的帮助</p>
+</code></pre><p>我们主要看这两个参数<code>pool_connections</code>和<code>pool_maxsize</code>，通过一番测试（比较长就不演示了，可以参考引用来进行实验），我们发现这个<code>pool_connections</code>主要控制TCP池的种类数，我们知道在进程池中我们可以有很多相同的TCP连接（主要是并发新建的），这些连接有些是连接相同的域名和端口，这个<code>pool_connections</code>就是控制有多少种类的站点（域名和端口）同时能够存在池中，那么这个<code>pool_maxsize</code>代表的就是池中不管种类有多少总共的TCP连接数</p>
+<p>假如你只写单线程程序那么你只要考虑<code>pool_connections</code>这个参数，因为单线程你发出一个请求只会占用一个TCP连接，在你每次开始请求时，池中不同站点的连接只有一种，所以你可以把<code>pool_connections</code>当做池的大小，但是假如你写多线程程序，每个时间点需要的TCP连接同你多线程的个数有关，由于requests不会限制当池中无可用连接时新建TCP连接，所以你一个站点的TCP连接可能有多个，这时我们就要用<code>pool_maxsize</code>来限制池子的容纳量，为了避免无限制存贮TCP连接，TCP连接池会把超过总数的连接按照时间顺序踢出去，让池中保持不大于限制总数的TCP连接。</p>
+<p>当然这里有个非常重要的知识点，<strong>requests的TCP池并不会限制新建TCP连接</strong>,它只是限制存贮量和种类，这个知识点非常重要，这对后面我们理解<code>aiohttp</code>异步请求时候为什么要限制并发数有非常大的帮助（它只限制TCP连接总数）</p>
 <h2 id="TCP连接池的作用"><a href="#TCP连接池的作用" class="headerlink" title="TCP连接池的作用"></a>TCP连接池的作用</h2><p>经过上面的探索，我们知道TCP连接池一方面能够实现HTTP复用达到减少TCP连接时耗的作用，另一方面我们通过复用TCP连接可以节省套接字，避免经常碰到”Too many file“的错误，顺便提一下，由于TCP连接具有冷启动的特点，在刚连接上TCP时，速度会非常慢，只有系统发现负载不多才会恢复正常速度，所以这就是我们有时候用浏览器打开一个新页面要加载很久的原因。</p>
 <p>前面一直在介绍HTTP复用的理论基础，最后我们实战演练一下在异步框架<code>aiohttp</code>使用HTTP复用</p>
 <h2 id="异步框架下HTTP复用"><a href="#异步框架下HTTP复用" class="headerlink" title="异步框架下HTTP复用"></a>异步框架下HTTP复用</h2><p>在这里我们使用<code>Python</code>的<code>aiohttp</code>异步请求框架（在这里我们要求<code>Python</code>的版本必须大于等于3.5），<code>aiohttp</code>也提供了<code>TCP</code>连接池的功能，要想共享TCP连接池，我们先新建一个<code>Session</code>对象</p>
@@ -204,8 +299,8 @@ finally:
     loop.close()
     session.close()
     print(&apos;cost&apos;, end - begin, &apos;speed&apos;, nums / (end - begin), &apos;req/s&apos;)
-</code></pre><p>在我的电脑测试测试下<code>421.73 req/s</code></p>
-<p>在这里解释一下为什么要使用<code>semaphore</code>（asyncio锁），由于当前版本（aiohttp==2.2.5）下<code>aiohttp</code>的HTTP连接池无法在没有锁的情况下复用TCP连接（具体可以看一下我提的这个<a href="https://github.com/aio-libs/aiohttp/issues/2323" target="_blank" rel="external">issue</a>,这里由于牵扯到太多异步框架的知识，我就详细不介绍异步库，如果想了解更多的话就看我上一片博文<a href="">Python异步的理解</a></p>
+</code></pre><p>在我的电脑测试测试下<code>421.73 req/s</code>,基本上达到异步的效率（可以调节limit至100左右达到最大）</p>
+<p>在这里解释一下为什么要使用<code>semaphore</code>（asyncio锁），由于当前版本（aiohttp==2.2.5）下<code>aiohttp</code>的HTTP连接池无法在没有锁的情况下复用TCP连接（具体可以看一下我提的这个<a href="https://github.com/aio-libs/aiohttp/issues/2323" target="_blank" rel="external">issue</a>,这里由于牵扯到太多异步框架的知识，我就详细不介绍异步库，如果想了解更多的话就看我上一片博文<a href="/2017/10/09/Python%E5%BC%82%E6%AD%A5%E7%9A%84%E7%90%86%E8%A7%A3/">Python异步的理解</a></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在如何提高请求效率和速度上，HTTP复用算是从协议出发上的一种优化，他主要利用方向是在单个站点多次请求上面，假如每个站点都只是一个请求的话，那他就无用武之地，不过现在站点不可能一次请求就完成交互，所以了解这个HTTP复用如何是非常有帮助的。</p>
 <p>引用：</p>
 <p><a href="https://laike9m.com/blog/requests-secret-pool_connections-and-pool_maxsize,89/" target="_blank" rel="external">Requests’ secret: pool_connections and pool_maxsize</a></p>
@@ -261,7 +356,7 @@ finally:
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2017-10-08T16:00:00.000Z" itemprop="datePublished"> Published 2017-10-09</time>
+    <time datetime="2017-10-08T16:00:00.000Z" itemprop="datePublished"> 发表于 2017-10-09</time>
     
   </p>
 </header>
@@ -370,7 +465,8 @@ for key, mask in events:
 socket.socket()..connect((&apos;localhost&apos;, 8000))
 </code></pre><p>然后你就会发现在主线程里面打印出来客户端的连接信息</p>
 <p>通过这个小例子我们知道，实现异步要解决的问题就是一个公用注册器（能够注册所以的io等待），一个容器（能够存贮所以的协程），一个核心能够一直执行等待回调和处理回调（多个协程）</p>
-<h2 id="深入asyncio了解Python异步"><a href="#深入asyncio了解Python异步" class="headerlink" title="深入asyncio了解Python异步"></a>深入asyncio了解Python异步</h2><h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><p><a href="http://blog.csdn.net/screaming/article/details/51377870" target="_blank" rel="external">Python异步并发框架</a></p>
+<h2 id="深入asyncio了解Python异步"><a href="#深入asyncio了解Python异步" class="headerlink" title="深入asyncio了解Python异步"></a>深入asyncio了解Python异步</h2><p>通过上面我们简单的知道了，如何通过协程与<code>select</code>合作完成异步操作，然而我们上面写的只是最最最基本的实现，接下来我们来深入<code>asyncio</code>源码了解如何让异步变得更加简单</p>
+<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><p><a href="http://blog.csdn.net/screaming/article/details/51377870" target="_blank" rel="external">Python异步并发框架</a></p>
 <p><a href="http://python.jobbole.com/87988/" target="_blank" rel="external">Python 中的异步编程：Asyncio</a><br><a href="https://www.youtube.com/watch?v=1coLC-MUCJc" target="_blank" rel="external">Tulip: Async I/O for Python 3</a><br><a href="https://xidui.github.io/2015/10/29/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3python3-4-Asyncio%E5%BA%93%E4%B8%8ENode-js%E7%9A%84%E5%BC%82%E6%AD%A5IO%E6%9C%BA%E5%88%B6/" target="_blank" rel="external">【译】深入理解python3.4中Asyncio库与Node.js的异步IO机制</a></p>
 
         
@@ -423,7 +519,7 @@ socket.socket()..connect((&apos;localhost&apos;, 8000))
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2017-10-07T16:00:00.000Z" itemprop="datePublished"> Published 2017-10-08</time>
+    <time datetime="2017-10-07T16:00:00.000Z" itemprop="datePublished"> 发表于 2017-10-08</time>
     
   </p>
 </header>
@@ -541,7 +637,7 @@ name text
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2017-10-06T16:00:00.000Z" itemprop="datePublished"> Published 2017-10-07</time>
+    <time datetime="2017-10-06T16:00:00.000Z" itemprop="datePublished"> 发表于 2017-10-07</time>
     
   </p>
 </header>
@@ -621,7 +717,7 @@ name text
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2017-08-09T11:21:40.000Z" itemprop="datePublished"> Published 2017-08-09</time>
+    <time datetime="2017-08-09T11:21:40.000Z" itemprop="datePublished"> 发表于 2017-08-09</time>
     
   </p>
 </header>
@@ -757,7 +853,7 @@ name text
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2017-06-13T10:56:31.000Z" itemprop="datePublished"> Published 2017-06-13</time>
+    <time datetime="2017-06-13T10:56:31.000Z" itemprop="datePublished"> 发表于 2017-06-13</time>
     
   </p>
 </header>
@@ -890,7 +986,7 @@ name text
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2017-06-06T14:33:44.000Z" itemprop="datePublished"> Published 2017-06-06</time>
+    <time datetime="2017-06-06T14:33:44.000Z" itemprop="datePublished"> 发表于 2017-06-06</time>
     
   </p>
 </header>
@@ -950,7 +1046,7 @@ name text
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2017-05-16T11:47:12.000Z" itemprop="datePublished"> Published 2017-05-16</time>
+    <time datetime="2017-05-16T11:47:12.000Z" itemprop="datePublished"> 发表于 2017-05-16</time>
     
   </p>
 </header>
@@ -1023,7 +1119,7 @@ name text
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2017-04-04T08:03:55.000Z" itemprop="datePublished"> Published 2017-04-04</time>
+    <time datetime="2017-04-04T08:03:55.000Z" itemprop="datePublished"> 发表于 2017-04-04</time>
     
   </p>
 </header>
@@ -1102,89 +1198,21 @@ name text
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/02/17/天池大赛-口碑预测参赛感想/" title="天池大赛-口碑预测参赛感想" itemprop="url">天池大赛-口碑预测参赛感想</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
-		
-  <p class="article-time">
-    <time datetime="2017-02-17T13:15:19.000Z" itemprop="datePublished"> Published 2017-02-17</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <blockquote>
-<p>第一次听说这个比赛还是去年在知乎上，当时也不知道这个比赛具体是怎么回事，当时自己还是一个小白，忙着搞懂各种主流的机器学习模型算法。</p>
-</blockquote>
-<p>当时在我心中，模型算法是数据挖掘的最重要的组成部分，搞懂这些才能真正搞定数据挖掘。我当时对算法模型和数据的理解是：模型就是风车，数据就是流水。我要做的事就是撘一个强健的风车，让数据流过。</p>
-<p>当我还没接触实际的工作前，我还没有没有从编程工转向挖掘工。我太注重编程本身了，而忘记我自己真正要挖掘的宝藏。</p>
-<p>我以前在<code>Quora</code>上搜如何成为数据科学家，我发现很多有经验的数据科学家他们都把“对数据的敏感和兴趣”作为数据科学家最重要的特征，而“了解各种算法模型并能应用到数据上”才是第二重要的。我当时不是太理解，我觉得后者才是更重要的。</p>
-<h2 id="参赛感想"><a href="#参赛感想" class="headerlink" title="参赛感想"></a>参赛感想</h2><p>这次参赛算是我学习数据挖掘第一次实际的挖掘，以前学习各种算法模型都是准备的很好的数据，只要套上算法模型就能跑的很好。所以我一开始就拼命的去找类似的大赛，看看获胜者他们用的模型是什么。</p>
-<p>这几天我好像抱着一堆瓶子，拼命的想把巨大的石头（数据）塞进瓶口里，看起来工作量很大，流了很多汗，其实什么都没有干。今天在看一个类似的比赛选手答辩的时候的视频，突然明白自己好像走了一个死胡同。自己拼命的想这找一个合适的瓶子（模型），其实我更应该做的是把石头（数据）磨碎。</p>
-<h4 id="模型本身不重要，他只是一个载体，更重要的是数据。"><a href="#模型本身不重要，他只是一个载体，更重要的是数据。" class="headerlink" title="模型本身不重要，他只是一个载体，更重要的是数据。"></a>模型本身不重要，他只是一个载体，更重要的是数据。</h4><p>第一次参加这样大型比赛，有点激动也有点惶恐，如何将所学的应用到实际，还有在实际中提高自己还有待自己“挖掘”。虽然这个比赛奖金“丰富”，但是我觉得在这个比赛中得到的体会乐趣比奖金更诱人。</p>
-<hr>
-<p>比赛还有一个月，在这里立个小目标，争取跑到到前五页，我也会尽量抽时间把自己感想写出来。<br>未完待续。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/competition/">competition</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/02/17/天池大赛-口碑预测参赛感想/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/02/17/天池大赛-口碑预测参赛感想/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
   </nav>
 
 </div>
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
 <div class="github-card">
-<p class="asidetitle">Github Card</p>
+<p class="asidetitle">Github 名片</p>
 <div class="github-card" data-github="mrzhangboss" data-width="220" data-height="119" data-theme="medium">
 <script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
 </div>
@@ -1196,11 +1224,15 @@ name text
 
   
 <div class="tagslist">
-	<p class="asidetitle">Tags</p>
+	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
 		
 			
 				<li><a href="/tags/python/" title="python">python<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/summary/" title="summary">summary<sup>3</sup></a></li>
 			
 		
 			
@@ -1221,10 +1253,6 @@ name text
 		
 			
 				<li><a href="/tags/competition/" title="competition">competition<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/summary/" title="summary">summary<sup>2</sup></a></li>
 			
 		
 			
@@ -1284,7 +1312,7 @@ name text
 
 
   <div class="linkslist">
-  <p class="asidetitle">Links</p>
+  <p class="asidetitle">友情链接</p>
     <ul>
         
           <li>
@@ -1300,11 +1328,11 @@ name text
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">Weibo</p>
+  <p class="asidetitle">新浪微博</p>
     <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5364356330&verifier=&dpc=1"></iframe>
 </div>
 
@@ -1488,7 +1516,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

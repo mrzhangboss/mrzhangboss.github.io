@@ -45,7 +45,7 @@
 				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -61,7 +61,7 @@
  					
 					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
 					</form>
 					
 					</li>
@@ -78,76 +78,25 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/07/18/正则表达式(regular expression)0/" title="正则表达式(regular expression)" itemprop="url">正则表达式(regular expression)</a>
+      <a href="/2016/07/18/python数据处理0/" title="python数据处理" itemprop="url">python数据处理</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <hr>
-<h1 id="re"><a href="#re" class="headerlink" title="re"></a>re</h1><blockquote>
-<p>Python对正则匹配的库是<code>re</code>，re是基于Perl所用的正则表达式,并有<br>一定的改进.</p>
+        <blockquote>
+<p>最近在学利用python进行数据分析,发现pandas这个库对数据的处理非常灵活,<br>而且号称python的maltlab的.其在图形绘制也非常方便</p>
 </blockquote>
-<p>正则本质就是搜索所需的文本,正则里面有三种搜索方式</p>
-<ol>
-<li>第一种是知道文本内容直接使用普通字符搜索出来,比如要从<code>abcdefg</code>中搜到<code>cd</code></li>
-<li>第二种就是模糊查询,比如我想从英文中找一个数字,一般借助特殊符号(<code>.+*?</code>)或者转义符号(<code>\w\d</code>等)</li>
-<li>第三种就是结合前两种,比如我记得一个单词的前两个字母想把那个单词搜出来.</li>
-</ol>
-<p>这里不介绍正则基本知识,你想知道可以<a href="http://www.regexlab.com/zh/regref.htm" target="_blank" rel="external">点这里</a></p>
-<p>ps: 由于在python里面也是用反斜杠做转义字符,所以比如<code>\\</code>和<code>\b</code>这两个特殊字符必须用<code>\\\\</code>和<code>\\b</code>来代替.但是python提供了一个元字符支持re模块,只要字符前面加上r比如<code>r&#39; regex &#39;</code>就能不关闭python的转义.</p>
-<h5 id="正则里面我觉得很重要的一个概念就是组概念-当我们的文本比较复杂的时候将其分成多个小组是利于我们正则的后期维护和改进"><a href="#正则里面我觉得很重要的一个概念就是组概念-当我们的文本比较复杂的时候将其分成多个小组是利于我们正则的后期维护和改进" class="headerlink" title="正则里面我觉得很重要的一个概念就是组概念,当我们的文本比较复杂的时候将其分成多个小组是利于我们正则的后期维护和改进"></a>正则里面我觉得很重要的一个概念就是组概念,当我们的文本比较复杂的时候将其分成多个小组是利于我们正则的后期维护和改进</h5><blockquote>
-<p>正则里面使用一个括号来表示组比如<code>(a)(b)</code>就分成了两个组</p>
-</blockquote>
-<p>re函数里面<code>search</code>和<code>finall</code>都支持组查询,而且<code>findall</code>方法假如里面有组分布会只显示组成员.</p>
-<p>re库支持搜索选项,这几个选项对于正则有时候非常有用</p>
-<pre><code>DOTALL [简S]-------------允许点字符匹配换行符
-IGNORECASE [简I] --------忽悠大小写
-LOCALE  [简L]  ----------支持本地化字符
-MULTILINE [简M] ---------多行,每行都支持锚点
-UNICODE [简U]  ----------支持Unicode,\w也可以是Unicode了
-VERBOSE  [简X]  --------------神器,会无视代码中的注释空格和换行
-</code></pre><p>我们也可以在正则的组里面使用这些搜索选项,只要用上面的简称的小写比如<code>(?is)</code>就可以在组里面使用这些规则.</p>
-<hr>
-<p>正则里面还有一些比较有趣的函数,同string里面的translate函数,sub函数可以替换找到的变量<br>    bold = re.compile(r’*{2}(.<em>?)\</em>{2}’)<br>    bold.sub(r’<b>\1</b>‘, ‘this <strong>foo</strong> and <strong>ok</strong>‘)</p>
-<blockquote>
-<p><code>\1</code>代表第一组变量也就是foo和ok<br>输出为<code>&#39;this &lt;b&gt;foo&lt;/b&gt; and &lt;b&gt;ok&lt;/b&gt;&#39;</code>我们使用成功用加粗了foo和ok,同<code>translate</code>不同这个方法不需要知道要替换的是什么.</p>
-</blockquote>
-<hr>
-<h3 id="正则的断言"><a href="#正则的断言" class="headerlink" title="正则的断言"></a>正则的断言</h3><blockquote>
-<p>我们可以使用一些特殊的符号来执行一些程序判断选择,比如说判断是否特殊字符,如果有<br>的话就不匹配,这就是断言</p>
-</blockquote>
-<p>断言有两种一种是前向,一种是后向</p>
-<blockquote>
-<p>前向是指判断语句在前面,这种就相当于一个if语句,而后向是匹配后判断,由于已经匹配好了文字所以<br>匹配的字符必须是固定长度的(不能使用*.?).</p>
-</blockquote>
-<p>前向就是在判断后面匹配的表达式必须与规定相同,比如一个邮箱地址我们要匹配可以用&lt;&gt;包起来的,但是不匹配只要一个的我们就可以在前面加上这个<code>^(?=(&lt;.*&gt;$)|([^&lt;].*[^&gt;]$))</code>通过使用<code>?=</code>来断言后面必须是用&lt;&gt;包起来或者没有&lt;&gt;,我们使用前向断言可以通过正则直接过滤掉不符合的(当然你可以用多个简单正则来做但是效率没有这个高),还有否定前向就是通过<code>?!</code>来声明.<br>相对应后向断言就是很简单了,直接在匹配后面使用一个<code>?&lt;=</code>(肯定后向)或<code>?&lt;!</code>(否定后向),不过要注意这个是判断前面匹配是否满足的.</p>
-<blockquote>
-<p>断言只是限定我们想选的文本的范围,他并不会被选择.<br>断言的一个有趣的应用就是选择字符间的空格,我们知道python其实假设每个字符间都一个空格(这就是我们有时候会选出一些空字符出来的原因),这个空格不是我们自己打上去的.</p>
-<h4 id="举个例子"><a href="#举个例子" class="headerlink" title="举个例子"></a>举个例子</h4><h3 id="两个字符串a1和a-1-第一个我们称为A-第二个我们称他为B-假如我们想把数字和字母分出来-对于B来说-很简单因为数字和字母之间有一个空格-我们可以直接使用字符自带的split就行-但是对于A来说-就不那么简单了"><a href="#两个字符串a1和a-1-第一个我们称为A-第二个我们称他为B-假如我们想把数字和字母分出来-对于B来说-很简单因为数字和字母之间有一个空格-我们可以直接使用字符自带的split就行-但是对于A来说-就不那么简单了" class="headerlink" title="两个字符串a1和a 1,第一个我们称为A,第二个我们称他为B,假如我们想把数字和字母分出来,对于B来说,很简单因为数字和字母之间有一个空格,我们可以直接使用字符自带的split就行,但是对于A来说,就不那么简单了."></a>两个字符串<code>a1</code>和<code>a 1</code>,第一个我们称为A,第二个我们称他为B,假如我们想把数字和字母分出来,对于B来说,很简单因为数字和字母之间有一个空格,我们可以直接使用字符自带的<code>split</code>就行,但是对于A来说,就不那么简单了.</h3><h4 id="字母a和数字1中间没有字符-我们必须把字母和数字之间的”空格”给选择出来-这时候就可以用到断言了"><a href="#字母a和数字1中间没有字符-我们必须把字母和数字之间的”空格”给选择出来-这时候就可以用到断言了" class="headerlink" title="字母a和数字1中间没有字符,我们必须把字母和数字之间的”空格”给选择出来,这时候就可以用到断言了."></a>字母a和数字1中间没有字符,我们必须把字母和数字之间的”空格”给选择出来,这时候就可以用到断言了.</h4></blockquote>
-<pre><code>r = re.compile(r&apos;(?&lt;=[a-z])(?=\d)&apos;) 
-</code></pre><p>这个<code>r</code>就可以字母和数字直接的隐形空格给选择出来了</p>
-<h3 id="遗憾的是由于python的正则并不把隐形的空格当做字符-所以我们不能简单的使用正则的r-split方法-选择字符分割-直接将字符串分解开"><a href="#遗憾的是由于python的正则并不把隐形的空格当做字符-所以我们不能简单的使用正则的r-split方法-选择字符分割-直接将字符串分解开" class="headerlink" title="遗憾的是由于python的正则并不把隐形的空格当做字符,所以我们不能简单的使用正则的r.split方法(选择字符分割)直接将字符串分解开."></a>遗憾的是由于python的正则并不把隐形的空格当做字符,所以我们不能简单的使用正则的<code>r.split</code>方法(选择字符分割)直接将字符串分解开.</h3><h4 id="我们就得写几步"><a href="#我们就得写几步" class="headerlink" title="我们就得写几步"></a>我们就得写几步</h4><h3 id="第一先把空格换成-或其他"><a href="#第一先把空格换成-或其他" class="headerlink" title="第一先把空格换成 $$$(或其他)"></a>第一先把空格换成 $$$(或其他)</h3><pre><code>&gt;&gt;&gt; s = r.sub(&apos;$$$&apos;, &apos;a1&apos;)
-&gt;&gt;&gt; print(s)
-&apos;a$$$1&apos;
-</code></pre><h3 id="然后在分割"><a href="#然后在分割" class="headerlink" title="然后在分割"></a>然后在分割</h3><pre><code>&gt;&gt;&gt; s.split(&apos;$$$&apos;)
-&gt;&gt;&gt; [&apos;a&apos;, &apos;1&apos;]
-</code></pre><p>成功分割好了,当然这个只能处理字母在前数字在后的”隐形空格”,只要加一个<code>&quot;|&quot;</code>在把前向改成后向,后向改成前向就可以选择任意字母和数字直接的”隐形空格”了.</p>
-<hr>
-<h3 id="正则的变量"><a href="#正则的变量" class="headerlink" title="正则的变量"></a>正则的变量</h3><blockquote>
-<p>我们可以使用?P<name>来声明一个组(用括号,当然其实我们每使用一个括号re自动帮我们将组取一个<br>名,依次从1-n</name></p>
-</blockquote>
-<p>有时候我们可以要求上面的匹配组,下面也要相应匹配组,我们就可以通过两种方法来引用这个变量,假如你没有使用<code>&lt;?P&lt;name&gt;</code>来声明组你只能通过<code>\n</code>来引用,n是这个变量的序号,第二种是通过<code>(?P=name)</code><br>来引用这个变量,name为你自己定义的组的名字</p>
-<p>re还提供了一种机制来让你修正你的正则,简单来说就是能判断一个组存不存在来约束匹配,语法为</p>
-<pre><code>(?(id)yes-expression|no-expression)
-</code></pre><p>id为组的编号或者name.</p>
+<p>在Windows下安装python关于科学计算的库非常不方便,还好有一些公司做好了关于python计算库在Windows安装的安装文件,这里我推荐<strong><a href="https://www.continuum.io/downloads" target="_blank" rel="external">anaconda</a></strong>,我推荐安装32位包,因为64位有很多库不支持.</p>
+<h4 id="pandas内部是使用numpy做存贮结构的-所以我们必须先了解一下numpy"><a href="#pandas内部是使用numpy做存贮结构的-所以我们必须先了解一下numpy" class="headerlink" title="pandas内部是使用numpy做存贮结构的,所以我们必须先了解一下numpy"></a>pandas内部是使用numpy做存贮结构的,所以我们必须先了解一下numpy</h4><p>下面是<a href="/id=">numpy的简析</a></p>
+<p><a href="/id=">关于pandas的DataFrame和Series的理解</a></p>
 
         
         
@@ -167,7 +116,7 @@ VERBOSE  [简X]  --------------神器,会无视代码中的注释空格和换行
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/07/18/正则表达式(regular expression)0/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/07/18/正则表达式(regular expression)0/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/07/18/python数据处理0/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/07/18/python数据处理0/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -194,7 +143,7 @@ VERBOSE  [简X]  --------------神器,会无视代码中的注释空格和换行
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
     
   </p>
 </header>
@@ -278,7 +227,7 @@ VERBOSE  [简X]  --------------神器,会无视代码中的注释空格和换行
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
     
   </p>
 </header>
@@ -379,7 +328,7 @@ public class TypeNode&lt;T&gt;:Node
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
     
   </p>
 </header>
@@ -436,7 +385,7 @@ public class TypeNode&lt;T&gt;:Node
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
     
   </p>
 </header>
@@ -502,7 +451,7 @@ public class TypeNode&lt;T&gt;:Node
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
     
   </p>
 </header>
@@ -588,7 +537,7 @@ public class TypeNode&lt;T&gt;:Node
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
     
   </p>
 </header>
@@ -644,7 +593,7 @@ public class TypeNode&lt;T&gt;:Node
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
     
   </p>
 </header>
@@ -698,7 +647,7 @@ public class TypeNode&lt;T&gt;:Node
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
     
   </p>
 </header>
@@ -756,92 +705,26 @@ $ make
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/07/18/Python 线程(threading) 进程(multiprocessing)0/" title="Python 线程(threading) 进程(multiprocessing)" itemprop="url">Python 线程(threading) 进程(multiprocessing)</a>
+      <a href="/2016/07/18/大数据学习小总结0/" title="大数据学习小总结" itemprop="url">大数据学习小总结</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <p>### </p>
-<blockquote>
-<p>最近学了两个python库，一个负责管理线程，一个负责管理进程，原来一直写的都<br>是些单线程的程序，虽然web也关于并发和多涉及到线程，但都是框架管理的，学习&gt;过后发现了解线程和进程对python的web开发也有一定帮助。下面先谈谈这对python对线程和进程的支持再谈谈对这两个库的应用。</p>
+        <blockquote>
+<p>最近在学习大数据,书看了不少,但是总是觉得很迷茫,不知道怎么学下去,今天<br>突然想写点什么来<br>总结一下这些天.</p>
 </blockquote>
-<p><strong>python</strong>对线程的支持并不是非常好，所以你可以在很多文章上批评python的多线程的弊端，但是为什么<strong>python</strong>对多线程支持不好呢，为什么其他语言比如</p>
-<h1 id="静态语言没有这个弊端呢。"><a href="#静态语言没有这个弊端呢。" class="headerlink" title="静态语言没有这个弊端呢。"></a>静态语言没有这个弊端呢。</h1><blockquote>
-<p>首先我们要知道python是一种解释性语言，每段代码都需要解释器编译运行，解释器有很多种最主要的是<strong>CPython</strong>，其他还有<strong>IronPython</strong>和<strong>Jython</strong>，官方的是CPython解释器，我们一般说对多线程支持不好的就是说的CPython解释器（用的人最多就省略成python解释器),python解释器为什么对多线程支持不好呢，是因为GIL的存在，当然这个存在就是因为这门语言的的特性产生的。</p>
-</blockquote>
-<p>GIL是什么呢，下面是官方的解释</p>
-<blockquote>
-<p>In CPython, the global interpreter lock, or GIL, is a mutex that prevents multiple native threads from executing Python bytecodes at once. This lock is necessary mainly because CPython’s memory management is not thread-safe. (However, since the GIL exists, other features have grown to depend on the guarantees that it enforces.)</p>
-</blockquote>
-<p>就是GIL是python的互斥锁，简单的理解就是代码会锁住python解释器。理解代码的锁定是什么必须要先了解什么是多线程</p>
-<blockquote>
-<p>多线程表示一个主线程，多个子线程，主线程是程序执行时系统自动给你申请的一个线程，而子线程我们可以理解为一个代码块，我们可以充分利用硬件的支持比如说多核，让一个CPU执行主线程，其他CPU执行子线程，通过操作系统的虚拟内存技术让所有线程共享相同代码空间达到提高代码效率的作用，我们可以通俗的把一个进程比作一辆火车，车厢头为主线程，每节车厢为子线程，只要你车厢(子线程)越多，你运的货物也越多，但是也要考虑硬件的方面，</p>
-</blockquote>
-<p>了解完多线程是什么我们就可以解释GIL对多核CPU工作性能的影响了，在单核CPU里面，主线程在释放GIL的时候，把CPU让给子线程，子线程代码块得到GIL，然后执行，这样就能充分利用CPU，这个GIL对单核性能的发挥没有影响，能得到100%的利用，但是在多核的的时候就有问题了，假如主线程的代码一直需要解释器来执行，<br>比如说下面</p>
-<pre><code>GIL.acquire()
-try:
-    while True:
-        do_something()
-finally:
-    GIL.release()
-</code></pre><p>主线程代码对GIL的锁定和解开只间隔很小的一个系统时间，子线程在其他CPU核心得到GIL解开后CPU的调度命令后才能被唤醒，但是当唤醒后，主线程的代码又锁了GIL，然后只能等待主线程下次调度命令，但是到了切换时间又切换回去到待调整状态，一直处于唤醒，等待的恶性循环，多核的功能完全没有发挥出来而且还比单核更加差，所以python因为GIL的存在对密集型的线程支持不佳，但是假如主线程是在执行想web这样等待用户输入，而不是每分每秒都在使用解释器执行代码，多线程的优势就能发挥出来。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><blockquote>
-<p>GIL作为解释器的一个Bug一样的存在，我们也有一定的解决方法，开线程，和用Ctype绕过解释器是我们一般的解决方法，你想了解更多可以看<a href="http://zhuoqiang.me/python-thread-gil-and-ctypes.html" target="_blank" rel="external">这个</a><br>接下来主要解绍用multiprocessing来绕过多线程的瓶颈</p>
-</blockquote>
-<h3 id="线程锁和进程锁"><a href="#线程锁和进程锁" class="headerlink" title="线程锁和进程锁"></a>线程锁和进程锁</h3><h5 id="为了实现线程安全，我们也要借助锁的存在，我们先用下面的代码来验证一下多线程对于线程安全的问题。我们声明一个线程锁-threading-Lock"><a href="#为了实现线程安全，我们也要借助锁的存在，我们先用下面的代码来验证一下多线程对于线程安全的问题。我们声明一个线程锁-threading-Lock" class="headerlink" title="为了实现线程安全，我们也要借助锁的存在，我们先用下面的代码来验证一下多线程对于线程安全的问题。我们声明一个线程锁 threading.Lock(),"></a>为了实现线程安全，我们也要借助锁的存在，我们先用下面的代码来验证一下多线程对于线程安全的问题。我们声明一个线程锁 <code>threading.Lock()</code>,</h5><pre><code>class Counter(object):
-    def __init__(self, start=0):
-    self.lock = threading.Lock()
-    self.value = start
-
-def increment(self):
-    logging.debug(&apos;Waiting for lock&apos;)
-
-    self.lock.acquire()
-    try:
-        if self.value &lt; 8:
-</code></pre><h1 id="模拟负载"><a href="#模拟负载" class="headerlink" title="模拟负载"></a>模拟负载</h1><pre><code>            logging.debug(&apos;Acquired lock&apos;)
-            self.value = self.value + 1
-
-    finally:
-        self.lock.release()
-def worker(c):
-    for i in range(2):
-        pause = random.random()
-        logging.debug(&apos;Sleeping %0.02f&apos;, pause)
-        time.sleep(pause)
-        c.increment()
-    logging.debug(&apos;Done&apos;)
-counter = Counter()
-for i in range(20):
-    t = threading.Thread(target=worker,args=(counter,))
-    t.start()
-main_thread = threading.currentThread()
-for t in threading.enumerate():
-    if t is not main_thread:
-</code></pre><h1 id="保护线程"><a href="#保护线程" class="headerlink" title="保护线程"></a>保护线程</h1><h1 id="得到value值"><a href="#得到value值" class="headerlink" title="得到value值"></a>得到value值</h1><p>我们运行之后得到<code>counter.value</code>值为8，这很好理解因为我们限制了它的大小小于8时才自增1，但是如果我们把锁去掉呢，我们把<code>self.lock.acquire()``self.lock.release()</code>都注释掉，得到的结果却是一个21，而且每次运行的结果都可能不一样，由于线程在实现自增的时候有一定的时间(<code>time.sleep(2)</code>),所以当多个进程执行的时候当他们从堆栈上取到<code>counter.value</code>值都为7时，这时候他们都满足<br><code>counter.value</code>小于8，所以都执行了自增，在系统负载2秒之间（<code>time.sleep(2)</code>）有多少个线程执行就会逃过我们给他的限制，这样就造成了线程的不安全，但是我们给他加上锁之后，无论开多少个线程，最终结果都是8。在python里面我们线程锁和进程锁我们可以看做是同一种东西。</p>
-<h4 id="ps：当同一线程相互争夺锁时，失败的会进出线程队列等待锁解开。"><a href="#ps：当同一线程相互争夺锁时，失败的会进出线程队列等待锁解开。" class="headerlink" title="ps：当同一线程相互争夺锁时，失败的会进出线程队列等待锁解开。"></a>ps：当同一线程相互争夺锁时，失败的会进出线程队列等待锁解开。</h4><h1 id="线程进程工作方式"><a href="#线程进程工作方式" class="headerlink" title="线程进程工作方式"></a>线程进程工作方式</h1><h3 id="单行"><a href="#单行" class="headerlink" title="单行"></a>单行</h3><blockquote>
-<p>单行主要通过锁来实现，线程通过锁<code>threading.Lock()</code>对象创造锁，进程通过<code>multiprocessing.Lock()</code>对象创建进程锁，单行操作一般都是对共享数据修改的一种保护。</p>
-</blockquote>
-<h3 id="并行"><a href="#并行" class="headerlink" title="并行"></a>并行</h3><blockquote>
-<p>并行操作是一般是对数据的一种共享，一般不对公共数据涉及修改，我们可以创造很多线程和进程一起并行操作，也可以限制线程和进程的并行数量，两种方式选择主要是判断代码类型是I/O密集还是线程密集型的。如何限制并行数量我们可以通过<code>threading.Semaphore（sizenum）</code>(进程为<code>multiprocessing.Semaphore(sizenum)</code>)我们可以控制对共享的线程数量。进程提供了一个进程池的类型(<code>multiprocessing.Pool</code>)，我们可以创建一个维护了一定程的进程池，但是他同时并行的数量并没有控制，只是帮我们创建了这个进程池，每个进程并不是只执行一个任务，可能执行多个方法通过一个进程.</p>
-<h3 id="单行混合并行"><a href="#单行混合并行" class="headerlink" title="单行混合并行"></a>单行混合并行</h3><p>单行和并行混合我们可以通过在代码中设置锁来实现，当然python给我们提供了两种对象来实现单行和并行的控制，线程的是<code>threading.Event()</code>和<code>threading.Condition()</code>,进程的是<code>multiprocessing.Event()</code>和<code>multiprocessing.Condition()</code> 两种对象都是提供了一种命令指令，但是Event对象可以用来判断命令是否下达而做出相应的反应，而Condition对象更倾向于当命令下达后才执行并行的操作。</p>
-</blockquote>
-<h2 id="线程和进程通信方式"><a href="#线程和进程通信方式" class="headerlink" title="线程和进程通信方式"></a>线程和进程通信方式</h2><blockquote>
-<p>当我们想让线程和进程共同执行一些固定的任务，我们就需要线程和进程之间能够通信，线程和进程通信我们使用队列(<code>Queue</code>),进程和线程的<code>Queue</code>有点差异，就是进程<code>Queue</code>传递的对象必须pickle化，而且为了能够使用<code>join()</code>（保护进程)<code>task_done</code>(通知任务完成),我们一般使用<code>JoinableQueue</code><br>代替<code>Queue</code>在进程中。</p>
-</blockquote>
-<p>Queue对象之间通过<code>put</code>和<code>get</code>通信，我们把任务put上去，<code>Queue</code>自动分配给当前的线程或进程，<br>这样就能实现对任务的流水作业话。</p>
-<p>引用</p>
-<p> <a href="https://zh.wikipedia.org/wiki/GIL" target="_blank" rel="external">12/26/2015 10:50:21 PM GIL维基资料</a></p>
-<p><a href="http://cenalulu.github.io/python/gil-in-python/" target="_blank" rel="external">GIL博文</a></p>
-
+<h3 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h3><p>逛博客的时候看到一篇分享<a href="http://www.36dsj.com/archives/8094" target="_blank" rel="external">如何修炼成大数据高手</a>感觉很有趣</p>
+<h4 id="买了两本书"><a href="#买了两本书" class="headerlink" title="买了两本书"></a>买了两本书</h4><p><img src="http://www.36dsj.com/wp-content/uploads/2014/05/15.png" alt="大数据时代"></p>
+<p><img src="http://www.36dsj.com/wp-content/uploads/2014/05/23.png" alt="失控"></p>
+<h3 id="这两本书都是很多年前写的-但是最近这几年随着”大数据”被大家越炒越热-随即被大家所看重"><a href="#这两本书都是很多年前写的-但是最近这几年随着”大数据”被大家越炒越热-随即被大家所看重" class="headerlink" title="这两本书都是很多年前写的,但是最近这几年随着”大数据”被大家越炒越热,随即被大家所看重."></a>这两本书都是很多年前写的,但是最近这几年随着”大数据”被大家越炒越热,随即被大家所看重.</h3><h3 id="这两个作者很牛-在30年前大数据还只是萌芽的时候就提出未来大数据的重要性和价值"><a href="#这两个作者很牛-在30年前大数据还只是萌芽的时候就提出未来大数据的重要性和价值" class="headerlink" title="这两个作者很牛,在30年前大数据还只是萌芽的时候就提出未来大数据的重要性和价值."></a>这两个作者很牛,在30年前大数据还只是萌芽的时候就提出未来大数据的重要性和价值.</h3><h2 id="大数据是什么了-现在为什么这么火-以前没有大数据吗"><a href="#大数据是什么了-现在为什么这么火-以前没有大数据吗" class="headerlink" title="大数据是什么了,现在为什么这么火,以前没有大数据吗?"></a>大数据是什么了,现在为什么这么火,以前没有大数据吗?</h2><h3 id="大数据的产生就像是科技带来的附带品一样-原来我们把信息存贮在图书馆里面-因为人类的活动产生的信息越来越多-图书馆也越来越大-但是由于管理和存贮的成本越来越多-我们被迫要缩减浓缩我们的信息-我们想出了很多很方法来对付这种情况-比如抽样-只要抽取一部分的代表信息存在图书馆里面然后记录主要特征和平均分量-我们就可以把信息降低几个数量级"><a href="#大数据的产生就像是科技带来的附带品一样-原来我们把信息存贮在图书馆里面-因为人类的活动产生的信息越来越多-图书馆也越来越大-但是由于管理和存贮的成本越来越多-我们被迫要缩减浓缩我们的信息-我们想出了很多很方法来对付这种情况-比如抽样-只要抽取一部分的代表信息存在图书馆里面然后记录主要特征和平均分量-我们就可以把信息降低几个数量级" class="headerlink" title="大数据的产生就像是科技带来的附带品一样,原来我们把信息存贮在图书馆里面,因为人类的活动产生的信息越来越多,图书馆也越来越大,但是由于管理和存贮的成本越来越多,我们被迫要缩减浓缩我们的信息,我们想出了很多很方法来对付这种情况,比如抽样,只要抽取一部分的代表信息存在图书馆里面然后记录主要特征和平均分量,我们就可以把信息降低几个数量级."></a>大数据的产生就像是科技带来的附带品一样,原来我们把信息存贮在图书馆里面,因为人类的活动产生的信息越来越多,图书馆也越来越大,但是由于管理和存贮的成本越来越多,我们被迫要缩减浓缩我们的信息,我们想出了很多很方法来对付这种情况,比如抽样,只要抽取一部分的代表信息存在图书馆里面然后记录主要特征和平均分量,我们就可以把信息降低几个数量级.</h3><h3 id="但是现在不同"><a href="#但是现在不同" class="headerlink" title="但是现在不同."></a>但是现在不同.</h3><h3 id="芯片做的越来越小-容量做的越来越大-我们有能力存贮所以的信息-一些先驱发现我们用另一种思维去对待信息"><a href="#芯片做的越来越小-容量做的越来越大-我们有能力存贮所以的信息-一些先驱发现我们用另一种思维去对待信息" class="headerlink" title="芯片做的越来越小,容量做的越来越大,我们有能力存贮所以的信息,一些先驱发现我们用另一种思维去对待信息."></a>芯片做的越来越小,容量做的越来越大,我们有能力存贮所以的信息,一些先驱发现我们用另一种思维去对待信息.</h3><h2 id="用全体数据而不是随机样本"><a href="#用全体数据而不是随机样本" class="headerlink" title="用全体数据而不是随机样本"></a>用全体数据而不是随机样本</h2><h2 id="用混杂性而不是精确性"><a href="#用混杂性而不是精确性" class="headerlink" title="用混杂性而不是精确性"></a>用混杂性而不是精确性</h2><h2 id="用相关关系而不是因果性"><a href="#用相关关系而不是因果性" class="headerlink" title="用相关关系而不是因果性"></a>用相关关系而不是因果性</h2>
         
         
         <p class="article-more-link">
@@ -860,7 +743,7 @@ for t in threading.enumerate():
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/07/18/Python 线程(threading) 进程(multiprocessing)0/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/07/18/Python 线程(threading) 进程(multiprocessing)0/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/07/18/大数据学习小总结0/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/07/18/大数据学习小总结0/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -880,15 +763,15 @@ for t in threading.enumerate():
   </nav>
 
 </div>
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
 <div class="github-card">
-<p class="asidetitle">Github Card</p>
+<p class="asidetitle">Github 名片</p>
 <div class="github-card" data-github="mrzhangboss" data-width="220" data-height="119" data-theme="medium">
 <script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
 </div>
@@ -900,11 +783,15 @@ for t in threading.enumerate():
 
   
 <div class="tagslist">
-	<p class="asidetitle">Tags</p>
+	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
 		
 			
 				<li><a href="/tags/python/" title="python">python<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/summary/" title="summary">summary<sup>3</sup></a></li>
 			
 		
 			
@@ -925,10 +812,6 @@ for t in threading.enumerate():
 		
 			
 				<li><a href="/tags/competition/" title="competition">competition<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/summary/" title="summary">summary<sup>2</sup></a></li>
 			
 		
 			
@@ -988,7 +871,7 @@ for t in threading.enumerate():
 
 
   <div class="linkslist">
-  <p class="asidetitle">Links</p>
+  <p class="asidetitle">友情链接</p>
     <ul>
         
           <li>
@@ -1004,11 +887,11 @@ for t in threading.enumerate():
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">Weibo</p>
+  <p class="asidetitle">新浪微博</p>
     <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5364356330&verifier=&dpc=1"></iframe>
 </div>
 
@@ -1192,7 +1075,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

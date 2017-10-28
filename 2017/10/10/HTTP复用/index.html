@@ -21,7 +21,7 @@
 <meta property="og:description" content="曾经有人问过我一个问题什么是TCP复用，我当时没有回答上来，后面我又遇到一些并发性能问题的时候，我才开始慢慢明白为什么会有这个问题，以及这个问题背后的秘密
 
 其实当时应该他想考我的是爬虫的请求优化，准确来说是HTTP持久连接（HTTP persistent connection），并不是TCP复用，这才导致我当时查阅很多资料，并没有发现TCP复用能优化客户端，因为TCP复用是服务端的事，现在就让">
-<meta property="og:updated_time" content="2017-10-15T13:43:12.259Z">
+<meta property="og:updated_time" content="2017-10-24T15:58:00.882Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTTP复用">
 <meta name="twitter:description" content="曾经有人问过我一个问题什么是TCP复用，我当时没有回答上来，后面我又遇到一些并发性能问题的时候，我才开始慢慢明白为什么会有这个问题，以及这个问题背后的秘密
@@ -55,7 +55,7 @@
 				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -71,7 +71,7 @@
  					
 					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
 					</form>
 					
 					</li>
@@ -93,14 +93,14 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2017-10-09T16:00:00.000Z" itemprop="datePublished"> Published 2017-10-10</time>
+    <time datetime="2017-10-09T16:00:00.000Z" itemprop="datePublished"> 发表于 2017-10-10</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
+			<strong class="toc-title">文章目录</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#起因"><span class="toc-number">1.</span> <span class="toc-text">起因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP复用"><span class="toc-number">2.</span> <span class="toc-text">HTTP复用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP长连接"><span class="toc-number">2.1.</span> <span class="toc-text">HTTP长连接</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#存贮单元—ConnectionPool"><span class="toc-number">3.</span> <span class="toc-text">存贮单元—ConnectionPool</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP与URL的关系"><span class="toc-number">3.1.</span> <span class="toc-text">TCP与URL的关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ConnectionPool的实现"><span class="toc-number">3.2.</span> <span class="toc-text">ConnectionPool的实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP复用在Requests的具体表现"><span class="toc-number">4.</span> <span class="toc-text">HTTP复用在Requests的具体表现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#深入requests的ConnectionPool"><span class="toc-number">5.</span> <span class="toc-text">深入requests的ConnectionPool</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP连接池的作用"><span class="toc-number">6.</span> <span class="toc-text">TCP连接池的作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#异步框架下HTTP复用"><span class="toc-number">7.</span> <span class="toc-text">异步框架下HTTP复用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">8.</span> <span class="toc-text">总结</span></a></li></ol>
 		
@@ -189,8 +189,9 @@ DEBUG:requests.packages.urllib3.connectionpool:Starting new HTTP connection (1):
 &gt;&gt;&gt; s.mount(&apos;http://&apos;, a)
 </code></pre><p>我们可以通过创建将一个TCP池绑定到一个<code>session</code>对象上，我们可以看一下这个创建一个<code>HTTPAdapter</code>的参数</p>
 <pre><code>HTTPAdapter(self, pool_connections=10, pool_maxsize=10, max_retries=0, pool_block=False)
-</code></pre><p>我们主要看这两个参数<code>pool_connections</code>和<code>pool_maxsize</code>，通过一番测试（比较长就不演示了，可以参考引用来进行实验），我们发现这个<code>pool_connections</code>主要控制TCP池的种类数，我们知道在进程池中我们可以有很多相同的TCP连接（主要是并发新建的），这些连接有些是连接相同的域名和端口，这个<code>pool_connections</code>就是控制有多少种类的域名和端口同时能够存在池中，那么这个<code>pool_maxsize</code>代表的就是池中不管种类有多少总共的TCP连接数</p>
-<p>当然这里有个非常重要的知识点，<strong>TCP池并不会限制新建TCP连接</strong>,它只是限制存贮量和种类，这个知识点非常重要，这对后面我们理解异步请求时候为什么要限制并发数有非常大的帮助</p>
+</code></pre><p>我们主要看这两个参数<code>pool_connections</code>和<code>pool_maxsize</code>，通过一番测试（比较长就不演示了，可以参考引用来进行实验），我们发现这个<code>pool_connections</code>主要控制TCP池的种类数，我们知道在进程池中我们可以有很多相同的TCP连接（主要是并发新建的），这些连接有些是连接相同的域名和端口，这个<code>pool_connections</code>就是控制有多少种类的站点（域名和端口）同时能够存在池中，那么这个<code>pool_maxsize</code>代表的就是池中不管种类有多少总共的TCP连接数</p>
+<p>假如你只写单线程程序那么你只要考虑<code>pool_connections</code>这个参数，因为单线程你发出一个请求只会占用一个TCP连接，在你每次开始请求时，池中不同站点的连接只有一种，所以你可以把<code>pool_connections</code>当做池的大小，但是假如你写多线程程序，每个时间点需要的TCP连接同你多线程的个数有关，由于requests不会限制当池中无可用连接时新建TCP连接，所以你一个站点的TCP连接可能有多个，这时我们就要用<code>pool_maxsize</code>来限制池子的容纳量，为了避免无限制存贮TCP连接，TCP连接池会把超过总数的连接按照时间顺序踢出去，让池中保持不大于限制总数的TCP连接。</p>
+<p>当然这里有个非常重要的知识点，<strong>requests的TCP池并不会限制新建TCP连接</strong>,它只是限制存贮量和种类，这个知识点非常重要，这对后面我们理解<code>aiohttp</code>异步请求时候为什么要限制并发数有非常大的帮助（它只限制TCP连接总数）</p>
 <h2 id="TCP连接池的作用"><a href="#TCP连接池的作用" class="headerlink" title="TCP连接池的作用"></a>TCP连接池的作用</h2><p>经过上面的探索，我们知道TCP连接池一方面能够实现HTTP复用达到减少TCP连接时耗的作用，另一方面我们通过复用TCP连接可以节省套接字，避免经常碰到”Too many file“的错误，顺便提一下，由于TCP连接具有冷启动的特点，在刚连接上TCP时，速度会非常慢，只有系统发现负载不多才会恢复正常速度，所以这就是我们有时候用浏览器打开一个新页面要加载很久的原因。</p>
 <p>前面一直在介绍HTTP复用的理论基础，最后我们实战演练一下在异步框架<code>aiohttp</code>使用HTTP复用</p>
 <h2 id="异步框架下HTTP复用"><a href="#异步框架下HTTP复用" class="headerlink" title="异步框架下HTTP复用"></a>异步框架下HTTP复用</h2><p>在这里我们使用<code>Python</code>的<code>aiohttp</code>异步请求框架（在这里我们要求<code>Python</code>的版本必须大于等于3.5），<code>aiohttp</code>也提供了<code>TCP</code>连接池的功能，要想共享TCP连接池，我们先新建一个<code>Session</code>对象</p>
@@ -219,8 +220,8 @@ finally:
     loop.close()
     session.close()
     print(&apos;cost&apos;, end - begin, &apos;speed&apos;, nums / (end - begin), &apos;req/s&apos;)
-</code></pre><p>在我的电脑测试测试下<code>421.73 req/s</code></p>
-<p>在这里解释一下为什么要使用<code>semaphore</code>（asyncio锁），由于当前版本（aiohttp==2.2.5）下<code>aiohttp</code>的HTTP连接池无法在没有锁的情况下复用TCP连接（具体可以看一下我提的这个<a href="https://github.com/aio-libs/aiohttp/issues/2323" target="_blank" rel="external">issue</a>,这里由于牵扯到太多异步框架的知识，我就详细不介绍异步库，如果想了解更多的话就看我上一片博文<a href="">Python异步的理解</a></p>
+</code></pre><p>在我的电脑测试测试下<code>421.73 req/s</code>,基本上达到异步的效率（可以调节limit至100左右达到最大）</p>
+<p>在这里解释一下为什么要使用<code>semaphore</code>（asyncio锁），由于当前版本（aiohttp==2.2.5）下<code>aiohttp</code>的HTTP连接池无法在没有锁的情况下复用TCP连接（具体可以看一下我提的这个<a href="https://github.com/aio-libs/aiohttp/issues/2323" target="_blank" rel="external">issue</a>,这里由于牵扯到太多异步框架的知识，我就详细不介绍异步库，如果想了解更多的话就看我上一片博文<a href="/2017/10/09/Python%E5%BC%82%E6%AD%A5%E7%9A%84%E7%90%86%E8%A7%A3/">Python异步的理解</a></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在如何提高请求效率和速度上，HTTP复用算是从协议出发上的一种优化，他主要利用方向是在单个站点多次请求上面，假如每个站点都只是一个请求的话，那他就无用武之地，不过现在站点不可能一次请求就完成交互，所以了解这个HTTP复用如何是非常有帮助的。</p>
 <p>引用：</p>
 <p><a href="https://laike9m.com/blog/requests-secret-pool_connections-and-pool_maxsize,89/" target="_blank" rel="external">Requests’ secret: pool_connections and pool_maxsize</a></p>
@@ -255,6 +256,14 @@ finally:
 	
 <nav class="article-nav clearfix">
  
+ <div class="prev" >
+ <a href="/2017/10/28/编程小结/" title="编程小结">
+  <strong>上一篇：</strong><br/>
+  <span>
+  编程小结</span>
+</a>
+</div>
+
 
 <div class="next">
 <a href="/2017/10/09/Python异步的理解/"  title="Python异步的理解">
@@ -273,22 +282,22 @@ finally:
 
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">Contents</strong>
+  <strong class="toc-title">文章目录</strong>
  
  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#起因"><span class="toc-number">1.</span> <span class="toc-text">起因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP复用"><span class="toc-number">2.</span> <span class="toc-text">HTTP复用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP长连接"><span class="toc-number">2.1.</span> <span class="toc-text">HTTP长连接</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#存贮单元—ConnectionPool"><span class="toc-number">3.</span> <span class="toc-text">存贮单元—ConnectionPool</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP与URL的关系"><span class="toc-number">3.1.</span> <span class="toc-text">TCP与URL的关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ConnectionPool的实现"><span class="toc-number">3.2.</span> <span class="toc-text">ConnectionPool的实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP复用在Requests的具体表现"><span class="toc-number">4.</span> <span class="toc-text">HTTP复用在Requests的具体表现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#深入requests的ConnectionPool"><span class="toc-number">5.</span> <span class="toc-text">深入requests的ConnectionPool</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP连接池的作用"><span class="toc-number">6.</span> <span class="toc-text">TCP连接池的作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#异步框架下HTTP复用"><span class="toc-number">7.</span> <span class="toc-text">异步框架下HTTP复用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">8.</span> <span class="toc-text">总结</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
 <div class="github-card">
-<p class="asidetitle">Github Card</p>
+<p class="asidetitle">Github 名片</p>
 <div class="github-card" data-github="mrzhangboss" data-width="220" data-height="119" data-theme="medium">
 <script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
 </div>
@@ -300,11 +309,15 @@ finally:
 
   
 <div class="tagslist">
-	<p class="asidetitle">Tags</p>
+	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
 		
 			
 				<li><a href="/tags/python/" title="python">python<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/summary/" title="summary">summary<sup>3</sup></a></li>
 			
 		
 			
@@ -325,10 +338,6 @@ finally:
 		
 			
 				<li><a href="/tags/competition/" title="competition">competition<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/summary/" title="summary">summary<sup>2</sup></a></li>
 			
 		
 			
@@ -388,7 +397,7 @@ finally:
 
 
   <div class="linkslist">
-  <p class="asidetitle">Links</p>
+  <p class="asidetitle">友情链接</p>
     <ul>
         
           <li>
@@ -404,11 +413,11 @@ finally:
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">Weibo</p>
+  <p class="asidetitle">新浪微博</p>
     <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5364356330&verifier=&dpc=1"></iframe>
 </div>
 
@@ -681,7 +690,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
