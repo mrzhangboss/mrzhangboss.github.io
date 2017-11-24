@@ -45,7 +45,7 @@
 				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -61,7 +61,7 @@
  					
 					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="Search" />
 					</form>
 					
 					</li>
@@ -85,7 +85,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2017-11-22T16:00:00.000Z" itemprop="datePublished"> 发表于 2017-11-23</time>
+    <time datetime="2017-11-22T16:00:00.000Z" itemprop="datePublished"> Published 2017-11-23</time>
     
   </p>
 </header>
@@ -95,7 +95,78 @@
 <p>为了给我的站点增加人气，我把这个项目的介绍放到我的博客，如果你觉得这个项目还不错的话，请不要吝啬你的star</p>
 </blockquote>
 <p><a href="https://github.com/mrzhangboss/FastProxyScan" target="_blank" rel="external">github传送门</a></p>
-<h2 id="填坑"><a href="#填坑" class="headerlink" title="填坑"></a>填坑</h2><p>— 待续</p>
+<h2 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h2><p>一开始自己只想做一个代理池，于是搜了搜Github发现类似的项目，大多数都是爬取网上的一些代理商的免费代理，这部分代理大多都是没有用的，可用性非常低，于是我自己就干脆做一个“代理商”，自己扫描主机把可用的代理扫描出来。</p>
+<p>但是现在网络主机实在太多了，至少几百万台，所以这个项目的核心就是快速扫描，在最短的时间内检测更多的代理，目前项目的速度最好只能完成1000代理每小时的速度（日扫描两万代理），希望能继续优化代码，加快速度，如果你对这个项目感兴趣可以Fork下来，欢迎各位的Pull Request </p>
+<h2 id="项目依赖"><a href="#项目依赖" class="headerlink" title="项目依赖"></a>项目依赖</h2><p>项目依赖LInux系统，基于Python3.5+开发</p>
+<p>软件依赖</p>
+<ul>
+<li>nmap</li>
+</ul>
+<h2 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h2><p>项目主要由三个部分组成</p>
+<ul>
+<li>主机爬取</li>
+<li>端口检测</li>
+<li>代理检查</li>
+</ul>
+<p>项目结构为</p>
+<ul>
+<li>proxy_pool</li>
+<li><ul>
+<li>crawler</li>
+</ul>
+</li>
+<li><ul>
+<li>scanner</li>
+</ul>
+</li>
+<li><ul>
+<li>checker</li>
+</ul>
+</li>
+</ul>
+<p>现在依次介绍在搜索速度上的优化</p>
+<ul>
+<li>主机爬取</li>
+</ul>
+<p>主机爬取只是爬取了100页的免费代理的主机IP，后面会陆续添加多个站点爬取和主机IP局域网扫描</p>
+<ul>
+<li>端口检测</li>
+</ul>
+<p>使用<code>nmap</code>的“TCP SYN scan”最大化加快端口检测速度（需要root权限）</p>
+<ul>
+<li>代理检测</li>
+</ul>
+<p>使用<code>nmap</code>先验端口与<code>Python</code>异步最大化代理检测速率</p>
+<h2 id="安装教程"><a href="#安装教程" class="headerlink" title="安装教程"></a>安装教程</h2><p>项目采用Django做后台管理，所以只需要一点Django基础知识就能在这个项目上做二次开发，如果你只想获取最新的可用代理，可以通过<a href="http://115.159.146.115" target="_blank" rel="external">http://115.159.146.115</a> 调用API接口获取最新可用代理（我的站点带宽有限，所以只开放最新100个代理，并且只是20分钟更新一次）</p>
+<p>环境安装</p>
+<ul>
+<li>nmap 安装</li>
+<li>python3.5+ 安装</li>
+</ul>
+<p>运行：</p>
+<pre><code>git clone https://github.com/mrzhangboss/FastProxyScan.git
+cd FastProxyScan
+python3.5 install -r requirement.txt
+</code></pre><ul>
+<li>主机检测</li>
+</ul>
+<pre><code>cd pool/proxy_pool
+sudo python3.5 manage.py crawl --kuaidaili
+</code></pre><ul>
+<li><p>端口检测</p>
+<p>  sudo python3.5 manage.py scan -m 100 –start</p>
+</li>
+</ul>
+<p>m是并行参数，值越大速度越快</p>
+<ul>
+<li><p>代理检测</p>
+<p>  sudo python3.5 manage.py check –start -c <a href="http://115.159.146.115/ip" target="_blank" rel="external">http://115.159.146.115/ip</a></p>
+</li>
+</ul>
+<p>c是检测ip头网址，可以使用我提供的 <a href="http://115.159.146.115/ip" target="_blank" rel="external">http://115.159.146.115/ip</a> 返回请求头，可以参考我的上一篇博文 <a href="">代理的前世今生</a></p>
+<p>在我搭建的DEMO站点上，我使用supervisor让这三个程序循环运行，你可以使用crontab定时调度也可以像我一样。</p>
+<p>数据库当前采用的Sqlite3，但是数据库模型全部使用ORM开发，你可以很方便的修改<code>settings.py</code>来放入其他数据库，如果你懂一点Django的话</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>如果你像了解更多开发这个项目背后的知识的话，可以看看我上一篇博文 <a href="">代理的前世今生</a></p>
 
         
         
@@ -147,7 +218,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2017-11-19T16:00:00.000Z" itemprop="datePublished"> 发表于 2017-11-20</time>
+    <time datetime="2017-11-19T16:00:00.000Z" itemprop="datePublished"> Published 2017-11-20</time>
     
   </p>
 </header>
@@ -207,7 +278,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2017-11-11T16:00:00.000Z" itemprop="datePublished"> 发表于 2017-11-12</time>
+    <time datetime="2017-11-11T16:00:00.000Z" itemprop="datePublished"> Published 2017-11-12</time>
     
   </p>
 </header>
@@ -293,7 +364,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2017-10-27T16:00:00.000Z" itemprop="datePublished"> 发表于 2017-10-28</time>
+    <time datetime="2017-10-27T16:00:00.000Z" itemprop="datePublished"> Published 2017-10-28</time>
     
   </p>
 </header>
@@ -387,7 +458,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2017-10-09T16:00:00.000Z" itemprop="datePublished"> 发表于 2017-10-10</time>
+    <time datetime="2017-10-09T16:00:00.000Z" itemprop="datePublished"> Published 2017-10-10</time>
     
   </p>
 </header>
@@ -564,7 +635,7 @@ finally:
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2017-10-08T16:00:00.000Z" itemprop="datePublished"> 发表于 2017-10-09</time>
+    <time datetime="2017-10-08T16:00:00.000Z" itemprop="datePublished"> Published 2017-10-09</time>
     
   </p>
 </header>
@@ -727,7 +798,7 @@ socket.socket()..connect((&apos;localhost&apos;, 8000))
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2017-10-07T16:00:00.000Z" itemprop="datePublished"> 发表于 2017-10-08</time>
+    <time datetime="2017-10-07T16:00:00.000Z" itemprop="datePublished"> Published 2017-10-08</time>
     
   </p>
 </header>
@@ -845,7 +916,7 @@ name text
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2017-10-06T16:00:00.000Z" itemprop="datePublished"> 发表于 2017-10-07</time>
+    <time datetime="2017-10-06T16:00:00.000Z" itemprop="datePublished"> Published 2017-10-07</time>
     
   </p>
 </header>
@@ -925,7 +996,7 @@ name text
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2017-08-09T11:21:40.000Z" itemprop="datePublished"> 发表于 2017-08-09</time>
+    <time datetime="2017-08-09T11:21:40.000Z" itemprop="datePublished"> Published 2017-08-09</time>
     
   </p>
 </header>
@@ -1061,7 +1132,7 @@ name text
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2017-06-13T10:56:31.000Z" itemprop="datePublished"> 发表于 2017-06-13</time>
+    <time datetime="2017-06-13T10:56:31.000Z" itemprop="datePublished"> Published 2017-06-13</time>
     
   </p>
 </header>
@@ -1187,17 +1258,17 @@ name text
   </nav>
 
 </div>
-      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
 
   
 
   
 <div class="tagslist">
-	<p class="asidetitle">标签</p>
+	<p class="asidetitle">Tags</p>
 		<ul class="clearfix">
 		
 			
@@ -1285,7 +1356,7 @@ name text
 
 
   <div class="linkslist">
-  <p class="asidetitle">友情链接</p>
+  <p class="asidetitle">Links</p>
     <ul>
         
           <li>
@@ -1301,11 +1372,11 @@ name text
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">新浪微博</p>
+  <p class="asidetitle">Weibo</p>
     <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5364356330&verifier=&dpc=1"></iframe>
 </div>
 
@@ -1489,7 +1560,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
