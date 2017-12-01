@@ -4,38 +4,29 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>hookman development notebook | lunge博客</title>
+    <title>巧用Git钩子 | lunge博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="张伦">
     
 
     
-    <meta name="description" content="hookman  是基于github上的webhooks开发的一个用Python写的小程序,基于TDD开发.如果你想向项目贡献代码,请看hookman 开发blog
+    <meta name="description" content="以前听学长提过Git钩子，但是自己一直没有仔细了解过，记得我还写过一个github更新的Python包，现在想想其实用自带的钩子就能很好的完成
 
-简单用法
-安装 pip install hookman
-配置github的webhooks,设置监听服务器ip和端口3610(默认)
-使用3.1 进入github项目目录cd /my/github/projectdir3.2">
+什么是钩子？我们知道Git是迭代式开发工具，我们的开发流程都是git add、git commit，git push，钩子呢就是你完成每一步Git给你的“回调”，举个例子假如你想让服务器每次上传完新的代码后更新网站，如果你没有钩子，你只能自己ssh登录">
 <meta property="og:type" content="article">
-<meta property="og:title" content="hookman development notebook">
-<meta property="og:url" content="https://mrzhangboss.github.io/2016/08/18/hookman-development-notebook/index.html">
+<meta property="og:title" content="巧用Git钩子">
+<meta property="og:url" content="https://mrzhangboss.github.io/2017/11/25/巧用Git钩子/index.html">
 <meta property="og:site_name" content="lunge博客">
-<meta property="og:description" content="hookman  是基于github上的webhooks开发的一个用Python写的小程序,基于TDD开发.如果你想向项目贡献代码,请看hookman 开发blog
+<meta property="og:description" content="以前听学长提过Git钩子，但是自己一直没有仔细了解过，记得我还写过一个github更新的Python包，现在想想其实用自带的钩子就能很好的完成
 
-简单用法
-安装 pip install hookman
-配置github的webhooks,设置监听服务器ip和端口3610(默认)
-使用3.1 进入github项目目录cd /my/github/projectdir3.2">
-<meta property="og:updated_time" content="2016-08-22T13:33:11.151Z">
+什么是钩子？我们知道Git是迭代式开发工具，我们的开发流程都是git add、git commit，git push，钩子呢就是你完成每一步Git给你的“回调”，举个例子假如你想让服务器每次上传完新的代码后更新网站，如果你没有钩子，你只能自己ssh登录">
+<meta property="og:updated_time" content="2017-12-01T02:23:58.715Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="hookman development notebook">
-<meta name="twitter:description" content="hookman  是基于github上的webhooks开发的一个用Python写的小程序,基于TDD开发.如果你想向项目贡献代码,请看hookman 开发blog
+<meta name="twitter:title" content="巧用Git钩子">
+<meta name="twitter:description" content="以前听学长提过Git钩子，但是自己一直没有仔细了解过，记得我还写过一个github更新的Python包，现在想想其实用自带的钩子就能很好的完成
 
-简单用法
-安装 pip install hookman
-配置github的webhooks,设置监听服务器ip和端口3610(默认)
-使用3.1 进入github项目目录cd /my/github/projectdir3.2">
+什么是钩子？我们知道Git是迭代式开发工具，我们的开发流程都是git add、git commit，git push，钩子呢就是你完成每一步Git给你的“回调”，举个例子假如你想让服务器每次上传完新的代码后更新网站，如果你没有钩子，你只能自己ssh登录">
 <meta name="twitter:creator" content="@mrzhangboss">
 
     
@@ -95,14 +86,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/08/18/hookman-development-notebook/" title="hookman development notebook" itemprop="url">hookman development notebook</a>
+      <a href="/2017/11/25/巧用Git钩子/" title="巧用Git钩子" itemprop="url">巧用Git钩子</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-08-18T05:26:21.000Z" itemprop="datePublished"> 發表於 2016-08-18</time>
+    <time datetime="2017-11-24T16:00:00.000Z" itemprop="datePublished"> 發表於 2017-11-25</time>
     
   </p>
 </header>
@@ -111,36 +102,80 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目錄</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#简单用法"><span class="toc-number">1.</span> <span class="toc-text">简单用法</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#版本差异"><span class="toc-number"></span> <span class="toc-text">版本差异</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#v0-1-0"><span class="toc-number">1.</span> <span class="toc-text">v0.1.0</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#v0-1-1"><span class="toc-number">2.</span> <span class="toc-text">v0.1.1</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是钩子？"><span class="toc-number">1.</span> <span class="toc-text">什么是钩子？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#客户端钩子"><span class="toc-number">2.</span> <span class="toc-text">客户端钩子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#服务端钩子"><span class="toc-number">3.</span> <span class="toc-text">服务端钩子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Git-服务端"><span class="toc-number">4.</span> <span class="toc-text">Git 服务端</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何写服务器钩子"><span class="toc-number">5.</span> <span class="toc-text">如何写服务器钩子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">6.</span> <span class="toc-text">总结</span></a></li></ol>
 		
 		</div>
 		
 		<blockquote>
-<p><code>hookman</code>  是基于<code>github</code>上的<code>webhooks</code>开发的一个用Python写的小程序<br>,基于TDD开发.<br>如果你想向项目贡献代码,请看<a href="http://blog.zhanglun.me/2016/08/18/hookman-development-blog/" target="_blank" rel="external">hookman 开发blog</a></p>
+<p>以前听学长提过Git钩子，但是自己一直没有仔细了解过，记得我还写过一个github更新的Python包，现在想想其实用自带的钩子就能很好的完成</p>
 </blockquote>
-<h2 id="简单用法"><a href="#简单用法" class="headerlink" title="简单用法"></a>简单用法</h2><ol>
-<li>安装 <code>pip install hookman</code></li>
-<li>配置<a href="https://developer.github.com/webhooks/" target="_blank" rel="external">github的webhooks</a>,设置监听服务器ip和端口3610(默认)</li>
-<li>使用<br>3.1 进入github项目目录<code>cd /my/github/projectdir</code><br>3.2   运行 <code>hookman --run -d</code> </li>
-<li>关闭<br>3.1 <code>hookman --stop</code></li>
-</ol>
-<h1 id="版本差异"><a href="#版本差异" class="headerlink" title="版本差异"></a>版本差异</h1><h2 id="v0-1-0"><a href="#v0-1-0" class="headerlink" title="v0.1.0"></a>v0.1.0</h2><ol>
-<li>基本实现监听端口</li>
-<li>添加 <code>run</code>,<code>stop</code>,<code>daemon</code>,<code>pidfile</code>,<code>logfile</code>,<code>projectdir</code>选项</li>
-</ol>
-<h2 id="v0-1-1"><a href="#v0-1-1" class="headerlink" title="v0.1.1"></a>v0.1.1</h2><ul>
-<li>修复了在前台shell模式下的bug</li>
+<h2 id="什么是钩子？"><a href="#什么是钩子？" class="headerlink" title="什么是钩子？"></a>什么是钩子？</h2><p>我们知道Git是迭代式开发工具，我们的开发流程都是<code>git add</code>、<code>git commit</code>，<code>git push</code>，钩子呢就是你完成每一步Git给你的“回调”，举个例子假如你想让服务器每次上传完新的代码后更新网站，如果你没有钩子，你只能自己<code>ssh</code>登录上服务器，自己更新软件，一次两次还好，多了的话你会骂娘的，所以钩子是给我偷懒的脚手架，我们可以很轻松的写一些脚步帮我们完成一些重复的步骤</p>
+<p>介绍玩钩子的作用，我们来介绍一下钩子的分类</p>
+<p>我们知道Git核心是<code>commit</code>和<code>push</code>两个命令，一个对应客户端，一个对应服务端，所以钩子主要分客户端和服务端，由于Git步骤分的很细，所以每个大分类下面还有很多小分类，比如<code>pre-commit</code>，<code>post-commit</code>这些。</p>
+<p>钩子的全部放在<code>.git/hooks</code>下面，在新建一个项目仓库的时候，Git已经在这个文件夹下给我们生成了很多个<code>.sample</code>后缀的钩子，这些钩子只要把<code>.sample</code>去掉就可以运行了，我们可以在这些<code>sample</code>上面修改完成我们自己的钩子</p>
+<h2 id="客户端钩子"><a href="#客户端钩子" class="headerlink" title="客户端钩子"></a>客户端钩子</h2><p>客户端钩子很好理解，你<code>commit</code>之后想做其他事，比如说编译一下程序啥的，这里我就不多讲，主要由下面几个钩子组成</p>
+<ul>
+<li>pre-commit 提交之前</li>
+<li>post-commit 提交之后</li>
+<li>pre-rebase 变基之前</li>
+<li>post-rewrite 替换提交记录之后</li>
+<li>pre-push 推之前</li>
 </ul>
+<p>详细的可以看官网链接<a href="https://git-scm.com/book/zh/v2/%E8%87%AA%E5%AE%9A%E4%B9%89-Git-Git-%E9%92%A9%E5%AD%90#_git_hooks" target="_blank" rel="external">钩子</a></p>
+<p>客户端钩子我觉得一般没有太多作用，因为我在提交之前就会运行脚步进行开发调试什么的，我把介绍重点放在服务端钩子</p>
+<h2 id="服务端钩子"><a href="#服务端钩子" class="headerlink" title="服务端钩子"></a>服务端钩子</h2><p>服务端钩子就是你<code>push</code>之后的事情服务器要运行的脚步，有用推的步骤只有一个，所以钩子只有四个</p>
+<ul>
+<li>pre-receive 接受之前</li>
+<li>update 更新之前</li>
+<li>post-update 更新之后</li>
+<li>post-receive 接受之后</li>
+</ul>
+<p>服务器接收到客户端请求时，<code>pre-receive</code>先进行调用，如果返回值为非0就会拒绝推送，所以我们写钩子的时候一定要记住最后要返回0才能正常接收更新，<code>update</code>主要处理多分支推送，有的时候你一次更新，推三四个分支到服务器，<code>pre-receive</code>只会调用一次，<code>update</code>会对每个的分支调用一次，后面两个都很容易理解</p>
+<p>一般我们就是要在服务端更新代码之后运行脚步，所以我们要修改的就是<code>post-update</code>或者<code>post-receive</code></p>
+<p>bash脚步大家都会写，但是大家可能会很陌生什么是Git服务端，接下来我们就来介绍一下Git服务端是什么</p>
+<h2 id="Git-服务端"><a href="#Git-服务端" class="headerlink" title="Git 服务端"></a>Git 服务端</h2><p>大家一般使用Git都是使用的客户端，但是Git这个工具的确很强，它不但可以当做客户端，也可以当做服务端，为了让大家更好的理解Git服务端，我们先来拿本地文件做”服务器“</p>
+<p>首先我们先新建一个文件夹为<code>server</code>，在新建一个文件夹为<code>local</code>，假设文件夹都在<code>/root</code>文件夹下</p>
+<p>我们执行下面的命令生成服务器</p>
+<pre><code>cd /root/server
+git init --bare
+</code></pre><p>只需要在<code>init</code>后面添加一个<code>--bare</code>选项告诉Git，Git就会帮我们生成一个空的“服务端”，我们可以查看一下文件，我们发现Git 给我们生成下面几个文件夹，其中就有我们的hooks</p>
+<pre><code>branches  config  description  HEAD  hooks  info  objects  refs
+</code></pre><p>但是服务端和客户端生成的位置不一样，客户端是给我们生成一个<code>.git</code>文件夹，里面放了这些文件夹，然而服务端直接将这些文件夹放在主目录了</p>
+<p>行我们已经生成了服务端的，接下来我们生成客户端的钩子</p>
+<pre><code>cd /root/local
+git init
+</code></pre><p>很简单，同我们往常操作一样，我们这时候添加一个<code>README.md</code> 然后<code>commit</code>一下准备开始往服务端推代码了</p>
+<p>在 linux 下直接执行下面命令就行</p>
+<p>   echo “local update” &gt;&gt; README.md<br>   git add README.md<br>   git commit -m “Add ReadME”</p>
+<p>接下来我们就要向”服务器“提交代码了，我们先添加本地文件作为远程服务器</p>
+<pre><code>git remote add origin file:////root/server
+</code></pre><p>然后直接推代码</p>
+<pre><code>git push origin master
+</code></pre><p>这样我们就向我们文件提交了代码，这时候我们回到我们”服务器“</p>
+<pre><code>cd /root/server
+ls
+branches  config  description  HEAD  hooks  info  objects  refs
+</code></pre><p>我们惊奇的发现服务器并没有我们新建的<code>README.md</code>文件，原来Git服务端并不像SVN一样只保留一份代码大家共同修改，<strong>Git服务端只是记录文件变化和分支变化</strong></p>
+<p>这里插一句我为什么会去了解Git钩子，由于一开始实现服务器自动更新我的FastProxyScan项目代码，但是我又不想使用<code>Github</code>钩子（push后发送http请求），太麻烦了，后来我一想干脆直接推到我的服务器上，但是推到服务器上的代码只是记录了分支和提交信息，不包含源文件，所以我只好在在服务器上部署这个项目，并添加一个服务器钩子，当服务器更新完成后，再用钩子把服务器上的项目代码更新</p>
+<h2 id="如何写服务器钩子"><a href="#如何写服务器钩子" class="headerlink" title="如何写服务器钩子"></a>如何写服务器钩子</h2><p>通过上面对本地文件新建仓库，我们知道Git“服务端”新建很简单，我们一般接触比较多的是Github服务端，但是Git非常强大，他可以支持多种协议来连接“服务端”，比如说我们上面用到的本地文件（<code>file</code>协议），假如你用<code>ssh</code>连接远程服务器，你也可以使用类似<code>git remote add origin ssh://username@ip/file/path</code>添加ssh远程仓库</p>
+<p>git 支持的协议有ssh、http、https、file、git等协议，你只要确保你能连接上远程服务器就行，接下来我们谈谈如何写服务器钩子</p>
+<p>在使用<code>git init --bare</code>新建了一个Git服务端之后，在服务端文件下面有一个<code>hooks</code>文件夹，我们要做的就是把脚本放到<code>hooks</code>文件夹里面（当然你要确保它有执行权限），如果你更擅长写<code>Python</code>，<code>Ruby</code>那些脚步也可以，不过要确保前缀后后缀正确。</p>
+<p>这里要提到很重要的一点，由于在执行钩子的时候，环境变量<code>GIT_DIR</code>被设置为服务端当前目录，如果你像我一样想更新在另外一个文件夹下面的项目代码，你必须使用<code>uset GIT_DIR</code>清除变量名，否则只会更新服务端，而不会更新你的项目代码</p>
+<p>这里我提供一个模板</p>
+<p>文件名为 <code>post-update</code>或者<code>post-receive</code></p>
+<pre><code>#!/bin/sh
+cd /project/path/ || exit
+unset GIT_DIR
+git pull origin master
+
+exec git-update-server-info
+</code></pre><p>你只需修改项目文件路径和仓库名即可</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过这个Git钩子了解了Git服务端，也让自己更加了解Git这个软件，以前一直懵懵懂懂，只会向Github提交文件，一直以为Git只是一个版本记录工具而且，现在看来神器之名不是浪得虚名，通过一个小小的钩子，摇身一变成部署神器。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/hookman/">hookman</a><a href="/tags/development/">development</a><a href="/tags/notebook/">notebook</a>
-  </div>
 
 </div>
 
@@ -148,7 +183,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://mrzhangboss.github.io/2016/08/18/hookman-development-notebook/" data-title="hookman development notebook | lunge博客" data-tsina="5364356330" class="share clearfix">
+	  <div data-url="https://mrzhangboss.github.io/2017/11/25/巧用Git钩子/" data-title="巧用Git钩子 | lunge博客" data-tsina="5364356330" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -161,19 +196,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2016/08/18/hookman-development-blog/" title="hookman develpment blog">
-  <strong>上一篇：</strong><br/>
-  <span>
-  hookman develpment blog</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2016/08/09/TDD-Isolution-Test/"  title="TDD-隔离测试">
+<a href="/2017/11/23/FastProxyScan-Introduction/"  title="FastProxyScan项目介绍">
  <strong>下一篇：</strong><br/> 
- <span>TDD-隔离测试
+ <span>FastProxyScan项目介绍
 </span>
 </a>
 </div>
@@ -182,7 +209,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2016/08/18/hookman-development-notebook/" data-title="hookman development notebook" data-url="https://mrzhangboss.github.io/2016/08/18/hookman-development-notebook/"></div>
+	<div class="ds-thread" data-thread-key="2017/11/25/巧用Git钩子/" data-title="巧用Git钩子" data-url="https://mrzhangboss.github.io/2017/11/25/巧用Git钩子/"></div>
 </section>
 
 
@@ -192,7 +219,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目錄</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#简单用法"><span class="toc-number">1.</span> <span class="toc-text">简单用法</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#版本差异"><span class="toc-number"></span> <span class="toc-text">版本差异</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#v0-1-0"><span class="toc-number">1.</span> <span class="toc-text">v0.1.0</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#v0-1-1"><span class="toc-number">2.</span> <span class="toc-text">v0.1.1</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是钩子？"><span class="toc-number">1.</span> <span class="toc-text">什么是钩子？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#客户端钩子"><span class="toc-number">2.</span> <span class="toc-text">客户端钩子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#服务端钩子"><span class="toc-number">3.</span> <span class="toc-text">服务端钩子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Git-服务端"><span class="toc-number">4.</span> <span class="toc-text">Git 服务端</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何写服务器钩子"><span class="toc-number">5.</span> <span class="toc-text">如何写服务器钩子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">6.</span> <span class="toc-text">总结</span></a></li></ol>
  
   </div>
 

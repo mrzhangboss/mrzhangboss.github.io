@@ -25,7 +25,7 @@ github传送门Demo传送门
 github传送门Demo传送门
 引子一开始自己只想做一个代理池，于是搜了搜Github发现类似的项目，大多数都是爬取网上的一些代理商的免费代理，这部分代理大多都是没有用的，可用性非常低，于是我自己就干脆做一个“代理商”，自己扫描主机把可用的代理扫描出来。
 但是现在网络主机实在太多了，">
-<meta property="og:updated_time" content="2017-11-24T02:14:49.421Z">
+<meta property="og:updated_time" content="2017-12-01T00:38:16.899Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="FastProxyScan项目介绍">
 <meta name="twitter:description" content="为了给我的站点增加人气，我把这个项目的介绍放到我的博客，如果你觉得这个项目还不错的话，请不要吝啬你的star
@@ -61,7 +61,7 @@ github传送门Demo传送门
 				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -77,7 +77,7 @@ github传送门Demo传送门
  					
 					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
 					</form>
 					
 					</li>
@@ -99,14 +99,14 @@ github传送门Demo传送门
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2017-11-22T16:00:00.000Z" itemprop="datePublished"> Published 2017-11-23</time>
+    <time datetime="2017-11-22T16:00:00.000Z" itemprop="datePublished"> 發表於 2017-11-23</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
+			<strong class="toc-title">文章目錄</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引子"><span class="toc-number">1.</span> <span class="toc-text">引子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#项目依赖"><span class="toc-number">2.</span> <span class="toc-text">项目依赖</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#项目结构"><span class="toc-number">3.</span> <span class="toc-text">项目结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装教程"><span class="toc-number">4.</span> <span class="toc-text">安装教程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li></ol>
 		
@@ -118,14 +118,14 @@ github传送门Demo传送门
 <p><a href="https://github.com/mrzhangboss/FastProxyScan" target="_blank" rel="external">github传送门</a><br><a href="http://115.159.146.115" target="_blank" rel="external">Demo传送门</a></p>
 <h2 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h2><p>一开始自己只想做一个代理池，于是搜了搜Github发现类似的项目，大多数都是爬取网上的一些代理商的免费代理，这部分代理大多都是没有用的，可用性非常低，于是我自己就干脆做一个“代理商”，自己扫描主机把可用的代理扫描出来。</p>
 <p>但是现在网络主机实在太多了，至少几百万台，所以这个项目的核心就是快速扫描，在最短的时间内检测更多的代理，目前项目的速度最好只能完成1000代理每小时的速度（日扫描两万代理），希望能继续优化代码，加快速度，如果你对这个项目感兴趣可以Fork下来，欢迎各位的Pull Request </p>
-<h2 id="项目依赖"><a href="#项目依赖" class="headerlink" title="项目依赖"></a>项目依赖</h2><p>项目依赖LInux系统，基于Python3.5+开发</p>
+<h2 id="项目依赖"><a href="#项目依赖" class="headerlink" title="项目依赖"></a>项目依赖</h2><p>项目基于Python3.5+开发</p>
 <p>软件依赖</p>
 <ul>
 <li>nmap</li>
 </ul>
 <h2 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h2><p>项目主要由三个部分组成</p>
 <ul>
-<li>主机爬取</li>
+<li>主机扫描</li>
 <li>端口检测</li>
 <li>代理检查</li>
 </ul>
@@ -133,23 +133,25 @@ github传送门Demo传送门
 <ul>
 <li>proxy_pool</li>
 <li><ul>
-<li>crawler</li>
-</ul>
-</li>
-<li><ul>
 <li>scanner</li>
 </ul>
 </li>
 <li><ul>
-<li>checker</li>
+<li>display</li>
+</ul>
+</li>
+<li><ul>
+<li>database</li>
 </ul>
 </li>
 </ul>
 <p>现在依次介绍在搜索速度上的优化</p>
 <ul>
-<li>主机爬取</li>
+<li>主机搜索</li>
 </ul>
-<p>主机爬取只是爬取了100页的免费代理的主机IP，后面会陆续添加多个站点爬取和主机IP局域网扫描</p>
+<p>全球的IP都是有ISP统一分配的，ISP主要由下面几大洲分配，我们中国处于亚太区，所以我们的IP由亚太互联网络信息中心（APNIC）分配IP，目前中国分配的IPV4总数为3亿左右，这个数量还是比较大</p>
+<p>我们可以从 <a href="http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest" target="_blank" rel="external">http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest</a>下载最新分配的IP地址</p>
+<p>但是代理服务器只存在特定的服务器上，所以现在版本还没有发布V1.0主要是因为搜索的效果不是很好（搜索的主机代理转换率太低），目前还在想其他方法，等有更好的解决方法就会发布V1.0</p>
 <ul>
 <li>端口检测</li>
 </ul>
@@ -172,10 +174,10 @@ python3.5 install -r requirement.txt
 <li>主机检测</li>
 </ul>
 <pre><code>cd pool/proxy_pool
-sudo python3.5 manage.py crawl --kuaidaili
+sudo python3.5 manage.py scan --vps
 </code></pre><ul>
 <li><p>端口检测</p>
-<p>  sudo python3.5 manage.py scan -m 100 –start</p>
+<p>  sudo python3.5 manage.py scan  –proxy -m 100</p>
 </li>
 </ul>
 <p>m是并行参数，值越大速度越快</p>
@@ -218,6 +220,14 @@ sudo python3.5 manage.py crawl --kuaidaili
 	
 <nav class="article-nav clearfix">
  
+ <div class="prev" >
+ <a href="/2017/11/25/巧用Git钩子/" title="巧用Git钩子">
+  <strong>上一篇：</strong><br/>
+  <span>
+  巧用Git钩子</span>
+</a>
+</div>
+
 
 <div class="next">
 <a href="/2017/11/20/代理的前世今生/"  title="代理的前世今生">
@@ -236,24 +246,24 @@ sudo python3.5 manage.py crawl --kuaidaili
 
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">Contents</strong>
+  <strong class="toc-title">文章目錄</strong>
  
  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引子"><span class="toc-number">1.</span> <span class="toc-text">引子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#项目依赖"><span class="toc-number">2.</span> <span class="toc-text">项目依赖</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#项目结构"><span class="toc-number">3.</span> <span class="toc-text">项目结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装教程"><span class="toc-number">4.</span> <span class="toc-text">安装教程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
 <aside class="clearfix">
 
   
 
   
 <div class="tagslist">
-	<p class="asidetitle">Tags</p>
+	<p class="asidetitle">標簽</p>
 		<ul class="clearfix">
 		
 			
@@ -341,7 +351,7 @@ sudo python3.5 manage.py crawl --kuaidaili
 
 
   <div class="linkslist">
-  <p class="asidetitle">Links</p>
+  <p class="asidetitle">友情鏈接</p>
     <ul>
         
           <li>
@@ -357,11 +367,11 @@ sudo python3.5 manage.py crawl --kuaidaili
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 訂閱</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">Weibo</p>
+  <p class="asidetitle">新浪微博</p>
     <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5364356330&verifier=&dpc=1"></iframe>
 </div>
 
@@ -634,7 +644,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

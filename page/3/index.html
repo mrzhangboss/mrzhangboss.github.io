@@ -45,7 +45,7 @@
 				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -61,7 +61,7 @@
  					
 					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
 					</form>
 					
 					</li>
@@ -78,6 +78,83 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/09/07/git-working-streamline/" title="git 工作流程" itemprop="url">git 工作流程</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
+		
+  <p class="article-time">
+    <time datetime="2016-09-07T11:22:51.000Z" itemprop="datePublished"> 發表於 2016-09-07</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <blockquote>
+<p><code>git</code>是当今流行的版本控制工具,一般我们可能只要会<code>push</code>, <code>pull</code>就可以了,<br>但是当我们同别人共同工作的时候,我们必须要了解<code>git</code>协同开发的一些重要流程.</p>
+</blockquote>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p><code>git</code>作为当今最流行的版本控制工具之一,当时开发出来就是为了管理<code>Linux</code>庞大源代码的分布式版本控制工具.<br>由于<code>Linux</code>源代码过于巨大,仅靠一个人的力量是完成不了的,那就必须把工作分配下去,然后将代码合并,所以<code>git</code>一开始设计的时候就是一种分布式的、多分支的</p>
+</blockquote>
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>所以<code>git</code>最重要的就是<strong>分支</strong>这个性质,分支是什么呢.</p>
+<p>要了解<strong>分支</strong>必须要了解<code>git</code>工作原理.</p>
+<p><code>git</code>工作原理很简单就是<code>add</code>、<code>commit</code>，<code>add</code>、<code>commit</code>….,简单来说就是添加记录,添加记录,保存快照,添加记录,添加记录,保存快照</p>
+<p><img src="/images/git-workflow-release-cycle-4maintenance.png" alt="git工作分支流程-来源网上"></p>
+<p>  如上图,随着master分支快照的一个一个建立,软件就慢慢的迭代下去了</p>
+<h2 id="分支工作流程"><a href="#分支工作流程" class="headerlink" title="分支工作流程"></a>分支工作流程</h2><p>  接下来我们要着重讲一下分支,我们看到<code>master</code>分支的<code>v0.1</code>版本,我们已经开发出稳定的<code>v0.1</code>版,这时候我们决定开发一个新功能.</p>
+<p> 在这里我们分了一个<code>Develop</code>分支,我们在<code>Develop</code>分支开发新代码.</p>
+<p> 这时候我们发现<code>v0,1</code>的一个<code>bug</code>,假如是没有使用版本控制的话,一般人会停下手中的活,然后从当前的新代码处来修复这个<code>bug</code>,当这个<code>bug</code>很简单的时候,我们不会遇到很大困难,但是当<code>bug</code>藏的很深,而且新代码隐藏了这个<code>bug</code>,或者被这个<code>bug</code>影响,这时修复工作就变得很困难.</p>
+<p> 还好我们有<code>git</code>,我们从<code>v0.1</code>直接分一个<code>Hotfix</code>分支,这两个分支的父都是<code>v0.1</code>,我们直接从稳定版本修复,不牵涉到新代码,这样修改好后我们就能很快从<code>Develop</code>分支继续工作了</p>
+<p> 而且这样有一个好处我们将<code>master</code>和<code>Develop</code>分支合并的时候很大可能不会产生冲突.</p>
+<p> <em>冲突(coflic)是什么了,怎么能避免呢?</em></p>
+<p> 从两个分支的父亲<code>v0.1</code>看起,我们每次改动一个保存文件就会产生一个<code>modify</code>(修改)的动作,我们假如分支里面都对同一个文件产生了<code>modify</code>(修改)动作,当我们合并的时候这就是一个冲突,<code>git</code>无法理解采用哪个分支的<code>modify</code>动作,这时候就要你人工来修改采用哪个分支.</p>
+<p> 假如没有相同的文件有<code>modify</code>(修改)动作,<code>git</code>就会聪明的知道采用每个分支的最新的<code>modify</code>(修改)修改出一份所以文件的最新版.</p>
+<p> 那我们怎么来避免这个冲突呢,这就要求我们分支要分的合理,分支只要完成特定的工作,不要越俎代庖,那有些人会说我这个分支一定要改父的耦合地方否则我的代码工作不了,这时我们要好好思考自己的分支的功能,把合并耦合的代码放在主分支里面,次分支只要完成特定功能就可以了,这样合并分支时候不但可以安全的<code>merge</code>(合并)了, 而且修改<code>bug</code>的时候也可以对症下药,直接在问题开始的地方修改.</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/git/">git</a><a href="/tags/工作/">工作</a><a href="/tags/工具心得/">工具心得</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/09/07/git-working-streamline/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/09/07/git-working-streamline/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/08/21/刷题笔记/" title="刷题笔记" itemprop="url">刷题笔记</a>
   </h1>
   <p class="article-author">By
@@ -85,7 +162,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-08-21T12:26:34.000Z" itemprop="datePublished"> Published 2016-08-21</time>
+    <time datetime="2016-08-21T12:26:34.000Z" itemprop="datePublished"> 發表於 2016-08-21</time>
     
   </p>
 </header>
@@ -154,7 +231,7 @@ f(n) ={           1                   n= 2
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-08-21T10:57:27.000Z" itemprop="datePublished"> Published 2016-08-21</time>
+    <time datetime="2016-08-21T10:57:27.000Z" itemprop="datePublished"> 發表於 2016-08-21</time>
     
   </p>
 </header>
@@ -238,7 +315,7 @@ f(n) ={           1                   n= 2
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-08-21T01:14:18.000Z" itemprop="datePublished"> Published 2016-08-21</time>
+    <time datetime="2016-08-21T01:14:18.000Z" itemprop="datePublished"> 發表於 2016-08-21</time>
     
   </p>
 </header>
@@ -353,7 +430,7 @@ f(n) ={           1                   n= 2
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-08-18T06:04:43.000Z" itemprop="datePublished"> Published 2016-08-18</time>
+    <time datetime="2016-08-18T06:04:43.000Z" itemprop="datePublished"> 發表於 2016-08-18</time>
     
   </p>
 </header>
@@ -446,7 +523,7 @@ f(n) ={           1                   n= 2
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-08-18T05:26:21.000Z" itemprop="datePublished"> Published 2016-08-18</time>
+    <time datetime="2016-08-18T05:26:21.000Z" itemprop="datePublished"> 發表於 2016-08-18</time>
     
   </p>
 </header>
@@ -519,7 +596,7 @@ f(n) ={           1                   n= 2
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-08-09T10:02:56.000Z" itemprop="datePublished"> Published 2016-08-09</time>
+    <time datetime="2016-08-09T10:02:56.000Z" itemprop="datePublished"> 發表於 2016-08-09</time>
     
   </p>
 </header>
@@ -632,7 +709,7 @@ class ListForm(forms.models.ModelForm):
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-26T14:48:12.000Z" itemprop="datePublished"> Published 2016-07-26</time>
+    <time datetime="2016-07-26T14:48:12.000Z" itemprop="datePublished"> 發表於 2016-07-26</time>
     
   </p>
 </header>
@@ -722,7 +799,7 @@ class ListForm(forms.models.ModelForm):
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-20T15:01:02.000Z" itemprop="datePublished"> Published 2016-07-20</time>
+    <time datetime="2016-07-20T15:01:02.000Z" itemprop="datePublished"> 發表於 2016-07-20</time>
     
   </p>
 </header>
@@ -852,7 +929,7 @@ var moveY = function(y) {
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-19T13:51:01.000Z" itemprop="datePublished"> Published 2016-07-19</time>
+    <time datetime="2016-07-19T13:51:01.000Z" itemprop="datePublished"> 發表於 2016-07-19</time>
     
   </p>
 </header>
@@ -923,88 +1000,23 @@ var moveY = function(y) {
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/07/18/最近在看<<机器学习实战>>这本书,下面是我的看书的心得.0/" title="&lt;&lt;机器学习实战&gt;&gt;心得." itemprop="url">&lt;&lt;机器学习实战&gt;&gt;心得.</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
-		
-  <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h6 id="先谈谈我对机器学习的理解"><a href="#先谈谈我对机器学习的理解" class="headerlink" title="先谈谈我对机器学习的理解"></a>先谈谈我对机器学习的理解</h6><h2 id="什么是机器学习"><a href="#什么是机器学习" class="headerlink" title="什么是机器学习?"></a>什么是机器学习?</h2><p>我们人类有从婴儿开始就开始学习,父母教我们穿衣吃饭、老师教我们读书写字，我们开始能辨别好人坏人，开始通过自己的经验来判断新事物。</p>
-<h5 id="机器学习很简单，就像人一样，我们教机器通过我们教的来判断新的事物，或者在从新的事物里面学习处理新的事物。"><a href="#机器学习很简单，就像人一样，我们教机器通过我们教的来判断新的事物，或者在从新的事物里面学习处理新的事物。" class="headerlink" title="机器学习很简单，就像人一样，我们教机器通过我们教的来判断新的事物，或者在从新的事物里面学习处理新的事物。"></a>机器学习很简单，就像人一样，我们教机器通过我们教的来判断新的事物，或者在从新的事物里面学习处理新的事物。</h5><p>这看起来很复杂的样子,但是从我们神经网络来看,我们可以把学习当做建立一个神经元连接,通过输入的信号得到一个输出的信号.我们只要简单的把输入的信号分类就可以了.通过无数个分类我们就可以建立复杂的神经系统,进而实现’学习’这个功能.</p>
-<h2 id="如何分类"><a href="#如何分类" class="headerlink" title="如何分类?"></a>如何分类?</h2><blockquote>
-<p>涉及到分类,假如输入的信号种类只要两种,我们就可以简单用if-else来实现分类功能,但是有时候输入信号种类个个都有细微的差别,只是遵循某种规律,这时候我们不能用简单的if-else来进行分类了,下面我就按照书的顺序来解释各种强大的分类方法.</p>
-</blockquote>
-<h1 id="K-近邻算法-k-Nearest-Neighbor"><a href="#K-近邻算法-k-Nearest-Neighbor" class="headerlink" title="K-近邻算法 ( k-Nearest Neighbor )"></a>K-近邻算法 ( k-Nearest Neighbor )</h1><blockquote>
-<p>作为本书的第一个机器学习算法,K-NN算是我感觉原理最简单的一个了.</p>
-</blockquote>
-<p>假设我们有两个点, 红点为(-1,  -1)分为红类, 绿点为(1, 1)分为绿类<br><img src="http://7xsxdn.com1.z0.glb.clouddn.com/knn1.png" alt="图片1"></p>
-<h4 id="接下来我一个点-0-1-这个点应该分为红还是绿呢-我们添加两条辅助线"><a href="#接下来我一个点-0-1-这个点应该分为红还是绿呢-我们添加两条辅助线" class="headerlink" title="接下来我一个点(0, -1),这个点应该分为红还是绿呢,我们添加两条辅助线"></a>接下来我一个点(0, -1),这个点应该分为红还是绿呢,我们添加两条辅助线</h4><p><img src="http://7xsxdn.com1.z0.glb.clouddn.com/knn2.png" alt=""></p>
-<p>蓝点离红点距离为1,蓝点离绿点距离为2.2,我们很轻松的可以知道这个点应该分为红类.<br>现在我们进一步推广,当有很多种类点的时候,当我们二维扩展到N维,给一个点a我们只要选取距离a最近的K个种类,我们就基本能判断他属于这K个种类的,这就是K-近邻的原理了.</p>
-<h4 id="K-近邻算法是最简单最有效的算法了-但是他也有缺点-比如他必须保存所有训练样本的数据-当训练样本很大的时候就会占用很多内存空间-我们后面会学到的KVM只取支持向量的训练样本来计算可以减少很多占用内存"><a href="#K-近邻算法是最简单最有效的算法了-但是他也有缺点-比如他必须保存所有训练样本的数据-当训练样本很大的时候就会占用很多内存空间-我们后面会学到的KVM只取支持向量的训练样本来计算可以减少很多占用内存" class="headerlink" title="K-近邻算法是最简单最有效的算法了,但是他也有缺点,比如他必须保存所有训练样本的数据,当训练样本很大的时候就会占用很多内存空间,我们后面会学到的KVM只取支持向量的训练样本来计算可以减少很多占用内存"></a>K-近邻算法是最简单最有效的算法了,但是他也有缺点,比如他必须保存所有训练样本的数据,当训练样本很大的时候就会占用很多内存空间,我们后面会学到的KVM只取支持向量的训练样本来计算可以减少很多占用内存</h4><h5 id="而且K-近邻算法对训练数据集都要计算距离值-实际使用可能会非常耗时-我们后面学到的logistic回归能很好解决这个问题"><a href="#而且K-近邻算法对训练数据集都要计算距离值-实际使用可能会非常耗时-我们后面学到的logistic回归能很好解决这个问题" class="headerlink" title="而且K-近邻算法对训练数据集都要计算距离值,实际使用可能会非常耗时,我们后面学到的logistic回归能很好解决这个问题."></a>而且K-近邻算法对训练数据集都要计算距离值,实际使用可能会非常耗时,我们后面学到的logistic回归能很好解决这个问题.</h5><p>######### 总而言之,KNN作为小样本时非常简单粗暴,但是他无法给出任何数据的基本结构信息.接下来我们要学习用概率测量解决分类问题,这个算法能解决这个问题</p>
-<p>(决策树)[]</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/07/18/最近在看<<机器学习实战>>这本书,下面是我的看书的心得.0/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/07/18/最近在看<<机器学习实战>>这本书,下面是我的看书的心得.0/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
-    <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
   </nav>
 
 </div>
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
 <aside class="clearfix">
 
   
 
   
 <div class="tagslist">
-	<p class="asidetitle">Tags</p>
+	<p class="asidetitle">標簽</p>
 		<ul class="clearfix">
 		
 			
@@ -1092,7 +1104,7 @@ var moveY = function(y) {
 
 
   <div class="linkslist">
-  <p class="asidetitle">Links</p>
+  <p class="asidetitle">友情鏈接</p>
     <ul>
         
           <li>
@@ -1108,11 +1120,11 @@ var moveY = function(y) {
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 訂閱</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">Weibo</p>
+  <p class="asidetitle">新浪微博</p>
     <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5364356330&verifier=&dpc=1"></iframe>
 </div>
 
@@ -1296,7 +1308,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

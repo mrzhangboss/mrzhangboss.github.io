@@ -4,38 +4,19 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>hookman development notebook | lunge博客</title>
+    <title>lunge博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="张伦">
     
 
     
-    <meta name="description" content="hookman  是基于github上的webhooks开发的一个用Python写的小程序,基于TDD开发.如果你想向项目贡献代码,请看hookman 开发blog
-
-简单用法
-安装 pip install hookman
-配置github的webhooks,设置监听服务器ip和端口3610(默认)
-使用3.1 进入github项目目录cd /my/github/projectdir3.2">
-<meta property="og:type" content="article">
-<meta property="og:title" content="hookman development notebook">
-<meta property="og:url" content="https://mrzhangboss.github.io/2016/08/18/hookman-development-notebook/index.html">
+    <meta property="og:type" content="website">
+<meta property="og:title" content="lunge博客">
+<meta property="og:url" content="https://mrzhangboss.github.io/page/6/index.html">
 <meta property="og:site_name" content="lunge博客">
-<meta property="og:description" content="hookman  是基于github上的webhooks开发的一个用Python写的小程序,基于TDD开发.如果你想向项目贡献代码,请看hookman 开发blog
-
-简单用法
-安装 pip install hookman
-配置github的webhooks,设置监听服务器ip和端口3610(默认)
-使用3.1 进入github项目目录cd /my/github/projectdir3.2">
-<meta property="og:updated_time" content="2016-08-22T13:33:11.151Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="hookman development notebook">
-<meta name="twitter:description" content="hookman  是基于github上的webhooks开发的一个用Python写的小程序,基于TDD开发.如果你想向项目贡献代码,请看hookman 开发blog
-
-简单用法
-安装 pip install hookman
-配置github的webhooks,设置监听服务器ip和端口3610(默认)
-使用3.1 进入github项目目录cd /my/github/projectdir3.2">
+<meta name="twitter:title" content="lunge博客">
 <meta name="twitter:creator" content="@mrzhangboss">
 
     
@@ -89,112 +70,73 @@
 </div>
     </header>
     <div id="container">
-      <div id="main" class="post" itemscope itemprop="blogPost">
-  
-	<article itemprop="articleBody"> 
-		<header class="article-info clearfix">
+      <div id="main">
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/08/18/hookman-development-notebook/" title="hookman development notebook" itemprop="url">hookman development notebook</a>
+      <a href="/2016/07/18/大数据学习小总结0/" title="大数据学习小总结" itemprop="url">大数据学习小总结</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-08-18T05:26:21.000Z" itemprop="datePublished"> 發表於 2016-08-18</time>
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 發表於 2016-07-18</time>
     
   </p>
 </header>
-	<div class="article-content">
-		
-		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目錄</strong>
-		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#简单用法"><span class="toc-number">1.</span> <span class="toc-text">简单用法</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#版本差异"><span class="toc-number"></span> <span class="toc-text">版本差异</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#v0-1-0"><span class="toc-number">1.</span> <span class="toc-text">v0.1.0</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#v0-1-1"><span class="toc-number">2.</span> <span class="toc-text">v0.1.1</span></a></li></ol>
-		
-		</div>
-		
-		<blockquote>
-<p><code>hookman</code>  是基于<code>github</code>上的<code>webhooks</code>开发的一个用Python写的小程序<br>,基于TDD开发.<br>如果你想向项目贡献代码,请看<a href="http://blog.zhanglun.me/2016/08/18/hookman-development-blog/" target="_blank" rel="external">hookman 开发blog</a></p>
+    <div class="article-content">
+        
+        <blockquote>
+<p>最近在学习大数据,书看了不少,但是总是觉得很迷茫,不知道怎么学下去,今天<br>突然想写点什么来<br>总结一下这些天.</p>
 </blockquote>
-<h2 id="简单用法"><a href="#简单用法" class="headerlink" title="简单用法"></a>简单用法</h2><ol>
-<li>安装 <code>pip install hookman</code></li>
-<li>配置<a href="https://developer.github.com/webhooks/" target="_blank" rel="external">github的webhooks</a>,设置监听服务器ip和端口3610(默认)</li>
-<li>使用<br>3.1 进入github项目目录<code>cd /my/github/projectdir</code><br>3.2   运行 <code>hookman --run -d</code> </li>
-<li>关闭<br>3.1 <code>hookman --stop</code></li>
-</ol>
-<h1 id="版本差异"><a href="#版本差异" class="headerlink" title="版本差异"></a>版本差异</h1><h2 id="v0-1-0"><a href="#v0-1-0" class="headerlink" title="v0.1.0"></a>v0.1.0</h2><ol>
-<li>基本实现监听端口</li>
-<li>添加 <code>run</code>,<code>stop</code>,<code>daemon</code>,<code>pidfile</code>,<code>logfile</code>,<code>projectdir</code>选项</li>
-</ol>
-<h2 id="v0-1-1"><a href="#v0-1-1" class="headerlink" title="v0.1.1"></a>v0.1.1</h2><ul>
-<li>修复了在前台shell模式下的bug</li>
-</ul>
-  
-	</div>
-		<footer class="article-footer clearfix">
+<h3 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h3><p>逛博客的时候看到一篇分享<a href="http://www.36dsj.com/archives/8094" target="_blank" rel="external">如何修炼成大数据高手</a>感觉很有趣</p>
+<h4 id="买了两本书"><a href="#买了两本书" class="headerlink" title="买了两本书"></a>买了两本书</h4><p><img src="http://www.36dsj.com/wp-content/uploads/2014/05/15.png" alt="大数据时代"></p>
+<p><img src="http://www.36dsj.com/wp-content/uploads/2014/05/23.png" alt="失控"></p>
+<h3 id="这两本书都是很多年前写的-但是最近这几年随着”大数据”被大家越炒越热-随即被大家所看重"><a href="#这两本书都是很多年前写的-但是最近这几年随着”大数据”被大家越炒越热-随即被大家所看重" class="headerlink" title="这两本书都是很多年前写的,但是最近这几年随着”大数据”被大家越炒越热,随即被大家所看重."></a>这两本书都是很多年前写的,但是最近这几年随着”大数据”被大家越炒越热,随即被大家所看重.</h3><h3 id="这两个作者很牛-在30年前大数据还只是萌芽的时候就提出未来大数据的重要性和价值"><a href="#这两个作者很牛-在30年前大数据还只是萌芽的时候就提出未来大数据的重要性和价值" class="headerlink" title="这两个作者很牛,在30年前大数据还只是萌芽的时候就提出未来大数据的重要性和价值."></a>这两个作者很牛,在30年前大数据还只是萌芽的时候就提出未来大数据的重要性和价值.</h3><h2 id="大数据是什么了-现在为什么这么火-以前没有大数据吗"><a href="#大数据是什么了-现在为什么这么火-以前没有大数据吗" class="headerlink" title="大数据是什么了,现在为什么这么火,以前没有大数据吗?"></a>大数据是什么了,现在为什么这么火,以前没有大数据吗?</h2><h3 id="大数据的产生就像是科技带来的附带品一样-原来我们把信息存贮在图书馆里面-因为人类的活动产生的信息越来越多-图书馆也越来越大-但是由于管理和存贮的成本越来越多-我们被迫要缩减浓缩我们的信息-我们想出了很多很方法来对付这种情况-比如抽样-只要抽取一部分的代表信息存在图书馆里面然后记录主要特征和平均分量-我们就可以把信息降低几个数量级"><a href="#大数据的产生就像是科技带来的附带品一样-原来我们把信息存贮在图书馆里面-因为人类的活动产生的信息越来越多-图书馆也越来越大-但是由于管理和存贮的成本越来越多-我们被迫要缩减浓缩我们的信息-我们想出了很多很方法来对付这种情况-比如抽样-只要抽取一部分的代表信息存在图书馆里面然后记录主要特征和平均分量-我们就可以把信息降低几个数量级" class="headerlink" title="大数据的产生就像是科技带来的附带品一样,原来我们把信息存贮在图书馆里面,因为人类的活动产生的信息越来越多,图书馆也越来越大,但是由于管理和存贮的成本越来越多,我们被迫要缩减浓缩我们的信息,我们想出了很多很方法来对付这种情况,比如抽样,只要抽取一部分的代表信息存在图书馆里面然后记录主要特征和平均分量,我们就可以把信息降低几个数量级."></a>大数据的产生就像是科技带来的附带品一样,原来我们把信息存贮在图书馆里面,因为人类的活动产生的信息越来越多,图书馆也越来越大,但是由于管理和存贮的成本越来越多,我们被迫要缩减浓缩我们的信息,我们想出了很多很方法来对付这种情况,比如抽样,只要抽取一部分的代表信息存在图书馆里面然后记录主要特征和平均分量,我们就可以把信息降低几个数量级.</h3><h3 id="但是现在不同"><a href="#但是现在不同" class="headerlink" title="但是现在不同."></a>但是现在不同.</h3><h3 id="芯片做的越来越小-容量做的越来越大-我们有能力存贮所以的信息-一些先驱发现我们用另一种思维去对待信息"><a href="#芯片做的越来越小-容量做的越来越大-我们有能力存贮所以的信息-一些先驱发现我们用另一种思维去对待信息" class="headerlink" title="芯片做的越来越小,容量做的越来越大,我们有能力存贮所以的信息,一些先驱发现我们用另一种思维去对待信息."></a>芯片做的越来越小,容量做的越来越大,我们有能力存贮所以的信息,一些先驱发现我们用另一种思维去对待信息.</h3><h2 id="用全体数据而不是随机样本"><a href="#用全体数据而不是随机样本" class="headerlink" title="用全体数据而不是随机样本"></a>用全体数据而不是随机样本</h2><h2 id="用混杂性而不是精确性"><a href="#用混杂性而不是精确性" class="headerlink" title="用混杂性而不是精确性"></a>用混杂性而不是精确性</h2><h2 id="用相关关系而不是因果性"><a href="#用相关关系而不是因果性" class="headerlink" title="用相关关系而不是因果性"></a>用相关关系而不是因果性</h2>
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
 <div class="article-catetags">
 
 
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/hookman/">hookman</a><a href="/tags/development/">development</a><a href="/tags/notebook/">notebook</a>
-  </div>
-
 </div>
 
 
 
-	<div class="article-share" id="share">
-	
-	  <div data-url="https://mrzhangboss.github.io/2016/08/18/hookman-development-notebook/" data-title="hookman development notebook | lunge博客" data-tsina="5364356330" class="share clearfix">
-	  </div>
-	
-	</div>
 
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/07/18/大数据学习小总结0/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/07/18/大数据学习小总结0/" data-count-type="comments">&nbsp;</a>
+	
+</div>
 
 </footer>
 
-   	       
-	</article>
-	
-<nav class="article-nav clearfix">
- 
- <div class="prev" >
- <a href="/2016/08/18/hookman-development-blog/" title="hookman develpment blog">
-  <strong>上一篇：</strong><br/>
-  <span>
-  hookman develpment blog</span>
-</a>
+
+    </article>
+
+
+
+
+
+
+
+  <nav id="page-nav" class="clearfix">
+    <a class="extend prev" rel="prev" href="/page/5/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span>
+  </nav>
+
 </div>
-
-
-<div class="next">
-<a href="/2016/08/09/TDD-Isolution-Test/"  title="TDD-隔离测试">
- <strong>下一篇：</strong><br/> 
- <span>TDD-隔离测试
-</span>
-</a>
-</div>
-
-</nav>
-
-	
-<section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2016/08/18/hookman-development-notebook/" data-title="hookman development notebook" data-url="https://mrzhangboss.github.io/2016/08/18/hookman-development-notebook/"></div>
-</section>
-
-
-</div>  
       <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
-
-  <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目錄</strong>
- 
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#简单用法"><span class="toc-number">1.</span> <span class="toc-text">简单用法</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#版本差异"><span class="toc-number"></span> <span class="toc-text">版本差异</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#v0-1-0"><span class="toc-number">1.</span> <span class="toc-text">v0.1.0</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#v0-1-1"><span class="toc-number">2.</span> <span class="toc-text">v0.1.1</span></a></li></ol>
- 
-  </div>
 
 <div id="asidepart">
 <div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
@@ -415,103 +357,14 @@ $(document).ready(function(){
       m.removeClass('moveMain');
       a.css('display', 'block').removeClass('fadeOut');
       o.css('display', 'none');
-      
-      $('#toc.toc-aside').css('display', 'none');
         
     }
   });
 });
 </script>
 
-<script type="text/javascript">
-$(document).ready(function(){ 
-  var ai = $('.article-content>iframe'),
-      ae = $('.article-content>embed'),
-      t  = $('#toc'),
-      ta = $('#toc.toc-aside'),
-      o  = $('.openaside'),
-      c  = $('.closeaside');
-  if(ai.length>0){
-    ai.wrap('<div class="video-container" />');
-  };
-  if(ae.length>0){
-   ae.wrap('<div class="video-container" />');
-  };
-  c.click(function(){
-    ta.css('display', 'block').addClass('fadeIn');
-  });
-  o.click(function(){
-    ta.css('display', 'none');
-  });
-  $(window).scroll(function(){
-    ta.css("top",Math.max(140,320-$(this).scrollTop()));
-  });
-});
-</script>
 
 
-<script type="text/javascript">
-$(document).ready(function(){ 
-  var $this = $('.share'),
-      url = $this.attr('data-url'),
-      encodedUrl = encodeURIComponent(url),
-      title = $this.attr('data-title'),
-      tsina = $this.attr('data-tsina'),
-      description = $this.attr('description');
-  var html = [
-  '<div class="hoverqrcode clearfix"></div>',
-  '<a class="overlay" id="qrcode"></a>',
-  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
-  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
-  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
-  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
-  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
-  '<span title="Share to"></span>'
-  ].join('');
-  $this.append(html);
-
-  $('.hoverqrcode').hide();
-
-  var myWidth = 0;
-  function updatehoverqrcode(){
-    if( typeof( window.innerWidth ) == 'number' ) {
-      myWidth = window.innerWidth;
-    } else if( document.documentElement && document.documentElement.clientWidth) {
-      myWidth = document.documentElement.clientWidth;
-    };
-    var qrsize = myWidth > 1024 ? 200:100;
-    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
-    var p = $('.article-share-qrcode').position();
-    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
-                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
-                          .qrcode(options);
-  };
-  $(window).resize(function(){
-    $('.hoverqrcode').hide();
-  });
-  $('.article-share-qrcode').click(function(){
-    updatehoverqrcode();
-    $('.hoverqrcode').toggle();
-  });
-  $('.article-share-qrcode').hover(function(){}, function(){
-      $('.hoverqrcode').hide();
-  });
-});   
-</script>
-
-
-
-<script type="text/javascript">
-  var duoshuoQuery = {short_name:"lunge"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-    || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-</script> 
 
 
 
@@ -602,4 +455,4 @@ var _hmt = _hmt || [];
 <!-- Tiny_search End -->
 
   </body>
-</html>
+ </html>
