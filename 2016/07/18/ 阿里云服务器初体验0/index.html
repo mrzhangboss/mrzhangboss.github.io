@@ -21,7 +21,7 @@ useradd -s /b">
 <meta property="og:description" content="申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。1.用户名和密码找了半天没有找到那个是用户名，试了实例的id，没有用，最后终于在登录帮助名里面找到了，用户名竟然是root！！！！,我用的是Ubuntu系统，说好的Ubuntu不提供root权限的呢，阿里还真会改造Linux系统，但是我觉得用root登录还是不安全，我觉得新建一个用户吧
 在root权限下
 useradd -s /b">
-<meta property="og:updated_time" content="2017-12-07T10:37:51.761Z">
+<meta property="og:updated_time" content="2017-12-07T10:49:11.321Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="阿里云服务器初体验">
 <meta name="twitter:description" content="申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。1.用户名和密码找了半天没有找到那个是用户名，试了实例的id，没有用，最后终于在登录帮助名里面找到了，用户名竟然是root！！！！,我用的是Ubuntu系统，说好的Ubuntu不提供root权限的呢，阿里还真会改造Linux系统，但是我觉得用root登录还是不安全，我觉得新建一个用户吧
@@ -110,7 +110,7 @@ useradd -s /b">
 <p>在root权限下</p>
 <pre><code>useradd -s /bin/bash -r -m yourname
 </code></pre><p>解释一下，本来直接<code>useradd yourname</code> 就可以新建一个<code>yourname</code>账号，但是如果用你新建的用户登录的话，你无法使用Tab键和上下左右键 ，你键入 <code>echo $SHELL</code>，会发现是<code>/bin/sh</code>，因为Ubuntu默认创建账号使用<code>/bin/sh</code>，假如你没加这个可以删掉 用这个<code>userdel yourname</code>重新来一遍，搞完这个只是创建了一个普通用户，你使用不了sudo获取最高权限，这个怎么办，很简单在<code>/etc/sudoers</code>里面找到<br>        root ALL=(ALL:ALL) ALL</p>
-<p>模仿它加上自己的账号名就可以了</p>
+<p>模仿它加上自己的账号名就可以</p>
   
 	</div>
 		<footer class="article-footer clearfix">
