@@ -1,0 +1,542 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>lunge博客</title>
+  
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://mrzhangboss.github.io/"/>
+  <updated>2017-12-01T02:23:58.715Z</updated>
+  <id>https://mrzhangboss.github.io/</id>
+  
+  <author>
+    <name>张伦</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>巧用Git钩子</title>
+    <link href="https://mrzhangboss.github.io/2017/11/25/%E5%B7%A7%E7%94%A8Git%E9%92%A9%E5%AD%90/"/>
+    <id>https://mrzhangboss.github.io/2017/11/25/巧用Git钩子/</id>
+    <published>2017-11-24T16:00:00.000Z</published>
+    <updated>2017-12-01T02:23:58.715Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>以前听学长提过Git钩子，但是自己一直没有仔细了解过，记得我还写过一个github更新的Python包，现在想想其实用自带的钩子就能很好的完成</p></blockquote><h2 id="什么是钩子？"><a href="#什么是钩子？" class="headerlink" title="什么是钩子？"></a>什么是钩子？</h2><p>我们知道Git是迭代式开发工具，我们的开发流程都是<code>git add</code>、<code>git commit</code>，<code>git push</code>，钩子呢就是你完成每一步Git给你的“回调”，举个例子假如你想让服务器每次上传完新的代码后更新网站，如果你没有钩子，你只能自己<code>ssh</code>登录上服务器，自己更新软件，一次两次还好，多了的话你会骂娘的，所以钩子是给我偷懒的脚手架，我们可以很轻松的写一些脚步帮我们完成一些重复的步骤</p><p>介绍玩钩子的作用，我们来介绍一下钩子的分类</p><p>我们知道Git核心是<code>commit</code>和<code>push</code>两个命令，一个对应客户端，一个对应服务端，所以钩子主要分客户端和服务端，由于Git步骤分的很细，所以每个大分类下面还有很多小分类，比如<code>pre-commit</code>，<code>post-commit</code>这些。</p><p>钩子的全部放在<code>.git/hooks</code>下面，在新建一个项目仓库的时候，Git已经在这个文件夹下给我们生成了很多个<code>.sample</code>后缀的钩子，这些钩子只要把<code>.sample</code>去掉就可以运行了，我们可以在这些<code>sample</code>上面修改完成我们自己的钩子</p><h2 id="客户端钩子"><a href="#客户端钩子" class="headerlink" title="客户端钩子"></a>客户端钩子</h2><p>客户端钩子很好理解，你<code>commit</code>之后想做其他事，比如说编译一下程序啥的，这里我就不多讲，主要由下面几个钩子组成</p><ul><li>pre-commit 提交之前</li><li>post-commit 提交之后</li><li>pre-rebase 变基之前</li><li>post-rewrite 替换提交记录之后</li><li>pre-push 推之前</li></ul><p>详细的可以看官网链接<a href="https://git-scm.com/book/zh/v2/%E8%87%AA%E5%AE%9A%E4%B9%89-Git-Git-%E9%92%A9%E5%AD%90#_git_hooks" target="_blank" rel="external">钩子</a></p><p>客户端钩子我觉得一般没有太多作用，因为我在提交之前就会运行脚步进行开发调试什么的，我把介绍重点放在服务端钩子</p><h2 id="服务端钩子"><a href="#服务端钩子" class="headerlink" title="服务端钩子"></a>服务端钩子</h2><p>服务端钩子就是你<code>push</code>之后的事情服务器要运行的脚步，有用推的步骤只有一个，所以钩子只有四个</p><ul><li>pre-receive 接受之前</li><li>update 更新之前</li><li>post-update 更新之后</li><li>post-receive 接受之后</li></ul><p>服务器接收到客户端请求时，<code>pre-receive</code>先进行调用，如果返回值为非0就会拒绝推送，所以我们写钩子的时候一定要记住最后要返回0才能正常接收更新，<code>update</code>主要处理多分支推送，有的时候你一次更新，推三四个分支到服务器，<code>pre-receive</code>只会调用一次，<code>update</code>会对每个的分支调用一次，后面两个都很容易理解</p><p>一般我们就是要在服务端更新代码之后运行脚步，所以我们要修改的就是<code>post-update</code>或者<code>post-receive</code></p><p>bash脚步大家都会写，但是大家可能会很陌生什么是Git服务端，接下来我们就来介绍一下Git服务端是什么</p><h2 id="Git-服务端"><a href="#Git-服务端" class="headerlink" title="Git 服务端"></a>Git 服务端</h2><p>大家一般使用Git都是使用的客户端，但是Git这个工具的确很强，它不但可以当做客户端，也可以当做服务端，为了让大家更好的理解Git服务端，我们先来拿本地文件做”服务器“</p><p>首先我们先新建一个文件夹为<code>server</code>，在新建一个文件夹为<code>local</code>，假设文件夹都在<code>/root</code>文件夹下</p><p>我们执行下面的命令生成服务器</p><pre><code>cd /root/servergit init --bare</code></pre><p>只需要在<code>init</code>后面添加一个<code>--bare</code>选项告诉Git，Git就会帮我们生成一个空的“服务端”，我们可以查看一下文件，我们发现Git 给我们生成下面几个文件夹，其中就有我们的hooks</p><pre><code>branches  config  description  HEAD  hooks  info  objects  refs</code></pre><p>但是服务端和客户端生成的位置不一样，客户端是给我们生成一个<code>.git</code>文件夹，里面放了这些文件夹，然而服务端直接将这些文件夹放在主目录了</p><p>行我们已经生成了服务端的，接下来我们生成客户端的钩子</p><pre><code>cd /root/localgit init</code></pre><p>很简单，同我们往常操作一样，我们这时候添加一个<code>README.md</code> 然后<code>commit</code>一下准备开始往服务端推代码了</p><p>在 linux 下直接执行下面命令就行</p><p>   echo “local update” &gt;&gt; README.md<br>   git add README.md<br>   git commit -m “Add ReadME”</p><p>接下来我们就要向”服务器“提交代码了，我们先添加本地文件作为远程服务器</p><pre><code>git remote add origin file:////root/server</code></pre><p>然后直接推代码</p><pre><code>git push origin master</code></pre><p>这样我们就向我们文件提交了代码，这时候我们回到我们”服务器“</p><pre><code>cd /root/serverlsbranches  config  description  HEAD  hooks  info  objects  refs</code></pre><p>我们惊奇的发现服务器并没有我们新建的<code>README.md</code>文件，原来Git服务端并不像SVN一样只保留一份代码大家共同修改，<strong>Git服务端只是记录文件变化和分支变化</strong></p><p>这里插一句我为什么会去了解Git钩子，由于一开始实现服务器自动更新我的FastProxyScan项目代码，但是我又不想使用<code>Github</code>钩子（push后发送http请求），太麻烦了，后来我一想干脆直接推到我的服务器上，但是推到服务器上的代码只是记录了分支和提交信息，不包含源文件，所以我只好在在服务器上部署这个项目，并添加一个服务器钩子，当服务器更新完成后，再用钩子把服务器上的项目代码更新</p><h2 id="如何写服务器钩子"><a href="#如何写服务器钩子" class="headerlink" title="如何写服务器钩子"></a>如何写服务器钩子</h2><p>通过上面对本地文件新建仓库，我们知道Git“服务端”新建很简单，我们一般接触比较多的是Github服务端，但是Git非常强大，他可以支持多种协议来连接“服务端”，比如说我们上面用到的本地文件（<code>file</code>协议），假如你用<code>ssh</code>连接远程服务器，你也可以使用类似<code>git remote add origin ssh://username@ip/file/path</code>添加ssh远程仓库</p><p>git 支持的协议有ssh、http、https、file、git等协议，你只要确保你能连接上远程服务器就行，接下来我们谈谈如何写服务器钩子</p><p>在使用<code>git init --bare</code>新建了一个Git服务端之后，在服务端文件下面有一个<code>hooks</code>文件夹，我们要做的就是把脚本放到<code>hooks</code>文件夹里面（当然你要确保它有执行权限），如果你更擅长写<code>Python</code>，<code>Ruby</code>那些脚步也可以，不过要确保前缀后后缀正确。</p><p>这里要提到很重要的一点，由于在执行钩子的时候，环境变量<code>GIT_DIR</code>被设置为服务端当前目录，如果你像我一样想更新在另外一个文件夹下面的项目代码，你必须使用<code>uset GIT_DIR</code>清除变量名，否则只会更新服务端，而不会更新你的项目代码</p><p>这里我提供一个模板</p><p>文件名为 <code>post-update</code>或者<code>post-receive</code></p><pre><code>#!/bin/shcd /project/path/ || exitunset GIT_DIRgit pull origin masterexec git-update-server-info</code></pre><p>你只需修改项目文件路径和仓库名即可</p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过这个Git钩子了解了Git服务端，也让自己更加了解Git这个软件，以前一直懵懵懂懂，只会向Github提交文件，一直以为Git只是一个版本记录工具而且，现在看来神器之名不是浪得虚名，通过一个小小的钩子，摇身一变成部署神器。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;以前听学长提过Git钩子，但是自己一直没有仔细了解过，记得我还写过一个github更新的Python包，现在想想其实用自带的钩子就能很好的完成&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;什么是钩子？&quot;&gt;&lt;a href=&quot;#什么是钩子？&quot; 
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>FastProxyScan项目介绍</title>
+    <link href="https://mrzhangboss.github.io/2017/11/23/FastProxyScan-Introduction/"/>
+    <id>https://mrzhangboss.github.io/2017/11/23/FastProxyScan-Introduction/</id>
+    <published>2017-11-22T16:00:00.000Z</published>
+    <updated>2017-12-01T00:38:16.899Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>为了给我的站点增加人气，我把这个项目的介绍放到我的博客，如果你觉得这个项目还不错的话，请不要吝啬你的star</p></blockquote><p><a href="https://github.com/mrzhangboss/FastProxyScan" target="_blank" rel="external">github传送门</a><br><a href="http://115.159.146.115" target="_blank" rel="external">Demo传送门</a></p><h2 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h2><p>一开始自己只想做一个代理池，于是搜了搜Github发现类似的项目，大多数都是爬取网上的一些代理商的免费代理，这部分代理大多都是没有用的，可用性非常低，于是我自己就干脆做一个“代理商”，自己扫描主机把可用的代理扫描出来。</p><p>但是现在网络主机实在太多了，至少几百万台，所以这个项目的核心就是快速扫描，在最短的时间内检测更多的代理，目前项目的速度最好只能完成1000代理每小时的速度（日扫描两万代理），希望能继续优化代码，加快速度，如果你对这个项目感兴趣可以Fork下来，欢迎各位的Pull Request </p><h2 id="项目依赖"><a href="#项目依赖" class="headerlink" title="项目依赖"></a>项目依赖</h2><p>项目基于Python3.5+开发</p><p>软件依赖</p><ul><li>nmap</li></ul><h2 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h2><p>项目主要由三个部分组成</p><ul><li>主机扫描</li><li>端口检测</li><li>代理检查</li></ul><p>项目结构为</p><ul><li>proxy_pool</li><li><ul><li>scanner</li></ul></li><li><ul><li>display</li></ul></li><li><ul><li>database</li></ul></li></ul><p>现在依次介绍在搜索速度上的优化</p><ul><li>主机搜索</li></ul><p>全球的IP都是有ISP统一分配的，ISP主要由下面几大洲分配，我们中国处于亚太区，所以我们的IP由亚太互联网络信息中心（APNIC）分配IP，目前中国分配的IPV4总数为3亿左右，这个数量还是比较大</p><p>我们可以从 <a href="http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest" target="_blank" rel="external">http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest</a>下载最新分配的IP地址</p><p>但是代理服务器只存在特定的服务器上，所以现在版本还没有发布V1.0主要是因为搜索的效果不是很好（搜索的主机代理转换率太低），目前还在想其他方法，等有更好的解决方法就会发布V1.0</p><ul><li>端口检测</li></ul><p>使用<code>nmap</code>的“TCP SYN scan”最大化加快端口检测速度（需要root权限）</p><ul><li>代理检测</li></ul><p>使用<code>nmap</code>先验端口与<code>Python</code>异步最大化代理检测速率</p><h2 id="安装教程"><a href="#安装教程" class="headerlink" title="安装教程"></a>安装教程</h2><p>项目采用Django做后台管理，所以只需要一点Django基础知识就能在这个项目上做二次开发，如果你只想获取最新的可用代理，可以通过<a href="http://115.159.146.115" target="_blank" rel="external">http://115.159.146.115</a> 调用API接口获取最新可用代理（我的站点带宽有限，所以只开放最新100个代理，并且只是20分钟更新一次）</p><p>环境安装</p><ul><li>nmap 安装</li><li>python3.5+ 安装</li></ul><p>运行：</p><pre><code>git clone https://github.com/mrzhangboss/FastProxyScan.gitcd FastProxyScanpython3.5 install -r requirement.txt</code></pre><ul><li>主机检测</li></ul><pre><code>cd pool/proxy_poolsudo python3.5 manage.py scan --vps</code></pre><ul><li><p>端口检测</p><p>  sudo python3.5 manage.py scan  –proxy -m 100</p></li></ul><p>m是并行参数，值越大速度越快</p><ul><li><p>代理检测</p><p>  sudo python3.5 manage.py check –start -c <a href="http://115.159.146.115/ip" target="_blank" rel="external">http://115.159.146.115/ip</a></p></li></ul><p>c是检测ip头网址，可以使用我提供的 <a href="http://115.159.146.115/ip" target="_blank" rel="external">http://115.159.146.115/ip</a> 返回请求头，可以参考我的上一篇博文 <a href="http://blog.zhanglun.me/2017/11/20/%E4%BB%A3%E7%90%86%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/" target="_blank" rel="external">代理的前世今生</a></p><p>在我搭建的DEMO站点上，我使用supervisor让这三个程序循环运行，你可以使用crontab定时调度也可以像我一样。</p><p>数据库当前采用的Sqlite3，但是数据库模型全部使用ORM开发，你可以很方便的修改<code>settings.py</code>来放入其他数据库，如果你懂一点Django的话</p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>如果你像了解更多开发这个项目背后的知识的话，可以看看我上一篇博文 <a href="http://blog.zhanglun.me/2017/11/20/%E4%BB%A3%E7%90%86%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/" target="_blank" rel="external">代理的前世今生</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;为了给我的站点增加人气，我把这个项目的介绍放到我的博客，如果你觉得这个项目还不错的话，请不要吝啬你的star&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/mrzhangboss/FastProx
+      
+    
+    </summary>
+    
+    
+      <category term="github" scheme="https://mrzhangboss.github.io/tags/github/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>代理的前世今生</title>
+    <link href="https://mrzhangboss.github.io/2017/11/20/%E4%BB%A3%E7%90%86%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/"/>
+    <id>https://mrzhangboss.github.io/2017/11/20/代理的前世今生/</id>
+    <published>2017-11-19T16:00:00.000Z</published>
+    <updated>2017-11-24T02:06:12.417Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote><p>自己对代理认识不深，也只是会使用而已，由于最近想做一个代理池，于是查了很多资料，发现代理这个东西还是非常有趣的</p></blockquote><h2 id="代理是什么？"><a href="#代理是什么？" class="headerlink" title="代理是什么？"></a>代理是什么？</h2><p>从编程上来看，<code>requests</code>只需要在请求里面加上<code>proxies</code>参数例如<code>requests.get(&#39;http://www.baidu.com&#39;, proxies={&#39;http&#39;: &#39;127.0.0.1:3128&#39;})</code>，我们就能连上代理进行访问，由于<code>requests</code>包装了太多细节，我们无法知道用了代理和没有用代理的区别</p><p>接下来我们来看一下Python3的内库是如何使用代理的</p><ul><li><p>首先要申请一个<code>ProxyHandler</code></p><p>  from urllib import request<br>  proxy = request.ProxyHandler({‘http’: ‘127.0.0.1:3128’})</p></li></ul><p>然后我们通过这个<code>proxy</code>创建一个<code>opener</code>，然后用<code>opener</code>打开页面，最后输出结果。</p><pre><code>opener = request.build_opener(proxy)resp = opener.open(&apos;http://www.baidu.com&apos;)print(resp.read())</code></pre><p>然后我们看一下如果没有使用代理的请求是什么</p><pre><code>resp = request.urlopen(&apos;http://www.baidu.com&apos;)print(resp.read())</code></pre><p>你可以很清楚的看到，如果我们不需要代理，之前打开<code>url</code>就行，也就是说我们的请求，其实全部发给代理，交给代理了</p><p>这里就稍稍谈点感想了，以前经常在书上看到人歌颂互联网的伟大，但是自己一直不明白这个伟大在哪，以前一直从表象感受互联网，有了互联网，不用打开电视就可以看影片，不用去图书馆就可以看书，感觉互联网神奇的地方就是给自己带来方便，但是没有去互联网本身的架构的伟大，通过一根根网线交换器，无数主机“连”在了一起，构成了宏大的互联网，或许你通过浏览器打开的网站主机离你几百公里，但是你不要做飞机轮船，你直接在家里就能通过层层代理传递你的请求将千里之外的“敌将首级” 探入囊中。</p><p>互联网神奇的地方就是看起来各个部分非常分散，但是他们却能通过一根一根线紧密的联系起来，只有有“距离”的时候你才能感受到他的美丽</p><p>以前刚学习网站的时候，在本地调试的时候，你在本地跑一个web，直接打开浏览器访问，这时候我就有一种错觉，web就是两端，客户端和服务器端，在本地调试可以这样理解，但是一旦拿到互联网，这就是不完整的，完整的应该是客户端-代理端-服务器端，当然我们的代理端有时候可能是网关、路由器、交换机等等。</p><p>了解这些有什么用呢，因为我自己以前一直对代理没有什么很深理解，用爬虫的时候使用代理就不会被封IP，感觉代理是很BUG的东西，但其实代理很普通，而且无处不在，我们要想真正理解代理，就必须把它拖下圣坛。</p><h2 id="代理其实很普通"><a href="#代理其实很普通" class="headerlink" title="代理其实很普通"></a>代理其实很普通</h2><p>前面我们知道代理其实很普通，但是要深入了解代理必须要先了解IP，IP是什么呢，IP就是互联网的身份证，要想在互联网上“混”，必须要有“身份”</p><p>那为什么我们要用代理呢，比如说假如你是未满18岁的小朋友，你想要买上网，你必须要借一张大人的身份证去上网，这个时候代理的作用就是帮用它的身份证帮你干事。</p><p>我觉得中国文化博大精深，其实一听代理这个词，我们就能知道代理是干什么用的。其实把代理吹得神乎其神没什么用，那些作用都是它的他自己瞎几把搞的，从我们客户端来看，<strong>代理就是服务端</strong>，了解这点非常重要，因为他能让我们把所以的事情都简化，而且从客户端来看，代理就是这样的</p><h2 id="客户端、代理、-服务器三者之间的关系"><a href="#客户端、代理、-服务器三者之间的关系" class="headerlink" title="客户端、代理、 服务器三者之间的关系"></a>客户端、代理、 服务器三者之间的关系</h2><p>前面我们已经谈了客户端和代理之间的关系，对于客户端来说，代理就是服务器端，我们啥都不管，把请求发给代理，相信它就是我们请求的服务器</p><p>对于代理来说，其实它自己最清楚，自己就是个代理，它必须要把请求转发给服务器，然后在把服务器的响应发给客户端，代理就是一个中介人，有的时候我们也可以把它看做一个双向中继，把请求传递一下，再传回来，所以在这三者之间，只有代理是个明白人，它必须清楚这次任务所以细节，所以有时候虽然说代理是安全的，但其实它也不安全，只要把代理攻克了就能了解到底是哪个家伙干的坏事，所以网上干坏事的人，一般都用很多个代理，层层代理，就算你攻克了一个，也找不到坏人</p><p>对于服务器来说，代理就是客户端，它只负责响应就行，对于代理和客户端来说都是一样的策略。但是时候很奇怪，服务器为什么知道你是个代理，原来全是代理自己的锅，我们细谈一下代理的分类</p><h3 id="代理的分类"><a href="#代理的分类" class="headerlink" title="代理的分类"></a>代理的分类</h3><p>代理也分很多种，有的时候代理也不老实，把客户信息暴露了，这个时候我们就说它是小透明（透明代理），有的时候它不告诉你客户信息，但是告诉服务器我是个代理，我们就说它是匿名代理，但是有时候它连它自己是啥都不告诉你，它伪装成它是客户端，这个时候我们称它为高匿代理，所以这些代理根据暴露信息的不同可以分为这三种</p><ul><li>透明代理</li><li>匿名代理</li><li>高匿代理</li></ul><p>当然我们最喜欢高匿代理，你可以把它当做你的分身，除了身份证不一样，两个人长得一模一样。</p><p>所以我们判断一个代理的类别，必须要检测它向服务器发的报文，所以在我项目<code>FastProxyScan</code>，我搭建了一个服务器，返回客户端向服务器请求头，主要是<code>HTTP_X_FORWARDED_FOR</code>和<code>HTTP_VIA</code>头来分别暴露客户端信息和代理端信息，所以我们只要请求头检测有没有这两个字段就可以完成检测，原理非常简单</p><p>在这里我介绍用Nginx高效返回检测信息</p><pre><code>  location ~ ^/ip {      default_type application/json;      return 200 &apos;{&quot;REMOTE_ADDR&quot;:&quot;$remote_addr&quot;,&quot;HTTP_VIA&quot;:&quot;$http_via&quot;, &quot;HTTP_X_FORWARDED_FOR&quot;: &quot;$http_x_forwarded_for&quot;}&apos;;}</code></pre><p>在Nginx配置里面加上这个端口，我们只有请求<code>/ip</code>，就能直接从Nginx返回请求头信息，速度贼快</p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>当然网上还有很多对代理的分类，缓存代理，正向代理，反向代理，但是这些都是代理自己的额外功能，我们前面介绍的代理都是傻呼呼，客户端要什么，它就做什么，这些如缓存代理高级的代理就是很聪明，它的目的就是最快返回客户端需求，比如说虽然说这个傻客户端傻乎乎一个请求请求了几十遍还没记住，代理自己拿个小本子记好，你下次来，正好对上号，直接抄给你，不用再跑几千里去拿了。但是其实本质上它还是逃不出上面的分类，只不过它有的自己的不同罢了。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;引言&quot;&gt;&lt;a href=&quot;#引言&quot; class=&quot;headerlink&quot; title=&quot;引言&quot;&gt;&lt;/a&gt;引言&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;自己对代理认识不深，也只是会使用而已，由于最近想做一个代理池，于是查了很多资料，发现代理这个东西还是非常有趣的&lt;/
+      
+    
+    </summary>
+    
+    
+      <category term="proxy" scheme="https://mrzhangboss.github.io/tags/proxy/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>漫谈排序算法</title>
+    <link href="https://mrzhangboss.github.io/2017/11/12/%E6%BC%AB%E8%B0%88%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/"/>
+    <id>https://mrzhangboss.github.io/2017/11/12/漫谈排序算法/</id>
+    <published>2017-11-11T16:00:00.000Z</published>
+    <updated>2017-11-12T03:38:44.933Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="0x00-引子"><a href="#0x00-引子" class="headerlink" title="0x00 引子"></a>0x00 引子</h1><blockquote><p>排序是很多算法的基础，简简单单的排序前人就归纳出很多种算法，但是这些算法多多少少都有着相同的原理</p></blockquote><p>排序算法有很多，这里我们就简单的谈谈下面7种排序的特点</p><ul><li>冒泡排序</li><li>选择排序</li><li>插入排序</li><li>希尔排序</li><li>堆排序</li><li>归并排序</li><li>快速排序</li></ul><h1 id="0x01-Summary"><a href="#0x01-Summary" class="headerlink" title="0x01 Summary"></a>0x01 Summary</h1><p>从算法的抽象程度上来看，冒泡、选择和插入是比较好理解，我们能用我们生活中的常见事物来理解，后面四种比较抽象，而且相对于前三种平均时间复杂度O（n） = n ^ 2 的来说，后面四种的平均复杂度都比前面的小，尤其是面对大量数据排序来说，后面四种能比前三种跑的更快</p><h1 id="0x02-冒泡、选择和插入的特点"><a href="#0x02-冒泡、选择和插入的特点" class="headerlink" title="0x02 冒泡、选择和插入的特点"></a>0x02 冒泡、选择和插入的特点</h1><p>这三种算法空间复杂度都为O（n） = 1，也就是说在给定一个列表的前提下，无论列表数有多大，额外的排序所需的空间都为常量。但是这三种算法的平均时间复杂度为O（n） = n ^ 2， 也就是说在给定一个长度为n的数组，必须要经历 k × n × n 次操作才能排序，当我们的n比较小的时候，我们无法察觉这个算法与更高效的算法的差别，当n很大的时候，比如一个亿，这时候的要进行的操作就瞬间爆炸了。</p><p>这三种算法很大程度上是牺牲了运行时间换取运行空间，我们可以从桶排序上面得到相反的例子，桶排序的时间复杂度为O（n） = 1，空间复杂度为O（n） = n，也就是说在排序上面他的速度是最快的，但是它所花费的空间也是巨大的，<strong>有时候时间空间就是两个双刃剑，你如果想节省空间必须浪费时间，你如果想节省时间必须浪费空间</strong></p><p>这三种算法原理很简单，而且有一个相同的地方，就是他们每一节排序就会“删掉”一个数字，接下来就是对剩下的排序。当然我这里的删掉就是代表已经排好，然而接下来的过程中不会再涉及到这个数字</p><p>这个非常好理解，随便给我们一副牌让一个小朋友把他排出来，小朋友一般就是先找出最大的牌放到最前面，然后在剩下里面找到最大的，依次排下去，最后手里就剩一张牌了，这个牌组就排好了</p><p>这三种算法都是基于这个核心，但是具体的算法细节不同。冒泡排序就是先从头到尾依次把最大的交换到最后面；插入排序的话就是我们从第一个数字开始从后面把小的数字插入到前面去；选择的话同冒泡有点相似，不过它并不会把数字传递过去，它直接将未排序的最大值与未排序的末尾值交换。</p><p>这三种排序我们都非常好理解，但是他们有一个缺点，就是未排序前必须遍历全部数组，我们都知道现在大数据时代，对于上亿数据执行一次遍历就已经非常耗时间了，为了排一个数字要几乎就遍历一遍（排到后期遍历的越来越少），所以这三种算法在面对巨量数据的时候，花在遍历上面的时间比排序时间要更多。</p><h1 id="0x03-希尔和插入排序"><a href="#0x03-希尔和插入排序" class="headerlink" title="0x03 希尔和插入排序"></a>0x03 希尔和插入排序</h1><p>希尔排序是插入排序的更高效改进方法，说到改进我们就要谈谈插入排序的优缺点</p><ul><li>优点</li></ul><p>我们给定 <code>[ 1, 3, 2, 5, 8 ]</code> 数组，这个数组基本上已经排好序了，如果使用插入排序，我们只要在插入2的时候，将2和3交换就可以，设我们挪动的距离就为1</p><p>我们在看这个数组 <code>[ 1, 3, 5, 8, 2 ]</code>，我们可以看到这里如果使用插入排序，我们会在插入2的时候，要将2依次与8、5、3交换，这样移动的距离就为3</p><p>希尔排序改进的地方就是步长，如果它的步长选择的好，它的排序效果越好。这个步长是什么呢，插入排序的步长一直为1，也就是每次遍历的时候步子迈一步，假如步长为2，也就是迈两步。在<code>[ 1, 3, 5, 8, 2 ]</code>数组中，比如说我们数字2，它在步长为1的时候，它下一步要比较的是8，假如步长为3，那它下一步就直接与3比较了。</p><p>所以希尔排序改进就在于他能直接移动多位，在上面的例子里面，步长为3，我们能直接将数组从3的位置移动到2，如果直接使用插入排序，必须移动3次才能达到希尔排序的效果。</p><p>希尔排序原理同插入是一样的，不同在于，插入的步长希尔是可变的，这样就为一些“调皮”的数字的移动加快了速度，一步一步的移动他们太累了，直接把步子迈大，一步到位。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;0x00-引子&quot;&gt;&lt;a href=&quot;#0x00-引子&quot; class=&quot;headerlink&quot; title=&quot;0x00 引子&quot;&gt;&lt;/a&gt;0x00 引子&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt;排序是很多算法的基础，简简单单的排序前人就归纳出很多种算法，但是这些算法多
+      
+    
+    </summary>
+    
+    
+      <category term="arithmetic" scheme="https://mrzhangboss.github.io/tags/arithmetic/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>编程小结</title>
+    <link href="https://mrzhangboss.github.io/2017/10/28/%E7%BC%96%E7%A8%8B%E5%B0%8F%E7%BB%93/"/>
+    <id>https://mrzhangboss.github.io/2017/10/28/编程小结/</id>
+    <published>2017-10-27T16:00:00.000Z</published>
+    <updated>2017-10-28T03:33:24.488Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote><p>编程开发有时候也像雕刻一件艺术品</p></blockquote><p> 以前一直有一种错觉，觉得编程开发就是会用库会用框架，这阶段的感悟只是停留在库的使用上面，然而当你持续工作在一件产品上的时候，你就把思维聚焦在产品，这时候你的感悟就会是架构的搭建，库只会变成你的工具</p><p> 所以慢慢明白编程届的前辈们一直劝我们在大学不要为了钱选择做一些外包项目，外包项目这种东西就像一次性编程产物，你写完之后就再也不会<code>code review</code>了，而对于编程来说，编程就是在写BUG，只不过对于大神来说写的少，对新手来说就是写的多</p><p> 诚然大神们也是从一个一个BUG中慢慢走过来的，然而对于我们菜鸡来说，很多时候我们并不能发现自己的BUG，所以让自己成长最快的方法就是立马纠正自己的BUG</p><p> 当然这里我们所说的BUG有的时候并不是我们经常说的系统无法运行的BUG，我们这里说的BUG可以算成缺陷，有时候是在特殊情况下才触发。比如说运行时，这时候我们称它未漏洞；重构时，我们称它为SHIT代码；测试时，我们称它为过耦合。</p><p> 这里我也不想过多谈技巧如何去发现这些BUG，以为技巧是死的人是活的，我们不需要太多技巧去避免或者去查找这些BUG，还有重要的一点在于BUG是无法避免的，我们要关注的是产品本身。有幸在实习几个月的时间一直专注于一个产品的开发，期间一直经历了大大小小的重构，随着产品的成型，自己也慢慢感悟到一些方法加速查找系统BUG和如何快速开发。</p><p> 接下来就介绍一些我自己的浅显感悟</p><h2 id="迭代开发-CODE-REVIEW"><a href="#迭代开发-CODE-REVIEW" class="headerlink" title="迭代开发 + CODE REVIEW"></a>迭代开发 + CODE REVIEW</h2><p> 如何从零开始搭建一个产品，除非你是超级大牛，几个小时就能搞定一个完整的代码的开发流程，普通人都是一步一步来迭代开发，但是这个迭代开发也有讲究，有些人喜欢从头写到尾，然后看看能不能跑起来，再疯狂DEBUG，也有些人喜欢先写局部，慢慢测试，最后把所以组件都串联起来。</p><p> 这两种方式萝卜青菜各有所爱，第一种速度最快，但是不适合团队合作和CODE REVIEW，第二种速度慢，但是灵活可靠，容错率更高，对于新手来说，选择第二种能让自己的错误不会对系统造成系统性崩塌，而且可以慢慢发现自己的BUG，从而从BUG中提高自己</p><p> 对于迭代式开发我们就不得不提一下git，作为一个版本控制工具，它在迭代开发的作用堪称神器。然而这个神器我却一直没有找到正确的打开方式，只是把它当做上传服务器的工具，最近才开始慢慢掌握一点小小的技巧。</p><p> 我原来的git的工作流程用命令概况下来就是</p><ul><li>git add -A</li><li>git commit</li><li><p>git push</p><p>这三条，然而我大部分时间都只是发挥了<code>git push</code>的功能，纯粹把它当成代码的备份，然而git的核心在于<code>git add</code>和<code>git commit</code>这两个命令上，这里要检讨一下我以前的做法，以前一般完成一个组件的功能就直接快速<code>git add -A</code>然后<code>git commit</code>，虽然我是遵循迭代开发，但是我很少去REVIEW自己这次提交的<code>commit</code></p><p>所以最主要的问题在于如何在快速迭代开发的时候慢下来，好好思考和REVIEW一下自己这次提交的代码，所以在这里不得不介绍<code>git diff</code>这个命令了，对于在每个新修改的文件来说，在你执行<code>git add</code>之前，你最好<code>git diff</code>一下这个新提交的文件，git会把你所做的修改和原始代码做一个对比。</p><p>有的时候我们并不能记得原始代码是什么，我们到底对代码做了什么改变，幸亏我们有这个神器，只需要<code>git diff</code>一下，我们所做的修改和原始版本的差异就会显示出来，REVIEW代码的过程也就是我们发现错误的过程</p><p>我们要想提高自己的就要<strong>不断的改变修正</strong>，所以正确的git的工作流程应该是这样</p></li><li><p>git diff</p></li><li>git add</li><li>git commit</li><li>git push</li></ul><p>当然每个<code>commit</code>可以由很多个<code>git diff</code> + <code>git add</code> 组成，但是我们必须要保证自己对<code>git add</code>的每一个文件都要<code>REVIEW</code>一遍，而且我们在每次<code>git add</code>之前，要思考这次的改变是否能够改进，是否必要等</p><p><strong>产品开发就像爬山，你不可能一步登山，所以我们要做的就是，在每次停下来的时候确定方向，修正自己，甚至回头</strong></p><h2 id="拥抱变化-快速开发"><a href="#拥抱变化-快速开发" class="headerlink" title="拥抱变化 + 快速开发"></a>拥抱变化 + 快速开发</h2><p>前面我们谈了在每一个<code>commit</code>的时候我们都得慎重再慎重，小心又小心，但是这种思想有时候如果把它带入开发过程中则会让你寸步难行，具体是什么呢，我来根据我自己经历来介绍</p><p>我自己是一个有一点叫做代码“洁癖”的人，由于看了不少编程理论的书，我容忍不了自己写出很SHIT的代码，面对新东西，我一般喜欢研究个透再下手，我要确保我的设计是万无一失的，所以这就造成如果我接触一个新的库或者新的功能我会花上很长时间在上面，而且由于我自己思考原来越深，我可能会把原来简单的问题搞得越来越复杂，等到我觉得开始CODING完的时候，我发现自己把一个超简单的问题搞得那么复杂，牺牲了太多时间却适得其反</p><p>造成这种原因主要是吸收太多而没有消化，我看过很多编程理论的书，技术大牛用他们的开发经验告诉我们要模块话开发，要注意设计模式，要考虑系统灵活性耦合性，这种大牛经验是很宝贵，但是这些经验就好像最高的武功秘籍，假如你没有相应的基础，贸然去练的话你会走火入魔，对于新东西新功能，我们就要想爬山者先驱一样，我们不是要找一条最锻炼自己的路去走，而是<strong>找一条最简单的路</strong>，只有爬到山顶我们才需要考虑其他问题</p><p>这种快速开发的思想还有很重要的一点就是“拥抱变化”，我们在快速开发的过程中无法避免由于快速开发造成的部分SHIT代码，当你写出这部分的时候，其实对于菜鸟来说，这部分代码才是你最宝贵的代码，因为它暴露了你的缺点，要想提高自己，必须<strong>发现自己的缺点</strong>，所以快速开发的过程中不但激发自己的潜能，而且让自己对自己的缺点有了更好的了解，了解了自己缺点，才能慢慢改进，所以快速开发第一能够节省时间，第二个就是能缓慢提高自己，当然前提是去修正它，所以快速开发你必须要把自己的代码”洁癖“和速度结合起来，抱着一颗永不满足的心去不断锤炼自己的”代码“</p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在我看来编程开发就像是打太极，<strong>一方面我们得快，以目标为驱动，快速开发；一方面我们得慢，以变化为驱动，迭代开发</strong></p><p>看似快慢是两个极端，其实两者相得益彰，快促进慢，慢促进快，两者相互促进</p><p>当然这只是我的自己小小感悟，编程开发博大精深，这些只是技巧，关键在于自己，思考并转换才是最核心的</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;引言&quot;&gt;&lt;a href=&quot;#引言&quot; class=&quot;headerlink&quot; title=&quot;引言&quot;&gt;&lt;/a&gt;引言&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;编程开发有时候也像雕刻一件艺术品&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt; 以前一直有一种错觉，觉得编程开发就是
+      
+    
+    </summary>
+    
+    
+      <category term="summary" scheme="https://mrzhangboss.github.io/tags/summary/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>HTTP复用</title>
+    <link href="https://mrzhangboss.github.io/2017/10/10/HTTP%E5%A4%8D%E7%94%A8/"/>
+    <id>https://mrzhangboss.github.io/2017/10/10/HTTP复用/</id>
+    <published>2017-10-09T16:00:00.000Z</published>
+    <updated>2017-10-24T15:58:00.882Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>曾经有人问过我一个问题什么是TCP复用，我当时没有回答上来，后面我又遇到一些并发性能问题的时候，我才开始慢慢明白为什么会有这个问题，以及这个问题背后的秘密</p></blockquote><p>其实当时应该他想考我的是爬虫的请求优化，准确来说是HTTP持久连接（HTTP persistent connection），并不是TCP复用，这才导致我当时查阅很多资料，并没有发现TCP复用能优化客户端，因为<a href="http://gaibianziji.blog.51cto.com/1082897/1211940" target="_blank" rel="external">TCP复用</a>是服务端的事，现在就让我从源头开始慢慢解读这个问题</p><h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>我们知道我们每次发的HTTP请求在底层都是一个套接字的通信，我们可以从底层开始做一个测试</p><p>我们使用个for循环，申请1024个socket</p><pre><code>import socketl = [ ]for  i in range(1024):    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)    sock.bind((&apos;www.baidu.com&apos;),80))    print(i)    l.append(sock)</code></pre><p>这个过程有点慢，但是你会发现在申请到1000左右的时候，会直接报<code>Open too many file</code> 这个错误，但是我们并没有打开文件，为什么会报这个错误</p><p>原来在Unix系统下，我们申请的套接字也就是<code>socket</code>在底层是以文件的形式存在的，<strong>客户端通过申请一个<code>socket</code>来写入和接受服务端的请求</strong>，这是一个非常重要的概念，对我们后面解析库函数有很大的帮助。</p><p>由于系统资源有限而且打开很多文件系统响应会变慢，所以Unix系统或者Windows都对单个进程申请套接字有限制，在Unix系统下我们可以通过<code>ulimit -n</code>查看这个值，在笔者的<code>Ubuntu</code>上这个值为1024，基本没有修改过都是这个值，我们可以通过我们可以在命令行执行<code>ulimit -HSn 4096</code>临时增加至4096,</p><p>所以我们一般来说单台机器单个进程最多只能并发1024个请求，在不修改配置的情况下这个值是固定的，所以我们提高并发数只有两种方法</p><ol><li>修改系统配置</li><li>使用多进程</li></ol><p>在写这篇文章之前，我一直以为HTTP复用能在作用在并发上提高爬虫性能，但是其实并不是，它能提高性能但是却不是在并发上提高，接下来我们仔细介绍HTTP复用是怎么提高爬虫性能的</p><h2 id="HTTP复用"><a href="#HTTP复用" class="headerlink" title="HTTP复用"></a>HTTP复用</h2><p>说道HTTP复用，我们不得不介绍一下HTTP和TCP协议，我们都知道Internet是由OSI七层协议构成的，但是OSI只是规定了框架，具体协议我们是通过TCP/IP来实现的</p><p>我们先来说说这个TCP，我们都说互联网能够发展到现在这么稳定可靠多亏了这个TCP可靠协议，但是这个可靠是要付出代价的，建立一次连接的过程要经过三次握手，断开的过程也得四次分手，而且这个连接的过程完全不涉及我们要请求的内容，我们知道爬虫一般请求一个站点只有通过一两次请求就行，如果每次请求都得握三次手，还得分四次手，这样的代价也太大了</p><p>所以HTTP的复用优化的方向就是减少TCP的连接，谈到如何减少TCP连接，我们就得说说HTTP长连接（HTTP persistent connection）</p><h3 id="HTTP长连接"><a href="#HTTP长连接" class="headerlink" title="HTTP长连接"></a>HTTP长连接</h3><p><strong>在HTTP1.1规定了默认都是长连接，TCP不断开，并且在请求头添加一个<code>Connection</code>的header，如果是值为<code>keep-alive</code>则保留TCP连接，假如为<code>Close</code>请求完成之后就会关闭，在HTTP1.0的下默认为关闭状态</strong></p><p>怎么来理解这个长连接呢，我们都听说过<strong>HTTP是无状态的</strong>这句话，从HTTP协议上来看，<strong>服务器客户端就是一个“Request”，“Response”组成，无论多复杂的页面都是由一个个“Request”组成</strong></p><p>为了更好的理解上面的话，我们回到那个套接字，我们把HTTP请求比作打电话，对于每个电话，我们只需要先拨号，然后滴滴滴三下后确定我们同对面连上了（服务器“协商”好），然后我们把我们要说的话通过话筒传给对方，等我们说完之后，由于信号差，对面听完还要想怎么回，然后我们安安静静的在听筒那等，等他想好说什么，在慢慢的说给我们听。</p><p>在HTTP1.0的时代，我们每次拨完一次好，说完一句话，听完对面的回应后，我们就会挂断电话，如果我们还想说就得再重复这个过程，在HTTP1.1下我们增加了长连接这个概念，就是如果你想这个电话里多聊几句，那么就在最后加上“你等下不要挂了，我还要说”（在header加上“Connection: Keep-alive”），那么对方就不会挂断电话，等它说完之后也想你一样在听筒那而等着，这样我们就省掉了一次拨号的时间</p><p>我们现在了解为什么HTTP复用能够节省爬虫的性能了，接下来我们就从编程语言对HTTP复用的实现上了解如何实现HTTP复用</p><h2 id="存贮单元—ConnectionPool"><a href="#存贮单元—ConnectionPool" class="headerlink" title="存贮单元—ConnectionPool"></a>存贮单元—ConnectionPool</h2><p>在介绍ConnectionPool之前我们先简单介绍一下HTTP复用的具体表现</p><h3 id="TCP与URL的关系"><a href="#TCP与URL的关系" class="headerlink" title="TCP与URL的关系"></a>TCP与URL的关系</h3><p>我们知道HTTP复用的是TCP的连接，而TCP连接由四个部分组成</p><ol><li>本地ip</li><li>本地port</li><li>服务器ip</li><li>服务器port</li></ol><p>简单来说就是两个二元组（local_ip, local_port), (server_ip, server_port)</p><p>但是我们发一次的请求是一般是通过URL，也就是类似“<a href="http://www.baidu.com”，这样的url来请求的，这个同我们TCP有什么关系呢？" target="_blank" rel="external">http://www.baidu.com”，这样的url来请求的，这个同我们TCP有什么关系呢？</a></p><p>首先介绍一下“http”代表通信协议，这里使用的是HTTP协议，“://”后面的就是请求的域名，域名后面如果有冒号就是我们请求的端口号这里没有，根据HTTP协议这里默认是80端口（HTTPS是443），域名后面的就是请求路径，这里也没有就默认问“/”，也就是我们通过这个“url”就知道我们这次请求的具体位置了，现在我们找到了端口，但是请求的IP在哪呢？</p><p>这里就要介绍一下DNS了，我们为了让我们的站点更好记，我们使用域名代替ip地址，通过在DNS服务上注册我们域名，以及绑定我们域名对应的IP地址，我们就能让计算机通过域名来转换成IP地址，这里就不详细介绍了</p><p>所以呢我们现在了解了，一个TCP连接只是涉及到URL的域名和端口号，我们请求站点的时候主要是通过不同的路径来获取内容，所以我们可以很清楚的知道，只要我们URL的域名和端口一样，那么我们所以的URL都能共用这个TCP接口</p><h3 id="ConnectionPool的实现"><a href="#ConnectionPool的实现" class="headerlink" title="ConnectionPool的实现"></a>ConnectionPool的实现</h3><p>简单来说为了实现HTTP复用，我们只需要保存TCP连接就行了，但是通过前面我们知道，我们保留的TCP连接必须和你要请求的url要域名端口一样，有时候一个站点的服务可能由多个域名多个端口组成，所以原本我们只要用一个变量保留上一次请求的TCP连接，为了程序更加健壮，我们需要一个TCP连接池，存贮不同的TCP连接。</p><p>每次新的URL来的时候我们就是先从TCP连接池中查看有没有相同的域名和端口，如果有就用它发请求，如果没有就新建一个TCP连接，这就是TCP连接的基本原理，当然还要一点编程的时候要注意，我们从池子里面取出一个用完必须放回，否则池子用完了又得新建，那就完全丢掉了复用这个概念了</p><h2 id="HTTP复用在Requests的具体表现"><a href="#HTTP复用在Requests的具体表现" class="headerlink" title="HTTP复用在Requests的具体表现"></a>HTTP复用在Requests的具体表现</h2><p>前面介绍了一大堆概念，但是从头到尾如果让我们自己来做一个实在太难了，幸好我们有<code>Requests</code>这个库，它的<code>Session</code>对象在<a href="http://requests-docs-cn.readthedocs.io/zh_CN/latest/user/advanced.html" target="_blank" rel="external">文档</a>介绍了它就维护了一个TCP连接池并且能够复用TCP连接</p><p>接下来我们就从代码入手来更好的理解这个进程池的高级用法，我们为了更好看到每一次请求底层的操作，我们这里自己先自己搭建一个本地服务器，我们使用<code>Flask</code>来搭建一个本地服务器<br>新建一个<code>web.py</code>文件，在运行</p><pre><code>from flask import Flask, requestfrom werkzeug.serving import WSGIRequestHandlerapp = Flask(__name__)WSGIRequestHandler.protocol_version = &quot;HTTP/1.1&quot;@app.route(&apos;/&apos;)def hello_world():    return &apos;%s %s&apos; % (request.remote_addr, request.environ.get(&apos;REMOTE_PORT&apos;))if __name__ == &apos;__main__&apos;:    app.run(host=&apos;0.0.0.0&apos;, port=8000)</code></pre><p>这里我们在8000端口开了一个服务器并且设置为HTTP/1.1协议，我们返回用户请求的ip和端口</p><p>接下来我们开一个Python解释器来看看这个进程池的用法</p><pre><code>&gt;&gt;&gt; import requests, logging&gt;&gt;&gt; logging.basicConfig(level=logging.DEBUG)&gt;&gt;&gt; session = requests.Session()&gt;&gt;&gt; session.get(&apos;https://baidu.com&apos;)DEBUG:requests.packages.urllib3.connectionpool:Starting new HTTP connection (1): www.baidu.com            DEBUG:requests.packages.urllib3.connectionpool:http://www.baidu.com:80 &quot;GET / HTTP/1.1&quot; 200 None&lt;Response [200]&gt;</code></pre><p>看我们可以从打印的logging日志看到我们在进程池中新建了一个TCP连接，我们在试着再请求一次</p><pre><code>&gt;&gt;&gt; session.get(&apos;https://www.baidu.com&apos;)    DEBUG:requests.packages.urllib3.connectionpool:https://www.baidu.com:443 &quot;GET / HTTP/1.1&quot; 200 None&lt;Response [200]&gt;</code></pre><p>看我们的HTTP复用实现了，在同一个TCP连接中我们请求了两次</p><h2 id="深入requests的ConnectionPool"><a href="#深入requests的ConnectionPool" class="headerlink" title="深入requests的ConnectionPool"></a>深入<code>requests</code>的ConnectionPool</h2><p>在上面我们验证了<code>requests</code>的<code>Session</code>对象的确实现连接池，但是似乎<code>requests</code>并没有给我们接口来操作这个值，通过分析代码和资料，我们发现在<code>Session</code>初始化的时候，绑定了一个    <code>HTTPAdapter</code>对象，这个对象就是<code>requests</code>封装了<code>urllib3.connectionpool.ConnectionPool</code>来实现TCP池</p><p>我们查看这个<code>HTTPAdapter</code>文档发现它的用法是这个</p><pre><code>&gt;&gt;&gt; import requests&gt;&gt;&gt; s = requests.Session()&gt;&gt;&gt; a = requests.adapters.HTTPAdapter(max_retries=3)&gt;&gt;&gt; s.mount(&apos;http://&apos;, a)</code></pre><p>我们可以通过创建将一个TCP池绑定到一个<code>session</code>对象上，我们可以看一下这个创建一个<code>HTTPAdapter</code>的参数</p><pre><code>HTTPAdapter(self, pool_connections=10, pool_maxsize=10, max_retries=0, pool_block=False)</code></pre><p>我们主要看这两个参数<code>pool_connections</code>和<code>pool_maxsize</code>，通过一番测试（比较长就不演示了，可以参考引用来进行实验），我们发现这个<code>pool_connections</code>主要控制TCP池的种类数，我们知道在进程池中我们可以有很多相同的TCP连接（主要是并发新建的），这些连接有些是连接相同的域名和端口，这个<code>pool_connections</code>就是控制有多少种类的站点（域名和端口）同时能够存在池中，那么这个<code>pool_maxsize</code>代表的就是池中不管种类有多少总共的TCP连接数</p><p>假如你只写单线程程序那么你只要考虑<code>pool_connections</code>这个参数，因为单线程你发出一个请求只会占用一个TCP连接，在你每次开始请求时，池中不同站点的连接只有一种，所以你可以把<code>pool_connections</code>当做池的大小，但是假如你写多线程程序，每个时间点需要的TCP连接同你多线程的个数有关，由于requests不会限制当池中无可用连接时新建TCP连接，所以你一个站点的TCP连接可能有多个，这时我们就要用<code>pool_maxsize</code>来限制池子的容纳量，为了避免无限制存贮TCP连接，TCP连接池会把超过总数的连接按照时间顺序踢出去，让池中保持不大于限制总数的TCP连接。</p><p>当然这里有个非常重要的知识点，<strong>requests的TCP池并不会限制新建TCP连接</strong>,它只是限制存贮量和种类，这个知识点非常重要，这对后面我们理解<code>aiohttp</code>异步请求时候为什么要限制并发数有非常大的帮助（它只限制TCP连接总数）</p><h2 id="TCP连接池的作用"><a href="#TCP连接池的作用" class="headerlink" title="TCP连接池的作用"></a>TCP连接池的作用</h2><p>经过上面的探索，我们知道TCP连接池一方面能够实现HTTP复用达到减少TCP连接时耗的作用，另一方面我们通过复用TCP连接可以节省套接字，避免经常碰到”Too many file“的错误，顺便提一下，由于TCP连接具有冷启动的特点，在刚连接上TCP时，速度会非常慢，只有系统发现负载不多才会恢复正常速度，所以这就是我们有时候用浏览器打开一个新页面要加载很久的原因。</p><p>前面一直在介绍HTTP复用的理论基础，最后我们实战演练一下在异步框架<code>aiohttp</code>使用HTTP复用</p><h2 id="异步框架下HTTP复用"><a href="#异步框架下HTTP复用" class="headerlink" title="异步框架下HTTP复用"></a>异步框架下HTTP复用</h2><p>在这里我们使用<code>Python</code>的<code>aiohttp</code>异步请求框架（在这里我们要求<code>Python</code>的版本必须大于等于3.5），<code>aiohttp</code>也提供了<code>TCP</code>连接池的功能，要想共享TCP连接池，我们先新建一个<code>Session</code>对象</p><pre><code>connector = aiohttp.TCPConnector(limit=50)session = aiohttp.ClientSession(connector=connector)</code></pre><p>我们直接创建了一个最大容量为50的TCP池，并把它绑定到session对象上，接下来先试试跑个200个请求（要先在按照前面的代码搭建本地服务器）</p><pre><code>async def fetch(url, session, semaphore):    async with semaphore:        async with session.get(url) as response:            print(await response.read())loop = asyncio.get_event_loop()</code></pre><p>接下来我们就可以直接使用aiohttp框架</p><pre><code>semaphore = asyncio.Semaphore(20)tasks = [fetch(url, session, semaphore) for x in range(nums)]begin = time.time()try:    loop = asyncio.get_event_loop()    loop.run_until_complete(asyncio.wait(tasks))except:    passfinally:    end = time.time()    loop.close()    session.close()    print(&apos;cost&apos;, end - begin, &apos;speed&apos;, nums / (end - begin), &apos;req/s&apos;)</code></pre><p>在我的电脑测试测试下<code>421.73 req/s</code>,基本上达到异步的效率（可以调节limit至100左右达到最大）</p><p>在这里解释一下为什么要使用<code>semaphore</code>（asyncio锁），由于当前版本（aiohttp==2.2.5）下<code>aiohttp</code>的HTTP连接池无法在没有锁的情况下复用TCP连接（具体可以看一下我提的这个<a href="https://github.com/aio-libs/aiohttp/issues/2323" target="_blank" rel="external">issue</a>,这里由于牵扯到太多异步框架的知识，我就详细不介绍异步库，如果想了解更多的话就看我上一片博文<a href="/2017/10/09/Python%E5%BC%82%E6%AD%A5%E7%9A%84%E7%90%86%E8%A7%A3/">Python异步的理解</a></p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在如何提高请求效率和速度上，HTTP复用算是从协议出发上的一种优化，他主要利用方向是在单个站点多次请求上面，假如每个站点都只是一个请求的话，那他就无用武之地，不过现在站点不可能一次请求就完成交互，所以了解这个HTTP复用如何是非常有帮助的。</p><p>引用：</p><p><a href="https://laike9m.com/blog/requests-secret-pool_connections-and-pool_maxsize,89/" target="_blank" rel="external">Requests’ secret: pool_connections and pool_maxsize</a></p><p><a href="https://pawelmhm.github.io/asyncio/python/aiohttp/2016/04/22/asyncio-aiohttp.html" target="_blank" rel="external">Making 1 million requests with python-aiohttp</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;曾经有人问过我一个问题什么是TCP复用，我当时没有回答上来，后面我又遇到一些并发性能问题的时候，我才开始慢慢明白为什么会有这个问题，以及这个问题背后的秘密&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;其实当时应该他想考我的是爬虫的请求优化，准确来说是
+      
+    
+    </summary>
+    
+    
+      <category term="HTTP" scheme="https://mrzhangboss.github.io/tags/HTTP/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Python异步的理解</title>
+    <link href="https://mrzhangboss.github.io/2017/10/09/Python%E5%BC%82%E6%AD%A5%E7%9A%84%E7%90%86%E8%A7%A3/"/>
+    <id>https://mrzhangboss.github.io/2017/10/09/Python异步的理解/</id>
+    <published>2017-10-08T16:00:00.000Z</published>
+    <updated>2017-10-24T15:59:50.618Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><blockquote><p>异步的出现主要是单线程的io等待，由于任务大部分是io处于等待，假如让一个线程工作，所有任务按照流水线形式执行，假如一个请求需要1秒，五个请求需要五秒，那么如果能让他们同时运行的话，那么速度就能增加五倍</p></blockquote><p>如何让五个任务同时进行有两种方法</p><ol><li>多线程</li><li>异步</li></ol><p>调试过过多线程的人都知道，线程就是从头到复制主线程一遍，开多个线程不仅成本高，而且调试成本高，异步就不一样呢，你可以把它当做一个单线程来进行编程，而且比多线程更加高效</p><h2 id="Python异步的多种实现"><a href="#Python异步的多种实现" class="headerlink" title="Python异步的多种实现"></a>Python异步的多种实现</h2><p>Python实现异步的框架有很多，但是核心思想大概是基于下面两种方式</p><ul><li>twister</li><li>gevent</li></ul><p>twister思想是将异步操作封装起来，通过回调的方式来操作，我们看<code>scrapy</code>里面中间请求的实现就是<code>twister</code>方式</p><pre><code>scrapy.Request(url=&apos;xxx&apos;, callback=func)</code></pre><p>通过传递封装的<code>request</code>，当框架帮我们请求完后，会通过callback进行回调，如果你的请求很简单那还好，只需要回调一次就可以，假如你的请求较复杂，那么你就会进入<code>回调地狱（callback hell）</code></p><p>而且你还要写处理各种回调产生的异常，你可以看看<code>scrapy</code>中间件的实现就知道<code>scrapy</code>的异常处理有多繁琐了。但是中间间的存在的确让我们代码模块话更加容易，这里暂且不谈。</p><p><code>twister</code>这种回调比较反人类，它必须依赖背后的核心进行调度，离开了背后核心的支持，这个根本跑不起来，而且由于它依赖回调来进行后续步骤处理，所以我们的代码必须被切分为不同的部分，假如我们不知道背后的核心如何回调函数或者约束，我们根本不知道这两个函数是有关联的</p><p>这种编程方式比较有利于模块话开发，但是对于我们熟悉顺序编程来看，这种回调方式显然是一场噩梦，相比于<code>twister</code>这种回调方式，<code>gevent</code>采用的是绿色协程的方式进行回调。</p><p>PEP-380定义了<code>yield from</code>的语句，Python3.3开始使用，为了区别协程和生成器，Python3.5开始使用<code>await</code>代替<code>yield from</code>，这样协程就有了一个专门的方法来声明（<code>await</code>和<code>async</code>），后者用来标记异步函数</p><p>协程之所以能够在异步中大方光彩，其中很大一部分就是协程天生就是异步的，理解协程我们可以从一个简单的生成器与普通函数来对比</p><pre><code>a = (x for x in range(10))b = [x for x in range(10))</code></pre><p>我们来看这样一个生成器a，一般我们来用这个生成器必须加    <code>for</code>循环才能得到里面的值，假如我们尝试使用<code>a.send(None)</code>，我们会发现，我们依次从返回值得到了b里面的序列</p><p>就是这么一个send与接受的功能让我们实现了一种”绿色“回调，就是协程这个性质让他写异步变得更加顺理成章了，而且相比<code>twister</code>回调，协程的回调更为彻底，它把”自己”包装起来全部回调回去了。</p><h2 id="了解异步基础"><a href="#了解异步基础" class="headerlink" title="了解异步基础"></a>了解异步基础</h2><p>前面简单的聊了协程的性质，现在谈谈异步存在的基础，异步的存在最关键的在于等待，为了了解这个等待意思和后面解读<code>asycio</code>库，我们先使用<code>selectors</code> （Python3对<code>select</code>的封装）来做个演示</p><pre><code>import selectorssel = selectors.DefaultSelector()</code></pre><p>声明一个<code>select</code>对象sel，现在我们要调用这个核心函数</p><pre><code>sel.select(10)</code></pre><p>这个10是代表<code>timeout</code>的时长，也就是最长等待时间，10秒之后我们发现，这个结果返回了一个空列表，这是显而易见的，我们并没有指明让它等待什么</p><p><code>selectors</code>这个库的功能非常好理解，类比寄信，你如果想等别人回信，假如你没有寄出去你自己的信，你一直在邮箱那等，除了等到你不想等，否则你是收不到你的回信的，所以这个库的核心在于，“寄信”（register）和等信（select），然后自己选择处理信件</p><pre><code>import selectorsimport socketsel = selectors.DefaultSelector()def accept(sock, mask):    conn, addr = sock.accept()     print(&apos;accepted&apos;, conn, &apos;from&apos;, addr)sock = socket.socket()sock.bind((&apos;localhost&apos;, 8000))sock.listen(100)sock.setblocking(False)sel.register(sock, selectors.EVENT_READ, accept)while True:    events = sel.select()    for key, mask in events:        callback = key.data        callback(key.fileobj, mask)</code></pre><p>这个程序最关键的地方在于<code>sel.register</code>、<code>sel.select</code>和<code>callback</code>那里，前者是注册函数，后面是等待，最后就是回调</p><p>上面就是<code>twister</code>式最简单的回调，你可以看到，为了得到连接<code>sock</code>的连接，我们必须把处理注册到等待中去，但是这只是得到<code>sock</code>连接，为了成功建立一个<code>TCP</code>连接，我们还得进行三次握手，还得处理每次回调时的错误</p><p>而且你可以看到回调函数与核心驱动<code>select.select()</code>耦合度非常高，我们必须完全了解系统如何回调，处理一件事被回调分割成一段一段</p><p>接下来我们来看看基于<code>gevent</code>的<code>asyncio</code>实现</p><pre><code>async def wget(host):    connect = asyncio.open_connection(host, 80)    reader, writer = await connect    header = &apos;GET / HTTP/1.0\r\nHost: %s\r\n\r\n&apos; % host    writer.write(header.encode(&apos;utf-8&apos;))    await writer.drain()    while True:        line = await reader.readline()        if line == b&apos;\r\n&apos;:            break    writer.close()</code></pre><p>我们成功的用一个函数描绘了建立一次连接并且进行通信的过程，假如你懂一点<code>asyncio</code>，你就会发现它与<code>twister</code>回调的不同，使用<code>await</code>关键字把函数挂起，然后等待回调，根据回调接着进行下面的操作，我们成功的用同步的语句把异步写出来，而且是使用Python的原生实现，所以当<code>asyncio</code>出来的时候Guido（Python之父）是多么自豪，你可以看下面引用 <a href="https://www.youtube.com/watch?v=1coLC-MUCJc" target="_blank" rel="external">Tulip: Async I/O for Python 3</a>演讲的视频</p><h2 id="浅析Python异步实现"><a href="#浅析Python异步实现" class="headerlink" title="浅析Python异步实现"></a>浅析Python异步实现</h2><p>前面我们知道了异步的基础就是等待，那么Guido是如何在协程的帮助下将异步实现出来的呢，接下来我们就简单的谈一下这个实现基础</p><p>我们先将上面<code>twister</code>改成<code>gevent</code>方式的</p><pre><code>sel = selectors.DefaultSelector()@asyncio.coroutinedef get_connection(sock):    sel.register(sock, selectors.EVENT_READ)    yield Trueasync def create_connection():    sock = socket.socket()    sock.bind((&apos;localhost&apos;, 8000))    sock.listen(100)    sock.setblocking(False)    await get_connection(sock)    conn, addr = sock.accept()    print(&apos;accepted&apos;, conn, &apos;from&apos;, addr)event = create_connection()event.send(None)events = sel.select(100)for key, mask in events:    try:        event.send(None)    except StopIteration:        pass</code></pre><p>我们稍稍修改一下上面的<code>twister</code>函数，我们创建一个<code>get_connection</code>函数把<code>sock</code>绑定到我们的<code>sel</code>上面，然后回调一个<code>True</code>，当然这个回调没有处理异常什么的，然后我们将得到的协程向其发送一个<code>None</code>让它启动，这时候你在在另外一个<code>ipython</code>客户端执行</p><pre><code>import socketsocket.socket()..connect((&apos;localhost&apos;, 8000))</code></pre><p>然后你就会发现在主线程里面打印出来客户端的连接信息</p><p>通过这个小例子我们知道，实现异步要解决的问题就是一个公用注册器（能够注册所以的io等待），一个容器（能够存贮所以的协程），一个核心能够一直执行等待回调和处理回调（多个协程）</p><h2 id="深入asyncio了解Python异步"><a href="#深入asyncio了解Python异步" class="headerlink" title="深入asyncio了解Python异步"></a>深入asyncio了解Python异步</h2><p>通过上面我们简单的知道了，如何通过协程与<code>select</code>合作完成异步操作，然而我们上面写的只是最最最基本的实现，接下来我们来深入<code>asyncio</code>源码了解如何让异步变得更加简单</p><h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><p><a href="http://blog.csdn.net/screaming/article/details/51377870" target="_blank" rel="external">Python异步并发框架</a></p><p><a href="http://python.jobbole.com/87988/" target="_blank" rel="external">Python 中的异步编程：Asyncio</a><br><a href="https://www.youtube.com/watch?v=1coLC-MUCJc" target="_blank" rel="external">Tulip: Async I/O for Python 3</a><br><a href="https://xidui.github.io/2015/10/29/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3python3-4-Asyncio%E5%BA%93%E4%B8%8ENode-js%E7%9A%84%E5%BC%82%E6%AD%A5IO%E6%9C%BA%E5%88%B6/" target="_blank" rel="external">【译】深入理解python3.4中Asyncio库与Node.js的异步IO机制</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;起因&quot;&gt;&lt;a href=&quot;#起因&quot; class=&quot;headerlink&quot; title=&quot;起因&quot;&gt;&lt;/a&gt;起因&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;异步的出现主要是单线程的io等待，由于任务大部分是io处于等待，假如让一个线程工作，所有任务按照流水线形式执行，假
+      
+    
+    </summary>
+    
+    
+      <category term="python3, async" scheme="https://mrzhangboss.github.io/tags/python3-async/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>PostgreSQL的自增键</title>
+    <link href="https://mrzhangboss.github.io/2017/10/08/PostgreSQL%E7%9A%84%E8%87%AA%E5%A2%9E%E9%94%AE/"/>
+    <id>https://mrzhangboss.github.io/2017/10/08/PostgreSQL的自增键/</id>
+    <published>2017-10-07T16:00:00.000Z</published>
+    <updated>2017-10-08T13:20:14.896Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>平常在Django项目中大量使用自增这个键，平常都是使用ORM，很少去了解这个东西在数据库中具体使用，最近遇到要备份和复原数据的事情，趁着这次好好探索一下这个自增键的使用</p></blockquote><p><code>Django</code>里面大部分都是将其作为<code>Int</code>自增主键来使用，第一个不需要维护一个唯一值，第二个使用<code>Int</code>作为主键的话，搜索和外键关联速度比较快。</p><p>我们这次从原生<code>SQL</code>出发，探索一下这个自增主键在数据库中的具体使用</p><h3 id="新建数据库"><a href="#新建数据库" class="headerlink" title="新建数据库"></a>新建数据库</h3><p>我们先新建一个数据库</p><pre><code>create table inc(id serial not null,name text);</code></pre><p>在<code>PG</code>里面简单的使用<code>serial</code>关键字就会生成一个自增键，默认会在数据库新建一个索引表，例如上面就会新建一个<code>inc_id_seq</code>的索引表，这个字段类型为<code>int</code>，如果数据库很大，我们可以使用<code>BIGSERIAL</code>键申请一个<code>bigint</code>类型的字段</p><p>我们可以看一下这个索引表里面有什么</p><pre><code>         Sequence &quot;public.inc_id_seq&quot;    Column     |  Type   |        Value        ---------------+---------+--------------------- sequence_name | name    | inc_id_seq last_value    | bigint  | 1 start_value   | bigint  | 1 increment_by  | bigint  | 1 max_value     | bigint  | 9223372036854775807 min_value     | bigint  | 1 cache_value   | bigint  | 1 log_cnt       | bigint  | 30 is_cycled     | boolean | f is_called     | boolean | t</code></pre><p>我们可以这个索引表其实就是维护了一个参数，通过字段我们可以知道，这是一个自增为1的键，下一个值为2，目前没有插入一个值</p><h3 id="增删查减"><a href="#增删查减" class="headerlink" title="增删查减"></a>增删查减</h3><p>我们通过一些基本操作来看看这个自增键的作用</p><ul><li>首先是插入</li></ul><pre><code>insert into inc (name) values (&apos;1&apos;),(&apos;2&apos;), (&apos;3&apos;);</code></pre><p>我们插入三个值，我们再查看索引表，发现<code>last_value</code>变成了3</p><p>这个是没有指定<code>id</code>的值插入，我们试试显式声明插入</p><pre><code>insert into inc  values (1, &apos;1&apos;),(2, &apos;2&apos;), (3, &apos;3&apos;), (4, &apos;4&apos;);</code></pre><p>我们惊奇的发现，在我们显式声明自增键的值的时候，索引表并没有变化，<code>last_value</code>还是3,<strong>这说明只有在不声明自增键，让数据库自己新建的时候，索引表才会更新</strong></p><p><strong>我们可以把自增键看做一个默认值，当没有给自增键赋值的时候，这个自增键会从这个键的索引表中得到下一次自增的值</strong></p><p>所以我们再尝试使用不声明自增键值的方法插入一个新值</p><pre><code>insert into inc (name) values (&apos;4&apos;)</code></pre><p>我们发现索引表中<code>last_value</code>变成了4</p><h3 id="主键自增"><a href="#主键自增" class="headerlink" title="主键自增"></a>主键自增</h3><p>由于我们在<code>Django</code>里面使用自增，一般都是将其声明为主键，设为唯一值，所以如果我们将声明表的结构变成</p><pre><code>    create table inc(id serial not null PRIMARY KEY,name text    );</code></pre><p>上面的情况就不可能发生了，因为我们把自增键声明为主键，不过有意思的事就是如果你像上面一样指定了一个自增主键值为4，然后不指定再插入4，你会发现第一次会报主键不允许重复的错误，第二次则会成功插入，而且索引表的<code>last_value</code>变成了5</p><p>看来并不是每次成功的时候才会更新<code>last_value</code>值，只要让系统自己去申请自增值就会更新索引表，我尝试了对表的增删查改，发现只有<code>insert</code>并且申请自增值的时候才会更新索引表，而且这个索引表之后增加，不会减少，所以有时候你删掉最大的值，自增键默认又从最后一次开始更新</p><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>在对单个数据表备份还原的时候，由于简单的使用了<code>COPY</code>命令进行备份还原，通过上面的探索我们发现如果涉及到自增主键的导入导出，在新表导入旧数据是不会出错的，但是由于我们没有考虑自增键的影响（我们导入自增键是显示赋值），在后面插入数据的时候有可能会报主键重复的错误</p><p>为了避免以后插入入数据出现这样的错误，我们有两种措施</p><ol><li>使用<code>COPY</code>命令导入导出时候不获取自增键值</li><li>在<code>COPY</code>导入新表后自己更新索引表</li></ol><p>第一种的话<code>SQL</code>比较繁琐（必须写出表所有字段值），推荐使用第二种</p><p>我们可以简单的使用</p><pre><code>SELECT MAX(id) FROM your_table;</code></pre><p>先获取自增键最大值，然后更新索引值(999为上面你获取的最大值）</p><pre><code>SELECT setval(&apos;your_table_id_seq&apos;, 999, false);</code></pre><p>当然我们可以将这条语句合正一句话</p><pre><code>SELECT setval(&apos;your_table_id_seq&apos;, COALESCE((SELECT MAX(id)+1 FROM your_table), 1), false);</code></pre><p>这样我们就可以开心的完成单表导入导出了</p><p>ps：<br>在使用<code>COPY</code>命令时必须是superuser才能从文件中读取和导入数据，最简单的方法是用superuser账号加权使用<code>alter user xxx superuser</code>，待倒完数据后再降权<code>alter user xxx nosuperuser</code></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;平常在Django项目中大量使用自增这个键，平常都是使用ORM，很少去了解这个东西在数据库中具体使用，最近遇到要备份和复原数据的事情，趁着这次好好探索一下这个自增键的使用&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;Django&lt;/cod
+      
+    
+    </summary>
+    
+    
+      <category term="database" scheme="https://mrzhangboss.github.io/tags/database/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>大学的错觉</title>
+    <link href="https://mrzhangboss.github.io/2017/10/07/my_college_mistakes/"/>
+    <id>https://mrzhangboss.github.io/2017/10/07/my_college_mistakes/</id>
+    <published>2017-10-06T16:00:00.000Z</published>
+    <updated>2017-10-09T14:06:32.566Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>其实这篇文章很早就像写了，但是自己也一直没有明白自己想写什么，直到最近自己慢慢才有一点思路</p></blockquote><p>   这篇文章并不想高谈阔论，只是自己的一些碎碎念，把自己对人生的一些看法的小总结。你可以把它当做一篇小说来看，我也想把它当做小说来写。</p><h2 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h2><p>中秋回家，同自己表妹聊天，她突然问了一句,大学哥哥没有谈一个女朋友，接着说道没有恋爱的大学是不完整的，我楞了一愣，一本正经的对她说道，大学其实就是培养自己一个完整人格的过程，在这个过程中我们学习并且养成自己一个完整独立认知。</p><p>回去之后我仔细想想，我好像并没有回答表妹的问题，但是我自己也陷入了深思，大学这几年到底对我干了什么。</p><h2 id="错觉"><a href="#错觉" class="headerlink" title="错觉"></a>错觉</h2><p>先不说大学对我做了什么，我仔细想了想我自己对自己定位。</p><h3 id="你觉得你很努力"><a href="#你觉得你很努力" class="headerlink" title="你觉得你很努力?"></a>你觉得你很努力?</h3><p>我一直觉得自己在大学还是很努力的，我没有沉迷游戏超过两天，我没有放弃学习新知识，在大学图书馆借了几百本书，可能比全班人加起来都多，大一到大三我经常去图书馆读书，尤其是大三，有时候会在图书馆读一天书</p><p><strong>但是上面的上面全部我自己的错觉，我虽然不沉迷游戏但是经常会被游戏分心，我虽然读过很多书但是我一直是读那些别人认为是必读的书，而且我读过的书大部分都没有转换成为我真正的源泉</strong></p><p>我就像一个饥渴的行者，在大河面前用手拼命的往口里塞水，我的确看了很多的书，但是这么多书就像流水一样，全部都流走了;这些知识对于我来说只是解渴之物，当我非常饥渴的时候，我会拼命的想得到它，但是当我满足的时候，这些东西就像泥土一样对我一文不值</p><p>所以这就可以解释为什么我每次借书的时候都是兴高采烈，但是当借回来时候往往翻了几页，然后就束之高阁，然后循环往复</p><h3 id="你觉得你懂很多"><a href="#你觉得你懂很多" class="headerlink" title="你觉得你懂很多?"></a>你觉得你懂很多?</h3><p>没有出去之前，我在大学社团里面干过不少项目，所以我有时候觉得自己技术很牛逼，我是大神级别的人。我懂很多别人不知道的知识，我用过很多框架，我知道怎么搭集群，我知道什么是机器学习，什么是分布式，什么是代码规范。</p><p>然而出去之后才发现这都是错觉，你做过很多项目，你经历过百万规模的并发吗，你了解很多框架，随便挑一个框架出来，你能说出它的优点和不足吗，你看过源代码吗，你知道如何保证上千集群的容错率，你知道什么是大规模机器学习吗</p><p>挑出任何一个你会发现自己一直处在皮毛阶段，有时候你会用你还年轻但是学习能力强来掩饰你的不足，但是这只是你的错觉吧，不懂就是不懂。</p><h3 id="你觉得你不需要明确方向"><a href="#你觉得你不需要明确方向" class="headerlink" title="你觉得你不需要明确方向?"></a>你觉得你不需要明确方向?</h3><p>有段时间我一直很困惑自己未来发展方向，我搞过UI，搞过前端、后端，搞过机器学习、数据分析，搞过分布式、爬虫。编程语言更是多，C、C#、Python、Java、C++，node，JS。我对我自己的定位一直很模糊，我不知道我未来到底想干什么，我很羡慕那些从小就明确目标的人。</p><p>我一直为此苦恼，我也看过很多人的书籍、博客，我也看到过很多人写的相同的文章，在很长一段时间我都认为它是正确的，它告诉我你不需要明确你的职业规划，它给了很多有名的人例子，奥巴马、马云、马化腾、李开复他们在大学都不知道自己要干什么。在很长一段时间我都觉得大学就是应该多学东西，把东西学杂。</p><p>但是我仔细想想，这个也是<strong>错觉</strong>。</p><p>我从大二就开始有转行的念头，当时我是web后端开发，我当时觉得有没有方向无所谓，只要你多学就行，就这样陆陆续续混杂看了一年多书，直到七八个月前，我才开始反思。</p><p>我开始明确我的目标，把它当做我要干一辈子的方向去搞，我开始扣书，像一个干涸的大地一样汲取天空飘下的雨滴，我这时候发现知识是那么的宝贵，自己是多么的“native”；从一窍不通到入门到小小成就只花了短短几个月的时间，完成了一年多都完成不了的入门。</p><p>当然我最终没有选择这个方向，但是这个过程我从来没有后悔过，而且在这个学习过程中，它帮助我更加了解我自己，而且节省了我选择的时间。</p><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>好像我的大学一直全部都是由错误组成的，但是这些错误真的对我来说毫无作用吗。其实未必，当我学完第一门编程语言C的时候，所以的“错误”都在默默的发挥的作用，我用静态语言的辩证思想学Python，我用动态语言的思想反过来学习Java，好像全部的“错误”全部融合成为一个圈，</p><p><strong>我们好像一直在害怕自己出错，其实慢慢的发现那些没有错误的人生不是完整的。</strong></p><p>小时候很羡慕那些一直走在正确的道路上的人，也有时候会幻想成为他们一样的人。没错那样的人生固然完美，但是我更喜欢一直跌跌撞撞的我，或许我经常走在错误的道路上，但是我享受了沿途的风景，不论最终结果如何，人生的意义还是沿途的风景吧!</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;其实这篇文章很早就像写了，但是自己也一直没有明白自己想写什么，直到最近自己慢慢才有一点思路&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;   这篇文章并不想高谈阔论，只是自己的一些碎碎念，把自己对人生的一些看法的小总结。你可以把它当做一篇小说来看，我
+      
+    
+    </summary>
+    
+    
+      <category term="summary" scheme="https://mrzhangboss.github.io/tags/summary/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>唯品会预测和携程房屋预测总结</title>
+    <link href="https://mrzhangboss.github.io/2017/08/09/vip_ctrip_competitions_summary/"/>
+    <id>https://mrzhangboss.github.io/2017/08/09/vip_ctrip_competitions_summary/</id>
+    <published>2017-08-09T11:21:40.000Z</published>
+    <updated>2017-08-09T16:05:41.804Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>最近打了两个比赛，一直忙着工作和打比赛，没有时间总结，今天抽空好好总结一番</p></blockquote><p>先说一下比赛结果吧，队名全为<code>OfferGo</code><a href="http://www.datafountain.cn/#/competitions/260/ranking/a/0" target="_blank" rel="external">唯品会购买预测</a>第五名，<a href="https://www.kesci.com/apps/home/#!/competition/597172316a1cd9104c2df248/leaderboard/0" target="_blank" rel="external">携程房屋预测复赛</a>第六名,两个比赛打的都不算太好,只能算勉强及格,虽然离大神的距离还有十万八千米，不过总算可以称的上入了门，现在来总结一下我入门的经验吧。</p><h2 id="观察数据"><a href="#观察数据" class="headerlink" title="观察数据"></a>观察数据</h2><blockquote><p>我参加过很多群,发现很多新手缺乏观察数据的能力,他们每次进入一个群总是嚷嚷这让大神发<code>baseline</code></p></blockquote><p>这一点对于新手来说很不利的，比赛考的就是你对数据的掌握能力,你对数据把握的越好，你的比赛成绩就越好，要真正掌握数据就要从观察数据入手</p><hr><p>在我看来观察数据主要从四个方面来，我总结为<code>望闻问切</code></p><h3 id="望"><a href="#望" class="headerlink" title="望"></a>望</h3><p>观察数据缺失值，缺失值对数据影响很大，有时候我们能够从缺失值里面了解很多信息,而且对于缺失值，后期我们对不同的缺失值要采取不同的手段，比如补全、统计占比、丢弃等等。</p><p>对于缺失值我一般从两个方面来观察</p><ul><li>全局观察</li><li><ul><li>一般采用<code>datafram.info(null_counts=True, verbose=True)</code>方法来观察全局数据缺失情况</li></ul></li><li>局部观察</li><li><ul><li>一般采用<code>series.isnull().count()</code>和<code>series.loc[series.notnull()]</code>观察单一列表缺失情况</li></ul></li></ul><p>这个阶段我们主要从大的方向远远的<code>望</code>一下数据，主要建立对数据的全局观。</p><h3 id="闻"><a href="#闻" class="headerlink" title="闻"></a>闻</h3><blockquote><p>对于数据来说，一般分为三种，一种为数值型数据（整数、浮点数、时间等），一种为字符型，最后一种为图像型，三种类型数据处理难度依次增强</p></blockquote><p>对于大多数比赛都是设计前两种数据，第三种只有牵扯到图像处理才能遇到。对于前两种数据，我们在闻的阶段，主要是探查数据分布情况，了解数据分布情况，我们才能对症下药。</p><p>了解数据分布情况有两种方法</p><ol><li>图像观察</li><li>数学统计观察</li></ol><p>图像观察主要使用<code>Pandas</code>的<code>Matplotlib</code>绘图接口，或者使用<code>seaborn</code>（一个友好的封装了<code>Matplotlib</code>的包），一般我们可以从直方图、饼图、频率图方向来观察数据</p><p>数学统计我们主要采用<code>Pandas</code>的<code>describe</code>方法，对于数值型数据，主要从平均值（<code>mean</code>）、中位数（<code>50%</code>）、标准差（<code>std</code>）、最大（<code>max</code>）、最小（<code>min</code>）、非空总数（<code>count</code>）来探测数据，对于字符型我们主要从最频繁的值（<code>top</code>）、最频繁的值的个数（<code>freq</code>），非空总数（<code>count</code>）、不相同的值（<code>unique</code>）。</p><p>通过上面两种方法，我们能够从数据分布的角度大致勾画出数据的轮廓。</p><h3 id="问"><a href="#问" class="headerlink" title="问"></a>问</h3><blockquote><p>比赛的目的就是找到最优解，而最优解的跟相关特征紧密联系的，你的特征对结果影响越大，你就要审<code>问</code>这个特征</p></blockquote><p>举个例子，我们要预测三组数据</p><ul><li>1 1.8  2</li><li>2 3.5  4</li><li>3  5.4  16</li></ul><p>第一行为我们要训练的值，我们发现第二行的数据是第一行的1.8倍，而第三行只是2的次方，对于这两个特征来说，第二个特征就是最好的特征，我们只要建立一个映射，准确率能接近100%，而第三个特征对预测结果毫无联系，这个特征不但对结果没有作用，而且有时候会起到反作用</p><p>当然在这里我们举这么一个例子在实际中不可能遇到，我们遇到是更多数据，而数据之间的联系并不是这么简单的线性关系，但是线性关系有的时候能让我察觉到特征与预测值的关联，毕竟如果特征值是随机值那么与预测值之间的相关性是非常低的。</p><p>在<code>Python</code>里面探测线性关系最简单的方法是调用特征值和预测值的相关性系数（<code>corr</code>），我们可以简单的使用<code>df[[&#39;feature&#39;, &#39;target&#39;]].corr()</code>就可以得到线性相关系数，这个数的绝对值越接近1，相关性越大，一般来说相关性越大和越好对结果都不好，最好的特征相关性处于中间位置。</p><p>相关性低我们可以理解，为什么相关性高反而不好呢，因为数据比赛里面给我们的数据大部分都是不平衡的数据，正负样本失衡，一般相关性很高的值一般为分类同预测值相同，比如一个二分类问题，预测值为0和1，给的样本正负比为1000:1，那么如果有一个特征全为0或者其他，那么他与预测值的相关性会达到90%以上，然而这个值是毫无作用的。</p><p>所以我们通过简单的相关系数并不能很好的观察特征真正相关性，一般我们要辅助图像法和统计法。</p><p>图像法就是通过将特征值分布与预测值相关性图表画在同一个图表里，具体可以参考<a href="https://www.kaggle.com/benhamner/d/uciml/iris/python-data-visualizations" target="_blank" rel="external">可视化特征</a></p><p>统计法类似图标，使用统计方法观察，特征值与预测值的相关性，一般使用<code>groupby</code>方法对两个特征进行统计就可以进行简单的观察</p><p><code>问</code>只是一个简单的手段，一般我们在大量添加特征的时候，为了节省模型训练时间，在将特征放入管道之前进行一个简单的过滤删除的工作，真正重要的步骤在<code>切</code>这个方面</p><h3 id="切"><a href="#切" class="headerlink" title="切"></a>切</h3><blockquote><p><code>切</code>这个步骤放在最后是因为，这个步骤也是我们一趟循环下来的最后一步</p></blockquote><p>数据比赛中前期大家最喜欢用的模型是树模型，比如随机森林、<code>Xgboost</code>，<code>LightBoost</code>等，这些模型属于弱学习器组合模型，我们最后可以从训练结果得到每个特征在模型占的比重</p><p>对于这个比重，是非常重要的，他代表了每个特征对应在模型中占的权重，也可以理解特征与结果的相关性</p><p>对于相关性很强的不同的特征，我们可以将他们组合，有时候这种强强组合生成出来的特征会比原来母特征相关性更强，当然组合的方法有千种万种，如何验证他们有效就要从头开始对数据进行<code>望闻问切</code>了</p><h4 id="总结：-数据比赛就如同问诊，我们不断对特征进行望闻问切，对于高手来说他们能很快的从原始特征中挑选出病根，对症下药，而新手的话，一阵摸瞎，经常会碰到在比赛中期做出一个很好的结果，接下来很长一段时间都没有进步的情况。掌握科学有效的挑选特征方法需要一个“医者心”，必须学会对特征“负责”，要学会望闻问切。"><a href="#总结：-数据比赛就如同问诊，我们不断对特征进行望闻问切，对于高手来说他们能很快的从原始特征中挑选出病根，对症下药，而新手的话，一阵摸瞎，经常会碰到在比赛中期做出一个很好的结果，接下来很长一段时间都没有进步的情况。掌握科学有效的挑选特征方法需要一个“医者心”，必须学会对特征“负责”，要学会望闻问切。" class="headerlink" title="总结： 数据比赛就如同问诊，我们不断对特征进行望闻问切，对于高手来说他们能很快的从原始特征中挑选出病根，对症下药，而新手的话，一阵摸瞎，经常会碰到在比赛中期做出一个很好的结果，接下来很长一段时间都没有进步的情况。掌握科学有效的挑选特征方法需要一个“医者心”，必须学会对特征“负责”，要学会望闻问切。"></a>总结： 数据比赛就如同问诊，我们不断对特征进行<code>望闻问切</code>，对于高手来说他们能很快的从原始特征中挑选出<code>病根</code>，对症下药，而新手的话，一阵摸瞎，经常会碰到在比赛中期做出一个很好的结果，接下来很长一段时间都没有进步的情况。掌握科学有效的挑选特征方法需要一个“医者心”，必须学会对特征“负责”，要学会<code>望闻问切</code>。</h4><h2 id="并行化算法"><a href="#并行化算法" class="headerlink" title="并行化算法"></a>并行化算法</h2><blockquote><p>由于<code>Python</code>本身对多核利用不好，如何利用多核加快特征生成对于比赛来说意义重大</p></blockquote><p>就拿我来举例子，我每天下班打比赛的时间不超过8个小时，前期算法没有并行化的时候，走一遍管道要四个小时，这意味着我一天只能跑两次，而进行并行化优化以后，我跑一遍四线程全开（笔记本双核四线程）只要十分钟就能跑完，每次生成新特征只有10分钟就能拿到特征相关性数据，来验证特征的好坏。</p><p>下面我从三个方面来谈谈怎么实现并行话算法</p><h3 id="1-使用系统自带函数，拒绝for循环"><a href="#1-使用系统自带函数，拒绝for循环" class="headerlink" title="1 . 使用系统自带函数，拒绝for循环"></a>1 . 使用系统自带函数，拒绝<code>for</code>循环</h3><p>举个例子，作为新手，实现对两个个特征求平均，一般采用<code>for</code>循环将每一行两个特征值加起来然后除以2，假如有1000万行，每行加法和除法运算花0.001ms，那1000万也要10秒钟，只是进行一个最简单的求平均，你就花掉10秒钟，上百个特征你得运行几天</p><p>学过矩阵的都知道，矩阵就是一种高效的并行化结构，它将集合统一进行计算，可能一个大矩阵运算要比单一计算要慢，但是单一计算要1000万次的话，大矩阵运算只需要两次就够了，这个效率比就出来了</p><p>而<code>Python</code>由于是一门解释性语言，比其他静态语音速度要慢许多，你一方面使用<code>for</code>循环加大运算次数，一方面执行一次时间长，这相重叠加你的算法会跑的比蜗牛还慢</p><p>所以我们避免使用我们写的函数，尽量使用库系统函数，因为库系统函数底层是使用<code>C</code>或<code>C++</code>实现的，而且他们在底层进行使用矩阵话运算代替单一浮点计算，我们使用库的函数（比如<code>mean</code>，<code>groupby</code>等）一方面能底层能使用C加快速度，一方面使用矩阵运算加快速度，两个叠加你的算法跑的比飞机还快。</p><h3 id="2-使用多进程，充分发挥使用多核性能"><a href="#2-使用多进程，充分发挥使用多核性能" class="headerlink" title="2 . 使用多进程，充分发挥使用多核性能"></a>2 . 使用多进程，充分发挥使用多核性能</h3><p>由于<code>Python</code>的<code>GIL</code>锁，使得<code>Python</code>无法利用多核进行计算，所以我们只能使用多个进程来充分利用多核</p><p>实现多进程有两个要点（具体可以参考我携程比赛代码 <a href="https://www.github.com/mrzhangboss" target="_blank" rel="external">Github地址</a>)</p><ul><li>特征提取模块化</li><li>进程池的搭建和维护</li></ul><p>我在携程比赛中的<code>mult_run.ipynb</code>中搭建了一个进程池，通过第三方调度和监控进程内存CPU等信息，达到充分“榨干”每个核的功效</p><h3 id="3-压缩数据，让矩阵运算更快"><a href="#3-压缩数据，让矩阵运算更快" class="headerlink" title="3 . 压缩数据，让矩阵运算更快"></a>3 . 压缩数据，让矩阵运算更快</h3><p>由于在对特征进行提取过程中，<code>Python</code>会自动将低位制值转换成高位制值，比如<code>float16</code>在进行一次<code>groupby</code>之后就会转换成<code>float64</code>，由于在矩阵运算时候，高进制值会占更多内存和运行时间，所以为了加快算法运行，我们要将其压缩，一方面节省内存，一方面能够让算法运行的更快</p><p>在携程的比赛中，原始数据有一个G，我将其压缩之后只占用300M内存空间，这为我后面在一台12G内存的笔记本实现并行化算法提供了巨大帮助，当然我每次在生成新特征的时候也会进行压缩，具体可以参考我携程的<code>utils.py</code>文件</p><h3 id="总结：-这两次比赛，我从菜鸟出发慢慢的从一个程序员变成了数据挖掘机，在模块化和并行化方面，我觉得我的进步不错，但是在数据特征挖掘方面我与大神之间的差距还是巨大的，这也是我止步于前五的主要原因，接下来我要加强对数据方向的锻炼，希望能够在工作和比赛之中得到更好的进步"><a href="#总结：-这两次比赛，我从菜鸟出发慢慢的从一个程序员变成了数据挖掘机，在模块化和并行化方面，我觉得我的进步不错，但是在数据特征挖掘方面我与大神之间的差距还是巨大的，这也是我止步于前五的主要原因，接下来我要加强对数据方向的锻炼，希望能够在工作和比赛之中得到更好的进步" class="headerlink" title="总结： 这两次比赛，我从菜鸟出发慢慢的从一个程序员变成了数据挖掘机，在模块化和并行化方面，我觉得我的进步不错，但是在数据特征挖掘方面我与大神之间的差距还是巨大的，这也是我止步于前五的主要原因，接下来我要加强对数据方向的锻炼，希望能够在工作和比赛之中得到更好的进步"></a>总结： 这两次比赛，我从菜鸟出发慢慢的从一个程序员变成了数据挖掘机，在模块化和并行化方面，我觉得我的进步不错，但是在数据特征挖掘方面我与大神之间的差距还是巨大的，这也是我止步于前五的主要原因，接下来我要加强对数据方向的锻炼，希望能够在工作和比赛之中得到更好的进步</h3><h4 id="在最下面贴一下我的携程比赛代码（基于Notebook）"><a href="#在最下面贴一下我的携程比赛代码（基于Notebook）" class="headerlink" title="在最下面贴一下我的携程比赛代码（基于Notebook）"></a>在最下面贴一下我的携程比赛代码（基于Notebook）</h4><p><a href="https://www.github.com/mrzhangboss/ctrip_room_predict" target="_blank" rel="external">https://www.github.com/mrzhangboss/ctrip_room_predict</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;最近打了两个比赛，一直忙着工作和打比赛，没有时间总结，今天抽空好好总结一番&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;先说一下比赛结果吧，队名全为&lt;code&gt;OfferGo&lt;/code&gt;&lt;a href=&quot;http://www.datafountai
+      
+    
+    </summary>
+    
+    
+      <category term="competition" scheme="https://mrzhangboss.github.io/tags/competition/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>如何搭建自动生成上万特征的管道</title>
+    <link href="https://mrzhangboss.github.io/2017/06/13/%E5%A4%A7%E8%88%AA%E6%9D%AF%E2%80%9C%E6%99%BA%E9%80%A0%E6%89%AC%E4%B8%AD%E2%80%9D%E7%94%B5%E5%8A%9BAI%E5%A4%A7%E8%B5%9B%E5%8F%82%E8%B5%9B%E7%BB%8F%E9%AA%8C/"/>
+    <id>https://mrzhangboss.github.io/2017/06/13/大航杯“智造扬中”电力AI大赛参赛经验/</id>
+    <published>2017-06-13T10:56:31.000Z</published>
+    <updated>2017-06-13T16:07:40.602Z</updated>
+    
+    <content type="html"><![CDATA[<p>基于:大航杯“智造扬中”电力AI大赛参赛经验</p><p><img src="/images/electric_power_ai.jpg" alt="大航杯AI大赛"></p><p>赛题背景</p><blockquote><p> 主办方为大航集团提供21个月江苏省杨中市1454家企业日用电量,来估计下一个月日总用电量</p></blockquote><p>从给的数据分析,这次给的数据只有历史企业日用电量,用来估计日总用电量,是一个典型的时域分析问题</p><p>但是这同我们以往的时序问题不一样,向往常时序问题预测的是每个企业的未来每日的用电量,而这个比赛却是求全部企业的总数.</p><p>由于我报名比赛时候比较晚,比赛已经接近尾声,比赛5月18号开始,6月8号中午切换数据,13号截止,我6月8号晚上下载数据,由于我以前已经做了几个类似的比赛,但是一直没有系统的做一个,抱着锻炼的自己的态度,决定系统做一次,权当练手.</p><p>首先分析一下提交的结果,预测一个月的日总用电量,总共为31个数据,给的历史数据只有21个月的,按月的比例来看,只有21个值去训练值去预测一个值,根据往常的比赛经验来看,这种比赛适合使用规则方法来做,然而我剩下的验证机会不多了,只能用模型,但是过拟合的危险非常大,如果不能找到一个好的方法克服过拟合,复赛都进不去.</p><p>当然最后还是没有找到一个很好的办法,止步于复赛,不过这次比赛让我学到很多,主要通过这次比赛自己琢磨出来自己如何搭建基于<code>IPython Notebook</code>的管道结构,这个管道帮我自动生成上万特征.</p><h2 id="管道"><a href="#管道" class="headerlink" title="管道"></a>管道</h2><blockquote><p>什么是管道,在数据挖掘比赛中很多大神都着重讲了一定要搭建一个自动化的架构,我们暂且称他为”管道”,这个”管道”我们要能够把数据倒进去,结果倒出来.</p></blockquote><p>这个管道用专业的术语来看要有以下几个功能</p><ul><li>能够自由添加<code>Feture</code></li><li>能够自动评判得到添加的<code>Feture</code>的效果</li><li>管道能够自己选择合适的参数训练模型</li><li>能够输出结果</li></ul><p>其实简单来说,我们要做的是一个能够非常方便的扩展的脚手架,我们不可以第一次就把所以的特征全部找出来,所以我们要搭建一个能够实时添加<code>Feture</code>的框架.</p><p>其实很早以前就看过类似文章,也有很多人推荐<a href="https://github.com/ChenglongChen/Kaggle_HomeDepot" target="_blank" rel="external">大神开源的一个脚手架</a>,然而找到的大多是用<code>python</code>实现</p><p>我因为一开始就是使用<code>Notebook</code>进行数据挖掘,主要<code>Notebook</code>能够提供一个实时的反馈,而纯<code>python</code>,对于复杂多变的数据来说,显得非常笨重,你经常有个好想法想验证一下,又得重新跑一遍,尤其是对于我的机器配置来说,重新跑一边的时间都够我喝杯茶了.而且<code>notebook</code>有个特点,可视化特别方便,有时候从数据上看不到,可以画个图表</p><p>好了,夸了这么久,现在就来仔细讲讲脚手架如何搭建.</p><p>我们先回到赛题,第一步审题,当时我看到日平均两个字,直接把日字省略,看成平均用电量,结果白白浪费了两个验证机会…..</p><p>审完了题我们来看我们要提交的数据,换数据后要预测十月日用电总量.我们来看看给我们数据,只有一份数据,表头如下</p><pre><code>record_date,user_id,power_consumption2015/1/1,1,11352015/1/2,1,5702015/1/3,1,34182015/1/4,1,39682015/1/5,1,3986</code></pre><p>解释一下字段,<code>record_date</code>–日期,<code>user_id</code>–企业id, <code>power_consumption</code>–日用电量<br>非常简单,就这么简单单单的数据,我现在要教大家怎么从这么简单的数据上抽取6000维度的</p><p>我把代码已经推到<code>Github</code>上了(由于数据比较少,我把数据也推上去了,方便大家本地跑跑,看完如果对你有帮助的话,请不要吝啬你的star哦),我就对照我的代码解释如何搭建一个可以跑出上万维度的脚手架</p><h2 id="数据划分-split-samples-ipynb"><a href="#数据划分-split-samples-ipynb" class="headerlink" title="数据划分(split_samples.ipynb)"></a>数据划分(<code>split_samples.ipynb</code>)</h2><p>首先要搭建本地预测集,也就是线下样本(这个很重要,有时候线下的结果很大程度对应你线上的结果)</p><p>给的数据要我们从前面21个月预测下一个月的日总用电量,我们很容易就能想到,那我们用前面20个月预测第21个月来做线下测试,但是这样我们就只有30个训练样本,要来预测30个,99.999%过拟合啊,首先我们要扩大样本,我们采用滑动移窗的方法把预测的样本按照月份推移,也就是分别预测9月8月7月等等</p><p>这种方法在实现<code>Notebook</code>有几个难点,首先你划分了预测集,那么就也要划分训练集,就相当于把一份数据切分成好几份,切分完之后有个问题,你必须要隔离每个部分</p><p>举个例子,我们把训练集划分成为2份,1月到7月预测8月,2月到8月预测9月,训练1-7月数据集的时候,我们不能让这个训练集接触到2月到8月的数据,因为8月对于前一个训练集来说是未知的,<br>如果我们让第一个训练集接触倒第二个训练集我们称为信息泄露,很影响线上的结果</p><p>我们知道这个问题之后,我们就要用巧妙的方法来解决,首先我们要考虑我们代码的复杂度,以前我的解决训练集隔离的方法采用的是循环法,使用一个列表存贮所以训练集,然后使用<code>for</code>循环分别传参到函数里面,这个方法能解决隔离训练集,但是有几个问题</p><p>在单个<code>ipy</code>文件中训练所以的样本,在测试的时候跑起来太慢,而且要把数据全部加载在内存里面,这次数据量还算小,但是对于某些小内存的电脑来说,这种方法时不时就得报<code>Memory Error</code>,而且感觉调试起来特别麻烦,所以一直在寻找更好的解决方案.</p><p>这次想到了一种巧妙的方法,虽然有点取巧但是效果我很满意.</p><p>我们先看到<code>split_samples.ipynb</code>文件,首先我把数据划分为9个样本,一个预测样本.分别放入不同文件夹进行物理隔离.但是名字相同.</p><p>再其次我让<code>ipy</code>能够获取参数,这样我通过外部参数就能更换数据集,平常添加<code>Feture</code>的时候默认选取一个训练集,这样我开发的时候调试就非常方便,而且可以丢掉<code>for</code>循环,还我一个清新脱俗的<code>ipy</code>.</p><p>这里说一个小细节,因为我传参必须要外部调用这种,对于运行<code>ipy</code>我使用了<code>runipy</code>这个工具,然后我死活没有找到,如何使用<code>runipy</code>把参数传倒<code>ipy</code>里面去的方法(如果找到了请告诉我),我一拍脑袋那就转换成<code>py</code>文件传过去,通过<code>sys.argv</code>很轻松就能获取到,所以我又用<code>jupyter nbconvert</code>的工具把<code>ipy</code>转换成<code>py</code>文件</p><p>所以绕了一圈最后又回到了<code>py</code>上(手动滑稽).不过我们工作还是在<code>ipy</code>上进行,生成的<code>py</code>文件我好像没打开过….</p><h2 id="特征提取-extract-fetures-ipynb"><a href="#特征提取-extract-fetures-ipynb" class="headerlink" title="特征提取(extract_fetures.ipynb)"></a>特征提取(<code>extract_fetures.ipynb</code>)</h2><p>聊完如何划分数据集,现在我们进入如何特征提取,我们可以看到这次数据其实就三个特征:时间-企业-用电量.由于企业的信息只有一个<code>id</code>,所以我首先提取的是时序的特征,首先把时间分解为八个维度</p><ul><li>dayofweek</li><li>dayofyear</li><li>days_in_month</li><li>quarter</li><li>week</li><li>weekofyear</li><li>month</li><li>year</li></ul><p>我们可以通过<code>pandas</code>轻松提取出来</p><p>然后我们再从两个方向来看,第一个就是我们日总用电量特征,从全部企业日总用电量</p><p>第二个就是日用电量特征,从每个企业日用电量来看,这些特征我们使用简单统计又可以得到10个维度数据(mean,std,等等)</p><p>看完这些之后我们又可以从多个时间维度来看这些特征,比如30天前,90天前等等(我划分了30,60, 90,180,360五个),</p><p>这样我们就有了 <code>8 * 2 * 5 * 10</code>个特征,但是这远远达不到我们说的上万维度,</p><p>现在我们从业务逻辑上来思考,因为我们知道,其实我们中国节假日和周末,天气这些对用电量影响非常大(我们老家打雷就停电…..)</p><p>所以我们要引入外部数据集,我采用两个爬虫分别是<code>weather_crawl,holiday_crawl</code>爬取了天气和节假日的数据</p><p>我们按照前面的思路,从天气节假日的角度又可以划分出n多特征(这时候我的特征已经达到3000了)</p><p>完了这些基础特征后,我发现有些特征重要性特别大(使用<code>Randomforest</code>得到),这时候我们又要请出我们第二大神器,交叉特征,比如月和假期的特征融合,这一波操作直接让我的特征到了6000+维度(如果将窗口扩大轻轻松松上万)</p><p>在这里要介绍一个特征生成的方法,有时候我们特征少,我们会采用自己命名的,自己生成,然后这个由于规律性比较大,<br>如果我们自己手动一个一个写的话,这上万<code>Fetures</code>够你写的,所以要让他自己生成特征,我们只要建好模子就行,由于这次<br>时间仓促,基本上我没有自己手动命名<code>feture</code>,全部都由程序生成,省掉很多代码量,具体可以看看代码实现,原理很简单.</p><h1 id="训练模型-train-model-ipynb"><a href="#训练模型-train-model-ipynb" class="headerlink" title="训练模型(train_model.ipynb)"></a>训练模型(<code>train_model.ipynb</code>)</h1><p>训练模型的话,一般比赛都推荐先使用树模型,一方面速度快,第二个可以看到<code>feture</code>的重要性,这对于你挑选交叉特征非常有用,模型调参的我这里就不讲,一方面我自己也不是很懂,第二个方面也网上教程也多,我讲的不一定比他好</p><p>这里要推荐一个发现有趣的包,<code>mlxtend</code>,我用他来进行<code>stacking</code>特别方便,有意思的时,我用他融合了四个模型,最后我的训练结果竟然为1,完全拟合了……</p><p>这个包可以很简单的进行模型的<code>stacking</code>,然而这个比赛我没有把他用好(手动滑稽)</p><p>通过训练模型后我们把模型存到<code>pkl</code>文件中,然后在用他来预测数据,这样在文件夹里转一圈的原因,因为原来打过部分比赛数据量太大,训练模型后内存不足,只能先<code>del</code>,清空内存,再预测,存到文件夹后,结束进程,清空内存,这样就能省下空间来读取下一步数据.</p><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>其实在这个脚手架上可以扩展很多东西,比如最后搏一搏单车变摩托的时候,我就在分割数据和训练数据之间加了一个过滤清洗数据层,在训练模型和融合特征之间加了一个降维的中间层.</p><p>建立一个好的脚手架只是能让你在增添特征,选择特征时更加轻松,其实比赛看的还是你对数据的一种掌控力,建立这个脚手架主要是为了节省更多时间给提取特征、选择特征上.特征决定你的上限.</p><p>这次比赛比较特殊,模型在这个比赛效果可能没有规则好,因为数据量太小,我<code>stacking</code>一下直接完全拟合了.可惜验证的次数还是<br>太少,除去前面两次错误的提交,我只有三次验证机会,如果次数多一点的话,选择特征降维或者模型调参一下遏制拟合结果可能会好很多吧.</p><p>但是这次比赛自己学到了如何搭一个<code>ipy</code>的管道和增加了一些特征调参、特征降维的经验。因为以前看到的搭建管道资料都是基于<code>py</code>,很少基于<code>ipy</code>的,所以把自己搭建<code>ipy</code>管道经验分享出来,也希望自己写的这篇博文能够抛砖引玉,帮助大家搭建自己的完美管道.</p><p>附上我的<a href="https://github.com/mrzhangboss/electricAI" target="_blank" rel="external">开源示例</a>:  <a href="https://github.com/mrzhangboss/electricAI" target="_blank" rel="external">https://github.com/mrzhangboss/electricAI</a><br>大家觉得有帮助就给我点个star吧</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;基于:大航杯“智造扬中”电力AI大赛参赛经验&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/electric_power_ai.jpg&quot; alt=&quot;大航杯AI大赛&quot;&gt;&lt;/p&gt;
+&lt;p&gt;赛题背景&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt; 主办方为大航集团提供21个月江苏省杨
+      
+    
+    </summary>
+    
+    
+      <category term="DM" scheme="https://mrzhangboss.github.io/tags/DM/"/>
+    
+      <category term="competions" scheme="https://mrzhangboss.github.io/tags/competions/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>杂记</title>
+    <link href="https://mrzhangboss.github.io/2017/06/06/%E6%9D%82%E8%AE%B0/"/>
+    <id>https://mrzhangboss.github.io/2017/06/06/杂记/</id>
+    <published>2017-06-06T14:33:44.000Z</published>
+    <updated>2017-06-06T14:47:21.410Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>pass</p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;pass&lt;/p&gt;
+&lt;/blockquote&gt;
+
+      
+    
+    </summary>
+    
+    
+      <category term="summary" scheme="https://mrzhangboss.github.io/tags/summary/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>如何成为一名数据挖掘机</title>
+    <link href="https://mrzhangboss.github.io/2017/05/16/%E5%A6%82%E4%BD%95%E6%88%90%E4%B8%BA%E4%B8%80%E5%90%8D%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E6%9C%BA/"/>
+    <id>https://mrzhangboss.github.io/2017/05/16/如何成为一名数据挖掘机/</id>
+    <published>2017-05-16T11:47:12.000Z</published>
+    <updated>2017-05-16T12:58:46.334Z</updated>
+    
+    <content type="html"><![CDATA[<p>自我介绍</p><p>前端 - &gt; 后端  -&gt; 数据挖掘机</p><p>ML DM AI  的区别</p><p>我的自学之旅</p><p>给新手的推荐</p><ul><li>机器学习课程(MOOC)</li><li>Kaggle、天池、数据城堡</li></ul><p>掌握的技能</p><ul><li>Java + Python</li><li>数据可视化</li><li>训练团队感</li></ul><p>未来的发展方向</p><ul><li>全栈数据挖掘工程师</li><li>增长黑客</li><li>ML算法工程师</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;自我介绍&lt;/p&gt;
+&lt;p&gt;前端 - &amp;gt; 后端  -&amp;gt; 数据挖掘机&lt;/p&gt;
+&lt;p&gt;ML DM AI  的区别&lt;/p&gt;
+&lt;p&gt;我的自学之旅&lt;/p&gt;
+&lt;p&gt;给新手的推荐&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;机器学习课程(MOOC)&lt;/li&gt;
+&lt;li&gt;Kaggle、天池、数据城堡&lt;
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>爬虫分布式总结</title>
+    <link href="https://mrzhangboss.github.io/2017/04/04/%E7%88%AC%E8%99%AB%E5%88%86%E5%B8%83%E5%BC%8F%E6%80%BB%E7%BB%93/"/>
+    <id>https://mrzhangboss.github.io/2017/04/04/爬虫分布式总结/</id>
+    <published>2017-04-04T08:03:55.000Z</published>
+    <updated>2017-04-05T03:49:33.478Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>由于最近在一家数据服务公司实习，项目需要了解分布式，所以在这里基于<code>scrapy</code>的分布式总结一下爬虫的分布式实习</p></blockquote><h1 id="分布式起因"><a href="#分布式起因" class="headerlink" title="分布式起因"></a>分布式起因</h1><blockquote><p>单机无法完成全部工作任务所以要使用集群加速完成工作任务</p></blockquote><p>分布式有点像蚁群，一只蚂蚁举不起一只卡壳虫，但是几百只就能轻松的把他运回家</p><p>但是分布式设计必须科学，否则就像下面一样，一个和尚挑水，其他和尚围观</p><p><img src="/images/timg.jpg" alt="分工不合理，来源网络"></p><h1 id="分布式设计"><a href="#分布式设计" class="headerlink" title="分布式设计"></a>分布式设计</h1><p>分布式设计原理在于<strong>分工</strong></p><p>首先我们来看看爬虫怎么进行分工，单个爬虫运行根据<code>url</code>获取响应报文，然后通过解析报文返回结果或者下一次爬取目标，如果单个爬虫我们只要在内存维持一个<code>set</code>变量记住爬取过的<code>url</code>，这就是<code>scrapy</code>默认的方法。</p><p>但是我们无数个爬虫由于不在同一个进程，无法共享变量，所以我们只要让一个“<code>variable</code>（变量）”能够被被所以爬虫共享到就完成了主要功能</p><p>现在我们来完善具体细节<br>要求：</p><ul><li>爬虫能够轻松读取所以已爬取变量</li><li>爬虫能够加入已读取变量</li><li>爬虫能够获取下一次请求具体参数</li></ul><p>原则上我们可以使用内存映射来构建这个变量，但是读取，修改都不便利，所以可以先使用<code>redis</code>作为存贮变量的地方，使用<code>redis</code>提供的<code>set</code>我们替代<code>scrapy</code>框架的<code>set</code>变量。</p><p>现在我们已经决定我们要使用什么容器来存贮变量，接下来我们要考虑存什么变量。</p><p>我们先看<code>scrapy-redis</code>存贮了什么，分析源代码可知，<code>scrapy-redis</code>将返回的<code>Request</code>pickle话存入数据库，并且计算这个<code>Request</code>的32位hash值存入<code>redis</code>的<code>set</code>中过滤列表。</p><p><code>scrapy-redis</code>通过修改<code>scrapy</code>的调度器（scheduler）让其当爬虫没有<code>Request</code>需要处理时在<code>redis</code>中提取<code>Request</code>，实现分布式。</p><p>我们来分析一下这种方法，爬虫在爬取的过程中从<code>master</code>端获取<code>Request</code>，并不断生成<code>Request</code>到<code>master</code>端，<code>master</code>只是一个<code>redis</code>数据库，负责对<code>url</code>去重，分发任务。</p><p>我们来比较一下直接存取<code>url</code>这种方法，这种方法好处在于，<code>slaver</code>能够从上一个<code>Request</code>中获取全部信息，假如上一个<code>Request</code>需要存取获取的表单提取地址，我们下一次爬虫发起<code>Request</code>就能从上一个<code>Request</code>中获取参数。</p><p>当然由于我们存贮的是<code>Request</code>，一个<code>Request</code> <code>pickle</code>化之后的字符串比较长，当我们的任务列表里面有很多<code>Request</code>的时候，<code>redis</code>占用的内存会非常巨大。</p><p>当然如果爬虫启动的够多，生成一个就能把任务被调度下去，那么这个任务列表就能稳定在一个可控的范围。</p><p> <strong>总结</strong></p><p>每个爬虫即负责爬取数据，又负责生成下一个任务，即无主次之分，我们可以一次性在<code>docker</code>中启动上百个实例，我们只是用<code>redis</code>充当一个存放<code>变量</code>的地方。</p><p>但是这种方法也有一个缺点，我们不能自由的添加初始<code>url</code>，要想添加新的爬取任务，必须新建一个爬虫更新初始<code>url</code>，我们如果是想搭建一个自由添加<code>url</code>的爬虫，这种实现方式不大优雅。</p><h1 id="分布式改良"><a href="#分布式改良" class="headerlink" title="分布式改良"></a>分布式改良</h1><p>我们要修改程序框架，达到随时可以添加要爬取新任务，然而不影响爬虫集群</p><p><img src="/images/distribute_crawl.png" alt="爬虫框架"></p><p>我们独立出来<code>master</code>，<code>master</code>负责生成<code>Request</code>去重以及任务调度，而<code>slaver</code>只负责从<code>master</code>获取任务爬取。</p><p>这种方法我们可以很轻松对<code>master</code>改良而不影响<code>slaver</code>，通过让<code>master</code>定时从<code>数据库</code>中获取新的任务生成到任务列表，我们可以轻松添加新的任务到<code>slaver</code>集群中去。</p><p>下一步我们就介绍如何修改<code>scrapy-redis</code>达到我们新框架需要</p><h1 id="重构scrapy-redis"><a href="#重构scrapy-redis" class="headerlink" title="重构scrapy-redis"></a>重构<code>scrapy-redis</code></h1><p>参考：<br><a href="http://blog.csdn.net/bone_ace/article/details/50989104" target="_blank" rel="external">基于Redis的三种分布式爬虫策略</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;由于最近在一家数据服务公司实习，项目需要了解分布式，所以在这里基于&lt;code&gt;scrapy&lt;/code&gt;的分布式总结一下爬虫的分布式实习&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&quot;分布式起因&quot;&gt;&lt;a href=&quot;#分布式起因&quot; class
+      
+    
+    </summary>
+    
+    
+      <category term="python" scheme="https://mrzhangboss.github.io/tags/python/"/>
+    
+      <category term="crawl" scheme="https://mrzhangboss.github.io/tags/crawl/"/>
+    
+      <category term="scrapy" scheme="https://mrzhangboss.github.io/tags/scrapy/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>天池大赛-口碑预测参赛感想</title>
+    <link href="https://mrzhangboss.github.io/2017/02/17/%E5%A4%A9%E6%B1%A0%E5%A4%A7%E8%B5%9B-%E5%8F%A3%E7%A2%91%E9%A2%84%E6%B5%8B%E5%8F%82%E8%B5%9B%E6%84%9F%E6%83%B3/"/>
+    <id>https://mrzhangboss.github.io/2017/02/17/天池大赛-口碑预测参赛感想/</id>
+    <published>2017-02-17T13:15:19.000Z</published>
+    <updated>2017-02-17T14:21:55.205Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>第一次听说这个比赛还是去年在知乎上，当时也不知道这个比赛具体是怎么回事，当时自己还是一个小白，忙着搞懂各种主流的机器学习模型算法。</p></blockquote><p>当时在我心中，模型算法是数据挖掘的最重要的组成部分，搞懂这些才能真正搞定数据挖掘。我当时对算法模型和数据的理解是：模型就是风车，数据就是流水。我要做的事就是撘一个强健的风车，让数据流过。</p><p>当我还没接触实际的工作前，我还没有没有从编程工转向挖掘工。我太注重编程本身了，而忘记我自己真正要挖掘的宝藏。</p><p>我以前在<code>Quora</code>上搜如何成为数据科学家，我发现很多有经验的数据科学家他们都把“对数据的敏感和兴趣”作为数据科学家最重要的特征，而“了解各种算法模型并能应用到数据上”才是第二重要的。我当时不是太理解，我觉得后者才是更重要的。</p><h2 id="参赛感想"><a href="#参赛感想" class="headerlink" title="参赛感想"></a>参赛感想</h2><p>这次参赛算是我学习数据挖掘第一次实际的挖掘，以前学习各种算法模型都是准备的很好的数据，只要套上算法模型就能跑的很好。所以我一开始就拼命的去找类似的大赛，看看获胜者他们用的模型是什么。</p><p>这几天我好像抱着一堆瓶子，拼命的想把巨大的石头（数据）塞进瓶口里，看起来工作量很大，流了很多汗，其实什么都没有干。今天在看一个类似的比赛选手答辩的时候的视频，突然明白自己好像走了一个死胡同。自己拼命的想这找一个合适的瓶子（模型），其实我更应该做的是把石头（数据）磨碎。</p><h4 id="模型本身不重要，他只是一个载体，更重要的是数据。"><a href="#模型本身不重要，他只是一个载体，更重要的是数据。" class="headerlink" title="模型本身不重要，他只是一个载体，更重要的是数据。"></a>模型本身不重要，他只是一个载体，更重要的是数据。</h4><p>第一次参加这样大型比赛，有点激动也有点惶恐，如何将所学的应用到实际，还有在实际中提高自己还有待自己“挖掘”。虽然这个比赛奖金“丰富”，但是我觉得在这个比赛中得到的体会乐趣比奖金更诱人。</p><hr><p>比赛还有一个月，在这里立个小目标，争取跑到到前五页，我也会尽量抽时间把自己感想写出来。<br>未完待续。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;第一次听说这个比赛还是去年在知乎上，当时也不知道这个比赛具体是怎么回事，当时自己还是一个小白，忙着搞懂各种主流的机器学习模型算法。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;当时在我心中，模型算法是数据挖掘的最重要的组成部分，搞懂这些才能真正搞定数
+      
+    
+    </summary>
+    
+    
+      <category term="competition" scheme="https://mrzhangboss.github.io/tags/competition/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>怎么成为数据科学家（翻译）</title>
+    <link href="https://mrzhangboss.github.io/2016/12/23/how-to-be-data-scientist/"/>
+    <id>https://mrzhangboss.github.io/2016/12/23/how-to-be-data-scientist/</id>
+    <published>2016-12-23T14:05:56.000Z</published>
+    <updated>2016-12-23T15:11:35.024Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>这是我从<code>Quora</code>上看到的一篇非常简短但详细的数据科学家的‘技能点’<br>来自eBay的一个数据科学家的回答<br>翻译来自<a href="https://www.quora.com/How-do-I-become-Data-analyst-scientist-Do-I-need-to-have-good-programming-skills/answer/Paul-Jeon-3?srid=ue3s8" target="_blank" rel="external">Quora回答</a></p></blockquote><p>这是面试谷歌、英特尔、脸书等大的世界五百强公司的数据科学家相关岗位常见的技术要求，在我看来主要有七点</p><ul><li>基本的编程基础</li></ul><blockquote><p>你应该了解一门统计学相关的编程语言，比如说<code>R</code>或<code>Python</code>（同时要了解<code>Numpy</code>和<code>Pandas</code>库），还要一门数据库查询语言比如<code>SQL</code></p></blockquote><ul><li>统计学</li></ul><blockquote><p>你应该要能解释零假设、P值、最大似然估计和置信空间这些短语，统计学在非常巨大的数据库里压缩数据和从挑选最重要的特征非常重要，在你得出结论和设计实验过程中也帮助巨大</p></blockquote><ul><li>机器学习</li></ul><blockquote><p>你必须能够搞懂K-近邻、随机森林和集合方法等机器学习算法，这些算法基本上都在<code>R</code>或<code>Python</code>中得到实现，这些算法能告诉你雇主你能够将计算机科学运用在实际的管理中。</p></blockquote><ul><li>数据重组</li></ul><blockquote><p>你应该要能够“清理”数据。比如数据库中”California” （加利福利亚）和“CA”是一样的，数据库里面可能出现用负值代表人口。这个总的来说就是识别坏（或者不正确）的数据然后校正（或删除)他们。</p></blockquote><ul><li>数据可视化</li></ul><blockquote><p>数据科学家不能就只是自己搞懂就行，他们需要把他们发现告诉你的产品经理，这样就能确保数据能很好的应用到程序里面去。所以，熟悉数据可视化工具比如说<code>ggplot</code>非常重要（这样你就能展示你的数据而不是仅仅谈谈而已）</p></blockquote><ul><li>软件工程</li></ul><blockquote><p>你应该了解算法和数据结构，因为这些东西在你写高效率的机器学习算法时非常重要，知道如何使用分支和使用高效的数据结构：队列、数组、列表、堆栈、树等等。</p></blockquote><ul><li>产品管理</li></ul><blockquote><p>这个绝对是有争议的，但是那些了解产品的人将会知道什么指标是最重要的。这里有很多数据可以用来做A/B测试，但是产品导向的数据科学家将会把最好的指标用来做测试。你要知道这些的意思：可用性测试、线框、保留和转换率、流量分析、客户反馈、内部日志、A/B测试。</p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;这是我从&lt;code&gt;Quora&lt;/code&gt;上看到的一篇非常简短但详细的数据科学家的‘技能点’&lt;br&gt;来自eBay的一个数据科学家的回答&lt;br&gt;翻译来自&lt;a href=&quot;https://www.quora.com/How-do-I-become-D
+      
+    
+    </summary>
+    
+    
+      <category term="transform" scheme="https://mrzhangboss.github.io/tags/transform/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>协程解决递归错误原理</title>
+    <link href="https://mrzhangboss.github.io/2016/11/13/%E5%8D%8F%E7%A8%8B%E8%A7%A3%E5%86%B3%E9%80%92%E5%BD%92%E9%94%99%E8%AF%AF/"/>
+    <id>https://mrzhangboss.github.io/2016/11/13/协程解决递归错误/</id>
+    <published>2016-11-13T05:22:17.493Z</published>
+    <updated>2016-11-13T05:22:17.493Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote><p>递归是高度抽象化问题的一个好东西，我们能从很多算法书里面看到这个，<br>但是递归虽然对于人来说好理解，但是计算机执行起来会损失性能，一个差的递归可能会耗光计算机的资源</p></blockquote><p>接下来我们来看一个非常经典的算法问题<code>Fibonacci数</code></p><pre><code>f(n) = n (n &lt; 2)f(n) = f(n-1) + f(n-2)   (n &gt;= 2)</code></pre><p>  我们可以很轻松的用递归解决掉它</p><pre><code>def fibonacci(n):  if n &lt; 2:      return n  else:      return fibonacci(n-1) + fibonacci(n-2)</code></pre><p> 当<code>n</code>比较小的时候很快就出结果了，但是当<code>n</code>大于100时候要很久才能出结果，如果<code>n</code>大于1000，直接报出超出迭代深度的错误（python默认迭代深度是1000）</p><p>现在我们来解决两个问题</p><ol><li>为什么<code>n</code>大于100时候就很久才能算出结果</li><li>为什么<code>n</code>大于1000就报迭代深度的错误</li></ol><p>首先我们要知道一个概念就是堆栈段，每个进程开始运行时都会初始化一个堆栈段，这在物理上就是一小块内存，初始化堆栈段的时候计算机要做一些看起来同程序毫无关系的事情，比如说将寄存器的值推入堆栈里面等等</p><p>当你在运行主程序的时候你调用一个子函数，系统又会在当前堆栈段新建一个堆栈段，你子程序运行完了后会删掉这个堆栈段回到主程序，但是递归有个问题，就是他调用子程序的时候不会立即返回又会再调用自己</p><p>没办法因为子程序还没返回，所以计算机又初始化一个堆栈段，一个<code>n</code>为10的<code>fibonacci</code>函数就会初始化掉 <code>2 ** 10 = 1024</code>个堆栈段，<code>n</code>越大值会指数型增长，虽然1000个初始化在当今计算机上发不了多少时间，但是当我们<code>n</code>大于20就要 百万次初始化了</p><p>这就是为什么<code>n</code>很大的时候要很久才能算出结果，在一些单片机上面，循环调用空函数就是延时的功能，原理也就是堆栈初始化耗时间，而且不但耗时间假如像递归这样调用上百万次初始化而不返回将会耗掉大量内存在堆栈段上。</p><h2 id="对策"><a href="#对策" class="headerlink" title="对策"></a>对策</h2><blockquote><p>要解决这两个问题，一种方法是改算法，使用非递归算法，这个网上有很多，感兴趣的可以去搜一下，第二种是使用协程解决递归问题</p></blockquote><p>如何使用协程来解决递归呢我们先改主程序，将<code>return</code>换成<code>yield</code></p><pre><code>def _fibonacci(n):  if n &lt; 2:      yield n  else:      yield ( (yield (_fibonacci(n-1)) + (yield (_fibonacci(n-2)))</code></pre><p>接下啦我们运行一下函数</p><pre><code>&gt;&gt;&gt; _fibonacci(10) &lt;generator object _fibonacci at 0x00000013A74779E8&gt;</code></pre><p>没有返回结果,返回一个生成器，那我们用<code>list</code>简单的试一下吧</p><pre><code>&gt;&gt;&gt; list(_)............TypeError: unsupported operand type(s) for +: &apos;NoneType&apos; and &apos;NoneType&apos;</code></pre><h4 id="生成器小知识"><a href="#生成器小知识" class="headerlink" title="生成器小知识"></a>生成器小知识</h4><blockquote><p>这里补充几点生成器的知识，懂得可以跳过</p></blockquote><p>生成器大家都用过，无论是<code>Python2</code>或<code>Python3</code>都不陌生,最简单的生成器是这种</p><pre><code>&gt;&gt;&gt; items = ( x for x in range(10))</code></pre><p>我们一般搭配<code>for</code>来使用</p><pre><code>&gt;&gt;&gt; for i in items:...         print(i)...</code></pre><p>我们也可以用协程来实现这个生成器</p><pre><code>def iter_func(n):    for i in range(n):        yield n</code></pre><p>像上面一样使用<code>for</code>就能实现一样的功能，在这个例子里面<code>yield</code>好像变成了一个<code>return</code>的作用，在<code>for</code>语句中，随着每次请求都会<code>return</code>一个数过来</p><p>在这个里面<code>yield</code>好像就是这么个功能，但是<code>yield</code>的作用远远不止于此</p><p>我们现在来改一下这个函数</p><pre><code>def iter_func(n):    for i in range(n):        r = yield i        print(&apos;result&apos;, r)</code></pre><p>我们用<code>list</code>来运行一下这个函数</p><pre><code>&gt;&gt;&gt; list(iter_fun(2))0result None1result None</code></pre><p><code>r</code>返回了一个<code>None</code>，我们尝试自己实现一下<code>for</code>循环,有两种方式</p><ul><li>next(generator)</li><li>generator.send(msg)</li></ul><p>先尝试用<code>next</code></p><pre><code>&gt;&gt;&gt; it = iter_fun(2)&gt;&gt;&gt; next(it)0&gt;&gt;&gt; next(it)result None1</code></pre><p>我们介绍一下<code>next</code>函数, <code>next</code>接受两个参数，第一个是生成器，第二个是返回的默认值,<code>next</code>函数在这里相当于下面这个函数</p><pre><code>def next(iterator, default=None):    try:        iterator.send(None)    except StopIteration:        if default:            return default        else:            raise StopIteration()</code></pre><p><strong>为什么第二个执行了<code>print</code>函数而第一个没有执行?</strong></p><h4 id="生成器工作原理"><a href="#生成器工作原理" class="headerlink" title="生成器工作原理"></a>生成器工作原理</h4><blockquote><p>这里我们介绍一下生成器的工作原理</p></blockquote><p>当我们使用调用一个函数的时候，一般是碰到<code>return</code>或者执行全部函数就会返回父函数</p><p>但是<strong>生成器</strong>不同，假如他执行函数碰到<code>yield</code>，他就会直接返回一个生成器。</p><p>这个生成器我们可以把它看做是邮递员，我们必须写好目的地,他才会帮我们把信寄出去。</p><p>现在我们分析一下生成器的具体流程，我们先定义一个简单的生成器</p><pre><code>def mygenerator(n):    while True:        r = yield n        n -= 1        print(&apos;result&apos;, r)</code></pre><p> 然后我们调用这个生成器</p><pre><code>&gt;&gt;&gt; i = mygenerator(10)&gt;&gt;&gt; i&lt;generator object mygenerator at 0x7f420a339d00&gt;</code></pre><p>我们得到一个生成器，我们先尝试发送一个地址给“邮递员”</p><pre><code>&gt;&gt;&gt; i.send(0)...TypeError: can&apos;t send non-None value to a just-started generator</code></pre><p>我们得到一个错误，必须传递一个<code>None</code>，我们先不管，先送一个<code>None</code>值过去</p><pre><code>&gt;&gt;&gt; i.send(None)10</code></pre><p>我们得到一个<code>10</code>，再送一个地址过去</p><pre><code>&gt;&gt;&gt; i.send(None)result None9</code></pre><p>我们现在来分析一下代码，第一次调用的时候直接返回了，第二次调用我们从<code>r = yield n</code>那行开始执行，并且运行到第二个<code>r = yield n</code>那里停止了</p><p><strong>就可以解释上面为什么要第一次传递<code>None</code>过去，因为第一次调用它会直接返回<code>yield</code>后面的值给我们，第二次调用 我们可以根据第一次生成器递给我们的值，决定我们第二次想寄的“信”，因为第一次传递过去“信”并不能被处理，所以Python强制我们传递一个None值过去</strong></p><hr><blockquote><p>我们回到上面的函数</p></blockquote><pre><code>def _fibonacci(n):    if n &lt; 2:        yield n    else:        yield ( (yield (_fibonacci(n-1)) + (yield (_fibonacci(n-2)))</code></pre><p>我们来分析一下流程，为了解决上面的问题我们先把函数简化，去掉递归</p><pre><code>def f(n):    yield (yield n) + (yield n - 1)</code></pre><p>我们先创建一个生成器<code>i</code></p><pre><code>&gt;&gt;&gt; i = f(5)&gt;&gt;&gt; i &lt;generator object f at 0x7f4a421d8f10&gt;</code></pre><p>我们先启动i</p><pre><code>&gt;&gt;&gt; i.send(None)5</code></pre><p>我们再把得到<code>5</code>传给<code>i</code></p><pre><code>&gt;&gt;&gt; i.send(5)4</code></pre><p>我们得到<code>yield n -1</code>返回的4，我们再把4传给<code>i</code>，得到最终结果</p><pre><code>&gt;&gt;&gt; i.send(5)9</code></pre><p>假如我们把后面两个<code>send</code>的值换成其他值我们会得到不同的结果，这里我们可以看到我们，要实现上面函数必须要依靠一个<code>栈</code>，保存我们返回的生成器，然后依次调用生成器返回结果，具体代码如下</p><pre><code>def fibonacci(n):    stack = [ _fibonacci(n)]    last_result = None    while stack:        last = stack[-1]        try:            if isinstance(last, types.GeneratorType):                stack.append(last.send(last_result))                last_result = None            else:                last_result = stack.pop()         except StopIteration:             stack.pop()     return result</code></pre><p>我们这里用<code>stack</code>作为我们的堆栈，用<code>last_result</code>保存上一个生成器返回的值</p><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>我们使用协程解决掉了递归错误，但是这个方法并不可以给我们算法加速，虽然n为1000以上不会报递归错误，但是等待的时间还是很长很长。。。</p><p>虽然协程在这个方法里面并没有起到多大作业，协程在算法方面还是没有太多帮助，协程在计算机<code>I/O</code>还有网络请求方面有更好的效率，但是这次尝试让我们对协程如何使用有了一个清晰的了解</p><p>有兴趣的可以去了解一下协程在异步网络请求的应用</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;引言&quot;&gt;&lt;a href=&quot;#引言&quot; class=&quot;headerlink&quot; title=&quot;引言&quot;&gt;&lt;/a&gt;引言&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;递归是高度抽象化问题的一个好东西，我们能从很多算法书里面看到这个，&lt;br&gt;但是递归虽然对于人来说好理解，但是计算机
+      
+    
+    </summary>
+    
+    
+      <category term="python3" scheme="https://mrzhangboss.github.io/tags/python3/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ansible管理nginx负载均衡</title>
+    <link href="https://mrzhangboss.github.io/2016/10/09/ansible%E7%AE%A1%E7%90%86nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/"/>
+    <id>https://mrzhangboss.github.io/2016/10/09/ansible管理nginx负载均衡/</id>
+    <published>2016-10-09T15:15:06.000Z</published>
+    <updated>2016-10-10T04:24:24.146Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote><p>因为手头自己有三个服务器，所以想折腾一下负载均衡。</p></blockquote><p>两个<code>CentOS</code>，一个<code>Ubuntu</code>,都是比较新的。</p><p>一开始准备用<code>haproxy</code>来做负载均衡服务器，因为<code>haproxy</code>相比与<code>nginx</code>对<code>cookie</code>和<code>session</code>支持比较好，但是由于两个原因还是放弃了。</p><ol><li>服务器被阿里云封掉</li></ol><blockquote><p>简单的在<code>haproxy</code>中设置后端服务器后，过一段时间就显示强制备案页面，由于我的域名没有备案。</p></blockquote><p>后来我翻看了<code>nginx</code>日志发现，<code>haproxy</code>默认在<code>request header</code>里面带了<code>X-Host</code>，被阿里云发现了，这里提供一个解决方法</p><pre><code># 删除掉你header里面的 Host# 在backend里面添加一句http-request del-header Host</code></pre><p>然而<code>nginx</code>里面默认是没有添加<code>Host</code>这个的，要你在<code>localtion</code>中添加两句，如下面</p><pre><code>    server {  listen 80;  server_name example.com;  location / {    proxy_pass       http://main;    proxy_set_header Host            www.example.com; # add Host        proxy_set_header X-Forwarded-For $remote_addr; # add X-Forwarded  }}</code></pre><ol><li>haproxy支持多开</li></ol><blockquote><p>我试了很多种选项，确定<code>pidfile</code>、改变<code>uid</code>、<code>gid</code>等等，<code>haproxy</code>似乎可以允许很多个相同进程绑定同一个端口，虽然可以通过<code>pid</code>来写一套类似<code>service</code>管理的脚本，但终归很麻烦</p></blockquote><p>我看网上有人写了这个脚本，但是<code>nginx</code>自带了，还是用<code>nginx</code>比较好，而且<code>ansible</code>与<code>service</code>的交互还不错。</p><h2 id="nginx负载均衡"><a href="#nginx负载均衡" class="headerlink" title="nginx负载均衡"></a>nginx负载均衡</h2><blockquote><p>nginx负载均衡是通过反向代理来实现的，也就是把一台服务器的压力分摊到多台上面</p></blockquote><p>要想实现这个必须要有后端服务器，假设我们有一台后端服务器<code>1.1.1.1</code>，在代理主机的<code>nginx</code>配置系统<code>location</code>里面只要添加一条<code>proxy_pass</code>就行了</p><pre><code>    server {listen 80;server_name example.com;location / {    proxy_pass http://1.1.1.1;}}</code></pre><p>  上面只是简单的实现了一个反向代理的功能，当你有一个后端服务群的时候，你就要使用负载均衡模块了，负载均衡模块在<code>nginx</code>配置特别简单，添加一个<code>upstream</code>模块，把服务器ip或者域名放到里面</p><pre><code>  upstream webservers{    server 1.1.1.1 weight=10;    server my.domain.com  weight=10;}</code></pre><p>  然后修改<code>proxy_pass</code>后的为<code>http://webservers</code>就行了</p><p>  ps： <code>nginx</code>对于后端反向代理服务器有个<code>max_fails</code>和<code>fail_timeout</code>属性，你要是设定了一个<code>max_fails</code>次数，你代理服务器拿取失败了几次就会在<code>fail_timeout</code>值之后尝试，和<code>haproxy</code>的<code>retry</code>属性差不多，但是似乎<code>haproxy</code>的<code>retry</code>不好使，我故意使用两个错误<code>ip</code>和正确<code>ip</code>，结果<code>nginx</code>能一直正确返回正确<code>ip</code>响应，而<code>haproxy</code>有时候能，有时候不行。</p><h2 id="nginx错误日志"><a href="#nginx错误日志" class="headerlink" title="nginx错误日志"></a>nginx错误日志</h2><blockquote><p>在调试<code>nginx</code>碰到一些错误，记录一下如何系统的解决方法</p></blockquote><ul><li>调用<code>service nginx start</code>失败</li></ul><p>首先看给的错误信息，假如让你看<code>systemctl status nginx.service</code>或<code>journalctl -xn</code>，输入去看</p><ol><li>格式错误（format error）</li></ol><p>一般你写的<code>nginx</code>的配置文件有问题，这时候可以用<code>nginx -t</code>检查格式，修改正确后会显示<code>success</code></p><ol><li>无法绑定地址（bind error）</li></ol><p>一般是因为有别的应用程序占用端口造成的，这时候用<code>netstat -tulpn</code>检查端口，然后选择<code>kill</code>掉占用端口的程序或者换一个端口</p><h2 id="ansible-playbook-编写"><a href="#ansible-playbook-编写" class="headerlink" title="ansible playbook 编写"></a>ansible playbook 编写</h2><blockquote><p>具体代码可以参考<a href="https://github.com/mrzhangboss/nginx-load-balance-ansible-playbook" target="_blank" rel="external">nginx均衡负载ansible-playbook</a><br>首先你得写一个<code>hosts</code></p></blockquote><pre><code>[ali]my ansible_ssh_host=1.1.1.1 ansible_ssh_user=root [tencent]main ansible_ssh_host=1.1.1.2 ansible_ssh_user=root[digital]google ansible_ssh_host=1.1.1.3 ansible_ssh_user=root</code></pre><p>前面<code>[  ]</code>包着的是组名，最前面的<code>my</code>和<code>main</code>和<code>google</code>是<code>别名</code>，后面就是ip和用户名了。</p><p>写完<code>hosts</code>后要写两个<code>nginx</code>配置文件一个代理服务器的配置文件和一个后端服务器配置文件，<code>playbook</code>很简单就是复制<code>nginx</code>配置文件和重启<code>nginx</code>。</p><pre><code>---- hosts: tencent  remote_user: root    tasks:  - name: copy nginx config file     template: src=~/test/lunge_proxy.conf  dest=/etc/nginx/conf.d/lungelog.conf    notify: restart nginx    handlers:  - name: restart nginx    service: name=nginx state=restarted enabled=yes</code></pre><p>解释一下<code>notify</code>，在复制完成之后就启用一个<code>handler</code>完成<code>nginx</code>的重启，当然这里也可以使用<code>reload</code>，假如在生产环境的话。</p><p>客户端和代理的<code>playbook</code>差不多就不多介绍了。</p><h4 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h4><p><a href="https://www.zybuluo.com/phper/note/90310" target="_blank" rel="external">nginx的配置、虚拟主机、负载均衡和反向代理</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;因为手头自己有三个服务器，所以想折腾一下负载均衡。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;两个&lt;code&gt;Ce
+      
+    
+    </summary>
+    
+    
+      <category term="ansible" scheme="https://mrzhangboss.github.io/tags/ansible/"/>
+    
+      <category term="nginx" scheme="https://mrzhangboss.github.io/tags/nginx/"/>
+    
+      <category term="负载均衡" scheme="https://mrzhangboss.github.io/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>关于驱动力</title>
+    <link href="https://mrzhangboss.github.io/2016/10/01/about-diving-force/"/>
+    <id>https://mrzhangboss.github.io/2016/10/01/about-diving-force/</id>
+    <published>2016-10-01T00:59:11.000Z</published>
+    <updated>2016-10-01T02:12:46.919Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="驱动力是什么"><a href="#驱动力是什么" class="headerlink" title="驱动力是什么"></a>驱动力是什么</h2><blockquote><p>驱动力就鞭子，小的时候我们被父母教育考的好就是棒棒糖,考的差就是鞭子，等我们走进社会,工资就是我们是驱动力。</p></blockquote><p>我们看到过那些年薪百万的程序员，也看到过一些碌碌无为的码农,每个人都想成为那群大牛，工作得心应手、万人敬仰，工资难以”望其项背”.</p><p>但是我们同大牛和码农(差点打成马蓉…..)有什么区别呢，有些人说是人家那些大牛早早就积累了十万个小时，我们同大牛只是差了十万个小时.</p><p>这从某一方面上来看是对的，从某一方面来说又是不对的，君不看那些在公司辛辛苦苦工作几十年的码农早就积累了几十万小时，但是他们依旧是码农，除了业务逻辑比新手强。</p><p>那是什么原因让几十万个小时造不了一个大神呢？</p><p>很简单，就是<strong>驱动力</strong>。</p><p>码农是以工资作为驱动力的，而大神是以兴趣为驱动力的，很多码农一开始都同大神一样被编程的乐趣而吸引，然而大神坚持下来了，而码农呢，慢慢的像小孩子玩厌了新玩具，在慢慢的走入社会被工资左右，在慢慢的就开始盼望早点下班……</p><h2 id="怎么改变"><a href="#怎么改变" class="headerlink" title="怎么改变"></a>怎么改变</h2><blockquote><p>环境对我们的影响是潜移默化的，我们处在这个环境里面可能不知不觉就慢慢改变我们自己了</p></blockquote><p>那我们如何改变自己</p><h3 id="工作环境"><a href="#工作环境" class="headerlink" title="工作环境"></a>工作环境</h3><p> 假如你是一个工作党，找一个好的开发团队对你的影响是巨大的，假如你的小组死气沉沉，最好换一个即使工资很低</p><p> 假如你是一个学生党，比如我，尽量参加学生社团，那种偏技术的部门，在同一个部门里面一起奋斗的感觉非常好。</p><h3 id="学习环境"><a href="#学习环境" class="headerlink" title="学习环境"></a>学习环境</h3><ul><li>在搜索引擎上面多走几步</li></ul><p>很多时候我们遇到问题，google一下解决了就完了，我们要多问几个自己几个问题，这个问题为什么产生，如何避免，下一次还会遇到吗，还有及时收集自己的问题多总结，你要知道圣斗士之所以那么牛是因为人家从不在跌倒的地方跌倒第二次，你要知道bug不是我们的试卷，bug是我们的成神的<code>补丁</code></p><ul><li>培养开源精神</li></ul><p>github没事都上去溜达溜达，看到好的项目可以跟进，看看人家的代码同你的有什么不同，开源不代表抄袭，任何创新都是从模仿开始，不要老想着搞个大新闻大项目，其实很多项目都是从小项目开始的</p><ul><li>多输出</li></ul><p>其实很多人不知道，写东西也是学习的一种方法，因为很多时候我们学的东西有时候学的模拟两可，写出来有助你理清脉络，而且帮助后来者少走弯路，何乐而不为呢。</p><p>有些人说我没什么想写的，你找一些外国博客翻译也是可以的，通过翻译学习，一方面锻炼自己，一方面让更多人了解国外文化。</p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>成神是很难的，但是只要你在路上，不要回头就不难了。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;驱动力是什么&quot;&gt;&lt;a href=&quot;#驱动力是什么&quot; class=&quot;headerlink&quot; title=&quot;驱动力是什么&quot;&gt;&lt;/a&gt;驱动力是什么&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;驱动力就鞭子，小的时候我们被父母教育考的好就是棒棒糖,考的差就是鞭子，等我们走进社
+      
+    
+    </summary>
+    
+    
+      <category term="总结" scheme="https://mrzhangboss.github.io/tags/%E6%80%BB%E7%BB%93/"/>
+    
+      <category term="感想" scheme="https://mrzhangboss.github.io/tags/%E6%84%9F%E6%83%B3/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>集体智慧编程之推荐系统(Programming Colletive Intelligence)</title>
+    <link href="https://mrzhangboss.github.io/2016/09/17/recommendations-Programming-Colletive-Intelligence-impression/"/>
+    <id>https://mrzhangboss.github.io/2016/09/17/recommendations-Programming-Colletive-Intelligence-impression/</id>
+    <published>2016-09-17T13:36:00.000Z</published>
+    <updated>2016-09-19T04:29:43.167Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>看过好几把关于机器学习的书,但是很多书只是停留于算法原理阶段,或者更着重介绍算法原理, &lt;&lt;集体智慧编程&gt;&gt;这本书更多的是从实践来介绍书,比如你要撘一个推荐系统你怎么做,,还有怎么来做一个垃圾邮件过滤系统等….<br>接下来介绍一下我对于做一个推荐系统的理解.</p></blockquote><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote><p>推荐系统是一个什么东西呢<br>简单来说就是两个字—-<code>推荐</code></p></blockquote><p>推荐系统的出现是伴随评价系统出现而出现的,评价系统就是我们的打分制,比如对一部电影每个人都对他进行打分</p><table><thead><tr><th>用户</th><th>电影A评价</th><th>电影B评价</th><th>新电影C评价</th><th>新电影D评价</th></tr></thead><tbody><tr><td>张三</td><td>5.0</td><td>3.5</td><td>4.9</td><td>2.0</td></tr><tr><td>李四</td><td>2.5</td><td>5.0</td><td>2.0</td><td>3.0</td></tr><tr><td>王二</td><td>3.1</td><td>4.7</td><td></td></tr></tbody></table><p>比如现在三个人张三李四王二,王二有两部电影没有看过,但是张三和李四看过了,现在就是要把电影C或D推荐给王二,推荐系统就是从其他数据分析来确定推荐次序</p><h2 id="相似度"><a href="#相似度" class="headerlink" title="相似度"></a>相似度</h2><blockquote><p>推荐系统如何根据其他用户的数据来推荐呢</p></blockquote><p>这里就要介绍一个相似度的概念,也可以加权系数,对于张三和李四,这两个人都看过电影C和D,但是我们该听谁的呢,我们可以把两个人的评价加起来然后排序,但是假如张三和李四品味相差太多,而且张三的评价可能会把某个王二喜欢看的电影评价总值拉低</p><p>这个时候我们就要考虑一个相似度问题,就是尽量避免一些品味同王二不同的人对排名造成影响</p><p>这里我们引进相似度这个概念,我们看张三和李四对电影A、B同王二的差别，这里我们使用距离这个概念，我们使用距离公式 <code>l=（（r1^2 + r2^2+....rN^2)^1/n)</code></p><p>然后通过距离算得<code>S(相似度)=1/(1+l)</code></p><p><em>当l=0时,两者相似度为1(最大),当l很大时,相似度几乎为零</em></p><table><thead><tr><th>用户</th><th>电影A评价</th><th>电影B评价</th><th>相似度</th></tr></thead><tbody><tr><td>张三</td><td>5.0</td><td>3.5</td><td>0.23</td></tr><tr><td>李四</td><td>2.5</td><td>5.0</td><td>0.59</td></tr></tbody></table><p>通过求相似度(权重)我们就把同我们臭味相投的人的评价提高了,那些同我们不一样品味的人评价作用降低了</p><h2 id="选择"><a href="#选择" class="headerlink" title="选择"></a>选择</h2><p>基于人物的评价推荐有个缺点就是人的评价有时候会比物品多,而且变化频繁,假如使用上面的方法的话,每次每一个用户评价过后,就要重新算一次相似度了,假如用户不多或者电影不多还好,一旦数据偏多服务器就扛不住了</p><p>所以我们要换一个角度出发,计算物品的相似度,这样图表就变成这样了</p><table><thead><tr><th>电影</th><th>用户-张三</th><th>用户-李四</th><th>相似度</th></tr></thead><tbody><tr><td>A</td><td>5.0</td><td>2.5</td><td></td></tr><tr><td>B</td><td>3.5</td><td>5.0</td><td></td></tr></tbody></table><p>这样有个好处就是可以离线处理数据,我们可以搭建一个离线处理系统,让一个系统专门处理数据,当服务器需要的时候再拿取过去.</p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>搭建一个简单推荐系统并不会你想象中那么简单,但是要搭建一个功能强大速度快的推荐系统需要的不仅仅是这么一点,还需要考虑系统的稳定和速度.</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;看过好几把关于机器学习的书,但是很多书只是停留于算法原理阶段,或者更着重介绍算法原理, &amp;lt;&amp;lt;集体智慧编程&amp;gt;&amp;gt;这本书更多的是从实践来介绍书,比如你要撘一个推荐系统你怎么做,,还有怎么来做一个垃圾邮件过滤系统等….&lt;br&gt;接下来
+      
+    
+    </summary>
+    
+    
+      <category term="reading" scheme="https://mrzhangboss.github.io/tags/reading/"/>
+    
+      <category term="books" scheme="https://mrzhangboss.github.io/tags/books/"/>
+    
+      <category term="impression" scheme="https://mrzhangboss.github.io/tags/impression/"/>
+    
+  </entry>
+  
+</feed>
