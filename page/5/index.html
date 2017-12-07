@@ -790,7 +790,7 @@ public class TypeNode&lt;T&gt;:Node
 <p>在root权限下</p>
 <pre><code>useradd -s /bin/bash -r -m yourname
 </code></pre><p>解释一下，本来直接<code>useradd yourname</code> 就可以新建一个<code>yourname</code>账号，但是如果用你新建的用户登录的话，你无法使用Tab键和上下左右键 ，你键入 <code>echo $SHELL</code>，会发现是<code>/bin/sh</code>，因为Ubuntu默认创建账号使用<code>/bin/sh</code>，假如你没加这个可以删掉 用这个<code>userdel yourname</code>重新来一遍，搞完这个只是创建了一个普通用户，你使用不了sudo获取最高权限，这个怎么办，很简单在<code>/etc/sudoers</code>里面找到<br>        root ALL=(ALL:ALL) ALL</p>
-<p>模仿它加上自己的账号名就可以了。</p>
+<p>模仿它加上自己的账号名就可以了</p>
 
         
         
