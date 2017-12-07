@@ -336,6 +336,8 @@ result None
 </section>
 
 
+
+
 </div>  
       <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
@@ -669,6 +671,8 @@ $(document).ready(function(){
 
 
 
+
+
 <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
 <script src="/fancybox/jquery.fancybox.pack.js"></script>
 <script type="text/javascript">
@@ -699,20 +703,7 @@ $(document).ready(function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-var hostUrl = window.location.href.match(/https?:\/\/([.\w]+):?.+/)[1];
-if(hostUrl=== 'blog.zhanglun.me'){
-ga('create', 'UA-80810286-1', 'auto');
-console.log('add ' + 'UA-80810286-1' + 'auto');
-}
-
-var hostUrl = window.location.href.match(/https?:\/\/([.\w]+):?.+/)[1];
-if(hostUrl=== 'b.zhanglun.me'){
-ga('create', 'UA-80810286-2', 'auto');
-console.log('add ' + 'UA-80810286-2' + 'auto');
-}
-
-
+ga('create', 'UA-80810286-1,UA-80810286-2', 'auto,auto');  
 ga('send', 'pageview');
 </script>
 
