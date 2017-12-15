@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mrzhangboss.github.io/"/>
-  <updated>2017-12-01T02:23:58.715Z</updated>
+  <updated>2017-12-15T13:32:51.530Z</updated>
   <id>https://mrzhangboss.github.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>从子网到“互联网”</title>
+    <link href="https://mrzhangboss.github.io/2017/12/14/%E6%BC%AB%E8%B0%88%E7%BD%91%E7%BB%9C/"/>
+    <id>https://mrzhangboss.github.io/2017/12/14/漫谈网络/</id>
+    <published>2017-12-13T16:00:00.000Z</published>
+    <updated>2017-12-15T13:32:51.530Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;引言&quot;&gt;&lt;a href=&quot;#引言&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Internet" scheme="https://mrzhangboss.github.io/tags/Internet/"/>
+    
+  </entry>
   
   <entry>
     <title>巧用Git钩子</title>
@@ -514,35 +538,6 @@
       <category term="感想" scheme="https://mrzhangboss.github.io/tags/%E6%84%9F%E6%83%B3/"/>
     
       <category term="总结" scheme="https://mrzhangboss.github.io/tags/%E6%80%BB%E7%BB%93/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>集体智慧编程之推荐系统(Programming Colletive Intelligence)</title>
-    <link href="https://mrzhangboss.github.io/2016/09/17/recommendations-Programming-Colletive-Intelligence-impression/"/>
-    <id>https://mrzhangboss.github.io/2016/09/17/recommendations-Programming-Colletive-Intelligence-impression/</id>
-    <published>2016-09-17T13:36:00.000Z</published>
-    <updated>2016-09-19T04:29:43.168Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;blockquote&gt;
-&lt;p&gt;看过好几把关于机器学习的书,但是很多书只是停留于算法原理阶段,或者更着重介绍算法原理,
-        
-      
-    
-    </summary>
-    
-    
-      <category term="reading" scheme="https://mrzhangboss.github.io/tags/reading/"/>
-    
-      <category term="books" scheme="https://mrzhangboss.github.io/tags/books/"/>
-    
-      <category term="impression" scheme="https://mrzhangboss.github.io/tags/impression/"/>
     
   </entry>
   
