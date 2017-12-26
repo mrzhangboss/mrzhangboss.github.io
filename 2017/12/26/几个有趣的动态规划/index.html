@@ -4,62 +4,56 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>漫谈排序算法 | lunge博客</title>
+    <title>几个有趣的动态规划 | lunge博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="张伦">
     
 
     
-    <meta name="description" content="0x00 引子
-排序是很多算法的基础，简简单单的排序前人就归纳出很多种算法，但是这些算法多多少少都有着相同的原理
+    <meta name="description" content="这篇博文是从问题理解动态规划的练习篇，通过几个动态规划的问题剖析进一步理解动态规划
 
-排序算法有很多，这里我们就简单的谈谈下面7种排序的特点
 
-冒泡排序
-选择排序
-插入排序
-希尔排序
-堆排序
-归并排序
-快速排序
+找零钱练习题：给定一个零钱数组比如[1, 2, 5],每个值代表一个面额的纸币，给定一个总数(aim)，求换钱有多少种方法（每种面额纸币不限量）
 
-0x01 Summary从算法的抽象程度上来看，冒泡、选择和插入是比较好理解，我们能用我们生活中的常见事物来理解，后面四种比较抽象，而且相对于前三种平均时间">
+
+这个问题非常经典，所以我就从最先容易想到的算法出发慢慢推导出动态规划
+
+
+正向暴力搜索
+
+面前一大堆钱，分成三堆，我们必须要从这三堆中抽取出来所以可能的方案，看">
 <meta property="og:type" content="article">
-<meta property="og:title" content="漫谈排序算法">
-<meta property="og:url" content="https://mrzhangboss.github.io/2017/11/12/漫谈排序算法/index.html">
+<meta property="og:title" content="几个有趣的动态规划">
+<meta property="og:url" content="https://mrzhangboss.github.io/2017/12/26/几个有趣的动态规划/index.html">
 <meta property="og:site_name" content="lunge博客">
-<meta property="og:description" content="0x00 引子
-排序是很多算法的基础，简简单单的排序前人就归纳出很多种算法，但是这些算法多多少少都有着相同的原理
+<meta property="og:description" content="这篇博文是从问题理解动态规划的练习篇，通过几个动态规划的问题剖析进一步理解动态规划
 
-排序算法有很多，这里我们就简单的谈谈下面7种排序的特点
 
-冒泡排序
-选择排序
-插入排序
-希尔排序
-堆排序
-归并排序
-快速排序
+找零钱练习题：给定一个零钱数组比如[1, 2, 5],每个值代表一个面额的纸币，给定一个总数(aim)，求换钱有多少种方法（每种面额纸币不限量）
 
-0x01 Summary从算法的抽象程度上来看，冒泡、选择和插入是比较好理解，我们能用我们生活中的常见事物来理解，后面四种比较抽象，而且相对于前三种平均时间">
-<meta property="og:updated_time" content="2017-11-12T03:38:44.933Z">
+
+这个问题非常经典，所以我就从最先容易想到的算法出发慢慢推导出动态规划
+
+
+正向暴力搜索
+
+面前一大堆钱，分成三堆，我们必须要从这三堆中抽取出来所以可能的方案，看">
+<meta property="og:updated_time" content="2017-12-26T15:17:37.069Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="漫谈排序算法">
-<meta name="twitter:description" content="0x00 引子
-排序是很多算法的基础，简简单单的排序前人就归纳出很多种算法，但是这些算法多多少少都有着相同的原理
+<meta name="twitter:title" content="几个有趣的动态规划">
+<meta name="twitter:description" content="这篇博文是从问题理解动态规划的练习篇，通过几个动态规划的问题剖析进一步理解动态规划
 
-排序算法有很多，这里我们就简单的谈谈下面7种排序的特点
 
-冒泡排序
-选择排序
-插入排序
-希尔排序
-堆排序
-归并排序
-快速排序
+找零钱练习题：给定一个零钱数组比如[1, 2, 5],每个值代表一个面额的纸币，给定一个总数(aim)，求换钱有多少种方法（每种面额纸币不限量）
 
-0x01 Summary从算法的抽象程度上来看，冒泡、选择和插入是比较好理解，我们能用我们生活中的常见事物来理解，后面四种比较抽象，而且相对于前三种平均时间">
+
+这个问题非常经典，所以我就从最先容易想到的算法出发慢慢推导出动态规划
+
+
+正向暴力搜索
+
+面前一大堆钱，分成三堆，我们必须要从这三堆中抽取出来所以可能的方案，看">
 <meta name="twitter:creator" content="@mrzhangboss">
 
     
@@ -119,14 +113,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/11/12/漫谈排序算法/" title="漫谈排序算法" itemprop="url">漫谈排序算法</a>
+      <a href="/2017/12/26/几个有趣的动态规划/" title="几个有趣的动态规划" itemprop="url">几个有趣的动态规划</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2017-11-11T16:00:00.000Z" itemprop="datePublished"> 发表于 2017-11-12</time>
+    <time datetime="2017-12-25T16:00:00.000Z" itemprop="datePublished"> 发表于 2017-12-26</time>
     
   </p>
 </header>
@@ -135,49 +129,229 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x00-引子"><span class="toc-number">1.</span> <span class="toc-text">0x00 引子</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-Summary"><span class="toc-number">2.</span> <span class="toc-text">0x01 Summary</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02-冒泡、选择和插入的特点"><span class="toc-number">3.</span> <span class="toc-text">0x02 冒泡、选择和插入的特点</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x03-希尔和插入排序"><span class="toc-number">4.</span> <span class="toc-text">0x03 希尔和插入排序</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">1.</span> <span class="toc-text">总结</span></a></li></ol>
 		
 		</div>
 		
-		<h1 id="0x00-引子"><a href="#0x00-引子" class="headerlink" title="0x00 引子"></a>0x00 引子</h1><blockquote>
-<p>排序是很多算法的基础，简简单单的排序前人就归纳出很多种算法，但是这些算法多多少少都有着相同的原理</p>
+		<blockquote>
+<p>这篇博文是<a href="/2017/12/25/从问题理解动态规划/">从问题理解动态规划</a>的练习篇，通过几个动态规划的问题剖析进一步理解动态规划</p>
 </blockquote>
-<p>排序算法有很多，这里我们就简单的谈谈下面7种排序的特点</p>
 <ul>
-<li>冒泡排序</li>
-<li>选择排序</li>
-<li>插入排序</li>
-<li>希尔排序</li>
-<li>堆排序</li>
-<li>归并排序</li>
-<li>快速排序</li>
+<li>找零钱练习题：给定一个零钱数组比如[1, 2, 5],每个值代表一个面额的纸币，给定一个总数(aim)，求换钱有多少种方法（每种面额纸币不限量）</li>
 </ul>
-<h1 id="0x01-Summary"><a href="#0x01-Summary" class="headerlink" title="0x01 Summary"></a>0x01 Summary</h1><p>从算法的抽象程度上来看，冒泡、选择和插入是比较好理解，我们能用我们生活中的常见事物来理解，后面四种比较抽象，而且相对于前三种平均时间复杂度O（n） = n ^ 2 的来说，后面四种的平均复杂度都比前面的小，尤其是面对大量数据排序来说，后面四种能比前三种跑的更快</p>
-<h1 id="0x02-冒泡、选择和插入的特点"><a href="#0x02-冒泡、选择和插入的特点" class="headerlink" title="0x02 冒泡、选择和插入的特点"></a>0x02 冒泡、选择和插入的特点</h1><p>这三种算法空间复杂度都为O（n） = 1，也就是说在给定一个列表的前提下，无论列表数有多大，额外的排序所需的空间都为常量。但是这三种算法的平均时间复杂度为O（n） = n ^ 2， 也就是说在给定一个长度为n的数组，必须要经历 k × n × n 次操作才能排序，当我们的n比较小的时候，我们无法察觉这个算法与更高效的算法的差别，当n很大的时候，比如一个亿，这时候的要进行的操作就瞬间爆炸了。</p>
-<p>这三种算法很大程度上是牺牲了运行时间换取运行空间，我们可以从桶排序上面得到相反的例子，桶排序的时间复杂度为O（n） = 1，空间复杂度为O（n） = n，也就是说在排序上面他的速度是最快的，但是它所花费的空间也是巨大的，<strong>有时候时间空间就是两个双刃剑，你如果想节省空间必须浪费时间，你如果想节省时间必须浪费空间</strong></p>
-<p>这三种算法原理很简单，而且有一个相同的地方，就是他们每一节排序就会“删掉”一个数字，接下来就是对剩下的排序。当然我这里的删掉就是代表已经排好，然而接下来的过程中不会再涉及到这个数字</p>
-<p>这个非常好理解，随便给我们一副牌让一个小朋友把他排出来，小朋友一般就是先找出最大的牌放到最前面，然后在剩下里面找到最大的，依次排下去，最后手里就剩一张牌了，这个牌组就排好了</p>
-<p>这三种算法都是基于这个核心，但是具体的算法细节不同。冒泡排序就是先从头到尾依次把最大的交换到最后面；插入排序的话就是我们从第一个数字开始从后面把小的数字插入到前面去；选择的话同冒泡有点相似，不过它并不会把数字传递过去，它直接将未排序的最大值与未排序的末尾值交换。</p>
-<p>这三种排序我们都非常好理解，但是他们有一个缺点，就是未排序前必须遍历全部数组，我们都知道现在大数据时代，对于上亿数据执行一次遍历就已经非常耗时间了，为了排一个数字要几乎就遍历一遍（排到后期遍历的越来越少），所以这三种算法在面对巨量数据的时候，花在遍历上面的时间比排序时间要更多。</p>
-<h1 id="0x03-希尔和插入排序"><a href="#0x03-希尔和插入排序" class="headerlink" title="0x03 希尔和插入排序"></a>0x03 希尔和插入排序</h1><p>希尔排序是插入排序的更高效改进方法，说到改进我们就要谈谈插入排序的优缺点</p>
+<blockquote>
+<p>这个问题非常经典，所以我就从最先容易想到的算法出发慢慢推导出动态规划</p>
+</blockquote>
+<ol>
+<li>正向暴力搜索</li>
+</ol>
+<p>面前一大堆钱，分成三堆，我们必须要从这三堆中抽取出来所以可能的方案，看看能够凑到总数。</p>
+<p>我们第一个想到的就是正向暴力搜索，先从第一堆取出0张、1张、2张….，然后递归下去，让取出0张、1张、2张凑剩下的总数，等到取到最后一个钱堆或者总数正好相同的时候递归停止。</p>
+<p>我们可以很轻松的写出下面的代码（Java）</p>
+<pre><code>int violenceSearch(int[] level, int index, int aim) {
+        if (aim &lt;= 0) {
+            return aim == 0 ? 1 : 0;
+        }
+        if (index &gt;= level.length) {
+            return 0;
+        }
+        int sum = 0;
+        for (int i = 0; i &lt;= aim / level[index]; i++) {
+            sum = sum + violenceSearch(level, index + 1, aim - i * level[index]);
+        }
+        return sum;
+    }
+</code></pre><p>这个函数接受三个参数，第一个是钱堆的面额数组，第二个是当前是拿第几个钱堆的序号，第三个是剩余要凑的总数</p>
+<p>这个算法的核心就是<code>sum = sum + violenceSearch(level, index + 1, aim - i * level[index]);</code>，我们分别从钱堆里面取出想0张、1张…，然后计算剩下的总数和剩下的堆数方法总数和。</p>
+<p>这个算法也可以优化成记忆搜索，总共有多少种方法拼钱，主要与<code>index</code>和<code>aim</code>有关，我们只要用<code>map</code>记录一下这个值就可以优化成为记忆搜索。</p>
+<ol>
+<li>反向暴力搜索</li>
+</ol>
+<p>反向的话比较难想到，但是正向暴力搜索没有办法分解成子函数，也就无法实现动态规划，所以我们必须要反向思考</p>
+<p>首先我们假设纸币面额为1， 2， 5， 我们要凑10块钱，我们假设已经得到了所以的次数F(x, y)(x为由多少种纸币组成，y为凑多少钱），所以我们得到这个我们想要的结果F(3, 10) （也就是由3种面额组成10块）</p>
+<p>假设我们得到了F(3, 10)所以可能的组成结果结合如下面10种</p>
 <ul>
-<li>优点</li>
+<li>10张1块</li>
+<li>8张1块、1张2块</li>
+<li>6张1块、2张2块</li>
+<li>5张1块、1张5块</li>
+<li>4张1块、3张2块</li>
+<li>3张1块、1张2块、1张5块</li>
+<li>2张1块、4张2块</li>
+<li>1张1块、2张2块、1张5块</li>
+<li>2张5块</li>
+<li>5张2块</li>
 </ul>
-<p>我们给定 <code>[ 1, 3, 2, 5, 8 ]</code> 数组，这个数组基本上已经排好序了，如果使用插入排序，我们只要在插入2的时候，将2和3交换就可以，设我们挪动的距离就为1</p>
-<p>我们在看这个数组 <code>[ 1, 3, 5, 8, 2 ]</code>，我们可以看到这里如果使用插入排序，我们会在插入2的时候，要将2依次与8、5、3交换，这样移动的距离就为3</p>
-<p>希尔排序改进的地方就是步长，如果它的步长选择的好，它的排序效果越好。这个步长是什么呢，插入排序的步长一直为1，也就是每次遍历的时候步子迈一步，假如步长为2，也就是迈两步。在<code>[ 1, 3, 5, 8, 2 ]</code>数组中，比如说我们数字2，它在步长为1的时候，它下一步要比较的是8，假如步长为3，那它下一步就直接与3比较了。</p>
-<p>所以希尔排序改进就在于他能直接移动多位，在上面的例子里面，步长为3，我们能直接将数组从3的位置移动到2，如果直接使用插入排序，必须移动3次才能达到希尔排序的效果。</p>
-<p>希尔排序原理同插入是一样的，不同在于，插入的步长希尔是可变的，这样就为一些“调皮”的数字的移动加快了速度，一步一步的移动他们太累了，直接把步子迈大，一步到位。</p>
+<p>现在我们把这10种可能按照5块的张数分成3份</p>
+<ul>
+<li>0张5块</li>
+<li><ul>
+<li>10张1块</li>
+</ul>
+</li>
+<li><ul>
+<li>8张1块、1张2块</li>
+</ul>
+</li>
+<li><ul>
+<li>6张1块、2张2块</li>
+</ul>
+</li>
+<li><ul>
+<li>4张1块、3张2块</li>
+</ul>
+</li>
+<li><ul>
+<li>2张1块、4张2块</li>
+</ul>
+</li>
+<li><ul>
+<li>5张2块</li>
+</ul>
+</li>
+<li>1张5块</li>
+<li><ul>
+<li>5张1块、1张5块</li>
+</ul>
+</li>
+<li><ul>
+<li>3张1块、1张2块、1张5块</li>
+</ul>
+</li>
+<li><ul>
+<li>1张1块、2张2块、1张5块</li>
+</ul>
+</li>
+<li>2张5块</li>
+<li><ul>
+<li>2张5块</li>
+</ul>
+</li>
+</ul>
+<p>分别为0张5块（6种），1张5块（3种），2张5块（1种），也就是我们成功将F(3, 10)分解成 F(2, 10), F(2, 5), F(2, 0)</p>
+<p>通过这种方式我们成功构造出子函数，我们很容易就能写出递归函数</p>
+<pre><code>int lowBackVS(int[] level, int index, int aim) {
+    if (index == 0)
+        return aim % level[index] == 0 ? 1 : 0;
+
+    if (aim &lt; level[index]) return lowBackVS(level, index - 1, aim);
+    else {
+        int count = 0;
+        for (int i = 0; i * level[index] &lt;= aim; i++) {
+            count += lowBackVS(level, index - 1, aim - i * level[index]);
+        }
+        return count;
+    }
+}
+</code></pre><p>这里我们要看到第二个<code>if</code>，我们判断剩下的余额是否够当前的一张，如果不够，那直接就是前n-1种纸币能够组成的次数。（也就是假如你剩下4块钱要用一张5块来组成，肯定不可能，直接返回前面的n-1种货币能够凑出4块的种数）</p>
+<p>这种时间复杂度为O(n) = n <em> aim </em> aim， 假如aim比较大还是比较耗时间的，我们看看是否能够优化一下</p>
+<ol>
+<li>反向暴力搜索优化</li>
+</ol>
+<p>我们还是回到上面那个例子，我们这次按照能够减去一张5块的进行分类，这样我们就分成了两类</p>
+<ul>
+<li>无法抽掉一张5块</li>
+<li><ul>
+<li>10张1块</li>
+</ul>
+</li>
+<li><ul>
+<li>8张1块、1张2块</li>
+</ul>
+</li>
+<li><ul>
+<li>6张1块、2张2块</li>
+</ul>
+</li>
+<li><ul>
+<li>4张1块、3张2块</li>
+</ul>
+</li>
+<li><ul>
+<li>2张1块、4张2块</li>
+</ul>
+</li>
+<li><ul>
+<li>5张2块</li>
+</ul>
+</li>
+<li>能够抽掉一张5块</li>
+<li><ul>
+<li>5张1块、1张5块</li>
+</ul>
+</li>
+<li><ul>
+<li>3张1块、1张2块、1张5块</li>
+</ul>
+</li>
+<li><ul>
+<li>1张1块、2张2块、1张5块</li>
+</ul>
+</li>
+<li><ul>
+<li>2张5块</li>
+</ul>
+</li>
+</ul>
+<p>一张是无法抽掉一张5块（6种），能够抽到一张5块（4）种<br>我们回到函数定义，这样我们成功将函数F(n, aim)分解成两个F(n-1, aim) 和F(n, aim - level[index])</p>
+<p>我们成功的将子函数进行化简成两项</p>
+<pre><code>int backVS(int[] level, int index, int aim) {
+    if (index == 0)
+        return aim % level[index] == 0 ? 1 : 0;
+
+    if (aim &gt;= level[index])
+        return backVS(level, index - 1, aim) + backVS(level, index, aim - level[index]);
+    else return backVS(level, index - 1, aim);
+
+}
+</code></pre><p>我们可以看到我们成功将时间复杂度降到了O(n) = n * aim，至此我们写出了比较完美的反向暴力搜索方法，当然我们也能够像正向暴力搜索优化成记忆搜索</p>
+<ol>
+<li>动态规划</li>
+</ol>
+<p>前面我一直没有怎么提记忆搜索法，因为这个方法基本上等同与动态规划，只不过动态规划使用数组存贮，记忆搜索法用字典存贮。</p>
+<p>前面我们知道我们能通过分解函数将问题划分成前面的子问题，所以我们只需要构建一个二维数组，x，y分别代表由几种货币组成（index），组成的总数（aim），这样就能通过慢慢“填”写动态规划表，最后求出由N种货币组成钱数（aim）总数</p>
+<pre><code>int dynamic(int[] level, int index, int aim) {
+    int n = level.length;
+    int[][] dp = new int[n][aim + 1];
+    for (int i = 0; i &lt; n; i++) dp[i][0] = 1;
+    for (int i = 1; i &lt;= aim; i++) dp[0][i] = i % level[0] == 0 ? 1 : 0;
+    for (int i = 1; i &lt; n; i++) {
+        for (int j = 1; j &lt;= aim; j++) {
+            if (j &lt; level[i]) dp[i][j] = dp[i - 1][j];
+            else dp[i][j] = dp[i - 1][j] + dp[i][j - level[i]];
+        }
+    }
+    return dp[n - 1][aim];
+
+}
+</code></pre><p>这里要注意的是初值的初始化，默认当钱数为0的时候值为1（比如说前面的2张5块的方法F(2, 0) = 1），当只由一种钱币组成时，只要总数能够整除第一种钱币面额就为1（全部由这种货币组成）</p>
+<ol>
+<li>动态规划的优化</li>
+</ol>
+<p>当然这个优化可有可无，因为我们观察上面的函数，我们发现其实N层只与前面N-1层一个有关，这样的话，我们如果覆盖掉上一层的值对后面的计算结果也没有影响。所以我们就不使用多维数组，直接使用一维数组，节省了（N-1）* (aim + 1)的空间</p>
+<pre><code>int advanceDynamic(int[] level, int index, int aim) {
+    int[] f = new int[aim + 1];
+    f[0] = 1;
+    int n = level.length;
+    for (int i = 0; i &lt; n; ++i)
+        for (int j = level[i]; j &lt;= aim; ++j)
+            f[j] += f[j - level[i]];
+    return f[aim];
+}
+</code></pre><p>所以我们成功的将代码改的更短，而且更省空间</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>一开始本来想多讲几道动态规划的问题，但是写着写着发现其实大部分都是大同小异，找到子函数，构建表存贮计算过程，其中最大的挑战就是找到分解子函数，所以我就不介绍其他的问题了，我就把这些问题留在下面，你可以试试挑战一下自己</p>
+<ul>
+<li>背包问题</li>
+<li>最优编辑</li>
+<li>LIS</li>
+<li>LCS</li>
+<li>走迷宫问题</li>
+</ul>
   
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/arithmetic/">arithmetic</a>
-  </div>
 
 </div>
 
@@ -185,7 +359,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://mrzhangboss.github.io/2017/11/12/漫谈排序算法/" data-title="漫谈排序算法 | lunge博客" data-tsina="5364356330" class="share clearfix">
+	  <div data-url="https://mrzhangboss.github.io/2017/12/26/几个有趣的动态规划/" data-title="几个有趣的动态规划 | lunge博客" data-tsina="5364356330" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -198,19 +372,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2017/11/20/代理的前世今生/" title="代理的前世今生">
-  <strong>上一篇：</strong><br/>
-  <span>
-  代理的前世今生</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2017/10/28/编程小结/"  title="编程小结">
+<a href="/2017/12/25/从问题理解动态规划/"  title="从问题理解动态规划">
  <strong>下一篇：</strong><br/> 
- <span>编程小结
+ <span>从问题理解动态规划
 </span>
 </a>
 </div>
@@ -219,7 +385,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2017/11/12/漫谈排序算法/" data-title="漫谈排序算法" data-url="https://mrzhangboss.github.io/2017/11/12/漫谈排序算法/"></div>
+	<div class="ds-thread" data-thread-key="2017/12/26/几个有趣的动态规划/" data-title="几个有趣的动态规划" data-url="https://mrzhangboss.github.io/2017/12/26/几个有趣的动态规划/"></div>
 </section>
 
 
@@ -231,7 +397,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x00-引子"><span class="toc-number">1.</span> <span class="toc-text">0x00 引子</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-Summary"><span class="toc-number">2.</span> <span class="toc-text">0x01 Summary</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02-冒泡、选择和插入的特点"><span class="toc-number">3.</span> <span class="toc-text">0x02 冒泡、选择和插入的特点</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x03-希尔和插入排序"><span class="toc-number">4.</span> <span class="toc-text">0x03 希尔和插入排序</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">1.</span> <span class="toc-text">总结</span></a></li></ol>
  
   </div>
 
