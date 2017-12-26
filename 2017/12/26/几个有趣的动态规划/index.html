@@ -39,7 +39,7 @@
 正向暴力搜索
 
 面前一大堆钱，分成三堆，我们必须要从这三堆中抽取出来所以可能的方案，看">
-<meta property="og:updated_time" content="2017-12-26T15:17:37.069Z">
+<meta property="og:updated_time" content="2017-12-26T15:26:50.578Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="几个有趣的动态规划">
 <meta name="twitter:description" content="这篇博文是从问题理解动态规划的练习篇，通过几个动态规划的问题剖析进一步理解动态规划
@@ -82,7 +82,7 @@
 				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -98,7 +98,7 @@
  					
 					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="Search" />
 					</form>
 					
 					</li>
@@ -120,14 +120,14 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2017-12-25T16:00:00.000Z" itemprop="datePublished"> 发表于 2017-12-26</time>
+    <time datetime="2017-12-25T16:00:00.000Z" itemprop="datePublished"> Published 2017-12-26</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目录</strong>
+			<strong class="toc-title">Contents</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">1.</span> <span class="toc-text">总结</span></a></li></ol>
 		
@@ -341,12 +341,35 @@
 </code></pre><p>所以我们成功的将代码改的更短，而且更省空间</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>一开始本来想多讲几道动态规划的问题，但是写着写着发现其实大部分都是大同小异，找到子函数，构建表存贮计算过程，其中最大的挑战就是找到分解子函数，所以我就不介绍其他的问题了，我就把这些问题留在下面，你可以试试挑战一下自己</p>
 <ul>
-<li>背包问题</li>
-<li>最优编辑</li>
-<li>LIS</li>
+<li><a href="https://zh.wikipedia.org/wiki/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98" target="_blank" rel="external">背包问题</a></li>
+</ul>
+<blockquote>
+<p>一个背包有一定的承重cap，有N件物品，每件都有自己的价值，记录在数组v中，也都有自己的重量，记录在数组w中，每件物品只能选择要装入背包还是不装入背包，要求在不超过背包承重的前提下，选出物品的总价值最大。</p>
+</blockquote>
+<ul>
+<li><p>最优编辑</p>
+<blockquote>
+<p>对于两个字符串A和B，我们需要进行插入、删除和修改操作将A串变为B串，定义c0，c1，c2分别为三种操作的代价，请设计一个高效算法，求出将A串变为B串所需要的最少代价。</p>
+</blockquote>
+</li>
+<li><p>LIS</p>
+</li>
+</ul>
+<blockquote>
+<p>求出序列的最长上升子序列的长度</p>
+</blockquote>
+<ul>
 <li>LCS</li>
+</ul>
+<blockquote>
+<p>给定两个字符串A和B，返回两个字符串的最长公共子序列的长度。例如，A=”1A2C3D4B56”，B=”B1D23CA45B6A”，”123456”或者”12C4B6”都是最长公共子序列。</p>
+</blockquote>
+<ul>
 <li>走迷宫问题</li>
 </ul>
+<blockquote>
+<p>有一个矩阵map，它每个格子有一个权值。从左上角的格子开始每次只能向右或者向下走，最后到达右下角的位置，路径上所有的数字累加起来就是路径和，返回所有的路径中最小的路径和。</p>
+</blockquote>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -392,24 +415,24 @@
 
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目录</strong>
+  <strong class="toc-title">Contents</strong>
  
  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">1.</span> <span class="toc-text">总结</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
 
   
 
   
 <div class="tagslist">
-	<p class="asidetitle">标签</p>
+	<p class="asidetitle">Tags</p>
 		<ul class="clearfix">
 		
 			
@@ -497,7 +520,7 @@
 
 
   <div class="linkslist">
-  <p class="asidetitle">友情链接</p>
+  <p class="asidetitle">Links</p>
     <ul>
         
           <li>
@@ -513,11 +536,11 @@
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">新浪微博</p>
+  <p class="asidetitle">Weibo</p>
     <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5364356330&verifier=&dpc=1"></iframe>
 </div>
 
@@ -779,7 +802,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
