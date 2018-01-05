@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>浅谈&quot;树&quot;这种数据结构(1) | lunge博客</title>
+    <title>浅谈&quot;树&quot;这种数据结构 | lunge博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="张伦">
@@ -16,7 +16,7 @@
 引言首先给大家推荐一个神奇的网站，我们这篇博文很大程度上都是依托这个网站从可视化的角度分析各种树
 网站的网址是http://www.cs.usfca.edu/~galles">
 <meta property="og:type" content="article">
-<meta property="og:title" content="浅谈"树"这种数据结构(1)">
+<meta property="og:title" content="浅谈"树"这种数据结构">
 <meta property="og:url" content="https://mrzhangboss.github.io/2017/12/27/浅谈树这种数据结构/index.html">
 <meta property="og:site_name" content="lunge博客">
 <meta property="og:description" content="一直以来我对树这种数据结构就比较头疼，随便找一个红黑树的博客，大部分都是在谈怎么旋转怎么插入怎么删除，将算法讲的头头是道，但是就算你看懂了也不懂为什么要这样做，所以我们这篇博文就从可视化的角度，慢慢的介绍这些树的来世今生。
@@ -28,9 +28,9 @@
 <meta property="og:image" content="https://mrzhangboss.github.io/images/avl-2.png">
 <meta property="og:image" content="https://mrzhangboss.github.io/images/bst-2.png">
 <meta property="og:image" content="https://mrzhangboss.github.io/images/rbt-1.png">
-<meta property="og:updated_time" content="2018-01-05T03:00:41.491Z">
+<meta property="og:updated_time" content="2018-01-05T03:25:28.373Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="浅谈"树"这种数据结构(1)">
+<meta name="twitter:title" content="浅谈"树"这种数据结构">
 <meta name="twitter:description" content="一直以来我对树这种数据结构就比较头疼，随便找一个红黑树的博客，大部分都是在谈怎么旋转怎么插入怎么删除，将算法讲的头头是道，但是就算你看懂了也不懂为什么要这样做，所以我们这篇博文就从可视化的角度，慢慢的介绍这些树的来世今生。
 
 引言首先给大家推荐一个神奇的网站，我们这篇博文很大程度上都是依托这个网站从可视化的角度分析各种树
@@ -64,7 +64,7 @@
 				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -80,7 +80,7 @@
  					
 					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="Search" />
 					</form>
 					
 					</li>
@@ -95,21 +95,21 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/12/27/浅谈树这种数据结构/" title="浅谈&quot;树&quot;这种数据结构(1)" itemprop="url">浅谈&quot;树&quot;这种数据结构(1)</a>
+      <a href="/2017/12/27/浅谈树这种数据结构/" title="浅谈&quot;树&quot;这种数据结构" itemprop="url">浅谈&quot;树&quot;这种数据结构</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2017-12-26T16:00:00.000Z" itemprop="datePublished"> 发表于 2017-12-27</time>
+    <time datetime="2017-12-26T16:00:00.000Z" itemprop="datePublished"> Published 2017-12-27</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目录</strong>
+			<strong class="toc-title">Contents</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二叉搜索树"><span class="toc-number">2.</span> <span class="toc-text">二叉搜索树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AVL树"><span class="toc-number">3.</span> <span class="toc-text">AVL树</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#旋转的意义"><span class="toc-number">3.1.</span> <span class="toc-text">旋转的意义</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#红黑树"><span class="toc-number">4.</span> <span class="toc-text">红黑树</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#红黑树的旋转意义"><span class="toc-number">4.1.</span> <span class="toc-text">红黑树的旋转意义</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#剩余的四种树的简析会待代码实现后陆续更新"><span class="toc-number">4.1.1.</span> <span class="toc-text">剩余的四种树的简析会待代码实现后陆续更新</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引用"><span class="toc-number">5.</span> <span class="toc-text">引用</span></a></li></ol>
 		
@@ -199,7 +199,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://mrzhangboss.github.io/2017/12/27/浅谈树这种数据结构/" data-title="浅谈&quot;树&quot;这种数据结构(1) | lunge博客" data-tsina="5364356330" class="share clearfix">
+	  <div data-url="https://mrzhangboss.github.io/2017/12/27/浅谈树这种数据结构/" data-title="浅谈&quot;树&quot;这种数据结构 | lunge博客" data-tsina="5364356330" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -233,31 +233,31 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2017/12/27/浅谈树这种数据结构/" data-title="浅谈"树"这种数据结构(1)" data-url="https://mrzhangboss.github.io/2017/12/27/浅谈树这种数据结构/"></div>
+	<div class="ds-thread" data-thread-key="2017/12/27/浅谈树这种数据结构/" data-title="浅谈"树"这种数据结构" data-url="https://mrzhangboss.github.io/2017/12/27/浅谈树这种数据结构/"></div>
 </section>
 
 
 
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目录</strong>
+  <strong class="toc-title">Contents</strong>
  
  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二叉搜索树"><span class="toc-number">2.</span> <span class="toc-text">二叉搜索树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AVL树"><span class="toc-number">3.</span> <span class="toc-text">AVL树</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#旋转的意义"><span class="toc-number">3.1.</span> <span class="toc-text">旋转的意义</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#红黑树"><span class="toc-number">4.</span> <span class="toc-text">红黑树</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#红黑树的旋转意义"><span class="toc-number">4.1.</span> <span class="toc-text">红黑树的旋转意义</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#剩余的四种树的简析会待代码实现后陆续更新"><span class="toc-number">4.1.1.</span> <span class="toc-text">剩余的四种树的简析会待代码实现后陆续更新</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引用"><span class="toc-number">5.</span> <span class="toc-text">引用</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
 
   
 
   
 <div class="tagslist">
-	<p class="asidetitle">标签</p>
+	<p class="asidetitle">Tags</p>
 		<ul class="clearfix">
 		
 			
@@ -345,7 +345,7 @@
 
 
   <div class="linkslist">
-  <p class="asidetitle">友情链接</p>
+  <p class="asidetitle">Links</p>
     <ul>
         
           <li>
@@ -361,11 +361,11 @@
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">新浪微博</p>
+  <p class="asidetitle">Weibo</p>
     <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5364356330&verifier=&dpc=1"></iframe>
 </div>
 
@@ -627,7 +627,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
