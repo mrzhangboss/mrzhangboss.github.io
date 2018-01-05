@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mrzhangboss.github.io/"/>
-  <updated>2017-12-26T15:30:58.018Z</updated>
+  <updated>2018-01-05T02:57:45.527Z</updated>
   <id>https://mrzhangboss.github.io/</id>
   
   <author>
@@ -17,11 +17,104 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>红黑树实现原理</title>
+    <link href="https://mrzhangboss.github.io/2018/01/05/%E7%BA%A2%E9%BB%91%E6%A0%91%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/"/>
+    <id>https://mrzhangboss.github.io/2018/01/05/红黑树实现原理/</id>
+    <published>2018-01-04T16:00:00.000Z</published>
+    <updated>2018-01-05T02:57:45.527Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;本篇博客主要基于这篇&lt;a href=&quot;/&quot;&gt;博客&lt;/a&gt;的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍红黑树的实现原理，完整代码在&lt;a href=&quot;https://github.com/mrzhangboss/trees&quot;
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>二叉搜索树实现原理</title>
+    <link href="https://mrzhangboss.github.io/2018/01/04/%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/"/>
+    <id>https://mrzhangboss.github.io/2018/01/04/二叉搜索树实现原理/</id>
+    <published>2018-01-03T16:00:00.000Z</published>
+    <updated>2018-01-05T02:57:49.587Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;本篇博客主要基于这篇&lt;a href=&quot;&quot;&gt;博客&lt;/a&gt;的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍二叉搜索树的实现原理，完整代码在&lt;a href=&quot;https://github.com/mrzhangboss/trees&quot;
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>AVL树实现原理</title>
+    <link href="https://mrzhangboss.github.io/2018/01/04/AVL%E6%A0%91%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/"/>
+    <id>https://mrzhangboss.github.io/2018/01/04/AVL树实现原理/</id>
+    <published>2018-01-03T16:00:00.000Z</published>
+    <updated>2018-01-05T02:57:38.563Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;本篇博客主要基于这篇&lt;a href=&quot;/&quot;&gt;博客&lt;/a&gt;的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍AVL树的实现原理，完整代码在&lt;a href=&quot;https://github.com/mrzhangboss/trees&quot;
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>浅谈&quot;树&quot;这种数据结构(1)</title>
+    <link href="https://mrzhangboss.github.io/2017/12/27/%E6%B5%85%E8%B0%88%E6%A0%91%E8%BF%99%E7%A7%8D%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+    <id>https://mrzhangboss.github.io/2017/12/27/浅谈树这种数据结构/</id>
+    <published>2017-12-26T16:00:00.000Z</published>
+    <updated>2018-01-05T02:57:35.615Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;一直以来我对树这种数据结构就比较头疼，随便找一个红黑树的博客，大部分都是在谈怎么旋转怎么插入怎么删除，将算法讲的头头是道，但是就算你看懂了也不懂为什么要这样做，所以我们这篇博文就从可视化的角度，慢慢的介绍这些树的来世今生。&lt;/p&gt;
+&lt;/blockq
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>几个有趣的动态规划</title>
     <link href="https://mrzhangboss.github.io/2017/12/26/%E5%87%A0%E4%B8%AA%E6%9C%89%E8%B6%A3%E7%9A%84%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/"/>
     <id>https://mrzhangboss.github.io/2017/12/26/几个有趣的动态规划/</id>
     <published>2017-12-25T16:00:00.000Z</published>
-    <updated>2017-12-26T15:30:58.018Z</updated>
+    <updated>2017-12-26T15:32:30.758Z</updated>
     
     <summary type="html">
     
@@ -429,113 +522,6 @@
     
     </summary>
     
-    
-  </entry>
-  
-  <entry>
-    <title>爬虫分布式总结</title>
-    <link href="https://mrzhangboss.github.io/2017/04/04/%E7%88%AC%E8%99%AB%E5%88%86%E5%B8%83%E5%BC%8F%E6%80%BB%E7%BB%93/"/>
-    <id>https://mrzhangboss.github.io/2017/04/04/爬虫分布式总结/</id>
-    <published>2017-04-04T08:03:55.000Z</published>
-    <updated>2017-04-05T03:49:33.478Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;blockquote&gt;
-&lt;p&gt;由于最近在一家数据服务公司实习，项目需要了解分布式，所以在这里基于&lt;code&gt;scrapy&lt;/code&gt;的分布式总结一下爬虫的分布式实习&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h1 id=&quot;分布式起因&quot;&gt;&lt;a href=&quot;#分布式起因&quot;
-        
-      
-    
-    </summary>
-    
-    
-      <category term="python" scheme="https://mrzhangboss.github.io/tags/python/"/>
-    
-      <category term="crawl" scheme="https://mrzhangboss.github.io/tags/crawl/"/>
-    
-      <category term="scrapy" scheme="https://mrzhangboss.github.io/tags/scrapy/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>天池大赛-口碑预测参赛感想</title>
-    <link href="https://mrzhangboss.github.io/2017/02/17/%E5%A4%A9%E6%B1%A0%E5%A4%A7%E8%B5%9B-%E5%8F%A3%E7%A2%91%E9%A2%84%E6%B5%8B%E5%8F%82%E8%B5%9B%E6%84%9F%E6%83%B3/"/>
-    <id>https://mrzhangboss.github.io/2017/02/17/天池大赛-口碑预测参赛感想/</id>
-    <published>2017-02-17T13:15:19.000Z</published>
-    <updated>2017-02-17T14:21:55.205Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;blockquote&gt;
-&lt;p&gt;第一次听说这个比赛还是去年在知乎上，当时也不知道这个比赛具体是怎么回事，当时自己还是一个小白，忙着搞懂各种主流的机器学习模型算法。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;当时在我心中，模型算法是数据挖掘的最重要的组成部分，搞懂这些才能真正搞定数
-        
-      
-    
-    </summary>
-    
-    
-      <category term="competition" scheme="https://mrzhangboss.github.io/tags/competition/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>怎么成为数据科学家（翻译）</title>
-    <link href="https://mrzhangboss.github.io/2016/12/23/how-to-be-data-scientist/"/>
-    <id>https://mrzhangboss.github.io/2016/12/23/how-to-be-data-scientist/</id>
-    <published>2016-12-23T14:05:56.000Z</published>
-    <updated>2016-12-23T15:11:35.024Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;blockquote&gt;
-&lt;p&gt;这是我从&lt;code&gt;Quora&lt;/code&gt;上看到的一篇非常简短但详细的数据科学家的‘技能点’&lt;br&gt;来自eBay的一个数据科学家的回答&lt;br&gt;翻译来自&lt;a
-        
-      
-    
-    </summary>
-    
-    
-      <category term="transform" scheme="https://mrzhangboss.github.io/tags/transform/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>协程解决递归错误原理</title>
-    <link href="https://mrzhangboss.github.io/2016/11/13/%E5%8D%8F%E7%A8%8B%E8%A7%A3%E5%86%B3%E9%80%92%E5%BD%92%E9%94%99%E8%AF%AF/"/>
-    <id>https://mrzhangboss.github.io/2016/11/13/协程解决递归错误/</id>
-    <published>2016-11-13T05:22:17.493Z</published>
-    <updated>2016-11-13T05:22:17.493Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h2 id=&quot;引言&quot;&gt;&lt;a href=&quot;#引言&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-    
-      <category term="python3" scheme="https://mrzhangboss.github.io/tags/python3/"/>
     
   </entry>
   
