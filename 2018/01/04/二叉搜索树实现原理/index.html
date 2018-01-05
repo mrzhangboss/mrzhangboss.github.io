@@ -30,7 +30,7 @@
 <meta property="og:image" content="https://mrzhangboss.github.io/images/bst-3.png">
 <meta property="og:image" content="https://mrzhangboss.github.io/images/bst-4.png">
 <meta property="og:image" content="https://mrzhangboss.github.io/images/bst-5.png">
-<meta property="og:updated_time" content="2018-01-05T02:57:49.587Z">
+<meta property="og:updated_time" content="2018-01-05T03:01:58.083Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="二叉搜索树实现原理">
 <meta name="twitter:description" content="本篇博客主要基于这篇博客的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍二叉搜索树的实现原理，完整代码在github的binary.go文件中
@@ -67,7 +67,7 @@
 				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -105,23 +105,23 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-01-03T16:00:00.000Z" itemprop="datePublished"> 發表於 2018-01-04</time>
+    <time datetime="2018-01-03T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-01-04</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目錄</strong>
+			<strong class="toc-title">文章目录</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二叉搜索树的基本功能"><span class="toc-number">2.</span> <span class="toc-text">二叉搜索树的基本功能</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#查"><span class="toc-number">2.1.</span> <span class="toc-text">查</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除"><span class="toc-number">2.2.</span> <span class="toc-text">删除</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li></ol>
 		
 		</div>
 		
 		<blockquote>
-<p>本篇博客主要基于这篇<a href="">博客</a>的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍二叉搜索树的实现原理，完整代码在<a href="https://github.com/mrzhangboss/trees" target="_blank" rel="external">github</a>的<code>binary.go</code>文件中</p>
+<p>本篇博客主要基于这篇<a href="">博客</a>的扩展，建议阅读前先阅读这篇<a href="/2017/12/27/浅谈树这种数据结构/">博文</a>，这篇博文详细介绍二叉搜索树的实现原理，完整代码在<a href="https://github.com/mrzhangboss/trees" target="_blank" rel="external">github</a>的<code>binary.go</code>文件中</p>
 </blockquote>
-<p><a href="">浅谈”树”这种数据结构</a><br><a href="https://github.com/mrzhangboss/trees" title="github" target="_blank" rel="external">Github</a><br><a href="http://www.cs.usfca.edu/~galles/visualization/BST.html" target="_blank" rel="external">可视化页面</a></p>
+<p><a href="/2017/12/27/浅谈树这种数据结构/">浅谈”树”这种数据结构</a><br><a href="https://github.com/mrzhangboss/trees" title="github" target="_blank" rel="external">Github</a><br><a href="http://www.cs.usfca.edu/~galles/visualization/BST.html" target="_blank" rel="external">可视化页面</a></p>
 <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>之所以使用Go来实现，个人还是比较喜欢Go的，作为一个基础数据结构，Go用来实现这个速度比Java、C++都快，而且相比Java也能节省内存，而且我也不喜欢换使用冒号。</p>
 <h2 id="二叉搜索树的基本功能"><a href="#二叉搜索树的基本功能" class="headerlink" title="二叉搜索树的基本功能"></a>二叉搜索树的基本功能</h2><p>作为一个树结构，主要必须实现三个功能，<strong>查增删</strong>（当然有改，不过改是删和增的结合所以就不算在里面），当然二叉树还能帮我实现一些额外功能，比如寻找最大值最小值等等，实现一颗二叉搜索树必须要保证在“增”和“删”的时候保持树结构不变，也就是保证还是一颗二叉搜索树</p>
 <p>什么二叉树是二叉搜索树呢，二叉搜索树只需要保证一点</p>
@@ -211,24 +211,24 @@
 
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目錄</strong>
+  <strong class="toc-title">文章目录</strong>
  
  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二叉搜索树的基本功能"><span class="toc-number">2.</span> <span class="toc-text">二叉搜索树的基本功能</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#查"><span class="toc-number">2.1.</span> <span class="toc-text">查</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除"><span class="toc-number">2.2.</span> <span class="toc-text">删除</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
 
   
 <div class="tagslist">
-	<p class="asidetitle">標簽</p>
+	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
 		
 			
@@ -316,7 +316,7 @@
 
 
   <div class="linkslist">
-  <p class="asidetitle">友情鏈接</p>
+  <p class="asidetitle">友情链接</p>
     <ul>
         
           <li>
@@ -332,7 +332,7 @@
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 訂閱</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
   <div class="weiboshow">
@@ -598,7 +598,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

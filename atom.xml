@@ -44,7 +44,7 @@
     <link href="https://mrzhangboss.github.io/2018/01/04/%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/"/>
     <id>https://mrzhangboss.github.io/2018/01/04/二叉搜索树实现原理/</id>
     <published>2018-01-03T16:00:00.000Z</published>
-    <updated>2018-01-05T02:57:49.587Z</updated>
+    <updated>2018-01-05T03:01:58.083Z</updated>
     
     <summary type="html">
     
@@ -53,7 +53,7 @@
         
         
           &lt;blockquote&gt;
-&lt;p&gt;本篇博客主要基于这篇&lt;a href=&quot;&quot;&gt;博客&lt;/a&gt;的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍二叉搜索树的实现原理，完整代码在&lt;a href=&quot;https://github.com/mrzhangboss/trees&quot;
+&lt;p&gt;本篇博客主要基于这篇&lt;a href=&quot;&quot;&gt;博客&lt;/a&gt;的扩展，建议阅读前先阅读这篇&lt;a href=&quot;/2017/12/27/浅谈树这种数据结构/&quot;&gt;博文&lt;/a&gt;，这篇博文详细介绍二叉搜索树的实现原理，完整代码在&lt;a
         
       
     
@@ -67,7 +67,7 @@
     <link href="https://mrzhangboss.github.io/2018/01/04/AVL%E6%A0%91%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/"/>
     <id>https://mrzhangboss.github.io/2018/01/04/AVL树实现原理/</id>
     <published>2018-01-03T16:00:00.000Z</published>
-    <updated>2018-01-05T02:57:38.563Z</updated>
+    <updated>2018-01-05T03:01:15.011Z</updated>
     
     <summary type="html">
     
@@ -76,7 +76,7 @@
         
         
           &lt;blockquote&gt;
-&lt;p&gt;本篇博客主要基于这篇&lt;a href=&quot;/&quot;&gt;博客&lt;/a&gt;的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍AVL树的实现原理，完整代码在&lt;a href=&quot;https://github.com/mrzhangboss/trees&quot;
+&lt;p&gt;本篇博客主要基于这篇&lt;a href=&quot;/2017/12/27/浅谈树这种数据结构/&quot;&gt;博客&lt;/a&gt;的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍AVL树的实现原理，完整代码在&lt;a
         
       
     
@@ -90,7 +90,7 @@
     <link href="https://mrzhangboss.github.io/2017/12/27/%E6%B5%85%E8%B0%88%E6%A0%91%E8%BF%99%E7%A7%8D%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
     <id>https://mrzhangboss.github.io/2017/12/27/浅谈树这种数据结构/</id>
     <published>2017-12-26T16:00:00.000Z</published>
-    <updated>2018-01-05T02:57:35.615Z</updated>
+    <updated>2018-01-05T03:00:41.491Z</updated>
     
     <summary type="html">
     
