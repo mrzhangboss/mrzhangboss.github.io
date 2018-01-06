@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mrzhangboss.github.io/"/>
-  <updated>2018-01-05T02:57:45.527Z</updated>
+  <updated>2018-01-06T02:39:30.420Z</updated>
   <id>https://mrzhangboss.github.io/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>新年展望</title>
+    <link href="https://mrzhangboss.github.io/2018/01/06/2018%E6%96%B0%E5%B9%B4%E5%B1%95%E6%9C%9B/"/>
+    <id>https://mrzhangboss.github.io/2018/01/06/2018新年展望/</id>
+    <published>2018-01-05T16:00:00.000Z</published>
+    <updated>2018-01-06T02:39:30.420Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;引言&quot;&gt;&lt;a href=&quot;#引言&quot; class=&quot;headerlink&quot; title=&quot;引言&quot;&gt;&lt;/a&gt;引言&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;最近逛知乎的时候看到一篇&lt;a
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>红黑树实现原理</title>
@@ -67,7 +90,7 @@
     <link href="https://mrzhangboss.github.io/2018/01/04/AVL%E6%A0%91%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/"/>
     <id>https://mrzhangboss.github.io/2018/01/04/AVL树实现原理/</id>
     <published>2018-01-03T16:00:00.000Z</published>
-    <updated>2018-01-05T03:01:15.011Z</updated>
+    <updated>2018-01-05T09:52:21.427Z</updated>
     
     <summary type="html">
     
@@ -498,30 +521,6 @@
     
     
       <category term="summary" scheme="https://mrzhangboss.github.io/tags/summary/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>如何成为一名数据挖掘机</title>
-    <link href="https://mrzhangboss.github.io/2017/05/16/%E5%A6%82%E4%BD%95%E6%88%90%E4%B8%BA%E4%B8%80%E5%90%8D%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E6%9C%BA/"/>
-    <id>https://mrzhangboss.github.io/2017/05/16/如何成为一名数据挖掘机/</id>
-    <published>2017-05-16T11:47:12.000Z</published>
-    <updated>2017-05-16T12:58:46.334Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;自我介绍&lt;/p&gt;
-&lt;p&gt;前端 - &amp;gt; 后端  -&amp;gt; 数据挖掘机&lt;/p&gt;
-&lt;p&gt;ML DM AI 
-        
-      
-    
-    </summary>
-    
     
   </entry>
   

@@ -4,35 +4,32 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>PostgreSQL的自增键 | lunge博客</title>
+    <title>新年展望 | lunge博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="张伦">
     
 
     
-    <meta name="description" content="平常在Django项目中大量使用自增这个键，平常都是使用ORM，很少去了解这个东西在数据库中具体使用，最近遇到要备份和复原数据的事情，趁着这次好好探索一下这个自增键的使用
+    <meta name="description" content="引言
+最近逛知乎的时候看到一篇知乎回答很有趣，也给了很深的感触，自己对于操作系统、数据库、HTTP用的都非常熟练，但是也从来没有去想怎么怎么实现或者背后深层次的原理
 
-Django里面大部分都是将其作为Int自增主键来使用，第一个不需要维护一个唯一值，第二个使用Int作为主键的话，搜索和外键关联速度比较快。
-我们这次从原生SQL出发，探索一下这个自增主键在数据库中的具体使用
-新建数据库我们">
+以前刚开始学习的时候自己也看过很多关于操作系统、数据库的书，但是就像走马观花一样，很多书就是过了一遍脑子，然后就没有了，在2017年下半年自己也开始尝试把自己以前只是了解只是会用的东西拿出来咀嚼咀嚼，并在这个过程中写出一些自己觉得还">
 <meta property="og:type" content="article">
-<meta property="og:title" content="PostgreSQL的自增键">
-<meta property="og:url" content="https://mrzhangboss.github.io/2017/10/08/PostgreSQL的自增键/index.html">
+<meta property="og:title" content="新年展望">
+<meta property="og:url" content="https://mrzhangboss.github.io/2018/01/06/2018新年展望/index.html">
 <meta property="og:site_name" content="lunge博客">
-<meta property="og:description" content="平常在Django项目中大量使用自增这个键，平常都是使用ORM，很少去了解这个东西在数据库中具体使用，最近遇到要备份和复原数据的事情，趁着这次好好探索一下这个自增键的使用
+<meta property="og:description" content="引言
+最近逛知乎的时候看到一篇知乎回答很有趣，也给了很深的感触，自己对于操作系统、数据库、HTTP用的都非常熟练，但是也从来没有去想怎么怎么实现或者背后深层次的原理
 
-Django里面大部分都是将其作为Int自增主键来使用，第一个不需要维护一个唯一值，第二个使用Int作为主键的话，搜索和外键关联速度比较快。
-我们这次从原生SQL出发，探索一下这个自增主键在数据库中的具体使用
-新建数据库我们">
-<meta property="og:updated_time" content="2017-10-08T13:20:14.897Z">
+以前刚开始学习的时候自己也看过很多关于操作系统、数据库的书，但是就像走马观花一样，很多书就是过了一遍脑子，然后就没有了，在2017年下半年自己也开始尝试把自己以前只是了解只是会用的东西拿出来咀嚼咀嚼，并在这个过程中写出一些自己觉得还">
+<meta property="og:updated_time" content="2018-01-06T02:39:30.420Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="PostgreSQL的自增键">
-<meta name="twitter:description" content="平常在Django项目中大量使用自增这个键，平常都是使用ORM，很少去了解这个东西在数据库中具体使用，最近遇到要备份和复原数据的事情，趁着这次好好探索一下这个自增键的使用
+<meta name="twitter:title" content="新年展望">
+<meta name="twitter:description" content="引言
+最近逛知乎的时候看到一篇知乎回答很有趣，也给了很深的感触，自己对于操作系统、数据库、HTTP用的都非常熟练，但是也从来没有去想怎么怎么实现或者背后深层次的原理
 
-Django里面大部分都是将其作为Int自增主键来使用，第一个不需要维护一个唯一值，第二个使用Int作为主键的话，搜索和外键关联速度比较快。
-我们这次从原生SQL出发，探索一下这个自增主键在数据库中的具体使用
-新建数据库我们">
+以前刚开始学习的时候自己也看过很多关于操作系统、数据库的书，但是就像走马观花一样，很多书就是过了一遍脑子，然后就没有了，在2017年下半年自己也开始尝试把自己以前只是了解只是会用的东西拿出来咀嚼咀嚼，并在这个过程中写出一些自己觉得还">
 <meta name="twitter:creator" content="@mrzhangboss">
 
     
@@ -92,14 +89,14 @@ Django里面大部分都是将其作为Int自增主键来使用，第一个不�
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/10/08/PostgreSQL的自增键/" title="PostgreSQL的自增键" itemprop="url">PostgreSQL的自增键</a>
+      <a href="/2018/01/06/2018新年展望/" title="新年展望" itemprop="url">新年展望</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2017-10-07T16:00:00.000Z" itemprop="datePublished"> 发表于 2017-10-08</time>
+    <time datetime="2018-01-05T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-01-06</time>
     
   </p>
 </header>
@@ -108,81 +105,43 @@ Django里面大部分都是将其作为Int自增主键来使用，第一个不�
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#新建数据库"><span class="toc-number">1.</span> <span class="toc-text">新建数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#增删查减"><span class="toc-number">2.</span> <span class="toc-text">增删查减</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#主键自增"><span class="toc-number">3.</span> <span class="toc-text">主键自增</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#操作系统"><span class="toc-number">2.</span> <span class="toc-text">操作系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库"><span class="toc-number">3.</span> <span class="toc-text">数据库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a></li></ol>
 		
 		</div>
 		
-		<blockquote>
-<p>平常在Django项目中大量使用自增这个键，平常都是使用ORM，很少去了解这个东西在数据库中具体使用，最近遇到要备份和复原数据的事情，趁着这次好好探索一下这个自增键的使用</p>
+		<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
+<p>最近逛知乎的时候看到一篇<a href="https://www.zhihu.com/question/36149122/answer/66366304" target="_blank" rel="external">知乎回答</a>很有趣，也给了很深的感触，自己对于操作系统、数据库、HTTP用的都非常熟练，但是也从来没有去想怎么怎么实现或者背后深层次的原理</p>
 </blockquote>
-<p><code>Django</code>里面大部分都是将其作为<code>Int</code>自增主键来使用，第一个不需要维护一个唯一值，第二个使用<code>Int</code>作为主键的话，搜索和外键关联速度比较快。</p>
-<p>我们这次从原生<code>SQL</code>出发，探索一下这个自增主键在数据库中的具体使用</p>
-<h3 id="新建数据库"><a href="#新建数据库" class="headerlink" title="新建数据库"></a>新建数据库</h3><p>我们先新建一个数据库</p>
-<pre><code>create table inc(
-id serial not null,
-name text
-);
-</code></pre><p>在<code>PG</code>里面简单的使用<code>serial</code>关键字就会生成一个自增键，默认会在数据库新建一个索引表，例如上面就会新建一个<code>inc_id_seq</code>的索引表，这个字段类型为<code>int</code>，如果数据库很大，我们可以使用<code>BIGSERIAL</code>键申请一个<code>bigint</code>类型的字段</p>
-<p>我们可以看一下这个索引表里面有什么</p>
-<pre><code>         Sequence &quot;public.inc_id_seq&quot;
-    Column     |  Type   |        Value        
----------------+---------+---------------------
- sequence_name | name    | inc_id_seq
- last_value    | bigint  | 1
- start_value   | bigint  | 1
- increment_by  | bigint  | 1
- max_value     | bigint  | 9223372036854775807
- min_value     | bigint  | 1
- cache_value   | bigint  | 1
- log_cnt       | bigint  | 30
- is_cycled     | boolean | f
- is_called     | boolean | t
-</code></pre><p>我们可以这个索引表其实就是维护了一个参数，通过字段我们可以知道，这是一个自增为1的键，下一个值为2，目前没有插入一个值</p>
-<h3 id="增删查减"><a href="#增删查减" class="headerlink" title="增删查减"></a>增删查减</h3><p>我们通过一些基本操作来看看这个自增键的作用</p>
+<p>以前刚开始学习的时候自己也看过很多关于操作系统、数据库的书，但是就像走马观花一样，很多书就是过了一遍脑子，然后就没有了，在2017年下半年自己也开始尝试把自己以前只是了解只是会用的东西拿出来咀嚼咀嚼，并在这个过程中写出一些自己觉得还是有点干货的博文。而且我也比较享受把复杂的问题简单话的过程。</p>
+<p>操作系统、计算机、数据库、编程原理在我看来都是非常复杂庞大的东西，在2018年，希望能够将上面这些复杂的东西搞的简单一点，当然在这个同时我也会将我将问题简单话的过程中分享出来。</p>
+<p>当然这些东西都太过宽泛，比如操作系统。很多人刚开始学习编程了解了操作系统概念，还有听到很多牛人都说自己写了一个操作系统都会在心里暗暗的立下一个Flag，自己也要做一个操作系统，但是很多人的热情慢慢的被无数的复杂概念慢慢磨掉，最后能坚持到做出一个完整的系统没有几个。作为一个普通人，我们没法一口吃下一个很大的“饼”，当然你如果叫爱因斯坦给你造一个原子弹，它也只能拍拍手跟你说我只能证明它能造出来。所以有效的解决问题的方法是将问题分解，或许最终我们最终造不出操作系统，但是我们对操作系统也能更深一步了解。</p>
+<h2 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h2><p>首先谈谈操作系统，其实我们对操作系统的理解大致都停留在开关机。我们要分解的问题就是我们对这个“黑盒子”的疑问</p>
 <ul>
-<li>首先是插入</li>
+<li>操作系统如何管理硬件，比如说鼠标移动点击、键盘输入</li>
+<li>操作系统如何让多用户使用</li>
+<li>操作系统如何在多用户的情况下区分每个用户</li>
+<li>操作系统如何分配内存，如何限制用户的内存</li>
+<li>操作系统如何管理文件，如何避免文件被同时写入</li>
+<li>…..</li>
 </ul>
-<pre><code>insert into inc (name) values (&apos;1&apos;),(&apos;2&apos;), (&apos;3&apos;);
-</code></pre><p>我们插入三个值，我们再查看索引表，发现<code>last_value</code>变成了3</p>
-<p>这个是没有指定<code>id</code>的值插入，我们试试显式声明插入</p>
-<pre><code>insert into inc  values (1, &apos;1&apos;),(2, &apos;2&apos;), (3, &apos;3&apos;), (4, &apos;4&apos;);
-</code></pre><p>我们惊奇的发现，在我们显式声明自增键的值的时候，索引表并没有变化，<code>last_value</code>还是3,<strong>这说明只有在不声明自增键，让数据库自己新建的时候，索引表才会更新</strong></p>
-<p><strong>我们可以把自增键看做一个默认值，当没有给自增键赋值的时候，这个自增键会从这个键的索引表中得到下一次自增的值</strong></p>
-<p>所以我们再尝试使用不声明自增键值的方法插入一个新值</p>
-<pre><code>insert into inc (name) values (&apos;4&apos;)
-</code></pre><p>我们发现索引表中<code>last_value</code>变成了4</p>
-<h3 id="主键自增"><a href="#主键自增" class="headerlink" title="主键自增"></a>主键自增</h3><p>由于我们在<code>Django</code>里面使用自增，一般都是将其声明为主键，设为唯一值，所以如果我们将声明表的结构变成</p>
-<pre><code>    create table inc(
-id serial not null PRIMARY KEY,
-name text
-    );
-</code></pre><p>上面的情况就不可能发生了，因为我们把自增键声明为主键，不过有意思的事就是如果你像上面一样指定了一个自增主键值为4，然后不指定再插入4，你会发现第一次会报主键不允许重复的错误，第二次则会成功插入，而且索引表的<code>last_value</code>变成了5</p>
-<p>看来并不是每次成功的时候才会更新<code>last_value</code>值，只要让系统自己去申请自增值就会更新索引表，我尝试了对表的增删查改，发现只有<code>insert</code>并且申请自增值的时候才会更新索引表，而且这个索引表之后增加，不会减少，所以有时候你删掉最大的值，自增键默认又从最后一次开始更新</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>在对单个数据表备份还原的时候，由于简单的使用了<code>COPY</code>命令进行备份还原，通过上面的探索我们发现如果涉及到自增主键的导入导出，在新表导入旧数据是不会出错的，但是由于我们没有考虑自增键的影响（我们导入自增键是显示赋值），在后面插入数据的时候有可能会报主键重复的错误</p>
-<p>为了避免以后插入入数据出现这样的错误，我们有两种措施</p>
-<ol>
-<li>使用<code>COPY</code>命令导入导出时候不获取自增键值</li>
-<li>在<code>COPY</code>导入新表后自己更新索引表</li>
-</ol>
-<p>第一种的话<code>SQL</code>比较繁琐（必须写出表所有字段值），推荐使用第二种</p>
-<p>我们可以简单的使用</p>
-<pre><code>SELECT MAX(id) FROM your_table;
-</code></pre><p>先获取自增键最大值，然后更新索引值(999为上面你获取的最大值）</p>
-<pre><code>SELECT setval(&apos;your_table_id_seq&apos;, 999, false);
-</code></pre><p>当然我们可以将这条语句合正一句话</p>
-<pre><code>SELECT setval(&apos;your_table_id_seq&apos;, COALESCE((SELECT MAX(id)+1 FROM your_table), 1), false);
-</code></pre><p>这样我们就可以开心的完成单表导入导出了</p>
-<p>ps：<br>在使用<code>COPY</code>命令时必须是superuser才能从文件中读取和导入数据，最简单的方法是用superuser账号加权使用<code>alter user xxx superuser</code>，待倒完数据后再降权<code>alter user xxx nosuperuser</code></p>
+<p>当然我这里只是列举了一些直观的问题，在解答这些问题的时候，我们会逐渐衍生出各种问题，最终我希望所有的问题都能被简单话</p>
+<h2 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h2><p>数据库我算使用的比较多了，但是对数据库背后的机制也是懵懵懂懂，只知道他能保证这些功能，比如事务的原子性、一致性、分离性、持久性。</p>
+<p>我觉得了解数据库就是要了解它是如何实现这些特性的，当然这个问题也很宽泛，我们可以尝试分解成</p>
+<ul>
+<li>数据库如何将输入复杂的查询分解成为数据库的操作</li>
+<li>数据库如何避免死锁</li>
+<li>数据对于插入删除异常如何解决</li>
+<li>…..</li>
+</ul>
+<p>其实在我看来数据库可以分解成两大块，一个是编程语音解析（SQL），一个是高效的存贮（Database）</p>
+<p>所以了解数据库也可以尝试了解编译原理，了解如何实现解析SQL，所以接下来我就不提编译原理了</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>其实想想自己的这种把复杂问题简单话就是华罗庚先生曾说的一句话：“把书由薄变厚，再把书由厚变薄”，首先我们得把这些看起来很简单的问题复杂话，最后慢慢的把这个复杂的问题简单话，这样你才能真正的把这个问题给搞懂。</p>
+<p>对于我来说，从小或许受应试教育的影响，自己只学会了复杂问题给解决，但是不懂得解决后再把复杂问题简单话，所以看起来我懂很多复杂问题，但是其实换一个场景，换一个问题就一知半解了。所以自己慢慢的开始改变自己的方法，不满足于解决问题，而着重于简化问题，希望自己的一点经验也能给后来人一点启发。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/database/">database</a>
-  </div>
 
 </div>
 
@@ -190,7 +149,7 @@ name text
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://mrzhangboss.github.io/2017/10/08/PostgreSQL的自增键/" data-title="PostgreSQL的自增键 | lunge博客" data-tsina="5364356330" class="share clearfix">
+	  <div data-url="https://mrzhangboss.github.io/2018/01/06/2018新年展望/" data-title="新年展望 | lunge博客" data-tsina="5364356330" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -203,19 +162,11 @@ name text
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2017/10/09/Python异步的理解/" title="Python异步的理解">
-  <strong>上一篇：</strong><br/>
-  <span>
-  Python异步的理解</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2017/10/07/my_college_mistakes/"  title="大学的错觉">
+<a href="/2018/01/05/红黑树实现原理/"  title="红黑树实现原理">
  <strong>下一篇：</strong><br/> 
- <span>大学的错觉
+ <span>红黑树实现原理
 </span>
 </a>
 </div>
@@ -224,7 +175,7 @@ name text
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2017/10/08/PostgreSQL的自增键/" data-title="PostgreSQL的自增键" data-url="https://mrzhangboss.github.io/2017/10/08/PostgreSQL的自增键/"></div>
+	<div class="ds-thread" data-thread-key="2018/01/06/2018新年展望/" data-title="新年展望" data-url="https://mrzhangboss.github.io/2018/01/06/2018新年展望/"></div>
 </section>
 
 
@@ -236,7 +187,7 @@ name text
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#新建数据库"><span class="toc-number">1.</span> <span class="toc-text">新建数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#增删查减"><span class="toc-number">2.</span> <span class="toc-text">增删查减</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#主键自增"><span class="toc-number">3.</span> <span class="toc-text">主键自增</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#操作系统"><span class="toc-number">2.</span> <span class="toc-text">操作系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库"><span class="toc-number">3.</span> <span class="toc-text">数据库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a></li></ol>
  
   </div>
 
