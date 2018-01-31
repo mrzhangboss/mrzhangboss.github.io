@@ -45,7 +45,7 @@
 				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -61,7 +61,7 @@
  					
 					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="Search" />
 					</form>
 					
 					</li>
@@ -78,6 +78,199 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/06/13/大航杯“智造扬中”电力AI大赛参赛经验/" title="如何搭建自动生成上万特征的管道" itemprop="url">如何搭建自动生成上万特征的管道</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
+		
+  <p class="article-time">
+    <time datetime="2017-06-13T10:56:31.000Z" itemprop="datePublished"> Published 2017-06-13</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>基于:大航杯“智造扬中”电力AI大赛参赛经验</p>
+<p><img src="/images/electric_power_ai.jpg" alt="大航杯AI大赛"></p>
+<p>赛题背景</p>
+<blockquote>
+<p> 主办方为大航集团提供21个月江苏省杨中市1454家企业日用电量,来估计下一个月日总用电量</p>
+</blockquote>
+<p>从给的数据分析,这次给的数据只有历史企业日用电量,用来估计日总用电量,是一个典型的时域分析问题</p>
+<p>但是这同我们以往的时序问题不一样,向往常时序问题预测的是每个企业的未来每日的用电量,而这个比赛却是求全部企业的总数.</p>
+<p>由于我报名比赛时候比较晚,比赛已经接近尾声,比赛5月18号开始,6月8号中午切换数据,13号截止,我6月8号晚上下载数据,由于我以前已经做了几个类似的比赛,但是一直没有系统的做一个,抱着锻炼的自己的态度,决定系统做一次,权当练手.</p>
+<p>首先分析一下提交的结果,预测一个月的日总用电量,总共为31个数据,给的历史数据只有21个月的,按月的比例来看,只有21个值去训练值去预测一个值,根据往常的比赛经验来看,这种比赛适合使用规则方法来做,然而我剩下的验证机会不多了,只能用模型,但是过拟合的危险非常大,如果不能找到一个好的方法克服过拟合,复赛都进不去.</p>
+<p>当然最后还是没有找到一个很好的办法,止步于复赛,不过这次比赛让我学到很多,主要通过这次比赛自己琢磨出来自己如何搭建基于<code>IPython Notebook</code>的管道结构,这个管道帮我自动生成上万特征.</p>
+<h2 id="管道"><a href="#管道" class="headerlink" title="管道"></a>管道</h2><blockquote>
+<p>什么是管道,在数据挖掘比赛中很多大神都着重讲了一定要搭建一个自动化的架构,我们暂且称他为”管道”,这个”管道”我们要能够把数据倒进去,结果倒出来.</p>
+</blockquote>
+<p>这个管道用专业的术语来看要有以下几个功能</p>
+<ul>
+<li>能够自由添加<code>Feture</code></li>
+<li>能够自动评判得到添加的<code>Feture</code>的效果</li>
+<li>管道能够自己选择合适的参数训练模型</li>
+<li>能够输出结果</li>
+</ul>
+<p>其实简单来说,我们要做的是一个能够非常方便的扩展的脚手架,我们不可以第一次就把所以的特征全部找出来,所以我们要搭建一个能够实时添加<code>Feture</code>的框架.</p>
+<p>其实很早以前就看过类似文章,也有很多人推荐<a href="https://github.com/ChenglongChen/Kaggle_HomeDepot" target="_blank" rel="external">大神开源的一个脚手架</a>,然而找到的大多是用<code>python</code>实现</p>
+<p>我因为一开始就是使用<code>Notebook</code>进行数据挖掘,主要<code>Notebook</code>能够提供一个实时的反馈,而纯<code>python</code>,对于复杂多变的数据来说,显得非常笨重,你经常有个好想法想验证一下,又得重新跑一遍,尤其是对于我的机器配置来说,重新跑一边的时间都够我喝杯茶了.而且<code>notebook</code>有个特点,可视化特别方便,有时候从数据上看不到,可以画个图表</p>
+<p>好了,夸了这么久,现在就来仔细讲讲脚手架如何搭建.</p>
+<p>我们先回到赛题,第一步审题,当时我看到日平均两个字,直接把日字省略,看成平均用电量,结果白白浪费了两个验证机会…..</p>
+<p>审完了题我们来看我们要提交的数据,换数据后要预测十月日用电总量.我们来看看给我们数据,只有一份数据,表头如下</p>
+<pre><code>record_date,user_id,power_consumption
+2015/1/1,1,1135
+2015/1/2,1,570
+2015/1/3,1,3418
+2015/1/4,1,3968
+2015/1/5,1,3986
+</code></pre><p>解释一下字段,<code>record_date</code>–日期,<code>user_id</code>–企业id, <code>power_consumption</code>–日用电量<br>非常简单,就这么简单单单的数据,我现在要教大家怎么从这么简单的数据上抽取6000维度的</p>
+<p>我把代码已经推到<code>Github</code>上了(由于数据比较少,我把数据也推上去了,方便大家本地跑跑,看完如果对你有帮助的话,请不要吝啬你的star哦),我就对照我的代码解释如何搭建一个可以跑出上万维度的脚手架</p>
+<h2 id="数据划分-split-samples-ipynb"><a href="#数据划分-split-samples-ipynb" class="headerlink" title="数据划分(split_samples.ipynb)"></a>数据划分(<code>split_samples.ipynb</code>)</h2><p>首先要搭建本地预测集,也就是线下样本(这个很重要,有时候线下的结果很大程度对应你线上的结果)</p>
+<p>给的数据要我们从前面21个月预测下一个月的日总用电量,我们很容易就能想到,那我们用前面20个月预测第21个月来做线下测试,但是这样我们就只有30个训练样本,要来预测30个,99.999%过拟合啊,首先我们要扩大样本,我们采用滑动移窗的方法把预测的样本按照月份推移,也就是分别预测9月8月7月等等</p>
+<p>这种方法在实现<code>Notebook</code>有几个难点,首先你划分了预测集,那么就也要划分训练集,就相当于把一份数据切分成好几份,切分完之后有个问题,你必须要隔离每个部分</p>
+<p>举个例子,我们把训练集划分成为2份,1月到7月预测8月,2月到8月预测9月,训练1-7月数据集的时候,我们不能让这个训练集接触到2月到8月的数据,因为8月对于前一个训练集来说是未知的,<br>如果我们让第一个训练集接触倒第二个训练集我们称为信息泄露,很影响线上的结果</p>
+<p>我们知道这个问题之后,我们就要用巧妙的方法来解决,首先我们要考虑我们代码的复杂度,以前我的解决训练集隔离的方法采用的是循环法,使用一个列表存贮所以训练集,然后使用<code>for</code>循环分别传参到函数里面,这个方法能解决隔离训练集,但是有几个问题</p>
+<p>在单个<code>ipy</code>文件中训练所以的样本,在测试的时候跑起来太慢,而且要把数据全部加载在内存里面,这次数据量还算小,但是对于某些小内存的电脑来说,这种方法时不时就得报<code>Memory Error</code>,而且感觉调试起来特别麻烦,所以一直在寻找更好的解决方案.</p>
+<p>这次想到了一种巧妙的方法,虽然有点取巧但是效果我很满意.</p>
+<p>我们先看到<code>split_samples.ipynb</code>文件,首先我把数据划分为9个样本,一个预测样本.分别放入不同文件夹进行物理隔离.但是名字相同.</p>
+<p>再其次我让<code>ipy</code>能够获取参数,这样我通过外部参数就能更换数据集,平常添加<code>Feture</code>的时候默认选取一个训练集,这样我开发的时候调试就非常方便,而且可以丢掉<code>for</code>循环,还我一个清新脱俗的<code>ipy</code>.</p>
+<p>这里说一个小细节,因为我传参必须要外部调用这种,对于运行<code>ipy</code>我使用了<code>runipy</code>这个工具,然后我死活没有找到,如何使用<code>runipy</code>把参数传倒<code>ipy</code>里面去的方法(如果找到了请告诉我),我一拍脑袋那就转换成<code>py</code>文件传过去,通过<code>sys.argv</code>很轻松就能获取到,所以我又用<code>jupyter nbconvert</code>的工具把<code>ipy</code>转换成<code>py</code>文件</p>
+<p>所以绕了一圈最后又回到了<code>py</code>上(手动滑稽).不过我们工作还是在<code>ipy</code>上进行,生成的<code>py</code>文件我好像没打开过….</p>
+<h2 id="特征提取-extract-fetures-ipynb"><a href="#特征提取-extract-fetures-ipynb" class="headerlink" title="特征提取(extract_fetures.ipynb)"></a>特征提取(<code>extract_fetures.ipynb</code>)</h2><p>聊完如何划分数据集,现在我们进入如何特征提取,我们可以看到这次数据其实就三个特征:时间-企业-用电量.由于企业的信息只有一个<code>id</code>,所以我首先提取的是时序的特征,首先把时间分解为八个维度</p>
+<ul>
+<li>dayofweek</li>
+<li>dayofyear</li>
+<li>days_in_month</li>
+<li>quarter</li>
+<li>week</li>
+<li>weekofyear</li>
+<li>month</li>
+<li>year</li>
+</ul>
+<p>我们可以通过<code>pandas</code>轻松提取出来</p>
+<p>然后我们再从两个方向来看,第一个就是我们日总用电量特征,从全部企业日总用电量</p>
+<p>第二个就是日用电量特征,从每个企业日用电量来看,这些特征我们使用简单统计又可以得到10个维度数据(mean,std,等等)</p>
+<p>看完这些之后我们又可以从多个时间维度来看这些特征,比如30天前,90天前等等(我划分了30,60, 90,180,360五个),</p>
+<p>这样我们就有了 <code>8 * 2 * 5 * 10</code>个特征,但是这远远达不到我们说的上万维度,</p>
+<p>现在我们从业务逻辑上来思考,因为我们知道,其实我们中国节假日和周末,天气这些对用电量影响非常大(我们老家打雷就停电…..)</p>
+<p>所以我们要引入外部数据集,我采用两个爬虫分别是<code>weather_crawl,holiday_crawl</code>爬取了天气和节假日的数据</p>
+<p>我们按照前面的思路,从天气节假日的角度又可以划分出n多特征(这时候我的特征已经达到3000了)</p>
+<p>完了这些基础特征后,我发现有些特征重要性特别大(使用<code>Randomforest</code>得到),这时候我们又要请出我们第二大神器,交叉特征,比如月和假期的特征融合,这一波操作直接让我的特征到了6000+维度(如果将窗口扩大轻轻松松上万)</p>
+<p>在这里要介绍一个特征生成的方法,有时候我们特征少,我们会采用自己命名的,自己生成,然后这个由于规律性比较大,<br>如果我们自己手动一个一个写的话,这上万<code>Fetures</code>够你写的,所以要让他自己生成特征,我们只要建好模子就行,由于这次<br>时间仓促,基本上我没有自己手动命名<code>feture</code>,全部都由程序生成,省掉很多代码量,具体可以看看代码实现,原理很简单.</p>
+<h1 id="训练模型-train-model-ipynb"><a href="#训练模型-train-model-ipynb" class="headerlink" title="训练模型(train_model.ipynb)"></a>训练模型(<code>train_model.ipynb</code>)</h1><p>训练模型的话,一般比赛都推荐先使用树模型,一方面速度快,第二个可以看到<code>feture</code>的重要性,这对于你挑选交叉特征非常有用,模型调参的我这里就不讲,一方面我自己也不是很懂,第二个方面也网上教程也多,我讲的不一定比他好</p>
+<p>这里要推荐一个发现有趣的包,<code>mlxtend</code>,我用他来进行<code>stacking</code>特别方便,有意思的时,我用他融合了四个模型,最后我的训练结果竟然为1,完全拟合了……</p>
+<p>这个包可以很简单的进行模型的<code>stacking</code>,然而这个比赛我没有把他用好(手动滑稽)</p>
+<p>通过训练模型后我们把模型存到<code>pkl</code>文件中,然后在用他来预测数据,这样在文件夹里转一圈的原因,因为原来打过部分比赛数据量太大,训练模型后内存不足,只能先<code>del</code>,清空内存,再预测,存到文件夹后,结束进程,清空内存,这样就能省下空间来读取下一步数据.</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>其实在这个脚手架上可以扩展很多东西,比如最后搏一搏单车变摩托的时候,我就在分割数据和训练数据之间加了一个过滤清洗数据层,在训练模型和融合特征之间加了一个降维的中间层.</p>
+<p>建立一个好的脚手架只是能让你在增添特征,选择特征时更加轻松,其实比赛看的还是你对数据的一种掌控力,建立这个脚手架主要是为了节省更多时间给提取特征、选择特征上.特征决定你的上限.</p>
+<p>这次比赛比较特殊,模型在这个比赛效果可能没有规则好,因为数据量太小,我<code>stacking</code>一下直接完全拟合了.可惜验证的次数还是<br>太少,除去前面两次错误的提交,我只有三次验证机会,如果次数多一点的话,选择特征降维或者模型调参一下遏制拟合结果可能会好很多吧.</p>
+<p>但是这次比赛自己学到了如何搭一个<code>ipy</code>的管道和增加了一些特征调参、特征降维的经验。因为以前看到的搭建管道资料都是基于<code>py</code>,很少基于<code>ipy</code>的,所以把自己搭建<code>ipy</code>管道经验分享出来,也希望自己写的这篇博文能够抛砖引玉,帮助大家搭建自己的完美管道.</p>
+<p>附上我的<a href="https://github.com/mrzhangboss/electricAI" target="_blank" rel="external">开源示例</a>:  <a href="https://github.com/mrzhangboss/electricAI" target="_blank" rel="external">https://github.com/mrzhangboss/electricAI</a><br>大家觉得有帮助就给我点个star吧</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/DM/">DM</a><a href="/tags/competions/">competions</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/06/13/大航杯“智造扬中”电力AI大赛参赛经验/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/06/13/大航杯“智造扬中”电力AI大赛参赛经验/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/06/06/杂记/" title="杂记" itemprop="url">杂记</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
+		
+  <p class="article-time">
+    <time datetime="2017-06-06T14:33:44.000Z" itemprop="datePublished"> Published 2017-06-06</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <blockquote>
+<p>pass</p>
+</blockquote>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/summary/">summary</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/06/06/杂记/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/06/06/杂记/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/05/16/如何成为一名数据挖掘机/" title="如何成为一名数据挖掘机" itemprop="url">如何成为一名数据挖掘机</a>
   </h1>
   <p class="article-author">By
@@ -85,7 +278,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2017-05-16T11:47:12.000Z" itemprop="datePublished"> 发表于 2017-05-16</time>
+    <time datetime="2017-05-16T11:47:12.000Z" itemprop="datePublished"> Published 2017-05-16</time>
     
   </p>
 </header>
@@ -158,7 +351,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2017-04-04T08:03:55.000Z" itemprop="datePublished"> 发表于 2017-04-04</time>
+    <time datetime="2017-04-04T08:03:55.000Z" itemprop="datePublished"> Published 2017-04-04</time>
     
   </p>
 </header>
@@ -250,7 +443,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2017-02-17T13:15:19.000Z" itemprop="datePublished"> 发表于 2017-02-17</time>
+    <time datetime="2017-02-17T13:15:19.000Z" itemprop="datePublished"> Published 2017-02-17</time>
     
   </p>
 </header>
@@ -318,7 +511,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-12-23T14:05:56.000Z" itemprop="datePublished"> 发表于 2016-12-23</time>
+    <time datetime="2016-12-23T14:05:56.000Z" itemprop="datePublished"> Published 2016-12-23</time>
     
   </p>
 </header>
@@ -421,7 +614,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-11-13T05:22:17.493Z" itemprop="datePublished"> 发表于 2016-11-13</time>
+    <time datetime="2016-11-13T05:22:17.493Z" itemprop="datePublished"> Published 2016-11-13</time>
     
   </p>
 </header>
@@ -638,7 +831,7 @@ result None
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-10-09T15:15:06.000Z" itemprop="datePublished"> 发表于 2016-10-09</time>
+    <time datetime="2016-10-09T15:15:06.000Z" itemprop="datePublished"> Published 2016-10-09</time>
     
   </p>
 </header>
@@ -787,7 +980,7 @@ google ansible_ssh_host=1.1.1.3 ansible_ssh_user=root
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-10-01T00:59:11.000Z" itemprop="datePublished"> 发表于 2016-10-01</time>
+    <time datetime="2016-10-01T00:59:11.000Z" itemprop="datePublished"> Published 2016-10-01</time>
     
   </p>
 </header>
@@ -873,7 +1066,7 @@ google ansible_ssh_host=1.1.1.3 ansible_ssh_user=root
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-09-17T13:36:00.000Z" itemprop="datePublished"> 发表于 2016-09-17</time>
+    <time datetime="2016-09-17T13:36:00.000Z" itemprop="datePublished"> Published 2016-09-17</time>
     
   </p>
 </header>
@@ -1019,169 +1212,23 @@ google ansible_ssh_host=1.1.1.3 ansible_ssh_user=root
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/09/07/git-working-streamline/" title="git 工作流程" itemprop="url">git 工作流程</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
-		
-  <p class="article-time">
-    <time datetime="2016-09-07T11:22:51.000Z" itemprop="datePublished"> 发表于 2016-09-07</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <blockquote>
-<p><code>git</code>是当今流行的版本控制工具,一般我们可能只要会<code>push</code>, <code>pull</code>就可以了,<br>但是当我们同别人共同工作的时候,我们必须要了解<code>git</code>协同开发的一些重要流程.</p>
-</blockquote>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
-<p><code>git</code>作为当今最流行的版本控制工具之一,当时开发出来就是为了管理<code>Linux</code>庞大源代码的分布式版本控制工具.<br>由于<code>Linux</code>源代码过于巨大,仅靠一个人的力量是完成不了的,那就必须把工作分配下去,然后将代码合并,所以<code>git</code>一开始设计的时候就是一种分布式的、多分支的</p>
-</blockquote>
-<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>所以<code>git</code>最重要的就是<strong>分支</strong>这个性质,分支是什么呢.</p>
-<p>要了解<strong>分支</strong>必须要了解<code>git</code>工作原理.</p>
-<p><code>git</code>工作原理很简单就是<code>add</code>、<code>commit</code>，<code>add</code>、<code>commit</code>….,简单来说就是添加记录,添加记录,保存快照,添加记录,添加记录,保存快照</p>
-<p><img src="/images/git-workflow-release-cycle-4maintenance.png" alt="git工作分支流程-来源网上"></p>
-<p>  如上图,随着master分支快照的一个一个建立,软件就慢慢的迭代下去了</p>
-<h2 id="分支工作流程"><a href="#分支工作流程" class="headerlink" title="分支工作流程"></a>分支工作流程</h2><p>  接下来我们要着重讲一下分支,我们看到<code>master</code>分支的<code>v0.1</code>版本,我们已经开发出稳定的<code>v0.1</code>版,这时候我们决定开发一个新功能.</p>
-<p> 在这里我们分了一个<code>Develop</code>分支,我们在<code>Develop</code>分支开发新代码.</p>
-<p> 这时候我们发现<code>v0,1</code>的一个<code>bug</code>,假如是没有使用版本控制的话,一般人会停下手中的活,然后从当前的新代码处来修复这个<code>bug</code>,当这个<code>bug</code>很简单的时候,我们不会遇到很大困难,但是当<code>bug</code>藏的很深,而且新代码隐藏了这个<code>bug</code>,或者被这个<code>bug</code>影响,这时修复工作就变得很困难.</p>
-<p> 还好我们有<code>git</code>,我们从<code>v0.1</code>直接分一个<code>Hotfix</code>分支,这两个分支的父都是<code>v0.1</code>,我们直接从稳定版本修复,不牵涉到新代码,这样修改好后我们就能很快从<code>Develop</code>分支继续工作了</p>
-<p> 而且这样有一个好处我们将<code>master</code>和<code>Develop</code>分支合并的时候很大可能不会产生冲突.</p>
-<p> <em>冲突(coflic)是什么了,怎么能避免呢?</em></p>
-<p> 从两个分支的父亲<code>v0.1</code>看起,我们每次改动一个保存文件就会产生一个<code>modify</code>(修改)的动作,我们假如分支里面都对同一个文件产生了<code>modify</code>(修改)动作,当我们合并的时候这就是一个冲突,<code>git</code>无法理解采用哪个分支的<code>modify</code>动作,这时候就要你人工来修改采用哪个分支.</p>
-<p> 假如没有相同的文件有<code>modify</code>(修改)动作,<code>git</code>就会聪明的知道采用每个分支的最新的<code>modify</code>(修改)修改出一份所以文件的最新版.</p>
-<p> 那我们怎么来避免这个冲突呢,这就要求我们分支要分的合理,分支只要完成特定的工作,不要越俎代庖,那有些人会说我这个分支一定要改父的耦合地方否则我的代码工作不了,这时我们要好好思考自己的分支的功能,把合并耦合的代码放在主分支里面,次分支只要完成特定功能就可以了,这样合并分支时候不但可以安全的<code>merge</code>(合并)了, 而且修改<code>bug</code>的时候也可以对症下药,直接在问题开始的地方修改.</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/git/">git</a><a href="/tags/工作/">工作</a><a href="/tags/工具心得/">工具心得</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/09/07/git-working-streamline/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/09/07/git-working-streamline/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/08/21/刷题笔记/" title="刷题笔记" itemprop="url">刷题笔记</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
-		
-  <p class="article-time">
-    <time datetime="2016-08-21T12:26:34.000Z" itemprop="datePublished"> 发表于 2016-08-21</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <blockquote>
-<p>在牛客网刷了16道题了,在这做个总结</p>
-</blockquote>
-<h2 id="概况"><a href="#概况" class="headerlink" title="概况"></a>概况</h2><p>编程题无非两种一种考算法,一种考数据结构</p>
-<p>算法的话,考验你对事情的分析程度和脑袋的灵光,用好的算法还是又大又重的算法,用算法复杂度来看,一般能到 <code>o(n)</code>就算勉强可以,当到了<code>o(n * n)</code>你就要考虑是不是你算法有问题了.</p>
-<p>数据结构的话,队列和链表和二叉树是比较常见的,当然有些奇怪的一般算法反倒很简单.</p>
-<h3 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h3><p>谈算法的话不得不谈递归了,递归其实我感觉更想一种思想</p>
-<p>话不多说请看题,斐波那契数列一直是递归的代表</p>
-<pre><code>                      0                 n= 1    
-f(n) ={           1                   n= 2
-            f(n-1) + f(n-2)     n&gt;2
-</code></pre><p>  虽然</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/notebook/">notebook</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/08/21/刷题笔记/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/08/21/刷题笔记/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
-    <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
   </nav>
 
 </div>
-      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
 
   
 
   
 <div class="tagslist">
-	<p class="asidetitle">标签</p>
+	<p class="asidetitle">Tags</p>
 		<ul class="clearfix">
 		
 			
@@ -1190,6 +1237,10 @@ f(n) ={           1                   n= 2
 		
 			
 				<li><a href="/tags/summary/" title="summary">summary<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mit6-828/" title="mit6.828">mit6.828<sup>2</sup></a></li>
 			
 		
 			
@@ -1210,10 +1261,6 @@ f(n) ={           1                   n= 2
 		
 			
 				<li><a href="/tags/competition/" title="competition">competition<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/blog/" title="blog">blog<sup>1</sup></a></li>
 			
 		
 			
@@ -1269,7 +1316,7 @@ f(n) ={           1                   n= 2
 
 
   <div class="linkslist">
-  <p class="asidetitle">友情链接</p>
+  <p class="asidetitle">Links</p>
     <ul>
         
           <li>
@@ -1285,11 +1332,11 @@ f(n) ={           1                   n= 2
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">新浪微博</p>
+  <p class="asidetitle">Weibo</p>
     <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5364356330&verifier=&dpc=1"></iframe>
 </div>
 
@@ -1462,7 +1509,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
