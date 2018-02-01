@@ -4,32 +4,29 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>红黑树实现原理 | lunge博客</title>
+    <title>引导和操作系统的交互 | lunge博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="张伦">
     
 
     
-    <meta name="description" content="本篇博客主要基于这篇博客的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍红黑树的实现原理，完整代码在github的rbtree.go文件中
-
-浅谈”树”这种数据结构Github可视化页面
-引言">
+    <meta name="description" content="引言本来自己查了很多资料，想自己写出来，结果下笔的时候发现别人已经把我想写的部分全部写出来了，而且比我想的还要具体，所以我就不写了，把链接放出了，顺便我补充一些
+http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/
+http://leenjewel.g">
 <meta property="og:type" content="article">
-<meta property="og:title" content="红黑树实现原理">
-<meta property="og:url" content="https://mrzhangboss.github.io/2018/01/05/红黑树实现原理/index.html">
+<meta property="og:title" content="引导和操作系统的交互">
+<meta property="og:url" content="https://mrzhangboss.github.io/2018/01/31/引导和操作系统的交互/index.html">
 <meta property="og:site_name" content="lunge博客">
-<meta property="og:description" content="本篇博客主要基于这篇博客的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍红黑树的实现原理，完整代码在github的rbtree.go文件中
-
-浅谈”树”这种数据结构Github可视化页面
-引言">
-<meta property="og:updated_time" content="2018-01-05T02:57:45.527Z">
+<meta property="og:description" content="引言本来自己查了很多资料，想自己写出来，结果下笔的时候发现别人已经把我想写的部分全部写出来了，而且比我想的还要具体，所以我就不写了，把链接放出了，顺便我补充一些
+http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/
+http://leenjewel.g">
+<meta property="og:updated_time" content="2018-02-01T15:45:11.180Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="红黑树实现原理">
-<meta name="twitter:description" content="本篇博客主要基于这篇博客的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍红黑树的实现原理，完整代码在github的rbtree.go文件中
-
-浅谈”树”这种数据结构Github可视化页面
-引言">
+<meta name="twitter:title" content="引导和操作系统的交互">
+<meta name="twitter:description" content="引言本来自己查了很多资料，想自己写出来，结果下笔的时候发现别人已经把我想写的部分全部写出来了，而且比我想的还要具体，所以我就不写了，把链接放出了，顺便我补充一些
+http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/
+http://leenjewel.g">
 <meta name="twitter:creator" content="@mrzhangboss">
 
     
@@ -89,14 +86,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2018/01/05/红黑树实现原理/" title="红黑树实现原理" itemprop="url">红黑树实现原理</a>
+      <a href="/2018/01/31/引导和操作系统的交互/" title="引导和操作系统的交互" itemprop="url">引导和操作系统的交互</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-01-04T16:00:00.000Z" itemprop="datePublished"> Published 2018-01-05</time>
+    <time datetime="2018-01-30T16:00:00.000Z" itemprop="datePublished"> Published 2018-01-31</time>
     
   </p>
 </header>
@@ -105,15 +102,14 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引用"><span class="toc-number">2.</span> <span class="toc-text">引用</span></a></li></ol>
 		
 		</div>
 		
-		<blockquote>
-<p>本篇博客主要基于这篇<a href="/">博客</a>的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍红黑树的实现原理，完整代码在<a href="https://github.com/mrzhangboss/trees" target="_blank" rel="external">github</a>的<code>rbtree.go</code>文件中</p>
-</blockquote>
-<p><a href="/">浅谈”树”这种数据结构</a><br><a href="https://github.com/mrzhangboss/trees" title="github" target="_blank" rel="external">Github</a><br><a href="http://www.cs.usfca.edu/~galles/visualization/RedBlack.html" target="_blank" rel="external">可视化页面</a></p>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2>  
+		<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本来自己查了很多资料，想自己写出来，结果下笔的时候发现别人已经把我想写的部分全部写出来了，而且比我想的还要具体，所以我就不写了，把链接放出了，顺便我补充一些</p>
+<p><a href="http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/" target="_blank" rel="external">http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/</a></p>
+<p><a href="http://leenjewel.github.io/blog/2015/05/26/%5B%28xue-xi-xv6%29%5D-jia-zai-bing-yun-xing-nei-he/" target="_blank" rel="external">http://leenjewel.github.io/blog/2015/05/26/%5B%28xue-xi-xv6%29%5D-jia-zai-bing-yun-xing-nei-he/</a></p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -125,7 +121,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://mrzhangboss.github.io/2018/01/05/红黑树实现原理/" data-title="红黑树实现原理 | lunge博客" data-tsina="5364356330" class="share clearfix">
+	  <div data-url="https://mrzhangboss.github.io/2018/01/31/引导和操作系统的交互/" data-title="引导和操作系统的交互 | lunge博客" data-tsina="5364356330" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -138,19 +134,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2018/01/06/2018新年展望/" title="新年展望">
-  <strong>上一篇：</strong><br/>
-  <span>
-  新年展望</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2018/01/04/AVL树实现原理/"  title="AVL树实现原理">
+<a href="/2018/01/31/内存分页/"  title="内存分页">
  <strong>下一篇：</strong><br/> 
- <span>AVL树实现原理
+ <span>内存分页
 </span>
 </a>
 </div>
@@ -159,7 +147,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2018/01/05/红黑树实现原理/" data-title="红黑树实现原理" data-url="https://mrzhangboss.github.io/2018/01/05/红黑树实现原理/"></div>
+	<div class="ds-thread" data-thread-key="2018/01/31/引导和操作系统的交互/" data-title="引导和操作系统的交互" data-url="https://mrzhangboss.github.io/2018/01/31/引导和操作系统的交互/"></div>
 </section>
 
 
@@ -171,7 +159,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引用"><span class="toc-number">2.</span> <span class="toc-text">引用</span></a></li></ol>
  
   </div>
 
