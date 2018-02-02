@@ -4,40 +4,26 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>PIL （Pillow） | lunge博客</title>
+    <title>从CS寄存器看段的前世今生 | lunge博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="张伦">
     
 
     
-    <meta name="description" content="Pillow 是 PIL的对Python3支持的另外一个分支，当然他对Python2也兼容，由于PIL安装起来比较烦，而使用pip可以很轻松的安装Pillow，所以我选择Pillow使用，但是其核心还是PIL库的。
-
-Python的图形处理库如PIL一直很强大，但是要想使用好它必须对图片有一定的知识储备。使用起来很简单
-from PIL import Image
-引用Image包
-im = Ima">
+    <meta name="description" content="引言Intel作为作为微处理器的航头老大，一直引导CPU的进步发展，也正是因为Intel是一个有着历史包袱的企业，所以站在现代CPU看起来，有一些非常奇葩的设计遗留下来，这些设计一开始是为了兼容，慢慢的将这种兼容又发展成新的功能，把“包袱”转换成“亮点”，段设计就是其中的一个很重要的代表，要想搞懂这个设计在不同的CPU的如何保持兼容和强化，我们必须要慢慢的把CPU的历史给捋顺。
+前言我们要介绍第一">
 <meta property="og:type" content="article">
-<meta property="og:title" content="PIL （Pillow）">
-<meta property="og:url" content="https://mrzhangboss.github.io/2016/07/18/PIL （Pillow）0/index.html">
+<meta property="og:title" content="从CS寄存器看段的前世今生">
+<meta property="og:url" content="https://mrzhangboss.github.io/2018/01/30/从CS寄存器看段的前世今生/index.html">
 <meta property="og:site_name" content="lunge博客">
-<meta property="og:description" content="Pillow 是 PIL的对Python3支持的另外一个分支，当然他对Python2也兼容，由于PIL安装起来比较烦，而使用pip可以很轻松的安装Pillow，所以我选择Pillow使用，但是其核心还是PIL库的。
-
-Python的图形处理库如PIL一直很强大，但是要想使用好它必须对图片有一定的知识储备。使用起来很简单
-from PIL import Image
-引用Image包
-im = Ima">
-<meta property="og:image" content="http://img1.imgtn.bdimg.com/it/u=214288124,4080808149&fm=21&gp=0.jpg">
-<meta property="og:updated_time" content="2016-07-18T08:16:36.371Z">
+<meta property="og:description" content="引言Intel作为作为微处理器的航头老大，一直引导CPU的进步发展，也正是因为Intel是一个有着历史包袱的企业，所以站在现代CPU看起来，有一些非常奇葩的设计遗留下来，这些设计一开始是为了兼容，慢慢的将这种兼容又发展成新的功能，把“包袱”转换成“亮点”，段设计就是其中的一个很重要的代表，要想搞懂这个设计在不同的CPU的如何保持兼容和强化，我们必须要慢慢的把CPU的历史给捋顺。
+前言我们要介绍第一">
+<meta property="og:updated_time" content="2018-02-02T03:56:30.936Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="PIL （Pillow）">
-<meta name="twitter:description" content="Pillow 是 PIL的对Python3支持的另外一个分支，当然他对Python2也兼容，由于PIL安装起来比较烦，而使用pip可以很轻松的安装Pillow，所以我选择Pillow使用，但是其核心还是PIL库的。
-
-Python的图形处理库如PIL一直很强大，但是要想使用好它必须对图片有一定的知识储备。使用起来很简单
-from PIL import Image
-引用Image包
-im = Ima">
-<meta name="twitter:image" content="http://img1.imgtn.bdimg.com/it/u=214288124,4080808149&fm=21&gp=0.jpg">
+<meta name="twitter:title" content="从CS寄存器看段的前世今生">
+<meta name="twitter:description" content="引言Intel作为作为微处理器的航头老大，一直引导CPU的进步发展，也正是因为Intel是一个有着历史包袱的企业，所以站在现代CPU看起来，有一些非常奇葩的设计遗留下来，这些设计一开始是为了兼容，慢慢的将这种兼容又发展成新的功能，把“包袱”转换成“亮点”，段设计就是其中的一个很重要的代表，要想搞懂这个设计在不同的CPU的如何保持兼容和强化，我们必须要慢慢的把CPU的历史给捋顺。
+前言我们要介绍第一">
 <meta name="twitter:creator" content="@mrzhangboss">
 
     
@@ -97,14 +83,14 @@ im = Ima">
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/07/18/PIL （Pillow）0/" title="PIL （Pillow）" itemprop="url">PIL （Pillow）</a>
+      <a href="/2018/01/30/从CS寄存器看段的前世今生/" title="从CS寄存器看段的前世今生" itemprop="url">从CS寄存器看段的前世今生</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> Published 2016-07-18</time>
+    <time datetime="2018-01-29T16:00:00.000Z" itemprop="datePublished"> Published 2018-01-30</time>
     
   </p>
 </header>
@@ -113,47 +99,31 @@ im = Ima">
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">2.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#段设计对程序影响"><span class="toc-number">3.</span> <span class="toc-text">段设计对程序影响</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#兼容性"><span class="toc-number">3.1.</span> <span class="toc-text">兼容性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安全性"><span class="toc-number">3.2.</span> <span class="toc-text">安全性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#32位处理器的改变"><span class="toc-number">4.</span> <span class="toc-text">32位处理器的改变</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li></ol>
 		
 		</div>
 		
-		<p>Pillow 是 PIL的对Python3支持的另外一个分支，当然他对Python2也兼容，由于PIL安装起来比较烦，而使用pip可以很轻松的安装Pillow，所以我选择Pillow使用，但是其核心还是PIL库的。</p>
-<hr>
-<p>Python的图形处理库如PIL一直很强大，但是要想使用好它必须对图片有一定的知识储备。<br>使用起来很简单</p>
-<pre><code>from PIL import Image
-</code></pre><p>引用Image包</p>
-<pre><code>im = Image.open(&apos;1.png&apos;)
-</code></pre><p>打开图片，得到一个im对象，我们接下来就可以对这个对象进行操作（前提有这个1.png图片）</p>
-<p>我们先看一下他的一些属性</p>
-<pre><code>&gt;&gt;&gt; print im.format, im.size, im.mode
-PNG (83, 81) RGB
-</code></pre><p>第一个我们输出图片的格式，图片有很多种格式，常用的有jpg、png还有gif动图啊，PIL支持很多种格式，我们可以使用PIL轻松的将格式转换，<code>im.save(&#39;1.jpg&#39;)</code>,当然你可以选择格式假如你没选好后缀名的话，im.size就是图片大小，他返回的是一个元组第一个长度第二个是宽度，单位是像素。<br>现在就谈谈 这三个属性对应的关系吧<br> 首先我们使用一张像素图来说吧</p>
-<p><img src="http://img1.imgtn.bdimg.com/it/u=214288124,4080808149&amp;fm=21&amp;gp=0.jpg" alt=""></p>
-<p>我们存贮图片的时候是将整个图像分成很多个相同的小方块，每个小方块我们称为像素，当然一张图片分的越小，像素越多，那么图片就越接近真实图片，上面的<code>im.size</code>属性就告诉我们，这张图片分成了，长为83px，宽为81px的图片，那么一共有83*81=6723个像素点，每个像素点里面存什么呢，这就是<code>im.mode</code>属性告诉我们的，贴一下属性有什么吧</p>
-<ol>
-<li>1 (1-bit pixels, black and white, stored with one pixel per byte)</li>
-<li>L (8-bit pixels, black and white)</li>
-<li>P (8-bit pixels, mapped to any other mode using a color palette)</li>
-<li>RGB (3x8-bit pixels, true color)</li>
-<li>RGBA (4x8-bit pixels, true color with transparency mask)</li>
-<li>CMYK (4x8-bit pixels, color separation)</li>
-<li>YCbCr (3x8-bit pixels, color video format)</li>
-<li>I (32-bit signed integer pixels)</li>
-<li>F (32-bit floating point pixels)</li>
-</ol>
-<p>像素存贮就是涉及到颜色的存贮，在早期的黑白游戏机，只有黑和白两种，那么每个像素点就只有1位颜色来存贮，1位只能存贮两种颜色，八位色就能存256种颜色，像八位我们能用256个油漆桶/256色调色板来形容，像上面我们使用的RGB是由三种三原色红绿蓝混合而成，我们知道大自然所有的颜色都可以用红绿蓝三种颜色调配出来，所以RGB又被称为真彩（true color），每种颜色我们都分成256种，所以我们一共有256<em>256</em>256=16777216种颜色可以调配，像素的其他模式我们不介绍太多，有兴趣的可以自己钻研。<br>那么我们知道每个像素占多少字节，又知道共有多少个像素，那我们是不是就可以直接计算出来图片大小，来验证一下</p>
-<p>以第一张图片为例，共有83<em>81=6723个像素点，用RGB模式，每个像素三个字节，共有6723</em>3=20667b=20kb，但是我这张图片只有11.6kb，误差太大了吧，这时候我们就要介绍一下上面那个<code>im.format</code>属性了，这张图片采用png格式，我们先尝试一下把他转成JPG格式吧</p>
-<pre><code>im.save(&apos;1.jpg&apos;)
-</code></pre><p>我们再查看一下这个<code>1.jpg</code>的大小，只有2.24kb了，我们用PIL打开这张图片</p>
-<pre><code>&gt;&gt;&gt; im2 = Image.open(&apos;1.jpg&apos;)
-&gt;&gt;&gt; print im2.format, im2.size, im2.mode 
-JPEG (83, 81) RGB
-</code></pre><p>图片大小没有改变，但是format变成了JPEG，而且文件大小变成原来的1/5,<br>JPEG和GIF和PNG是三种图片压缩技术，他们使用压缩算法把图片压缩成很小，当我们打开图片时，解密算法把他还原出来，所以我们算出来的大小与压缩后的大小是不一样的。<br>有了这些概念我们就能更好的使用PIL提供给我们的magic方法，下次在谈我对PIL的高级应用吧。</p>
+		<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>Intel作为作为微处理器的航头老大，一直引导CPU的进步发展，也正是因为Intel是一个有着历史包袱的企业，所以站在现代CPU看起来，有一些非常奇葩的设计遗留下来，这些设计一开始是为了兼容，慢慢的将这种兼容又发展成新的功能，把“包袱”转换成“亮点”，段设计就是其中的一个很重要的代表，要想搞懂这个设计在不同的CPU的如何保持兼容和强化，我们必须要慢慢的把CPU的历史给捋顺。</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>我们要介绍第一个CPU是8086，虽然Intel前面也生产了4004、8008、8080微处理器，但是8086基本上后面所以现代化CPU始祖，Intel后面生产的CPU都对8086兼容，所以可以说段这个“祸端”就是从8086种下来的</p>
+<p>8086作为第一款的16位处理器，由于技术的问题，出现了一个严重问题寄存器只有16位，而地址总线却有20位，要想只通过一个寄存器表达地址的值显示无法实现，所以8086采用了一个段寄存器，segment × 16+offset（CS:IP），采用这个方式就能实现20位地址索引</p>
+<h2 id="段设计对程序影响"><a href="#段设计对程序影响" class="headerlink" title="段设计对程序影响"></a>段设计对程序影响</h2><p>前面简单的介绍了段设计的原因，现在我们来看看这个设计的对16位程序的影响。</p>
+<h3 id="兼容性"><a href="#兼容性" class="headerlink" title="兼容性"></a>兼容性</h3><p>由于段的存在，我们设计程序的时候可以更加自由，我们可以假设我们是在任何低16位置的内存上，只有到时切换程序时候切换段就可以</p>
+<h3 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h3><p>我们可以用相同的低地址存代码和数据，只需要切换段就行，而且我们也不需要考虑数据要多少空间，代码要多少空间，以便设定跳转地址</p>
+<blockquote>
+<p>可以说段设计是16位程序的一个很优雅的做法，但是到了３２位的时候程序不行了</p>
+</blockquote>
+<h2 id="32位处理器的改变"><a href="#32位处理器的改变" class="headerlink" title="32位处理器的改变"></a>32位处理器的改变</h2><p>我们知道32位处理器的诞生带来了两件事,第一个就是寄存器有32位了,说明最大内存地址可以到4G了(<code>0x000000-0xffffff</code>),而且总线地址也有32位了。这个时候就很尴尬了，原来的段设计到这里就成鸡肋了。但是为了兼容，我们还是给他一个功能，段选择子，当然现代Unix操作系统没有用这个东西，只是在初始化的时候意思意思一下，具体可以看一下这篇<a href="http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/" target="_blank" rel="external">博客</a>的<code>GDB</code>表</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>最近学操作系统感觉学了很多知识，总想好好总结一下细节，结果发现总有大神们早就写出来了，而且非常详细，我就不班门弄釜了，把下面的lab好好思考，提炼出自己的知识。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/mit6-828/">mit6.828</a>
+  </div>
 
 </div>
 
@@ -161,7 +131,7 @@ JPEG (83, 81) RGB
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://mrzhangboss.github.io/2016/07/18/PIL （Pillow）0/" data-title="PIL （Pillow） | lunge博客" data-tsina="5364356330" class="share clearfix">
+	  <div data-url="https://mrzhangboss.github.io/2018/01/30/从CS寄存器看段的前世今生/" data-title="从CS寄存器看段的前世今生 | lunge博客" data-tsina="5364356330" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -175,18 +145,18 @@ JPEG (83, 81) RGB
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/07/18/Python 线程(threading) 进程(multiprocessing)0/" title="Python 线程(threading) 进程(multiprocessing)">
+ <a href="/2018/01/31/引导和操作系统的交互/" title="引导和操作系统的交互">
   <strong>上一篇：</strong><br/>
   <span>
-  Python 线程(threading) 进程(multiprocessing)</span>
+  引导和操作系统的交互</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/07/18/Numpy的简析0/"  title="Numpy的简析">
+<a href="/2018/01/29/什么是操作系统/"  title="什么是操作系统">
  <strong>下一篇：</strong><br/> 
- <span>Numpy的简析
+ <span>什么是操作系统
 </span>
 </a>
 </div>
@@ -195,7 +165,7 @@ JPEG (83, 81) RGB
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2016/07/18/PIL （Pillow）0/" data-title="PIL （Pillow）" data-url="https://mrzhangboss.github.io/2016/07/18/PIL （Pillow）0/"></div>
+	<div class="ds-thread" data-thread-key="2018/01/30/从CS寄存器看段的前世今生/" data-title="从CS寄存器看段的前世今生" data-url="https://mrzhangboss.github.io/2018/01/30/从CS寄存器看段的前世今生/"></div>
 </section>
 
 
@@ -207,7 +177,7 @@ JPEG (83, 81) RGB
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">2.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#段设计对程序影响"><span class="toc-number">3.</span> <span class="toc-text">段设计对程序影响</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#兼容性"><span class="toc-number">3.1.</span> <span class="toc-text">兼容性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安全性"><span class="toc-number">3.2.</span> <span class="toc-text">安全性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#32位处理器的改变"><span class="toc-number">4.</span> <span class="toc-text">32位处理器的改变</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li></ol>
  
   </div>
 

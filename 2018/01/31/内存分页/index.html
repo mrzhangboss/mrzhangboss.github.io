@@ -12,18 +12,21 @@
 
     
     <meta name="description" content="引言本来自己查了很多资料，想自己写出来，结果下笔的时候发现别人已经把我想写的部分全部写出来了，而且比我想的还要具体，所以我就不写了，把链接放出了，顺便我补充一些
-http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan/">
+http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan/
+总结由于内存分页在后面的lab2中也会设计，而且给出的资料写的非常详细，所">
 <meta property="og:type" content="article">
 <meta property="og:title" content="内存分页">
 <meta property="og:url" content="https://mrzhangboss.github.io/2018/01/31/内存分页/index.html">
 <meta property="og:site_name" content="lunge博客">
 <meta property="og:description" content="引言本来自己查了很多资料，想自己写出来，结果下笔的时候发现别人已经把我想写的部分全部写出来了，而且比我想的还要具体，所以我就不写了，把链接放出了，顺便我补充一些
-http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan/">
-<meta property="og:updated_time" content="2018-02-01T15:45:01.952Z">
+http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan/
+总结由于内存分页在后面的lab2中也会设计，而且给出的资料写的非常详细，所">
+<meta property="og:updated_time" content="2018-02-02T03:56:10.784Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="内存分页">
 <meta name="twitter:description" content="引言本来自己查了很多资料，想自己写出来，结果下笔的时候发现别人已经把我想写的部分全部写出来了，而且比我想的还要具体，所以我就不写了，把链接放出了，顺便我补充一些
-http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan/">
+http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan/
+总结由于内存分页在后面的lab2中也会设计，而且给出的资料写的非常详细，所">
 <meta name="twitter:creator" content="@mrzhangboss">
 
     
@@ -52,7 +55,7 @@ http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan
 				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -68,7 +71,7 @@ http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan
  					
 					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="Search" />
 					</form>
 					
 					</li>
@@ -90,22 +93,23 @@ http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-01-30T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-01-31</time>
+    <time datetime="2018-01-30T16:00:00.000Z" itemprop="datePublished"> Published 2018-01-31</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目录</strong>
+			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">2.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引用"><span class="toc-number">3.</span> <span class="toc-text">引用</span></a></li></ol>
 		
 		</div>
 		
 		<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本来自己查了很多资料，想自己写出来，结果下笔的时候发现别人已经把我想写的部分全部写出来了，而且比我想的还要具体，所以我就不写了，把链接放出了，顺便我补充一些</p>
 <p><a href="http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan/" target="_blank" rel="external">http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan/</a></p>
-  
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>由于内存分页在后面的lab2中也会设计，而且给出的资料写的非常详细，所以我就不多提了。这里提一下为了更好的理解什么内存分页的段选择子与CS的关系，我写了一篇<a href="/2018/01/30/从CS寄存器看段的前世今生/">关于CS寄存器的发展史</a></p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -130,19 +134,11 @@ http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2018/01/31/引导和操作系统的交互/" title="引导和操作系统的交互">
-  <strong>上一篇：</strong><br/>
-  <span>
-  引导和操作系统的交互</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2018/01/29/什么是操作系统/"  title="什么是操作系统">
+<a href="/2018/01/31/引导和操作系统的交互/"  title="引导和操作系统的交互">
  <strong>下一篇：</strong><br/> 
- <span>什么是操作系统
+ <span>引导和操作系统的交互
 </span>
 </a>
 </div>
@@ -158,25 +154,29 @@ http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan
 
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目录</strong>
+  <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">2.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引用"><span class="toc-number">3.</span> <span class="toc-text">引用</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
 
   
 
   
 <div class="tagslist">
-	<p class="asidetitle">标签</p>
+	<p class="asidetitle">Tags</p>
 		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/mit6-828/" title="mit6.828">mit6.828<sup>3</sup></a></li>
+			
 		
 			
 				<li><a href="/tags/python/" title="python">python<sup>3</sup></a></li>
@@ -184,10 +184,6 @@ http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan
 		
 			
 				<li><a href="/tags/summary/" title="summary">summary<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/mit6-828/" title="mit6.828">mit6.828<sup>2</sup></a></li>
 			
 		
 			
@@ -263,7 +259,7 @@ http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan
 
 
   <div class="linkslist">
-  <p class="asidetitle">友情链接</p>
+  <p class="asidetitle">Links</p>
     <ul>
         
           <li>
@@ -279,11 +275,11 @@ http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">新浪微博</p>
+  <p class="asidetitle">Weibo</p>
     <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5364356330&verifier=&dpc=1"></iframe>
 </div>
 
@@ -545,7 +541,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
