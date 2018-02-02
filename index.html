@@ -45,7 +45,7 @@
 				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -61,7 +61,7 @@
  					
 					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
 					</form>
 					
 					</li>
@@ -85,7 +85,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-01-30T16:00:00.000Z" itemprop="datePublished"> Published 2018-01-31</time>
+    <time datetime="2018-01-30T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-01-31</time>
     
   </p>
 </header>
@@ -94,7 +94,57 @@
         <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本来自己查了很多资料，想自己写出来，结果下笔的时候发现别人已经把我想写的部分全部写出来了，而且比我想的还要具体，所以我就不写了，把链接放出了，顺便我补充一些</p>
 <p><a href="http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/" target="_blank" rel="external">http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/</a></p>
 <p><a href="http://leenjewel.github.io/blog/2015/05/26/%5B%28xue-xi-xv6%29%5D-jia-zai-bing-yun-xing-nei-he/" target="_blank" rel="external">http://leenjewel.github.io/blog/2015/05/26/%5B%28xue-xi-xv6%29%5D-jia-zai-bing-yun-xing-nei-he/</a></p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2>
+<h2 id="ELF文件"><a href="#ELF文件" class="headerlink" title="ELF文件"></a>ELF文件</h2><p>首先你要知道什么是ELF，可以看一下这篇<a href="https://my.oschina.net/u/864891/blog/87965" target="_blank" rel="external">博客</a>，简单来说就是编译完C后的机器码，前面加了一些数据表记录程序的分布情况</p>
+<p>为了帮助我们逆向分析这些代码有什么，我们必须要借助两个工具</p>
+<ul>
+<li>objdump</li>
+<li>readelf</li>
+</ul>
+<p>我们接下来就用实际例子解读mit6.828里面的引导和核心</p>
+<h2 id="引导"><a href="#引导" class="headerlink" title="引导"></a>引导</h2><p>首先我们查看一下引导文件，在<code>boot/</code>目录下有两个文件</p>
+<ul>
+<li>boot.S</li>
+<li>main.c</li>
+</ul>
+<p>两者是通过gcc编译器将汇编和C编译成为一个<code>elf</code>文件，具体在<code>Makefile</code>文件中（<code>boot/Makefrag</code>)，我将它简单翻译一下</p>
+<pre><code>gcc -N -e start -Ttext 0x7C00 -o boot.out boot.o main.o
+</code></pre><p><code>boot.o</code>和<code>main.o</code>就是<code>boot.S</code>和<code>main.c</code>编译后的文件，<code>-e start</code>意思程序从<code>boot.S</code>的<code>start</code>中开始运行（这样就能从汇编开始执行），<code>-Ttext</code>中<code>text</code>代表代码段，也就是说直接指定代码入口地址为<code>0x7C00</code>，我们可以用<code>readelf</code>验证一下</p>
+<pre><code>mit-6.828-2014 ➤ readelf -h obj/boot/boot.out                         git:lab1*
+ELF Header:
+  Magic:   7f 45 4c 46 01 01 01 00 00 00 00 00 00 00 00 00 
+  Class:                             ELF32
+  Data:                              2&apos;s complement, little endian
+  Version:                           1 (current)
+  OS/ABI:                            UNIX - System V
+  ABI Version:                       0
+  Type:                              EXEC (Executable file)
+  Machine:                           Intel 80386
+  Version:                           0x1
+  Entry point address:               0x7c00
+  Start of program headers:          52 (bytes into file)
+  Start of section headers:          4868 (bytes into file)
+  Flags:                             0x0
+  Size of this header:               52 (bytes)
+  Size of program headers:           32 (bytes)
+  Number of program headers:         2
+  Size of section headers:           40 (bytes)
+  Number of section headers:         9
+  Section header string table index: 6
+</code></pre><p>我们读取了一下生成的<code>elf</code>文件头部，我们可以看到<code>Entry point address</code>这个字段，就是我们设定的<code>0x7c00</code>，要了解这个地址的含义我们必须知道虚拟地址和物理地址的区别，可以看一下这篇<a href="http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/" target="_blank" rel="external">博客</a>，接着我们看一下反汇编的汇编代码<code>obj/boot/boot.asm</code>中，我们知道现在<code>0x7c00</code>代表程序把自己当做在内存上的真实内存上面，但是不一定会真的存在这块上，所以我们称它为虚拟的</p>
+<p>首先我们了解一个系统知识，因为电脑启动后会按照启动盘顺序，把每个盘第一个扇形区512B取出来，如果最后两个字节为<code>0xAA55</code>的话就把它放到内存上面的<code>0x7c00</code>上去，我们看一下我们生成的<code>obj/boot/boot</code></p>
+<p>使用<code>hexdump obj/boot/boo</code>可以看到（我把最后一行复制出来）</p>
+<pre><code>00001f0 0000 0000 0000 0000 0000 0000 0000 aa55
+</code></pre><p>最后连个字节为<code>0xaa55</code>，且文件大小刚刚好512B，这时候你可以有一个疑惑了，我们知道<code>gcc</code>我们生成的<code>boot.out</code>的elf文件，但是这个文件还有头部存贮数据，我们如果把整个文件放到磁盘上，当程序在内存<code>0x7c00</code>处执行时，那么文件头部碰到的就是elf头了，所以<br>为了把机器码提取出来并生成合适文件（512B尾部为<code>0xaa55</code>），程序干了两件事</p>
+<ul>
+<li>用objcopy将elf文件中执行代码提取出来（相当于去掉elf头部）</li>
+<li>用脚本修改尾部两字节（在<code>boot/sign.pl</code>用了perl程序来将生成512B且尾部为<code>0xaa55</code>的<code>boot</code>文件）</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>后面将核心加载到内存，上面的给出资料写的很详细，我就不多说，只不过由于当前<code>2014</code>的版本同资料有点不同，这里我提一下</p>
+<p>当前版本是将内核头加载在<code>0x10000</code>上，然后在把内核代码加载到<code>0x100000</code>上（前面4个0，后面5个0，我当初看错了，百思不得其解），并将内核地址映射到<code>f0100000</code>上。</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/" target="_blank" rel="external">http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/</a></p>
+<p><a href="https://my.oschina.net/u/864891/blog/87965" target="_blank" rel="external">https://my.oschina.net/u/864891/blog/87965</a></p>
+<p><a href="http://bochs.sourceforge.net/techspec/PORTS.LST" target="_blank" rel="external">端口信息</a></p>
+
         
         
         <p class="article-more-link">
@@ -140,7 +190,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-01-30T16:00:00.000Z" itemprop="datePublished"> Published 2018-01-31</time>
+    <time datetime="2018-01-30T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-01-31</time>
     
   </p>
 </header>
@@ -194,7 +244,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-01-28T16:00:00.000Z" itemprop="datePublished"> Published 2018-01-29</time>
+    <time datetime="2018-01-28T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-01-29</time>
     
   </p>
 </header>
@@ -292,7 +342,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-01-08T16:00:00.000Z" itemprop="datePublished"> Published 2018-01-09</time>
+    <time datetime="2018-01-08T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-01-09</time>
     
   </p>
 </header>
@@ -356,7 +406,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-01-05T16:00:00.000Z" itemprop="datePublished"> Published 2018-01-06</time>
+    <time datetime="2018-01-05T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-01-06</time>
     
   </p>
 </header>
@@ -436,7 +486,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-01-04T16:00:00.000Z" itemprop="datePublished"> Published 2018-01-05</time>
+    <time datetime="2018-01-04T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-01-05</time>
     
   </p>
 </header>
@@ -492,7 +542,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-01-03T16:00:00.000Z" itemprop="datePublished"> Published 2018-01-04</time>
+    <time datetime="2018-01-03T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-01-04</time>
     
   </p>
 </header>
@@ -555,7 +605,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-01-03T16:00:00.000Z" itemprop="datePublished"> Published 2018-01-04</time>
+    <time datetime="2018-01-03T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-01-04</time>
     
   </p>
 </header>
@@ -647,7 +697,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2017-12-26T16:00:00.000Z" itemprop="datePublished"> Published 2017-12-27</time>
+    <time datetime="2017-12-26T16:00:00.000Z" itemprop="datePublished"> 发表于 2017-12-27</time>
     
   </p>
 </header>
@@ -771,7 +821,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2017-12-25T16:00:00.000Z" itemprop="datePublished"> Published 2017-12-26</time>
+    <time datetime="2017-12-25T16:00:00.000Z" itemprop="datePublished"> 发表于 2017-12-26</time>
     
   </p>
 </header>
@@ -1038,17 +1088,17 @@
   </nav>
 
 </div>
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
 
   
 <div class="tagslist">
-	<p class="asidetitle">Tags</p>
+	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
 		
 			
@@ -1136,7 +1186,7 @@
 
 
   <div class="linkslist">
-  <p class="asidetitle">Links</p>
+  <p class="asidetitle">友情链接</p>
     <ul>
         
           <li>
@@ -1152,11 +1202,11 @@
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">Weibo</p>
+  <p class="asidetitle">新浪微博</p>
     <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5364356330&verifier=&dpc=1"></iframe>
 </div>
 
@@ -1329,7 +1379,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
