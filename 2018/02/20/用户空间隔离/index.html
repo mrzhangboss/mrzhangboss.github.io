@@ -13,20 +13,26 @@
     
     <meta name="description" content="通过前面的学习我们知道，在前两个实验中最主要的程序就是kern/init.c文件中i386_init函数，但是我们看到最后却是一个while循环结束。
 
-extern uint8_t _binary_obj_user_hello_start[];    uint8_t w = (uint8_t)_binary_obj_user_hello_start;    extern char end[];">
+while (1)
+    monitor(NULL);
+这个monitor就是简单读取用户输入然后通过字符串调用给定的几个函数。我们可以把这个函数看做i386_init的子函数，也就是程序一直在i386_init中运行，也就是一直以内核形式运">
 <meta property="og:type" content="article">
 <meta property="og:title" content="用户空间隔离">
 <meta property="og:url" content="https://mrzhangboss.github.io/2018/02/20/用户空间隔离/index.html">
 <meta property="og:site_name" content="lunge博客">
 <meta property="og:description" content="通过前面的学习我们知道，在前两个实验中最主要的程序就是kern/init.c文件中i386_init函数，但是我们看到最后却是一个while循环结束。
 
-extern uint8_t _binary_obj_user_hello_start[];    uint8_t w = (uint8_t)_binary_obj_user_hello_start;    extern char end[];">
-<meta property="og:updated_time" content="2018-02-22T13:05:33.176Z">
+while (1)
+    monitor(NULL);
+这个monitor就是简单读取用户输入然后通过字符串调用给定的几个函数。我们可以把这个函数看做i386_init的子函数，也就是程序一直在i386_init中运行，也就是一直以内核形式运">
+<meta property="og:updated_time" content="2018-02-25T13:48:56.697Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="用户空间隔离">
 <meta name="twitter:description" content="通过前面的学习我们知道，在前两个实验中最主要的程序就是kern/init.c文件中i386_init函数，但是我们看到最后却是一个while循环结束。
 
-extern uint8_t _binary_obj_user_hello_start[];    uint8_t w = (uint8_t)_binary_obj_user_hello_start;    extern char end[];">
+while (1)
+    monitor(NULL);
+这个monitor就是简单读取用户输入然后通过字符串调用给定的几个函数。我们可以把这个函数看做i386_init的子函数，也就是程序一直在i386_init中运行，也就是一直以内核形式运">
 <meta name="twitter:creator" content="@mrzhangboss">
 
     
@@ -109,11 +115,7 @@ extern uint8_t _binary_obj_user_hello_start[];    uint8_t w = (uint8_t)_binary_o
 		<blockquote>
 <p>通过前面的学习我们知道，在前两个实验中最主要的程序就是<code>kern/init.c</code>文件中<code>i386_init</code>函数，但是我们看到最后却是一个<code>while</code>循环结束。</p>
 </blockquote>
-<p>extern uint8_t _binary_obj_user_hello_start[];<br>    uint8_t <em>w = (uint8_t</em>)_binary_obj_user_hello_start;<br>    extern char end[];<br>    cprintf(“w add:%p end :%p\n”, w, end);<br>    struct Elf<em> header = ((struct Elf </em>) w);<br>    assert(header-&gt;e_magic == ELF_MAGIC);</p>
-<pre><code>((void (*)(void)) (header-&gt;e_entry))();
-
-
-while (1)
+<pre><code>while (1)
     monitor(NULL);
 </code></pre><p>这个<code>monitor</code>就是简单读取用户输入然后通过字符串调用给定的几个函数。我们可以把这个函数看做<code>i386_init</code>的子函数，也就是程序一直在<code>i386_init</code>中运行，也就是一直以内核形式运行。实验三就开始完成一个正常的操作系统的用户模式的建立，以及两者直接转换。</p>
 <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>什么是用户呢，我们把内核当做一个大程序，用户就是小程序，两者基本上没有差别，但是为了让众多用户和内核平稳运行，我们必须要区别对待用户和内核</p>
@@ -143,7 +145,14 @@ assert(header-&gt;e_magic == ELF_MAGIC);
 </code></pre><p>我们发现程序没有引发异常，这说明<code>x86</code>通过<code>CS</code>寄存器很好的实现了内核和用户的保护（用户不能直接跳到内核去执行代码）</p>
 <p>在<code>user/faultwritekernl.c</code>和<code>user/faultreadkernl</code>中我们发现尝试写入或者读取内核也失败了，这是通过前面章节的内存分页权限实现的，这里就不介绍了。</p>
 <p>现在我们知道，通过我们不懈努力内核和用户直接存在一个鸿沟，但是这时候摆在我们面前很大的问题，内核拥有一些非常重要的权限比如申请内存，如果用户没有这个权限那么功能非常受限，所以我们就要提到一个内核和用户交互的手段：Trap。</p>
-<h2 id="Trap"><a href="#Trap" class="headerlink" title="Trap"></a>Trap</h2><p>其实这个Trap包括内部中断、软中断、异常。但是xv6统一将他们叫做陷阱（Trap），这个Trap主要完成从用户到内核的一种转换</p>
+<h2 id="Trap"><a href="#Trap" class="headerlink" title="Trap"></a>Trap</h2><p>其实这个Trap包括内部中断、软中断、异常。但是xv6统一将他们叫做陷阱（Trap），这个Trap主要完成从用户到内核的一种跳转，我们就不介绍内部中断和异常，因为这些都是系统完成，我们来介绍了一下软中断，这个我们人为可以操作，而且我们可以把其他中断、异常当做系统去帮我们调用这个指令</p>
+<pre><code>int $n
+</code></pre><p>很简单x86共定义了256个中断向量，存在物理内存<code>0x000</code>-<code>0x3ff</code>之间，每个存贮一个<code>cs</code>值一个<code>eip</code>的值，这个n只要是在256直接就行，当调用这个的时候我们直接调到那里读取<code>cs</code>和<code>eip</code>的值。</p>
+<p>这里还有一个非常重要的权限控制，就是系统，通过存贮的<code>CS</code>值上面的权限位（DPL），如果DPL的小于CPL（我们当前CS寄存器上的权限位）</p>
+<ul>
+<li>这种情况对应我们在用户段上（0b11），跳转的CS值为(0b00）。</li>
+</ul>
+<p>这样系统会直接跳到13号中断去，就是前面的<code>General Protection</code>，当然这只是硬件提供的一种功能，</p>
   
 	</div>
 		<footer class="article-footer clearfix">
