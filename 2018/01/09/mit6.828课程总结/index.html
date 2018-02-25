@@ -23,7 +23,7 @@
 一开始想直接做一个操作系统，但是万事开头难，学习操作系统需要太多基础知识了，所以就按照网上推荐先学习mit6.828的课程，先把xvf6操作系统搞懂，然后在来实现自己的操作系统，下面就是学习这个课程的体会，按照各个lab的顺序，介绍自己的心得体会
 
 课程的地址是： mit6.828PS：由于mit6.828课程仓库需要翻墙，所以我把clone下来放到我的github仓库，我的仓库里，大家可以">
-<meta property="og:updated_time" content="2018-02-02T05:04:16.276Z">
+<meta property="og:updated_time" content="2018-02-19T14:21:36.726Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mit6.828课程总结">
 <meta name="twitter:description" content="引言
@@ -105,7 +105,7 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#目录"><span class="toc-number">2.</span> <span class="toc-text">目录</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#目录"><span class="toc-number">2.</span> <span class="toc-text">目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#课程总结"><span class="toc-number">3.</span> <span class="toc-text">课程总结</span></a></li></ol>
 		
 		</div>
 		
@@ -115,7 +115,13 @@
 <p>课程的地址是： <a href="https://pdos.csail.mit.edu/6.828/2016/schedule.html" target="_blank" rel="external">mit6.828</a><br>PS：由于<a href="https://pdos.csail.mit.edu/6.828/2016/schedule.html" target="_blank" rel="external">mit6.828</a>课程仓库需要翻墙，所以我把clone下来放到我的github仓库，我的<a href="https://github.com/mrzhangboss/mit6.828-2016" target="_blank" rel="external">仓库</a>里，大家可以clone下来（我会逐渐完成所以的实验）</p>
 <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
 <li><a href="/2018/01/29/什么是操作系统/">什么是操作系统</a> lab1</li>
+<li><a href="/2018/02/05/内存分页设计/">内存分页设计</a> lab2</li>
+<li><a href="/2018/02/20/用户空间隔离/">用户空间隔离</a> lab3</li>
+<li><a href="/2018/02/">并行多核设计</a> lab4</li>
+<li><a href="/2018/02/">文件系统设计</a> lab5</li>
+<li><a href="/2018/02/">网络设计</a> lab6</li>
 </ul>
+<h2 id="课程总结"><a href="#课程总结" class="headerlink" title="课程总结"></a>课程总结</h2><p>学到一半才发现这是一门研究生课程的学习，的确难度非常大，而且每一个实验都可以拿出来大做研究，但是课程给的资料非常详细，基本上每个硬件细节都给出了链接，但是对于最大的困难还是英语资料实在太多，有点“吸收”不过来。不过一路学习下来，感觉还是收获很大，基本上每个实验都环环相扣，每个实现细节都需要反复思考，为什么要这样做，还能怎么做，最终实现的xvf6还有些许跟不上时代的脚步，但是基本上框架已经有了，就是按照这个骨架完善更多细节，所以这个课程还远远没有结束，期待接下来对这个操作系统的进一步改进！！！</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -179,7 +185,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#目录"><span class="toc-number">2.</span> <span class="toc-text">目录</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#目录"><span class="toc-number">2.</span> <span class="toc-text">目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#课程总结"><span class="toc-number">3.</span> <span class="toc-text">课程总结</span></a></li></ol>
  
   </div>
 
@@ -195,7 +201,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/mit6-828/" title="mit6.828">mit6.828<sup>3</sup></a></li>
+				<li><a href="/tags/mit6-828/" title="mit6.828">mit6.828<sup>6</sup></a></li>
 			
 		
 			

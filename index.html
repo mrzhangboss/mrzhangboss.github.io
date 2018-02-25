@@ -78,26 +78,163 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2018/01/31/内存分页/" title="内存分页" itemprop="url">内存分页</a>
+      <a href="/2018/02/20/用户空间隔离/" title="用户空间隔离" itemprop="url">用户空间隔离</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-01-30T16:00:00.000Z" itemprop="datePublished"> Published 2018-01-31</time>
+    <time datetime="2018-02-19T16:00:00.000Z" itemprop="datePublished"> Published 2018-02-20</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本来自己查了很多资料，想自己写出来，结果下笔的时候发现别人已经把我想写的部分全部写出来了，而且比我想的还要具体，所以我就不写了，把链接放出了，顺便我补充一些</p>
-<p><a href="http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan/" target="_blank" rel="external">http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan/</a></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>由于内存分页在后面的lab2中也会设计，而且给出的资料写的非常详细，所以我就不多提了。这里提一下为了更好的理解什么内存分页的段选择子与CS的关系，我写了一篇<a href="/2018/01/30/从CS寄存器看段的前世今生/">关于CS寄存器的发展史</a></p>
-<p>最后我提一下<code>kern/entrypgdir.c</code>手写的内存分页表</p>
-<p>第一个<code>entry_pgdir</code>是页目录，第二个<code>entry_pgtable</code>页表，而且注意<code>entry_pgtable</code>是代表0-4M物理内存可写可读的真实内存地址</p>
-<p>前面知道了目录和页表的作用，在现实系统中，一个目录下有1024个页表，但是这只有一个页表，而且它代表从0-4M连续的内存空间</p>
-<p>PS：后面12位是权限位，只看前三位，可以知道是从（000-3ff）的高20位物理地址，由于我们声明了<code>__attribute__((__aligned__(PGSIZE)))</code>（地址4K对齐，其实意思是它真实物理地址后12位一定全部为0），所以直接取<code>(uintptr_t)entry_pgtable</code>地址就是页表地址，虽然后面加上权限位<code>PTE_P + PTE_W</code>，但是在寻找真实地址时都会屏蔽（只取前20位如），当初想了很久感觉取不到页表的真实地址，还以为有什么神奇的编译设定，后面查了很久资料才明白，所以这里提个醒后面我们会在lab2中正式接触内存分页技术，这里只是相当于设定了一个“常数”，后面会将器扩展变成“函数”。</p>
+        <blockquote>
+<p>通过前面的学习我们知道，在前两个实验中最主要的程序就是<code>kern/init.c</code>文件中<code>i386_init</code>函数，但是我们看到最后却是一个<code>while</code>循环结束。</p>
+</blockquote>
+<p>extern uint8_t _binary_obj_user_hello_start[];<br>    uint8_t <em>w = (uint8_t</em>)_binary_obj_user_hello_start;<br>    extern char end[];<br>    cprintf(“w add:%p end :%p\n”, w, end);<br>    struct Elf<em> header = ((struct Elf </em>) w);<br>    assert(header-&gt;e_magic == ELF_MAGIC);</p>
+<pre><code>((void (*)(void)) (header-&gt;e_entry))();
+
+
+while (1)
+    monitor(NULL);
+</code></pre><p>这个<code>monitor</code>就是简单读取用户输入然后通过字符串调用给定的几个函数。我们可以把这个函数看做<code>i386_init</code>的子函数，也就是程序一直在<code>i386_init</code>中运行，也就是一直以内核形式运行。实验三就开始完成一个正常的操作系统的用户模式的建立，以及两者直接转换。</p>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>什么是用户呢，我们把内核当做一个大程序，用户就是小程序，两者基本上没有差别，但是为了让众多用户和内核平稳运行，我们必须要区别对待用户和内核</p>
+<p>首先我们要相信内核，内核是我们精心设计的，相反用户我们不能相信它，任何人都可以犯错误，我们知道计算机程序其实非常精巧，当他们完整的时候，他们可以完成你无法想象的工作，但他们有时候少掉一行指令时，他们就会瞬间崩溃，所以我们必须要保证就算用户怎么折腾都不会把内核搞垮</p>
+<p>所以我们来考虑一下怎么来限制用户不影响整个系统，第一用户不能动内核在内存上的程序，甚至连查看的资格都没有，这就是为什么前面我们已经绞尽脑汁把内核放到高地址上确保其“高高在上”；第二个用户不能在CPU一直跑，假如它有权限一直在CPU上跑，那么内核就废了，没有CPU可以用相当于“断了胳膊”；第三用户必须要有一些内核的权限，比如说申请一些内存啥的。</p>
+<p>接下来我们就从这几个问题出发来探索一下xv6为什么要这样设计用户空间。</p>
+<h2 id="用户是个程序？"><a href="#用户是个程序？" class="headerlink" title="用户是个程序？"></a>用户是个程序？</h2><p>在完成用户设计之前，首先我们先做个实验，来验证一下用户是个程序。首先我们在<code>kern/init.c</code>文件中<code>i386_init</code> 的头部加上<code>#include &lt;inc/elf.h&gt;</code>然后在<code>#if defined(TEST)</code>代码前加入几行代码</p>
+<pre><code>extern uint8_t _binary_obj_user_hello_start[];
+struct Elf* header = ((struct Elf *) _binary_obj_user_hello_start);
+assert(header-&gt;e_magic == ELF_MAGIC);
+((void (*)(void)) (header-&gt;e_entry))();
+</code></pre><p>这段代码你如果仔细观察过前面操作系统载入的源码（<code>boot/main.c</code>中)你会发现基本上差不多。首先我们声明了<code>_binary_obj_user_hello_start</code>外部变量，这个变量是通过<code>ld</code>编译器将内核中用户程序<code>hello.c</code>的起始地址定义来的，由于我们现在没有文件系统，内核就把用户程序一股脑链接到自己身上，在以后有了文件系统就不需要了。但是它给了我们一个便利，我们现在可以直接在内存上运行它</p>
+<p>当然虽然它的确是个程序（assert那不会出错），但是它还是跑不起来，因为它的虚拟地址不在内核内存上，必须要像前面映射内存物理空间才能运行，但是他的确是一个程序，从这里我们得到一个结论，用户其实也就是一段程序，接下来我们就看看如何用软件与硬件的结合的设计解决上面的问题。</p>
+<h2 id="权限"><a href="#权限" class="headerlink" title="权限"></a>权限</h2><p>首先我们来看看权限问题，<code>x86</code>系统硬件给我们提供了一个分段式权限功能，在开启内存分页后，<code>CS</code>寄存器16位里面拿出两位来当做权限管理，分为四级（<code>0b00、0b01、0b10、0b11</code>），最小的权限最大，当然xv6只用了两级</p>
+<ul>
+<li>内核（<code>0b00</code>）</li>
+<li>用户（<code>0b11</code>）</li>
+</ul>
+<p>PS：当然<code>CS</code>寄存器拿出来三位来当权限管理，但是xv6将第三位用户和内核都设置为1，所以我们也不介绍这一位</p>
+<p>我们在<code>CS</code>寄存器的这两位称为CPL，用来区分权限。在<a href="/2018/01/31/引导和操作系统的交互/">引导和操作系统的交互</a>这篇博客我们知道，在<code>x86</code>系统中，这个<code>CS</code>寄存器是标志段选择子，在<code>GDT</code>表中每个表项也有两位用来标志权限，我们称他们为<code>GPL</code>，他们的意义也就是<code>CS</code>寄存器选择这个段时他们拥有的权限。</p>
+<p>在<code>kern/env.c</code>的<code>结构体gdt</code>我们声明了一个<code>GDT</code>表，并且声明了一个系统段和用户段。</p>
+<p>这两个段就是我们权限的基础我们接下来通过实验来验证权限位对操作系统的保护，</p>
+<p>我们首先在<code>user/badsegment.c</code>中加入一句汇编</p>
+<pre><code>asm volatile(&quot;ljmp %0,$1f\n 1:\n&quot; :: &quot;i&quot; (0x08));
+</code></pre><p>我们尝试将<code>CS</code>设置为<code>0x08</code>（内核段）结果直接引发一个<code>General Protection</code>的异常，但是当我们尝试执行这句</p>
+<pre><code>asm volatile(&quot;ljmp %0,$1f\n 1:\n&quot; :: &quot;i&quot; (0x18));
+</code></pre><p>我们发现程序没有引发异常，这说明<code>x86</code>通过<code>CS</code>寄存器很好的实现了内核和用户的保护（用户不能直接跳到内核去执行代码）</p>
+<p>在<code>user/faultwritekernl.c</code>和<code>user/faultreadkernl</code>中我们发现尝试写入或者读取内核也失败了，这是通过前面章节的内存分页权限实现的，这里就不介绍了。</p>
+<p>现在我们知道，通过我们不懈努力内核和用户直接存在一个鸿沟，但是这时候摆在我们面前很大的问题，内核拥有一些非常重要的权限比如申请内存，如果用户没有这个权限那么功能非常受限，所以我们就要提到一个内核和用户交互的手段：Trap。</p>
+<h2 id="Trap"><a href="#Trap" class="headerlink" title="Trap"></a>Trap</h2><p>其实这个Trap包括内部中断、软中断、异常。但是xv6统一将他们叫做陷阱（Trap），这个Trap主要完成从用户到内核的一种转换</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/mit6-828/">mit6.828</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/02/20/用户空间隔离/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/02/20/用户空间隔离/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/02/19/KERNBASE对操作系统的影响/" title="KERNBASE对操作系统的影响" itemprop="url">KERNBASE对操作系统的影响</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
+		
+  <p class="article-time">
+    <time datetime="2018-02-18T16:00:00.000Z" itemprop="datePublished"> Published 2018-02-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="概括"><a href="#概括" class="headerlink" title="概括"></a>概括</h2><blockquote>
+<p>这个问题主要在这本<a href="/xv6-ref">xv6-ref</a>的第一章的练习题2中提出来</p>
+</blockquote>
+<p>问题如下</p>
+<pre><code>KERNBASE limits the amount of memory a single process can use, which might be irritating on a machine with a full 4 GB of RAM. Would raising KERNBASE allow a process to use more memory?
+</code></pre><p>根据前面的知识可知这个问题翻译过来就是：在32位处理器下，当<code>KERNBASE</code>为<code>0x80000000</code>时用户最多可以用2GB内存，我们是否能够增加<code>KERNBASE</code>让用户使用超过2GB内存呢？</p>
+<p>ps： 下面<code>KERNBASE</code>简写为<code>KE</code></p>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>要想解答这个问题，我们必须要知道xv6是如何分配内存的，以及如何区分用户和内核，以及<code>KE</code>的作用。</p>
+<p>xv6使用内存分页技术，如果你对这个不了解可以看这篇<a href="/2018/01/31/内存分页/">引导中的静态表</a>和这篇<a href="/2018/02/内存分页设计/">内存分页设计细节</a>，了解完这个我们谈谈用户和内核的内存分页应用。</p>
+<p>注意我们所以计算的前提是在32位处理器的条件下</p>
+<h2 id="用户和内核应用内存分页"><a href="#用户和内核应用内存分页" class="headerlink" title="用户和内核应用内存分页"></a>用户和内核应用内存分页</h2><p>其实用户和内核都是程序，对于用户来说内核只有一个，对于内核来说，用户可以有无数个。为了隔离内核和用户我们必须在内存上就进行隔离，所以单一内核和每个用户都拥有一个内存目录。</p>
+<h3 id="内存分页的意义"><a href="#内存分页的意义" class="headerlink" title="内存分页的意义"></a>内存分页的意义</h3><p> 其实我们可以把内存的目录对应的所有内存表看做一张大的内存映射表，我们使用<code>1024 × 1024</code>个表单项代表<code>4GB</code>内存地址，每个代表<code>4K</code>连续的内存空间，当然大部分程序不会使用全部表单（一般就是内存目录一个，一到三个内存表）</p>
+<p> 当然好处有很多，比如任何程序都可以使用相同的虚拟地址但是在实际运行的时候不会相互影响，这个好处就是通过映射来实现的。</p>
+<ul>
+<li>映射就是虚拟地址到物理地址的一种转换，这是一种<code>多对一</code>的映射，也就是一个虚拟地址只能对应一个物理地址，然而物理地址可以对应多个虚拟地址</li>
+</ul>
+<p>这个转换带来了一个问题，给你一个虚拟地址，你可以查表然后得到物理地址，但是如果给你一个物理地址，你除了遍历没有很好的办法获取虚拟地址（而且有可能你会得到多个虚拟地址）。</p>
+<p>这个问题非常重要，因为它影响了我们后面内核与用户切换的时候地址的搜索，接下来我们看看内核初始化后内存是一种什么样的存在。</p>
+<h2 id="内核内存利用"><a href="#内核内存利用" class="headerlink" title="内核内存利用"></a>内核内存利用</h2><p>看xv6源码我们知道，内核这个程序将程序虚拟地址起点定在<code>KE</code>上，我们知道一个程序由三部分组成指令、数据、堆栈。堆栈是向下生长，而数据、指令向上生长。而xv6把堆栈固定为32KB，所以内存只能向上生长，所以理论上内核最大占用空间只有<code>2^32(4G) - KE</code></p>
+<ul>
+<li>当<code>KE</code>为<code>0xf0000000</code>时，只有256M</li>
+<li>当<code>KE</code>为<code>0x80000000</code>，有2G。</li>
+</ul>
+<p>由于用户内存空间不能超过<code>KE</code>（实际系统中为<code>UTOP</code>，值为<code>KE</code>减去一些为系统功能预留的空间，这里我们忽略他们），所以用户所能得到的内存空间最大为<code>KE</code>，也就是</p>
+<ul>
+<li>当<code>KE</code>为<code>0xf0000000</code>时，为 3840M（4G-256M）</li>
+<li>当<code>KE</code>为<code>0x80000000</code>，有2G。</li>
+</ul>
+<p>通过上面简单的理论值我们推断出答案是：</p>
+<ul>
+<li>增大<code>KE</code>可以增大用户内存</li>
+</ul>
+<p>这个结果看起来是正确的，但是我们知道作为一个操作系统不能固定用户的内存，我们接下来就看看在不同的内存下的实际应用以及<code>xv6</code>自身设计问题，由此来探索这个问题的本质</p>
+<p>我们就分两种情况来考虑 </p>
+<h3 id="物理内存小于（4G-KERNBASE）"><a href="#物理内存小于（4G-KERNBASE）" class="headerlink" title="物理内存小于（4G-KERNBASE）"></a>物理内存小于（4G-KERNBASE）</h3><p>这种情况在很早的时候经常出现，我们计算机的内存可能就几M，这个时候内核假如真的占了<code>4G-KE</code>那连内核都跑不起来何况用户程序。</p>
+<p>我们接下来进入源码来看<code>xv6</code>将实际占用的空间体现在内存表中，我们看到<code>kern/kernld.ld</code>配置文件，其中最主要的一行</p>
+<pre><code>PROVIDE(end = .);
+</code></pre><p>这行位置出现在最后一行，它的作用是提供了一个变量<code>end</code>，我们在C中就可以用这个变量代表机器码的最后一行的虚拟地址，有了这个地址之后，我们就获取了一个重要信息内核程序总长度，假如没有这个变量，我们只能人工设定一个操作系统的占用空间，假如定大了就是浪费，定小了程序就可能崩溃（内存溢出）。分配的细节可以看这篇<a href="/2018/02/内存分页设计/">文章</a>，通过这个变量，我们把内核占用的物理空间给腾出来了。接下来的剩余的物理空间就留给用户了，所以用户能用到的内存最大为<code>实际内存 - 操作系统占用的内存</code>。</p>
+<p>而且我们能够知道操作系统还将内核的内存映射直接固定了，将<code>KE：4G</code>的地址映射到<code>0:4G-KE</code>，公式为<code>虚拟内存=物理内存+KERNBASE</code>，这个映射存在于<code>kern/pmap.c</code>的<code>mem_init</code>函数中，这个带来了一个便利，就是程序变得很简单，假如我们得到一个物理内存地址，我们就能知道虚拟内存地址，但是这个也引来一个巨大的问题，就是当内存大于<code>4G - KE</code>的时候。</p>
+<p>PS：关于知道物理内存能知道虚拟地址在源码的好处主要体现在用户内存空间创建的时候，这个时候处于内核态，当我们得到一个空的物理空间页，我们只要简单的使用上面公式就能获取到虚拟地址，然后内核就能在直接通过指针修改程序。假如没有这个映射，我们就后面动态建立，但是这里涉及到一个非常棘手的<code>成本</code>的问题，我们其实只需要一个值映射，然而我们却要浪费4K的连续内存空间，而且给程序带来了很大的复杂性。</p>
+<p>我们接下来考虑系统内存大于那段映射最大值（4G-KE）时候会造成什么情况</p>
+<h2 id="物理内存大于-（4G-KERNBASE）"><a href="#物理内存大于-（4G-KERNBASE）" class="headerlink" title="物理内存大于 （4G-KERNBASE）"></a>物理内存大于 （4G-KERNBASE）</h2><p>在现在大家内存愈来愈大，这种情况比较常见，由于xv6在程序设计中是动态创建用户空间，当用户比较少占用空间比较小的时候，程序不会用到物理地址比较大的空间，但是当物理内存超过这个阀值（4G-E），在这里我们考虑<code>KE=0xf0000000</code>,也就是物理内存地址大于256M的时候，由于内核没有映射到这么高的地址，所以我们用上面那个物理地址转虚拟地址公式就失效了。</p>
+<p>由于xv6只是一个教学系统，所以为了简化系统，降低程序复杂性所以使用了最简单的直接映射的方法来处理内存，也正是由于这个原因提高<code>KE</code>并不能增加用户最大内存，当然解决的方法也有，我想了两种。</p>
+<ul>
+<li>在内核空间中分配用户内存目录空间，这种最为简单，但是会浪费一定的内存空间（必须在内核一开始运行就占用空间）</li>
+<li>在内核空间中映射一段固定的地址来存放用户内存目录地址，这个程序设计比较复杂，但是只需要初始化一个内存表单就行</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过上面的分析，我们得到一个结论：</p>
+<p>由于xv6设计的局限性，增大<code>KERNBASE</code>并不能增大用户最大可用空间，反而会减少。但是如果修改xv6设计可以实现增大<code>KERNBASE</code>增大用户最大可用空间。</p>
 <h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2>
         
         
@@ -109,6 +246,11 @@
 <div class="article-catetags">
 
 
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/mit6-828/">mit6.828</a>
+  </div>
+
 </div>
 
 
@@ -117,7 +259,122 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2018/01/31/内存分页/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/01/31/内存分页/" data-count-type="comments">&nbsp;</a>
+		<a href="/2018/02/19/KERNBASE对操作系统的影响/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/02/19/KERNBASE对操作系统的影响/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/02/05/内存分页设计/" title="内存分页设计" itemprop="url">内存分页设计</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
+		
+  <p class="article-time">
+    <time datetime="2018-02-04T16:00:00.000Z" itemprop="datePublished"> Published 2018-02-05</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>前面已经通过lab1的这篇<a href="/2018/01/03/内存分页设计/">博文</a>了解了内存分页的实现细节，接下来就谈谈如何具体实现内存分页</p>
+<h2 id="物理载体"><a href="#物理载体" class="headerlink" title="物理载体"></a>物理载体</h2><p>通过了解<a href="/2018/02/19/KERNBASE对操作系统的影响/">KERNBASE对操作系统的影响</a>这篇博文我们知道，其实内存分页就是完成对物理存在的一种分割和隔离，所以我们在完成内存分页系统设计之前必须要构建一个载体，完成对物理存在的一种表示。</p>
+<p>在xv6中声明一个动态数组来代表物理内存，每一个值代表一块4k的内存页。我们主要通过<code>offset - base</code>得到偏移倍数，每个偏移量为<code>4K</code>，也就是通过<code>(offset - base )  &lt;&lt; 12</code>得到物理地址，我们看一下这个数组成员：PageInfo结构体</p>
+<pre><code>struct PageInfo {
+    struct PageInfo *pp_link;
+    uint16_t pp_ref;
+};
+</code></pre><p>主要存在两个值：一个为下一个可用的地址指针，一个为引用次数。</p>
+<p>引用次数比较好理解，但是这个<code>pp_link</code>有什么用呢。其实你可用把这个结构体看做成一个由链表组成的堆栈，我们只需要保留栈顶值（page_free_list)，由于它保存下一个值地址，这样通过不断的push、pop，就能维持一个可用物理内存栈。</p>
+<h2 id="二级指针的妙用"><a href="#二级指针的妙用" class="headerlink" title="二级指针的妙用"></a>二级指针的妙用</h2><p>由于前面的博客原理已经介绍的很详细了，我就不再累赘了，在这里我提一下源码中二级指针的妙用，虽然它只有短短几行，但是运行的结果却是让人大开眼界，体会到指针的神奇威力。</p>
+<p>这段代码出现在<code>kern/pmap.c</code>的<code>check_page_free_list</code>函数中</p>
+<pre><code>if (only_low_memory) {
+    // Move pages with lower addresses first in the free
+    // list, since entry_pgdir does not map all pages.
+    struct PageInfo *pp1, *pp2;
+    struct PageInfo **tp[2] = { &amp;pp1, &amp;pp2 };
+    for (pp = page_free_list; pp; pp = pp-&gt;pp_link) {
+        int pagetype = PDX(page2pa(pp)) &gt;= pdx_limit;
+        *tp[pagetype] = pp;
+        tp[pagetype] = &amp;pp-&gt;pp_link;
+    }
+    *tp[1] = 0;
+    *tp[0] = pp2;
+    page_free_list = pp1;
+}
+</code></pre><p>主要的作用是将“栈底”的元素移到“栈顶”，首先它使用了两个一级指针（pp1、pp2），还有两个二级指针分别指向（pp1、pp2）</p>
+<p> 首先<code>int pagetype = PDX(page2pa(pp)) &gt;= pdx_limit;</code>判断物理地址是否为大于4M还是小于4M，我们把物理内存页分成两组</p>
+<ul>
+<li>小于4M A组</li>
+<li>大于4M B组</li>
+</ul>
+<p>对于小于4M的组，分两种情况</p>
+<ol>
+<li>第一个小于4M的内存页（page1）</li>
+</ol>
+<blockquote>
+<ol>
+<li>*tp[0] (也就是pp1） 存贮了pp的值，也就是pp1 = page1</li>
+<li>tp[0] 存贮了pp -&gt; link 的地址（这个没有什么用）</li>
+</ol>
+</blockquote>
+<ol>
+<li>A组第二个以及以后的内存页（page2）</li>
+</ol>
+<blockquote>
+<ol>
+<li>上一个地址的值等于pp（没什么用）</li>
+<li>tp[0] 存贮了下一个空闲地址的值</li>
+</ol>
+</blockquote>
+<p>对于B组来说也是一样的，最重要的是<code>for</code>循环结束后实现的交换</p>
+<pre><code>*tp[1] = 0; 
+</code></pre><p>B组最后一个的<code>pp_link</code>地址地址设置为NULL，也就相当于把他一定到栈底</p>
+<pre><code>*tp[0] = pp2;
+</code></pre><p>A组最后一个变成<code>pp_link</code>地址设置pp2，也就是B组的第一个接到了A组的最后面去了</p>
+<pre><code>page_free_list = pp1;
+</code></pre><p>栈顶变成A组第一个，通过这样的“乾坤大挪移”术就将A组部分移到B组前面去了，也就实现了先使用低地址的物理内存的作用</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>理解内存分页必须要了解背后的原理，了解了原理看具体实现的时候才能事半功倍。</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2>
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/mit6-828/">mit6.828</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/02/05/内存分页设计/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/02/05/内存分页设计/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -223,6 +480,65 @@ ELF Header:
 	
 	  	<span></span>
 		<a href="/2018/01/31/引导和操作系统的交互/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/01/31/引导和操作系统的交互/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/01/31/内存分页/" title="内存分页" itemprop="url">内存分页</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
+		
+  <p class="article-time">
+    <time datetime="2018-01-30T16:00:00.000Z" itemprop="datePublished"> Published 2018-01-31</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本来自己查了很多资料，想自己写出来，结果下笔的时候发现别人已经把我想写的部分全部写出来了，而且比我想的还要具体，所以我就不写了，把链接放出了，顺便我补充一些</p>
+<p><a href="http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan/" target="_blank" rel="external">http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan/</a></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>由于内存分页在后面的lab2中也会设计，而且给出的资料写的非常详细，所以我就不多提了。这里提一下为了更好的理解什么内存分页的段选择子与CS的关系，我写了一篇<a href="/2018/01/30/从CS寄存器看段的前世今生/">关于CS寄存器的发展史</a></p>
+<p>最后我提一下<code>kern/entrypgdir.c</code>手写的内存分页表</p>
+<p>第一个<code>entry_pgdir</code>是页目录，第二个<code>entry_pgtable</code>页表，而且注意<code>entry_pgtable</code>是代表0-4M物理内存可写可读的真实内存地址</p>
+<p>前面知道了目录和页表的作用，在现实系统中，一个目录下有1024个页表，但是这只有一个页表，而且它代表从0-4M连续的内存空间</p>
+<p>PS：后面12位是权限位，只看前三位，可以知道是从（000-3ff）的高20位物理地址，由于我们声明了<code>__attribute__((__aligned__(PGSIZE)))</code>（地址4K对齐，其实意思是它真实物理地址后12位一定全部为0），所以直接取<code>(uintptr_t)entry_pgtable</code>地址就是页表地址，虽然后面加上权限位<code>PTE_P + PTE_W</code>，但是在寻找真实地址时都会屏蔽（只取前20位如），当初想了很久感觉取不到页表的真实地址，还以为有什么神奇的编译设定，后面查了很久资料才明白，所以这里提个醒后面我们会在lab2中正式接触内存分页技术，这里只是相当于设定了一个“常数”，后面会将器扩展变成“函数”。</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2>
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/01/31/内存分页/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/01/31/内存分页/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -427,7 +743,13 @@ ELF Header:
 <p>课程的地址是： <a href="https://pdos.csail.mit.edu/6.828/2016/schedule.html" target="_blank" rel="external">mit6.828</a><br>PS：由于<a href="https://pdos.csail.mit.edu/6.828/2016/schedule.html" target="_blank" rel="external">mit6.828</a>课程仓库需要翻墙，所以我把clone下来放到我的github仓库，我的<a href="https://github.com/mrzhangboss/mit6.828-2016" target="_blank" rel="external">仓库</a>里，大家可以clone下来（我会逐渐完成所以的实验）</p>
 <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
 <li><a href="/2018/01/29/什么是操作系统/">什么是操作系统</a> lab1</li>
+<li><a href="/2018/02/05/内存分页设计/">内存分页设计</a> lab2</li>
+<li><a href="/2018/02/20/用户空间隔离/">用户空间隔离</a> lab3</li>
+<li><a href="/2018/02/">并行多核设计</a> lab4</li>
+<li><a href="/2018/02/">文件系统设计</a> lab5</li>
+<li><a href="/2018/02/">网络设计</a> lab6</li>
 </ul>
+<h2 id="课程总结"><a href="#课程总结" class="headerlink" title="课程总结"></a>课程总结</h2><p>学到一半才发现这是一门研究生课程的学习，的确难度非常大，而且每一个实验都可以拿出来大做研究，但是课程给的资料非常详细，基本上每个硬件细节都给出了链接，但是对于最大的困难还是英语资料实在太多，有点“吸收”不过来。不过一路学习下来，感觉还是收获很大，基本上每个实验都环环相扣，每个实现细节都需要反复思考，为什么要这样做，还能怎么做，最终实现的xvf6还有些许跟不上时代的脚步，但是基本上框架已经有了，就是按照这个骨架完善更多细节，所以这个课程还远远没有结束，期待接下来对这个操作系统的进一步改进！！！</p>
 
         
         
@@ -602,285 +924,6 @@ ELF Header:
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/01/04/AVL树实现原理/" title="AVL树实现原理" itemprop="url">AVL树实现原理</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
-		
-  <p class="article-time">
-    <time datetime="2018-01-03T16:00:00.000Z" itemprop="datePublished"> Published 2018-01-04</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <blockquote>
-<p>本篇博客主要基于这篇<a href="/2017/12/27/浅谈树这种数据结构/">博客</a>的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍AVL树的实现原理，完整代码在<a href="https://github.com/mrzhangboss/trees" target="_blank" rel="external">github</a>的<code>avl.go</code>文件中</p>
-</blockquote>
-<p><a href="/2017/12/27/浅谈树这种数据结构/">浅谈”树”这种数据结构</a><br><a href="https://github.com/mrzhangboss/trees" title="github" target="_blank" rel="external">Github</a><br><a href="http://www.cs.usfca.edu/~galles/visualization/AVLtree.html" target="_blank" rel="external">可视化页面</a></p>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>AVL树是在对二叉搜索树的一种优化，通过构造一棵高度平衡的二叉搜索树从而实现提高空间利用率，所以在了解如何实现之前，必须了解如何构造一棵二叉搜索树，你可以阅读我的这篇<a href="/2018/01/04/二叉搜索树实现原理/">博客</a>了解如何构建一棵二叉搜索树，虽然我是用Go来实现的，但是不必了解太多Go方面的知识，我在博客中尽量使用图片的方式来介绍实现原理</p>
-<p><a href="/2018/01/04/二叉搜索树实现原理/">二叉搜索树实现原理</a></p>
-<p>由于AVL树本质上也是一棵二叉搜索树，查找并不会改变树的性质，所以AVL的查找也是同二叉搜索树的查询相同，所以这里就重点介绍如何实现“增”和“删”</p>
-<h3 id="树的字段"><a href="#树的字段" class="headerlink" title="树的字段"></a>树的字段</h3><p>在开始介绍如何实现“增”、“删”之前，我想提一下AVL树的存贮字段，在wiki上面的AVL和很多资料上面，AVL的树结构分别由下面四个组成： Val、 Left*、Right*、Parent*。</p>
-<p>Val代表树存贮的值，Left、Right、Parent代表三个指针，分别指向左子树，右子树，父亲，而在我的实现中，我去掉了父亲指针，对于讲解来说，使用一个父指针能很好的解决从子遍历到父亲的经过，但在实际的应用中，我们完全可以使用一个列表存贮从父亲到儿子之间的值，这样的话，能实现一样的功能，而且能节省存贮空间（每个子树都少了一个父指针），但是相应的程序也变得比较复杂起来。</p>
-<p>虽然我在讲解的过程中会直接获取节点的父节点，但是在实际的代码实现中，是通过获取从列表中获取该节点的父节点。</p>
-<h2 id="AVL树的“增”"><a href="#AVL树的“增”" class="headerlink" title="AVL树的“增”"></a>AVL树的“增”</h2><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://en.wikipedia.org/wiki/AVL_tree" target="_blank" rel="external">https://en.wikipedia.org/wiki/AVL_tree</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/01/04/AVL树实现原理/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/01/04/AVL树实现原理/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/01/04/二叉搜索树实现原理/" title="二叉搜索树实现原理" itemprop="url">二叉搜索树实现原理</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
-		
-  <p class="article-time">
-    <time datetime="2018-01-03T16:00:00.000Z" itemprop="datePublished"> Published 2018-01-04</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <blockquote>
-<p>本篇博客主要基于这篇<a href="">博客</a>的扩展，建议阅读前先阅读这篇<a href="/2017/12/27/浅谈树这种数据结构/">博文</a>，这篇博文详细介绍二叉搜索树的实现原理，完整代码在<a href="https://github.com/mrzhangboss/trees" target="_blank" rel="external">github</a>的<code>binary.go</code>文件中</p>
-</blockquote>
-<p><a href="/2017/12/27/浅谈树这种数据结构/">浅谈”树”这种数据结构</a><br><a href="https://github.com/mrzhangboss/trees" title="github" target="_blank" rel="external">Github</a><br><a href="http://www.cs.usfca.edu/~galles/visualization/BST.html" target="_blank" rel="external">可视化页面</a></p>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>之所以使用Go来实现，个人还是比较喜欢Go的，作为一个基础数据结构，Go用来实现这个速度比Java、C++都快，而且相比Java也能节省内存，而且我也不喜欢换使用冒号。</p>
-<h2 id="二叉搜索树的基本功能"><a href="#二叉搜索树的基本功能" class="headerlink" title="二叉搜索树的基本功能"></a>二叉搜索树的基本功能</h2><p>作为一个树结构，主要必须实现三个功能，<strong>查增删</strong>（当然有改，不过改是删和增的结合所以就不算在里面），当然二叉树还能帮我实现一些额外功能，比如寻找最大值最小值等等，实现一颗二叉搜索树必须要保证在“增”和“删”的时候保持树结构不变，也就是保证还是一颗二叉搜索树</p>
-<p>什么二叉树是二叉搜索树呢，二叉搜索树只需要保证一点</p>
-<ul>
-<li>任何一个节点，它的左子树（不为空）所有值小于这个节点值，它的右子树（不为空）所有值大于这个节点值</li>
-</ul>
-<p>所有我们在实现增删的时候必须要牢记这点，而且我们也可以知道在你开始对这颗二叉树进行增删的时候，它一定已经满足了上面这个条件</p>
-<h3 id="查"><a href="#查" class="headerlink" title="查"></a>查</h3><p><img src="/images/bst-1.png" alt="标准的二叉树"></p>
-<p>如何在上面这颗标准的二叉树里面查询到我们想要的值呢？我们知道一颗二叉树只需要知道根节点（上面的10）就能通过遍历得到所以的节点的值，所以我们在实现中声明一个二叉搜索树的时候只保存一个<code>root</code>节点，通过这个节点，我们就可以实现所以的增删查改功能了</p>
-<p>为了找到每个值a，我们依次要在每个节点上对值进行比较，因为每个节点的值代表已经将这堆数据分成两个部分，一堆比这个值大在右边，一堆比这个值小在左边，这样只要最终能找到一个那个值的最小区间的对应值（找到）或者找到一个为空的叶节点（代表没有找到），</p>
-<p>通过最简单的查找，我们可以反推出一个理论，假如我们需要插入一个值，我们只要先尝试去寻找到那个值，假如找到了，因为已经存贮了就不插入，假如没找到就会找到一个为空的叶子节点，那样只要在父节点将这个为空的叶子节点替换成这个值为a的节点，我们就完成了插入</p>
-<p>所以查找和插入是相对的，知道怎么查找就知道怎么插入，接下来我们详细介绍如何删除，这个非常关键，因为它是后面要介绍的高级树实现高效的删除的关键</p>
-<h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><p>我们还是以上面那种图举例子，删除我们最先想到的是删除12,17那些节点，直接删除掉对二叉树没有什么影响，但是如果我们要删除那些带有节点的呢？我们先简化问题，先看一个只有两个节点的树</p>
-<p><img src="/images/bst-2.png" alt="双节点树"></p>
-<p>我们要想删除10，有两种可能</p>
-<p><img src="/images/bst-3.png" alt="左移"></p>
-<p><img src="/images/bst-4.png" alt="右移"></p>
-<p>一种是将左边值移过来，一种是将右边值移过来，这两种都不会破坏二叉树的平衡，现在我们假设我们倾向将左边的值移过来，我们再回到上面那棵标准的二叉树，如果我们要删除掉10节点，我们要把那个值移过来，我们直接在<a href="http://www.cs.usfca.edu/~galles/visualization/BST.html" target="_blank" rel="external">可视化界面</a>进行这个操作</p>
-<p><img src="/images/bst-5.png" alt="删除10后的标准二叉树"></p>
-<p>我们发现，我们只需要将7和放到10的位置上就完成了一次删除的操作，而7与10的关系是，7是10左边的那堆值最大的，用一个通俗的话来说，<em>完成改朝换代的关键就是要找一个能镇的住手下的人</em>，由于“10”挂了，在左边只有“7”能镇住左边，所以”7”升官直接跑到“10”的位置了</p>
-<p>根据这个原则我们将情况分成三种</p>
-<ol>
-<li>左右子树都为空，直接删掉</li>
-<li>左边子树或者右边子树有一个为空，将不为空的子树提上来当做删除的节点</li>
-<li>左右子树不为空，将左边最大的值提上来替换删除的节点</li>
-</ol>
-<p>对于第三种情况，为了编程方便，我们考虑一种情况，如果左子树的右节点有没有值（比如说上面的5节点），如果它右节点有值，那么左边的最大值肯定出现在，左子树的右节点上（就像上面左子树出现在5的右节点的7节点上面）。然后我们继续判断“7”节点有没有右子树，这样循环下去，我们总能找到一个节点没有右节点，这样我们就找到左子树的最大值了。</p>
-<p>在上面这种情况下，我们将这情况分成两种</p>
-<ul>
-<li>如果左子树的右节点有值（循环下去找到一个节点右节点没有值）</li>
-<li>如果左子树的右节点没值（那么第一个左子树就是最大值）</li>
-</ul>
-<p>具体的<a href="https://github.com/mrzhangboss/trees" title="github" target="_blank" rel="external">代码</a>在<code>binary.go</code>的<code>Delete</code>(寻找节点）方法和<code>delete</code>（删除节点）方法中</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>总的来说，二叉搜索树的插入是最容易理解的，但是删除的话要考虑不同四种的情况所以还是稍微需要点时间理解一下的，小小的一个二叉搜索树也花了近200行代码实现，但是相比后面的AVL树、红黑树的近千行代码来说，二叉搜索树还是比较简单的，而且后面实现的高级树结构基本上都是依赖二叉搜索树的实现（必须要按照二叉树的增删满足二叉搜索树的原则），所以我们对二叉搜索树的增删必须理解透彻。</p>
-<p>引用：</p>
-<p><a href="https://en.wikipedia.org/wiki/Binary_search_tree" target="_blank" rel="external">https://en.wikipedia.org/wiki/Binary_search_tree</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/01/04/二叉搜索树实现原理/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/01/04/二叉搜索树实现原理/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/12/27/浅谈树这种数据结构/" title="浅谈&quot;树&quot;这种数据结构" itemprop="url">浅谈&quot;树&quot;这种数据结构</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
-		
-  <p class="article-time">
-    <time datetime="2017-12-26T16:00:00.000Z" itemprop="datePublished"> Published 2017-12-27</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <blockquote>
-<p>一直以来我对树这种数据结构就比较头疼，随便找一个红黑树的博客，大部分都是在谈怎么旋转怎么插入怎么删除，将算法讲的头头是道，但是就算你看懂了也不懂为什么要这样做，所以我们这篇博文就从可视化的角度，慢慢的介绍这些树的来世今生。</p>
-</blockquote>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>首先给大家推荐一个神奇的网站，我们这篇博文很大程度上都是依托这个网站从可视化的角度分析各种树</p>
-<p>网站的网址是<a href="http://www.cs.usfca.edu/~galles/visualization/Algorithms.html" target="_blank" rel="external">http://www.cs.usfca.edu/~galles/visualization/Algorithms.html</a></p>
-<p>接下来我们从易到难分别谈谈下面这些树结构</p>
-<ul>
-<li>二叉搜索树</li>
-<li>AVL树</li>
-<li>红黑树</li>
-<li>Splay树</li>
-<li>Trie树</li>
-<li>B树</li>
-<li>B+树</li>
-</ul>
-<p>你可以点击下面高亮的标题尝试这种树结构的可视化操作，当然我在谈的过程中默认你已经打开可视化界面网站。</p>
-<p>在开始介绍各种树结构之前，我们先谈谈为什么我们需要树这种结构。</p>
-<p>假设我们一开始都有一个“柜子”存放东西，当我们东西很少的时候，我找东西的时候只要在柜子里面翻一翻就能找到，当我东西越来越多，在柜子里面找东西消耗的时间越来越多，这时候我就把柜子分类，让每一个柜子的东西都是固定的，这样我们查找时候不会在一个柜子里面寻找很久，这样无论你有多少东西进来，我查找的时间基本不会太长。</p>
-<p>所以树这种数据结构就是为了解决当数据量越来越大的时候相比与线性查找时间基本不会太长。对树查找和线性的区别我们可以看一下这个可视化界面</p>
-<p><a href="http://www.cs.usfca.edu/~galles/visualization/Search.html" target="_blank" rel="external">线性搜索与二分查找</a></p>
-<p>通过输入查找344，我们发现线性搜索花了15步才搜索到，而二分查找只需要2步，而且随着数据越来越大，线性搜索花的步数直线上升，而二分查找只会维持用Log(N)的步伐增长。</p>
-<p>树的结构基本上都是基于二分查找，但是在维护这个查找树的方法上各种树有各种优化方法，接下来我们就从可视化角度来依次介绍各种树的原理和优缺点。</p>
-<h2 id="二叉搜索树"><a href="#二叉搜索树" class="headerlink" title="二叉搜索树"></a><a href="http://www.cs.usfca.edu/~galles/visualization/BST.html" target="_blank" rel="external">二叉搜索树</a></h2><p>这个树可以称作所以后面变种树的鼻祖，基本上所以后面的树都是基于这个树的不足之处进行改良达到其各自的目的。</p>
-<p>我们现在尝试构造一棵二叉树，我们依次插入<code>3,2,4</code>。然后一棵标准的二叉树就出现在我们面前，在我们插入的过程中，我们可以清晰的看到，第一个插入的变成了母节点，而且插入程序实现的非常简单，首先跟母节点进行比较，如果比母节点大，从母节点右边下滑，然后依次找到最后一个为空的节点把自己插入进去。</p>
-<p> <img src="/images/bst-7.png" alt="单调递增二叉搜索树"></p>
-<p>我们接下来尝试一下如果输入一个连续递增的数组进去，比如<code>1， 2， 3， 4， 5</code>，我们发现这个二叉搜索树会逐渐把所以的值放到右节点上。这时候我们我们尝试搜索一下<code>5</code>，我们发送这个二叉搜索树需要5次查询才能得到最终结果，这个基本上等同与线性搜索。</p>
-<p>这里我们就发现二叉搜索树一个致命缺点，它容易造成一种空间的浪费，虽然这个树看起来很“高”，有5层，但是利用率极低，每层只有一个树，这样不但查找的时候效率不高，而且插入的时候效率也不高（很可能需要“爬”很多层）。</p>
-<p>二叉树搜索树实现起来非常简单，只要用一个<code>while</code>循环就能完成插入查找等功能，但是由于它结构控制太低，它对数据要求要很高，它时候依次插入那些无序数字，而对那些有序数据来说，二叉搜索树等同与一个数组。</p>
-<p>所以我们接下来介绍下面改良树，看看其他树是如何提高的空间利用率的，由于这篇主要是简单的谈一下这些树的优缺点，如果你想了解如何实现这样一课时可以看一下我写的这篇<a href="/2018/01/04/二叉搜索树实现原理/" title="二叉搜索树Go实现">博文</a>，详细介绍了如何使用Go语言实现一个高效的二叉搜索树，如果你想彻底了解下面高级的树的实现，强烈建议一下了解一下二叉搜索树实现的方法，因为后面所以的树实现的前提<strong>必须满足是一个二叉搜索树</strong>，这点非常重要。</p>
-<p><a href="/2018/01/04/二叉搜索树实现原理/" title="二叉搜索树Go实现">二叉搜索树Go实现</a></p>
-<h2 id="AVL树"><a href="#AVL树" class="headerlink" title="AVL树"></a><a href="http://www.cs.usfca.edu/~galles/visualization/AVLtree.html" target="_blank" rel="external">AVL树</a></h2><p>1962发明的AVL树现在还生龙活虎的活跃在Windows进程地址空间管理，虽然作为最早的平衡二叉树现在有点干不过后面的年轻的小伙，但是作为前辈，后面小伙很多地方都是借鉴前辈的，所以我们有必要隆重介绍一下这个老前辈。</p>
-<p>首先要说明一下什么是平衡二叉树，前面我们也看到了，二叉搜索树有个弊端，它有可能子树高度不一样，比如说<code>1,2,3,4,5</code>那个母节点<code>1</code>的左子树高度为0，右字数高度为5，平衡二叉树就没有这个问题，它规定所以节点子树高度差不能超过1，这样规定的话我们的树空间利用率就能基本上达到100%了。</p>
-<p>AVL树就是一颗高度平衡二叉树，它的要求也非常简单，就两个</p>
-<ul>
-<li>必须是二叉搜索树</li>
-<li>必须是平衡二叉树</li>
-</ul>
-<p>成为一个二叉查找树非常容易，但是为了必须满足平衡二叉树条件，这里我们给每颗树定义一个高度，默认空为0，这样就可以计算左右子树的高度差是否在-1和1之间判断是否是平衡树。</p>
-<p>了解了这个之后，我们回到web页面，我们输入<code>1,2,3</code>看看AVL树如何避免像二叉搜索树一样过度生长</p>
-<p><img src="/images/avl-1.png" alt="插入前"></p>
-<p><img src="/images/avl-2.png" alt="插入后"></p>
-<p>我们从这两幅图可以看到，插入前AVL树高度为3，经过单旋转后，将2旋转到1的位置，然后让树又满足平衡二叉树的条件和二叉搜索树的条件。让我们思考一下旋转的意义。</p>
-<h3 id="旋转的意义"><a href="#旋转的意义" class="headerlink" title="旋转的意义"></a>旋转的意义</h3><p><strong>第一旋转并没有改变二叉搜索树的特性，我们将二叉树看做一个一个小区间组成的区域，旋转将区间整体移动了，所以我们保持住了区间的稳定，而且我们把旋转的支点看做中心，我们发现通过一次旋转后，支点左右之间的数量发生的变化，其中一方增加一个，其中一个减少一方，通过这种方式，把高度差由<code>2</code>转成<code>0</code></strong></p>
-<p>所以我们在插入和删除的时候造成的高度不平衡可以通过正确的旋转达到一个高度差的减少。而且我们可以很轻松的推断出在插入和删除的时候只需要通过有限的旋转就能实现树的平衡，但是我们也会发现这个平衡是非常严格的，每次插入删除的时候，删除或者增加的那条“路径”（从根节点到修改的节点）的各个节点的高度都会发生变化，所以我们需要检查和更新整条路径上高度差（也称平衡因子）是否满足平衡条件。</p>
-<p>直接纪录每个树的高度并且约束高度差的方法能够很好的规避像上面二叉搜索树造成的空间利用率低问题，但是对于增添和删除操作频繁的数据来说，AVL树并不是一个很好的解决方法，因为每次删除和增加都必须检测路径上的高度差，虽然旋转比较高效，但是每次检测和修改高度会让这个算法花费太多时间在这个严格的条件上面。</p>
-<p>总的来说，AVL树是比较好理解的一种平衡树算法，通过这个树的各种旋转操作，我们能很清晰的发现二叉树是一种很神奇的数据结构，一方面它可能是混乱的（分支混乱），一方面它又是整齐的，通过“扭动”它的身躯，将数据平均的分摊在根节点上面。我非常推荐你在这个<a href="http://www.cs.usfca.edu/~galles/visualization/AVLtree.html" target="_blank" rel="external">可视化界面</a>上通过一步一步将单独递增或者递减的数据插入AVL树中，你会发现AVL通过一次一次的“扭动”，将数据向根节点另一个方向传输过去。</p>
-<p>这里我也不详细介绍AVL树实现的具体原理，如果你想了解更底层的实现，可以看我下面这篇<a href="/2018/01/04/AVL树实现原理/" title="AVL树的实现原理">博客</a></p>
-<p><a href="/2018/01/04/AVL树实现原理/" title="AVL树的实现原理">AVL树的实现原理</a></p>
-<h2 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a><a href="http://www.cs.usfca.edu/~galles/visualization/RedBlack.html" target="_blank" rel="external">红黑树</a></h2><p>在AVL树发明10年后鲁道夫 贝尔发明了红黑树，直到现在红黑树还依旧在C++的STL、Java的HashMap中发挥着重要作用，只所以要先介绍AVL树再介绍红黑树，因为从我的理解上来看，其实红黑树和AVL树原理都是类似的，只不过红黑树修改了AVL树的缺点并且将AVL的平衡原理进行了抽象话。</p>
-<p>从数据结构上来看，红黑树相比于AVL树来说，只是将存贮高度的值换成了存贮颜色的值，从空间的角度上看，红黑树用一个二进制bool值（1Bit）换掉一个存贮int值（4Bit），节省了3Bit的空间，从增删所需要的操做来看，AVL树旋转可能需要lnN 步操作，而红黑树增不超过2次旋转，删不超高3次旋转，在增删效率上远远优于AVL树。所以我们有一个疑问为什么红黑树能用更少的空间实现更高的效率呢？</p>
-<p>回答这个问题之前，我们再捋捋AVL它的实现原理，前面介绍了AVL实现平衡的原理的就是使的左右子树高度差维持在[-1,1]之间，高度差这个东西，你想想高度这个东西其实它就是母节点到叶子节点的路径，所以高度差我们翻译一下就是左右子树路径差，现在我们把平衡后的AVL树条件更加严格一点，我们规定左右子树路径差为0，也就是左右子树高度一样。</p>
-<p><img src="/images/bst-2.png" alt="满二叉树"></p>
-<p>在上面那个严格的条件下，假如我们要新增一个到树末端，假如它加在像上面这样满二叉树上面，那么左右子树高度就立刻不相同了，但是对于一个AVL树来说，在这颗树上末端插一颗树并不会影响树的平衡，所以我们要想一个办法让插入这个值“不算高度”，这时候我们一想，如果我们把树节点分成两种颜色，一种红色一种黑色，红色不算高度，黑色才算高度，那样虽然我现在条件很苛刻“左右子树高度必须一样”，但是如果插入的是红色，那么就能很轻松的实现上面的条件。</p>
-<p>好了我们通过上面的操作成功的将高度变成了黑高（黑色节点的高度），而且满足了一种更加严格的条件“左右子树黑高必须相同），假如说前面AVL树的高度差为[-1,1]之间都能实现高空间利用率的，那么在这种更加严格的条件下也能满足，但是现在又出现一个问题，我们看下面这棵树</p>
-<p><img src="/images/rbt-1.png" alt="不平衡树"></p>
-<p>当我们插入节点3的时候，由于插入一颗红色你把红色节点不算高度，所以在前面的约束条件下，插入3满足条件，但是实际上这棵树并不是一个平衡AVL树，为了避免这种情况的发生我们必须要做一个约束，我们要约束红色节点不能太多，所以我们就约束红色节点后面只能是黑色节点，这样路径上最少都会有一半都是黑色（红色黑色相同）。</p>
-<p>我们现在得到两个约束，现在我们来说思考一下这两个条件的约束到底给我们带来了什么</p>
-<ul>
-<li>黑高相同</li>
-<li>红后面必须为黑</li>
-</ul>
-<p>首先对于黑色节点来说，这棵树是高度平衡的（假设它只能看到黑色节点），高度差为0，但是对于红色节点来说，这棵树有可能是不平衡的（假设有N个黑节点，红色高度差可能有N-1），所以从整体上来看，红黑树牺牲了一定的平衡性换来了插入删除的高效性</p>
-<p>这个高效性表现在哪呢？第一它不在需要更新所有的高度差，它只需要对受影响的路径上的有限节点进行染色就能实现再次的平衡，其次由于它不在需要高度的平衡，所以它能容忍树上的红色的不平衡现象，来减少旋转变化的次数。</p>
-<p>前面我们分析了AVL树旋转的意义那么对于红黑树来说，旋转的意义是什么呢？</p>
-<h3 id="红黑树的旋转意义"><a href="#红黑树的旋转意义" class="headerlink" title="红黑树的旋转意义"></a>红黑树的旋转意义</h3><p>前面我们知道了在AVL树中每一棵树都是独立的个体，所以每次旋转都是一次运输，将树按照节点扭动，但是对于红黑树来说，它要处理的情况是黑树高度的不同，当需要搬到的也是黑树，它的目的就是将黑树的高度平衡，对于红色的树来说，它更像一种胶水，它能保证当数据不平衡的时候（所以的树不可能全部变成黑树）还能使黑树保持一种平衡，从而使一棵树变得相对平衡。</p>
-<p>所以红黑树的旋转的意义同AVL树是类似的，只不过红黑树在旋转的时候要更加注意，它不但要考虑我们要如何在不平衡的节点上平衡黑高，而且要考虑我们平衡了这个节点的黑高有没有对其父亲的黑高造成影响。</p>
-<p>对于红黑树来说，由于颜色是可变的，所以着色（改变颜色）也是一种手段，而对于AVL树来说高度是固定的，只能通过旋转来改变，所以单独讲红黑树的旋转是没有意义的，或许有的时候只需要通过旋转就能实现黑高的统一，或许通过简单着色也能实现黑高的统一，但是只使用一种手段是不能高效的完成所以的条件。所以在我看来<em>着色和旋转是相辅相成的</em></p>
-<p>也正因为我们多了一个着色的手段，所以红黑树比AVL树在某些方面更加高效，随着而来也是更加复杂难懂，但是总体来说AVL和红黑还是类似的，在这里我就不深谈如何实现红黑树，如果你想了解如何实现红黑树，可以看我这篇<a href="/2018/01/05/红黑树实现原理/">博客</a></p>
-<p><a href="/2018/01/05/红黑树实现原理/">红黑树的实现原理</a></p>
-<h4 id="剩余的四种树的简析会待代码实现后陆续更新"><a href="#剩余的四种树的简析会待代码实现后陆续更新" class="headerlink" title="剩余的四种树的简析会待代码实现后陆续更新"></a>剩余的四种树的简析会待代码实现后陆续更新</h4><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://en.wikipedia.org/wiki/Binary_search_tree" target="_blank" rel="external">https://en.wikipedia.org/wiki/Binary_search_tree</a></p>
-<p><a href="https://en.wikipedia.org/wiki/AVL_tree" target="_blank" rel="external">https://en.wikipedia.org/wiki/AVL_tree</a></p>
-<p><a href="https://www.cnblogs.com/vamei/archive/2013/03/21/2964092.html" target="_blank" rel="external">https://www.cnblogs.com/vamei/archive/2013/03/21/2964092.html</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/12/27/浅谈树这种数据结构/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/12/27/浅谈树这种数据结构/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -901,7 +944,7 @@ ELF Header:
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/mit6-828/" title="mit6.828">mit6.828<sup>3</sup></a></li>
+				<li><a href="/tags/mit6-828/" title="mit6.828">mit6.828<sup>6</sup></a></li>
 			
 		
 			

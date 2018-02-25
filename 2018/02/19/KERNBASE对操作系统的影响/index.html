@@ -1,0 +1,626 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-cn">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>KERNBASE对操作系统的影响 | lunge博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="张伦">
+    
+
+    
+    <meta name="description" content="概括
+这个问题主要在这本xv6-ref的第一章的练习题2中提出来
+
+问题如下
+KERNBASE limits the amount of memory a single process can use, which might be irritating on a machine with a full 4 GB of RAM. Would raising KERNBASE allow a pro">
+<meta property="og:type" content="article">
+<meta property="og:title" content="KERNBASE对操作系统的影响">
+<meta property="og:url" content="https://mrzhangboss.github.io/2018/02/19/KERNBASE对操作系统的影响/index.html">
+<meta property="og:site_name" content="lunge博客">
+<meta property="og:description" content="概括
+这个问题主要在这本xv6-ref的第一章的练习题2中提出来
+
+问题如下
+KERNBASE limits the amount of memory a single process can use, which might be irritating on a machine with a full 4 GB of RAM. Would raising KERNBASE allow a pro">
+<meta property="og:updated_time" content="2018-02-19T13:23:59.642Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="KERNBASE对操作系统的影响">
+<meta name="twitter:description" content="概括
+这个问题主要在这本xv6-ref的第一章的练习题2中提出来
+
+问题如下
+KERNBASE limits the amount of memory a single process can use, which might be irritating on a machine with a full 4 GB of RAM. Would raising KERNBASE allow a pro">
+<meta name="twitter:creator" content="@mrzhangboss">
+
+    
+    <link rel="alternative" href="/atom.xml" title="lunge博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/logo2.png">
+    
+    
+    <link rel="apple-touch-icon" href="/img/logo2.png">
+    <link rel="apple-touch-icon-precomposed" href="/img/logo2.png">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo2.png" alt="lunge博客" title="lunge博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="Search" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/02/19/KERNBASE对操作系统的影响/" title="KERNBASE对操作系统的影响" itemprop="url">KERNBASE对操作系统的影响</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
+		
+  <p class="article-time">
+    <time datetime="2018-02-18T16:00:00.000Z" itemprop="datePublished"> Published 2018-02-19</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#概括"><span class="toc-number">1.</span> <span class="toc-text">概括</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">2.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户和内核应用内存分页"><span class="toc-number">3.</span> <span class="toc-text">用户和内核应用内存分页</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#内存分页的意义"><span class="toc-number">3.1.</span> <span class="toc-text">内存分页的意义</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内核内存利用"><span class="toc-number">4.</span> <span class="toc-text">内核内存利用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#物理内存小于（4G-KERNBASE）"><span class="toc-number">4.1.</span> <span class="toc-text">物理内存小于（4G-KERNBASE）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#物理内存大于-（4G-KERNBASE）"><span class="toc-number">5.</span> <span class="toc-text">物理内存大于 （4G-KERNBASE）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">6.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引用"><span class="toc-number">7.</span> <span class="toc-text">引用</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="概括"><a href="#概括" class="headerlink" title="概括"></a>概括</h2><blockquote>
+<p>这个问题主要在这本<a href="/xv6-ref">xv6-ref</a>的第一章的练习题2中提出来</p>
+</blockquote>
+<p>问题如下</p>
+<pre><code>KERNBASE limits the amount of memory a single process can use, which might be irritating on a machine with a full 4 GB of RAM. Would raising KERNBASE allow a process to use more memory?
+</code></pre><p>根据前面的知识可知这个问题翻译过来就是：在32位处理器下，当<code>KERNBASE</code>为<code>0x80000000</code>时用户最多可以用2GB内存，我们是否能够增加<code>KERNBASE</code>让用户使用超过2GB内存呢？</p>
+<p>ps： 下面<code>KERNBASE</code>简写为<code>KE</code></p>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>要想解答这个问题，我们必须要知道xv6是如何分配内存的，以及如何区分用户和内核，以及<code>KE</code>的作用。</p>
+<p>xv6使用内存分页技术，如果你对这个不了解可以看这篇<a href="/2018/01/31/内存分页/">引导中的静态表</a>和这篇<a href="/2018/02/内存分页设计/">内存分页设计细节</a>，了解完这个我们谈谈用户和内核的内存分页应用。</p>
+<p>注意我们所以计算的前提是在32位处理器的条件下</p>
+<h2 id="用户和内核应用内存分页"><a href="#用户和内核应用内存分页" class="headerlink" title="用户和内核应用内存分页"></a>用户和内核应用内存分页</h2><p>其实用户和内核都是程序，对于用户来说内核只有一个，对于内核来说，用户可以有无数个。为了隔离内核和用户我们必须在内存上就进行隔离，所以单一内核和每个用户都拥有一个内存目录。</p>
+<h3 id="内存分页的意义"><a href="#内存分页的意义" class="headerlink" title="内存分页的意义"></a>内存分页的意义</h3><p> 其实我们可以把内存的目录对应的所有内存表看做一张大的内存映射表，我们使用<code>1024 × 1024</code>个表单项代表<code>4GB</code>内存地址，每个代表<code>4K</code>连续的内存空间，当然大部分程序不会使用全部表单（一般就是内存目录一个，一到三个内存表）</p>
+<p> 当然好处有很多，比如任何程序都可以使用相同的虚拟地址但是在实际运行的时候不会相互影响，这个好处就是通过映射来实现的。</p>
+<ul>
+<li>映射就是虚拟地址到物理地址的一种转换，这是一种<code>多对一</code>的映射，也就是一个虚拟地址只能对应一个物理地址，然而物理地址可以对应多个虚拟地址</li>
+</ul>
+<p>这个转换带来了一个问题，给你一个虚拟地址，你可以查表然后得到物理地址，但是如果给你一个物理地址，你除了遍历没有很好的办法获取虚拟地址（而且有可能你会得到多个虚拟地址）。</p>
+<p>这个问题非常重要，因为它影响了我们后面内核与用户切换的时候地址的搜索，接下来我们看看内核初始化后内存是一种什么样的存在。</p>
+<h2 id="内核内存利用"><a href="#内核内存利用" class="headerlink" title="内核内存利用"></a>内核内存利用</h2><p>看xv6源码我们知道，内核这个程序将程序虚拟地址起点定在<code>KE</code>上，我们知道一个程序由三部分组成指令、数据、堆栈。堆栈是向下生长，而数据、指令向上生长。而xv6把堆栈固定为32KB，所以内存只能向上生长，所以理论上内核最大占用空间只有<code>2^32(4G) - KE</code></p>
+<ul>
+<li>当<code>KE</code>为<code>0xf0000000</code>时，只有256M</li>
+<li>当<code>KE</code>为<code>0x80000000</code>，有2G。</li>
+</ul>
+<p>由于用户内存空间不能超过<code>KE</code>（实际系统中为<code>UTOP</code>，值为<code>KE</code>减去一些为系统功能预留的空间，这里我们忽略他们），所以用户所能得到的内存空间最大为<code>KE</code>，也就是</p>
+<ul>
+<li>当<code>KE</code>为<code>0xf0000000</code>时，为 3840M（4G-256M）</li>
+<li>当<code>KE</code>为<code>0x80000000</code>，有2G。</li>
+</ul>
+<p>通过上面简单的理论值我们推断出答案是：</p>
+<ul>
+<li>增大<code>KE</code>可以增大用户内存</li>
+</ul>
+<p>这个结果看起来是正确的，但是我们知道作为一个操作系统不能固定用户的内存，我们接下来就看看在不同的内存下的实际应用以及<code>xv6</code>自身设计问题，由此来探索这个问题的本质</p>
+<p>我们就分两种情况来考虑 </p>
+<h3 id="物理内存小于（4G-KERNBASE）"><a href="#物理内存小于（4G-KERNBASE）" class="headerlink" title="物理内存小于（4G-KERNBASE）"></a>物理内存小于（4G-KERNBASE）</h3><p>这种情况在很早的时候经常出现，我们计算机的内存可能就几M，这个时候内核假如真的占了<code>4G-KE</code>那连内核都跑不起来何况用户程序。</p>
+<p>我们接下来进入源码来看<code>xv6</code>将实际占用的空间体现在内存表中，我们看到<code>kern/kernld.ld</code>配置文件，其中最主要的一行</p>
+<pre><code>PROVIDE(end = .);
+</code></pre><p>这行位置出现在最后一行，它的作用是提供了一个变量<code>end</code>，我们在C中就可以用这个变量代表机器码的最后一行的虚拟地址，有了这个地址之后，我们就获取了一个重要信息内核程序总长度，假如没有这个变量，我们只能人工设定一个操作系统的占用空间，假如定大了就是浪费，定小了程序就可能崩溃（内存溢出）。分配的细节可以看这篇<a href="/2018/02/内存分页设计/">文章</a>，通过这个变量，我们把内核占用的物理空间给腾出来了。接下来的剩余的物理空间就留给用户了，所以用户能用到的内存最大为<code>实际内存 - 操作系统占用的内存</code>。</p>
+<p>而且我们能够知道操作系统还将内核的内存映射直接固定了，将<code>KE：4G</code>的地址映射到<code>0:4G-KE</code>，公式为<code>虚拟内存=物理内存+KERNBASE</code>，这个映射存在于<code>kern/pmap.c</code>的<code>mem_init</code>函数中，这个带来了一个便利，就是程序变得很简单，假如我们得到一个物理内存地址，我们就能知道虚拟内存地址，但是这个也引来一个巨大的问题，就是当内存大于<code>4G - KE</code>的时候。</p>
+<p>PS：关于知道物理内存能知道虚拟地址在源码的好处主要体现在用户内存空间创建的时候，这个时候处于内核态，当我们得到一个空的物理空间页，我们只要简单的使用上面公式就能获取到虚拟地址，然后内核就能在直接通过指针修改程序。假如没有这个映射，我们就后面动态建立，但是这里涉及到一个非常棘手的<code>成本</code>的问题，我们其实只需要一个值映射，然而我们却要浪费4K的连续内存空间，而且给程序带来了很大的复杂性。</p>
+<p>我们接下来考虑系统内存大于那段映射最大值（4G-KE）时候会造成什么情况</p>
+<h2 id="物理内存大于-（4G-KERNBASE）"><a href="#物理内存大于-（4G-KERNBASE）" class="headerlink" title="物理内存大于 （4G-KERNBASE）"></a>物理内存大于 （4G-KERNBASE）</h2><p>在现在大家内存愈来愈大，这种情况比较常见，由于xv6在程序设计中是动态创建用户空间，当用户比较少占用空间比较小的时候，程序不会用到物理地址比较大的空间，但是当物理内存超过这个阀值（4G-E），在这里我们考虑<code>KE=0xf0000000</code>,也就是物理内存地址大于256M的时候，由于内核没有映射到这么高的地址，所以我们用上面那个物理地址转虚拟地址公式就失效了。</p>
+<p>由于xv6只是一个教学系统，所以为了简化系统，降低程序复杂性所以使用了最简单的直接映射的方法来处理内存，也正是由于这个原因提高<code>KE</code>并不能增加用户最大内存，当然解决的方法也有，我想了两种。</p>
+<ul>
+<li>在内核空间中分配用户内存目录空间，这种最为简单，但是会浪费一定的内存空间（必须在内核一开始运行就占用空间）</li>
+<li>在内核空间中映射一段固定的地址来存放用户内存目录地址，这个程序设计比较复杂，但是只需要初始化一个内存表单就行</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过上面的分析，我们得到一个结论：</p>
+<p>由于xv6设计的局限性，增大<code>KERNBASE</code>并不能增大用户最大可用空间，反而会减少。但是如果修改xv6设计可以实现增大<code>KERNBASE</code>增大用户最大可用空间。</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/mit6-828/">mit6.828</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://mrzhangboss.github.io/2018/02/19/KERNBASE对操作系统的影响/" data-title="KERNBASE对操作系统的影响 | lunge博客" data-tsina="5364356330" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2018/02/20/用户空间隔离/" title="用户空间隔离">
+  <strong>上一篇：</strong><br/>
+  <span>
+  用户空间隔离</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2018/02/05/内存分页设计/"  title="内存分页设计">
+ <strong>下一篇：</strong><br/> 
+ <span>内存分页设计
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2018/02/19/KERNBASE对操作系统的影响/" data-title="KERNBASE对操作系统的影响" data-url="https://mrzhangboss.github.io/2018/02/19/KERNBASE对操作系统的影响/"></div>
+</section>
+
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#概括"><span class="toc-number">1.</span> <span class="toc-text">概括</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">2.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户和内核应用内存分页"><span class="toc-number">3.</span> <span class="toc-text">用户和内核应用内存分页</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#内存分页的意义"><span class="toc-number">3.1.</span> <span class="toc-text">内存分页的意义</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内核内存利用"><span class="toc-number">4.</span> <span class="toc-text">内核内存利用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#物理内存小于（4G-KERNBASE）"><span class="toc-number">4.1.</span> <span class="toc-text">物理内存小于（4G-KERNBASE）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#物理内存大于-（4G-KERNBASE）"><span class="toc-number">5.</span> <span class="toc-text">物理内存大于 （4G-KERNBASE）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">6.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引用"><span class="toc-number">7.</span> <span class="toc-text">引用</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/mit6-828/" title="mit6.828">mit6.828<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/python/" title="python">python<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/summary/" title="summary">summary<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/总结/" title="总结">总结<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hookman/" title="hookman">hookman<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/development/" title="development">development<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/notebook/" title="notebook">notebook<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/competition/" title="competition">competition<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/patch/" title="patch">patch<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/测试/" title="测试">测试<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ansible/" title="ansible">ansible<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/负载均衡/" title="负载均衡">负载均衡<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/感想/" title="感想">感想<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/工作/" title="工作">工作<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/工具心得/" title="工具心得">工具心得<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/database/" title="database">database<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/python3-async/" title="python3, async">python3, async<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://segmentfault.com/ " target="_blank" title="一个面向程序员交流分享的新一代社区">segmentfault</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">Weibo</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5364356330&verifier=&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m lunge. <br/>
+			This is my blog.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/5364356330" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/mrzhangboss" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/6599843" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		<a href="https://twitter.com/mrzhangboss" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/100011375031071" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/zhang-lun-59-53" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		
+		<a href="mailto:2529450174@qq.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2018 
+		
+		<a href="/about" target="_blank" title="张伦">张伦</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lunge"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-80810286-1,UA-80810286-2', 'auto,auto');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
