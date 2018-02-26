@@ -26,7 +26,7 @@ while (1)
     monitor(NULL);
 这个monitor就是简单读取用户输入然后通过字符串调用给定的几个函数。我们可以把这个函数看做i386_init的子函数，也就是程序一直在i386_init中运行，也就是一直以内核形式运">
 <meta property="og:image" content="https://mrzhangboss.github.io/images/systemring.png">
-<meta property="og:updated_time" content="2018-02-26T06:35:54.551Z">
+<meta property="og:updated_time" content="2018-02-26T09:43:56.073Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="用户空间隔离">
 <meta name="twitter:description" content="通过前面的学习我们知道，在前两个实验中最主要的程序就是kern/init.c文件中i386_init函数，但是我们看到最后却是一个while循环结束。
@@ -110,7 +110,7 @@ while (1)
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户是个程序？"><span class="toc-number">2.</span> <span class="toc-text">用户是个程序？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#权限"><span class="toc-number">3.</span> <span class="toc-text">权限</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Trap"><span class="toc-number">4.</span> <span class="toc-text">Trap</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#IRET"><span class="toc-number">4.1.</span> <span class="toc-text">IRET</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TSS"><span class="toc-number">4.2.</span> <span class="toc-text">TSS</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引用"><span class="toc-number">5.</span> <span class="toc-text">引用</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户是个程序？"><span class="toc-number">2.</span> <span class="toc-text">用户是个程序？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#权限"><span class="toc-number">3.</span> <span class="toc-text">权限</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Trap"><span class="toc-number">4.</span> <span class="toc-text">Trap</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#IRET"><span class="toc-number">4.1.</span> <span class="toc-text">IRET</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TSS"><span class="toc-number">4.2.</span> <span class="toc-text">TSS</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户时间控制"><span class="toc-number">5.</span> <span class="toc-text">用户时间控制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">6.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引用"><span class="toc-number">7.</span> <span class="toc-text">引用</span></a></li></ol>
 		
 		</div>
 		
@@ -135,13 +135,13 @@ assert(header-&gt;e_magic == ELF_MAGIC);
 <p><img src="/images/systemring.png" alt="系统环来源网络"></p>
 <p>PS：当然<code>CS</code>寄存器拿出来三位来当权限管理，但是xv6将第三位用户和内核都设置为1，所以我们也不介绍这一位</p>
 <p>我们在<code>CS</code>寄存器的这两位称为CPL，用来区分权限。在<a href="/2018/01/31/引导和操作系统的交互/">引导和操作系统的交互</a>这篇博客我们知道，在<code>x86</code>系统中，这个<code>CS</code>寄存器是标志段选择子，在<code>GDT</code>表中每个表项也有两位用来标志权限，我们称他们为<code>DPL</code>，他们的意义也就是<code>CS</code>寄存器选择这个段时他们最低拥有的权限。</p>
-<p>当然在<code>GDT</code>表中的段选择子也有一个表示权限的称作<code>RPL</code>，这三者的关系在这<a href="https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86" target="_blank" rel="external">里面</a>介绍的很详细，<code>CPL</code>是历史遗留问题但是操作系统基本上没有使用这个功能，所以这里我们也不解释，感兴趣可以看一下<a href="https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86" target="_blank" rel="external">前面</a>的介绍。</p>
+<p>当然在<code>GDT</code>表中的段选择子也有一个表示权限的称作<code>RPL</code>，这三者的关系在这<a href="https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86" target="_blank" rel="external">里面</a>介绍的很详细，<code>RPL</code>是历史遗留问题但是操作系统基本上没有使用这个功能，所以这里我们也不解释，感兴趣可以看一下<a href="https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86" target="_blank" rel="external">前面</a>的介绍。</p>
 <p>在<code>kern/env.c</code>的<code>结构体gdt</code>我们声明了一个<code>GDT</code>表，并且声明了一个系统段和用户段。</p>
 <p>这两个段就是我们权限的基础我们接下来通过实验来验证权限位对操作系统的保护</p>
 <p>我们首先在<code>user/badsegment.c</code>中加入一句汇编</p>
-<pre><code>asm volatile(&quot;ljmp %0,$1f\n 1:\n&quot; :: &quot;i&quot; (0x08));
+<pre><code>asm volatile(&quot;ljmp %0,$1f\n 1:\n&quot; :: &quot;i&quot; (0x08)); // 将CS设置为0x08
 </code></pre><p>我们尝试将<code>CS</code>设置为<code>0x08</code>（内核段）结果直接引发一个<code>General Protection</code>的异常，但是当我们尝试执行这句</p>
-<pre><code>asm volatile(&quot;ljmp %0,$1f\n 1:\n&quot; :: &quot;i&quot; (0x18));
+<pre><code>asm volatile(&quot;ljmp %0,$1f\n 1:\n&quot; :: &quot;i&quot; (0x18));  // 将CS设置为0x18
 </code></pre><p>我们发现程序没有引发异常（这段的含义是跳转到用户段，由于已经在用户段，所以没有触发异常），这说明<code>x86</code>通过<code>CS</code>寄存器很好的实现了内核和用户的保护（用户不能直接跳到内核去执行代码）</p>
 <p>在<code>user/faultwritekernl.c</code>和<code>user/faultreadkernl</code>中我们发现尝试写入或者读取内核也失败了，这是通过前面章节的内存分页权限实现的，这里就不介绍了。</p>
 <p>现在我们知道，通过我们不懈努力内核和用户直接存在一个鸿沟，但是这时候摆在我们面前很大的问题，内核拥有一些非常重要的权限比如申请内存，如果用户没有这个权限那么功能非常受限，所以我们就要提到一个内核和用户交互的手段：Trap。</p>
@@ -181,16 +181,40 @@ assert(header-&gt;e_magic == ELF_MAGIC);
 } __attribute__((packed));
 </code></pre><p>第一个是<code>PushRegs</code>结构体，这个对应我们第一个操作<code>popal</code>，将<code>PushRegs</code>所有值全部从堆栈中取出，我们发现当到<code>iret</code>操作时，正好对应取出代码段还有堆栈段和<code>EFLAGS</code>寄存器，所以其实<code>iret</code>的操作非常简单，只是将三个取出指令和成了一个。</p>
 <h3 id="TSS"><a href="#TSS" class="headerlink" title="TSS"></a>TSS</h3><p>前面我们捋了捋从系统跳转到用户，因为我们给用户的都是刚新建的值，所以这个并没有什么问题，但是你要想一想，当用户想跳转到系统的时候，这个时候它也必须要切换堆栈，因为用户可以还没有准备好（有时候可以是因为堆栈内存不够，如果把寄存器值强行插值到用户堆栈会引发二次异常）。但是假如使用操作系统的堆栈，在我们切换之前系统必须要知道内核堆栈在哪</p>
-<p>所以x86提供了一个寄存器给我们使用<code>tr</code>专门存贮一个选择子，这个选择子<code>base</code>地址必须指向一块空余空间。前面知道我们要想从用户跳操作系统，必须知道操作系统的堆栈（中断向量表提供了代码段cs：ip），所以x86干脆规定了这个空间名字为<code>TSS</code>，并声明了一大串寄存器的值，当然这些是硬件规定的，软件用不用无所谓，但是硬件会在跳转的时候，读取里面固定位置的值，也就是我们需要的堆栈段<code>ss：esp</code>，在<code>inc/mmu.h</code>的<code>Taskstate</code>结构体中声明了这段内存规定的字段</p>
-<p>所以我们在<code>kern/trap.c</code>中声明了</p>
+<p>所以x86提供了一个<code>tr</code>寄存器给我们使用，这个寄存器的位数为16位，专门存贮一个选择子（类似前面段选择子），这个选择子<code>base</code>地址必须指向一块空余空间。前面知道我们要想从用户跳操作系统，必须知道操作系统的堆栈（中断向量表提供了代码段cs：ip），所以x86干脆规定了这个空间名字为<code>TSS</code>，并声明了一大串寄存器的值备用，当然这些是硬件规定的，软件用不用无所谓，但是硬件会在跳转的时候，读取里面固定位置的值，也就是我们需要的堆栈段<code>ss：esp</code>，在<code>inc/mmu.h</code>的<code>Taskstate</code>结构体中声明了这段内存规定的字段</p>
+<p>所以我们在<code>kern/trap.c</code>中声明了（ss：esp）</p>
 <pre><code>   ts.ts_esp0 = KSTACKTOP;
 ts.ts_ss0 = GD_KD;
-</code></pre><p>这样我们在跳转的时候就能获取到内核的堆栈段，从而进入内核模式，当然硬件设定<code>TSS</code>的作用一开始为了考虑任务切换，它也提供了相应的指令，但是需要200时钟周期来完成，所以我们<code>xv6</code>嫌弃其速度太慢，只是使用了其保存内核堆栈地址的作用，所以在<code>xv6</code>中<code>TSS</code>只是一个“数据库”而已。</p>
-<p>这里还有一个非常重要的权限控制，就是系统，通过存贮的<code>CS</code>值上面的权限位（DPL），如果DPL的小于CPL（我们当前CS寄存器上的权限位）</p>
+</code></pre><p>这样我们在跳转的时候就能获取到内核的堆栈段，从而进入内核模式，当然硬件设定<code>TSS</code>的作用一开始为了考虑任务切换，它也提供了相应的指令，但是需要200左右时钟周期来完成，所以我们<code>xv6</code>嫌弃其速度太慢，只是使用了其保存内核堆栈地址的作用，所以在<code>xv6</code>中<code>TSS</code>只是一个“数据库”而已。</p>
+<hr>
+<p>介绍完前面的基础知识之后，接下来的就是这个<code>Trap</code>，前面我们知道在得到<code>int</code>这个指令时候这个时候就开始一个<code>Trap</code>开始。</p>
+<p>这个时候硬件接管程序控制，你也可以认为跳转到硬件代码去了。在给的<a href="https://pdos.csail.mit.edu/6.828/2016/xv6/book-rev9.pdf" target="_blank" rel="external">资料</a>第三章的<code>X86 Protection</code>里面介绍了这个过程，我们将前面几个步骤很我们前面给的资料联系起来</p>
+<blockquote>
+<p>后面推寄存器值就不解释了，同<code>Trapframe</code>的反向结构相同，之所以会这样，是因为堆栈地址是向下生长，而程序地址是向上生长的</p>
+</blockquote>
+<p>硬件这部分操作为</p>
 <ul>
-<li>这种情况对应我们在用户段上（0b11），跳转的CS值为(0b00）。</li>
+<li>获取中断向量表第n个的地址（n为<code>int</code>后面整数）</li>
 </ul>
-<p>这样系统会直接跳到13号中断去，就是前面的<code>General Protection</code>，当然这只是硬件提供的一种功能，</p>
+<p>然后开始权限检查，这个也是为什么程序不能随意调用系统资源的原因</p>
+<ul>
+<li>检测DPL与CPL的大小关系</li>
+</ul>
+<p>这个<code>DPL</code>不是前面<code>GDT</code>里面的，这个是存贮在中断向量表中<code>CS</code>里面的值，这个设置可以让我们给每个中断向量设置一个权限，看它允许是用户调用还是系统调用，如果只允许系统调用，那么用户调用直接引发<code>General Protection Fault</code>（13号中断），在我们的xv6中，我们只允许用户调用<code>Debug</code>和<code>System Call</code>中断，其他只能由系统调用</p>
+<ul>
+<li>判断保留<code>esp</code>和<code>ss</code>，检测目标的段与当前段</li>
+</ul>
+<p>当我们在操作系统中出现中断的时候，如果硬件还傻乎乎的将操作系统的堆栈归位那么就进入死循环了，所以这个目的就是避免同属一个段的时候不会切换堆栈</p>
+<ul>
+<li>当跳段的时候，从<code>TSS</code>中取到<code>esp</code>和<code>ss</code>切换堆栈段</li>
+</ul>
+<p>这个就是前面弹到的<code>TSS</code>的功能，接下来我们所以推出去的值全部存贮在要跳的段的堆栈上面了。</p>
+<p>推完<code>Trap</code>程序的寄存器值，保留好“犯罪现场”后，就可以进入内核进行处理这个异常了。</p>
+<p>至此我们介绍完了严格有序的处理从用户到内核的跳转，当我们处理完后就可以通过<code>iret</code>回到用户程序，这样就完成了用户拥有内核权限的设计。</p>
+<hr>
+<h2 id="用户时间控制"><a href="#用户时间控制" class="headerlink" title="用户时间控制"></a>用户时间控制</h2><p>接下来的用户使用CPU时间设置也是通过这个这个<code>Trap</code>的中断实现，你可以理解为硬件在每个CPU上在每隔个<code>10ms</code>的时候就触发一个中断。这样到内核的时候，内核发现是时间中断，就保留用户的寄存器值到用户自己空间（<code>Env</code>里面有一个<code>env_tf</code>变量可以存贮这些信息），然后调用其他或者这个程序，这样的话，我们就实现了一个时间控制。</p>
+<p>PS：这里我们提一下这个<code>Env</code>结构体，内核初始化了1024个这个结构体，这说明我们可以同时拥有1024个用户程序运行，这个结构体就是用户环境，也就是我们在<code>Unix</code>系统上输入<code>ps</code>中的<code>pid</code>（每个<code>pid</code>代表一个程序）</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>至今我们介绍了通过一个简简单单的<code>Trap</code>操作就实现了复杂的权限管理和空间隔离，虽然操作系统看起来非常复杂，但其实都是由简单干练的概念搭建起来的，因为<code>Unix</code>的哲学就是<code>简单至上</code>。</p>
 <h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://stackoverflow.com/questions/6892421/switching-to-user-mode-using-iret" target="_blank" rel="external">https://stackoverflow.com/questions/6892421/switching-to-user-mode-using-iret</a></p>
 <p><a href="https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86" target="_blank" rel="external">https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86</a></p>
 <p><a href="https://en.wikipedia.org/wiki/Task_state_segment" target="_blank" rel="external">https://en.wikipedia.org/wiki/Task_state_segment</a></p>
@@ -249,7 +273,7 @@ ts.ts_ss0 = GD_KD;
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户是个程序？"><span class="toc-number">2.</span> <span class="toc-text">用户是个程序？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#权限"><span class="toc-number">3.</span> <span class="toc-text">权限</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Trap"><span class="toc-number">4.</span> <span class="toc-text">Trap</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#IRET"><span class="toc-number">4.1.</span> <span class="toc-text">IRET</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TSS"><span class="toc-number">4.2.</span> <span class="toc-text">TSS</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引用"><span class="toc-number">5.</span> <span class="toc-text">引用</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户是个程序？"><span class="toc-number">2.</span> <span class="toc-text">用户是个程序？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#权限"><span class="toc-number">3.</span> <span class="toc-text">权限</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Trap"><span class="toc-number">4.</span> <span class="toc-text">Trap</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#IRET"><span class="toc-number">4.1.</span> <span class="toc-text">IRET</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TSS"><span class="toc-number">4.2.</span> <span class="toc-text">TSS</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户时间控制"><span class="toc-number">5.</span> <span class="toc-text">用户时间控制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">6.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引用"><span class="toc-number">7.</span> <span class="toc-text">引用</span></a></li></ol>
  
   </div>
 
