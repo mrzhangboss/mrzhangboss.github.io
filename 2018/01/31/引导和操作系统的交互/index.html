@@ -21,7 +21,7 @@ http://leenjewel.g">
 <meta property="og:description" content="引言本来自己查了很多资料，想自己写出来，结果下笔的时候发现别人已经把我想写的部分全部写出来了，而且比我想的还要具体，所以我就不写了，把链接放出了，顺便我补充一些
 http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/
 http://leenjewel.g">
-<meta property="og:updated_time" content="2018-02-02T03:56:16.140Z">
+<meta property="og:updated_time" content="2018-02-26T09:44:31.325Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="引导和操作系统的交互">
 <meta name="twitter:description" content="引言本来自己查了很多资料，想自己写出来，结果下笔的时候发现别人已经把我想写的部分全部写出来了，而且比我想的还要具体，所以我就不写了，把链接放出了，顺便我补充一些
@@ -156,6 +156,7 @@ ELF Header:
 </ul>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>后面将核心加载到内存，上面的给出资料写的很详细，我就不多说，只不过由于当前<code>2014</code>的版本同资料有点不同，这里我提一下</p>
 <p>当前版本是将内核头加载在<code>0x10000</code>上，然后在把内核代码加载到<code>0x100000</code>上（前面4个0，后面5个0，我当初看错了，百思不得其解），并将内核地址映射到<code>f0100000</code>上。</p>
+<p>由于资料给的操作系统与2016的操作系统实现细节有点不同，其中最主要的就是一个很重要的<code>KERNBASE</code>常量值由<code>0x80000000</code>变成<code>0xf0000000</code>，这个变量牵扯到了在给出的<code>book-rev8.pdf</code>资料中第一章的最后一个问题，我就把我对这个问题的思考放到这篇<a href="/2018/02/19/KERNBASE对操作系统的影响/">文章</a>中。</p>
 <h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/" target="_blank" rel="external">http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/</a></p>
 <p><a href="https://my.oschina.net/u/864891/blog/87965" target="_blank" rel="external">https://my.oschina.net/u/864891/blog/87965</a></p>
 <p><a href="http://bochs.sourceforge.net/techspec/PORTS.LST" target="_blank" rel="external">端口信息</a></p>
@@ -233,7 +234,7 @@ ELF Header:
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/mit6-828/" title="mit6.828">mit6.828<sup>6</sup></a></li>
+				<li><a href="/tags/mit6-828/" title="mit6.828">mit6.828<sup>7</sup></a></li>
 			
 		
 			

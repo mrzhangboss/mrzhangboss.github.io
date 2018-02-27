@@ -19,7 +19,7 @@
 <meta property="og:site_name" content="lunge博客">
 <meta property="og:description" content="引言Intel作为作为微处理器的航头老大，一直引导CPU的进步发展，也正是因为Intel是一个有着历史包袱的企业，所以站在现代CPU看起来，有一些非常奇葩的设计遗留下来，这些设计一开始是为了兼容，慢慢的将这种兼容又发展成新的功能，把“包袱”转换成“亮点”，段设计就是其中的一个很重要的代表，要想搞懂这个设计在不同的CPU的如何保持兼容和强化，我们必须要慢慢的把CPU的历史给捋顺。
 前言我们要介绍第一">
-<meta property="og:updated_time" content="2018-02-02T03:56:30.936Z">
+<meta property="og:updated_time" content="2018-02-26T09:44:35.721Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从CS寄存器看段的前世今生">
 <meta name="twitter:description" content="引言Intel作为作为微处理器的航头老大，一直引导CPU的进步发展，也正是因为Intel是一个有着历史包袱的企业，所以站在现代CPU看起来，有一些非常奇葩的设计遗留下来，这些设计一开始是为了兼容，慢慢的将这种兼容又发展成新的功能，把“包袱”转换成“亮点”，段设计就是其中的一个很重要的代表，要想搞懂这个设计在不同的CPU的如何保持兼容和强化，我们必须要慢慢的把CPU的历史给捋顺。
@@ -113,7 +113,7 @@
 <p>可以说段设计是16位程序的一个很优雅的做法，但是到了３２位的时候程序不行了</p>
 </blockquote>
 <h2 id="32位处理器的改变"><a href="#32位处理器的改变" class="headerlink" title="32位处理器的改变"></a>32位处理器的改变</h2><p>我们知道32位处理器的诞生带来了两件事,第一个就是寄存器有32位了,说明最大内存地址可以到4G了(<code>0x000000-0xffffff</code>),而且总线地址也有32位了。这个时候就很尴尬了，原来的段设计到这里就成鸡肋了。但是为了兼容，我们还是给他一个功能，段选择子，当然现代Unix操作系统没有用这个东西，只是在初始化的时候意思意思一下，具体可以看一下这篇<a href="http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/" target="_blank" rel="external">博客</a>的<code>GDB</code>表</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>最近学操作系统感觉学了很多知识，总想好好总结一下细节，结果发现总有大神们早就写出来了，而且非常详细，我就不班门弄釜了，把下面的lab好好思考，提炼出自己的知识。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>最近学操作系统感觉有很多疑惑，了解很多知识，总想好好总结一下细节，结果发现总有大神们早就写出来了，而且非常详细，我就不班门弄釜了，把下面的lab好好思考，提炼出自己的知识。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -193,7 +193,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/mit6-828/" title="mit6.828">mit6.828<sup>6</sup></a></li>
+				<li><a href="/tags/mit6-828/" title="mit6.828">mit6.828<sup>7</sup></a></li>
 			
 		
 			

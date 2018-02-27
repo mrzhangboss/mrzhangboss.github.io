@@ -253,7 +253,7 @@ ts.ts_ss0 = GD_KD;
     <div class="article-content">
         
         <h2 id="概括"><a href="#概括" class="headerlink" title="概括"></a>概括</h2><blockquote>
-<p>这个问题主要在这本<a href="/xv6-ref">xv6-ref</a>的第一章的练习题2中提出来</p>
+<p>这个问题主要在这本<a href="https://pdos.csail.mit.edu/6.828/2016/xv6/book-rev9.pdf" target="_blank" rel="external">xv6-ref</a>的第一章的练习题2中提出来</p>
 </blockquote>
 <p>问题如下</p>
 <pre><code>KERNBASE limits the amount of memory a single process can use, which might be irritating on a machine with a full 4 GB of RAM. Would raising KERNBASE allow a process to use more memory?
@@ -491,6 +491,11 @@ ts.ts_ss0 = GD_KD;
 <div class="article-catetags">
 
 
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/mit6-828/">mit6.828</a>
+  </div>
+
 </div>
 
 
@@ -582,6 +587,7 @@ ELF Header:
 </ul>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>后面将核心加载到内存，上面的给出资料写的很详细，我就不多说，只不过由于当前<code>2014</code>的版本同资料有点不同，这里我提一下</p>
 <p>当前版本是将内核头加载在<code>0x10000</code>上，然后在把内核代码加载到<code>0x100000</code>上（前面4个0，后面5个0，我当初看错了，百思不得其解），并将内核地址映射到<code>f0100000</code>上。</p>
+<p>由于资料给的操作系统与2016的操作系统实现细节有点不同，其中最主要的就是一个很重要的<code>KERNBASE</code>常量值由<code>0x80000000</code>变成<code>0xf0000000</code>，这个变量牵扯到了在给出的<code>book-rev8.pdf</code>资料中第一章的最后一个问题，我就把我对这个问题的思考放到这篇<a href="/2018/02/19/KERNBASE对操作系统的影响/">文章</a>中。</p>
 <h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/" target="_blank" rel="external">http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/</a></p>
 <p><a href="https://my.oschina.net/u/864891/blog/87965" target="_blank" rel="external">https://my.oschina.net/u/864891/blog/87965</a></p>
 <p><a href="http://bochs.sourceforge.net/techspec/PORTS.LST" target="_blank" rel="external">端口信息</a></p>
@@ -647,7 +653,7 @@ ELF Header:
 <p>可以说段设计是16位程序的一个很优雅的做法，但是到了３２位的时候程序不行了</p>
 </blockquote>
 <h2 id="32位处理器的改变"><a href="#32位处理器的改变" class="headerlink" title="32位处理器的改变"></a>32位处理器的改变</h2><p>我们知道32位处理器的诞生带来了两件事,第一个就是寄存器有32位了,说明最大内存地址可以到4G了(<code>0x000000-0xffffff</code>),而且总线地址也有32位了。这个时候就很尴尬了，原来的段设计到这里就成鸡肋了。但是为了兼容，我们还是给他一个功能，段选择子，当然现代Unix操作系统没有用这个东西，只是在初始化的时候意思意思一下，具体可以看一下这篇<a href="http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/" target="_blank" rel="external">博客</a>的<code>GDB</code>表</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>最近学操作系统感觉学了很多知识，总想好好总结一下细节，结果发现总有大神们早就写出来了，而且非常详细，我就不班门弄釜了，把下面的lab好好思考，提炼出自己的知识。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>最近学操作系统感觉有很多疑惑，了解很多知识，总想好好总结一下细节，结果发现总有大神们早就写出来了，而且非常详细，我就不班门弄釜了，把下面的lab好好思考，提炼出自己的知识。</p>
 
         
         
@@ -1010,7 +1016,7 @@ ELF Header:
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/mit6-828/" title="mit6.828">mit6.828<sup>6</sup></a></li>
+				<li><a href="/tags/mit6-828/" title="mit6.828">mit6.828<sup>7</sup></a></li>
 			
 		
 			
