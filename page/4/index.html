@@ -249,223 +249,6 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/11/13/协程解决递归错误/" title="协程解决递归错误原理" itemprop="url">协程解决递归错误原理</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
-		
-  <p class="article-time">
-    <time datetime="2016-11-13T05:22:17.493Z" itemprop="datePublished"> Published 2016-11-13</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
-<p>递归是高度抽象化问题的一个好东西，我们能从很多算法书里面看到这个，<br>但是递归虽然对于人来说好理解，但是计算机执行起来会损失性能，一个差的递归可能会耗光计算机的资源</p>
-</blockquote>
-<p>接下来我们来看一个非常经典的算法问题<code>Fibonacci数</code></p>
-<pre><code>f(n) = n (n &lt; 2)
-f(n) = f(n-1) + f(n-2)   (n &gt;= 2)
-</code></pre><p>  我们可以很轻松的用递归解决掉它</p>
-<pre><code>def fibonacci(n):
-  if n &lt; 2:
-      return n
-  else:
-      return fibonacci(n-1) + fibonacci(n-2)
-</code></pre><p> 当<code>n</code>比较小的时候很快就出结果了，但是当<code>n</code>大于100时候要很久才能出结果，如果<code>n</code>大于1000，直接报出超出迭代深度的错误（python默认迭代深度是1000）</p>
-<p>现在我们来解决两个问题</p>
-<ol>
-<li>为什么<code>n</code>大于100时候就很久才能算出结果</li>
-<li>为什么<code>n</code>大于1000就报迭代深度的错误</li>
-</ol>
-<p>首先我们要知道一个概念就是堆栈段，每个进程开始运行时都会初始化一个堆栈段，这在物理上就是一小块内存，初始化堆栈段的时候计算机要做一些看起来同程序毫无关系的事情，比如说将寄存器的值推入堆栈里面等等</p>
-<p>当你在运行主程序的时候你调用一个子函数，系统又会在当前堆栈段新建一个堆栈段，你子程序运行完了后会删掉这个堆栈段回到主程序，但是递归有个问题，就是他调用子程序的时候不会立即返回又会再调用自己</p>
-<p>没办法因为子程序还没返回，所以计算机又初始化一个堆栈段，一个<code>n</code>为10的<code>fibonacci</code>函数就会初始化掉 <code>2 ** 10 = 1024</code>个堆栈段，<code>n</code>越大值会指数型增长，虽然1000个初始化在当今计算机上发不了多少时间，但是当我们<code>n</code>大于20就要 百万次初始化了</p>
-<p>这就是为什么<code>n</code>很大的时候要很久才能算出结果，在一些单片机上面，循环调用空函数就是延时的功能，原理也就是堆栈初始化耗时间，而且不但耗时间假如像递归这样调用上百万次初始化而不返回将会耗掉大量内存在堆栈段上。</p>
-<h2 id="对策"><a href="#对策" class="headerlink" title="对策"></a>对策</h2><blockquote>
-<p>要解决这两个问题，一种方法是改算法，使用非递归算法，这个网上有很多，感兴趣的可以去搜一下，第二种是使用协程解决递归问题</p>
-</blockquote>
-<p>如何使用协程来解决递归呢我们先改主程序，将<code>return</code>换成<code>yield</code></p>
-<pre><code>def _fibonacci(n):
-  if n &lt; 2:
-      yield n
-  else:
-      yield ( (yield (_fibonacci(n-1)) + (yield (_fibonacci(n-2)))
-</code></pre><p>接下啦我们运行一下函数</p>
-<pre><code>&gt;&gt;&gt; _fibonacci(10)
- &lt;generator object _fibonacci at 0x00000013A74779E8&gt;
-</code></pre><p>没有返回结果,返回一个生成器，那我们用<code>list</code>简单的试一下吧</p>
-<pre><code>&gt;&gt;&gt; list(_)
-......
-......
-TypeError: unsupported operand type(s) for +: &apos;NoneType&apos; and &apos;NoneType&apos;
-</code></pre><h4 id="生成器小知识"><a href="#生成器小知识" class="headerlink" title="生成器小知识"></a>生成器小知识</h4><blockquote>
-<p>这里补充几点生成器的知识，懂得可以跳过</p>
-</blockquote>
-<p>生成器大家都用过，无论是<code>Python2</code>或<code>Python3</code>都不陌生,最简单的生成器是这种</p>
-<pre><code>&gt;&gt;&gt; items = ( x for x in range(10))
-</code></pre><p>我们一般搭配<code>for</code>来使用</p>
-<pre><code>&gt;&gt;&gt; for i in items:
-...         print(i)
-...
-</code></pre><p>我们也可以用协程来实现这个生成器</p>
-<pre><code>def iter_func(n):
-    for i in range(n):
-        yield n
-</code></pre><p>像上面一样使用<code>for</code>就能实现一样的功能，在这个例子里面<code>yield</code>好像变成了一个<code>return</code>的作用，在<code>for</code>语句中，随着每次请求都会<code>return</code>一个数过来</p>
-<p>在这个里面<code>yield</code>好像就是这么个功能，但是<code>yield</code>的作用远远不止于此</p>
-<p>我们现在来改一下这个函数</p>
-<pre><code>def iter_func(n):
-    for i in range(n):
-        r = yield i
-        print(&apos;result&apos;, r)
-</code></pre><p>我们用<code>list</code>来运行一下这个函数</p>
-<pre><code>&gt;&gt;&gt; list(iter_fun(2))
-0
-result None
-1
-result None
-</code></pre><p><code>r</code>返回了一个<code>None</code>，我们尝试自己实现一下<code>for</code>循环,有两种方式</p>
-<ul>
-<li>next(generator)</li>
-<li>generator.send(msg)</li>
-</ul>
-<p>先尝试用<code>next</code></p>
-<pre><code>&gt;&gt;&gt; it = iter_fun(2)
-&gt;&gt;&gt; next(it)
-0
-&gt;&gt;&gt; next(it)
-result None
-1
-</code></pre><p>我们介绍一下<code>next</code>函数, <code>next</code>接受两个参数，第一个是生成器，第二个是返回的默认值,<code>next</code>函数在这里相当于下面这个函数</p>
-<pre><code>def next(iterator, default=None):
-    try:
-        iterator.send(None)
-    except StopIteration:
-        if default:
-            return default
-        else:
-            raise StopIteration()
-</code></pre><p><strong>为什么第二个执行了<code>print</code>函数而第一个没有执行?</strong></p>
-<h4 id="生成器工作原理"><a href="#生成器工作原理" class="headerlink" title="生成器工作原理"></a>生成器工作原理</h4><blockquote>
-<p>这里我们介绍一下生成器的工作原理</p>
-</blockquote>
-<p>当我们使用调用一个函数的时候，一般是碰到<code>return</code>或者执行全部函数就会返回父函数</p>
-<p>但是<strong>生成器</strong>不同，假如他执行函数碰到<code>yield</code>，他就会直接返回一个生成器。</p>
-<p>这个生成器我们可以把它看做是邮递员，我们必须写好目的地,他才会帮我们把信寄出去。</p>
-<p>现在我们分析一下生成器的具体流程，我们先定义一个简单的生成器</p>
-<pre><code>def mygenerator(n):
-    while True:
-        r = yield n
-        n -= 1
-        print(&apos;result&apos;, r)
-</code></pre><p> 然后我们调用这个生成器</p>
-<pre><code>&gt;&gt;&gt; i = mygenerator(10)
-&gt;&gt;&gt; i
-&lt;generator object mygenerator at 0x7f420a339d00&gt;
-</code></pre><p>我们得到一个生成器，我们先尝试发送一个地址给“邮递员”</p>
-<pre><code>&gt;&gt;&gt; i.send(0)
-...
-TypeError: can&apos;t send non-None value to a just-started generator
-</code></pre><p>我们得到一个错误，必须传递一个<code>None</code>，我们先不管，先送一个<code>None</code>值过去</p>
-<pre><code>&gt;&gt;&gt; i.send(None)
-10
-</code></pre><p>我们得到一个<code>10</code>，再送一个地址过去</p>
-<pre><code>&gt;&gt;&gt; i.send(None)
-result None
-9
-</code></pre><p>我们现在来分析一下代码，第一次调用的时候直接返回了，第二次调用我们从<code>r = yield n</code>那行开始执行，并且运行到第二个<code>r = yield n</code>那里停止了</p>
-<p><strong>就可以解释上面为什么要第一次传递<code>None</code>过去，因为第一次调用它会直接返回<code>yield</code>后面的值给我们，第二次调用 我们可以根据第一次生成器递给我们的值，决定我们第二次想寄的“信”，因为第一次传递过去“信”并不能被处理，所以Python强制我们传递一个None值过去</strong></p>
-<hr>
-<blockquote>
-<p>我们回到上面的函数</p>
-</blockquote>
-<pre><code>def _fibonacci(n):
-    if n &lt; 2:
-        yield n
-    else:
-        yield ( (yield (_fibonacci(n-1)) + (yield (_fibonacci(n-2)))
-</code></pre><p>我们来分析一下流程，为了解决上面的问题我们先把函数简化，去掉递归</p>
-<pre><code>def f(n):
-    yield (yield n) + (yield n - 1)
-</code></pre><p>我们先创建一个生成器<code>i</code></p>
-<pre><code>&gt;&gt;&gt; i = f(5)
-&gt;&gt;&gt; i
- &lt;generator object f at 0x7f4a421d8f10&gt;
-</code></pre><p>我们先启动i</p>
-<pre><code>&gt;&gt;&gt; i.send(None)
-5
-</code></pre><p>我们再把得到<code>5</code>传给<code>i</code></p>
-<pre><code>&gt;&gt;&gt; i.send(5)
-4
-</code></pre><p>我们得到<code>yield n -1</code>返回的4，我们再把4传给<code>i</code>，得到最终结果</p>
-<pre><code>&gt;&gt;&gt; i.send(5)
-9
-</code></pre><p>假如我们把后面两个<code>send</code>的值换成其他值我们会得到不同的结果，这里我们可以看到我们，要实现上面函数必须要依靠一个<code>栈</code>，保存我们返回的生成器，然后依次调用生成器返回结果，具体代码如下</p>
-<pre><code>def fibonacci(n):
-    stack = [ _fibonacci(n)]
-    last_result = None
-    while stack:
-        last = stack[-1]
-        try:
-            if isinstance(last, types.GeneratorType):
-                stack.append(last.send(last_result))
-                last_result = None
-            else:
-                last_result = stack.pop()
-         except StopIteration:
-             stack.pop()
-     return result
-</code></pre><p>我们这里用<code>stack</code>作为我们的堆栈，用<code>last_result</code>保存上一个生成器返回的值</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>我们使用协程解决掉了递归错误，但是这个方法并不可以给我们算法加速，虽然n为1000以上不会报递归错误，但是等待的时间还是很长很长。。。</p>
-<p>虽然协程在这个方法里面并没有起到多大作业，协程在算法方面还是没有太多帮助，协程在计算机<code>I/O</code>还有网络请求方面有更好的效率，但是这次尝试让我们对协程如何使用有了一个清晰的了解</p>
-<p>有兴趣的可以去了解一下协程在异步网络请求的应用</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/python3/">python3</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/11/13/协程解决递归错误/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/11/13/协程解决递归错误/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
       <a href="/2016/10/09/ansible管理nginx负载均衡/" title="ansible管理nginx负载均衡" itemprop="url">ansible管理nginx负载均衡</a>
   </h1>
   <p class="article-author">By
@@ -584,7 +367,7 @@ google ansible_ssh_host=1.1.1.3 ansible_ssh_user=root
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/ansible/">ansible</a><a href="/tags/nginx/">nginx</a><a href="/tags/负载均衡/">负载均衡</a>
+  <span></span> <a href="/tags/software/">software</a>
   </div>
 
 </div>
@@ -670,7 +453,7 @@ google ansible_ssh_host=1.1.1.3 ansible_ssh_user=root
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/感想/">感想</a><a href="/tags/总结/">总结</a>
+  <span></span> <a href="/tags/summary/">summary</a>
   </div>
 
 </div>
@@ -829,7 +612,7 @@ google ansible_ssh_host=1.1.1.3 ansible_ssh_user=root
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/reading/">reading</a><a href="/tags/books/">books</a><a href="/tags/impression/">impression</a>
+  <span></span> <a href="/tags/summary/">summary</a>
   </div>
 
 </div>
@@ -975,7 +758,7 @@ f(n) ={           1                   n= 2
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/notebook/">notebook</a>
+  <span></span> <a href="/tags/summary/">summary</a>
   </div>
 
 </div>
@@ -1199,6 +982,99 @@ f(n) ={           1                   n= 2
 
 
 
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/08/18/hookman-development-blog/" title="hookman develpment blog" itemprop="url">hookman develpment blog</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
+		
+  <p class="article-time">
+    <time datetime="2016-08-18T06:04:43.000Z" itemprop="datePublished"> Published 2016-08-18</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <blockquote>
+<p>其实写这个项目的初衷是想实践一下<code>TDD</code>开发,因为自己刚看完一本<code>&lt;&lt;Test-Driven Development with Python&gt;&gt;</code>,以前只是了解一点开发测试,看完这本书感觉这种敏捷开发方式非常适合我,自己完整写过一些小项目,但是大项目经常由于各种代码框架,代码规模搞得最后成了烂项目,而且关于<code>TTD</code>一些建议比如<code>YAGNI(You ain&#39;t gonna need it)</code>(你不需要这个)对于你对项目的规模有一定的控制.写这篇博客一方面将我开发<code>hookman</code> 的<code>TDD</code>开发经历告诉大家,一方面希望更多人了解<code>TDD</code>开发,换一种开发方式,或许能让你找回编程的乐趣.</p>
+</blockquote>
+<p>##引言</p>
+<p>当然网上有些人对<code>TDD</code>测试开发嗤之以鼻,认为开发过程中不应该由测试驱动,应该先把所有的核心都先完善,最后在来完成项目.</p>
+<p>在这里我想说一点我的看法,测试驱动是一种从<strong>核心到细节</strong>的开发方式.</p>
+<p>用画一个人来打比方,给你一张白纸,<code>TDD</code>要求你先画一个躯干,这个<code>人</code>是<code>人</code>首先要有个<code>人样</code>,当我们想画一个奔跑的人时,<code>TDD</code>要求你得给他再画两条裸腿,然后这两条腿怎么摆才能控制平衡,这两条腿穿什么鞋才比较生动,要接下来你慢慢测试考虑.</p>
+<p>而我们传统的开发方式,是先从局部到整体,这种开发方式适合于小项目,而且像一个流水线出来的产物,比如说<code>web开发</code>,我们知道下一个要做的是视图层,然后模型层.但是这种开发方式不适合开发比如说一个新的软件,假如我们用传统开发方式,除非<code>leader</code>的掌控力非常好,一个越来越臃肿的项目很难坚持到最后,因为我们在项目完成的时候才能让项目真正的运行起来,在完成的过程中我们很容易迷失最后将项目烂掉.</p>
+<p>而且我比较欣赏<code>TDD</code>开发的一个主要原因就是他同linux推崇的那种<strong>简单</strong>的软件开发文化很默契,我们在让我们测试通过时候,我们感觉在:欺骗自己”.</p>
+<p>举个例子:</p>
+<p>比如我有一个比较两个值谁大谁小的函数</p>
+<pre><code>def my_max(a, b):
+    pass
+</code></pre><p> 我们写一个单元测试</p>
+<pre><code>Mytest(unittest.TestCase):
+       test_my_max(self):
+           m = my_max(1,2)
+           self.aseertEqual(m, 2)
+</code></pre><p>我们运行这个测试肯定失败,然后我们开始”欺骗自己”让测试通过,修改<code>my_max</code></p>
+<pre><code>def my_max(a, b):
+    return b
+</code></pre><p>再运行测试,通过了,ok,”欺骗成功”,但我们用脑袋一想就知道,不行这个代码不对,但是咋办”测试通过了”,修改测试.</p>
+<pre><code>Mytest(unittest.TestCase):
+        test_my_max(self):
+            m = my_max(1,2)
+            self.assertEqual(m, 2)
+            n = my_max(2, 1)
+            self.assertEqual(n, 2)
+</code></pre><p>这下测试又通不过了,我们想要的功能就在一步一步测试拖动中慢慢实现,我们尽量用最简单的代码通过我们的测试.</p>
+<p>看到这里有些人会认为我很傻,明明可以用两行代码(不能用系统函数<code>max</code>)</p>
+<pre><code>def my_max(a, b):
+    if a &gt; b: return a
+    return b
+</code></pre><p>轻轻松松通过测试,但是这反倒是<code>TDD</code>非常不推崇的,你一次走了太多步,你让你的代码跑到<code>Test</code>前面去了,其实很多程序员都会写测试,但是他们的测试很多都是基于代码的,当一个大功能实现的时候才开始测试,这个时候你会发现很多你的隐藏<code>bug</code>就藏在你一大堆代码里面,所以有些人为了排<code>bug</code>一行一行删代码来<code>debug</code>.</p>
+<p>诚然很多时候我们感觉我们能毫无<code>bug</code>的完成一大段的代码,但是我们不能保证100%正确,而且或许今天能行明天就不行了,<code>TDD</code>推崇测试山羊精神,想象一只山羊行走在陡崖峭壁上,他只能走一步停一步,我们写代码也一样,我们前面是陡崖峭壁,我们不能保证我们下一步就不掉坑里,所以我们要学习山羊精神一步一步.</p>
+<p>接下来关于<code>TDD</code>开发一些详细经历,我会每天抽出一点时候写.</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/hookman/">hookman</a><a href="/tags/development/">development</a><a href="/tags/blog/">blog</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/08/18/hookman-development-blog/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/08/18/hookman-development-blog/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/3/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/5/">Next<span></span></a>
@@ -1223,11 +1099,19 @@ f(n) ={           1                   n= 2
 			
 		
 			
+				<li><a href="/tags/summary/" title="summary">summary<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/software/" title="software">software<sup>7</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/mit6-828/" title="mit6.828">mit6.828<sup>7</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/summary/" title="summary">summary<sup>6</sup></a></li>
+				<li><a href="/tags/python/" title="python">python<sup>7</sup></a></li>
 			
 		
 			
@@ -1235,23 +1119,7 @@ f(n) ={           1                   n= 2
 			
 		
 			
-				<li><a href="/tags/python/" title="python">python<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/development/" title="development">development<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/总结/" title="总结">总结<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/hookman/" title="hookman">hookman<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/notebook/" title="notebook">notebook<sup>2</sup></a></li>
+				<li><a href="/tags/TDD/" title="TDD">TDD<sup>2</sup></a></li>
 			
 		
 			
@@ -1259,27 +1127,35 @@ f(n) ={           1                   n= 2
 			
 		
 			
-				<li><a href="/tags/测试/" title="测试">测试<sup>1</sup></a></li>
+				<li><a href="/tags/hookman/" title="hookman">hookman<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/感想/" title="感想">感想<sup>1</sup></a></li>
+				<li><a href="/tags/development/" title="development">development<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/crawl/" title="crawl">crawl<sup>1</sup></a></li>
+				<li><a href="/tags/competions/" title="competions">competions<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/ansible/" title="ansible">ansible<sup>1</sup></a></li>
+				<li><a href="/tags/js/" title="js">js<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
+				<li><a href="/tags/总结/" title="总结">总结<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/负载均衡/" title="负载均衡">负载均衡<sup>1</sup></a></li>
+				<li><a href="/tags/transform/" title="transform">transform<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/notebook/" title="notebook">notebook<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/github/" title="github">github<sup>1</sup></a></li>
 			
 		
 			
@@ -1295,7 +1171,7 @@ f(n) ={           1                   n= 2
 			
 		
 			
-				<li><a href="/tags/competions/" title="competions">competions<sup>1</sup></a></li>
+				<li><a href="/tags/技术栈/" title="技术栈">技术栈<sup>1</sup></a></li>
 			
 		
 		</ul>
