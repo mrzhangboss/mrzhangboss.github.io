@@ -410,7 +410,7 @@ ts.ts_ss0 = GD_KD;
 </blockquote>
 <p>对于B组来说也是一样的，最重要的是<code>for</code>循环结束后实现的交换</p>
 <pre><code>*tp[1] = 0; 
-</code></pre><p>B组最后一个的<code>pp_link</code>地址地址设置为NULL，也就相当于把他一定到栈底</p>
+</code></pre><p>B组最后一个的<code>pp_link</code>地址地址设置为NULL，也就相当于把他放到栈底</p>
 <pre><code>*tp[0] = pp2;
 </code></pre><p>A组最后一个变成<code>pp_link</code>地址设置pp2，也就是B组的第一个接到了A组的最后面去了</p>
 <pre><code>page_free_list = pp1;

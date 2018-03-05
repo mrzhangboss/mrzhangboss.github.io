@@ -21,7 +21,7 @@
 <meta property="og:description" content="引言前面已经通过lab1的这篇博文了解了内存分页的实现细节，接下来就谈谈如何具体实现内存分页
 物理载体通过了解KERNBASE对操作系统的影响这篇博文我们知道，其实内存分页就是完成对物理存在的一种分割和隔离，所以我们在完成内存分页系统设计之前必须要构建一个载体，完成对物理存在的一种表示。
 在xv6中声明一个动态数组来代表物理内存，每一个值代表一块4k的内存页。我们主要通过offset - base">
-<meta property="og:updated_time" content="2018-02-19T14:18:35.606Z">
+<meta property="og:updated_time" content="2018-03-05T06:30:19.346Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="内存分页设计">
 <meta name="twitter:description" content="引言前面已经通过lab1的这篇博文了解了内存分页的实现细节，接下来就谈谈如何具体实现内存分页
@@ -158,7 +158,7 @@
 </blockquote>
 <p>对于B组来说也是一样的，最重要的是<code>for</code>循环结束后实现的交换</p>
 <pre><code>*tp[1] = 0; 
-</code></pre><p>B组最后一个的<code>pp_link</code>地址地址设置为NULL，也就相当于把他一定到栈底</p>
+</code></pre><p>B组最后一个的<code>pp_link</code>地址地址设置为NULL，也就相当于把他放到栈底</p>
 <pre><code>*tp[0] = pp2;
 </code></pre><p>A组最后一个变成<code>pp_link</code>地址设置pp2，也就是B组的第一个接到了A组的最后面去了</p>
 <pre><code>page_free_list = pp1;
