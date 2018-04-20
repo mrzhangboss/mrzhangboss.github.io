@@ -78,6 +78,192 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/11/20/代理的前世今生/" title="代理的前世今生" itemprop="url">代理的前世今生</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
+		
+  <p class="article-time">
+    <time datetime="2017-11-19T16:00:00.000Z" itemprop="datePublished"> Published 2017-11-20</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
+<p>自己对代理认识不深，也只是会使用而已，由于最近想做一个代理池，于是查了很多资料，发现代理这个东西还是非常有趣的</p>
+</blockquote>
+<h2 id="代理是什么？"><a href="#代理是什么？" class="headerlink" title="代理是什么？"></a>代理是什么？</h2><p>从编程上来看，<code>requests</code>只需要在请求里面加上<code>proxies</code>参数例如<code>requests.get(&#39;http://www.baidu.com&#39;, proxies={&#39;http&#39;: &#39;127.0.0.1:3128&#39;})</code>，我们就能连上代理进行访问，由于<code>requests</code>包装了太多细节，我们无法知道用了代理和没有用代理的区别</p>
+<p>接下来我们来看一下Python3的内库是如何使用代理的</p>
+<ul>
+<li><p>首先要申请一个<code>ProxyHandler</code></p>
+<p>  from urllib import request<br>  proxy = request.ProxyHandler({‘http’: ‘127.0.0.1:3128’})</p>
+</li>
+</ul>
+<p>然后我们通过这个<code>proxy</code>创建一个<code>opener</code>，然后用<code>opener</code>打开页面，最后输出结果。</p>
+<pre><code>opener = request.build_opener(proxy)
+resp = opener.open(&apos;http://www.baidu.com&apos;)
+print(resp.read())
+</code></pre><p>然后我们看一下如果没有使用代理的请求是什么</p>
+<pre><code>resp = request.urlopen(&apos;http://www.baidu.com&apos;)
+print(resp.read())
+</code></pre><p>你可以很清楚的看到，如果我们不需要代理，之前打开<code>url</code>就行，也就是说我们的请求，其实全部发给代理，交给代理了</p>
+<p>这里就稍稍谈点感想了，以前经常在书上看到人歌颂互联网的伟大，但是自己一直不明白这个伟大在哪，以前一直从表象感受互联网，有了互联网，不用打开电视就可以看影片，不用去图书馆就可以看书，感觉互联网神奇的地方就是给自己带来方便，但是没有去互联网本身的架构的伟大，通过一根根网线交换器，无数主机“连”在了一起，构成了宏大的互联网，或许你通过浏览器打开的网站主机离你几百公里，但是你不要做飞机轮船，你直接在家里就能通过层层代理传递你的请求将千里之外的“敌将首级” 探入囊中。</p>
+<p>互联网神奇的地方就是看起来各个部分非常分散，但是他们却能通过一根一根线紧密的联系起来，只有有“距离”的时候你才能感受到他的美丽</p>
+<p>以前刚学习网站的时候，在本地调试的时候，你在本地跑一个web，直接打开浏览器访问，这时候我就有一种错觉，web就是两端，客户端和服务器端，在本地调试可以这样理解，但是一旦拿到互联网，这就是不完整的，完整的应该是客户端-代理端-服务器端，当然我们的代理端有时候可能是网关、路由器、交换机等等。</p>
+<p>了解这些有什么用呢，因为我自己以前一直对代理没有什么很深理解，用爬虫的时候使用代理就不会被封IP，感觉代理是很BUG的东西，但其实代理很普通，而且无处不在，我们要想真正理解代理，就必须把它拖下圣坛。</p>
+<h2 id="代理其实很普通"><a href="#代理其实很普通" class="headerlink" title="代理其实很普通"></a>代理其实很普通</h2><p>前面我们知道代理其实很普通，但是要深入了解代理必须要先了解IP，IP是什么呢，IP就是互联网的身份证，要想在互联网上“混”，必须要有“身份”</p>
+<p>那为什么我们要用代理呢，比如说假如你是未满18岁的小朋友，你想要买上网，你必须要借一张大人的身份证去上网，这个时候代理的作用就是帮用它的身份证帮你干事。</p>
+<p>我觉得中国文化博大精深，其实一听代理这个词，我们就能知道代理是干什么用的。其实把代理吹得神乎其神没什么用，那些作用都是它的他自己瞎几把搞的，从我们客户端来看，<strong>代理就是服务端</strong>，了解这点非常重要，因为他能让我们把所以的事情都简化，而且从客户端来看，代理就是这样的</p>
+<h2 id="客户端、代理、-服务器三者之间的关系"><a href="#客户端、代理、-服务器三者之间的关系" class="headerlink" title="客户端、代理、 服务器三者之间的关系"></a>客户端、代理、 服务器三者之间的关系</h2><p>前面我们已经谈了客户端和代理之间的关系，对于客户端来说，代理就是服务器端，我们啥都不管，把请求发给代理，相信它就是我们请求的服务器</p>
+<p>对于代理来说，其实它自己最清楚，自己就是个代理，它必须要把请求转发给服务器，然后在把服务器的响应发给客户端，代理就是一个中介人，有的时候我们也可以把它看做一个双向中继，把请求传递一下，再传回来，所以在这三者之间，只有代理是个明白人，它必须清楚这次任务所以细节，所以有时候虽然说代理是安全的，但其实它也不安全，只要把代理攻克了就能了解到底是哪个家伙干的坏事，所以网上干坏事的人，一般都用很多个代理，层层代理，就算你攻克了一个，也找不到坏人</p>
+<p>对于服务器来说，代理就是客户端，它只负责响应就行，对于代理和客户端来说都是一样的策略。但是时候很奇怪，服务器为什么知道你是个代理，原来全是代理自己的锅，我们细谈一下代理的分类</p>
+<h3 id="代理的分类"><a href="#代理的分类" class="headerlink" title="代理的分类"></a>代理的分类</h3><p>代理也分很多种，有的时候代理也不老实，把客户信息暴露了，这个时候我们就说它是小透明（透明代理），有的时候它不告诉你客户信息，但是告诉服务器我是个代理，我们就说它是匿名代理，但是有时候它连它自己是啥都不告诉你，它伪装成它是客户端，这个时候我们称它为高匿代理，所以这些代理根据暴露信息的不同可以分为这三种</p>
+<ul>
+<li>透明代理</li>
+<li>匿名代理</li>
+<li>高匿代理</li>
+</ul>
+<p>当然我们最喜欢高匿代理，你可以把它当做你的分身，除了身份证不一样，两个人长得一模一样。</p>
+<p>所以我们判断一个代理的类别，必须要检测它向服务器发的报文，所以在我项目<code>FastProxyScan</code>，我搭建了一个服务器，返回客户端向服务器请求头，主要是<code>HTTP_X_FORWARDED_FOR</code>和<code>HTTP_VIA</code>头来分别暴露客户端信息和代理端信息，所以我们只要请求头检测有没有这两个字段就可以完成检测，原理非常简单</p>
+<p>在这里我介绍用Nginx高效返回检测信息</p>
+<pre><code>  location ~ ^/ip {
+      default_type application/json;
+      return 200 &apos;{&quot;REMOTE_ADDR&quot;:&quot;$remote_addr&quot;,&quot;HTTP_VIA&quot;:&quot;$http_via&quot;, &quot;HTTP_X_FORWARDED_FOR&quot;: &quot;$http_x_forwarded_for&quot;}&apos;;
+}
+</code></pre><p>在Nginx配置里面加上这个端口，我们只有请求<code>/ip</code>，就能直接从Nginx返回请求头信息，速度贼快</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>当然网上还有很多对代理的分类，缓存代理，正向代理，反向代理，但是这些都是代理自己的额外功能，我们前面介绍的代理都是傻呼呼，客户端要什么，它就做什么，这些如缓存代理高级的代理就是很聪明，它的目的就是最快返回客户端需求，比如说虽然说这个傻客户端傻乎乎一个请求请求了几十遍还没记住，代理自己拿个小本子记好，你下次来，正好对上号，直接抄给你，不用再跑几千里去拿了。但是其实本质上它还是逃不出上面的分类，只不过它有的自己的不同罢了。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/HTTP/">HTTP</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/11/20/代理的前世今生/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/11/20/代理的前世今生/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/11/12/漫谈排序算法/" title="漫谈排序算法" itemprop="url">漫谈排序算法</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
+		
+  <p class="article-time">
+    <time datetime="2017-11-11T16:00:00.000Z" itemprop="datePublished"> Published 2017-11-12</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="0x00-引子"><a href="#0x00-引子" class="headerlink" title="0x00 引子"></a>0x00 引子</h1><blockquote>
+<p>排序是很多算法的基础，简简单单的排序前人就归纳出很多种算法，但是这些算法多多少少都有着相同的原理</p>
+</blockquote>
+<p>排序算法有很多，这里我们就简单的谈谈下面7种排序的特点</p>
+<ul>
+<li>冒泡排序</li>
+<li>选择排序</li>
+<li>插入排序</li>
+<li>希尔排序</li>
+<li>堆排序</li>
+<li>归并排序</li>
+<li>快速排序</li>
+</ul>
+<h1 id="0x01-Summary"><a href="#0x01-Summary" class="headerlink" title="0x01 Summary"></a>0x01 Summary</h1><p>从算法的抽象程度上来看，冒泡、选择和插入是比较好理解，我们能用我们生活中的常见事物来理解，后面四种比较抽象，而且相对于前三种平均时间复杂度O（n） = n ^ 2 的来说，后面四种的平均复杂度都比前面的小，尤其是面对大量数据排序来说，后面四种能比前三种跑的更快</p>
+<h1 id="0x02-冒泡、选择和插入的特点"><a href="#0x02-冒泡、选择和插入的特点" class="headerlink" title="0x02 冒泡、选择和插入的特点"></a>0x02 冒泡、选择和插入的特点</h1><p>这三种算法空间复杂度都为O（n） = 1，也就是说在给定一个列表的前提下，无论列表数有多大，额外的排序所需的空间都为常量。但是这三种算法的平均时间复杂度为O（n） = n ^ 2， 也就是说在给定一个长度为n的数组，必须要经历 k × n × n 次操作才能排序，当我们的n比较小的时候，我们无法察觉这个算法与更高效的算法的差别，当n很大的时候，比如一个亿，这时候的要进行的操作就瞬间爆炸了。</p>
+<p>这三种算法很大程度上是牺牲了运行时间换取运行空间，我们可以从桶排序上面得到相反的例子，桶排序的时间复杂度为O（n） = 1，空间复杂度为O（n） = n，也就是说在排序上面他的速度是最快的，但是它所花费的空间也是巨大的，<strong>有时候时间空间就是两个双刃剑，你如果想节省空间必须浪费时间，你如果想节省时间必须浪费空间</strong></p>
+<p>这三种算法原理很简单，而且有一个相同的地方，就是他们每一节排序就会“删掉”一个数字，接下来就是对剩下的排序。当然我这里的删掉就是代表已经排好，然而接下来的过程中不会再涉及到这个数字</p>
+<p>这个非常好理解，随便给我们一副牌让一个小朋友把他排出来，小朋友一般就是先找出最大的牌放到最前面，然后在剩下里面找到最大的，依次排下去，最后手里就剩一张牌了，这个牌组就排好了</p>
+<p>这三种算法都是基于这个核心，但是具体的算法细节不同。冒泡排序就是先从头到尾依次把最大的交换到最后面；插入排序的话就是我们从第一个数字开始从后面把小的数字插入到前面去；选择的话同冒泡有点相似，不过它并不会把数字传递过去，它直接将未排序的最大值与未排序的末尾值交换。</p>
+<p>这三种排序我们都非常好理解，但是他们有一个缺点，就是未排序前必须遍历全部数组，我们都知道现在大数据时代，对于上亿数据执行一次遍历就已经非常耗时间了，为了排一个数字要几乎就遍历一遍（排到后期遍历的越来越少），所以这三种算法在面对巨量数据的时候，花在遍历上面的时间比排序时间要更多。</p>
+<h1 id="0x03-希尔和插入排序"><a href="#0x03-希尔和插入排序" class="headerlink" title="0x03 希尔和插入排序"></a>0x03 希尔和插入排序</h1><p>希尔排序是插入排序的更高效改进方法，说到改进我们就要谈谈插入排序的优缺点</p>
+<ul>
+<li>优点</li>
+</ul>
+<p>我们给定 <code>[ 1, 3, 2, 5, 8 ]</code> 数组，这个数组基本上已经排好序了，如果使用插入排序，我们只要在插入2的时候，将2和3交换就可以，设我们挪动的距离就为1</p>
+<p>我们在看这个数组 <code>[ 1, 3, 5, 8, 2 ]</code>，我们可以看到这里如果使用插入排序，我们会在插入2的时候，要将2依次与8、5、3交换，这样移动的距离就为3</p>
+<p>希尔排序改进的地方就是步长，如果它的步长选择的好，它的排序效果越好。这个步长是什么呢，插入排序的步长一直为1，也就是每次遍历的时候步子迈一步，假如步长为2，也就是迈两步。在<code>[ 1, 3, 5, 8, 2 ]</code>数组中，比如说我们数字2，它在步长为1的时候，它下一步要比较的是8，假如步长为3，那它下一步就直接与3比较了。</p>
+<p>所以希尔排序改进就在于他能直接移动多位，在上面的例子里面，步长为3，我们能直接将数组从3的位置移动到2，如果直接使用插入排序，必须移动3次才能达到希尔排序的效果。</p>
+<p>希尔排序原理同插入是一样的，不同在于，插入的步长希尔是可变的，这样就为一些“调皮”的数字的移动加快了速度，一步一步的移动他们太累了，直接把步子迈大，一步到位。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/programming/">programming</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/11/12/漫谈排序算法/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/11/12/漫谈排序算法/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/10/28/编程小结/" title="编程小结" itemprop="url">编程小结</a>
   </h1>
   <p class="article-author">By
@@ -1046,315 +1232,6 @@ name text
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/04/04/爬虫分布式总结/" title="爬虫分布式总结" itemprop="url">爬虫分布式总结</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
-		
-  <p class="article-time">
-    <time datetime="2017-04-04T08:03:55.000Z" itemprop="datePublished"> Published 2017-04-04</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <blockquote>
-<p>由于最近在一家数据服务公司实习，项目需要了解分布式，所以在这里基于<code>scrapy</code>的分布式总结一下爬虫的分布式实习</p>
-</blockquote>
-<h1 id="分布式起因"><a href="#分布式起因" class="headerlink" title="分布式起因"></a>分布式起因</h1><blockquote>
-<p>单机无法完成全部工作任务所以要使用集群加速完成工作任务</p>
-</blockquote>
-<p>分布式有点像蚁群，一只蚂蚁举不起一只卡壳虫，但是几百只就能轻松的把他运回家</p>
-<p>但是分布式设计必须科学，否则就像下面一样，一个和尚挑水，其他和尚围观</p>
-<p><img src="/images/timg.jpg" alt="分工不合理，来源网络"></p>
-<h1 id="分布式设计"><a href="#分布式设计" class="headerlink" title="分布式设计"></a>分布式设计</h1><p>分布式设计原理在于<strong>分工</strong></p>
-<p>首先我们来看看爬虫怎么进行分工，单个爬虫运行根据<code>url</code>获取响应报文，然后通过解析报文返回结果或者下一次爬取目标，如果单个爬虫我们只要在内存维持一个<code>set</code>变量记住爬取过的<code>url</code>，这就是<code>scrapy</code>默认的方法。</p>
-<p>但是我们无数个爬虫由于不在同一个进程，无法共享变量，所以我们只要让一个“<code>variable</code>（变量）”能够被被所以爬虫共享到就完成了主要功能</p>
-<p>现在我们来完善具体细节<br>要求：</p>
-<ul>
-<li>爬虫能够轻松读取所以已爬取变量</li>
-<li>爬虫能够加入已读取变量</li>
-<li>爬虫能够获取下一次请求具体参数</li>
-</ul>
-<p>原则上我们可以使用内存映射来构建这个变量，但是读取，修改都不便利，所以可以先使用<code>redis</code>作为存贮变量的地方，使用<code>redis</code>提供的<code>set</code>我们替代<code>scrapy</code>框架的<code>set</code>变量。</p>
-<p>现在我们已经决定我们要使用什么容器来存贮变量，接下来我们要考虑存什么变量。</p>
-<p>我们先看<code>scrapy-redis</code>存贮了什么，分析源代码可知，<code>scrapy-redis</code>将返回的<code>Request</code>pickle话存入数据库，并且计算这个<code>Request</code>的32位hash值存入<code>redis</code>的<code>set</code>中过滤列表。</p>
-<p><code>scrapy-redis</code>通过修改<code>scrapy</code>的调度器（scheduler）让其当爬虫没有<code>Request</code>需要处理时在<code>redis</code>中提取<code>Request</code>，实现分布式。</p>
-<p>我们来分析一下这种方法，爬虫在爬取的过程中从<code>master</code>端获取<code>Request</code>，并不断生成<code>Request</code>到<code>master</code>端，<code>master</code>只是一个<code>redis</code>数据库，负责对<code>url</code>去重，分发任务。</p>
-<p>我们来比较一下直接存取<code>url</code>这种方法，这种方法好处在于，<code>slaver</code>能够从上一个<code>Request</code>中获取全部信息，假如上一个<code>Request</code>需要存取获取的表单提取地址，我们下一次爬虫发起<code>Request</code>就能从上一个<code>Request</code>中获取参数。</p>
-<p>当然由于我们存贮的是<code>Request</code>，一个<code>Request</code> <code>pickle</code>化之后的字符串比较长，当我们的任务列表里面有很多<code>Request</code>的时候，<code>redis</code>占用的内存会非常巨大。</p>
-<p>当然如果爬虫启动的够多，生成一个就能把任务被调度下去，那么这个任务列表就能稳定在一个可控的范围。</p>
-<p> <strong>总结</strong></p>
-<p>每个爬虫即负责爬取数据，又负责生成下一个任务，即无主次之分，我们可以一次性在<code>docker</code>中启动上百个实例，我们只是用<code>redis</code>充当一个存放<code>变量</code>的地方。</p>
-<p>但是这种方法也有一个缺点，我们不能自由的添加初始<code>url</code>，要想添加新的爬取任务，必须新建一个爬虫更新初始<code>url</code>，我们如果是想搭建一个自由添加<code>url</code>的爬虫，这种实现方式不大优雅。</p>
-<h1 id="分布式改良"><a href="#分布式改良" class="headerlink" title="分布式改良"></a>分布式改良</h1><p>我们要修改程序框架，达到随时可以添加要爬取新任务，然而不影响爬虫集群</p>
-<p><img src="/images/distribute_crawl.png" alt="爬虫框架"></p>
-<p>我们独立出来<code>master</code>，<code>master</code>负责生成<code>Request</code>去重以及任务调度，而<code>slaver</code>只负责从<code>master</code>获取任务爬取。</p>
-<p>这种方法我们可以很轻松对<code>master</code>改良而不影响<code>slaver</code>，通过让<code>master</code>定时从<code>数据库</code>中获取新的任务生成到任务列表，我们可以轻松添加新的任务到<code>slaver</code>集群中去。</p>
-<p>下一步我们就介绍如何修改<code>scrapy-redis</code>达到我们新框架需要</p>
-<h1 id="重构scrapy-redis"><a href="#重构scrapy-redis" class="headerlink" title="重构scrapy-redis"></a>重构<code>scrapy-redis</code></h1><p>参考：<br><a href="http://blog.csdn.net/bone_ace/article/details/50989104" target="_blank" rel="external">基于Redis的三种分布式爬虫策略</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/programming/">programming</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/04/04/爬虫分布式总结/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/04/04/爬虫分布式总结/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/03/15/协程解决递归错误/" title="协程解决递归错误原理" itemprop="url">协程解决递归错误原理</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
-		
-  <p class="article-time">
-    <time datetime="2017-03-14T16:00:00.000Z" itemprop="datePublished"> Published 2017-03-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
-<p>递归是高度抽象化问题的一个好东西，我们能从很多算法书里面看到这个，<br>但是递归虽然对于人来说好理解，但是计算机执行起来会损失性能，一个差的递归可能会耗光计算机的资源</p>
-</blockquote>
-<p>接下来我们来看一个非常经典的算法问题<code>Fibonacci数</code></p>
-<pre><code>f(n) = n (n &lt; 2)
-f(n) = f(n-1) + f(n-2)   (n &gt;= 2)
-</code></pre><p>  我们可以很轻松的用递归解决掉它</p>
-<pre><code>def fibonacci(n):
-  if n &lt; 2:
-      return n
-  else:
-      return fibonacci(n-1) + fibonacci(n-2)
-</code></pre><p> 当<code>n</code>比较小的时候很快就出结果了，但是当<code>n</code>大于100时候要很久才能出结果，如果<code>n</code>大于1000，直接报出超出迭代深度的错误（python默认迭代深度是1000）</p>
-<p>现在我们来解决两个问题</p>
-<ol>
-<li>为什么<code>n</code>大于100时候就很久才能算出结果</li>
-<li>为什么<code>n</code>大于1000就报迭代深度的错误</li>
-</ol>
-<p>首先我们要知道一个概念就是堆栈段，每个进程开始运行时都会初始化一个堆栈段，这在物理上就是一小块内存，初始化堆栈段的时候计算机要做一些看起来同程序毫无关系的事情，比如说将寄存器的值推入堆栈里面等等</p>
-<p>当你在运行主程序的时候你调用一个子函数，系统又会在当前堆栈段新建一个堆栈段，你子程序运行完了后会删掉这个堆栈段回到主程序，但是递归有个问题，就是他调用子程序的时候不会立即返回又会再调用自己</p>
-<p>没办法因为子程序还没返回，所以计算机又初始化一个堆栈段，一个<code>n</code>为10的<code>fibonacci</code>函数就会初始化掉 <code>2 ** 10 = 1024</code>个堆栈段，<code>n</code>越大值会指数型增长，虽然1000个初始化在当今计算机上发不了多少时间，但是当我们<code>n</code>大于20就要 百万次初始化了</p>
-<p>这就是为什么<code>n</code>很大的时候要很久才能算出结果，在一些单片机上面，循环调用空函数就是延时的功能，原理也就是堆栈初始化耗时间，而且不但耗时间假如像递归这样调用上百万次初始化而不返回将会耗掉大量内存在堆栈段上。</p>
-<h2 id="对策"><a href="#对策" class="headerlink" title="对策"></a>对策</h2><blockquote>
-<p>要解决这两个问题，一种方法是改算法，使用非递归算法，这个网上有很多，感兴趣的可以去搜一下，第二种是使用协程解决递归问题</p>
-</blockquote>
-<p>如何使用协程来解决递归呢我们先改主程序，将<code>return</code>换成<code>yield</code></p>
-<pre><code>def _fibonacci(n):
-  if n &lt; 2:
-      yield n
-  else:
-      yield ( (yield (_fibonacci(n-1)) + (yield (_fibonacci(n-2)))
-</code></pre><p>接下啦我们运行一下函数</p>
-<pre><code>&gt;&gt;&gt; _fibonacci(10)
- &lt;generator object _fibonacci at 0x00000013A74779E8&gt;
-</code></pre><p>没有返回结果,返回一个生成器，那我们用<code>list</code>简单的试一下吧</p>
-<pre><code>&gt;&gt;&gt; list(_)
-......
-......
-TypeError: unsupported operand type(s) for +: &apos;NoneType&apos; and &apos;NoneType&apos;
-</code></pre><h4 id="生成器小知识"><a href="#生成器小知识" class="headerlink" title="生成器小知识"></a>生成器小知识</h4><blockquote>
-<p>这里补充几点生成器的知识，懂得可以跳过</p>
-</blockquote>
-<p>生成器大家都用过，无论是<code>Python2</code>或<code>Python3</code>都不陌生,最简单的生成器是这种</p>
-<pre><code>&gt;&gt;&gt; items = ( x for x in range(10))
-</code></pre><p>我们一般搭配<code>for</code>来使用</p>
-<pre><code>&gt;&gt;&gt; for i in items:
-...         print(i)
-...
-</code></pre><p>我们也可以用协程来实现这个生成器</p>
-<pre><code>def iter_func(n):
-    for i in range(n):
-        yield n
-</code></pre><p>像上面一样使用<code>for</code>就能实现一样的功能，在这个例子里面<code>yield</code>好像变成了一个<code>return</code>的作用，在<code>for</code>语句中，随着每次请求都会<code>return</code>一个数过来</p>
-<p>在这个里面<code>yield</code>好像就是这么个功能，但是<code>yield</code>的作用远远不止于此</p>
-<p>我们现在来改一下这个函数</p>
-<pre><code>def iter_func(n):
-    for i in range(n):
-        r = yield i
-        print(&apos;result&apos;, r)
-</code></pre><p>我们用<code>list</code>来运行一下这个函数</p>
-<pre><code>&gt;&gt;&gt; list(iter_fun(2))
-0
-result None
-1
-result None
-</code></pre><p><code>r</code>返回了一个<code>None</code>，我们尝试自己实现一下<code>for</code>循环,有两种方式</p>
-<ul>
-<li>next(generator)</li>
-<li>generator.send(msg)</li>
-</ul>
-<p>先尝试用<code>next</code></p>
-<pre><code>&gt;&gt;&gt; it = iter_fun(2)
-&gt;&gt;&gt; next(it)
-0
-&gt;&gt;&gt; next(it)
-result None
-1
-</code></pre><p>我们介绍一下<code>next</code>函数, <code>next</code>接受两个参数，第一个是生成器，第二个是返回的默认值,<code>next</code>函数在这里相当于下面这个函数</p>
-<pre><code>def next(iterator, default=None):
-    try:
-        iterator.send(None)
-    except StopIteration:
-        if default:
-            return default
-        else:
-            raise StopIteration()
-</code></pre><p><strong>为什么第二个执行了<code>print</code>函数而第一个没有执行?</strong></p>
-<h4 id="生成器工作原理"><a href="#生成器工作原理" class="headerlink" title="生成器工作原理"></a>生成器工作原理</h4><blockquote>
-<p>这里我们介绍一下生成器的工作原理</p>
-</blockquote>
-<p>当我们使用调用一个函数的时候，一般是碰到<code>return</code>或者执行全部函数就会返回父函数</p>
-<p>但是<strong>生成器</strong>不同，假如他执行函数碰到<code>yield</code>，他就会直接返回一个生成器。</p>
-<p>这个生成器我们可以把它看做是邮递员，我们必须写好目的地,他才会帮我们把信寄出去。</p>
-<p>现在我们分析一下生成器的具体流程，我们先定义一个简单的生成器</p>
-<pre><code>def mygenerator(n):
-    while True:
-        r = yield n
-        n -= 1
-        print(&apos;result&apos;, r)
-</code></pre><p> 然后我们调用这个生成器</p>
-<pre><code>&gt;&gt;&gt; i = mygenerator(10)
-&gt;&gt;&gt; i
-&lt;generator object mygenerator at 0x7f420a339d00&gt;
-</code></pre><p>我们得到一个生成器，我们先尝试发送一个地址给“邮递员”</p>
-<pre><code>&gt;&gt;&gt; i.send(0)
-...
-TypeError: can&apos;t send non-None value to a just-started generator
-</code></pre><p>我们得到一个错误，必须传递一个<code>None</code>，我们先不管，先送一个<code>None</code>值过去</p>
-<pre><code>&gt;&gt;&gt; i.send(None)
-10
-</code></pre><p>我们得到一个<code>10</code>，再送一个地址过去</p>
-<pre><code>&gt;&gt;&gt; i.send(None)
-result None
-9
-</code></pre><p>我们现在来分析一下代码，第一次调用的时候直接返回了，第二次调用我们从<code>r = yield n</code>那行开始执行，并且运行到第二个<code>r = yield n</code>那里停止了</p>
-<p><strong>就可以解释上面为什么要第一次传递<code>None</code>过去，因为第一次调用它会直接返回<code>yield</code>后面的值给我们，第二次调用 我们可以根据第一次生成器递给我们的值，决定我们第二次想寄的“信”，因为第一次传递过去“信”并不能被处理，所以Python强制我们传递一个None值过去</strong></p>
-<hr>
-<blockquote>
-<p>我们回到上面的函数</p>
-</blockquote>
-<pre><code>def _fibonacci(n):
-    if n &lt; 2:
-        yield n
-    else:
-        yield ( (yield (_fibonacci(n-1)) + (yield (_fibonacci(n-2)))
-</code></pre><p>我们来分析一下流程，为了解决上面的问题我们先把函数简化，去掉递归</p>
-<pre><code>def f(n):
-    yield (yield n) + (yield n - 1)
-</code></pre><p>我们先创建一个生成器<code>i</code></p>
-<pre><code>&gt;&gt;&gt; i = f(5)
-&gt;&gt;&gt; i
- &lt;generator object f at 0x7f4a421d8f10&gt;
-</code></pre><p>我们先启动i</p>
-<pre><code>&gt;&gt;&gt; i.send(None)
-5
-</code></pre><p>我们再把得到<code>5</code>传给<code>i</code></p>
-<pre><code>&gt;&gt;&gt; i.send(5)
-4
-</code></pre><p>我们得到<code>yield n -1</code>返回的4，我们再把4传给<code>i</code>，得到最终结果</p>
-<pre><code>&gt;&gt;&gt; i.send(5)
-9
-</code></pre><p>假如我们把后面两个<code>send</code>的值换成其他值我们会得到不同的结果，这里我们可以看到我们，要实现上面函数必须要依靠一个<code>栈</code>，保存我们返回的生成器，然后依次调用生成器返回结果，具体代码如下</p>
-<pre><code>def fibonacci(n):
-    stack = [ _fibonacci(n)]
-    last_result = None
-    while stack:
-        last = stack[-1]
-        try:
-            if isinstance(last, types.GeneratorType):
-                stack.append(last.send(last_result))
-                last_result = None
-            else:
-                last_result = stack.pop()
-         except StopIteration:
-             stack.pop()
-     return result
-</code></pre><p>我们这里用<code>stack</code>作为我们的堆栈，用<code>last_result</code>保存上一个生成器返回的值</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>我们使用协程解决掉了递归错误，但是这个方法并不可以给我们算法加速，虽然n为1000以上不会报递归错误，但是等待的时间还是很长很长。。。</p>
-<p>虽然协程在这个方法里面并没有起到多大作业，协程在算法方面还是没有太多帮助，协程在计算机<code>I/O</code>还有网络请求方面有更好的效率，但是这次尝试让我们对协程如何使用有了一个清晰的了解</p>
-<p>有兴趣的可以去了解一下协程在异步网络请求的应用</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/python/">python</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/03/15/协程解决递归错误/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/03/15/协程解决递归错误/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
@@ -1375,7 +1252,7 @@ result None
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/programming/" title="programming">programming<sup>11</sup></a></li>
+				<li><a href="/tags/programming/" title="programming">programming<sup>10</sup></a></li>
 			
 		
 			
@@ -1383,7 +1260,7 @@ result None
 			
 		
 			
-				<li><a href="/tags/software/" title="software">software<sup>8</sup></a></li>
+				<li><a href="/tags/software/" title="software">software<sup>9</sup></a></li>
 			
 		
 			
@@ -1395,11 +1272,11 @@ result None
 			
 		
 			
-				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>4</sup></a></li>
+				<li><a href="/tags/github/" title="github">github<sup>4</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/github/" title="github">github<sup>4</sup></a></li>
+				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>4</sup></a></li>
 			
 		
 			
@@ -1411,29 +1288,15 @@ result None
 			
 		
 			
-				<li><a href="/tags/transform/" title="transform">transform<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/js/" title="js">js<sup>1</sup></a></li>
 			
 		
 			
-		
+				<li><a href="/tags/transform/" title="transform">transform<sup>1</sup></a></li>
 			
 		
 			
-		
-			
-		
-			
-		
-			
-		
-			
-		
-			
-		
+				<li><a href="/tags/python3/" title="python3">python3<sup>1</sup></a></li>
 			
 		
 		</ul>
