@@ -78,6 +78,141 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/11/23/FastProxyScan-Introduction/" title="FastProxyScan项目介绍" itemprop="url">FastProxyScan项目介绍</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
+		
+  <p class="article-time">
+    <time datetime="2017-11-22T16:00:00.000Z" itemprop="datePublished"> Published 2017-11-23</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <blockquote>
+<p>为了给我的站点增加人气，我把这个项目的介绍放到我的博客，如果你觉得这个项目还不错的话，请不要吝啬你的star</p>
+</blockquote>
+<p><a href="https://github.com/mrzhangboss/FastProxyScan" target="_blank" rel="external">github传送门</a><br><a href="http://115.159.146.115" target="_blank" rel="external">Demo传送门</a></p>
+<h2 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h2><p>一开始自己只想做一个代理池，于是搜了搜Github发现类似的项目，大多数都是爬取网上的一些代理商的免费代理，这部分代理大多都是没有用的，可用性非常低，于是我自己就干脆做一个“代理商”，自己扫描主机把可用的代理扫描出来。</p>
+<p>但是现在网络主机实在太多了，至少几百万台，所以这个项目的核心就是快速扫描，在最短的时间内检测更多的代理，目前项目的速度最好只能完成1000代理每小时的速度（日扫描两万代理），希望能继续优化代码，加快速度，如果你对这个项目感兴趣可以Fork下来，欢迎各位的Pull Request </p>
+<h2 id="项目依赖"><a href="#项目依赖" class="headerlink" title="项目依赖"></a>项目依赖</h2><p>项目基于Python3.5+开发</p>
+<p>软件依赖</p>
+<ul>
+<li>nmap</li>
+</ul>
+<h2 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h2><p>项目主要由三个部分组成</p>
+<ul>
+<li>主机扫描</li>
+<li>端口检测</li>
+<li>代理检查</li>
+</ul>
+<p>项目结构为</p>
+<ul>
+<li>proxy_pool</li>
+<li><ul>
+<li>scanner</li>
+</ul>
+</li>
+<li><ul>
+<li>display</li>
+</ul>
+</li>
+<li><ul>
+<li>database</li>
+</ul>
+</li>
+</ul>
+<p>现在依次介绍在搜索速度上的优化</p>
+<ul>
+<li>主机搜索</li>
+</ul>
+<p>全球的IP都是有ISP统一分配的，ISP主要由下面几大洲分配，我们中国处于亚太区，所以我们的IP由亚太互联网络信息中心（APNIC）分配IP，目前中国分配的IPV4总数为3亿左右，这个数量还是比较大</p>
+<p>我们可以从 <a href="http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest" target="_blank" rel="external">http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest</a>下载最新分配的IP地址</p>
+<p>但是代理服务器只存在特定的服务器上，所以现在版本还没有发布V1.0主要是因为搜索的效果不是很好（搜索的主机代理转换率太低），目前还在想其他方法，等有更好的解决方法就会发布V1.0</p>
+<ul>
+<li>端口检测</li>
+</ul>
+<p>使用<code>nmap</code>的“TCP SYN scan”最大化加快端口检测速度（需要root权限）</p>
+<ul>
+<li>代理检测</li>
+</ul>
+<p>使用<code>nmap</code>先验端口与<code>Python</code>异步最大化代理检测速率</p>
+<h2 id="安装教程"><a href="#安装教程" class="headerlink" title="安装教程"></a>安装教程</h2><p>项目采用Django做后台管理，所以只需要一点Django基础知识就能在这个项目上做二次开发，如果你只想获取最新的可用代理，可以通过<a href="http://115.159.146.115" target="_blank" rel="external">http://115.159.146.115</a> 调用API接口获取最新可用代理（我的站点带宽有限，所以只开放最新100个代理，并且只是20分钟更新一次）</p>
+<p>环境安装</p>
+<ul>
+<li>nmap 安装</li>
+<li>python3.5+ 安装</li>
+</ul>
+<p>运行：</p>
+<pre><code>git clone https://github.com/mrzhangboss/FastProxyScan.git
+cd FastProxyScan
+python3.5 install -r requirement.txt
+</code></pre><ul>
+<li>主机检测</li>
+</ul>
+<pre><code>cd pool/proxy_pool
+sudo python3.5 manage.py scan --vps
+</code></pre><ul>
+<li><p>端口检测</p>
+<p>  sudo python3.5 manage.py scan  –proxy -m 100</p>
+</li>
+</ul>
+<p>m是并行参数，值越大速度越快</p>
+<ul>
+<li><p>代理检测</p>
+<p>  sudo python3.5 manage.py check –start -c <a href="http://115.159.146.115/ip" target="_blank" rel="external">http://115.159.146.115/ip</a></p>
+</li>
+</ul>
+<p>c是检测ip头网址，可以使用我提供的 <a href="http://115.159.146.115/ip" target="_blank" rel="external">http://115.159.146.115/ip</a> 返回请求头，可以参考我的上一篇博文 <a href="http://blog.zhanglun.me/2017/11/20/%E4%BB%A3%E7%90%86%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/" target="_blank" rel="external">代理的前世今生</a></p>
+<p>在我搭建的DEMO站点上，我使用supervisor让这三个程序循环运行，你可以使用crontab定时调度也可以像我一样。</p>
+<p>数据库当前采用的Sqlite3，但是数据库模型全部使用ORM开发，你可以很方便的修改<code>settings.py</code>来放入其他数据库，如果你懂一点Django的话</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>如果你像了解更多开发这个项目背后的知识的话，可以看看我上一篇博文 <a href="http://blog.zhanglun.me/2017/11/20/%E4%BB%A3%E7%90%86%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/" target="_blank" rel="external">代理的前世今生</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/github/">github</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/11/23/FastProxyScan-Introduction/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/11/23/FastProxyScan-Introduction/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/11/20/代理的前世今生/" title="代理的前世今生" itemprop="url">代理的前世今生</a>
   </h1>
   <p class="article-author">By
@@ -1159,79 +1294,6 @@ name text
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/05/16/如何成为一名数据挖掘机/" title="如何成为一名数据挖掘机" itemprop="url">如何成为一名数据挖掘机</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
-		
-  <p class="article-time">
-    <time datetime="2017-05-16T11:47:12.000Z" itemprop="datePublished"> Published 2017-05-16</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>自我介绍</p>
-<p>前端 - &gt; 后端  -&gt; 数据挖掘机</p>
-<p>ML DM AI  的区别</p>
-<p>我的自学之旅</p>
-<p>给新手的推荐</p>
-<ul>
-<li>机器学习课程(MOOC)</li>
-<li>Kaggle、天池、数据城堡</li>
-</ul>
-<p>掌握的技能</p>
-<ul>
-<li>Java + Python</li>
-<li>数据可视化</li>
-<li>训练团队感</li>
-</ul>
-<p>未来的发展方向</p>
-<ul>
-<li>全栈数据挖掘工程师</li>
-<li>增长黑客</li>
-<li>ML算法工程师</li>
-</ul>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/05/16/如何成为一名数据挖掘机/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/05/16/如何成为一名数据挖掘机/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
@@ -1260,7 +1322,7 @@ name text
 			
 		
 			
-				<li><a href="/tags/software/" title="software">software<sup>9</sup></a></li>
+				<li><a href="/tags/software/" title="software">software<sup>8</sup></a></li>
 			
 		
 			
@@ -1288,11 +1350,19 @@ name text
 			
 		
 			
-				<li><a href="/tags/js/" title="js">js<sup>1</sup></a></li>
+				<li><a href="/tags/software-DL/" title="software, DL">software, DL<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/transform/" title="transform">transform<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/js/" title="js">js<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DL/" title="DL">DL<sup>1</sup></a></li>
 			
 		
 			

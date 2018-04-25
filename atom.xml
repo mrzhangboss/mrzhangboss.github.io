@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mrzhangboss.github.io/"/>
-  <updated>2018-04-19T00:41:17.676Z</updated>
+  <updated>2018-04-25T00:26:53.323Z</updated>
   <id>https://mrzhangboss.github.io/</id>
   
   <author>
@@ -17,11 +17,36 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>从MNIST了解卷积神经网络</title>
+    <link href="https://mrzhangboss.github.io/2018/04/24/%E4%BB%8EMNIST%E4%BA%86%E8%A7%A3%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/"/>
+    <id>https://mrzhangboss.github.io/2018/04/24/从MNIST了解卷积神经网络/</id>
+    <published>2018-04-23T16:00:00.000Z</published>
+    <updated>2018-04-25T00:26:53.323Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;引言&quot;&gt;&lt;a href=&quot;#引言&quot; class=&quot;headerlink&quot; title=&quot;引言&quot;&gt;&lt;/a&gt;引言&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;本文是学习Tensorflow&lt;a
+        
+      
+    
+    </summary>
+    
+    
+      <category term="DL" scheme="https://mrzhangboss.github.io/tags/DL/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Ubuntu14安装Tensorflow的CPU优化</title>
     <link href="https://mrzhangboss.github.io/2018/04/19/Ubuntu14%E5%AE%89%E8%A3%85Tensorflow%E7%9A%84CPU%E4%BC%98%E5%8C%96/"/>
     <id>https://mrzhangboss.github.io/2018/04/19/Ubuntu14安装Tensorflow的CPU优化/</id>
     <published>2018-04-18T16:00:00.000Z</published>
-    <updated>2018-04-19T00:41:17.676Z</updated>
+    <updated>2018-04-25T00:27:05.091Z</updated>
     
     <summary type="html">
     
@@ -37,7 +62,7 @@
     </summary>
     
     
-      <category term="software" scheme="https://mrzhangboss.github.io/tags/software/"/>
+      <category term="software, DL" scheme="https://mrzhangboss.github.io/tags/software-DL/"/>
     
   </entry>
   
@@ -308,6 +333,29 @@
   </entry>
   
   <entry>
+    <title>AVL树实现原理</title>
+    <link href="https://mrzhangboss.github.io/2018/01/04/AVL%E6%A0%91%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/"/>
+    <id>https://mrzhangboss.github.io/2018/01/04/AVL树实现原理/</id>
+    <published>2018-01-03T16:00:00.000Z</published>
+    <updated>2018-01-05T09:52:21.427Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;本篇博客主要基于这篇&lt;a href=&quot;/2017/12/27/浅谈树这种数据结构/&quot;&gt;博客&lt;/a&gt;的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍AVL树的实现原理，完整代码在&lt;a
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>二叉搜索树实现原理</title>
     <link href="https://mrzhangboss.github.io/2018/01/04/%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/"/>
     <id>https://mrzhangboss.github.io/2018/01/04/二叉搜索树实现原理/</id>
@@ -329,29 +377,6 @@
     
     
       <category term="programming" scheme="https://mrzhangboss.github.io/tags/programming/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>AVL树实现原理</title>
-    <link href="https://mrzhangboss.github.io/2018/01/04/AVL%E6%A0%91%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/"/>
-    <id>https://mrzhangboss.github.io/2018/01/04/AVL树实现原理/</id>
-    <published>2018-01-03T16:00:00.000Z</published>
-    <updated>2018-01-05T09:52:21.427Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;blockquote&gt;
-&lt;p&gt;本篇博客主要基于这篇&lt;a href=&quot;/2017/12/27/浅谈树这种数据结构/&quot;&gt;博客&lt;/a&gt;的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍AVL树的实现原理，完整代码在&lt;a
-        
-      
-    
-    </summary>
-    
     
   </entry>
   
@@ -483,33 +508,6 @@
     
     
       <category term="software" scheme="https://mrzhangboss.github.io/tags/software/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>FastProxyScan项目介绍</title>
-    <link href="https://mrzhangboss.github.io/2017/11/23/FastProxyScan-Introduction/"/>
-    <id>https://mrzhangboss.github.io/2017/11/23/FastProxyScan-Introduction/</id>
-    <published>2017-11-22T16:00:00.000Z</published>
-    <updated>2017-12-01T00:38:16.899Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;blockquote&gt;
-&lt;p&gt;为了给我的站点增加人气，我把这个项目的介绍放到我的博客，如果你觉得这个项目还不错的话，请不要吝啬你的star&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;a
-        
-      
-    
-    </summary>
-    
-    
-      <category term="github" scheme="https://mrzhangboss.github.io/tags/github/"/>
     
   </entry>
   
