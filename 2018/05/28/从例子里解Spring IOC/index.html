@@ -1,0 +1,743 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-cn">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>从例子里解Spring IOC | lunge博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="张伦">
+    
+
+    
+    <meta name="description" content="Spring的IOC理解什么是IOC在这里我们不谈Spring的基础知识,我们知道谈到Spring就会谈到IOC,这个IOC是什么呢,中文名叫控制反转，这个东西是伴随着一些编程思想出现,其实同Java的本身也有关
+就好比我熟悉的Python就是一个鸭子语言,你可以随便把一个值丢掉函数里面去,只要他满足一些特性就能正常运行,但是Java是一种强类型语言,你函数给什么参数,必须传什么参数
+这里就不讨论">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从例子里解Spring IOC">
+<meta property="og:url" content="https://mrzhangboss.github.io/2018/05/28/从例子里解Spring IOC/index.html">
+<meta property="og:site_name" content="lunge博客">
+<meta property="og:description" content="Spring的IOC理解什么是IOC在这里我们不谈Spring的基础知识,我们知道谈到Spring就会谈到IOC,这个IOC是什么呢,中文名叫控制反转，这个东西是伴随着一些编程思想出现,其实同Java的本身也有关
+就好比我熟悉的Python就是一个鸭子语言,你可以随便把一个值丢掉函数里面去,只要他满足一些特性就能正常运行,但是Java是一种强类型语言,你函数给什么参数,必须传什么参数
+这里就不讨论">
+<meta property="og:updated_time" content="2018-05-28T12:44:51.382Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="从例子里解Spring IOC">
+<meta name="twitter:description" content="Spring的IOC理解什么是IOC在这里我们不谈Spring的基础知识,我们知道谈到Spring就会谈到IOC,这个IOC是什么呢,中文名叫控制反转，这个东西是伴随着一些编程思想出现,其实同Java的本身也有关
+就好比我熟悉的Python就是一个鸭子语言,你可以随便把一个值丢掉函数里面去,只要他满足一些特性就能正常运行,但是Java是一种强类型语言,你函数给什么参数,必须传什么参数
+这里就不讨论">
+<meta name="twitter:creator" content="@mrzhangboss">
+
+    
+    <link rel="alternative" href="/atom.xml" title="lunge博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/logo2.png">
+    
+    
+    <link rel="apple-touch-icon" href="/img/logo2.png">
+    <link rel="apple-touch-icon-precomposed" href="/img/logo2.png">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo2.png" alt="lunge博客" title="lunge博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/05/28/从例子里解Spring IOC/" title="从例子里解Spring IOC" itemprop="url">从例子里解Spring IOC</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
+		
+  <p class="article-time">
+    <time datetime="2018-05-27T16:00:00.000Z" itemprop="datePublished"> 發表於 2018-05-28</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目錄</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring的IOC理解"><span class="toc-number">1.</span> <span class="toc-text">Spring的IOC理解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是IOC"><span class="toc-number">2.</span> <span class="toc-text">什么是IOC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最简单的实现"><span class="toc-number">3.</span> <span class="toc-text">最简单的实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="Spring的IOC理解"><a href="#Spring的IOC理解" class="headerlink" title="Spring的IOC理解"></a>Spring的IOC理解</h2><h2 id="什么是IOC"><a href="#什么是IOC" class="headerlink" title="什么是IOC"></a>什么是IOC</h2><p>在这里我们不谈Spring的基础知识,我们知道谈到Spring就会谈到IOC,这个IOC是什么呢,中文名叫控制反转，这个东西是伴随着一些编程思想出现,其实同Java的本身也有关</p>
+<p>就好比我熟悉的Python就是一个鸭子语言,你可以随便把一个值丢掉函数里面去,只要他满足一些特性就能正常运行,但是Java是一种强类型语言,你函数给什么参数,必须传什么参数</p>
+<p>这里就不讨论两张语言的设计优劣呢,Java这种特性也做了一些妥协,我们肯定得为语言的扩展性做点事,谁也不知道未来会发生什么,Java里面使用多态来实现这种扩展,只要他是函数参数的家族成员,他就能上去运行</p>
+<p>这个多态是实现IOC的基础,但是造成他出现的原因是因为设计模式里面的单一职责原则,这个要求我们类功能要单一,我们这里给一个例子来说明这个问题</p>
+<pre><code>class Car {
+    void run() {
+        System.out.println(&quot;Car running...&quot;);
+    }
+}
+</code></pre><p>首先我们有一个<code>Car</code>的类,一开始我们只让他有<code>run</code>这个属性,很好,接下来我们想知道是谁驾驶这辆车,于是我们便给这个类加一个字段<code>driver</code></p>
+<pre><code>public class Car {
+    String driver;
+    public Car(String driver) {
+        this.driver = driver;
+    }
+    void run() {
+        System.out.println(&quot;Driver :&quot; + driver);
+        System.out.println(&quot;Car running...&quot;);
+    }
+}
+</code></pre><p>很好我们知道驾驶这辆车的人,接着我们又想知道这个驾驶人的驾龄,如果我们继续给<code>Car</code>加入字段,这样我们就违背了<code>单一职责原则</code>,<code>Car</code>类不但承担了车的功能还承担了人的功能</p>
+<p>于是我们就把驾驶人隔离出来</p>
+<pre><code>class Driver{
+    String name;
+    String age;
+    public Driver(String name, String age) {
+        this.name = name;
+        this.age = age;
+    }
+}
+
+
+class Car {
+    Driver driver;
+    public Car(Driver driver) {
+        this.driver = driver;
+    }
+    void run() {
+        System.out.println(&quot;Driver age:&quot; + driver.age + &quot;name: &quot; + driver.name);
+        System.out.println(&quot;Car running...&quot;);
+    }
+}
+</code></pre><p>我们重新将类分成两个类来实现了这个问题,但是这个时候又来了一个问题,我们有一个飞行员的也想驾驶这辆车,但是这辆车只能司机来驾驶,但是飞行员和司机开车的动作步骤是一样的,为了复用<code>run</code>这个函数,你开始揪起了你的头发.</p>
+<p>你想呀想突然想到,Java的多态,假如我们声明一个<code>IDriver</code>的接口,让飞行员和司机都继承这个类这样我们只要给车一个<code>IDriver</code>对象就能复用<code>run</code>函数</p>
+<pre><code>//IDriver.java
+public interface IDriver{
+    String getName();
+    void setName(String name);
+    int getAge();
+    void setAge(int age);
+}
+
+// Driver.java
+public class Driver implements IDriver{
+    String name;
+    int age;
+
+
+    @Override
+    public String getName() {
+        return this.name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public int getAge() {
+        return this.age;
+    }
+
+    @Override
+    public void setAge(int age) {
+        this.age = age;
+    }
+}
+
+
+
+// Aviator.java
+public class Aviator implements IDriver{
+    String name;
+    int age;
+
+
+    @Override
+    public String getName() {
+        return null;
+    }
+
+    @Override
+    public void setName(String name) {
+
+    }
+
+    @Override
+    public int getAge() {
+        return 0;
+    }
+
+    @Override
+    public void setAge(int age) {
+
+    }
+}
+
+
+//Car.java
+public class Car {
+    private IDriver driver;
+
+    public void setDriver(IDriver driver) {
+        this.driver = driver;
+    }
+
+    void run() {
+        System.out.println(&quot;Driver age: &quot; + driver.getAge() + &quot; name: &quot; + driver.getName());
+        System.out.println(&quot;Car running...&quot;);
+    }
+}
+</code></pre><p>我们重构代码把<code>Driver</code>抽象为接口,然后让司机和飞行员都继承它,这样不管我们再添加什么其他的人就能适配这辆车.这个就是依赖倒置(DI)的思想</p>
+<p>网上大部分教程就停留到这里了,这里我们继续探索下去,看看Spring是如何让这个DI更加简单的</p>
+<p>首先我们反思一下,我们使用接口参数让我们的代码符合了设计模式,但是也带来了一些繁琐,我们来用代码”开”这辆车</p>
+<pre><code>IDriver driver = new Driver();
+driver.setName(&quot;allen&quot;);
+driver.setAge(18);
+Car car = new Car();
+car.setDriver(driver);
+car.run();
+</code></pre><p><strong>PS：当然可以把赋值放到构造器中减少代码，但是由于<code>Bean</code>依赖方法接口来赋值，所以为了后面讲解<code>Bean</code>这里就不采用构造器来减少代码</strong></p>
+<p>代码有2行变成了6行，而且我们发现这个代码现在带来两个问题：</p>
+<ol>
+<li>每次运行都得创建一个实现<code>IDriver</code>的对象</li>
+<li>每次我们想换人开车的时候都得修改源代码</li>
+</ol>
+<p>而且这些工作都很繁琐，作为一个偷懒的程序员，我可不想给每个用户都重新写一套代码，我们的想法很简单，我们希望这个<code>Car</code>能够开箱即用，其实前面我们已经实现了控制反转了，现在就是要解决控制反转带来的“负面影响”</p>
+<p>而且我们发现了一个问题，假如我们把上面函数放到一个代码里面，每次我们“开车”都得创建一个司机，然而我们还是相信“老司机”的手艺，所以我们也希望是否能够”记住“司机，只让一个老司机开车</p>
+<p>接下来就是隆重介绍<code>Spring</code>的<code>Bean</code>的用法了，前面我们知道我们需要某种机制来去除”IOC“的弊端，我们把每个<code>Car</code>当做一个对象，其实我们需要一个配置文件来记录<code>IDriver</code>这些依赖对象，对象的其实在Java里面表现就是一棵树，所以通俗来讲我们需一个”树结构“数据来存贮依赖关系</p>
+<p>我们程序在运行的时候解析这个树结构，然后依次给对象注入你想给他实例话的对象（比如你把”IDriver“设置为飞行员），这样的话，我们把依赖关系成功放到了配置文件中</p>
+<p>这样带来两个好处：</p>
+<ol>
+<li>想给不同用户使用软件时候，源代码不需要改变，只要给他们不同的配置文件就行</li>
+<li>我们可以保存依赖实现”老司机“的复用</li>
+</ol>
+<p>所以现在我们理理思路，我们需要的有两个东西</p>
+<ol>
+<li>配置文件</li>
+<li>一个加载配置文件并保存依赖的对象</li>
+</ol>
+<p>在<code>Spring</code>的<code>Bean</code>中这两个分别对应<code>xml文件</code>和实现<code>ResourceLoader</code>接口对象（有多种实现）</p>
+<p>为了更好的理解<code>Bean</code>，接下来我们就从代码出发来测试这个<code>Bean</code></p>
+<h2 id="最简单的实现"><a href="#最简单的实现" class="headerlink" title="最简单的实现"></a>最简单的实现</h2><p>首先我们新建一个<code>Spring</code>项目，无论你是用<code>IntelliJ</code>还是<code>Eslipse</code>都没关系，只能你能引用到<code>Spring</code>库就行，我们复用前面的代码，看看使用<code>Spring</code> <code>Bean</code>来如何解决掉IOC的”副作用“</p>
+<p>我们把前面的类分别放到同一路径不同的文件夹中，接下来我们先创建一个<code>xml</code>文件，什么名字不重要，我们这里先命名为<code>driver.xml</code></p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+       xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;
+
+
+    &lt;bean id=&quot;car&quot; class=&quot;Car&quot;&gt;
+        &lt;property name=&quot;driver&quot;&gt;
+            &lt;bean class=&quot;Driver&quot;&gt;
+                &lt;property name=&quot;name&quot; value=&quot;Allen&quot;&gt;&lt;/property&gt;
+                &lt;property name=&quot;age&quot; value=&quot;18&quot;&gt;&lt;/property&gt;
+            &lt;/bean&gt;
+        &lt;/property&gt;
+
+    &lt;/bean&gt;
+&lt;/beans&gt;
+</code></pre><p>写入这些东西，接下来我们看看是否能够通过这个<code>xml</code>文件来直接得到一个配置好司机<code>Allen</code>的车</p>
+<p>随便新建一个类在上面的路径中,我们这里就新建一个<code>Main</code>吧</p>
+<pre><code>import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+
+public class Main {
+    public static void main(String[] args) {
+        ApplicationContext context = new ClassPathXmlApplicationContext(&quot;driver.xml&quot;);
+        Car car  = context.getBean(&quot;car&quot;, Car.class);
+        car.run();
+
+    }
+}
+</code></pre><p>输出为</p>
+<pre><code>Driver age:18 name: Allen
+Car running...
+</code></pre><p>我们成功通过一个<code>xml</code>配置文件和一个<code>ApplicationContext</code>对象实现了一个即开即走的车，而且假如我们想换个司机，我们可以修改配置文件把<code>class</code>换成“飞行员”，而且我们可以发现我们得到的司机都是一样的，验证方法很简单，我就不写代码了，假如我们想换司机怎么办，简单在<code>bean</code>里面加上<code>scope=“prototype”</code>就行（默认值为<code>singleton</code>）</p>
+<p>接下来我们又有一个疑问，假如我们有一辆特别宝马车，我们希望只有某一种加上员能能开（假设只有飞行员），也就是是说，我们其实即不想放弃IOC，但是又不想将这个配置写到<code>Bean</code>里面去，有办法能够解决吗？</p>
+<p>当然有，<code>Spring</code>2.5就支持注解来写<code>Bean</code>配置，对于一些固定的类，我们可以把依赖关系用代码写到类中，这样一方面能够保证<code>IOC</code>，一方面又能实现<code>Bean xml</code>文件瘦身</p>
+<p>由于<code>Spring</code>默认不会去扫描注解，所以有三种方式，第一种是在<code>xml</code>里面用加上一个</p>
+<pre><code>&lt;context:component-scan base-package=&quot;....&quot;&gt;&lt;/context:component-scan&gt;
+</code></pre><p>第二种是使用<code>AnnotationConfigApplicationContext</code>来对象来进行扫描，第三种就是<code>SpringApplication</code>来运行<code>Spring</code>程序自动扫描</p>
+<p>这三种方式假如你最后要做一个<code>web</code>程序的话，第三种是非常方便的，这里我们就不谈怎么使用注解来代替<code>xml</code>文件了，本质上是一样的，其实在我没有理解<code>Bean</code>的强大之前，我比较推崇使用注解来写<code>Bean</code>，但是随着对<code>Bean</code>的探索，我发现<code>xml</code>文件才是最佳选择，他将程序依赖与代码分离开来，假如我们还想用程序依赖写在代码里面，那就违背了<code>Bean</code>的设计初衷</p>
+<p>如果你想了解怎么使用注解可以阅读这篇<a href="https://blog.csdn.net/sinat_34596644/article/details/53080026" target="_blank" rel="external">博客</a></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>至此，我们从问题的出现到问题的解决探索了IOC背后的故事，但是你可能会有一个疑问，为什么<code>Spring</code>里面会有<code>IOC</code>问题。</p>
+<p>其实这个也跟<code>Web</code>的发展有关，我们知道从Web的发展，一开始是没有前端的，只有后端，慢慢的后端分离出来前端，Web端页面也被分离出视图层和数据层，随着逐渐分离，也就出现我们前面举到的例子，类越来越多，比如视图层依赖数据层，数据层依赖控制层…..</p>
+<p>这种层层依赖的问题延生出来的IOC的提出，也就慢慢的促进了<code>Bean</code>这个库的开发，也正是因为<code>Bean</code>我们才能享受静态强类型语言的低耦合的酸爽。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://mrzhangboss.github.io/2018/05/28/从例子里解Spring IOC/" data-title="从例子里解Spring IOC | lunge博客" data-tsina="5364356330" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2018/04/24/从MNIST了解卷积神经网络/"  title="从MNIST了解卷积神经网络">
+ <strong>下一篇：</strong><br/> 
+ <span>从MNIST了解卷积神经网络
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2018/05/28/从例子里解Spring IOC/" data-title="从例子里解Spring IOC" data-url="https://mrzhangboss.github.io/2018/05/28/从例子里解Spring IOC/"></div>
+</section>
+
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目錄</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring的IOC理解"><span class="toc-number">1.</span> <span class="toc-text">Spring的IOC理解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是IOC"><span class="toc-number">2.</span> <span class="toc-text">什么是IOC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最简单的实现"><span class="toc-number">3.</span> <span class="toc-text">最简单的实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<aside class="clearfix">
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">標簽</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/programming/" title="programming">programming<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/summary/" title="summary">summary<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/software/" title="software">software<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/python/" title="python">python<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mit6-828/" title="mit6.828">mit6.828<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/github/" title="github">github<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/competition/" title="competition">competition<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/TDD/" title="TDD">TDD<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/software-DL/" title="software, DL">software, DL<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/transform/" title="transform">transform<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/js/" title="js">js<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DL/" title="DL">DL<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/python3/" title="python3">python3<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情鏈接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://segmentfault.com/ " target="_blank" title="一个面向程序员交流分享的新一代社区">segmentfault</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 訂閱</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5364356330&verifier=&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m lunge. <br/>
+			This is my blog.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/5364356330" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/mrzhangboss" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/6599843" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		<a href="https://twitter.com/mrzhangboss" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/100011375031071" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/zhang-lun-59-53" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		
+		<a href="mailto:2529450174@qq.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2018 
+		
+		<a href="/about" target="_blank" title="张伦">张伦</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lunge"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-80810286-1,UA-80810286-2', 'auto,auto');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
