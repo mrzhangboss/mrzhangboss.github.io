@@ -4,40 +4,29 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>PIL （Pillow） | lunge博客</title>
+    <title>Java的char类型到底几个字节 | lunge博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="张伦">
     
 
     
-    <meta name="description" content="Pillow 是 PIL的对Python3支持的另外一个分支，当然他对Python2也兼容，由于PIL安装起来比较烦，而使用pip可以很轻松的安装Pillow，所以我选择Pillow使用，但是其核心还是PIL库的。
-
-Python的图形处理库如PIL一直很强大，但是要想使用好它必须对图片有一定的知识储备。使用起来很简单
-from PIL import Image
-引用Image包
-im = Ima">
+    <meta name="description" content="引言之所以有这个疑问，是上次阅读Java基础书时碰到讲解char类型没有看明白，并且在代码验证过程中错误的理解了代码的意思，导致我对这么个简单问题产生疑惑并且“恶意揣测”Java内部的黑魔法，这里就把我如何走上歪路，并且最终找到“正确”的道路的故事讲出来
+问题的产生我们知道Java是采用Unicode进行内部编码，但是使用UTF-16作为外部编码。
+怎么来理解这个东西呢。首先你要知道Unicode">
 <meta property="og:type" content="article">
-<meta property="og:title" content="PIL （Pillow）">
-<meta property="og:url" content="https://mrzhangboss.github.io/2016/07/18/PIL （Pillow）0/index.html">
+<meta property="og:title" content="Java的char类型到底几个字节">
+<meta property="og:url" content="https://mrzhangboss.github.io/2018/07/01/Java的Char类型到底几个字节/index.html">
 <meta property="og:site_name" content="lunge博客">
-<meta property="og:description" content="Pillow 是 PIL的对Python3支持的另外一个分支，当然他对Python2也兼容，由于PIL安装起来比较烦，而使用pip可以很轻松的安装Pillow，所以我选择Pillow使用，但是其核心还是PIL库的。
-
-Python的图形处理库如PIL一直很强大，但是要想使用好它必须对图片有一定的知识储备。使用起来很简单
-from PIL import Image
-引用Image包
-im = Ima">
-<meta property="og:image" content="http://img1.imgtn.bdimg.com/it/u=214288124,4080808149&fm=21&gp=0.jpg">
-<meta property="og:updated_time" content="2018-03-03T11:36:50.740Z">
+<meta property="og:description" content="引言之所以有这个疑问，是上次阅读Java基础书时碰到讲解char类型没有看明白，并且在代码验证过程中错误的理解了代码的意思，导致我对这么个简单问题产生疑惑并且“恶意揣测”Java内部的黑魔法，这里就把我如何走上歪路，并且最终找到“正确”的道路的故事讲出来
+问题的产生我们知道Java是采用Unicode进行内部编码，但是使用UTF-16作为外部编码。
+怎么来理解这个东西呢。首先你要知道Unicode">
+<meta property="og:updated_time" content="2018-07-02T14:46:06.670Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="PIL （Pillow）">
-<meta name="twitter:description" content="Pillow 是 PIL的对Python3支持的另外一个分支，当然他对Python2也兼容，由于PIL安装起来比较烦，而使用pip可以很轻松的安装Pillow，所以我选择Pillow使用，但是其核心还是PIL库的。
-
-Python的图形处理库如PIL一直很强大，但是要想使用好它必须对图片有一定的知识储备。使用起来很简单
-from PIL import Image
-引用Image包
-im = Ima">
-<meta name="twitter:image" content="http://img1.imgtn.bdimg.com/it/u=214288124,4080808149&fm=21&gp=0.jpg">
+<meta name="twitter:title" content="Java的char类型到底几个字节">
+<meta name="twitter:description" content="引言之所以有这个疑问，是上次阅读Java基础书时碰到讲解char类型没有看明白，并且在代码验证过程中错误的理解了代码的意思，导致我对这么个简单问题产生疑惑并且“恶意揣测”Java内部的黑魔法，这里就把我如何走上歪路，并且最终找到“正确”的道路的故事讲出来
+问题的产生我们知道Java是采用Unicode进行内部编码，但是使用UTF-16作为外部编码。
+怎么来理解这个东西呢。首先你要知道Unicode">
 <meta name="twitter:creator" content="@mrzhangboss">
 
     
@@ -97,14 +86,14 @@ im = Ima">
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/07/18/PIL （Pillow）0/" title="PIL （Pillow）" itemprop="url">PIL （Pillow）</a>
+      <a href="/2018/07/01/Java的Char类型到底几个字节/" title="Java的char类型到底几个字节" itemprop="url">Java的char类型到底几个字节</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished"> 發表於 2016-07-18</time>
+    <time datetime="2018-06-30T16:00:00.000Z" itemprop="datePublished"> 發表於 2018-07-01</time>
     
   </p>
 </header>
@@ -113,42 +102,38 @@ im = Ima">
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目錄</strong>
 		
-			
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题的产生"><span class="toc-number">2.</span> <span class="toc-text">问题的产生</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#表面兄弟：JAVA"><span class="toc-number">3.</span> <span class="toc-text">表面兄弟：JAVA</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#亲兄弟：Python"><span class="toc-number">4.</span> <span class="toc-text">亲兄弟：Python</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引用"><span class="toc-number">6.</span> <span class="toc-text">引用</span></a></li></ol>
 		
 		</div>
 		
-		<p>Pillow 是 PIL的对Python3支持的另外一个分支，当然他对Python2也兼容，由于PIL安装起来比较烦，而使用pip可以很轻松的安装Pillow，所以我选择Pillow使用，但是其核心还是PIL库的。</p>
-<hr>
-<p>Python的图形处理库如PIL一直很强大，但是要想使用好它必须对图片有一定的知识储备。<br>使用起来很简单</p>
-<pre><code>from PIL import Image
-</code></pre><p>引用Image包</p>
-<pre><code>im = Image.open(&apos;1.png&apos;)
-</code></pre><p>打开图片，得到一个im对象，我们接下来就可以对这个对象进行操作（前提有这个1.png图片）</p>
-<p>我们先看一下他的一些属性</p>
-<pre><code>&gt;&gt;&gt; print im.format, im.size, im.mode
-PNG (83, 81) RGB
-</code></pre><p>第一个我们输出图片的格式，图片有很多种格式，常用的有jpg、png还有gif动图啊，PIL支持很多种格式，我们可以使用PIL轻松的将格式转换，<code>im.save(&#39;1.jpg&#39;)</code>,当然你可以选择格式假如你没选好后缀名的话，im.size就是图片大小，他返回的是一个元组第一个长度第二个是宽度，单位是像素。<br>现在就谈谈 这三个属性对应的关系吧<br> 首先我们使用一张像素图来说吧</p>
-<p><img src="http://img1.imgtn.bdimg.com/it/u=214288124,4080808149&amp;fm=21&amp;gp=0.jpg" alt=""></p>
-<p>我们存贮图片的时候是将整个图像分成很多个相同的小方块，每个小方块我们称为像素，当然一张图片分的越小，像素越多，那么图片就越接近真实图片，上面的<code>im.size</code>属性就告诉我们，这张图片分成了，长为83px，宽为81px的图片，那么一共有83*81=6723个像素点，每个像素点里面存什么呢，这就是<code>im.mode</code>属性告诉我们的，贴一下属性有什么吧</p>
-<ol>
-<li>1 (1-bit pixels, black and white, stored with one pixel per byte)</li>
-<li>L (8-bit pixels, black and white)</li>
-<li>P (8-bit pixels, mapped to any other mode using a color palette)</li>
-<li>RGB (3x8-bit pixels, true color)</li>
-<li>RGBA (4x8-bit pixels, true color with transparency mask)</li>
-<li>CMYK (4x8-bit pixels, color separation)</li>
-<li>YCbCr (3x8-bit pixels, color video format)</li>
-<li>I (32-bit signed integer pixels)</li>
-<li>F (32-bit floating point pixels)</li>
-</ol>
-<p>像素存贮就是涉及到颜色的存贮，在早期的黑白游戏机，只有黑和白两种，那么每个像素点就只有1位颜色来存贮，1位只能存贮两种颜色，八位色就能存256种颜色，像八位我们能用256个油漆桶/256色调色板来形容，像上面我们使用的RGB是由三种三原色红绿蓝混合而成，我们知道大自然所有的颜色都可以用红绿蓝三种颜色调配出来，所以RGB又被称为真彩（true color），每种颜色我们都分成256种，所以我们一共有256<em>256</em>256=16777216种颜色可以调配，像素的其他模式我们不介绍太多，有兴趣的可以自己钻研。<br>那么我们知道每个像素占多少字节，又知道共有多少个像素，那我们是不是就可以直接计算出来图片大小，来验证一下</p>
-<p>以第一张图片为例，共有83<em>81=6723个像素点，用RGB模式，每个像素三个字节，共有6723</em>3=20667b=20kb，但是我这张图片只有11.6kb，误差太大了吧，这时候我们就要介绍一下上面那个<code>im.format</code>属性了，这张图片采用png格式，我们先尝试一下把他转成JPG格式吧</p>
-<pre><code>im.save(&apos;1.jpg&apos;)
-</code></pre><p>我们再查看一下这个<code>1.jpg</code>的大小，只有2.24kb了，我们用PIL打开这张图片</p>
-<pre><code>&gt;&gt;&gt; im2 = Image.open(&apos;1.jpg&apos;)
-&gt;&gt;&gt; print im2.format, im2.size, im2.mode 
-JPEG (83, 81) RGB
-</code></pre><p>图片大小没有改变，但是format变成了JPEG，而且文件大小变成原来的1/5,<br>JPEG和GIF和PNG是三种图片压缩技术，他们使用压缩算法把图片压缩成很小，当我们打开图片时，解密算法把他还原出来，所以我们算出来的大小与压缩后的大小是不一样的。<br>有了这些概念我们就能更好的使用PIL提供给我们的magic方法，下次在谈我对PIL的高级应用吧。</p>
+		<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>之所以有这个疑问，是上次阅读Java基础书时碰到讲解<code>char</code>类型没有看明白，并且在代码验证过程中错误的理解了代码的意思，导致我对这么个简单问题产生疑惑并且“恶意揣测”Java内部的黑魔法，这里就把我如何走上歪路，并且最终找到“正确”的道路的故事讲出来</p>
+<h2 id="问题的产生"><a href="#问题的产生" class="headerlink" title="问题的产生"></a>问题的产生</h2><p>我们知道<code>Java</code>是采用<code>Unicode</code>进行内部编码，但是使用<code>UTF-16</code>作为外部编码。</p>
+<p>怎么来理解这个东西呢。首先你要知道<code>Unicode</code>是在我们熟悉的<code>GB 18030</code>、<code>BIG-5</code>、<code>ISO8859-1</code>之后出现的，它的出现就是为了统一全世界的编码，因为前面这些编码都太片面了，只包含自己国家或者少数几个国家的字符。</p>
+<p><code>Unicode</code>的目的就是包括全世界的编码，并且给未来可能出现的编码留下位置，你可以理解为它是一张大“表”，一般我们使用16进制来表达它，并且在前面加上<code>U+</code>。例如<code>U+0041</code>代表字母<code>A</code>，但是这里有个历史问题</p>
+<p>一开始我们知道<code>Unicode</code>为了包含全世界的字符从<code>ASCII</code>的一个字节扩展到两个字节，就能包含65536个字符了，但是随着字符包含越来越多，我们逐渐需要更多字符了，最后扩展到<code>U+0000 -&gt; U+10FFFF</code>去了，为了表示这些我们必须使用三个字符，假设我们不考虑内存成本，每个字符都使用四个字符来表示（不使用三个是为了内存对齐），那么问题就解决了，大家都用<code>Unicode</code>来表示，这样我传给你一串字符你就能秒懂了。</p>
+<p>但是学过信息论就知道，单字符越长信息熵也就是信息量就少，其实在日常通信中我们并不是每个字符都会用到，为了提高效率，我们可以使用霍夫曼、香农编码技术对信息重新编码，这个就是<code>UTF-8</code>、<code>UTF-16</code>等现代编码的理论基础。</p>
+<p>这就好比特种部队手势，我们把作战命令（Unicode）需要的指令放到手势（如UTF-8）里面，这样几个手势就能表达复杂的作战计划（假如用嘴巴说的话）。</p>
+<p>接下来我们就从JAVA和Python来看，编码与其关系</p>
+<h2 id="表面兄弟：JAVA"><a href="#表面兄弟：JAVA" class="headerlink" title="表面兄弟：JAVA"></a>表面兄弟：JAVA</h2><p><code>Unicode</code>对于JAVA来说，只能算是表面兄弟，虽然内部支持<code>Unicode</code>编码，但是其本质还是基于<code>UTF-16</code>编码，为什么要这么说呢。</p>
+<p>我们来回顾一下，我们知道<code>Unicode</code>的范围是<code>U+0000-U+10ffff</code>，这意味着我们没法用两个字节来表示，但是在<code>Java</code>里面<code>char</code>类型字节为2字节，而对于字符串类<code>String</code>来说，其组成就是一个<code>char</code>字组，对于小于<code>U+10000</code>的<code>Unicode</code>码来说，<code>String</code>对象最小组成单位就是<code>char</code>，但是对于大于<code>U+10000</code>的<code>Unicode</code>码来说却是<code>char</code>数组，我们用代码来展示一下两者之间的关系。</p>
+<pre><code>char[] chars = Character.toChars(0x1f121);
+String s = new String(chars);
+</code></pre><p>而且我们将<code>s</code>输出的话，会发现它是一个字符，但是它的<code>length</code>却为二，而且我们将<code>s</code>每个字符转换成二进制你会发现他们的值依次为<code>0xd83c</code>和<code>0xdd21</code>，他们存贮的值全部以<code>UTF-16</code>的格式存贮，具体编码详细我就不细说了，下面<a href="https://zh.wikipedia.org/wiki/UTF-16" target="_blank" rel="external">资料</a>介绍的很详细（需要翻墙）。在<code>Unicode</code>里面占一个字符的值，却以两个基本类型存贮，当然为了维持这种“表面兄弟”的关系，<code>Java</code>也使用了“码点”来支持一下兄弟，只要使用<code>codePointAt</code>代替<code>charAt</code>，用<code>codePointCount</code>代替<code>length</code>，我们也能处理超过<code>U+10000</code>的<code>Unicode</code>编码（对于不超过<code>U+10000</code>的字符那就是“真兄弟”）</p>
+<p>当我不知道一个<code>char</code>只能放两个字节的时候，我强行使用<code>char c = (char)0x1f121</code>来“存”一个超过<code>U+10000</code>的<code>Unicode</code>码，结果被<code>Java</code>无情的溢出掉，只取到了部分值，但是我却误以为<code>Java</code>有黑魔法能用两个字节存贮了三个字节才能存下的值，乃至我闹了个笑话。</p>
+<p>总结一下<code>Java</code>是一个非常严谨的语言，规定死的东西就不会变，表面上看<code>Java</code>能够支持<code>Unicode</code>编码，但是实际上他只是编译器支持，比如你写一个<code>🄡</code>（0x1f122）的值来赋给<code>String</code>如下面：</p>
+<pre><code>String ns = &quot;🄡&quot;
+</code></pre><p>表面上看，<code>Java</code>完全支持<code>Unicode</code>码，但在实际的上面他内部还是用<code>UTF-16</code>进行编码，只是在编译的时候帮我们将<code>0x1f122</code>转换成为两个<br><code>0xd83c</code>和<code>0xdd21</code>存贮在<code>char</code>字符组里面。</p>
+<p>其实这个表面兄弟是相对的，从<code>Python3``Unicode</code>支持来比较一下就能发现不同。</p>
+<h2 id="亲兄弟：Python"><a href="#亲兄弟：Python" class="headerlink" title="亲兄弟：Python"></a>亲兄弟：Python</h2><p><code>Python3</code>对<code>Unicode</code>是非常友好的，它完全按照<code>Unicode</code>的编码表使用四个字节来存贮<code>Unicode</code>码，对应它的<code>Unicode</code>字符串，最小单元都是<code>Unicode</code>码，多说无意，上代码。</p>
+<pre><code>  c = chr(0x1f122)
+print(len(c))  # = 1
+print(type(c)) # str
+</code></pre><p>我们可以看到我们得到的最小的码元是字符串<code>str</code>类型，无论这个<code>Unicode</code>码是否大于<code>U+10000</code>，<code>Python</code>都把它视为一个基本单位，插句话来讲讲怎么得到这个大小呢，我们使用<code>sys.getsizeof</code>方法就能计算出来</p>
+<pre><code>sys.getsizeof(chr(0x1f122))  # 80
+sys.getsizeof(chr(0x1f122) * 2) # 84
+</code></pre><p>由于<code>Python</code>使用一些字段来标注类型，所以直接使用<code>sys.getsizeof</code>得不得一个<code>Unicode</code>码需要的字节，所以我们计算两个的差，很清楚的就能得到一个<code>Unicode</code>码使用四个字节，你可以依次乘下去</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过前面我们知道，<code>Python</code>之所以 <code>Unicode</code>如此“亲兄弟”是因为牺牲了空间换来的，相比<code>Java</code>只用两个字节来存贮<code>Unicode</code>码（使用<code>UTF-16</code>作为底层编码），<code>Java</code>在空间上的确是“精打细算”，你想直接使用<code>Unicode</code>码值也可以，<code>Java</code>编译器会帮你把<code>Unicode</code>码值转换成<code>UTF-16</code>，这样底层在实现查找的时候也是使用统一的编码进行。但是也正是由于这么“抠”，代码看起来总不是那么“亲”，相比于<code>Python</code>的“一视同仁”，我们也可以理解这就是这两种语言的各自特点所在。</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://zh.wikipedia.org/wiki/UTF-16" target="_blank" rel="external">https://zh.wikipedia.org/wiki/UTF-16</a></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -157,7 +142,7 @@ JPEG (83, 81) RGB
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/software/">software</a>
+  <span></span> <a href="/tags/Java/">Java</a>
   </div>
 
 </div>
@@ -166,7 +151,7 @@ JPEG (83, 81) RGB
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://mrzhangboss.github.io/2016/07/18/PIL （Pillow）0/" data-title="PIL （Pillow） | lunge博客" data-tsina="5364356330" class="share clearfix">
+	  <div data-url="https://mrzhangboss.github.io/2018/07/01/Java的Char类型到底几个字节/" data-title="Java的char类型到底几个字节 | lunge博客" data-tsina="5364356330" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -179,19 +164,11 @@ JPEG (83, 81) RGB
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2016/07/18/关于python3和python2 import区别0/" title="关于python3和python2 import区别">
-  <strong>上一篇：</strong><br/>
-  <span>
-  关于python3和python2 import区别</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2016/07/18/Numpy的简析0/"  title="Numpy的简析">
+<a href="/2018/05/28/从例子里解Spring IOC/"  title="从例子里解Spring IOC">
  <strong>下一篇：</strong><br/> 
- <span>Numpy的简析
+ <span>从例子里解Spring IOC
 </span>
 </a>
 </div>
@@ -200,7 +177,7 @@ JPEG (83, 81) RGB
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2016/07/18/PIL （Pillow）0/" data-title="PIL （Pillow）" data-url="https://mrzhangboss.github.io/2016/07/18/PIL （Pillow）0/"></div>
+	<div class="ds-thread" data-thread-key="2018/07/01/Java的Char类型到底几个字节/" data-title="Java的char类型到底几个字节" data-url="https://mrzhangboss.github.io/2018/07/01/Java的Char类型到底几个字节/"></div>
 </section>
 
 
@@ -212,7 +189,7 @@ JPEG (83, 81) RGB
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目錄</strong>
  
- 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题的产生"><span class="toc-number">2.</span> <span class="toc-text">问题的产生</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#表面兄弟：JAVA"><span class="toc-number">3.</span> <span class="toc-text">表面兄弟：JAVA</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#亲兄弟：Python"><span class="toc-number">4.</span> <span class="toc-text">亲兄弟：Python</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引用"><span class="toc-number">6.</span> <span class="toc-text">引用</span></a></li></ol>
  
   </div>
 
