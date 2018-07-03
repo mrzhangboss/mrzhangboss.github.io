@@ -45,7 +45,7 @@
 				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -61,7 +61,7 @@
  					
 					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="Search" />
 					</form>
 					
 					</li>
@@ -85,7 +85,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-06-30T16:00:00.000Z" itemprop="datePublished"> 發表於 2018-07-01</time>
+    <time datetime="2018-06-30T16:00:00.000Z" itemprop="datePublished"> Published 2018-07-01</time>
     
   </p>
 </header>
@@ -109,16 +109,23 @@ String s = new String(chars);
 <pre><code>String ns = &quot;🄡&quot;
 </code></pre><p>表面上看，<code>Java</code>完全支持<code>Unicode</code>码，但在实际的上面他内部还是用<code>UTF-16</code>进行编码，只是在编译的时候帮我们将<code>0x1f122</code>转换成为两个<br><code>0xd83c</code>和<code>0xdd21</code>存贮在<code>char</code>字符组里面。</p>
 <p>其实这个表面兄弟是相对的，从<code>Python3``Unicode</code>支持来比较一下就能发现不同。</p>
-<h2 id="亲兄弟：Python"><a href="#亲兄弟：Python" class="headerlink" title="亲兄弟：Python"></a>亲兄弟：Python</h2><p><code>Python3</code>对<code>Unicode</code>是非常友好的，它完全按照<code>Unicode</code>的编码表使用四个字节来存贮<code>Unicode</code>码，对应它的<code>Unicode</code>字符串，最小单元都是<code>Unicode</code>码，多说无意，上代码。</p>
+<h2 id="亲兄弟：Python"><a href="#亲兄弟：Python" class="headerlink" title="亲兄弟：Python"></a>亲兄弟：Python</h2><p><code>Python3</code>对<code>Unicode</code>是非常友好的，它在明面上完全按照<code>Unicode</code>的编码表使用来存贮<code>Unicode</code>码，对应它的<code>Unicode</code>字符串，最小单元都是<code>Unicode</code>码，多说无意，上代码。</p>
 <pre><code>  c = chr(0x1f122)
 print(len(c))  # = 1
 print(type(c)) # str
-</code></pre><p>我们可以看到我们得到的最小的码元是字符串<code>str</code>类型，无论这个<code>Unicode</code>码是否大于<code>U+10000</code>，<code>Python</code>都把它视为一个基本单位，插句话来讲讲怎么得到这个大小呢，我们使用<code>sys.getsizeof</code>方法就能计算出来</p>
+</code></pre><p>我们可以看到我们得到的最小的码元是字符串<code>str</code>类型，无论这个<code>Unicode</code>码是否大于<code>U+10000</code>，<code>Python</code>都把它视为一个基本单位，这样避免了你对其进行一些误操作，插句话来讲讲怎么得到这个大小呢，我们使用<code>sys.getsizeof</code>方法就能计算出来</p>
 <pre><code>sys.getsizeof(chr(0x1f122))  # 80
 sys.getsizeof(chr(0x1f122) * 2) # 84
-</code></pre><p>由于<code>Python</code>使用一些字段来标注类型，所以直接使用<code>sys.getsizeof</code>得不得一个<code>Unicode</code>码需要的字节，所以我们计算两个的差，很清楚的就能得到一个<code>Unicode</code>码使用四个字节，你可以依次乘下去</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过前面我们知道，<code>Python</code>之所以 <code>Unicode</code>如此“亲兄弟”是因为牺牲了空间换来的，相比<code>Java</code>只用两个字节来存贮<code>Unicode</code>码（使用<code>UTF-16</code>作为底层编码），<code>Java</code>在空间上的确是“精打细算”，你想直接使用<code>Unicode</code>码值也可以，<code>Java</code>编译器会帮你把<code>Unicode</code>码值转换成<code>UTF-16</code>，这样底层在实现查找的时候也是使用统一的编码进行。但是也正是由于这么“抠”，代码看起来总不是那么“亲”，相比于<code>Python</code>的“一视同仁”，我们也可以理解这就是这两种语言的各自特点所在。</p>
+</code></pre><p>由于<code>Python</code>使用一些字段来标注类型，所以直接使用<code>sys.getsizeof</code>得不得一个<code>Unicode</code>码需要的字节，所以我们计算两个的差，很清楚的就能得到一个<code>Unicode</code>码使用四个字节，你可以依次乘下去，而且你发现一个有趣的现象，对于小于<code>U+007F</code>的<code>Unicode</code>码，其大小为一字节，而对于<code>U+0080-U+07FF</code>其大小为两字节。具体可以看参考<a href="https://en.wikipedia.org/wiki/UTF-8" target="_blank" rel="external">资料</a>，<code>Python</code>内部是使用<code>UTF-8</code>来存贮<code>Unicode</code>码的，但是<code>Python</code>将这一切都隐藏起来，你从表面上看好像一个<code>Unicode</code>就是一个最小单元，对于其底层我们不得而知，我们可以从侧面来验证一下</p>
+<pre><code> timeit.timeit(&quot;&apos;中国人&apos;.encode(&apos;gbk&apos;)&quot;)
+&gt;&gt; 0.6366317819999949
+timeit.timeit(&quot;&apos;中国人&apos;.encode(&apos;utf-8&apos;)&quot;)
+&gt;&gt; 0.2109854949999317
+</code></pre><p>我们可以看到将<code>Unicode</code>编译成其他编码方式，其中<code>utf-8</code>速度是最快的，因为基本上是复制一下就行了，而其他的差距到了三倍</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过前面我们知道，<code>Python</code>之所以 <code>Unicode</code>如此“亲兄弟”是因为做了一层封装得来的，相比<code>Java</code>将<code>Unicode</code>码（使用<code>UTF-16</code>作为底层编码）暴露给出来，<code>Java</code>在底层上却是非常“坦诚”，你想直接使用<code>Unicode</code>码值也可以，<code>Java</code>编译器会帮你把<code>Unicode</code>码值转换成<code>UTF-16</code>，你也可以从<code>UTF-16</code>码生成<code>String</code>字符串，这样底层在实现查找的时候也是使用统一的编码进行。但是也正是由于这么“底层”，代码看起来总不是那么“亲”，相比于<code>Python</code>的“一视同仁”，我们也可以理解这就是这两种语言的各自特点所在。</p>
+<p>总的来说如果你想直接接触代码底层，推荐使用<code>Java</code>，假如你只想研究其本质，推荐使用<code>Python</code>来进行自然语言处理，他的封装能让你不需要了解其内部组成。</p>
 <h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://zh.wikipedia.org/wiki/UTF-16" target="_blank" rel="external">https://zh.wikipedia.org/wiki/UTF-16</a></p>
+<p><a href="https://en.wikipedia.org/wiki/UTF-8" target="_blank" rel="external">https://en.wikipedia.org/wiki/UTF-8</a></p>
 
         
         
@@ -170,7 +177,7 @@ sys.getsizeof(chr(0x1f122) * 2) # 84
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-05-27T16:00:00.000Z" itemprop="datePublished"> 發表於 2018-05-28</time>
+    <time datetime="2018-05-27T16:00:00.000Z" itemprop="datePublished"> Published 2018-05-28</time>
     
   </p>
 </header>
@@ -427,7 +434,7 @@ Car running...
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-04-23T16:00:00.000Z" itemprop="datePublished"> 發表於 2018-04-24</time>
+    <time datetime="2018-04-23T16:00:00.000Z" itemprop="datePublished"> Published 2018-04-24</time>
     
   </p>
 </header>
@@ -649,7 +656,7 @@ for i in range(18000):
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-04-18T16:00:00.000Z" itemprop="datePublished"> 發表於 2018-04-19</time>
+    <time datetime="2018-04-18T16:00:00.000Z" itemprop="datePublished"> Published 2018-04-19</time>
     
   </p>
 </header>
@@ -747,7 +754,7 @@ sudo apt-get upgrade bazel
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-03-16T16:00:00.000Z" itemprop="datePublished"> 發表於 2018-03-17</time>
+    <time datetime="2018-03-16T16:00:00.000Z" itemprop="datePublished"> Published 2018-03-17</time>
     
   </p>
 </header>
@@ -863,7 +870,7 @@ VERBOSE  [简X]  --------------神器,会无视代码中的注释空格和换行
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-02-19T16:00:00.000Z" itemprop="datePublished"> 發表於 2018-02-20</time>
+    <time datetime="2018-02-19T16:00:00.000Z" itemprop="datePublished"> Published 2018-02-20</time>
     
   </p>
 </header>
@@ -1024,7 +1031,7 @@ ts.ts_ss0 = GD_KD;
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-02-18T16:00:00.000Z" itemprop="datePublished"> 發表於 2018-02-19</time>
+    <time datetime="2018-02-18T16:00:00.000Z" itemprop="datePublished"> Published 2018-02-19</time>
     
   </p>
 </header>
@@ -1130,7 +1137,7 @@ ts.ts_ss0 = GD_KD;
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-02-04T16:00:00.000Z" itemprop="datePublished"> 發表於 2018-02-05</time>
+    <time datetime="2018-02-04T16:00:00.000Z" itemprop="datePublished"> Published 2018-02-05</time>
     
   </p>
 </header>
@@ -1245,7 +1252,7 @@ ts.ts_ss0 = GD_KD;
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-01-30T16:00:00.000Z" itemprop="datePublished"> 發表於 2018-01-31</time>
+    <time datetime="2018-01-30T16:00:00.000Z" itemprop="datePublished"> Published 2018-01-31</time>
     
   </p>
 </header>
@@ -1351,7 +1358,7 @@ ELF Header:
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-01-30T16:00:00.000Z" itemprop="datePublished"> 發表於 2018-01-31</time>
+    <time datetime="2018-01-30T16:00:00.000Z" itemprop="datePublished"> Published 2018-01-31</time>
     
   </p>
 </header>
@@ -1408,17 +1415,17 @@ ELF Header:
   </nav>
 
 </div>
-      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
 
   
 
   
 <div class="tagslist">
-	<p class="asidetitle">標簽</p>
+	<p class="asidetitle">Tags</p>
 		<ul class="clearfix">
 		
 			
@@ -1486,7 +1493,7 @@ ELF Header:
 
 
   <div class="linkslist">
-  <p class="asidetitle">友情鏈接</p>
+  <p class="asidetitle">Links</p>
     <ul>
         
           <li>
@@ -1502,11 +1509,11 @@ ELF Header:
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 訂閱</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">新浪微博</p>
+  <p class="asidetitle">Weibo</p>
     <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5364356330&verifier=&dpc=1"></iframe>
 </div>
 
@@ -1679,7 +1686,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
