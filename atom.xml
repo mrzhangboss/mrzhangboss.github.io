@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mrzhangboss.github.io/"/>
-  <updated>2018-07-03T00:06:25.882Z</updated>
+  <updated>2018-08-10T00:45:43.986Z</updated>
   <id>https://mrzhangboss.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>从关系角度来看XPath</title>
+    <link href="https://mrzhangboss.github.io/2018/08/09/%E4%BB%8E%E5%85%B3%E7%B3%BB%E8%A7%92%E5%BA%A6%E6%9D%A5%E7%9C%8BXPath/"/>
+    <id>https://mrzhangboss.github.io/2018/08/09/从关系角度来看XPath/</id>
+    <published>2018-08-08T16:00:00.000Z</published>
+    <updated>2018-08-10T00:45:43.986Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;这段时间没有写博客，一个原因是由于刚毕业没了学校的学习动力反而下降，另外一个方面由于花了很长时间研究编译原理，然而自己却对它没有太多理解，所以也就没有整理自己的知识，现在慢慢稳定下来，会继续像以前一样更新博客&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="python" scheme="https://mrzhangboss.github.io/tags/python/"/>
+    
+  </entry>
   
   <entry>
     <title>Java的char类型到底几个字节</title>
@@ -471,33 +498,6 @@
 &lt;p&gt;这篇博文是&lt;a href=&quot;/2017/12/25/从问题理解动态规划/&quot;&gt;从问题理解动态规划&lt;/a&gt;的练习篇，通过几个动态规划的问题剖析进一步理解动态规划&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h2 id=&quot;找零钱练习题&quot;&gt;&lt;a
-        
-      
-    
-    </summary>
-    
-    
-      <category term="programming" scheme="https://mrzhangboss.github.io/tags/programming/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>从问题理解动态规划</title>
-    <link href="https://mrzhangboss.github.io/2017/12/25/%E4%BB%8E%E9%97%AE%E9%A2%98%E7%90%86%E8%A7%A3%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/"/>
-    <id>https://mrzhangboss.github.io/2017/12/25/从问题理解动态规划/</id>
-    <published>2017-12-24T16:00:00.000Z</published>
-    <updated>2017-12-26T15:31:07.818Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;blockquote&gt;
-&lt;p&gt;网上关于动态规划的资料，大部分直接给结论，所以一开始我一头雾水，搞不懂为什么要这么做，这篇博文就从实际问题出发，简单的剖析动态规划&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2 id=&quot;引言&quot;&gt;&lt;a href=&quot;#引言&quot;
         
       
     
