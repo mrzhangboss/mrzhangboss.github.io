@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mrzhangboss.github.io/"/>
-  <updated>2018-08-10T00:45:43.986Z</updated>
+  <updated>2018-08-25T14:46:40.582Z</updated>
   <id>https://mrzhangboss.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>毕业两月反思</title>
+    <link href="https://mrzhangboss.github.io/2018/08/25/%E6%AF%95%E4%B8%9A%E4%B8%A4%E6%9C%88%E5%8F%8D%E6%80%9D/"/>
+    <id>https://mrzhangboss.github.io/2018/08/25/毕业两月反思/</id>
+    <published>2018-08-24T16:00:00.000Z</published>
+    <updated>2018-08-25T14:46:40.582Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;毕业近两个月了，然而这两个月对自己的状态不太满意故写下这篇博客反思&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;引言&quot;&gt;&lt;a href=&quot;#引言&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="summary" scheme="https://mrzhangboss.github.io/tags/summary/"/>
+    
+  </entry>
   
   <entry>
     <title>从关系角度来看XPath</title>
@@ -408,29 +435,6 @@
   </entry>
   
   <entry>
-    <title>AVL树实现原理</title>
-    <link href="https://mrzhangboss.github.io/2018/01/04/AVL%E6%A0%91%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/"/>
-    <id>https://mrzhangboss.github.io/2018/01/04/AVL树实现原理/</id>
-    <published>2018-01-03T16:00:00.000Z</published>
-    <updated>2018-01-05T09:52:21.427Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;blockquote&gt;
-&lt;p&gt;本篇博客主要基于这篇&lt;a href=&quot;/2017/12/27/浅谈树这种数据结构/&quot;&gt;博客&lt;/a&gt;的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍AVL树的实现原理，完整代码在&lt;a
-        
-      
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
     <title>二叉搜索树实现原理</title>
     <link href="https://mrzhangboss.github.io/2018/01/04/%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/"/>
     <id>https://mrzhangboss.github.io/2018/01/04/二叉搜索树实现原理/</id>
@@ -456,6 +460,29 @@
   </entry>
   
   <entry>
+    <title>AVL树实现原理</title>
+    <link href="https://mrzhangboss.github.io/2018/01/04/AVL%E6%A0%91%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/"/>
+    <id>https://mrzhangboss.github.io/2018/01/04/AVL树实现原理/</id>
+    <published>2018-01-03T16:00:00.000Z</published>
+    <updated>2018-01-05T09:52:21.427Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;本篇博客主要基于这篇&lt;a href=&quot;/2017/12/27/浅谈树这种数据结构/&quot;&gt;博客&lt;/a&gt;的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍AVL树的实现原理，完整代码在&lt;a
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>浅谈&quot;树&quot;这种数据结构</title>
     <link href="https://mrzhangboss.github.io/2017/12/27/%E6%B5%85%E8%B0%88%E6%A0%91%E8%BF%99%E7%A7%8D%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
     <id>https://mrzhangboss.github.io/2017/12/27/浅谈树这种数据结构/</id>
@@ -471,33 +498,6 @@
           &lt;blockquote&gt;
 &lt;p&gt;一直以来我对树这种数据结构就比较头疼，随便找一个红黑树的博客，大部分都是在谈怎么旋转怎么插入怎么删除，将算法讲的头头是道，但是就算你看懂了也不懂为什么要这样做，所以我们这篇博文就从可视化的角度，慢慢的介绍这些树的来世今生。&lt;/p&gt;
 &lt;/blockq
-        
-      
-    
-    </summary>
-    
-    
-      <category term="programming" scheme="https://mrzhangboss.github.io/tags/programming/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>几个有趣的动态规划</title>
-    <link href="https://mrzhangboss.github.io/2017/12/26/%E5%87%A0%E4%B8%AA%E6%9C%89%E8%B6%A3%E7%9A%84%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/"/>
-    <id>https://mrzhangboss.github.io/2017/12/26/几个有趣的动态规划/</id>
-    <published>2017-12-25T16:00:00.000Z</published>
-    <updated>2018-03-03T11:14:50.773Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;blockquote&gt;
-&lt;p&gt;这篇博文是&lt;a href=&quot;/2017/12/25/从问题理解动态规划/&quot;&gt;从问题理解动态规划&lt;/a&gt;的练习篇，通过几个动态规划的问题剖析进一步理解动态规划&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2 id=&quot;找零钱练习题&quot;&gt;&lt;a
         
       
     
