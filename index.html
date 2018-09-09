@@ -45,7 +45,7 @@
 				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -61,7 +61,7 @@
  					
 					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="Search" />
 					</form>
 					
 					</li>
@@ -78,6 +78,92 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2018/09/06/千万级数据处理小结/" title="千万级数据处理小结" itemprop="url">千万级数据处理小结</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
+		
+  <p class="article-time">
+    <time datetime="2018-09-05T16:00:00.000Z" itemprop="datePublished"> Published 2018-09-06</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
+<p>这两个星期的工作主要是对千万文本数据的处理，由于我以前没有接触过类似的数据量，所以我就把我在处理这千万数据的过程中遇到的问题以及解决的方法总结一下</p>
+</blockquote>
+<h2 id="明确目标"><a href="#明确目标" class="headerlink" title="明确目标"></a>明确目标</h2><p>完成任务之前我们必须要明确自己的目标，首先谈一下数据，数据是两张表，一张是文章列表，一张是文章内容，每篇文章都牵涉到一些人，我们的目标就是给定一些搜索条件然后把最可能相关文章给找出来</p>
+<p>这个任务有点像实现一个搜索引擎，我们通过输入关键词把相关的网页寻找出来，简单点来实现就是直接使用<code>SQL</code>的<code>Like</code>查询，但是这里存在两个很大的问题</p>
+<ul>
+<li>搜索精度不准，假如我们搜<code>张华</code>可能有关<code>张华硕</code>的人也会出来</li>
+<li>搜索耗时太长，在千万级文档中全文搜索速度非常慢</li>
+</ul>
+<p>我们希望我们能精确的实现查询，而且我们希望我们的查询能够实现毫秒级的速度。所以我们就尝试使用<code>ElasticSearch</code>来当我们“数据库”，并且放弃系统默认的分词，自己”手动分词“，来实现精准快速查询</p>
+<p>所以我们的目标很简单，将数据从<code>MySQL</code>“塞”到<code>ElasticSearch</code>中，然后想办法再”取”出来</p>
+<h2 id="第一个拦路虎“MySQL”"><a href="#第一个拦路虎“MySQL”" class="headerlink" title="第一个拦路虎“MySQL”"></a>第一个拦路虎“MySQL”</h2><p>我碰到的第一个拦路虎是数据库的响应速度，为了将数据完整的从数据库里面取出来（新数据还在产生），我按照id从小到大的顺序一小块一小块的从<code>MySQL</code>中获取出来</p>
+<p>一开始程序运行的挺Happy，速度一直很稳定，但是我发现跑了十万之后速度突然慢下来，一开始我以为解析有问题，我开始打断点，调试，找了半天原来是数据库返回数据太慢了。</p>
+<p>我们来分析一下这个<code>SQL</code>为什么这么慢</p>
+<pre><code>select * from a order by id limit 10 offset 100000 
+</code></pre><p>我们虽然限制返回了10个但是后面有个条件我们必须要后面10万个，为了拿到这10个，<code>MySQL</code>必须要扫描10万个数据先，虽然我们是在主键上扫描会快一点，但是十万毕竟很大，即使一次主键扫描花0.01ms，乘以十万也是很大的</p>
+<p>基本上每次解决数据库速度的时候，我们第一考虑点就是索引，那么我们这里就多聊两句：索引为什么快？</p>
+<p>数据库其实就是一堆数据的集合，它提供工具我们快速获取我们想要，用图书馆来打比方，数据库就是图书馆，他们把所以的图书分好类，你想买什么书，按照分类去寻找就行，这样假设你图书馆有一千万本书，你要找《安徒生童话》，你只要按照这个索引（童话书&gt;丹麦&gt;安徒生)就能找到，假如你想找一本《无类》的书你不知道他的分类，你就得把整个图书馆逛一遍才能找到你要的书了，这就是没有索引的下场。</p>
+<p>在程序的世界里也一样，你想快速找到一个记录，如果不用索引，那么就得遍历了，运气好一下子就能找到，运气不好一辈子也找不到。在    <code>MySQL</code>中，索引的背后就是B+树，也就是将数据查找最坏结果降到了一个<code>log2N</code>级。如果你想了解“树”为什么这么快，可以看看我前面写的的<a href="/2017/12/27/浅谈树这种数据结构/">博客</a></p>
+<p>怎么来说明这个索引的作业呢，假设你有一千万数据，你最坏的情况下要进行24次查找，24:1000000 达到惊人的41万倍差距，而且当数据越大这个差距越大，从这里我们就知道索引的威力了。</p>
+<p>我们回到前面，为了使用索引，那么我们只能在<code>id（主键）</code>上做手脚了，我第一个想到的是按照<code>id</code>分块，但是我仔细看了看数据库，<code>id</code>不是全部连续的（可能是因为删除过数据），假如我用<code>id</code>固定的区间来的话，获取到的数据可能部分有部分没有，虽然能够实现但是不够优雅，我还得增加处理空数据的代码。</p>
+<p>这时候我想到了，我们第一次获取的<code>id</code>如果能在后面继续使用，而且更新的话那么我们就能使用上索引了，所以我们只有把每一块数据的最后一个<code>id</code>记住，然后去这个<code>id</code>获取下一批数据，这样就能实现又用索引又不用改太多代码。</p>
+<p>那么我们的<code>SQL</code>就改成下面的语句</p>
+<pre><code>select * from a where id &gt; 1111 order by id limit 10
+</code></pre><p>通过简单的测试原来需要几分钟才能“掏”出来的数据在几毫秒就取出来了，上万倍的差距。至此我们第一个拦路虎就解决了</p>
+<p>PS：在后面看<code>ElasticSearch</code>文档的时候发现他们也提供了一个<code>scroll</code>（全库获取）的超级翻页功能，在他们的参数里面也要提供一个<code>scroll_id</code>，感觉原理应该也是和这个差不多。通过使用索引<code>id</code>来加速“翻页”</p>
+<h2 id="ElasticSearch存贮和排序"><a href="#ElasticSearch存贮和排序" class="headerlink" title="ElasticSearch存贮和排序"></a><code>ElasticSearch</code>存贮和排序</h2><p>接下来我就介绍，我怎么优化存储和编写定制动态<code>DSL</code>来实现我们想要的功能。</p>
+<p>–</p>
+<p>未完待续</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/MySQL-ElasticSearch-Python3/">MySQL, ElasticSearch, Python3</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/09/06/千万级数据处理小结/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/09/06/千万级数据处理小结/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2018/08/25/毕业两月反思/" title="毕业两月反思" itemprop="url">毕业两月反思</a>
   </h1>
   <p class="article-author">By
@@ -85,7 +171,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-08-24T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-08-25</time>
+    <time datetime="2018-08-24T16:00:00.000Z" itemprop="datePublished"> Published 2018-08-25</time>
     
   </p>
 </header>
@@ -152,7 +238,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-08-08T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-08-09</time>
+    <time datetime="2018-08-08T16:00:00.000Z" itemprop="datePublished"> Published 2018-08-09</time>
     
   </p>
 </header>
@@ -268,7 +354,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-06-30T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-07-01</time>
+    <time datetime="2018-06-30T16:00:00.000Z" itemprop="datePublished"> Published 2018-07-01</time>
     
   </p>
 </header>
@@ -360,7 +446,7 @@ timeit.timeit(&quot;&apos;中国人&apos;.encode(&apos;utf-8&apos;)&quot;)
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-05-27T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-05-28</time>
+    <time datetime="2018-05-27T16:00:00.000Z" itemprop="datePublished"> Published 2018-05-28</time>
     
   </p>
 </header>
@@ -617,7 +703,7 @@ Car running...
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-04-23T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-04-24</time>
+    <time datetime="2018-04-23T16:00:00.000Z" itemprop="datePublished"> Published 2018-04-24</time>
     
   </p>
 </header>
@@ -839,7 +925,7 @@ for i in range(18000):
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-04-18T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-04-19</time>
+    <time datetime="2018-04-18T16:00:00.000Z" itemprop="datePublished"> Published 2018-04-19</time>
     
   </p>
 </header>
@@ -937,7 +1023,7 @@ sudo apt-get upgrade bazel
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-03-16T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-03-17</time>
+    <time datetime="2018-03-16T16:00:00.000Z" itemprop="datePublished"> Published 2018-03-17</time>
     
   </p>
 </header>
@@ -1053,7 +1139,7 @@ VERBOSE  [简X]  --------------神器,会无视代码中的注释空格和换行
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-02-19T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-02-20</time>
+    <time datetime="2018-02-19T16:00:00.000Z" itemprop="datePublished"> Published 2018-02-20</time>
     
   </p>
 </header>
@@ -1214,7 +1300,7 @@ ts.ts_ss0 = GD_KD;
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-02-18T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-02-19</time>
+    <time datetime="2018-02-18T16:00:00.000Z" itemprop="datePublished"> Published 2018-02-19</time>
     
   </p>
 </header>
@@ -1307,138 +1393,23 @@ ts.ts_ss0 = GD_KD;
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/02/05/内存分页设计/" title="内存分页设计" itemprop="url">内存分页设计</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
-		
-  <p class="article-time">
-    <time datetime="2018-02-04T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-02-05</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>前面已经通过lab1的这篇<a href="/2018/01/03/内存分页设计/">博文</a>了解了内存分页的实现细节，接下来就谈谈如何具体实现内存分页</p>
-<h2 id="物理载体"><a href="#物理载体" class="headerlink" title="物理载体"></a>物理载体</h2><p>通过了解<a href="/2018/02/19/KERNBASE对操作系统的影响/">KERNBASE对操作系统的影响</a>这篇博文我们知道，其实内存分页就是完成对物理存在的一种分割和隔离，所以我们在完成内存分页系统设计之前必须要构建一个载体，完成对物理存在的一种表示。</p>
-<p>在xv6中声明一个动态数组来代表物理内存，每一个值代表一块4k的内存页。我们主要通过<code>offset - base</code>得到偏移倍数，每个偏移量为<code>4K</code>，也就是通过<code>(offset - base )  &lt;&lt; 12</code>得到物理地址，我们看一下这个数组成员：PageInfo结构体</p>
-<pre><code>struct PageInfo {
-    struct PageInfo *pp_link;
-    uint16_t pp_ref;
-};
-</code></pre><p>主要存在两个值：一个为下一个可用的地址指针，一个为引用次数。</p>
-<p>引用次数比较好理解，但是这个<code>pp_link</code>有什么用呢。其实你可用把这个结构体看做成一个由链表组成的堆栈，我们只需要保留栈顶值（page_free_list)，由于它保存下一个值地址，这样通过不断的push、pop，就能维持一个可用物理内存栈。</p>
-<h2 id="二级指针的妙用"><a href="#二级指针的妙用" class="headerlink" title="二级指针的妙用"></a>二级指针的妙用</h2><p>由于前面的博客原理已经介绍的很详细了，我就不再累赘了，在这里我提一下源码中二级指针的妙用，虽然它只有短短几行，但是运行的结果却是让人大开眼界，体会到指针的神奇威力。</p>
-<p>这段代码出现在<code>kern/pmap.c</code>的<code>check_page_free_list</code>函数中</p>
-<pre><code>if (only_low_memory) {
-    // Move pages with lower addresses first in the free
-    // list, since entry_pgdir does not map all pages.
-    struct PageInfo *pp1, *pp2;
-    struct PageInfo **tp[2] = { &amp;pp1, &amp;pp2 };
-    for (pp = page_free_list; pp; pp = pp-&gt;pp_link) {
-        int pagetype = PDX(page2pa(pp)) &gt;= pdx_limit;
-        *tp[pagetype] = pp;
-        tp[pagetype] = &amp;pp-&gt;pp_link;
-    }
-    *tp[1] = 0;
-    *tp[0] = pp2;
-    page_free_list = pp1;
-}
-</code></pre><p>主要的作用是将“栈底”的元素移到“栈顶”，首先它使用了两个一级指针（pp1、pp2），还有两个二级指针分别指向（pp1、pp2）</p>
-<p> 首先<code>int pagetype = PDX(page2pa(pp)) &gt;= pdx_limit;</code>判断物理地址是否为大于4M还是小于4M，我们把物理内存页分成两组</p>
-<ul>
-<li>小于4M A组</li>
-<li>大于4M B组</li>
-</ul>
-<p>对于小于4M的组，分两种情况</p>
-<ol>
-<li>第一个小于4M的内存页（page1）</li>
-</ol>
-<blockquote>
-<ol>
-<li>*tp[0] (也就是pp1） 存贮了pp的值，也就是pp1 = page1</li>
-<li>tp[0] 存贮了pp -&gt; link 的地址（这个没有什么用）</li>
-</ol>
-</blockquote>
-<ol>
-<li>A组第二个以及以后的内存页（page2）</li>
-</ol>
-<blockquote>
-<ol>
-<li>上一个地址的值等于pp（没什么用）</li>
-<li>tp[0] 存贮了下一个空闲地址的值</li>
-</ol>
-</blockquote>
-<p>对于B组来说也是一样的，最重要的是<code>for</code>循环结束后实现的交换</p>
-<pre><code>*tp[1] = 0; 
-</code></pre><p>B组最后一个的<code>pp_link</code>地址地址设置为NULL，也就相当于把他放到栈底</p>
-<pre><code>*tp[0] = pp2;
-</code></pre><p>A组最后一个变成<code>pp_link</code>地址设置pp2，也就是B组的第一个接到了A组的最后面去了</p>
-<pre><code>page_free_list = pp1;
-</code></pre><p>栈顶变成A组第一个，通过这样的“乾坤大挪移”术就将A组部分移到B组前面去了，也就实现了先使用低地址的物理内存的作用</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>理解内存分页必须要了解背后的原理，了解了原理看具体实现的时候才能事半功倍。</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2>
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/mit6-828/">mit6.828</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/02/05/内存分页设计/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/02/05/内存分页设计/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
   </nav>
 
 </div>
-      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
 
   
 
   
 <div class="tagslist">
-	<p class="asidetitle">标签</p>
+	<p class="asidetitle">Tags</p>
 		<ul class="clearfix">
 		
 			
@@ -1450,11 +1421,11 @@ ts.ts_ss0 = GD_KD;
 			
 		
 			
-				<li><a href="/tags/python/" title="python">python<sup>8</sup></a></li>
+				<li><a href="/tags/software/" title="software">software<sup>8</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/software/" title="software">software<sup>8</sup></a></li>
+				<li><a href="/tags/python/" title="python">python<sup>8</sup></a></li>
 			
 		
 			
@@ -1462,11 +1433,11 @@ ts.ts_ss0 = GD_KD;
 			
 		
 			
-				<li><a href="/tags/github/" title="github">github<sup>4</sup></a></li>
+				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>4</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>4</sup></a></li>
+				<li><a href="/tags/github/" title="github">github<sup>4</sup></a></li>
 			
 		
 			
@@ -1482,15 +1453,11 @@ ts.ts_ss0 = GD_KD;
 			
 		
 			
-				<li><a href="/tags/software-DL/" title="software, DL">software, DL<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/transform/" title="transform">transform<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/js/" title="js">js<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL-ElasticSearch-Python3/" title="MySQL, ElasticSearch, Python3">MySQL, ElasticSearch, Python3<sup>1</sup></a></li>
 			
 		
 			
@@ -1501,12 +1468,20 @@ ts.ts_ss0 = GD_KD;
 				<li><a href="/tags/python3/" title="python3">python3<sup>1</sup></a></li>
 			
 		
+			
+				<li><a href="/tags/transform/" title="transform">transform<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/software-DL/" title="software, DL">software, DL<sup>1</sup></a></li>
+			
+		
 		</ul>
 </div>
 
 
   <div class="linkslist">
-  <p class="asidetitle">友情链接</p>
+  <p class="asidetitle">Links</p>
     <ul>
         
           <li>
@@ -1522,11 +1497,11 @@ ts.ts_ss0 = GD_KD;
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">新浪微博</p>
+  <p class="asidetitle">Weibo</p>
     <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5364356330&verifier=&dpc=1"></iframe>
 </div>
 
@@ -1699,7 +1674,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
