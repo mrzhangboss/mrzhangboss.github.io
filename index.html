@@ -45,7 +45,7 @@
 				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -61,7 +61,7 @@
  					
 					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
 					</form>
 					
 					</li>
@@ -78,6 +78,76 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2018/09/12/如何让你的Python像C++一样快/" title="如何让你的Python像C++一样快" itemprop="url">如何让你的Python像C++一样快</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
+		
+  <p class="article-time">
+    <time datetime="2018-09-11T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-09-12</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
+<p>其实一开始没有想到写关于<code>Python</code>的加速，一开始只想好好了解一下<code>C++</code>这门语言。</p>
+</blockquote>
+<p>虽然我上大学之前就自学过<code>C</code>，但是对于这个<code>C</code>的升级版还是没有过多的了解，花了几天时间学习，发现<code>C++</code>这门语言还是不错的，至少在兼容性上，它能兼容<code>C</code>还有以前的版本。</p>
+<p>然而作为一个用惯了了脚本语言的人来说，<code>C++</code>最麻烦的就是他的第三方库管理，当然对于类<code>Unix</code>系统有自己带的包管理器（如ubuntu上的<code>apt</code>，CentOS上的<code>yum</code>）可以来安装第三方库（就是我们平常为了安装一些软件，比如要先<code>apt install xxx-dev</code>那些库），由于这些都绑定了平台的，所以你经常能看到有些软件自己编译会列出各个平台下依赖的包，然而对于一些比较新的库（比如<code>googletest</code>，就得去<code>Github</code>上掏下来自己编译安装了。</p>
+<p>吐槽完了<code>C++</code>的缺点之后，我们不得不说<code>C++</code>的优点了，虽然比较难装（相比于脚本语言）但是那个速度真是贼快，用腾讯开源的协程库，单台机器就能开启千万协程而且内存不超过2个G，想我大<code>Python</code>开个一万都很嘚瑟了。<code>C++</code>在性能上真的的碾压的。就是因为<code>C++</code>性能上要求到极致，所以它才会有那么多的前面安装的缺点，因为<code>C++</code>是面对硬件的，对于不同的硬件，<code>C++</code>想做到最快，那么通用的代码就不可能的，通用就代表损失性能。然而让我全用<code>C++</code>写代码是不可能的，脚本语言用的多爽呀。所以了解完了<code>C++</code>的强大之后，我就越发的想了解怎么结合两者的方式，所以就有了这篇博文。</p>
+<h2 id="（Python）-（C-）难在哪里"><a href="#（Python）-（C-）难在哪里" class="headerlink" title="（Python）+（C++）难在哪里"></a>（Python）+（C++）难在哪里</h2><p>大家都知道<code>Python</code>有很多实现，我们这里说的<code>Python</code>是<code>CPython</code>也是最常见的实现，它是由<code>C语言</code>编译出来的，我们的目标就是把两种语言给混合起来，<code>C+C++</code>。</p>
+<p>我们看看其他语言，比如<code>Java</code>其实也可以混合<code>C++</code>代码，它是采用<code>JNI</code>的方式来进行交互的，如果你了解这种方式，你会发现也非常麻烦，得先写<code>Java</code>的类，然后再生成<code>C/C++</code>头文件。然后你再写<code>C/C++</code>代码，其实我很讨厌这种方式，我希望能把<code>C/C++</code>和你的语言这两种分离开来，我们能简单通过某种方式桥接一下让两个项目能够连贯起来。</p>
+<p>我们现在来看看<code>Python</code>是如何调用<code>C++</code>的代码。在这之前我先提一下<code>Python</code>与<code>C</code>的关系。</p>
+<p>其实<code>Python</code>和<code>C</code>一直非常友好，相比于其他语言，<code>Python</code>在支持上一直尽最大努力，因为<code>Python</code>开发者也知道<code>Python</code>非常慢（相比于C，C++，而且还有GIL的存在无法使用多线程密集CPU计算），所以<code>Python</code>开发者直接在内库上提供支持：<code>ctypes</code>，一个专为调用<code>C</code>代码的库。你只有编写少量代码就能让<code>Python</code>运行你的<code>C</code>代码。理论上你碰到性能问题直接写<code>C</code>就行了，但是我们为什么还要让<code>Python</code>运行<code>C++</code>来加速呢</p>
+<p>四个字：比<code>C</code>更好，<code>C++</code>由于在性能上与<code>C</code>不相上下，而且比C要高级的多（面对对象等），编写速度与维护上比<code>C</code>更加好，而且要知道现在最流行的Java编辑器都是<code>C++</code>写的，还有很多高性能数据库以及机器学习库都是<code>C++</code>写的，虽然在<code>Python</code>中写<code>C</code>更加简单，但是我们还是希望能够用面对对象的方式来编写代码，毕竟我们主要使用的高级语言也是面对对象的</p>
+<p>也正是因为<code>C++</code>提供了一些<code>C</code>没有的面对对象，以及高级特性，这就让我们融合<code>C</code>和<code>C++</code>带来了一些困难。</p>
+<h2 id="Python为什么能够调用C-代码"><a href="#Python为什么能够调用C-代码" class="headerlink" title="Python为什么能够调用C++代码"></a>Python为什么能够调用C++代码</h2><p>我们从调用顺序来看，我们其实想用<code>C</code>代码（<code>Python</code>本质其实是<code>C</code>代码）调用<code>C++</code>，<code>C++</code>比<code>C</code>要高级，出生的也更晚，所以<code>C</code>其实是不知道<code>C++</code>这门语言的，所以<code>C</code>能调用<code>C++</code>，其实是<code>C++</code>对<code>C</code>的一种兼容，这种兼容是<code>C++</code>提供的</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Python3-C/">Python3, C++</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/09/12/如何让你的Python像C++一样快/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/09/12/如何让你的Python像C++一样快/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2018/09/06/千万级数据处理小结/" title="千万级数据处理小结" itemprop="url">千万级数据处理小结</a>
   </h1>
   <p class="article-author">By
@@ -85,7 +155,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-09-05T16:00:00.000Z" itemprop="datePublished"> Published 2018-09-06</time>
+    <time datetime="2018-09-05T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-09-06</time>
     
   </p>
 </header>
@@ -171,7 +241,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-08-24T16:00:00.000Z" itemprop="datePublished"> Published 2018-08-25</time>
+    <time datetime="2018-08-24T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-08-25</time>
     
   </p>
 </header>
@@ -238,7 +308,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-08-08T16:00:00.000Z" itemprop="datePublished"> Published 2018-08-09</time>
+    <time datetime="2018-08-08T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-08-09</time>
     
   </p>
 </header>
@@ -354,7 +424,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-06-30T16:00:00.000Z" itemprop="datePublished"> Published 2018-07-01</time>
+    <time datetime="2018-06-30T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-07-01</time>
     
   </p>
 </header>
@@ -446,7 +516,7 @@ timeit.timeit(&quot;&apos;中国人&apos;.encode(&apos;utf-8&apos;)&quot;)
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-05-27T16:00:00.000Z" itemprop="datePublished"> Published 2018-05-28</time>
+    <time datetime="2018-05-27T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-05-28</time>
     
   </p>
 </header>
@@ -703,7 +773,7 @@ Car running...
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-04-23T16:00:00.000Z" itemprop="datePublished"> Published 2018-04-24</time>
+    <time datetime="2018-04-23T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-04-24</time>
     
   </p>
 </header>
@@ -925,7 +995,7 @@ for i in range(18000):
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-04-18T16:00:00.000Z" itemprop="datePublished"> Published 2018-04-19</time>
+    <time datetime="2018-04-18T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-04-19</time>
     
   </p>
 </header>
@@ -1023,7 +1093,7 @@ sudo apt-get upgrade bazel
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-03-16T16:00:00.000Z" itemprop="datePublished"> Published 2018-03-17</time>
+    <time datetime="2018-03-16T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-03-17</time>
     
   </p>
 </header>
@@ -1139,7 +1209,7 @@ VERBOSE  [简X]  --------------神器,会无视代码中的注释空格和换行
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-02-19T16:00:00.000Z" itemprop="datePublished"> Published 2018-02-20</time>
+    <time datetime="2018-02-19T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-02-20</time>
     
   </p>
 </header>
@@ -1287,129 +1357,23 @@ ts.ts_ss0 = GD_KD;
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/02/19/KERNBASE对操作系统的影响/" title="KERNBASE对操作系统的影响" itemprop="url">KERNBASE对操作系统的影响</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
-		
-  <p class="article-time">
-    <time datetime="2018-02-18T16:00:00.000Z" itemprop="datePublished"> Published 2018-02-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="概括"><a href="#概括" class="headerlink" title="概括"></a>概括</h2><blockquote>
-<p>这个问题主要在这本<a href="https://pdos.csail.mit.edu/6.828/2016/xv6/book-rev9.pdf" target="_blank" rel="external">xv6-ref</a>的第一章的练习题2中提出来</p>
-</blockquote>
-<p>问题如下</p>
-<pre><code>KERNBASE limits the amount of memory a single process can use, which might be irritating on a machine with a full 4 GB of RAM. Would raising KERNBASE allow a process to use more memory?
-</code></pre><p>根据前面的知识可知这个问题翻译过来就是：在32位处理器下，当<code>KERNBASE</code>为<code>0x80000000</code>时用户最多可以用2GB内存，我们是否能够增加<code>KERNBASE</code>让用户使用超过2GB内存呢？</p>
-<p>ps： 下面<code>KERNBASE</code>简写为<code>KE</code></p>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>要想解答这个问题，我们必须要知道xv6是如何分配内存的，以及如何区分用户和内核，以及<code>KE</code>的作用。</p>
-<p>xv6使用内存分页技术，如果你对这个不了解可以看这篇<a href="/2018/01/31/内存分页/">引导中的静态表</a>和这篇<a href="/2018/02/内存分页设计/">内存分页设计细节</a>，了解完这个我们谈谈用户和内核的内存分页应用。</p>
-<p>注意我们所以计算的前提是在32位处理器的条件下</p>
-<h2 id="用户和内核应用内存分页"><a href="#用户和内核应用内存分页" class="headerlink" title="用户和内核应用内存分页"></a>用户和内核应用内存分页</h2><p>其实用户和内核都是程序，对于用户来说内核只有一个，对于内核来说，用户可以有无数个。为了隔离内核和用户我们必须在内存上就进行隔离，所以单一内核和每个用户都拥有一个内存目录。</p>
-<h3 id="内存分页的意义"><a href="#内存分页的意义" class="headerlink" title="内存分页的意义"></a>内存分页的意义</h3><p> 其实我们可以把内存的目录对应的所有内存表看做一张大的内存映射表，我们使用<code>1024 × 1024</code>个表单项代表<code>4GB</code>内存地址，每个代表<code>4K</code>连续的内存空间，当然大部分程序不会使用全部表单（一般就是内存目录一个，一到三个内存表）</p>
-<p> 当然好处有很多，比如任何程序都可以使用相同的虚拟地址但是在实际运行的时候不会相互影响，这个好处就是通过映射来实现的。</p>
-<ul>
-<li>映射就是虚拟地址到物理地址的一种转换，这是一种<code>多对一</code>的映射，也就是一个虚拟地址只能对应一个物理地址，然而物理地址可以对应多个虚拟地址</li>
-</ul>
-<p>这个转换带来了一个问题，给你一个虚拟地址，你可以查表然后得到物理地址，但是如果给你一个物理地址，你除了遍历没有很好的办法获取虚拟地址（而且有可能你会得到多个虚拟地址）。</p>
-<p>这个问题非常重要，因为它影响了我们后面内核与用户切换的时候地址的搜索，接下来我们看看内核初始化后内存是一种什么样的存在。</p>
-<h2 id="内核内存利用"><a href="#内核内存利用" class="headerlink" title="内核内存利用"></a>内核内存利用</h2><p>看xv6源码我们知道，内核这个程序将程序虚拟地址起点定在<code>KE</code>上，我们知道一个程序由三部分组成指令、数据、堆栈。堆栈是向下生长，而数据、指令向上生长。而xv6把堆栈固定为32KB，所以内存只能向上生长，所以理论上内核最大占用空间只有<code>2^32(4G) - KE</code></p>
-<ul>
-<li>当<code>KE</code>为<code>0xf0000000</code>时，只有256M</li>
-<li>当<code>KE</code>为<code>0x80000000</code>，有2G。</li>
-</ul>
-<p>由于用户内存空间不能超过<code>KE</code>（实际系统中为<code>UTOP</code>，值为<code>KE</code>减去一些为系统功能预留的空间，这里我们忽略他们），所以用户所能得到的内存空间最大为<code>KE</code>，也就是</p>
-<ul>
-<li>当<code>KE</code>为<code>0xf0000000</code>时，为 3840M（4G-256M）</li>
-<li>当<code>KE</code>为<code>0x80000000</code>，有2G。</li>
-</ul>
-<p>通过上面简单的理论值我们推断出答案是：</p>
-<ul>
-<li>增大<code>KE</code>可以增大用户内存</li>
-</ul>
-<p>这个结果看起来是正确的，但是我们知道作为一个操作系统不能固定用户的内存，我们接下来就看看在不同的内存下的实际应用以及<code>xv6</code>自身设计问题，由此来探索这个问题的本质</p>
-<p>我们就分两种情况来考虑 </p>
-<h3 id="物理内存小于（4G-KERNBASE）"><a href="#物理内存小于（4G-KERNBASE）" class="headerlink" title="物理内存小于（4G-KERNBASE）"></a>物理内存小于（4G-KERNBASE）</h3><p>这种情况在很早的时候经常出现，我们计算机的内存可能就几M，这个时候内核假如真的占了<code>4G-KE</code>那连内核都跑不起来何况用户程序。</p>
-<p>我们接下来进入源码来看<code>xv6</code>将实际占用的空间体现在内存表中，我们看到<code>kern/kernld.ld</code>配置文件，其中最主要的一行</p>
-<pre><code>PROVIDE(end = .);
-</code></pre><p>这行位置出现在最后一行，它的作用是提供了一个变量<code>end</code>，我们在C中就可以用这个变量代表机器码的最后一行的虚拟地址，有了这个地址之后，我们就获取了一个重要信息内核程序总长度，假如没有这个变量，我们只能人工设定一个操作系统的占用空间，假如定大了就是浪费，定小了程序就可能崩溃（内存溢出）。分配的细节可以看这篇<a href="/2018/02/内存分页设计/">文章</a>，通过这个变量，我们把内核占用的物理空间给腾出来了。接下来的剩余的物理空间就留给用户了，所以用户能用到的内存最大为<code>实际内存 - 操作系统占用的内存</code>。</p>
-<p>而且我们能够知道操作系统还将内核的内存映射直接固定了，将<code>KE：4G</code>的地址映射到<code>0:4G-KE</code>，公式为<code>虚拟内存=物理内存+KERNBASE</code>，这个映射存在于<code>kern/pmap.c</code>的<code>mem_init</code>函数中，这个带来了一个便利，就是程序变得很简单，假如我们得到一个物理内存地址，我们就能知道虚拟内存地址，但是这个也引来一个巨大的问题，就是当内存大于<code>4G - KE</code>的时候。</p>
-<p>PS：关于知道物理内存能知道虚拟地址在源码的好处主要体现在用户内存空间创建的时候，这个时候处于内核态，当我们得到一个空的物理空间页，我们只要简单的使用上面公式就能获取到虚拟地址，然后内核就能在直接通过指针修改程序。假如没有这个映射，我们就后面动态建立，但是这里涉及到一个非常棘手的<code>成本</code>的问题，我们其实只需要一个值映射，然而我们却要浪费4K的连续内存空间，而且给程序带来了很大的复杂性。</p>
-<p>我们接下来考虑系统内存大于那段映射最大值（4G-KE）时候会造成什么情况</p>
-<h2 id="物理内存大于-（4G-KERNBASE）"><a href="#物理内存大于-（4G-KERNBASE）" class="headerlink" title="物理内存大于 （4G-KERNBASE）"></a>物理内存大于 （4G-KERNBASE）</h2><p>在现在大家内存愈来愈大，这种情况比较常见，由于xv6在程序设计中是动态创建用户空间，当用户比较少占用空间比较小的时候，程序不会用到物理地址比较大的空间，但是当物理内存超过这个阀值（4G-E），在这里我们考虑<code>KE=0xf0000000</code>,也就是物理内存地址大于256M的时候，由于内核没有映射到这么高的地址，所以我们用上面那个物理地址转虚拟地址公式就失效了。</p>
-<p>由于xv6只是一个教学系统，所以为了简化系统，降低程序复杂性所以使用了最简单的直接映射的方法来处理内存，也正是由于这个原因提高<code>KE</code>并不能增加用户最大内存，当然解决的方法也有，我想了两种。</p>
-<ul>
-<li>在内核空间中分配用户内存目录空间，这种最为简单，但是会浪费一定的内存空间（必须在内核一开始运行就占用空间）</li>
-<li>在内核空间中映射一段固定的地址来存放用户内存目录地址，这个程序设计比较复杂，但是只需要初始化一个内存表单就行</li>
-</ul>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过上面的分析，我们得到一个结论：</p>
-<p>由于xv6设计的局限性，增大<code>KERNBASE</code>并不能增大用户最大可用空间，反而会减少。但是如果修改xv6设计可以实现增大<code>KERNBASE</code>增大用户最大可用空间。</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2>
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/mit6-828/">mit6.828</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/02/19/KERNBASE对操作系统的影响/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/02/19/KERNBASE对操作系统的影响/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
   </nav>
 
 </div>
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
 
   
 <div class="tagslist">
-	<p class="asidetitle">Tags</p>
+	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
 		
 			
@@ -1457,7 +1421,7 @@ ts.ts_ss0 = GD_KD;
 			
 		
 			
-				<li><a href="/tags/MySQL-ElasticSearch-Python3/" title="MySQL, ElasticSearch, Python3">MySQL, ElasticSearch, Python3<sup>1</sup></a></li>
+				<li><a href="/tags/Python3-C/" title="Python3, C++">Python3, C++<sup>1</sup></a></li>
 			
 		
 			
@@ -1473,6 +1437,10 @@ ts.ts_ss0 = GD_KD;
 			
 		
 			
+				<li><a href="/tags/MySQL-ElasticSearch-Python3/" title="MySQL, ElasticSearch, Python3">MySQL, ElasticSearch, Python3<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/software-DL/" title="software, DL">software, DL<sup>1</sup></a></li>
 			
 		
@@ -1481,7 +1449,7 @@ ts.ts_ss0 = GD_KD;
 
 
   <div class="linkslist">
-  <p class="asidetitle">Links</p>
+  <p class="asidetitle">友情链接</p>
     <ul>
         
           <li>
@@ -1497,11 +1465,11 @@ ts.ts_ss0 = GD_KD;
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">Weibo</p>
+  <p class="asidetitle">新浪微博</p>
     <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5364356330&verifier=&dpc=1"></iframe>
 </div>
 
@@ -1674,7 +1642,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
