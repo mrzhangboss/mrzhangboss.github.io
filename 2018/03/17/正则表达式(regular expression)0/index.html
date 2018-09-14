@@ -70,7 +70,7 @@ Python对正则匹配的库是re，re是基于Perl所用的正则表达式,并�
 				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -108,14 +108,14 @@ Python对正则匹配的库是re，re是基于Perl所用的正则表达式,并�
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-03-16T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-03-17</time>
+    <time datetime="2018-03-16T16:00:00.000Z" itemprop="datePublished"> 發表於 2018-03-17</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目录</strong>
+			<strong class="toc-title">文章目錄</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#正则里面我觉得很重要的一个概念就是组概念-当我们的文本比较复杂的时候将其分成多个小组是利于我们正则的后期维护和改进"><span class="toc-number">1.0.0.1.</span> <span class="toc-text">正则里面我觉得很重要的一个概念就是组概念,当我们的文本比较复杂的时候将其分成多个小组是利于我们正则的后期维护和改进</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#正则的断言"><span class="toc-number">1.1.</span> <span class="toc-text">正则的断言</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#举个例子"><span class="toc-number">1.1.1.</span> <span class="toc-text">举个例子</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#两个字符串a1和a-1-第一个我们称为A-第二个我们称他为B-假如我们想把数字和字母分出来-对于B来说-很简单因为数字和字母之间有一个空格-我们可以直接使用字符自带的split就行-但是对于A来说-就不那么简单了"><span class="toc-number">1.2.</span> <span class="toc-text">两个字符串a1和a 1,第一个我们称为A,第二个我们称他为B,假如我们想把数字和字母分出来,对于B来说,很简单因为数字和字母之间有一个空格,我们可以直接使用字符自带的split就行,但是对于A来说,就不那么简单了.</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#字母a和数字1中间没有字符-我们必须把字母和数字之间的”空格”给选择出来-这时候就可以用到断言了"><span class="toc-number">1.2.1.</span> <span class="toc-text">字母a和数字1中间没有字符,我们必须把字母和数字之间的”空格”给选择出来,这时候就可以用到断言了.</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#遗憾的是由于python的正则并不把隐形的空格当做字符-所以我们不能简单的使用正则的re-split方法-选择字符分割-直接将字符串分解开"><span class="toc-number">1.3.</span> <span class="toc-text">遗憾的是由于python的正则并不把隐形的空格当做字符,所以我们不能简单的使用正则的re.split方法(选择字符分割)直接将字符串分解开.</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#我们就得写几步"><span class="toc-number">1.3.1.</span> <span class="toc-text">我们就得写几步</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第一先把空格换成-或其他"><span class="toc-number">1.4.</span> <span class="toc-text">第一先把空格换成 $$$(或其他)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#然后在分割"><span class="toc-number">1.5.</span> <span class="toc-text">然后在分割</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#正则的变量"><span class="toc-number">1.6.</span> <span class="toc-text">正则的变量</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#正则的起源"><span class="toc-number">2.</span> <span class="toc-text">正则的起源</span></a></li></ol>
 		
@@ -238,24 +238,24 @@ VERBOSE  [简X]  --------------神器,会无视代码中的注释空格和换行
 
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目录</strong>
+  <strong class="toc-title">文章目錄</strong>
  
  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#正则里面我觉得很重要的一个概念就是组概念-当我们的文本比较复杂的时候将其分成多个小组是利于我们正则的后期维护和改进"><span class="toc-number">1.0.0.1.</span> <span class="toc-text">正则里面我觉得很重要的一个概念就是组概念,当我们的文本比较复杂的时候将其分成多个小组是利于我们正则的后期维护和改进</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#正则的断言"><span class="toc-number">1.1.</span> <span class="toc-text">正则的断言</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#举个例子"><span class="toc-number">1.1.1.</span> <span class="toc-text">举个例子</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#两个字符串a1和a-1-第一个我们称为A-第二个我们称他为B-假如我们想把数字和字母分出来-对于B来说-很简单因为数字和字母之间有一个空格-我们可以直接使用字符自带的split就行-但是对于A来说-就不那么简单了"><span class="toc-number">1.2.</span> <span class="toc-text">两个字符串a1和a 1,第一个我们称为A,第二个我们称他为B,假如我们想把数字和字母分出来,对于B来说,很简单因为数字和字母之间有一个空格,我们可以直接使用字符自带的split就行,但是对于A来说,就不那么简单了.</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#字母a和数字1中间没有字符-我们必须把字母和数字之间的”空格”给选择出来-这时候就可以用到断言了"><span class="toc-number">1.2.1.</span> <span class="toc-text">字母a和数字1中间没有字符,我们必须把字母和数字之间的”空格”给选择出来,这时候就可以用到断言了.</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#遗憾的是由于python的正则并不把隐形的空格当做字符-所以我们不能简单的使用正则的re-split方法-选择字符分割-直接将字符串分解开"><span class="toc-number">1.3.</span> <span class="toc-text">遗憾的是由于python的正则并不把隐形的空格当做字符,所以我们不能简单的使用正则的re.split方法(选择字符分割)直接将字符串分解开.</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#我们就得写几步"><span class="toc-number">1.3.1.</span> <span class="toc-text">我们就得写几步</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第一先把空格换成-或其他"><span class="toc-number">1.4.</span> <span class="toc-text">第一先把空格换成 $$$(或其他)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#然后在分割"><span class="toc-number">1.5.</span> <span class="toc-text">然后在分割</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#正则的变量"><span class="toc-number">1.6.</span> <span class="toc-text">正则的变量</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#正则的起源"><span class="toc-number">2.</span> <span class="toc-text">正则的起源</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
 <aside class="clearfix">
 
   
 
   
 <div class="tagslist">
-	<p class="asidetitle">标签</p>
+	<p class="asidetitle">標簽</p>
 		<ul class="clearfix">
 		
 			
@@ -331,7 +331,7 @@ VERBOSE  [简X]  --------------神器,会无视代码中的注释空格和换行
 
 
   <div class="linkslist">
-  <p class="asidetitle">友情链接</p>
+  <p class="asidetitle">友情鏈接</p>
     <ul>
         
           <li>
@@ -347,7 +347,7 @@ VERBOSE  [简X]  --------------神器,会无视代码中的注释空格和换行
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 訂閱</a>
 </div>
 
   <div class="weiboshow">
@@ -613,7 +613,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

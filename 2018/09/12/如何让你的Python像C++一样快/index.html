@@ -25,7 +25,7 @@
 
 虽然我上大学之前就自学过C，但是对于这个C的升级版还是没有过多的了解，花了几天时间学习，发现C++这门语言还是不错的，至少在兼容性上，它能兼容C还有以前的版本。
 然而作为一个用惯了了脚本语言的人来说，C++最麻烦的就是他的第三方库管理，当然对于类Unix系统有自己带的包管理器（如ubuntu上的apt，Ce">
-<meta property="og:updated_time" content="2018-09-12T15:06:49.063Z">
+<meta property="og:updated_time" content="2018-09-14T00:39:58.114Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="如何让你的Python像C++一样快">
 <meta name="twitter:description" content="引言
@@ -61,7 +61,7 @@
 				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -99,14 +99,14 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-09-11T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-09-12</time>
+    <time datetime="2018-09-11T16:00:00.000Z" itemprop="datePublished"> 發表於 2018-09-12</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目录</strong>
+			<strong class="toc-title">文章目錄</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（Python）-（C-）难在哪里"><span class="toc-number">2.</span> <span class="toc-text">（Python）+（C++）难在哪里</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Python为什么能够调用C-代码"><span class="toc-number">3.</span> <span class="toc-text">Python为什么能够调用C++代码</span></a></li></ol>
 		
@@ -125,6 +125,13 @@
 <p>四个字：比<code>C</code>更好，<code>C++</code>由于在性能上与<code>C</code>不相上下，而且比C要高级的多（面对对象等），编写速度与维护上比<code>C</code>更加好，而且要知道现在最流行的Java编辑器都是<code>C++</code>写的，还有很多高性能数据库以及机器学习库都是<code>C++</code>写的，虽然在<code>Python</code>中写<code>C</code>更加简单，但是我们还是希望能够用面对对象的方式来编写代码，毕竟我们主要使用的高级语言也是面对对象的</p>
 <p>也正是因为<code>C++</code>提供了一些<code>C</code>没有的面对对象，以及高级特性，这就让我们融合<code>C</code>和<code>C++</code>带来了一些困难。</p>
 <h2 id="Python为什么能够调用C-代码"><a href="#Python为什么能够调用C-代码" class="headerlink" title="Python为什么能够调用C++代码"></a>Python为什么能够调用C++代码</h2><p>我们从调用顺序来看，我们其实想用<code>C</code>代码（<code>Python</code>本质其实是<code>C</code>代码）调用<code>C++</code>，<code>C++</code>比<code>C</code>要高级，出生的也更晚，所以<code>C</code>其实是不知道<code>C++</code>这门语言的，所以<code>C</code>能调用<code>C++</code>，其实是<code>C++</code>对<code>C</code>的一种兼容，这种兼容是<code>C++</code>提供的</p>
+<p><code>C++</code>作为一门偏底层语言，它最终的目的是生成二进制码，<code>C</code>最终也生成二进制码，这个二进制码能直接在CPU里面运行，大家都知道一个代码复用的概念，在二进制层次上，就有这个<code>链接库</code>概率，反正无论谁是最终调用主体，被调用方只需要提供一个规定好的<code>函数库</code>，那么就能实现跨语言的一种交互。</p>
+<p>但是这个交互存在一个问题，<code>C++</code>比<code>C</code>有着更加特性，比如说类，<code>C</code>没有这个概念，假如<code>C++</code>在动态库里面想让<code>C</code>能够调用一个<code>类</code>方法，<code>C</code>根本不知道怎么用，一个类要使用必须牵扯到类初始化，类析构等等。所以<code>C++</code>提供一个关键字<code>extern &quot;C&quot;</code></p>
+<p>这个关键字就是告诉<code>C++</code>编译器把这个块域里面的东西编译成<code>C</code>可以接受的，当然有个前提条件里面代码声明必须是<code>C</code>式的，也就是只能使用<code>C</code>关键字来声明函数结构体什么的，但是在函数内部你可以调用<code>C++</code>代码，声明一个类什么的，最后返回结果。</p>
+<p>用一句话来总结这个关键词的作用就是：告诉编辑器和用户，里面的函数东西，不管中间过程，只需要在“开头”（函数声明），结尾（结果返回）是<code>C</code>模式的，那么这个函数就能在<code>C</code>里面用</p>
+<p>最后我们总结一下<code>Python</code>能够调用<code>C++</code>的代码的原因：只要<code>C++</code>能够”写”成<code>C</code>代码，我们就能调用。这时候你可能有疑惑了，如果把<code>C++</code>写成<code>C</code>那么我们还不如直接写<code>C</code>代码，何必如此复杂的研究这么久了。但是你有没有想过为什么<code>Python</code>是用<code>C</code>写的，最后却能拥有<code>C++</code>、<code>Java</code>这些语言的一样的类特征这个概念。</p>
+<hr>
+<p>未完待续</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -175,24 +182,24 @@
 
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目录</strong>
+  <strong class="toc-title">文章目錄</strong>
  
  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（Python）-（C-）难在哪里"><span class="toc-number">2.</span> <span class="toc-text">（Python）+（C++）难在哪里</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Python为什么能够调用C-代码"><span class="toc-number">3.</span> <span class="toc-text">Python为什么能够调用C++代码</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
 <aside class="clearfix">
 
   
 
   
 <div class="tagslist">
-	<p class="asidetitle">标签</p>
+	<p class="asidetitle">標簽</p>
 		<ul class="clearfix">
 		
 			
@@ -268,7 +275,7 @@
 
 
   <div class="linkslist">
-  <p class="asidetitle">友情链接</p>
+  <p class="asidetitle">友情鏈接</p>
     <ul>
         
           <li>
@@ -284,7 +291,7 @@
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 訂閱</a>
 </div>
 
   <div class="weiboshow">
@@ -550,7 +557,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
