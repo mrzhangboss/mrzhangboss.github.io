@@ -45,7 +45,7 @@
 				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -61,7 +61,7 @@
  					
 					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="Search" />
 					</form>
 					
 					</li>
@@ -78,6 +78,69 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2018/01/04/AVL树实现原理/" title="AVL树实现原理" itemprop="url">AVL树实现原理</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
+		
+  <p class="article-time">
+    <time datetime="2018-01-03T16:00:00.000Z" itemprop="datePublished"> Published 2018-01-04</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <blockquote>
+<p>本篇博客主要基于这篇<a href="/2017/12/27/浅谈树这种数据结构/">博客</a>的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍AVL树的实现原理，完整代码在<a href="https://github.com/mrzhangboss/trees" target="_blank" rel="external">github</a>的<code>avl.go</code>文件中</p>
+</blockquote>
+<p><a href="/2017/12/27/浅谈树这种数据结构/">浅谈”树”这种数据结构</a><br><a href="https://github.com/mrzhangboss/trees" title="github" target="_blank" rel="external">Github</a><br><a href="http://www.cs.usfca.edu/~galles/visualization/AVLtree.html" target="_blank" rel="external">可视化页面</a></p>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>AVL树是在对二叉搜索树的一种优化，通过构造一棵高度平衡的二叉搜索树从而实现提高空间利用率，所以在了解如何实现之前，必须了解如何构造一棵二叉搜索树，你可以阅读我的这篇<a href="/2018/01/04/二叉搜索树实现原理/">博客</a>了解如何构建一棵二叉搜索树，虽然我是用Go来实现的，但是不必了解太多Go方面的知识，我在博客中尽量使用图片的方式来介绍实现原理</p>
+<p><a href="/2018/01/04/二叉搜索树实现原理/">二叉搜索树实现原理</a></p>
+<p>由于AVL树本质上也是一棵二叉搜索树，查找并不会改变树的性质，所以AVL的查找也是同二叉搜索树的查询相同，所以这里就重点介绍如何实现“增”和“删”</p>
+<h3 id="树的字段"><a href="#树的字段" class="headerlink" title="树的字段"></a>树的字段</h3><p>在开始介绍如何实现“增”、“删”之前，我想提一下AVL树的存贮字段，在wiki上面的AVL和很多资料上面，AVL的树结构分别由下面四个组成： Val、 Left*、Right*、Parent*。</p>
+<p>Val代表树存贮的值，Left、Right、Parent代表三个指针，分别指向左子树，右子树，父亲，而在我的实现中，我去掉了父亲指针，对于讲解来说，使用一个父指针能很好的解决从子遍历到父亲的经过，但在实际的应用中，我们完全可以使用一个列表存贮从父亲到儿子之间的值，这样的话，能实现一样的功能，而且能节省存贮空间（每个子树都少了一个父指针），但是相应的程序也变得比较复杂起来。</p>
+<p>虽然我在讲解的过程中会直接获取节点的父节点，但是在实际的代码实现中，是通过获取从列表中获取该节点的父节点。</p>
+<h2 id="AVL树的“增”"><a href="#AVL树的“增”" class="headerlink" title="AVL树的“增”"></a>AVL树的“增”</h2><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://en.wikipedia.org/wiki/AVL_tree" target="_blank" rel="external">https://en.wikipedia.org/wiki/AVL_tree</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/01/04/AVL树实现原理/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/01/04/AVL树实现原理/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2018/01/04/二叉搜索树实现原理/" title="二叉搜索树实现原理" itemprop="url">二叉搜索树实现原理</a>
   </h1>
   <p class="article-author">By
@@ -85,7 +148,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-01-03T16:00:00.000Z" itemprop="datePublished"> 發表於 2018-01-04</time>
+    <time datetime="2018-01-03T16:00:00.000Z" itemprop="datePublished"> Published 2018-01-04</time>
     
   </p>
 </header>
@@ -182,7 +245,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2017-12-26T16:00:00.000Z" itemprop="datePublished"> 發表於 2017-12-27</time>
+    <time datetime="2017-12-26T16:00:00.000Z" itemprop="datePublished"> Published 2017-12-27</time>
     
   </p>
 </header>
@@ -311,7 +374,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2017-12-25T16:00:00.000Z" itemprop="datePublished"> 發表於 2017-12-26</time>
+    <time datetime="2017-12-25T16:00:00.000Z" itemprop="datePublished"> Published 2017-12-26</time>
     
   </p>
 </header>
@@ -590,7 +653,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2017-12-24T16:00:00.000Z" itemprop="datePublished"> 發表於 2017-12-25</time>
+    <time datetime="2017-12-24T16:00:00.000Z" itemprop="datePublished"> Published 2017-12-25</time>
     
   </p>
 </header>
@@ -704,7 +767,7 @@ def f(n, map):
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2017-12-13T16:00:00.000Z" itemprop="datePublished"> 發表於 2017-12-14</time>
+    <time datetime="2017-12-13T16:00:00.000Z" itemprop="datePublished"> Published 2017-12-14</time>
     
   </p>
 </header>
@@ -820,7 +883,7 @@ Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2017-11-24T16:00:00.000Z" itemprop="datePublished"> 發表於 2017-11-25</time>
+    <time datetime="2017-11-24T16:00:00.000Z" itemprop="datePublished"> Published 2017-11-25</time>
     
   </p>
 </header>
@@ -942,7 +1005,7 @@ exec git-update-server-info
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2017-11-22T16:00:00.000Z" itemprop="datePublished"> 發表於 2017-11-23</time>
+    <time datetime="2017-11-22T16:00:00.000Z" itemprop="datePublished"> Published 2017-11-23</time>
     
   </p>
 </header>
@@ -1077,7 +1140,7 @@ sudo python3.5 manage.py scan --vps
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2017-11-19T16:00:00.000Z" itemprop="datePublished"> 發表於 2017-11-20</time>
+    <time datetime="2017-11-19T16:00:00.000Z" itemprop="datePublished"> Published 2017-11-20</time>
     
   </p>
 </header>
@@ -1177,7 +1240,7 @@ print(resp.read())
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2017-11-11T16:00:00.000Z" itemprop="datePublished"> 發表於 2017-11-12</time>
+    <time datetime="2017-11-11T16:00:00.000Z" itemprop="datePublished"> Published 2017-11-12</time>
     
   </p>
 </header>
@@ -1250,117 +1313,23 @@ print(resp.read())
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/10/28/编程小结/" title="编程小结" itemprop="url">编程小结</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
-		
-  <p class="article-time">
-    <time datetime="2017-10-27T16:00:00.000Z" itemprop="datePublished"> 發表於 2017-10-28</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
-<p>编程开发有时候也像雕刻一件艺术品</p>
-</blockquote>
-<p> 以前一直有一种错觉，觉得编程开发就是会用库会用框架，这阶段的感悟只是停留在库的使用上面，然而当你持续工作在一件产品上的时候，你就把思维聚焦在产品，这时候你的感悟就会是架构的搭建，库只会变成你的工具</p>
-<p> 所以慢慢明白编程届的前辈们一直劝我们在大学不要为了钱选择做一些外包项目，外包项目这种东西就像一次性编程产物，你写完之后就再也不会<code>code review</code>了，而对于编程来说，编程就是在写BUG，只不过对于大神来说写的少，对新手来说就是写的多</p>
-<p> 诚然大神们也是从一个一个BUG中慢慢走过来的，然而对于我们菜鸡来说，很多时候我们并不能发现自己的BUG，所以让自己成长最快的方法就是立马纠正自己的BUG</p>
-<p> 当然这里我们所说的BUG有的时候并不是我们经常说的系统无法运行的BUG，我们这里说的BUG可以算成缺陷，有时候是在特殊情况下才触发。比如说运行时，这时候我们称它未漏洞；重构时，我们称它为SHIT代码；测试时，我们称它为过耦合。</p>
-<p> 这里我也不想过多谈技巧如何去发现这些BUG，以为技巧是死的人是活的，我们不需要太多技巧去避免或者去查找这些BUG，还有重要的一点在于BUG是无法避免的，我们要关注的是产品本身。有幸在实习几个月的时间一直专注于一个产品的开发，期间一直经历了大大小小的重构，随着产品的成型，自己也慢慢感悟到一些方法加速查找系统BUG和如何快速开发。</p>
-<p> 接下来就介绍一些我自己的浅显感悟</p>
-<h2 id="迭代开发-CODE-REVIEW"><a href="#迭代开发-CODE-REVIEW" class="headerlink" title="迭代开发 + CODE REVIEW"></a>迭代开发 + CODE REVIEW</h2><p> 如何从零开始搭建一个产品，除非你是超级大牛，几个小时就能搞定一个完整的代码的开发流程，普通人都是一步一步来迭代开发，但是这个迭代开发也有讲究，有些人喜欢从头写到尾，然后看看能不能跑起来，再疯狂DEBUG，也有些人喜欢先写局部，慢慢测试，最后把所以组件都串联起来。</p>
-<p> 这两种方式萝卜青菜各有所爱，第一种速度最快，但是不适合团队合作和CODE REVIEW，第二种速度慢，但是灵活可靠，容错率更高，对于新手来说，选择第二种能让自己的错误不会对系统造成系统性崩塌，而且可以慢慢发现自己的BUG，从而从BUG中提高自己</p>
-<p> 对于迭代式开发我们就不得不提一下git，作为一个版本控制工具，它在迭代开发的作用堪称神器。然而这个神器我却一直没有找到正确的打开方式，只是把它当做上传服务器的工具，最近才开始慢慢掌握一点小小的技巧。</p>
-<p> 我原来的git的工作流程用命令概况下来就是</p>
-<ul>
-<li>git add -A</li>
-<li>git commit</li>
-<li><p>git push</p>
-<p>这三条，然而我大部分时间都只是发挥了<code>git push</code>的功能，纯粹把它当成代码的备份，然而git的核心在于<code>git add</code>和<code>git commit</code>这两个命令上，这里要检讨一下我以前的做法，以前一般完成一个组件的功能就直接快速<code>git add -A</code>然后<code>git commit</code>，虽然我是遵循迭代开发，但是我很少去REVIEW自己这次提交的<code>commit</code></p>
-<p>所以最主要的问题在于如何在快速迭代开发的时候慢下来，好好思考和REVIEW一下自己这次提交的代码，所以在这里不得不介绍<code>git diff</code>这个命令了，对于在每个新修改的文件来说，在你执行<code>git add</code>之前，你最好<code>git diff</code>一下这个新提交的文件，git会把你所做的修改和原始代码做一个对比。</p>
-<p>有的时候我们并不能记得原始代码是什么，我们到底对代码做了什么改变，幸亏我们有这个神器，只需要<code>git diff</code>一下，我们所做的修改和原始版本的差异就会显示出来，REVIEW代码的过程也就是我们发现错误的过程</p>
-<p>我们要想提高自己的就要<strong>不断的改变修正</strong>，所以正确的git的工作流程应该是这样</p>
-</li>
-<li><p>git diff</p>
-</li>
-<li>git add</li>
-<li>git commit</li>
-<li>git push</li>
-</ul>
-<p>当然每个<code>commit</code>可以由很多个<code>git diff</code> + <code>git add</code> 组成，但是我们必须要保证自己对<code>git add</code>的每一个文件都要<code>REVIEW</code>一遍，而且我们在每次<code>git add</code>之前，要思考这次的改变是否能够改进，是否必要等</p>
-<p><strong>产品开发就像爬山，你不可能一步登山，所以我们要做的就是，在每次停下来的时候确定方向，修正自己，甚至回头</strong></p>
-<h2 id="拥抱变化-快速开发"><a href="#拥抱变化-快速开发" class="headerlink" title="拥抱变化 + 快速开发"></a>拥抱变化 + 快速开发</h2><p>前面我们谈了在每一个<code>commit</code>的时候我们都得慎重再慎重，小心又小心，但是这种思想有时候如果把它带入开发过程中则会让你寸步难行，具体是什么呢，我来根据我自己经历来介绍</p>
-<p>我自己是一个有一点叫做代码“洁癖”的人，由于看了不少编程理论的书，我容忍不了自己写出很SHIT的代码，面对新东西，我一般喜欢研究个透再下手，我要确保我的设计是万无一失的，所以这就造成如果我接触一个新的库或者新的功能我会花上很长时间在上面，而且由于我自己思考原来越深，我可能会把原来简单的问题搞得越来越复杂，等到我觉得开始CODING完的时候，我发现自己把一个超简单的问题搞得那么复杂，牺牲了太多时间却适得其反</p>
-<p>造成这种原因主要是吸收太多而没有消化，我看过很多编程理论的书，技术大牛用他们的开发经验告诉我们要模块话开发，要注意设计模式，要考虑系统灵活性耦合性，这种大牛经验是很宝贵，但是这些经验就好像最高的武功秘籍，假如你没有相应的基础，贸然去练的话你会走火入魔，对于新东西新功能，我们就要想爬山者先驱一样，我们不是要找一条最锻炼自己的路去走，而是<strong>找一条最简单的路</strong>，只有爬到山顶我们才需要考虑其他问题</p>
-<p>这种快速开发的思想还有很重要的一点就是“拥抱变化”，我们在快速开发的过程中无法避免由于快速开发造成的部分SHIT代码，当你写出这部分的时候，其实对于菜鸟来说，这部分代码才是你最宝贵的代码，因为它暴露了你的缺点，要想提高自己，必须<strong>发现自己的缺点</strong>，所以快速开发的过程中不但激发自己的潜能，而且让自己对自己的缺点有了更好的了解，了解了自己缺点，才能慢慢改进，所以快速开发第一能够节省时间，第二个就是能缓慢提高自己，当然前提是去修正它，所以快速开发你必须要把自己的代码”洁癖“和速度结合起来，抱着一颗永不满足的心去不断锤炼自己的”代码“</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在我看来编程开发就像是打太极，<strong>一方面我们得快，以目标为驱动，快速开发；一方面我们得慢，以变化为驱动，迭代开发</strong></p>
-<p>看似快慢是两个极端，其实两者相得益彰，快促进慢，慢促进快，两者相互促进</p>
-<p>当然这只是我的自己小小感悟，编程开发博大精深，这些只是技巧，关键在于自己，思考并转换才是最核心的</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/summary/">summary</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/10/28/编程小结/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/10/28/编程小结/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
   </nav>
 
 </div>
-      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
 
   
 
   
 <div class="tagslist">
-	<p class="asidetitle">標簽</p>
+	<p class="asidetitle">Tags</p>
 		<ul class="clearfix">
 		
 			
@@ -1408,7 +1377,7 @@ print(resp.read())
 			
 		
 			
-				<li><a href="/tags/Python3-C/" title="Python3, C++">Python3, C++<sup>1</sup></a></li>
+				<li><a href="/tags/software-DL/" title="software, DL">software, DL<sup>1</sup></a></li>
 			
 		
 			
@@ -1420,7 +1389,7 @@ print(resp.read())
 			
 		
 			
-				<li><a href="/tags/transform/" title="transform">transform<sup>1</sup></a></li>
+				<li><a href="/tags/Python3-GIL/" title="Python3, GIL">Python3, GIL<sup>1</sup></a></li>
 			
 		
 			
@@ -1428,7 +1397,11 @@ print(resp.read())
 			
 		
 			
-				<li><a href="/tags/software-DL/" title="software, DL">software, DL<sup>1</sup></a></li>
+				<li><a href="/tags/Python3-C/" title="Python3, C++">Python3, C++<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/transform/" title="transform">transform<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -1436,7 +1409,7 @@ print(resp.read())
 
 
   <div class="linkslist">
-  <p class="asidetitle">友情鏈接</p>
+  <p class="asidetitle">Links</p>
     <ul>
         
           <li>
@@ -1452,11 +1425,11 @@ print(resp.read())
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 訂閱</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">新浪微博</p>
+  <p class="asidetitle">Weibo</p>
     <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5364356330&verifier=&dpc=1"></iframe>
 </div>
 
@@ -1629,7 +1602,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

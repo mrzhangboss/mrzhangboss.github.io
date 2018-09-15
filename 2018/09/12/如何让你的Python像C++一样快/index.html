@@ -25,7 +25,7 @@
 
 虽然我上大学之前就自学过C，但是对于这个C的升级版还是没有过多的了解，花了几天时间学习，发现C++这门语言还是不错的，至少在兼容性上，它能兼容C还有以前的版本。
 然而作为一个用惯了了脚本语言的人来说，C++最麻烦的就是他的第三方库管理，当然对于类Unix系统有自己带的包管理器（如ubuntu上的apt，Ce">
-<meta property="og:updated_time" content="2018-09-14T00:39:58.114Z">
+<meta property="og:updated_time" content="2018-09-15T11:16:52.193Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="如何让你的Python像C++一样快">
 <meta name="twitter:description" content="引言
@@ -61,7 +61,7 @@
 				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -77,7 +77,7 @@
  					
 					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="Search" />
 					</form>
 					
 					</li>
@@ -99,16 +99,16 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-09-11T16:00:00.000Z" itemprop="datePublished"> 發表於 2018-09-12</time>
+    <time datetime="2018-09-11T16:00:00.000Z" itemprop="datePublished"> Published 2018-09-12</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目錄</strong>
+			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（Python）-（C-）难在哪里"><span class="toc-number">2.</span> <span class="toc-text">（Python）+（C++）难在哪里</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Python为什么能够调用C-代码"><span class="toc-number">3.</span> <span class="toc-text">Python为什么能够调用C++代码</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（Python）-（C-）难在哪里"><span class="toc-number">2.</span> <span class="toc-text">（Python）+（C++）难在哪里</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Python为什么能够调用C-代码"><span class="toc-number">3.</span> <span class="toc-text">Python为什么能够调用C++代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#框架简析"><span class="toc-number">4.</span> <span class="toc-text">框架简析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li></ol>
 		
 		</div>
 		
@@ -130,8 +130,23 @@
 <p>这个关键字就是告诉<code>C++</code>编译器把这个块域里面的东西编译成<code>C</code>可以接受的，当然有个前提条件里面代码声明必须是<code>C</code>式的，也就是只能使用<code>C</code>关键字来声明函数结构体什么的，但是在函数内部你可以调用<code>C++</code>代码，声明一个类什么的，最后返回结果。</p>
 <p>用一句话来总结这个关键词的作用就是：告诉编辑器和用户，里面的函数东西，不管中间过程，只需要在“开头”（函数声明），结尾（结果返回）是<code>C</code>模式的，那么这个函数就能在<code>C</code>里面用</p>
 <p>最后我们总结一下<code>Python</code>能够调用<code>C++</code>的代码的原因：只要<code>C++</code>能够”写”成<code>C</code>代码，我们就能调用。这时候你可能有疑惑了，如果把<code>C++</code>写成<code>C</code>那么我们还不如直接写<code>C</code>代码，何必如此复杂的研究这么久了。但是你有没有想过为什么<code>Python</code>是用<code>C</code>写的，最后却能拥有<code>C++</code>、<code>Java</code>这些语言的一样的类特征这个概念。</p>
-<hr>
-<p>未完待续</p>
+<p>这里我们必须要了解一个名词“语法糖”，在我们看来我们能在<code>Python</code>、<code>Java</code>、<code>Ｃ++</code>中使用一些面对对象的特性，比如类、继承、接口。其实这些都只是一些语法糖而已，在这些实现的底层，比如说<code>Python</code>它就是用<code>C</code>的函数来帮助我们构建这些语法糖，我们看到的一个对象的系统函数，其实它是<code>Python</code>帮助我们把一连串函数绑定在一个<code>module</code>上面，虽然表面上我们新建了一个对象，调用了一个对象函数，其实在<code>C</code>层我们就是调用了一连串的函数来完成一个对象的分配</p>
+<p>我们可以在官方文档中找到这部分<a href="https://docs.python.org/3.8/extending/extending.html#the-module-s-method-table-and-initialization-function" target="_blank" rel="external">介绍</a>，官方文档告诉我们只要将列表的函数赋给一个模块（<code>module</code>）我们就让你的<code>C/C++</code>代码给<code>Python</code>一个模块可以使用，从官方文档我们就可以很清楚看到<code>语法糖</code></p>
+<p><code>Python</code>的文档非常丰富，理论上我们能够根据文档完成复杂的<code>C++</code>代码与<code>Python</code>交互，但是我们从文档上可以看到，这个过程是非常繁琐的，相比于调用<code>C</code>的简单，为了实现调用<code>C++</code>的类和数据类型，我们得写很多中间代码进行转换，差不多就重新写了一遍<code>C++</code>的实现</p>
+<p>当然作为以简单为美的<code>Pythoner</code>早就发现这个问题，也就这个问题开发了<code>ctypes</code>、<code>cffi</code>等框架帮助，就连在<code>C++</code>大名鼎鼎的<code>boost</code>库中也提供了<code>boost/python</code>来帮助<code>Python</code>更加简单的调用<code>C++</code>，接下来我就根据我对下面这些库来谈一谈我的看法</p>
+<h2 id="框架简析"><a href="#框架简析" class="headerlink" title="框架简析"></a>框架简析</h2><p>单纯的介绍这些库的功能太枯燥了，我就按照我对这些的库的理解将他们编成历史故事（真实出现的原因可能不是这样的）</p>
+<p>话说在<code>Python</code>作者设计<code>Python</code>之后，它发现<code>Python</code>实在是有点慢，为了能加速它就把<code>Python</code>的<code>C</code>API告诉社区的人让他们自己编写<code>C</code>代码然后让<code>Python</code>去调用它</p>
+<p>但是这个API实在是太繁琐了，要写太多附件的<code>C</code>代码了，有些人就发现这个问题，他们设计了一种脚本程序，你只要把你想调用的<code>C</code>函数包在<code>%{</code>里面就能帮你生成<code>Python</code>API的C代码，这样减少了不少代码量，这个框架叫做<code>Swig</code>。</p>
+<p>大家在使用<code>Swig</code>的时候发现一个问题，这个<code>Swig</code>要生成的一个很大的<code>C</code>函数，<code>C++</code>开发者发现了这个问题，他们跟<code>Python</code>开发者说你们是不是瞧不起<code>C++</code>，这个函数这么不优雅，竟然想跟我们代码混起来，想用<code>C++</code>我们帮你，你要生成什么函数告诉我，我帮你生成你引用一下我这个库就行，这样大名鼎鼎的<code>boost::python</code>就开发出来了</p>
+<p>你开心的用起来<code>boost::python</code>来包装一下代码，这样写完<code>C++</code>代码再引入<code>boost::python</code>把<code>Python</code>需要的函数定义一下，编译，OK，但是<code>Windows</code>用户不开心了，这个<code>boost::python</code>是在<code>boost</code>项目下的一个子项目，为了在<code>Windows</code>安装，还得下几百兆的软件包，要是碰到网络不好得下一天。这个时候<code>Python</code>大牛出来了，啥，这么麻烦，我来开发一个包，把<code>boost::python</code>从<code>boost</code>的掏出来，你只需要<code>pip</code>一下就行</p>
+<p>经过几个”小时”开发，<a href="https://github.com/pybind/pybind11" target="_blank" rel="external">pybind11</a>开发出来了，还是原来的配方还是原来的味道，管他<code>Windows</code>还是<code>Unix</code>，直接<code>pip</code>一下就能使用<code>boost::python</code> 一样的语法来用了</p>
+<p>就这样安安稳稳的过了一段时间，大家很开心用<code>Python</code>包轻轻松松解决生成<code>Python</code>C API代码的功能。但是随着大家用的越来越多，大家发现怎么我用<a href="https://github.com/pybind/pybind11" target="_blank" rel="external">pybind11</a>调用<code>C++</code>跑的有点慢，<code>Python</code>大牛开始研究，重要他们发现由于<a href="https://github.com/pybind/pybind11" target="_blank" rel="external">pybind11</a>由于秉承<code>Python</code>的简单至上，很多东西它都做了”通用性“，比如它帮你自动把<code>C++</code>的<code>Vector</code>的类型转成<code>Python</code>的<code>list</code>，这样程序在编译时候不会报错，但是由于这种类型转换太多了，严重的拖累了<code>C++</code>的速度，所以<a href="https://github.com/pybind/pybind11" target="_blank" rel="external">pybind11</a>虽然用的很开心，但是速度却比原生的<code>Python</code> C API要慢</p>
+<p>这个时候精通编译原理、<code>Python</code>、<code>C++</code>的大牛出现了，它发现解决这个问题的办法很简单，创造一门中间语言，这么语言可以详细的定义怎么从<code>C++</code>到<code>Python</code>的中间过程，在<a href="https://github.com/pybind/pybind11" target="_blank" rel="external">pybind11</a> 中这个完全是一个黑箱子，只有把这个黑箱子拿出来，这样我们就知道你想怎么调用<code>C++</code>，这样就能设计更加优秀的<code>Python</code>C API的代码。最后<code>Cython</code>出现了，它的出现让那些苛求性能的人闭上了嘴，它自动出来的生成<code>Python</code>C API代码近乎人工编写，在这样强的性能加持下，它的速度近乎原生</p>
+<p>至此在生成代码<code>Python</code>C API的中间代码的三方库尘埃落定，没有人想到有更好的办法来优化这一个方向。但是苛刻的人无处不在，他们攻击不了它的性能，只能攻击它的生成方式</p>
+<p>为了使用<code>Cython</code>必须编译它，要么借用<code>setuptools</code>来简单这个步骤，要么自己手动编译，一些开发者叫嚣着，都说<code>Python</code>是个动态语言，怎么还要编译呀，麻烦死了，这个时候一些开发者就站出来了，他们觉得这是个挑战，他们想解决掉它，于是<code>cffi</code>被开发出来了，你不需要用专门的文件存贮<code>C/C++</code>代码，你可以像调用函数一样把<code>C/C++</code>函数原文作为参数传进去，实现动态加载，但是这种动态性还是付出了代价，速度有了一定影响，虽然还是比<code>Python</code>快，但是远远比不上<code>Cython</code>，有得必有失</p>
+<p>PS: 在这里我没有提<code>ctypes</code>因为它是原生的，而且它对<code>C++</code>支持并不很好</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在使用这些三方库来帮助我调用<code>C++</code>过程中，我最喜欢的就是<a href="https://github.com/pybind/pybind11" target="_blank" rel="external">pybind11</a>和<code>Cython</code>，前者能很简单的将现成的<code>C++</code>项目变成<code>Python</code>项目，后者在性能上独步天下。然而由于<code>Cython</code>还得学习它自己的语法，所以我在这里的建议是，如果可能尽可以用<a href="https://github.com/pybind/pybind11" target="_blank" rel="external">pybind11</a>来开发，如果性能要求严重，可以慢慢把一些函数用<code>Cython</code>代替</p>
+<p>本来是想从一个项目出发介绍<a href="https://github.com/pybind/pybind11" target="_blank" rel="external">pybind11</a>和<code>Cython</code>但是写着写着就变成很长了，所以就把它放到其他博客，顺便介绍一下在<code>C++</code>如何将GIL”揪“出来</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -162,6 +177,14 @@
 	
 <nav class="article-nav clearfix">
  
+ <div class="prev" >
+ <a href="/2018/09/15/触摸Python的GIL/" title="触摸Python的GIL">
+  <strong>上一篇：</strong><br/>
+  <span>
+  触摸Python的GIL</span>
+</a>
+</div>
+
 
 <div class="next">
 <a href="/2018/09/06/千万级数据处理小结/"  title="千万级数据处理小结">
@@ -182,24 +205,24 @@
 
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目錄</strong>
+  <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（Python）-（C-）难在哪里"><span class="toc-number">2.</span> <span class="toc-text">（Python）+（C++）难在哪里</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Python为什么能够调用C-代码"><span class="toc-number">3.</span> <span class="toc-text">Python为什么能够调用C++代码</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#（Python）-（C-）难在哪里"><span class="toc-number">2.</span> <span class="toc-text">（Python）+（C++）难在哪里</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Python为什么能够调用C-代码"><span class="toc-number">3.</span> <span class="toc-text">Python为什么能够调用C++代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#框架简析"><span class="toc-number">4.</span> <span class="toc-text">框架简析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
 
   
 
   
 <div class="tagslist">
-	<p class="asidetitle">標簽</p>
+	<p class="asidetitle">Tags</p>
 		<ul class="clearfix">
 		
 			
@@ -247,7 +270,7 @@
 			
 		
 			
-				<li><a href="/tags/Python3-C/" title="Python3, C++">Python3, C++<sup>1</sup></a></li>
+				<li><a href="/tags/software-DL/" title="software, DL">software, DL<sup>1</sup></a></li>
 			
 		
 			
@@ -259,7 +282,7 @@
 			
 		
 			
-				<li><a href="/tags/transform/" title="transform">transform<sup>1</sup></a></li>
+				<li><a href="/tags/Python3-GIL/" title="Python3, GIL">Python3, GIL<sup>1</sup></a></li>
 			
 		
 			
@@ -267,7 +290,11 @@
 			
 		
 			
-				<li><a href="/tags/software-DL/" title="software, DL">software, DL<sup>1</sup></a></li>
+				<li><a href="/tags/Python3-C/" title="Python3, C++">Python3, C++<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/transform/" title="transform">transform<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -275,7 +302,7 @@
 
 
   <div class="linkslist">
-  <p class="asidetitle">友情鏈接</p>
+  <p class="asidetitle">Links</p>
     <ul>
         
           <li>
@@ -291,11 +318,11 @@
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 訂閱</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">新浪微博</p>
+  <p class="asidetitle">Weibo</p>
     <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5364356330&verifier=&dpc=1"></iframe>
 </div>
 
@@ -557,7 +584,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
