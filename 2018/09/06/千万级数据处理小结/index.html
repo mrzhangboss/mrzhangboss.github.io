@@ -25,7 +25,7 @@
 
 明确目标完成任务之前我们必须要明确自己的目标，首先谈一下数据，数据是两张表，一张是文章列表，一张是文章内容，每篇文章都牵涉到一些人，我们的目标就是给定一些搜索条件然后把最可能相关文章给找出来
 这个任务有点像实现一个搜索引擎，我们通过输入关键词把">
-<meta property="og:updated_time" content="2018-09-09T02:16:49.459Z">
+<meta property="og:updated_time" content="2018-09-16T15:04:29.042Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="千万级数据处理小结">
 <meta name="twitter:description" content="引言
@@ -108,7 +108,7 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#明确目标"><span class="toc-number">2.</span> <span class="toc-text">明确目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第一个拦路虎“MySQL”"><span class="toc-number">3.</span> <span class="toc-text">第一个拦路虎“MySQL”</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ElasticSearch存贮和排序"><span class="toc-number">4.</span> <span class="toc-text">ElasticSearch存贮和排序</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#明确目标"><span class="toc-number">2.</span> <span class="toc-text">明确目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第一个拦路虎“MySQL”"><span class="toc-number">3.</span> <span class="toc-text">第一个拦路虎“MySQL”</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ElasticSearch存贮和排序"><span class="toc-number">4.</span> <span class="toc-text">ElasticSearch存贮和排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ElasticSearch简介"><span class="toc-number">4.1.</span> <span class="toc-text">ElasticSearch简介</span></a></li></ol></li></ol>
 		
 		</div>
 		
@@ -139,6 +139,11 @@
 </code></pre><p>通过简单的测试原来需要几分钟才能“掏”出来的数据在几毫秒就取出来了，上万倍的差距。至此我们第一个拦路虎就解决了</p>
 <p>PS：在后面看<code>ElasticSearch</code>文档的时候发现他们也提供了一个<code>scroll</code>（全库获取）的超级翻页功能，在他们的参数里面也要提供一个<code>scroll_id</code>，感觉原理应该也是和这个差不多。通过使用索引<code>id</code>来加速“翻页”</p>
 <h2 id="ElasticSearch存贮和排序"><a href="#ElasticSearch存贮和排序" class="headerlink" title="ElasticSearch存贮和排序"></a><code>ElasticSearch</code>存贮和排序</h2><p>接下来我就介绍，我怎么优化存储和编写定制动态<code>DSL</code>来实现我们想要的功能。</p>
+<p>在我介绍之前，我先简单的谈一下我对<code>ElasticSearch</code>的理解</p>
+<h3 id="ElasticSearch简介"><a href="#ElasticSearch简介" class="headerlink" title="ElasticSearch简介"></a>ElasticSearch简介</h3><p>在我没有真正使用<code>ElasticSearch</code>之前，我就在知乎上听过它的大名，<code>ElasticSearch</code>真正让我震惊的是当我把上千万数据导入到它里面去，它能在毫秒级别给你响应，而我在<code>MySQL</code>调用<code>SQL</code>进行查询得花几十分钟</p>
+<p>我们可以把<code>ElasticSearch</code>类比成一个数据库，相比于<code>MySQL</code>它在查询性能上做到了苛刻的，我一开始想好好介绍它是怎么做到的，但是我发现有人已经总结的非常好了，可以看看这份<a href="https://zhuanlan.zhihu.com/p/33671444" target="_blank" rel="external">资料</a>，它之所以能做到这么快的原因就是这个：索引+内存+缓存</p>
+<p><code>ElasticSearch</code>使用倒叙索引让查询时间复杂度降到logN级，使用内存让物理查询速度达到极限，加上一些过滤缓存让其在复杂查询还是简单查询都能保持在一个很平稳的速度</p>
+<p>我们可以把</p>
 <p>–</p>
 <p>未完待续</p>
   
@@ -204,7 +209,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#明确目标"><span class="toc-number">2.</span> <span class="toc-text">明确目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第一个拦路虎“MySQL”"><span class="toc-number">3.</span> <span class="toc-text">第一个拦路虎“MySQL”</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ElasticSearch存贮和排序"><span class="toc-number">4.</span> <span class="toc-text">ElasticSearch存贮和排序</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#明确目标"><span class="toc-number">2.</span> <span class="toc-text">明确目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第一个拦路虎“MySQL”"><span class="toc-number">3.</span> <span class="toc-text">第一个拦路虎“MySQL”</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ElasticSearch存贮和排序"><span class="toc-number">4.</span> <span class="toc-text">ElasticSearch存贮和排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ElasticSearch简介"><span class="toc-number">4.1.</span> <span class="toc-text">ElasticSearch简介</span></a></li></ol></li></ol>
  
   </div>
 

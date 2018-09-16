@@ -186,7 +186,7 @@
 <p>为了使用<code>Cython</code>必须编译它，要么借用<code>setuptools</code>来简单这个步骤，要么自己手动编译，一些开发者叫嚣着，都说<code>Python</code>是个动态语言，怎么还要编译呀，麻烦死了，这个时候一些开发者就站出来了，他们觉得这是个挑战，他们想解决掉它，于是<code>cffi</code>被开发出来了，你不需要用专门的文件存贮<code>C/C++</code>代码，你可以像调用函数一样把<code>C/C++</code>函数原文作为参数传进去，实现动态加载，但是这种动态性还是付出了代价，速度有了一定影响，虽然还是比<code>Python</code>快，但是远远比不上<code>Cython</code>，有得必有失</p>
 <p>PS: 在这里我没有提<code>ctypes</code>因为它是原生的，而且它对<code>C++</code>支持并不很好</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在使用这些三方库来帮助我调用<code>C++</code>过程中，我最喜欢的就是<a href="https://github.com/pybind/pybind11" target="_blank" rel="external">pybind11</a>和<code>Cython</code>，前者能很简单的将现成的<code>C++</code>项目变成<code>Python</code>项目，后者在性能上独步天下。然而由于<code>Cython</code>还得学习它自己的语法，所以我在这里的建议是，如果可能尽可以用<a href="https://github.com/pybind/pybind11" target="_blank" rel="external">pybind11</a>来开发，如果性能要求严重，可以慢慢把一些函数用<code>Cython</code>代替</p>
-<p>本来是想从一个项目出发介绍<a href="https://github.com/pybind/pybind11" target="_blank" rel="external">pybind11</a>和<code>Cython</code>但是写着写着就变成很长了，所以就把它放到其他博客，顺便介绍一下在<code>C++</code>如何将GIL”揪“出来</p>
+<p>本来是想从一个项目出发介绍<a href="https://github.com/pybind/pybind11" target="_blank" rel="external">pybind11</a>和<code>Cython</code>但是写着写着就变成很长了，所以就把它放到介绍<code>Python</code>GIL的<a href="/2018/09/15/触摸Python的GIL/">博客</a>，顺便介绍一下在 <code>C++</code>如何将GIL”揪“出来</p>
 
         
         
@@ -271,6 +271,11 @@
 </code></pre><p>通过简单的测试原来需要几分钟才能“掏”出来的数据在几毫秒就取出来了，上万倍的差距。至此我们第一个拦路虎就解决了</p>
 <p>PS：在后面看<code>ElasticSearch</code>文档的时候发现他们也提供了一个<code>scroll</code>（全库获取）的超级翻页功能，在他们的参数里面也要提供一个<code>scroll_id</code>，感觉原理应该也是和这个差不多。通过使用索引<code>id</code>来加速“翻页”</p>
 <h2 id="ElasticSearch存贮和排序"><a href="#ElasticSearch存贮和排序" class="headerlink" title="ElasticSearch存贮和排序"></a><code>ElasticSearch</code>存贮和排序</h2><p>接下来我就介绍，我怎么优化存储和编写定制动态<code>DSL</code>来实现我们想要的功能。</p>
+<p>在我介绍之前，我先简单的谈一下我对<code>ElasticSearch</code>的理解</p>
+<h3 id="ElasticSearch简介"><a href="#ElasticSearch简介" class="headerlink" title="ElasticSearch简介"></a>ElasticSearch简介</h3><p>在我没有真正使用<code>ElasticSearch</code>之前，我就在知乎上听过它的大名，<code>ElasticSearch</code>真正让我震惊的是当我把上千万数据导入到它里面去，它能在毫秒级别给你响应，而我在<code>MySQL</code>调用<code>SQL</code>进行查询得花几十分钟</p>
+<p>我们可以把<code>ElasticSearch</code>类比成一个数据库，相比于<code>MySQL</code>它在查询性能上做到了苛刻的，我一开始想好好介绍它是怎么做到的，但是我发现有人已经总结的非常好了，可以看看这份<a href="https://zhuanlan.zhihu.com/p/33671444" target="_blank" rel="external">资料</a>，它之所以能做到这么快的原因就是这个：索引+内存+缓存</p>
+<p><code>ElasticSearch</code>使用倒叙索引让查询时间复杂度降到logN级，使用内存让物理查询速度达到极限，加上一些过滤缓存让其在复杂查询还是简单查询都能保持在一个很平稳的速度</p>
+<p>我们可以把</p>
 <p>–</p>
 <p>未完待续</p>
 
