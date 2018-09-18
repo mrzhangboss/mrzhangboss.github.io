@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mrzhangboss.github.io/"/>
-  <updated>2018-09-15T11:16:12.529Z</updated>
+  <updated>2018-09-18T00:35:02.392Z</updated>
   <id>https://mrzhangboss.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://mrzhangboss.github.io/2018/09/15/%E8%A7%A6%E6%91%B8Python%E7%9A%84GIL/"/>
     <id>https://mrzhangboss.github.io/2018/09/15/触摸Python的GIL/</id>
     <published>2018-09-14T16:00:00.000Z</published>
-    <updated>2018-09-15T11:16:12.529Z</updated>
+    <updated>2018-09-18T00:35:02.392Z</updated>
     
     <summary type="html">
     
@@ -29,11 +29,9 @@
       
         
         
-          &lt;hr&gt;
-&lt;blockquote&gt;
-&lt;p&gt;未完待续&lt;/p&gt;
-&lt;/blockquote&gt;
-
+          &lt;blockquote&gt;
+&lt;p&gt;Python的GIL一直是被大家攻击其语言的一个弊端，每次在讨论语言特性的时候这点总是会被人们提起，但是这个东西好像就一个“污点”，大家都知道，但是大家都不了解为什么。本片博客就是好好的探索一下GIL，让我们不在畏惧它&lt;/p&gt;
+&lt;/blockquo
         
       
     
