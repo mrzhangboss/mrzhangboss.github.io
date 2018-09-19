@@ -45,7 +45,7 @@
 				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -61,7 +61,7 @@
  					
 					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
 					</form>
 					
 					</li>
@@ -85,7 +85,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-09-14T16:00:00.000Z" itemprop="datePublished"> Published 2018-09-15</time>
+    <time datetime="2018-09-14T16:00:00.000Z" itemprop="datePublished"> 發表於 2018-09-15</time>
     
   </p>
 </header>
@@ -107,7 +107,19 @@
 <p>在还没有多核处理器的时候，操作系统为了让程序并行化跑，就创造了进程和线程的概率。用通俗的话来讲，进程就是一家大工厂，而线程就是工人，为了提高生产力，我们可以开很多家工厂，当然我们也可以开一家工厂，招很多工人。但是线程这个东西相比于进程要消耗的少的多，因为它“原材料”都是从“工厂”里面拿的，假如说工厂少了几个工人还可以生产，但是上万个工人没有工厂他们也办法工作。</p>
 <p>所以对于<code>Python</code>来说首先得支持线程和进程的概率，对于进程来说很简单，就是多开几家工厂(多开几个<code>Python</code>程序)罢了，但是对于线程来说，由于<code>Python</code>是一门脚本语言，它需要一个<code>解释器</code>来执行代码，我们知道这个解释器它可以当做大一个共享变量，假如在不同的线程里面用“锁”来限制一下的话，环境变量就会乱了套</p>
 <p>所以<code>Python</code>对于线程的支持就是给他加一个锁，也就是我们俗称的<code>GIL</code>，由于在操作系统在运行单核的时候就支持线程，一个工人加一个锁其实也没有什么，无非就是多了一点开锁关锁的时间，所以<code>Python</code>在2005前一直没有<code>GIL</code>这个概率，到了2005大家发现<code>Python</code>使用多线程竟然只能使用一个核，完全浪费了其他核，因为虽然<code>Python</code>的线程可以分配到不同的核上运行，但是当他们运行的时候发现这个锁没有被释放，所以每个核上的线程都傻乎乎的在等待，结果最后查看效果多线程比单线程速度还慢（要等<code>GIL</code>释放）</p>
-<p><code>Python</code>社区逐渐发现这个问题，他们也做了很多挽救工作，比如在线程睡觉（sleep）、等待连接的时候让线程主动释放<code>GIL</code>，这样就能让其他线程继续执行，但是对于纯粹的运算代码而不是IO密集代码总也避不开这个锁的存在，如果允许<code>GIL</code>释放，很多代码都会乱了套，考虑到<code>Python</code>本来就运行的慢，<code>Python</code>开发者觉得假如你觉得代码很慢，你可以放到<code>C/C++</code>里面执行，所以对于这个<code>GIL</code>就没有继续啃下去，而是把中心放在<code>Python</code>调用<code>C/C++</code>中，提供了一些很方便的方式让我们在<code>C/C++</code>中控制<code>GIL</code>的释放以及获取</p>
+<p><code>Python</code>社区逐渐发现这个问题，他们也做了很多挽救工作，比如在线程睡觉（sleep）、等待连接的时候让线程主动释放<code>GIL</code>，这样就能让其他线程继续执行，但是对于纯粹的运算代码而不是IO密集代码总也避不开这个锁的存在，如果允许<code>GIL</code>释放，由于历史遗留问题很多代码都会乱了套（理论上其实就是需要重新修改锁的设计，可以参考MySQL的代码去掉<a href="https://dev.mysql.com/worklog/task/?id=8423" target="_blank" rel="external">“锁”</a>花了5年时间），考虑到<code>Python</code>本来就运行的慢，<code>Python</code>开发者觉得假如你觉得代码很慢，你可以放到<code>C/C++</code>里面执行，所以对于这个<code>GIL</code>就没有继续啃下去，而是把中心放在<code>Python</code>调用<code>C/C++</code>中，提供了一些很方便的方式让我们在<code>C/C++</code>中控制<code>GIL</code>的释放以及获取</p>
+<p>所以我们接下来通过一个来学习<code>Python</code>调用<code>C++</code>代码，来了解<code>Python</code>如何调用<code>C++</code>，并且通过一些实验来验证线程、进程和<code>GIL</code></p>
+<h2 id="测试GIL的存在"><a href="#测试GIL的存在" class="headerlink" title="测试GIL的存在"></a>测试GIL的存在</h2><p>首先我们要做的第一件事就是测试GIL的存在，现在基本上主流电脑都是多核CPU，所以我们这个实验可以很轻松的在多核下进行</p>
+<p>首先我们得安装一些环境：<code>Python3</code>，<code>gcc</code>，<code>htop</code>（在Windows可以用下任务管理器代替）</p>
+<p>首先我得提一下我的一个认识误区，在以前我不太清楚线程、进程与多核直接的关系的时候我有一个误区，我以为<code>C</code>能在单线程里面使用多核（我也不清楚为什么我会这么想，可能是因为了解很少），而<code>Python</code>却不能，后面通过我实验我才发现，无论是<code>C</code>和<code>Python</code>只要你的代码不使用线程、进程那么你的代码只能同时运行在同一个核上</p>
+<p>怎么来测试呢，我们可以在<code>Python</code>的解释器里面输入</p>
+<pre><code>while True:
+  pass
+</code></pre><p>然后我们打开<code>htop</code>，我们可以发现某一个<code>CPU</code>始终保持在100%（这个CPU可能会变化，因为操作系统控制每个进程切换CPU时间），假如你没有其他任务过多使用<code>CPU</code>的话，你其他的核心一直保持在很低的利用率，当你<code>ctrl-c</code>你的代码后，那个100%的CUP会立马降下来</p>
+<p>然后你在编译一个<code>C</code>程序，使用<code>gcc a.c &amp;&amp; ./a.out</code>命令编译下面代码然后运行</p>
+<pre><code>// a.c
+int main(){while(1){};}
+</code></pre><p>你会发现<code>C</code>也只能消耗一个CPU</p>
 <hr>
 <blockquote>
 <p>未完待续</p>
@@ -163,7 +175,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-09-11T16:00:00.000Z" itemprop="datePublished"> Published 2018-09-12</time>
+    <time datetime="2018-09-11T16:00:00.000Z" itemprop="datePublished"> 發表於 2018-09-12</time>
     
   </p>
 </header>
@@ -255,7 +267,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-09-05T16:00:00.000Z" itemprop="datePublished"> Published 2018-09-06</time>
+    <time datetime="2018-09-05T16:00:00.000Z" itemprop="datePublished"> 發表於 2018-09-06</time>
     
   </p>
 </header>
@@ -373,7 +385,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-08-24T16:00:00.000Z" itemprop="datePublished"> Published 2018-08-25</time>
+    <time datetime="2018-08-24T16:00:00.000Z" itemprop="datePublished"> 發表於 2018-08-25</time>
     
   </p>
 </header>
@@ -440,7 +452,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-08-08T16:00:00.000Z" itemprop="datePublished"> Published 2018-08-09</time>
+    <time datetime="2018-08-08T16:00:00.000Z" itemprop="datePublished"> 發表於 2018-08-09</time>
     
   </p>
 </header>
@@ -556,7 +568,7 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-06-30T16:00:00.000Z" itemprop="datePublished"> Published 2018-07-01</time>
+    <time datetime="2018-06-30T16:00:00.000Z" itemprop="datePublished"> 發表於 2018-07-01</time>
     
   </p>
 </header>
@@ -648,7 +660,7 @@ timeit.timeit(&quot;&apos;中国人&apos;.encode(&apos;utf-8&apos;)&quot;)
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-05-27T16:00:00.000Z" itemprop="datePublished"> Published 2018-05-28</time>
+    <time datetime="2018-05-27T16:00:00.000Z" itemprop="datePublished"> 發表於 2018-05-28</time>
     
   </p>
 </header>
@@ -905,7 +917,7 @@ Car running...
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-04-23T16:00:00.000Z" itemprop="datePublished"> Published 2018-04-24</time>
+    <time datetime="2018-04-23T16:00:00.000Z" itemprop="datePublished"> 發表於 2018-04-24</time>
     
   </p>
 </header>
@@ -1127,7 +1139,7 @@ for i in range(18000):
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-04-18T16:00:00.000Z" itemprop="datePublished"> Published 2018-04-19</time>
+    <time datetime="2018-04-18T16:00:00.000Z" itemprop="datePublished"> 發表於 2018-04-19</time>
     
   </p>
 </header>
@@ -1225,7 +1237,7 @@ sudo apt-get upgrade bazel
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-03-16T16:00:00.000Z" itemprop="datePublished"> Published 2018-03-17</time>
+    <time datetime="2018-03-16T16:00:00.000Z" itemprop="datePublished"> 發表於 2018-03-17</time>
     
   </p>
 </header>
@@ -1334,17 +1346,17 @@ VERBOSE  [简X]  --------------神器,会无视代码中的注释空格和换行
   </nav>
 
 </div>
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
 <aside class="clearfix">
 
   
 
   
 <div class="tagslist">
-	<p class="asidetitle">Tags</p>
+	<p class="asidetitle">標簽</p>
 		<ul class="clearfix">
 		
 			
@@ -1424,7 +1436,7 @@ VERBOSE  [简X]  --------------神器,会无视代码中的注释空格和换行
 
 
   <div class="linkslist">
-  <p class="asidetitle">Links</p>
+  <p class="asidetitle">友情鏈接</p>
     <ul>
         
           <li>
@@ -1440,11 +1452,11 @@ VERBOSE  [简X]  --------------神器,会无视代码中的注释空格和换行
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 訂閱</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">Weibo</p>
+  <p class="asidetitle">新浪微博</p>
     <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5364356330&verifier=&dpc=1"></iframe>
 </div>
 
@@ -1617,7 +1629,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
