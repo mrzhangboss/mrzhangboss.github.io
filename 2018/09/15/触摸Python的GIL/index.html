@@ -27,7 +27,7 @@
 其实一开始并没有想到研究GIL，但是在研究Python调用C++的过程中发现我们可以通过这种方式解决掉GIL，让我们的代码不被Python拖累
 
 这篇博客相比于上面的博客">
-<meta property="og:updated_time" content="2018-09-19T00:37:23.861Z">
+<meta property="og:updated_time" content="2018-09-19T14:51:58.332Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="触摸Python的GIL">
 <meta name="twitter:description" content="Python的GIL一直是被大家攻击其语言的一个弊端，每次在讨论语言特性的时候这点总是会被人们提起，但是这个东西好像就一个“污点”，大家都知道，但是大家都不了解为什么。本片博客就是好好的探索一下GIL，让我们不在畏惧它
@@ -64,7 +64,7 @@
 				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -102,14 +102,14 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-09-14T16:00:00.000Z" itemprop="datePublished"> 發表於 2018-09-15</time>
+    <time datetime="2018-09-14T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-09-15</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目錄</strong>
+			<strong class="toc-title">文章目录</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GIL简介"><span class="toc-number">2.</span> <span class="toc-text">GIL简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#测试GIL的存在"><span class="toc-number">3.</span> <span class="toc-text">测试GIL的存在</span></a></li></ol>
 		
@@ -143,7 +143,57 @@
 <p>然后你在编译一个<code>C</code>程序，使用<code>gcc a.c &amp;&amp; ./a.out</code>命令编译下面代码然后运行</p>
 <pre><code>// a.c
 int main(){while(1){};}
-</code></pre><p>你会发现<code>C</code>也只能消耗一个CPU</p>
+</code></pre><p>你会发现<code>C</code>也只能消耗一个CPU，这就印证了我们前面说过得，如果我们不主动使用线程或进程来，同时只能有一个在运行</p>
+<p>接下来我们看看在多进程的基础上，使用<code>Python</code>来使用多核</p>
+<pre><code>from concurrent.futures import ProcessPoolExecutor
+
+def f(a):
+    while 1:
+        pass
+if __name__ == &apos;__main__&apos;:
+    pool = ProcessPoolExecutor()
+    pool.map(f, range(100))
+</code></pre><p>当我们运行上面代码的时候，我们会发现所有<code>CPU</code>会运行到100%，我们只要简单声明一个进程池（<code>ProcessPoolExecutor</code>），<code>Python</code>自动帮我们生成你CPU核数相同的进程，然后我们只要把任务分配到池中就能重复的并行化任务，把所有的核心都用起来。</p>
+<p>然后我们来测试一下线程池，要使用<code>Python</code>线程池只需要初始化<code>ThreadPoolExecutor</code>就行</p>
+<pre><code>from concurrent.futures import ThreadPoolExecutor
+
+def f(a):
+    while 1:
+        pass
+if __name__ == &apos;__main__&apos;:
+    pool = ThreadPoolExecutor()
+    pool.map(f, range(100))
+</code></pre><p>我们从<code>htop</code>可以看到在<code>Python</code>线程中，只有一个能达到100%，这就是<code>GIL</code>的“威力”，它让我们多线程没有发挥多线程的力量，重复使用到多核CPU</p>
+<p>接下来我们看看在<code>C++</code>里面使用多线程是否能够发挥多核的威力</p>
+<pre><code>// run.cpp
+#include &lt;thread&gt;
+using namespace std;
+
+#define NUM_THREADS 50
+
+void f(){
+    while(1){};
+}
+void run_dead(){
+
+    std::thread threads[NUM_THREADS];
+    for(int i = 0; i &lt; NUM_THREADS; ++i)
+    {
+        threads[i] = std::thread(f);
+    }
+
+
+    for (int i = 0; i &lt; NUM_THREADS; ++i) {
+        threads[i].join();
+
+    }
+};
+int main(void){
+    run_dead();
+}
+</code></pre><p>我们使用<code>g++ -pthread -std=c++11 run.cpp &amp;&amp; ./a.out</code>运行上面的<code>C++</code>程序，我们在htop里面能够发现，<code>C++</code>的多线程能够完全发挥多核的威力</p>
+<p>上面的程序都很简单，但是具备一个多线程运行的基本构造，我们可以修改我们的调用的子任务来完成实际的任务，当然你程序越复杂也涉及到了各种锁的使用，这里我们就不谈了</p>
+<p>从上面的程序我们可以知道<code>C++</code>的多线程能够充分使用多核，而<code>Python</code>的不行</p>
 <hr>
 <blockquote>
 <p>未完待续</p>
@@ -198,24 +248,24 @@ int main(){while(1){};}
 
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目錄</strong>
+  <strong class="toc-title">文章目录</strong>
  
  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GIL简介"><span class="toc-number">2.</span> <span class="toc-text">GIL简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#测试GIL的存在"><span class="toc-number">3.</span> <span class="toc-text">测试GIL的存在</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
 
   
 <div class="tagslist">
-	<p class="asidetitle">標簽</p>
+	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
 		
 			
@@ -295,7 +345,7 @@ int main(){while(1){};}
 
 
   <div class="linkslist">
-  <p class="asidetitle">友情鏈接</p>
+  <p class="asidetitle">友情链接</p>
     <ul>
         
           <li>
@@ -311,7 +361,7 @@ int main(){while(1){};}
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 訂閱</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
   <div class="weiboshow">
@@ -577,7 +627,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
