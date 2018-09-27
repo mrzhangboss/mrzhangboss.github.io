@@ -95,9 +95,9 @@
 <p>Python的<code>GIL</code>一直是被大家攻击其语言的一个弊端，每次在讨论语言特性的时候这点总是会被人们提起，但是这个东西好像就一个“污点”，大家都知道，但是大家都不了解为什么。本片博客就是好好的探索一下GIL，让我们不再畏惧它</p>
 </blockquote>
 <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
-<p>其实一开始并没有想到研究GIL，但是在研究<a href="/2018/09/12/如何让你的Python像C++一样快/">Python调用C++</a>的过程中发现我们可以通过这种方式解决掉GIL，让我们的代码不被<code>Python</code>拖累</p>
+<p>其实一开始并没有想到研究GIL，但是在研究<a href="/2018/09/12/如何让你的Python像C++一样快/">如何让你的Python更快</a>的过程中发现我们可以通过这种方式解决掉GIL，让我们的代码不被<code>Python</code>拖累</p>
 </blockquote>
-<p>这篇博客相比于上面的博客更注重于代码的讲解，因为我发现很多讲解调用<code>C++</code>的给的例子实在是过于简单，那个<code>C++</code>代码简直不能算做<code>C++</code>代码，在我眼中，只有充分使用面对对象技术才能叫<code>C++</code>代码，否则那些只能叫<code>C</code>代码，所以本文就从一个实际的<code>C++</code>项目出发介绍如何让<code>Python</code>调用<code>C++</code>并且丢弃GIL</p>
+<p>这篇博客相比于上面的博客更注重于代码的讲解，我们通过使用<a href="https://github.com/pybind/pybind11" target="_blank" rel="external">pybind11</a>从一个<code>Python</code>调用<code>C++</code>的demo出发介绍如何让<code>Python</code>调用<code>C++</code>并且丢弃GIL</p>
 <h2 id="GIL简介"><a href="#GIL简介" class="headerlink" title="GIL简介"></a>GIL简介</h2><p>首先我们要知道什么是<code>GIL</code>，为什么它会拖累<code>Python</code>，首先我们看一下<code>Python</code>历史，<code>Python</code>是Guido van Rossum 在1989年发布的，那个时候计算机的主频还没有达到1G，程序全部都是运行在单核计算机上面，直到2005年多核处理器才被Intel开发出来</p>
 <p>多核处理器意味着什么呢，就好比一个工厂，你原来只有一个工人干活，现在有很多个了，一开始设计出来只是为了能在每个核心上跑不同的应用，但是随着大家对多核计算机的使用，大家发现有的时候计算器其实很空闲，大部分CPU都在休息，假如只在一个核上跑一个应用的话，那么其他CPU就浪费了，所以大家就开始设计怎么并行在多个CPU上跑同样的任务</p>
 <p>现在我们来考虑一下怎么能让CPU力往一处使，我们用数据库来做比方，假设我们计算机上安装一个银行数据库，为了让这个“银行”能够服务更多的人，我们把对钱的操作（增删查改）放到每个CPU上运行。假如我们的顾客一个一个排着队来取钱存钱，我们每个CPU查询都是唯一的，存取也是唯一的，那么我们的“银行”就能正常工作</p>
@@ -176,7 +176,7 @@ int main(void){
 <pre><code>git clone https://github.com/pybind/python_example.git
 </code></pre><p>然后我们新建一个环境（避免安装到我们系统的环境，方便删除）</p>
 <pre><code>python -m venv venv
-</code></pre><p>PS: 当前<code>Python</code>版本默认为py3.6以上（你可以使用pyenv安装Python多个版本，目前我在自己使用Python版本，但主要使用3.6以上）</p>
+</code></pre><p>PS: 当前<code>Python</code>版本默认为py3.5以上（你可以使用pyenv安装Python多个版本，目前我在自己使用Python版本，但主要使用3.6以上）</p>
 <pre><code>source venv/bin/activate
 </code></pre><p>然后我们激活我们的环境，我们顺便安装一下我们接下来要安装的<code>Python</code>包</p>
 <pre><code>pip install ipython
@@ -270,7 +270,7 @@ In [8]: %timeit add(1, 1)
 4.74 µs ± 40.5 ns per loop (mean ± std. dev. of 7 runs, 100000 loops each)
 </code></pre><p><code>C++</code>完爆<code>Python</code>，<code>4.74us = 4750ns</code>，<code>Python</code>用时是<code>C++</code>的10倍多，只还只是100次运算，假如我们上万次运算，那结果更加夸张，<code>C++</code>在长征的过程中胜利了，但是我们也不能说<code>Python</code>是慢毕竟<code>us</code>的单位其实非常小，<code>1us=1000ms=1000000s</code>，在1s内可以执行上面函数几十万次，只能说<code>C++</code>速度太可怕了</p>
 <h3 id="调用总结"><a href="#调用总结" class="headerlink" title="调用总结"></a>调用总结</h3><p>我们从上面可以看到，虽然<code>Python</code>调用<code>C++</code>在类型转换上会有速度损失，但是在进入到函数提内运行过程中的速度是不影响的，假如我们的运算量够大，完全可以弥补那一点点性能影响，所以要想重复利用<code>C++</code>的速度，尽量少调用<code>C++</code>，把计算结果竟然一次性返回，而不是我们多次进行交互，这样就能最大化利用<code>C++</code></p>
-<h3 id="在C-线程中测试GIL"><a href="#在C-线程中测试GIL" class="headerlink" title="在C++线程中测试GIL"></a>在<code>C++</code>线程中测试GIL</h3><p>接下来我们来考虑这么一个问题，前面我们测试了<code>C++</code>的线程能使用多核，我们假如在让<code>Python</code>在调用<code>C++</code>的代码中中使用线程，那么我们的<code>C++</code>的线程能不能使用多核呢进而解除GIL的作用</p>
+<h2 id="在C-线程中测试GIL"><a href="#在C-线程中测试GIL" class="headerlink" title="在C++线程中测试GIL"></a>在<code>C++</code>线程中测试GIL</h2><p>接下来我们来考虑这么一个问题，前面我们测试了<code>C++</code>的线程能使用多核，我们假如在让<code>Python</code>在调用<code>C++</code>的代码中中使用线程，那么我们的<code>C++</code>的线程能不能使用多核呢进而解除GIL的作用</p>
 <p>我们把<code>nothing</code>函数改成多线程</p>
 <pre><code>#include &lt;thread&gt;
 #define NUM_THREADS 50
@@ -333,7 +333,7 @@ In [2]: python_example.nothing()
     Py_END_ALLOW_THREADS
 }
 </code></pre><p>我们使用<code>Py_BEGIN_ALLOW_THREADS</code>和<code>Py_END_ALLOW_THREADS</code>这一对宏来释放<code>GIL</code>，这样我们重新编译运行<code>nothing</code>函数我们就能看到50个<code>enter</code>和50个<code>runing</code>，而且在<code>htop</code>中我们也能发现<code>C++</code>的线程再次使用所有的核心了（利用率达到不了100%，不知道是因为宏的“副作用”还是其他原因，但是每个核还是能够到70%作用），这种在一个函数中获取和释放<code>GIL</code>锁还是不推荐的，最好在函数一开始的时候释放<code>GIL</code>，在函数结束的时候获取<code>GIL</code>返回到<code>Python</code>解释器中（假如你需要与<code>Python</code>进行交互的话），毕竟获取一次锁的成本还是挺大的，而且一不小心就会造成死锁</p>
-<h3 id="在Python线程中测试GIL"><a href="#在Python线程中测试GIL" class="headerlink" title="在Python线程中测试GIL"></a>在<code>Python</code>线程中测试GIL</h3><p>接下来我们来看看一个已经存在的问题，就是如何解决掉使用<code>Python</code>线程时遇到的<code>GIL</code>问题，其实我们在上面的<code>C++</code>线程已经模拟出来了，解决这个问题的关键就是释放<code>GIL</code>锁，我们先测试一下在<code>GIL</code>锁下，线程调用<code>C++</code>代码的速度</p>
+<h2 id="在Python线程中测试GIL"><a href="#在Python线程中测试GIL" class="headerlink" title="在Python线程中测试GIL"></a>在<code>Python</code>线程中测试GIL</h2><p>接下来我们来看看一个已经存在的问题，就是如何解决掉使用<code>Python</code>线程时遇到的<code>GIL</code>问题，其实我们在上面的<code>C++</code>线程已经模拟出来了，解决这个问题的关键就是释放<code>GIL</code>锁，我们先测试一下在<code>GIL</code>锁下，线程调用<code>C++</code>代码的速度</p>
 <p>我们首先添加一个新死循环函数</p>
 <pre><code>void run_dead(){
     while(1){};
@@ -349,23 +349,7 @@ pool = ThreadPoolExecutor()
 for i in range(100):
     pool.submit(python_example.run_dead)
 </code></pre><p>在这个函数里面我们声明了一个线程池，并且向池蕾加入了100函数，接着我们在<code>htop</code>里面查看CPU利用率，我们可以看到只有1个CPU能够跑满100%，其实从前面的实验我们就能猜到这个结果，解决方案其实前面也给了，有两种方法，第一种就是使用<code>Python</code>的C的头文件函数宏<br>：<code>Py_BEGIN_ALLOW_THREADS</code>和<code>Py_END_ALLOW_THREADS</code>，第二种就是在函数声明的地方使用<a href="https://github.com/pybind/pybind11" target="_blank" rel="external">pybind11</a>提供的<code>py::call_guard&lt;py::gil_scoped_release&gt;()</code>来释放<code>GIL</code>，两种方法都可以，但是第二种更加简单一点，在这里我就不测试释放<code>GIL</code>之后的性能了，前面已经做过了</p>
-<h3 id="GIL总结"><a href="#GIL总结" class="headerlink" title="GIL总结"></a><code>GIL</code>总结</h3><p>通过前面我们的测试，<code>GIL</code>这个东西其实只是一把锁，我们经常能听到很多人抨击<code>Python</code>关于<code>GIL</code>问题，这就给人一种错觉<code>Python</code>这种语言在设计上有弊端，在前面测试我们也发现了就算是<code>C++</code>或者<code>C</code>假如不正确的使用锁其实也会有这个<code>GIL</code>问题，<code>GIL</code>的问题的并不是“编程语言”的锅，主要是我们自己的代码造成的死锁，所以面对<code>GIL</code>的时候，不需要困惑，它就是一把“锁”，把它打开，而不是碰到它就跑，你会发现它也就是一把“锁”而已。</p>
-<h2 id="Python调用C-高级版"><a href="#Python调用C-高级版" class="headerlink" title="Python调用C++高级版"></a><code>Python</code>调用<code>C++</code>高级版</h2><p>前面我们都是利用一些<code>C++</code>简单的函数如<code>add</code>、<code>nothing</code>，在我看来这些函数都太简单了，简直算不上<code>C++</code>代码就是<code>C</code>代码，<code>C++</code>比<code>C</code>多出来的东西就是面对对象这个特性，我们使用<code>C++</code>主要是为了使用它的面对对象特性来设计更好维护的代码</p>
-<p>由于我个人也不是专业写<code>C++</code>代码，所以我就从网上搜索了一个<code>Python</code><a href="https://github.com/spotify/annoy" target="_blank" rel="external">库</a>，这个项目主要是<code>C++</code>写的，不过它用的是<code>Python</code>的C<code>API</code>来完成包装，这里我们就讲解一下怎么来使用<a href="https://github.com/pybind/pybind11" target="_blank" rel="external">pyblind11</a>来包装这个<code>C++</code>代码</p>
-<p>首先我们先把这个代码从Github上面下到本地（最好像上面一下新建一个虚拟环境）</p>
-<pre><code>git clone https://github.com/spotify/annoy.git
-</code></pre><p>接下来我们来看看这个<code>C++</code>项目的具体组成，首先我们看<code>setup</code>文件中的<code>ext_modules</code>部分</p>
-<pre><code>Extension(
-            &apos;annoy.annoylib&apos;, [&apos;src/annoymodule.cc&apos;],
-            depends=[&apos;src/annoylib.h&apos;, &apos;src/kissrandom.h&apos;, &apos;src/mman.h&apos;],
-            extra_compile_args=compile_args + cputune + travis_extra_compile_args
-        )
-</code></pre><p>从结构上来看，主要的外部函数定义在<code>src/annoymodule.cc</code>（<code>annoy.annoylib</code>是模块名），这个主函数依赖了三个头文件：<code>&#39;src/annoylib.h&#39;,&#39;src/kissrandom.h&#39;, &#39;src/mman.h&#39;</code></p>
-<p>从结构上来看主要由四个<code>C++</code>文件组成，不是我们前面</p>
-<hr>
-<blockquote>
-<p>未完待续</p>
-</blockquote>
+<h2 id="GIL总结"><a href="#GIL总结" class="headerlink" title="GIL总结"></a><code>GIL</code>总结</h2><p>通过前面我们的测试，<code>GIL</code>这个东西其实只是一把锁，我们经常能听到很多人抨击<code>Python</code>关于<code>GIL</code>问题，这就给人一种错觉<code>Python</code>这种语言在设计上有弊端，在前面测试我们也发现了就算是<code>C++</code>或者<code>C</code>假如不正确的使用锁其实也会有这个<code>GIL</code>问题，<code>GIL</code>的问题的并不是“编程语言”的锅，主要是我们自己的代码造成的死锁，所以面对<code>GIL</code>的时候，不需要困惑，它就是一把“锁”，把它打开，而不是碰到它就跑，你会发现它也就是一把“锁”而已。</p>
 
         
         
@@ -410,7 +394,7 @@ for i in range(100):
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2018/09/12/如何让你的Python像C++一样快/" title="如何让你的Python像C++一样快" itemprop="url">如何让你的Python像C++一样快</a>
+      <a href="/2018/09/12/如何让你的Python像C++一样快/" title="如何让你的Python更快" itemprop="url">如何让你的Python更快</a>
   </h1>
   <p class="article-author">By
        
@@ -424,11 +408,12 @@ for i in range(100):
     <div class="article-content">
         
         <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
-<p>其实一开始没有想到写关于<code>Python</code>的加速，一开始只想好好了解一下<code>C++</code>这门语言。</p>
+<p>其实一开始没有想到写关于<code>Python</code>的加速，一开始只想好好了解一下<code>C++</code>这门语言，没想到最后研究来研究去，基本上把所以加速框架都试验了一下，这篇博客就谈谈我对<code>Python</code>加速的看法</p>
 </blockquote>
-<p>虽然我上大学之前就自学过<code>C</code>，但是对于这个<code>C</code>的升级版还是没有过多的了解，花了几天时间学习，发现<code>C++</code>这门语言还是不错的，至少在兼容性上，它能兼容<code>C</code>还有以前的版本。</p>
+<p> 首先我先谈谈<code>C++</code>，虽然我上大学之前就自学过<code>C</code>，但是对于这个<code>C</code>的升级版还是没有过多的了解，花了几天时间学习，发现<code>C++</code>这门语言还是不错的，至少在兼容性上，它能兼容<code>C</code>还有以前的版本。</p>
 <p>然而作为一个用惯了了脚本语言的人来说，<code>C++</code>最麻烦的就是他的第三方库管理，当然对于类<code>Unix</code>系统有自己带的包管理器（如ubuntu上的<code>apt</code>，CentOS上的<code>yum</code>）可以来安装第三方库（就是我们平常为了安装一些软件，比如要先<code>apt install xxx-dev</code>那些库），由于这些都绑定了平台的，所以你经常能看到有些软件自己编译会列出各个平台下依赖的包，然而对于一些比较新的库（比如<code>googletest</code>，就得去<code>Github</code>上掏下来自己编译安装了。</p>
-<p>吐槽完了<code>C++</code>的缺点之后，我们不得不说<code>C++</code>的优点了，虽然比较难装（相比于脚本语言）但是那个速度真是贼快，用腾讯开源的协程库，单台机器就能开启千万协程而且内存不超过2个G，想我大<code>Python</code>开个一万都很嘚瑟了。<code>C++</code>在性能上真的的碾压的。就是因为<code>C++</code>性能上要求到极致，所以它才会有那么多的前面安装的缺点，因为<code>C++</code>是面对硬件的，对于不同的硬件，<code>C++</code>想做到最快，那么通用的代码就不可能的，通用就代表损失性能。然而让我全用<code>C++</code>写代码是不可能的，脚本语言用的多爽呀。所以了解完了<code>C++</code>的强大之后，我就越发的想了解怎么结合两者的方式，所以就有了这篇博文。</p>
+<p>吐槽完了<code>C++</code>的缺点之后，我们不得不说<code>C++</code>的优点了，虽然比较难装（相比于脚本语言）但是那个速度真是贼快，用腾讯开源的协程库，单台机器就能开启千万协程而且内存不超过2个G，想我大<code>Python</code>开个一万都很嘚瑟了。<code>C++</code>在性能上真的的碾压的。就是因为<code>C++</code>性能上要求到极致，所以它才会有那么多的前面安装的缺点，因为<code>C++</code>是面对硬件的，对于不同的硬件，<code>C++</code>想做到最快，那么通用的代码就不可能的，通用就代表损失性能。然而让我全用<code>C++</code>写代码是不可能的，脚本语言用的多爽呀。所以了解完了<code>C++</code>的强大之后，我就越发的想了解怎么结合两者的方式来提升｀Python｀速度，最后把所有加速手段都测试了一遍，所以就有了这篇博文。</p>
+<p>PS: 之所以花这么多时间介绍<code>C++</code>是因为<code>LLVM</code>就是使用<code>C++</code>写的，而<code>numba</code>依赖<code>LLVM</code>来动态编译出比<code>C</code>更快的机器码，这个也就<code>Python</code>最后能比<code>C</code>还快的主要原因</p>
 <h2 id="（Python）-（C-）难在哪里"><a href="#（Python）-（C-）难在哪里" class="headerlink" title="（Python）+（C++）难在哪里"></a>（Python）+（C++）难在哪里</h2><p>大家都知道<code>Python</code>有很多实现，我们这里说的<code>Python</code>是<code>CPython</code>也是最常见的实现，它是由<code>C语言</code>编译出来的，我们的目标就是把两种语言给混合起来，<code>C+C++</code>。</p>
 <p>我们看看其他语言，比如<code>Java</code>其实也可以混合<code>C++</code>代码，它是采用<code>JNI</code>的方式来进行交互的，如果你了解这种方式，你会发现也非常麻烦，得先写<code>Java</code>的类，然后再生成<code>C/C++</code>头文件。然后你再写<code>C/C++</code>代码，其实我很讨厌这种方式，我希望能把<code>C/C++</code>和你的语言这两种分离开来，我们能简单通过某种方式桥接一下让两个项目能够连贯起来。</p>
 <p>我们现在来看看<code>Python</code>是如何调用<code>C++</code>的代码。在这之前我先提一下<code>Python</code>与<code>C</code>的关系。</p>
@@ -444,7 +429,7 @@ for i in range(100):
 <p>这里我们必须要了解一个名词“语法糖”，在我们看来我们能在<code>Python</code>、<code>Java</code>、<code>Ｃ++</code>中使用一些面对对象的特性，比如类、继承、接口。其实这些都只是一些语法糖而已，在这些实现的底层，比如说<code>Python</code>它就是用<code>C</code>的函数来帮助我们构建这些语法糖，我们看到的一个对象的系统函数，其实它是<code>Python</code>帮助我们把一连串函数绑定在一个<code>module</code>上面，虽然表面上我们新建了一个对象，调用了一个对象函数，其实在<code>C</code>层我们就是调用了一连串的函数来完成一个对象的分配</p>
 <p>我们可以在官方文档中找到这部分<a href="https://docs.python.org/3.8/extending/extending.html#the-module-s-method-table-and-initialization-function" target="_blank" rel="external">介绍</a>，官方文档告诉我们只要将列表的函数赋给一个模块（<code>module</code>）我们就让你的<code>C/C++</code>代码给<code>Python</code>一个模块可以使用，从官方文档我们就可以很清楚看到<code>语法糖</code></p>
 <p><code>Python</code>的文档非常丰富，理论上我们能够根据文档完成复杂的<code>C++</code>代码与<code>Python</code>交互，但是我们从文档上可以看到，这个过程是非常繁琐的，相比于调用<code>C</code>的简单，为了实现调用<code>C++</code>的类和数据类型，我们得写很多中间代码进行转换，差不多就重新写了一遍<code>C++</code>的实现</p>
-<p>当然作为以简单为美的<code>Pythoner</code>早就发现这个问题，也就这个问题开发了<code>ctypes</code>、<code>cffi</code>等框架帮助，就连在<code>C++</code>大名鼎鼎的<code>boost</code>库中也提供了<code>boost/python</code>来帮助<code>Python</code>更加简单的调用<code>C++</code>，接下来我就根据我对下面这些库来谈一谈我的看法</p>
+<p>当然作为以简单为美的<code>Pythoner</code>早就发现这个问题，也就这个问题开发了<code>ctypes</code>、<code>cffi</code>、<code>numba</code>等框架帮助，就连在<code>C++</code>大名鼎鼎的<code>boost</code>库中也提供了<code>boost/python</code>来帮助<code>Python</code>更加简单的调用<code>C++</code>，接下来我就根据我对下面这些库来谈一谈我的看法</p>
 <h2 id="框架简析"><a href="#框架简析" class="headerlink" title="框架简析"></a>框架简析</h2><p>单纯的介绍这些库的功能太枯燥了，我就按照我对这些的库的理解将他们编成历史故事（真实出现的原因可能不是这样的）</p>
 <p>话说在<code>Python</code>作者设计<code>Python</code>之后，它发现<code>Python</code>实在是有点慢，为了能加速它就把<code>Python</code>的<code>C</code>API告诉社区的人让他们自己编写<code>C</code>代码然后让<code>Python</code>去调用它</p>
 <p>但是这个API实在是太繁琐了，要写太多附件的<code>C</code>代码了，有些人就发现这个问题，他们设计了一种脚本程序，你只要把你想调用的<code>C</code>函数包在<code>%{</code>里面就能帮你生成<code>Python</code>API的C代码，这样减少了不少代码量，这个框架叫做<code>Swig</code>。</p>
@@ -455,9 +440,11 @@ for i in range(100):
 <p>这个时候精通编译原理、<code>Python</code>、<code>C++</code>的大牛出现了，它发现解决这个问题的办法很简单，创造一门中间语言，这么语言可以详细的定义怎么从<code>C++</code>到<code>Python</code>的中间过程，在<a href="https://github.com/pybind/pybind11" target="_blank" rel="external">pybind11</a> 中这个完全是一个黑箱子，只有把这个黑箱子拿出来，这样我们就知道你想怎么调用<code>C++</code>，这样就能设计更加优秀的<code>Python</code>C API的代码。最后<code>Cython</code>出现了，它的出现让那些苛求性能的人闭上了嘴，它自动出来的生成<code>Python</code>C API代码近乎人工编写，在这样强的性能加持下，它的速度近乎原生</p>
 <p>至此在生成代码<code>Python</code>C API的中间代码的三方库尘埃落定，没有人想到有更好的办法来优化这一个方向。但是苛刻的人无处不在，他们攻击不了它的性能，只能攻击它的生成方式</p>
 <p>为了使用<code>Cython</code>必须编译它，要么借用<code>setuptools</code>来简单这个步骤，要么自己手动编译，一些开发者叫嚣着，都说<code>Python</code>是个动态语言，怎么还要编译呀，麻烦死了，这个时候一些开发者就站出来了，他们觉得这是个挑战，他们想解决掉它，于是<code>cffi</code>被开发出来了，你不需要用专门的文件存贮<code>C/C++</code>代码，你可以像调用函数一样把<code>C/C++</code>函数原文作为参数传进去，实现动态加载，但是这种动态性还是付出了代价，速度有了一定影响，虽然还是比<code>Python</code>快，但是远远比不上<code>Cython</code>，有得必有失</p>
+<p>这个时候精通汇编的大佬出现了，他们觉得动态加载这个地方还可以加强，他们觉得不需要我们在<code>Python</code>里面写<code>C</code>或者<code>C++</code>，你写一个<code>Python</code>函数，用一个装饰器包装一下，他们直接从底层出发，反正<code>Python</code>最终会编译成机器码，把<code>Python</code>函数的机器码加上类型（Python函数的参数可以是“鸭子”类型，不是强类型），省掉<code>Python</code>冗余的类型推断，直接从机器码层次上进行优化，最后编译成二进制接口给<code>Python</code>调用（背后使用了LLVM进行编译，这里就不详细介绍了），最终它的运行速度小胜<code>Cython</code>，并且比<code>C</code>还略胜一筹，这个就非常恐怖了，因为<code>C</code>基本上是除了汇编以外的速度标杆，所以懂汇编的大佬不要惹，太恐怖了，这个库的名字叫做<a href="https://numba.pydata.org/" target="_blank" rel="external">numba</a>，现在这个库已经开发6年多了，由于涉及到从<code>Python</code>源代码到了机器码实在太复杂了，所以仍然在开发中（主要适应各种硬件以及平台），目前处于<code>0.40.0</code>版本，基本上在主流平台使用是没有问题的。</p>
+<p>对于各个库速度的测试可以看看这篇<a href="https://jakevdp.github.io/blog/2013/06/15/numba-vs-cython-take-2/" target="_blank" rel="external">博客</a>，可以看到<code>numba</code>完胜<code>C</code>和<code>Cython</code></p>
 <p>PS: 在这里我没有提<code>ctypes</code>因为它是原生的，而且它对<code>C++</code>支持并不很好</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在使用这些三方库来帮助我调用<code>C++</code>过程中，我最喜欢的就是<a href="https://github.com/pybind/pybind11" target="_blank" rel="external">pybind11</a>和<code>Cython</code>，前者能很简单的将现成的<code>C++</code>项目变成<code>Python</code>项目，后者在性能上独步天下。然而由于<code>Cython</code>还得学习它自己的语法，所以我在这里的建议是，如果可能尽可以用<a href="https://github.com/pybind/pybind11" target="_blank" rel="external">pybind11</a>来开发，如果性能要求严重，可以慢慢把一些函数用<code>Cython</code>代替</p>
-<p>本来是想从一个项目出发介绍<a href="https://github.com/pybind/pybind11" target="_blank" rel="external">pybind11</a>和<code>Cython</code>但是写着写着就变成很长了，所以就把它放到介绍<code>Python</code>GIL的<a href="/2018/09/15/触摸Python的GIL/">博客</a>，顺便介绍一下在 <code>C++</code>如何将GIL”揪“出来</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在速度方面<code>numba</code>加持的<code>Python</code>无疑是No.1，但是它也有几个缺点，一个就是目前还处在开发阶段(目前是0.40版本，还没有1.0版本，而且issue有500个open状态，我在试验的时候也发现存在一些在issue的bug），第二个就是它目前支持能在函数内部运行的库只有<code>numpy</code>（当然这个也是它的设计的一个初衷，就是加速numpy与<code>Python</code>的混合代码）</p>
+<p>当然它的优点完全可以盖过它的缺点，优点有很多，首先第一个它的速度，在<code>LLVM</code>加持下比<code>C</code>更快简直让人震惊，第二个是它调试和维护非常方便，都是由<code>Python</code>编写的，去掉装饰器就是<code>Python</code>代码，直接在IDE里面调试不知道多爽，上线的时候加上注释器跑的飞快（还能丢掉<code>GIL</code>）。目前<code>numba</code>还处于开发过程中，现阶段仍然有很多<code>bug</code>（500个Open的<code>issue</code>），不过正是由于大家都对他非常期望，所以它的<code>issue</code>才那么多，也希望<code>numba</code>能够越来越好，让<code>Python</code>真的起飞。</p>
 
         
         

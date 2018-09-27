@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>如何让你的Python像C++一样快 | lunge博客</title>
+    <title>如何让你的Python更快 | lunge博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="张伦">
@@ -12,27 +12,27 @@
 
     
     <meta name="description" content="引言
-其实一开始没有想到写关于Python的加速，一开始只想好好了解一下C++这门语言。
+其实一开始没有想到写关于Python的加速，一开始只想好好了解一下C++这门语言，没想到最后研究来研究去，基本上把所以加速框架都试验了一下，这篇博客就谈谈我对Python加速的看法
 
-虽然我上大学之前就自学过C，但是对于这个C的升级版还是没有过多的了解，花了几天时间学习，发现C++这门语言还是不错的，至少在兼容性上，它能兼容C还有以前的版本。
-然而作为一个用惯了了脚本语言的人来说，C++最麻烦的就是他的第三方库管理，当然对于类Unix系统有自己带的包管理器（如ubuntu上的apt，Ce">
+ 首先我先谈谈C++，虽然我上大学之前就自学过C，但是对于这个C的升级版还是没有过多的了解，花了几天时间学习，发现C++这门语言还是不错的，至少在兼容性上，它能兼容C还有以前的版本。
+然而作为一个用惯了了脚本语">
 <meta property="og:type" content="article">
-<meta property="og:title" content="如何让你的Python像C++一样快">
+<meta property="og:title" content="如何让你的Python更快">
 <meta property="og:url" content="https://mrzhangboss.github.io/2018/09/12/如何让你的Python像C++一样快/index.html">
 <meta property="og:site_name" content="lunge博客">
 <meta property="og:description" content="引言
-其实一开始没有想到写关于Python的加速，一开始只想好好了解一下C++这门语言。
+其实一开始没有想到写关于Python的加速，一开始只想好好了解一下C++这门语言，没想到最后研究来研究去，基本上把所以加速框架都试验了一下，这篇博客就谈谈我对Python加速的看法
 
-虽然我上大学之前就自学过C，但是对于这个C的升级版还是没有过多的了解，花了几天时间学习，发现C++这门语言还是不错的，至少在兼容性上，它能兼容C还有以前的版本。
-然而作为一个用惯了了脚本语言的人来说，C++最麻烦的就是他的第三方库管理，当然对于类Unix系统有自己带的包管理器（如ubuntu上的apt，Ce">
-<meta property="og:updated_time" content="2018-09-16T08:46:21.619Z">
+ 首先我先谈谈C++，虽然我上大学之前就自学过C，但是对于这个C的升级版还是没有过多的了解，花了几天时间学习，发现C++这门语言还是不错的，至少在兼容性上，它能兼容C还有以前的版本。
+然而作为一个用惯了了脚本语">
+<meta property="og:updated_time" content="2018-09-27T14:50:56.742Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="如何让你的Python像C++一样快">
+<meta name="twitter:title" content="如何让你的Python更快">
 <meta name="twitter:description" content="引言
-其实一开始没有想到写关于Python的加速，一开始只想好好了解一下C++这门语言。
+其实一开始没有想到写关于Python的加速，一开始只想好好了解一下C++这门语言，没想到最后研究来研究去，基本上把所以加速框架都试验了一下，这篇博客就谈谈我对Python加速的看法
 
-虽然我上大学之前就自学过C，但是对于这个C的升级版还是没有过多的了解，花了几天时间学习，发现C++这门语言还是不错的，至少在兼容性上，它能兼容C还有以前的版本。
-然而作为一个用惯了了脚本语言的人来说，C++最麻烦的就是他的第三方库管理，当然对于类Unix系统有自己带的包管理器（如ubuntu上的apt，Ce">
+ 首先我先谈谈C++，虽然我上大学之前就自学过C，但是对于这个C的升级版还是没有过多的了解，花了几天时间学习，发现C++这门语言还是不错的，至少在兼容性上，它能兼容C还有以前的版本。
+然而作为一个用惯了了脚本语">
 <meta name="twitter:creator" content="@mrzhangboss">
 
     
@@ -92,7 +92,7 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2018/09/12/如何让你的Python像C++一样快/" title="如何让你的Python像C++一样快" itemprop="url">如何让你的Python像C++一样快</a>
+      <a href="/2018/09/12/如何让你的Python像C++一样快/" title="如何让你的Python更快" itemprop="url">如何让你的Python更快</a>
   </h1>
   <p class="article-author">By
        
@@ -113,11 +113,12 @@
 		</div>
 		
 		<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
-<p>其实一开始没有想到写关于<code>Python</code>的加速，一开始只想好好了解一下<code>C++</code>这门语言。</p>
+<p>其实一开始没有想到写关于<code>Python</code>的加速，一开始只想好好了解一下<code>C++</code>这门语言，没想到最后研究来研究去，基本上把所以加速框架都试验了一下，这篇博客就谈谈我对<code>Python</code>加速的看法</p>
 </blockquote>
-<p>虽然我上大学之前就自学过<code>C</code>，但是对于这个<code>C</code>的升级版还是没有过多的了解，花了几天时间学习，发现<code>C++</code>这门语言还是不错的，至少在兼容性上，它能兼容<code>C</code>还有以前的版本。</p>
+<p> 首先我先谈谈<code>C++</code>，虽然我上大学之前就自学过<code>C</code>，但是对于这个<code>C</code>的升级版还是没有过多的了解，花了几天时间学习，发现<code>C++</code>这门语言还是不错的，至少在兼容性上，它能兼容<code>C</code>还有以前的版本。</p>
 <p>然而作为一个用惯了了脚本语言的人来说，<code>C++</code>最麻烦的就是他的第三方库管理，当然对于类<code>Unix</code>系统有自己带的包管理器（如ubuntu上的<code>apt</code>，CentOS上的<code>yum</code>）可以来安装第三方库（就是我们平常为了安装一些软件，比如要先<code>apt install xxx-dev</code>那些库），由于这些都绑定了平台的，所以你经常能看到有些软件自己编译会列出各个平台下依赖的包，然而对于一些比较新的库（比如<code>googletest</code>，就得去<code>Github</code>上掏下来自己编译安装了。</p>
-<p>吐槽完了<code>C++</code>的缺点之后，我们不得不说<code>C++</code>的优点了，虽然比较难装（相比于脚本语言）但是那个速度真是贼快，用腾讯开源的协程库，单台机器就能开启千万协程而且内存不超过2个G，想我大<code>Python</code>开个一万都很嘚瑟了。<code>C++</code>在性能上真的的碾压的。就是因为<code>C++</code>性能上要求到极致，所以它才会有那么多的前面安装的缺点，因为<code>C++</code>是面对硬件的，对于不同的硬件，<code>C++</code>想做到最快，那么通用的代码就不可能的，通用就代表损失性能。然而让我全用<code>C++</code>写代码是不可能的，脚本语言用的多爽呀。所以了解完了<code>C++</code>的强大之后，我就越发的想了解怎么结合两者的方式，所以就有了这篇博文。</p>
+<p>吐槽完了<code>C++</code>的缺点之后，我们不得不说<code>C++</code>的优点了，虽然比较难装（相比于脚本语言）但是那个速度真是贼快，用腾讯开源的协程库，单台机器就能开启千万协程而且内存不超过2个G，想我大<code>Python</code>开个一万都很嘚瑟了。<code>C++</code>在性能上真的的碾压的。就是因为<code>C++</code>性能上要求到极致，所以它才会有那么多的前面安装的缺点，因为<code>C++</code>是面对硬件的，对于不同的硬件，<code>C++</code>想做到最快，那么通用的代码就不可能的，通用就代表损失性能。然而让我全用<code>C++</code>写代码是不可能的，脚本语言用的多爽呀。所以了解完了<code>C++</code>的强大之后，我就越发的想了解怎么结合两者的方式来提升｀Python｀速度，最后把所有加速手段都测试了一遍，所以就有了这篇博文。</p>
+<p>PS: 之所以花这么多时间介绍<code>C++</code>是因为<code>LLVM</code>就是使用<code>C++</code>写的，而<code>numba</code>依赖<code>LLVM</code>来动态编译出比<code>C</code>更快的机器码，这个也就<code>Python</code>最后能比<code>C</code>还快的主要原因</p>
 <h2 id="（Python）-（C-）难在哪里"><a href="#（Python）-（C-）难在哪里" class="headerlink" title="（Python）+（C++）难在哪里"></a>（Python）+（C++）难在哪里</h2><p>大家都知道<code>Python</code>有很多实现，我们这里说的<code>Python</code>是<code>CPython</code>也是最常见的实现，它是由<code>C语言</code>编译出来的，我们的目标就是把两种语言给混合起来，<code>C+C++</code>。</p>
 <p>我们看看其他语言，比如<code>Java</code>其实也可以混合<code>C++</code>代码，它是采用<code>JNI</code>的方式来进行交互的，如果你了解这种方式，你会发现也非常麻烦，得先写<code>Java</code>的类，然后再生成<code>C/C++</code>头文件。然后你再写<code>C/C++</code>代码，其实我很讨厌这种方式，我希望能把<code>C/C++</code>和你的语言这两种分离开来，我们能简单通过某种方式桥接一下让两个项目能够连贯起来。</p>
 <p>我们现在来看看<code>Python</code>是如何调用<code>C++</code>的代码。在这之前我先提一下<code>Python</code>与<code>C</code>的关系。</p>
@@ -133,7 +134,7 @@
 <p>这里我们必须要了解一个名词“语法糖”，在我们看来我们能在<code>Python</code>、<code>Java</code>、<code>Ｃ++</code>中使用一些面对对象的特性，比如类、继承、接口。其实这些都只是一些语法糖而已，在这些实现的底层，比如说<code>Python</code>它就是用<code>C</code>的函数来帮助我们构建这些语法糖，我们看到的一个对象的系统函数，其实它是<code>Python</code>帮助我们把一连串函数绑定在一个<code>module</code>上面，虽然表面上我们新建了一个对象，调用了一个对象函数，其实在<code>C</code>层我们就是调用了一连串的函数来完成一个对象的分配</p>
 <p>我们可以在官方文档中找到这部分<a href="https://docs.python.org/3.8/extending/extending.html#the-module-s-method-table-and-initialization-function" target="_blank" rel="external">介绍</a>，官方文档告诉我们只要将列表的函数赋给一个模块（<code>module</code>）我们就让你的<code>C/C++</code>代码给<code>Python</code>一个模块可以使用，从官方文档我们就可以很清楚看到<code>语法糖</code></p>
 <p><code>Python</code>的文档非常丰富，理论上我们能够根据文档完成复杂的<code>C++</code>代码与<code>Python</code>交互，但是我们从文档上可以看到，这个过程是非常繁琐的，相比于调用<code>C</code>的简单，为了实现调用<code>C++</code>的类和数据类型，我们得写很多中间代码进行转换，差不多就重新写了一遍<code>C++</code>的实现</p>
-<p>当然作为以简单为美的<code>Pythoner</code>早就发现这个问题，也就这个问题开发了<code>ctypes</code>、<code>cffi</code>等框架帮助，就连在<code>C++</code>大名鼎鼎的<code>boost</code>库中也提供了<code>boost/python</code>来帮助<code>Python</code>更加简单的调用<code>C++</code>，接下来我就根据我对下面这些库来谈一谈我的看法</p>
+<p>当然作为以简单为美的<code>Pythoner</code>早就发现这个问题，也就这个问题开发了<code>ctypes</code>、<code>cffi</code>、<code>numba</code>等框架帮助，就连在<code>C++</code>大名鼎鼎的<code>boost</code>库中也提供了<code>boost/python</code>来帮助<code>Python</code>更加简单的调用<code>C++</code>，接下来我就根据我对下面这些库来谈一谈我的看法</p>
 <h2 id="框架简析"><a href="#框架简析" class="headerlink" title="框架简析"></a>框架简析</h2><p>单纯的介绍这些库的功能太枯燥了，我就按照我对这些的库的理解将他们编成历史故事（真实出现的原因可能不是这样的）</p>
 <p>话说在<code>Python</code>作者设计<code>Python</code>之后，它发现<code>Python</code>实在是有点慢，为了能加速它就把<code>Python</code>的<code>C</code>API告诉社区的人让他们自己编写<code>C</code>代码然后让<code>Python</code>去调用它</p>
 <p>但是这个API实在是太繁琐了，要写太多附件的<code>C</code>代码了，有些人就发现这个问题，他们设计了一种脚本程序，你只要把你想调用的<code>C</code>函数包在<code>%{</code>里面就能帮你生成<code>Python</code>API的C代码，这样减少了不少代码量，这个框架叫做<code>Swig</code>。</p>
@@ -144,9 +145,11 @@
 <p>这个时候精通编译原理、<code>Python</code>、<code>C++</code>的大牛出现了，它发现解决这个问题的办法很简单，创造一门中间语言，这么语言可以详细的定义怎么从<code>C++</code>到<code>Python</code>的中间过程，在<a href="https://github.com/pybind/pybind11" target="_blank" rel="external">pybind11</a> 中这个完全是一个黑箱子，只有把这个黑箱子拿出来，这样我们就知道你想怎么调用<code>C++</code>，这样就能设计更加优秀的<code>Python</code>C API的代码。最后<code>Cython</code>出现了，它的出现让那些苛求性能的人闭上了嘴，它自动出来的生成<code>Python</code>C API代码近乎人工编写，在这样强的性能加持下，它的速度近乎原生</p>
 <p>至此在生成代码<code>Python</code>C API的中间代码的三方库尘埃落定，没有人想到有更好的办法来优化这一个方向。但是苛刻的人无处不在，他们攻击不了它的性能，只能攻击它的生成方式</p>
 <p>为了使用<code>Cython</code>必须编译它，要么借用<code>setuptools</code>来简单这个步骤，要么自己手动编译，一些开发者叫嚣着，都说<code>Python</code>是个动态语言，怎么还要编译呀，麻烦死了，这个时候一些开发者就站出来了，他们觉得这是个挑战，他们想解决掉它，于是<code>cffi</code>被开发出来了，你不需要用专门的文件存贮<code>C/C++</code>代码，你可以像调用函数一样把<code>C/C++</code>函数原文作为参数传进去，实现动态加载，但是这种动态性还是付出了代价，速度有了一定影响，虽然还是比<code>Python</code>快，但是远远比不上<code>Cython</code>，有得必有失</p>
+<p>这个时候精通汇编的大佬出现了，他们觉得动态加载这个地方还可以加强，他们觉得不需要我们在<code>Python</code>里面写<code>C</code>或者<code>C++</code>，你写一个<code>Python</code>函数，用一个装饰器包装一下，他们直接从底层出发，反正<code>Python</code>最终会编译成机器码，把<code>Python</code>函数的机器码加上类型（Python函数的参数可以是“鸭子”类型，不是强类型），省掉<code>Python</code>冗余的类型推断，直接从机器码层次上进行优化，最后编译成二进制接口给<code>Python</code>调用（背后使用了LLVM进行编译，这里就不详细介绍了），最终它的运行速度小胜<code>Cython</code>，并且比<code>C</code>还略胜一筹，这个就非常恐怖了，因为<code>C</code>基本上是除了汇编以外的速度标杆，所以懂汇编的大佬不要惹，太恐怖了，这个库的名字叫做<a href="https://numba.pydata.org/" target="_blank" rel="external">numba</a>，现在这个库已经开发6年多了，由于涉及到从<code>Python</code>源代码到了机器码实在太复杂了，所以仍然在开发中（主要适应各种硬件以及平台），目前处于<code>0.40.0</code>版本，基本上在主流平台使用是没有问题的。</p>
+<p>对于各个库速度的测试可以看看这篇<a href="https://jakevdp.github.io/blog/2013/06/15/numba-vs-cython-take-2/" target="_blank" rel="external">博客</a>，可以看到<code>numba</code>完胜<code>C</code>和<code>Cython</code></p>
 <p>PS: 在这里我没有提<code>ctypes</code>因为它是原生的，而且它对<code>C++</code>支持并不很好</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在使用这些三方库来帮助我调用<code>C++</code>过程中，我最喜欢的就是<a href="https://github.com/pybind/pybind11" target="_blank" rel="external">pybind11</a>和<code>Cython</code>，前者能很简单的将现成的<code>C++</code>项目变成<code>Python</code>项目，后者在性能上独步天下。然而由于<code>Cython</code>还得学习它自己的语法，所以我在这里的建议是，如果可能尽可以用<a href="https://github.com/pybind/pybind11" target="_blank" rel="external">pybind11</a>来开发，如果性能要求严重，可以慢慢把一些函数用<code>Cython</code>代替</p>
-<p>本来是想从一个项目出发介绍<a href="https://github.com/pybind/pybind11" target="_blank" rel="external">pybind11</a>和<code>Cython</code>但是写着写着就变成很长了，所以就把它放到介绍<code>Python</code>GIL的<a href="/2018/09/15/触摸Python的GIL/">博客</a>，顺便介绍一下在 <code>C++</code>如何将GIL”揪“出来</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在速度方面<code>numba</code>加持的<code>Python</code>无疑是No.1，但是它也有几个缺点，一个就是目前还处在开发阶段(目前是0.40版本，还没有1.0版本，而且issue有500个open状态，我在试验的时候也发现存在一些在issue的bug），第二个就是它目前支持能在函数内部运行的库只有<code>numpy</code>（当然这个也是它的设计的一个初衷，就是加速numpy与<code>Python</code>的混合代码）</p>
+<p>当然它的优点完全可以盖过它的缺点，优点有很多，首先第一个它的速度，在<code>LLVM</code>加持下比<code>C</code>更快简直让人震惊，第二个是它调试和维护非常方便，都是由<code>Python</code>编写的，去掉装饰器就是<code>Python</code>代码，直接在IDE里面调试不知道多爽，上线的时候加上注释器跑的飞快（还能丢掉<code>GIL</code>）。目前<code>numba</code>还处于开发过程中，现阶段仍然有很多<code>bug</code>（500个Open的<code>issue</code>），不过正是由于大家都对他非常期望，所以它的<code>issue</code>才那么多，也希望<code>numba</code>能够越来越好，让<code>Python</code>真的起飞。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -164,7 +167,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://mrzhangboss.github.io/2018/09/12/如何让你的Python像C++一样快/" data-title="如何让你的Python像C++一样快 | lunge博客" data-tsina="5364356330" class="share clearfix">
+	  <div data-url="https://mrzhangboss.github.io/2018/09/12/如何让你的Python像C++一样快/" data-title="如何让你的Python更快 | lunge博客" data-tsina="5364356330" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -198,7 +201,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2018/09/12/如何让你的Python像C++一样快/" data-title="如何让你的Python像C++一样快" data-url="https://mrzhangboss.github.io/2018/09/12/如何让你的Python像C++一样快/"></div>
+	<div class="ds-thread" data-thread-key="2018/09/12/如何让你的Python像C++一样快/" data-title="如何让你的Python更快" data-url="https://mrzhangboss.github.io/2018/09/12/如何让你的Python像C++一样快/"></div>
 </section>
 
 
