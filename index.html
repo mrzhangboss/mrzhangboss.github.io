@@ -92,7 +92,7 @@
     <div class="article-content">
         
         <blockquote>
-<p>Python的GIL一直是被大家攻击其语言的一个弊端，每次在讨论语言特性的时候这点总是会被人们提起，但是这个东西好像就一个“污点”，大家都知道，但是大家都不了解为什么。本片博客就是好好的探索一下GIL，让我们不在畏惧它</p>
+<p>Python的<code>GIL</code>一直是被大家攻击其语言的一个弊端，每次在讨论语言特性的时候这点总是会被人们提起，但是这个东西好像就一个“污点”，大家都知道，但是大家都不了解为什么。本片博客就是好好的探索一下GIL，让我们不再畏惧它</p>
 </blockquote>
 <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
 <p>其实一开始并没有想到研究GIL，但是在研究<a href="/2018/09/12/如何让你的Python像C++一样快/">Python调用C++</a>的过程中发现我们可以通过这种方式解决掉GIL，让我们的代码不被<code>Python</code>拖累</p>
@@ -269,8 +269,100 @@ Out[7]: 300
 In [8]: %timeit add(1, 1)
 4.74 µs ± 40.5 ns per loop (mean ± std. dev. of 7 runs, 100000 loops each)
 </code></pre><p><code>C++</code>完爆<code>Python</code>，<code>4.74us = 4750ns</code>，<code>Python</code>用时是<code>C++</code>的10倍多，只还只是100次运算，假如我们上万次运算，那结果更加夸张，<code>C++</code>在长征的过程中胜利了，但是我们也不能说<code>Python</code>是慢毕竟<code>us</code>的单位其实非常小，<code>1us=1000ms=1000000s</code>，在1s内可以执行上面函数几十万次，只能说<code>C++</code>速度太可怕了</p>
-<h3 id="调用总结"><a href="#调用总结" class="headerlink" title="调用总结"></a>调用总结</h3><p>我们从上面可以看到，虽然<code>Python</code>调用<code>C++</code>在类型转换上会有速度损失，但是在进入到函数提内运行过程中的速度是不影响的，假如我们的运算量够大，完全可以弥补那一点点性能影响，所以要想重复利用<code>C++</code>的速度，尽量少调用<code>C++</code>，把计算结果竟然一次性返回，而不是我们多次进行交互，这样就能最大话利用<code>C++</code></p>
-<h3 id="在线程中测试GIL"><a href="#在线程中测试GIL" class="headerlink" title="在线程中测试GIL"></a>在线程中测试GIL</h3><hr>
+<h3 id="调用总结"><a href="#调用总结" class="headerlink" title="调用总结"></a>调用总结</h3><p>我们从上面可以看到，虽然<code>Python</code>调用<code>C++</code>在类型转换上会有速度损失，但是在进入到函数提内运行过程中的速度是不影响的，假如我们的运算量够大，完全可以弥补那一点点性能影响，所以要想重复利用<code>C++</code>的速度，尽量少调用<code>C++</code>，把计算结果竟然一次性返回，而不是我们多次进行交互，这样就能最大化利用<code>C++</code></p>
+<h3 id="在C-线程中测试GIL"><a href="#在C-线程中测试GIL" class="headerlink" title="在C++线程中测试GIL"></a>在<code>C++</code>线程中测试GIL</h3><p>接下来我们来考虑这么一个问题，前面我们测试了<code>C++</code>的线程能使用多核，我们假如在让<code>Python</code>在调用<code>C++</code>的代码中中使用线程，那么我们的<code>C++</code>的线程能不能使用多核呢进而解除GIL的作用</p>
+<p>我们把<code>nothing</code>函数改成多线程</p>
+<pre><code>#include &lt;thread&gt;
+#define NUM_THREADS 50
+using namespace std;
+
+void f(){
+    while(1){};
+}
+
+void nothing(){
+    std::thread threads[NUM_THREADS];
+    for(int i = 0; i &lt; NUM_THREADS; ++i)
+    {
+        threads[i] = std::thread(f);
+    }
+
+
+    for (int i = 0; i &lt; NUM_THREADS; ++i) {
+        threads[i].join();
+
+    }
+}
+</code></pre><p>然后我们再重新编译一下<code>pip install .</code>，我们来跑一下我们这个多线程的<code>nothing</code>函数</p>
+<pre><code>In [1]: import python_example
+
+In [2]: python_example.nothing()
+</code></pre><p>我们在<code>htop</code>里面可以看到在单线程的<code>Python</code>程序中，成功的将所有核心都利用上了，也就是是说假如我们在<code>C++</code>扩展中使用线程的话，是不会被<code>GIL</code>影响的</p>
+<p>说实话当我第一次运行的时候我直觉是还是会被<code>GIL</code>影响，结果最后跑出来的结果大吃我一惊，现在我们分析为什么不会被受影响，因为<code>GIL</code>锁的是<code>Python</code>解释器，当我们的代码进入到<code>C++</code>中的时候，我们已经不在<code>Python</code>解释器中了，这样即使我在<code>C++</code>中声明线程，那也是<code>C++</code>的线程，所以就不会造成无法使用多核的情况</p>
+<p>这里我们学到一点，如果我们想摆脱<code>GIL</code>可以把线程放到<code>C++</code>中，这样线程的不再依赖<code>Python</code>解释器，前面我们知道其实<code>Python</code>底层是用<code>C</code>写的，所以基本上所以的语法都是基于<code>C</code>代码实现加上语法糖来完成的，<code>Python</code>线程也就是<code>C</code>线程，我们能不能模拟一下<code>Python</code>来构建这个<code>GIL</code></p>
+<p>首先我们知道<code>GIL</code>是一把锁，所以我们第一件事就是查看这把锁，在这里我们通过<code>Python</code>的<code>C</code>头文件来引入一个函数<code>PyGILState_Check</code>这个函数会返回一个<code>1</code>和<code>0</code>值，假如是<code>1</code>那么意思该线程拿着<code>GIL</code>锁，反之。</p>
+<p>所以我们先在头部加上<code>#include &quot;Python.h&quot;</code>，在Linux系统上要安装<code>python-dev</code>或者<code>python-devel</code>开发包才有这个头文件，接下来我们在<code>nothing</code>函数加上这个检测状态</p>
+<pre><code>cout &lt;&lt; &quot;GIL is &quot; &lt;&lt;  ((PyGILState_Check() == 1) ? &quot;hold&quot; : &quot;not hold&quot;)&lt;&lt;endl;
+</code></pre><p>提一句为了使用<code>cout</code>，我们得在头部加上<code>C++</code>输出库<code>#include &lt;iostream&gt;</code></p>
+<p>先在我们重新安装一下并运行<code>nothing</code>函数，程序会输出<code>GIL is hold</code>，为什么会出现这个情况呢，因为<code>Python</code>默认会锁住<code>GIL</code>当运行<code>C++</code>或者<code>C</code>代码的时候，但是为什么我们虽然锁住了<code>GIL</code>但是我们还是能够使用<code>C++</code>的线程来运行多核呢，其实很简单因为我们的线程没有像<code>Python</code>一样每次运行的时候去获取这个<code>GIL</code>锁，为了证明这一点，我们来做个实验</p>
+<p>首先我们得在<code>nothing</code>函数里面释放<code>GIL</code>，然后让线程去获取<code>GIL</code>（如果<code>nothing</code>主函数不释放<code>GIL</code>，会造成死锁，线程无法运行，一直获取不了<code>GIL</code>锁），我们可以用<code>Python</code>的<code>C</code>头文件的函数来释放<code>GIL</code>锁，但是<a href="https://github.com/pybind/pybind11" target="_blank" rel="external">pybind11</a>提供了一个更加方便的函数让我们来释放<code>GIL</code>锁，我们把<code>nothing</code>函数定义修改一下，在后面添加一条语句<code>py::call_guard&lt;py::gil_scoped_release&gt;()</code></p>
+<pre><code>//    m.def(&quot;nothing&quot;, &amp;nothing);
+    m.def(&quot;nothing&quot;, &amp;nothing, py::call_guard&lt;py::gil_scoped_release&gt;());
+</code></pre><p>然后我们在重新编译安装运行一下代码，我们的结果就会是<code>GIL is not hold</code>，我们通过简单的一条语句就释放<code>GIL</code>锁，接下来我们来测试在线程中获取<code>GIL</code>锁来模拟<code>Python</code>的情况</p>
+<p>要想获取<code>GIL</code>锁，<a href="https://github.com/pybind/pybind11" target="_blank" rel="external">pybind11</a>也提供了一个非常简单的方法来实现这个：<code>py::gil_scoped_acquire acquire;</code></p>
+<p>我们接下来把<code>f</code>函数改成下面的</p>
+<pre><code>void f(){
+    cout &lt;&lt; &quot;entner F: GIL is &quot; &lt;&lt;  ((PyGILState_Check() == 1) ? &quot;hold&quot; : &quot;not hold&quot;)&lt;&lt;endl;
+    py::gil_scoped_acquire acquire;
+    cout &lt;&lt; &quot;GIL is &quot; &lt;&lt;  ((PyGILState_Check() == 1) ? &quot;hold&quot; : &quot;not hold&quot;) &lt;&lt; &quot; now is runing &quot;&lt;&lt;endl;
+    while(1) {
+    };
+
+}
+</code></pre><p>我们在获取<code>GIL</code>前后，添加了一些输出，方便我们调试，接下来我们再运行我们的代码，我们发现程序输出50个进入<code>entner F: GIL is not hold</code>（在我的电脑上，因为线程同时运行，获取<code>GIL</code>锁需要时间，所以在我电脑上每次运行<code>f</code>函数时锁都打开着），但是只有一行<code>GIL is hold now is runing</code>，因为当一个线程获取到<code>GIL</code>后，其他线程就没法获取到了，而且看<code>htop</code>我们也能发现只有一个核到了<code>100</code>，在我们强行模拟下<code>C++</code>也没能使用多核</p>
+<p>其实从这里我们可以看出来，<code>GIL</code>问题其实就是一个死锁的问题，线程获取后不释放锁，导致所有线程相互竞争，用一个谚语来说就是：一个和尚挑水喝、两个和尚抬水喝、三个和尚没水喝。</p>
+<p>那么我们怎么来解决这个问题呢，很简单就是在你不需要的锁的时候去释放它，接下来我们来模拟一下怎么释放这个锁达到多线程“和平共处”，首先我们引入<code>C++</code>时间库来使用<code>sleep</code>函数(<code>#include &lt;unistd.h&gt;</code>)，接下来我们引入<code>Python</code>的<code>C</code>头文件中的宏来释放<code>GIL</code>，我们把<code>f</code>函数改成下面的形式</p>
+<pre><code>void f(){
+    cout &lt;&lt; &quot;entner F: GIL is &quot; &lt;&lt;  ((PyGILState_Check() == 1) ? &quot;hold&quot; : &quot;not hold&quot;)&lt;&lt;endl;
+    py::gil_scoped_acquire acquire;
+    cout &lt;&lt; &quot;GIL is &quot; &lt;&lt;  ((PyGILState_Check() == 1) ? &quot;hold&quot; : &quot;not hold&quot;) &lt;&lt; &quot; now is runing &quot;&lt;&lt;endl;
+    Py_BEGIN_ALLOW_THREADS
+
+    while(1){
+    };
+    Py_END_ALLOW_THREADS
+}
+</code></pre><p>我们使用<code>Py_BEGIN_ALLOW_THREADS</code>和<code>Py_END_ALLOW_THREADS</code>这一对宏来释放<code>GIL</code>，这样我们重新编译运行<code>nothing</code>函数我们就能看到50个<code>enter</code>和50个<code>runing</code>，而且在<code>htop</code>中我们也能发现<code>C++</code>的线程再次使用所有的核心了（利用率达到不了100%，不知道是因为宏的“副作用”还是其他原因，但是每个核还是能够到70%作用），这种在一个函数中获取和释放<code>GIL</code>锁还是不推荐的，最好在函数一开始的时候释放<code>GIL</code>，在函数结束的时候获取<code>GIL</code>返回到<code>Python</code>解释器中（假如你需要与<code>Python</code>进行交互的话），毕竟获取一次锁的成本还是挺大的，而且一不小心就会造成死锁</p>
+<h3 id="在Python线程中测试GIL"><a href="#在Python线程中测试GIL" class="headerlink" title="在Python线程中测试GIL"></a>在<code>Python</code>线程中测试GIL</h3><p>接下来我们来看看一个已经存在的问题，就是如何解决掉使用<code>Python</code>线程时遇到的<code>GIL</code>问题，其实我们在上面的<code>C++</code>线程已经模拟出来了，解决这个问题的关键就是释放<code>GIL</code>锁，我们先测试一下在<code>GIL</code>锁下，线程调用<code>C++</code>代码的速度</p>
+<p>我们首先添加一个新死循环函数</p>
+<pre><code>void run_dead(){
+    while(1){};
+}
+</code></pre><p>然后在后面加上<a href="https://github.com/pybind/pybind11" target="_blank" rel="external">pybind11</a>的定义</p>
+<pre><code>m.def(&quot;run_dead&quot;, &amp;run_dead);
+</code></pre><p>接着我们运行下面函数</p>
+<pre><code>from concurrent.futures import ThreadPoolExecutor
+import python_example
+
+pool = ThreadPoolExecutor()
+
+for i in range(100):
+    pool.submit(python_example.run_dead)
+</code></pre><p>在这个函数里面我们声明了一个线程池，并且向池蕾加入了100函数，接着我们在<code>htop</code>里面查看CPU利用率，我们可以看到只有1个CPU能够跑满100%，其实从前面的实验我们就能猜到这个结果，解决方案其实前面也给了，有两种方法，第一种就是使用<code>Python</code>的C的头文件函数宏<br>：<code>Py_BEGIN_ALLOW_THREADS</code>和<code>Py_END_ALLOW_THREADS</code>，第二种就是在函数声明的地方使用<a href="https://github.com/pybind/pybind11" target="_blank" rel="external">pybind11</a>提供的<code>py::call_guard&lt;py::gil_scoped_release&gt;()</code>来释放<code>GIL</code>，两种方法都可以，但是第二种更加简单一点，在这里我就不测试释放<code>GIL</code>之后的性能了，前面已经做过了</p>
+<h3 id="GIL总结"><a href="#GIL总结" class="headerlink" title="GIL总结"></a><code>GIL</code>总结</h3><p>通过前面我们的测试，<code>GIL</code>这个东西其实只是一把锁，我们经常能听到很多人抨击<code>Python</code>关于<code>GIL</code>问题，这就给人一种错觉<code>Python</code>这种语言在设计上有弊端，在前面测试我们也发现了就算是<code>C++</code>或者<code>C</code>假如不正确的使用锁其实也会有这个<code>GIL</code>问题，<code>GIL</code>的问题的并不是“编程语言”的锅，主要是我们自己的代码造成的死锁，所以面对<code>GIL</code>的时候，不需要困惑，它就是一把“锁”，把它打开，而不是碰到它就跑，你会发现它也就是一把“锁”而已。</p>
+<h2 id="Python调用C-高级版"><a href="#Python调用C-高级版" class="headerlink" title="Python调用C++高级版"></a><code>Python</code>调用<code>C++</code>高级版</h2><p>前面我们都是利用一些<code>C++</code>简单的函数如<code>add</code>、<code>nothing</code>，在我看来这些函数都太简单了，简直算不上<code>C++</code>代码就是<code>C</code>代码，<code>C++</code>比<code>C</code>多出来的东西就是面对对象这个特性，我们使用<code>C++</code>主要是为了使用它的面对对象特性来设计更好维护的代码</p>
+<p>由于我个人也不是专业写<code>C++</code>代码，所以我就从网上搜索了一个<code>Python</code><a href="https://github.com/spotify/annoy" target="_blank" rel="external">库</a>，这个项目主要是<code>C++</code>写的，不过它用的是<code>Python</code>的C<code>API</code>来完成包装，这里我们就讲解一下怎么来使用<a href="https://github.com/pybind/pybind11" target="_blank" rel="external">pyblind11</a>来包装这个<code>C++</code>代码</p>
+<p>首先我们先把这个代码从Github上面下到本地（最好像上面一下新建一个虚拟环境）</p>
+<pre><code>git clone https://github.com/spotify/annoy.git
+</code></pre><p>接下来我们来看看这个<code>C++</code>项目的具体组成，首先我们看<code>setup</code>文件中的<code>ext_modules</code>部分</p>
+<pre><code>Extension(
+            &apos;annoy.annoylib&apos;, [&apos;src/annoymodule.cc&apos;],
+            depends=[&apos;src/annoylib.h&apos;, &apos;src/kissrandom.h&apos;, &apos;src/mman.h&apos;],
+            extra_compile_args=compile_args + cputune + travis_extra_compile_args
+        )
+</code></pre><p>从结构上来看，主要的外部函数定义在<code>src/annoymodule.cc</code>（<code>annoy.annoylib</code>是模块名），这个主函数依赖了三个头文件：<code>&#39;src/annoylib.h&#39;,&#39;src/kissrandom.h&#39;, &#39;src/mman.h&#39;</code></p>
+<p>从结构上来看主要由四个<code>C++</code>文件组成，不是我们前面</p>
+<hr>
 <blockquote>
 <p>未完待续</p>
 </blockquote>
