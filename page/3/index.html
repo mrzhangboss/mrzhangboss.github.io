@@ -78,31 +78,24 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2018/01/04/AVL树实现原理/" title="AVL树实现原理" itemprop="url">AVL树实现原理</a>
+      <a href="/2018/01/05/红黑树实现原理/" title="红黑树实现原理" itemprop="url">红黑树实现原理</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-01-03T16:00:00.000Z" itemprop="datePublished"> Published 2018-01-04</time>
+    <time datetime="2018-01-04T16:00:00.000Z" itemprop="datePublished"> Published 2018-01-05</time>
     
   </p>
 </header>
     <div class="article-content">
         
         <blockquote>
-<p>本篇博客主要基于这篇<a href="/2017/12/27/浅谈树这种数据结构/">博客</a>的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍AVL树的实现原理，完整代码在<a href="https://github.com/mrzhangboss/trees" target="_blank" rel="external">github</a>的<code>avl.go</code>文件中</p>
+<p>本篇博客主要基于这篇<a href="/">博客</a>的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍红黑树的实现原理，完整代码在<a href="https://github.com/mrzhangboss/trees" target="_blank" rel="external">github</a>的<code>rbtree.go</code>文件中</p>
 </blockquote>
-<p><a href="/2017/12/27/浅谈树这种数据结构/">浅谈”树”这种数据结构</a><br><a href="https://github.com/mrzhangboss/trees" title="github" target="_blank" rel="external">Github</a><br><a href="http://www.cs.usfca.edu/~galles/visualization/AVLtree.html" target="_blank" rel="external">可视化页面</a></p>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>AVL树是在对二叉搜索树的一种优化，通过构造一棵高度平衡的二叉搜索树从而实现提高空间利用率，所以在了解如何实现之前，必须了解如何构造一棵二叉搜索树，你可以阅读我的这篇<a href="/2018/01/04/二叉搜索树实现原理/">博客</a>了解如何构建一棵二叉搜索树，虽然我是用Go来实现的，但是不必了解太多Go方面的知识，我在博客中尽量使用图片的方式来介绍实现原理</p>
-<p><a href="/2018/01/04/二叉搜索树实现原理/">二叉搜索树实现原理</a></p>
-<p>由于AVL树本质上也是一棵二叉搜索树，查找并不会改变树的性质，所以AVL的查找也是同二叉搜索树的查询相同，所以这里就重点介绍如何实现“增”和“删”</p>
-<h3 id="树的字段"><a href="#树的字段" class="headerlink" title="树的字段"></a>树的字段</h3><p>在开始介绍如何实现“增”、“删”之前，我想提一下AVL树的存贮字段，在wiki上面的AVL和很多资料上面，AVL的树结构分别由下面四个组成： Val、 Left*、Right*、Parent*。</p>
-<p>Val代表树存贮的值，Left、Right、Parent代表三个指针，分别指向左子树，右子树，父亲，而在我的实现中，我去掉了父亲指针，对于讲解来说，使用一个父指针能很好的解决从子遍历到父亲的经过，但在实际的应用中，我们完全可以使用一个列表存贮从父亲到儿子之间的值，这样的话，能实现一样的功能，而且能节省存贮空间（每个子树都少了一个父指针），但是相应的程序也变得比较复杂起来。</p>
-<p>虽然我在讲解的过程中会直接获取节点的父节点，但是在实际的代码实现中，是通过获取从列表中获取该节点的父节点。</p>
-<h2 id="AVL树的“增”"><a href="#AVL树的“增”" class="headerlink" title="AVL树的“增”"></a>AVL树的“增”</h2><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://en.wikipedia.org/wiki/AVL_tree" target="_blank" rel="external">https://en.wikipedia.org/wiki/AVL_tree</a></p>
-
+<p><a href="/">浅谈”树”这种数据结构</a><br><a href="https://github.com/mrzhangboss/trees" title="github" target="_blank" rel="external">Github</a><br><a href="http://www.cs.usfca.edu/~galles/visualization/RedBlack.html" target="_blank" rel="external">可视化页面</a></p>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2>
         
         
         <p class="article-more-link">
@@ -121,7 +114,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2018/01/04/AVL树实现原理/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/01/04/AVL树实现原理/" data-count-type="comments">&nbsp;</a>
+		<a href="/2018/01/05/红黑树实现原理/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/01/05/红黑树实现原理/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -219,6 +212,69 @@
 	
 	  	<span></span>
 		<a href="/2018/01/04/二叉搜索树实现原理/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/01/04/二叉搜索树实现原理/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/01/04/AVL树实现原理/" title="AVL树实现原理" itemprop="url">AVL树实现原理</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
+		
+  <p class="article-time">
+    <time datetime="2018-01-03T16:00:00.000Z" itemprop="datePublished"> Published 2018-01-04</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <blockquote>
+<p>本篇博客主要基于这篇<a href="/2017/12/27/浅谈树这种数据结构/">博客</a>的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍AVL树的实现原理，完整代码在<a href="https://github.com/mrzhangboss/trees" target="_blank" rel="external">github</a>的<code>avl.go</code>文件中</p>
+</blockquote>
+<p><a href="/2017/12/27/浅谈树这种数据结构/">浅谈”树”这种数据结构</a><br><a href="https://github.com/mrzhangboss/trees" title="github" target="_blank" rel="external">Github</a><br><a href="http://www.cs.usfca.edu/~galles/visualization/AVLtree.html" target="_blank" rel="external">可视化页面</a></p>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>AVL树是在对二叉搜索树的一种优化，通过构造一棵高度平衡的二叉搜索树从而实现提高空间利用率，所以在了解如何实现之前，必须了解如何构造一棵二叉搜索树，你可以阅读我的这篇<a href="/2018/01/04/二叉搜索树实现原理/">博客</a>了解如何构建一棵二叉搜索树，虽然我是用Go来实现的，但是不必了解太多Go方面的知识，我在博客中尽量使用图片的方式来介绍实现原理</p>
+<p><a href="/2018/01/04/二叉搜索树实现原理/">二叉搜索树实现原理</a></p>
+<p>由于AVL树本质上也是一棵二叉搜索树，查找并不会改变树的性质，所以AVL的查找也是同二叉搜索树的查询相同，所以这里就重点介绍如何实现“增”和“删”</p>
+<h3 id="树的字段"><a href="#树的字段" class="headerlink" title="树的字段"></a>树的字段</h3><p>在开始介绍如何实现“增”、“删”之前，我想提一下AVL树的存贮字段，在wiki上面的AVL和很多资料上面，AVL的树结构分别由下面四个组成： Val、 Left*、Right*、Parent*。</p>
+<p>Val代表树存贮的值，Left、Right、Parent代表三个指针，分别指向左子树，右子树，父亲，而在我的实现中，我去掉了父亲指针，对于讲解来说，使用一个父指针能很好的解决从子遍历到父亲的经过，但在实际的应用中，我们完全可以使用一个列表存贮从父亲到儿子之间的值，这样的话，能实现一样的功能，而且能节省存贮空间（每个子树都少了一个父指针），但是相应的程序也变得比较复杂起来。</p>
+<p>虽然我在讲解的过程中会直接获取节点的父节点，但是在实际的代码实现中，是通过获取从列表中获取该节点的父节点。</p>
+<h2 id="AVL树的“增”"><a href="#AVL树的“增”" class="headerlink" title="AVL树的“增”"></a>AVL树的“增”</h2><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://en.wikipedia.org/wiki/AVL_tree" target="_blank" rel="external">https://en.wikipedia.org/wiki/AVL_tree</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/01/04/AVL树实现原理/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/01/04/AVL树实现原理/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -1227,92 +1283,6 @@ print(resp.read())
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/11/12/漫谈排序算法/" title="漫谈排序算法" itemprop="url">漫谈排序算法</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
-		
-  <p class="article-time">
-    <time datetime="2017-11-11T16:00:00.000Z" itemprop="datePublished"> Published 2017-11-12</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="0x00-引子"><a href="#0x00-引子" class="headerlink" title="0x00 引子"></a>0x00 引子</h1><blockquote>
-<p>排序是很多算法的基础，简简单单的排序前人就归纳出很多种算法，但是这些算法多多少少都有着相同的原理</p>
-</blockquote>
-<p>排序算法有很多，这里我们就简单的谈谈下面7种排序的特点</p>
-<ul>
-<li>冒泡排序</li>
-<li>选择排序</li>
-<li>插入排序</li>
-<li>希尔排序</li>
-<li>堆排序</li>
-<li>归并排序</li>
-<li>快速排序</li>
-</ul>
-<h1 id="0x01-Summary"><a href="#0x01-Summary" class="headerlink" title="0x01 Summary"></a>0x01 Summary</h1><p>从算法的抽象程度上来看，冒泡、选择和插入是比较好理解，我们能用我们生活中的常见事物来理解，后面四种比较抽象，而且相对于前三种平均时间复杂度O（n） = n ^ 2 的来说，后面四种的平均复杂度都比前面的小，尤其是面对大量数据排序来说，后面四种能比前三种跑的更快</p>
-<h1 id="0x02-冒泡、选择和插入的特点"><a href="#0x02-冒泡、选择和插入的特点" class="headerlink" title="0x02 冒泡、选择和插入的特点"></a>0x02 冒泡、选择和插入的特点</h1><p>这三种算法空间复杂度都为O（n） = 1，也就是说在给定一个列表的前提下，无论列表数有多大，额外的排序所需的空间都为常量。但是这三种算法的平均时间复杂度为O（n） = n ^ 2， 也就是说在给定一个长度为n的数组，必须要经历 k × n × n 次操作才能排序，当我们的n比较小的时候，我们无法察觉这个算法与更高效的算法的差别，当n很大的时候，比如一个亿，这时候的要进行的操作就瞬间爆炸了。</p>
-<p>这三种算法很大程度上是牺牲了运行时间换取运行空间，我们可以从桶排序上面得到相反的例子，桶排序的时间复杂度为O（n） = 1，空间复杂度为O（n） = n，也就是说在排序上面他的速度是最快的，但是它所花费的空间也是巨大的，<strong>有时候时间空间就是两个双刃剑，你如果想节省空间必须浪费时间，你如果想节省时间必须浪费空间</strong></p>
-<p>这三种算法原理很简单，而且有一个相同的地方，就是他们每一节排序就会“删掉”一个数字，接下来就是对剩下的排序。当然我这里的删掉就是代表已经排好，然而接下来的过程中不会再涉及到这个数字</p>
-<p>这个非常好理解，随便给我们一副牌让一个小朋友把他排出来，小朋友一般就是先找出最大的牌放到最前面，然后在剩下里面找到最大的，依次排下去，最后手里就剩一张牌了，这个牌组就排好了</p>
-<p>这三种算法都是基于这个核心，但是具体的算法细节不同。冒泡排序就是先从头到尾依次把最大的交换到最后面；插入排序的话就是我们从第一个数字开始从后面把小的数字插入到前面去；选择的话同冒泡有点相似，不过它并不会把数字传递过去，它直接将未排序的最大值与未排序的末尾值交换。</p>
-<p>这三种排序我们都非常好理解，但是他们有一个缺点，就是未排序前必须遍历全部数组，我们都知道现在大数据时代，对于上亿数据执行一次遍历就已经非常耗时间了，为了排一个数字要几乎就遍历一遍（排到后期遍历的越来越少），所以这三种算法在面对巨量数据的时候，花在遍历上面的时间比排序时间要更多。</p>
-<h1 id="0x03-希尔和插入排序"><a href="#0x03-希尔和插入排序" class="headerlink" title="0x03 希尔和插入排序"></a>0x03 希尔和插入排序</h1><p>希尔排序是插入排序的更高效改进方法，说到改进我们就要谈谈插入排序的优缺点</p>
-<ul>
-<li>优点</li>
-</ul>
-<p>我们给定 <code>[ 1, 3, 2, 5, 8 ]</code> 数组，这个数组基本上已经排好序了，如果使用插入排序，我们只要在插入2的时候，将2和3交换就可以，设我们挪动的距离就为1</p>
-<p>我们在看这个数组 <code>[ 1, 3, 5, 8, 2 ]</code>，我们可以看到这里如果使用插入排序，我们会在插入2的时候，要将2依次与8、5、3交换，这样移动的距离就为3</p>
-<p>希尔排序改进的地方就是步长，如果它的步长选择的好，它的排序效果越好。这个步长是什么呢，插入排序的步长一直为1，也就是每次遍历的时候步子迈一步，假如步长为2，也就是迈两步。在<code>[ 1, 3, 5, 8, 2 ]</code>数组中，比如说我们数字2，它在步长为1的时候，它下一步要比较的是8，假如步长为3，那它下一步就直接与3比较了。</p>
-<p>所以希尔排序改进就在于他能直接移动多位，在上面的例子里面，步长为3，我们能直接将数组从3的位置移动到2，如果直接使用插入排序，必须移动3次才能达到希尔排序的效果。</p>
-<p>希尔排序原理同插入是一样的，不同在于，插入的步长希尔是可变的，这样就为一些“调皮”的数字的移动加快了速度，一步一步的移动他们太累了，直接把步子迈大，一步到位。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/programming/">programming</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/11/12/漫谈排序算法/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/11/12/漫谈排序算法/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
@@ -1389,7 +1359,7 @@ print(resp.read())
 			
 		
 			
-				<li><a href="/tags/Python3-GIL/" title="Python3, GIL">Python3, GIL<sup>1</sup></a></li>
+				<li><a href="/tags/Python3/" title="Python3">Python3<sup>1</sup></a></li>
 			
 		
 			
@@ -1398,6 +1368,10 @@ print(resp.read())
 		
 			
 				<li><a href="/tags/Python3-C/" title="Python3, C++">Python3, C++<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python3-GIL/" title="Python3, GIL">Python3, GIL<sup>1</sup></a></li>
 			
 		
 			

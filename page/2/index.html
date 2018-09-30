@@ -78,6 +78,122 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2018/03/17/正则表达式(regular expression)0/" title="Python正则表达式" itemprop="url">Python正则表达式</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
+		
+  <p class="article-time">
+    <time datetime="2018-03-16T16:00:00.000Z" itemprop="datePublished"> Published 2018-03-17</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <hr>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
+<p>这篇博客其实写于2016年，最近在重新学了一下正则表达之后，觉得有必要重新整理一下正则的用法</p>
+<p>Python对正则匹配的库是<code>re</code>，re是基于Perl所用的正则表达式,并有<br>一定的改进.</p>
+</blockquote>
+<p>正则本质就是搜索所需的文本,正则里面有三种搜索方式</p>
+<ol>
+<li>第一种是知道文本内容直接使用普通字符搜索出来,比如要从<code>abcdefg</code>中搜到<code>cd</code></li>
+<li>第二种就是模糊查询,比如我想从英文中找一个数字,一般借助特殊符号(<code>.+*?</code>)或者转义符号(<code>\w\d</code>等)</li>
+<li>第三种就是结合前两种,比如我记得一个单词的前两个字母想把那个单词搜出来.</li>
+</ol>
+<p>这里不介绍正则基本知识,你想知道可以<a href="http://www.regexlab.com/zh/regref.htm" target="_blank" rel="external">点这里</a></p>
+<p>ps: 由于在python里面也是用反斜杠做转义字符,所以比如<code>\\</code>和<code>\b</code>这两个特殊字符必须用<code>\\\\</code>和<code>\\b</code>来代替.但是python提供了一个元字符支持re模块,只要字符前面加上r比如<code>r&#39; regex &#39;</code>就能不关闭python的转义.</p>
+<h5 id="正则里面我觉得很重要的一个概念就是组概念-当我们的文本比较复杂的时候将其分成多个小组是利于我们正则的后期维护和改进"><a href="#正则里面我觉得很重要的一个概念就是组概念-当我们的文本比较复杂的时候将其分成多个小组是利于我们正则的后期维护和改进" class="headerlink" title="正则里面我觉得很重要的一个概念就是组概念,当我们的文本比较复杂的时候将其分成多个小组是利于我们正则的后期维护和改进"></a>正则里面我觉得很重要的一个概念就是组概念,当我们的文本比较复杂的时候将其分成多个小组是利于我们正则的后期维护和改进</h5><blockquote>
+<p>正则里面使用一个括号来表示组比如<code>(a)(b)</code>就分成了两个组</p>
+</blockquote>
+<p>re函数里面<code>search</code>和<code>finall</code>都支持组查询,而且<code>findall</code>方法假如里面有组分布会只显示组成员.</p>
+<p>re库支持搜索选项,这几个选项对于正则有时候非常有用</p>
+<pre><code>DOTALL [简S]-------------允许点字符匹配换行符
+IGNORECASE [简I] --------忽悠大小写
+LOCALE  [简L]  ----------支持本地化字符
+MULTILINE [简M] ---------多行,每行都支持锚点
+UNICODE [简U]  ----------支持Unicode,\w也可以是Unicode了
+VERBOSE  [简X]  --------------神器,会无视代码中的注释空格和换行
+</code></pre><p>我们也可以在正则的组里面使用这些搜索选项,只要用上面的简称的小写比如<code>(?is)</code>就可以在组里面使用这些规则.</p>
+<hr>
+<p>正则里面还有一些比较有趣的函数,同string里面的translate函数,sub函数可以替换找到的变量<br>    bold = re.compile(r’*{2}(.<em>?)\</em>{2}’)<br>    bold.sub(r’<b>\1</b>‘, ‘this <strong>foo</strong> and <strong>ok</strong>‘)</p>
+<blockquote>
+<p><code>\1</code>代表第一组变量也就是foo和ok<br>输出为<code>&#39;this &lt;b&gt;foo&lt;/b&gt; and &lt;b&gt;ok&lt;/b&gt;&#39;</code>我们使用成功用加粗了foo和ok,同<code>translate</code>不同这个方法不需要知道要替换的是什么.</p>
+</blockquote>
+<hr>
+<h3 id="正则的断言"><a href="#正则的断言" class="headerlink" title="正则的断言"></a>正则的断言</h3><blockquote>
+<p>我们可以使用一些特殊的符号来执行一些程序判断选择,比如说判断是否特殊字符,如果有<br>的话就不匹配,这就是断言</p>
+</blockquote>
+<p>断言有两种一种是前向,一种是后向</p>
+<blockquote>
+<p>前向是指判断语句在前面,这种就相当于一个if语句,而后向是匹配后判断,由于已经匹配好了文字所以<br>匹配的字符必须是固定长度的(不能使用*.?).</p>
+</blockquote>
+<p>前向就是在判断后面匹配的表达式必须与规定相同,比如一个邮箱地址我们要匹配可以用&lt;&gt;包起来的,但是不匹配只要一个的我们就可以在前面加上这个<code>^(?=(&lt;.*&gt;$)|([^&lt;].*[^&gt;]$))</code>通过使用<code>?=</code>来断言后面必须是用&lt;&gt;包起来或者没有&lt;&gt;,我们使用前向断言可以通过正则直接过滤掉不符合的(当然你可以用多个简单正则来做但是效率没有这个高),还有否定前向就是通过<code>?!</code>来声明.<br>相对应后向断言就是很简单了,直接在匹配后面使用一个<code>?&lt;=</code>(肯定后向)或<code>?&lt;!</code>(否定后向),不过要注意这个是判断前面匹配是否满足的.</p>
+<blockquote>
+<p>断言只是限定我们想选的文本的范围,他并不会被选择.<br>断言的一个有趣的应用就是选择字符间的空格,我们知道python其实假设每个字符间都一个空格(这就是我们有时候会选出一些空字符出来的原因),这个空格不是我们自己打上去的.</p>
+<h4 id="举个例子"><a href="#举个例子" class="headerlink" title="举个例子"></a>举个例子</h4><h3 id="两个字符串a1和a-1-第一个我们称为A-第二个我们称他为B-假如我们想把数字和字母分出来-对于B来说-很简单因为数字和字母之间有一个空格-我们可以直接使用字符自带的split就行-但是对于A来说-就不那么简单了"><a href="#两个字符串a1和a-1-第一个我们称为A-第二个我们称他为B-假如我们想把数字和字母分出来-对于B来说-很简单因为数字和字母之间有一个空格-我们可以直接使用字符自带的split就行-但是对于A来说-就不那么简单了" class="headerlink" title="两个字符串a1和a 1,第一个我们称为A,第二个我们称他为B,假如我们想把数字和字母分出来,对于B来说,很简单因为数字和字母之间有一个空格,我们可以直接使用字符自带的split就行,但是对于A来说,就不那么简单了."></a>两个字符串<code>a1</code>和<code>a 1</code>,第一个我们称为A,第二个我们称他为B,假如我们想把数字和字母分出来,对于B来说,很简单因为数字和字母之间有一个空格,我们可以直接使用字符自带的<code>split</code>就行,但是对于A来说,就不那么简单了.</h3><h4 id="字母a和数字1中间没有字符-我们必须把字母和数字之间的”空格”给选择出来-这时候就可以用到断言了"><a href="#字母a和数字1中间没有字符-我们必须把字母和数字之间的”空格”给选择出来-这时候就可以用到断言了" class="headerlink" title="字母a和数字1中间没有字符,我们必须把字母和数字之间的”空格”给选择出来,这时候就可以用到断言了."></a>字母a和数字1中间没有字符,我们必须把字母和数字之间的”空格”给选择出来,这时候就可以用到断言了.</h4></blockquote>
+<pre><code>r = re.compile(r&apos;(?&lt;=[a-z])(?=\d)&apos;) 
+</code></pre><p>这个<code>r</code>就可以字母和数字直接的隐形空格给选择出来了</p>
+<h3 id="遗憾的是由于python的正则并不把隐形的空格当做字符-所以我们不能简单的使用正则的re-split方法-选择字符分割-直接将字符串分解开"><a href="#遗憾的是由于python的正则并不把隐形的空格当做字符-所以我们不能简单的使用正则的re-split方法-选择字符分割-直接将字符串分解开" class="headerlink" title="遗憾的是由于python的正则并不把隐形的空格当做字符,所以我们不能简单的使用正则的re.split方法(选择字符分割)直接将字符串分解开."></a>遗憾的是由于python的正则并不把隐形的空格当做字符,所以我们不能简单的使用正则的<code>re.split</code>方法(选择字符分割)直接将字符串分解开.</h3><h4 id="我们就得写几步"><a href="#我们就得写几步" class="headerlink" title="我们就得写几步"></a>我们就得写几步</h4><h3 id="第一先把空格换成-或其他"><a href="#第一先把空格换成-或其他" class="headerlink" title="第一先把空格换成 $$$(或其他)"></a>第一先把空格换成 $$$(或其他)</h3><pre><code>&gt;&gt;&gt; s = r.sub(&apos;$$$&apos;, &apos;a1&apos;)
+&gt;&gt;&gt; print(s)
+&apos;a$$$1&apos;
+</code></pre><h3 id="然后在分割"><a href="#然后在分割" class="headerlink" title="然后在分割"></a>然后在分割</h3><pre><code>&gt;&gt;&gt; s.split(&apos;$$$&apos;)
+&gt;&gt;&gt; [&apos;a&apos;, &apos;1&apos;]
+</code></pre><p>成功分割好了,当然这个只能处理字母在前数字在后的”隐形空格”,只要加一个<code>&quot;|&quot;</code>在把前向改成后向,后向改成前向就可以选择任意字母和数字直接的”隐形空格”了.</p>
+<hr>
+<h3 id="正则的变量"><a href="#正则的变量" class="headerlink" title="正则的变量"></a>正则的变量</h3><blockquote>
+<p>我们可以使用?P<name>来声明一个组(用括号,当然其实我们每使用一个括号re自动帮我们将组取一个<br>名,依次从1-n</name></p>
+</blockquote>
+<p>有时候我们可以要求上面的匹配组,下面也要相应匹配组,我们就可以通过两种方法来引用这个变量,假如你没有使用<code>&lt;?P&lt;name&gt;</code>来声明组你只能通过<code>\n</code>来引用,n是这个变量的序号,第二种是通过<code>(?P=name)</code><br>来引用这个变量,name为你自己定义的组的名字</p>
+<p>re还提供了一种机制来让你修正你的正则,简单来说就是能判断一个组存不存在来约束匹配,语法为</p>
+<pre><code>(?(id)yes-expression|no-expression)
+</code></pre><p>id为组的编号或者name.</p>
+<h2 id="正则的起源"><a href="#正则的起源" class="headerlink" title="正则的起源"></a>正则的起源</h2><p>正则这个东西其实很简单，我们</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/python3/">python3</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/03/17/正则表达式(regular expression)0/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/03/17/正则表达式(regular expression)0/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2018/02/20/用户空间隔离/" title="用户空间隔离" itemprop="url">用户空间隔离</a>
   </h1>
   <p class="article-author">By
@@ -460,6 +576,70 @@ ts.ts_ss0 = GD_KD;
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2018/01/31/内存分页/" title="内存分页" itemprop="url">内存分页</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
+		
+  <p class="article-time">
+    <time datetime="2018-01-30T16:00:00.000Z" itemprop="datePublished"> Published 2018-01-31</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本来自己查了很多资料，想自己写出来，结果下笔的时候发现别人已经把我想写的部分全部写出来了，而且比我想的还要具体，所以我就不写了，把链接放出了，顺便我补充一些</p>
+<p><a href="http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan/" target="_blank" rel="external">http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan/</a></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>由于内存分页在后面的lab2中也会设计，而且给出的资料写的非常详细，所以我就不多提了。这里提一下为了更好的理解什么内存分页的段选择子与CS的关系，我写了一篇<a href="/2018/01/30/从CS寄存器看段的前世今生/">关于CS寄存器的发展史</a></p>
+<p>最后我提一下<code>kern/entrypgdir.c</code>手写的内存分页表</p>
+<p>第一个<code>entry_pgdir</code>是页目录，第二个<code>entry_pgtable</code>页表，而且注意<code>entry_pgtable</code>是代表0-4M物理内存可写可读的真实内存地址</p>
+<p>前面知道了目录和页表的作用，在现实系统中，一个目录下有1024个页表，但是这只有一个页表，而且它代表从0-4M连续的内存空间</p>
+<p>PS：后面12位是权限位，只看前三位，可以知道是从（000-3ff）的高20位物理地址，由于我们声明了<code>__attribute__((__aligned__(PGSIZE)))</code>（地址4K对齐，其实意思是它真实物理地址后12位一定全部为0），所以直接取<code>(uintptr_t)entry_pgtable</code>地址就是页表地址，虽然后面加上权限位<code>PTE_P + PTE_W</code>，但是在寻找真实地址时都会屏蔽（只取前20位如），当初想了很久感觉取不到页表的真实地址，还以为有什么神奇的编译设定，后面查了很久资料才明白，所以这里提个醒后面我们会在lab2中正式接触内存分页技术，这里只是相当于设定了一个“常数”，后面会将器扩展变成“函数”。</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2>
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/mit6-828/">mit6.828</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/01/31/内存分页/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/01/31/内存分页/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2018/01/31/引导和操作系统的交互/" title="引导和操作系统的交互" itemprop="url">引导和操作系统的交互</a>
   </h1>
   <p class="article-author">By
@@ -547,70 +727,6 @@ ELF Header:
 	
 	  	<span></span>
 		<a href="/2018/01/31/引导和操作系统的交互/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/01/31/引导和操作系统的交互/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/01/31/内存分页/" title="内存分页" itemprop="url">内存分页</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
-		
-  <p class="article-time">
-    <time datetime="2018-01-30T16:00:00.000Z" itemprop="datePublished"> Published 2018-01-31</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本来自己查了很多资料，想自己写出来，结果下笔的时候发现别人已经把我想写的部分全部写出来了，而且比我想的还要具体，所以我就不写了，把链接放出了，顺便我补充一些</p>
-<p><a href="http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan/" target="_blank" rel="external">http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan/</a></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>由于内存分页在后面的lab2中也会设计，而且给出的资料写的非常详细，所以我就不多提了。这里提一下为了更好的理解什么内存分页的段选择子与CS的关系，我写了一篇<a href="/2018/01/30/从CS寄存器看段的前世今生/">关于CS寄存器的发展史</a></p>
-<p>最后我提一下<code>kern/entrypgdir.c</code>手写的内存分页表</p>
-<p>第一个<code>entry_pgdir</code>是页目录，第二个<code>entry_pgtable</code>页表，而且注意<code>entry_pgtable</code>是代表0-4M物理内存可写可读的真实内存地址</p>
-<p>前面知道了目录和页表的作用，在现实系统中，一个目录下有1024个页表，但是这只有一个页表，而且它代表从0-4M连续的内存空间</p>
-<p>PS：后面12位是权限位，只看前三位，可以知道是从（000-3ff）的高20位物理地址，由于我们声明了<code>__attribute__((__aligned__(PGSIZE)))</code>（地址4K对齐，其实意思是它真实物理地址后12位一定全部为0），所以直接取<code>(uintptr_t)entry_pgtable</code>地址就是页表地址，虽然后面加上权限位<code>PTE_P + PTE_W</code>，但是在寻找真实地址时都会屏蔽（只取前20位如），当初想了很久感觉取不到页表的真实地址，还以为有什么神奇的编译设定，后面查了很久资料才明白，所以这里提个醒后面我们会在lab2中正式接触内存分页技术，这里只是相当于设定了一个“常数”，后面会将器扩展变成“函数”。</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2>
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/mit6-828/">mit6.828</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/01/31/内存分页/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/01/31/内存分页/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -945,62 +1061,6 @@ ELF Header:
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/01/05/红黑树实现原理/" title="红黑树实现原理" itemprop="url">红黑树实现原理</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
-		
-  <p class="article-time">
-    <time datetime="2018-01-04T16:00:00.000Z" itemprop="datePublished"> Published 2018-01-05</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <blockquote>
-<p>本篇博客主要基于这篇<a href="/">博客</a>的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍红黑树的实现原理，完整代码在<a href="https://github.com/mrzhangboss/trees" target="_blank" rel="external">github</a>的<code>rbtree.go</code>文件中</p>
-</blockquote>
-<p><a href="/">浅谈”树”这种数据结构</a><br><a href="https://github.com/mrzhangboss/trees" title="github" target="_blank" rel="external">Github</a><br><a href="http://www.cs.usfca.edu/~galles/visualization/RedBlack.html" target="_blank" rel="external">可视化页面</a></p>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2>
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/01/05/红黑树实现原理/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/01/05/红黑树实现原理/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/3/">Next<span></span></a>
@@ -1077,7 +1137,7 @@ ELF Header:
 			
 		
 			
-				<li><a href="/tags/Python3-GIL/" title="Python3, GIL">Python3, GIL<sup>1</sup></a></li>
+				<li><a href="/tags/Python3/" title="Python3">Python3<sup>1</sup></a></li>
 			
 		
 			
@@ -1086,6 +1146,10 @@ ELF Header:
 		
 			
 				<li><a href="/tags/Python3-C/" title="Python3, C++">Python3, C++<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python3-GIL/" title="Python3, GIL">Python3, GIL<sup>1</sup></a></li>
 			
 		
 			
