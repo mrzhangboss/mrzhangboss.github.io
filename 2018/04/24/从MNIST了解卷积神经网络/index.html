@@ -72,7 +72,7 @@
 				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -110,11 +110,18 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-04-23T16:00:00.000Z" itemprop="datePublished"> 發表於 2018-04-24</time>
+    <time datetime="2018-04-23T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-04-24</time>
     
   </p>
 </header>
 	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#加载数据"><span class="toc-number">2.</span> <span class="toc-text">加载数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#观察数据"><span class="toc-number">3.</span> <span class="toc-text">观察数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#传统做法"><span class="toc-number">4.</span> <span class="toc-text">传统做法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#从项目了解卷积"><span class="toc-number">5.</span> <span class="toc-text">从项目了解卷积</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#准备数据"><span class="toc-number">5.1.</span> <span class="toc-text">准备数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第一层"><span class="toc-number">5.2.</span> <span class="toc-text">第一层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#全连接层"><span class="toc-number">5.3.</span> <span class="toc-text">全连接层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#输出层"><span class="toc-number">5.4.</span> <span class="toc-text">输出层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#反向传播"><span class="toc-number">5.5.</span> <span class="toc-text">反向传播</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">6.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引用"><span class="toc-number">7.</span> <span class="toc-text">引用</span></a></li></ol>
+		
+		</div>
 		
 		<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
 <p>本文是学习Tensorflow<a href="http://www.tensorfly.cn/tfdoc/tutorials/mnist_pros.html" target="_blank" rel="external">官方文档</a>的过程中的一点感悟，本文假设你对矩阵运算有一定的了解，具体可以看看下面<a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html" target="_blank" rel="external">资料</a></p>
@@ -339,24 +346,24 @@ for i in range(18000):
 
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目錄</strong>
+  <strong class="toc-title">文章目录</strong>
  
  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#加载数据"><span class="toc-number">2.</span> <span class="toc-text">加载数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#观察数据"><span class="toc-number">3.</span> <span class="toc-text">观察数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#传统做法"><span class="toc-number">4.</span> <span class="toc-text">传统做法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#从项目了解卷积"><span class="toc-number">5.</span> <span class="toc-text">从项目了解卷积</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#准备数据"><span class="toc-number">5.1.</span> <span class="toc-text">准备数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第一层"><span class="toc-number">5.2.</span> <span class="toc-text">第一层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#全连接层"><span class="toc-number">5.3.</span> <span class="toc-text">全连接层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#输出层"><span class="toc-number">5.4.</span> <span class="toc-text">输出层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#反向传播"><span class="toc-number">5.5.</span> <span class="toc-text">反向传播</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">6.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引用"><span class="toc-number">7.</span> <span class="toc-text">引用</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
 
   
 <div class="tagslist">
-	<p class="asidetitle">標簽</p>
+	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
 		
 			
@@ -444,7 +451,7 @@ for i in range(18000):
 
 
   <div class="linkslist">
-  <p class="asidetitle">友情鏈接</p>
+  <p class="asidetitle">友情链接</p>
     <ul>
         
           <li>
@@ -460,7 +467,7 @@ for i in range(18000):
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 訂閱</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
   <div class="weiboshow">
@@ -726,7 +733,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

@@ -54,7 +54,7 @@
 				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -92,11 +92,18 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-01-28T16:00:00.000Z" itemprop="datePublished"> 發表於 2018-01-29</time>
+    <time datetime="2018-01-28T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-01-29</time>
     
   </p>
 </header>
 	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实验目的"><span class="toc-number">2.</span> <span class="toc-text">实验目的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">3.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#上位篇"><span class="toc-number">4.</span> <span class="toc-text">上位篇</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#操作系统结构"><span class="toc-number">5.</span> <span class="toc-text">操作系统结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#堆栈"><span class="toc-number">5.1.</span> <span class="toc-text">堆栈</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#操作系统的高地址"><span class="toc-number">6.</span> <span class="toc-text">操作系统的高地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">7.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引用"><span class="toc-number">8.</span> <span class="toc-text">引用</span></a></li></ol>
+		
+		</div>
 		
 		<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本文是基于mit6.828 的lab1对操作系统的思考，网上有不少关于lab1的博客，大部分都是介绍如何完成lab1的问题，介绍的比较详细的有这个<a href="http://www.cnblogs.com/fatsheep9146/category/769143.html" target="_blank" rel="external">博客</a>，在这里我就不从问题出发，建议大家看完上面的博客在看我这篇博文，我这篇博文就是从把我遇到的疑惑提炼出知识点，然后再把这些知识点串起来</p>
 <h2 id="实验目的"><a href="#实验目的" class="headerlink" title="实验目的"></a>实验目的</h2><p>作为操作系统的第一个实验，在完成lab1我们主要目的就是要了解什么是操作系统，后面的lab都是在这个基础上搭建完善好系统的各种功能，就好像你画一幅画，第一步你先把人物的轮廓外形画出来，接下来你在把人的鼻子耳朵眼睛等等慢慢画出来，所以第一个实验非常重要，如果不把骨架搭好，你的操作系统再怎么豪华强大也是空中楼阁，所以我们在这个lab上一定要花上很多时间，万事开头难，只要攻克了这个，操作系统也就离你不远了</p>
@@ -197,24 +204,24 @@
 
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目錄</strong>
+  <strong class="toc-title">文章目录</strong>
  
  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实验目的"><span class="toc-number">2.</span> <span class="toc-text">实验目的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">3.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#上位篇"><span class="toc-number">4.</span> <span class="toc-text">上位篇</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#操作系统结构"><span class="toc-number">5.</span> <span class="toc-text">操作系统结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#堆栈"><span class="toc-number">5.1.</span> <span class="toc-text">堆栈</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#操作系统的高地址"><span class="toc-number">6.</span> <span class="toc-text">操作系统的高地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">7.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引用"><span class="toc-number">8.</span> <span class="toc-text">引用</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
 
   
 <div class="tagslist">
-	<p class="asidetitle">標簽</p>
+	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
 		
 			
@@ -302,7 +309,7 @@
 
 
   <div class="linkslist">
-  <p class="asidetitle">友情鏈接</p>
+  <p class="asidetitle">友情链接</p>
     <ul>
         
           <li>
@@ -318,7 +325,7 @@
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 訂閱</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
   <div class="weiboshow">
@@ -584,7 +591,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

@@ -52,7 +52,7 @@
 				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -90,11 +90,18 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-01-29T16:00:00.000Z" itemprop="datePublished"> 發表於 2018-01-30</time>
+    <time datetime="2018-01-29T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-01-30</time>
     
   </p>
 </header>
 	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">2.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#段设计对程序影响"><span class="toc-number">3.</span> <span class="toc-text">段设计对程序影响</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#兼容性"><span class="toc-number">3.1.</span> <span class="toc-text">兼容性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安全性"><span class="toc-number">3.2.</span> <span class="toc-text">安全性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#32位处理器的改变"><span class="toc-number">4.</span> <span class="toc-text">32位处理器的改变</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li></ol>
+		
+		</div>
 		
 		<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>Intel作为作为微处理器的航头老大，一直引导CPU的进步发展，也正是因为Intel是一个有着历史包袱的企业，所以站在现代CPU看起来，有一些非常奇葩的设计遗留下来，这些设计一开始是为了兼容，慢慢的将这种兼容又发展成新的功能，把“包袱”转换成“亮点”，段设计就是其中的一个很重要的代表，要想搞懂这个设计在不同的CPU的如何保持兼容和强化，我们必须要慢慢的把CPU的历史给捋顺。</p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>我们要介绍第一个CPU是8086，虽然Intel前面也生产了4004、8008、8080微处理器，但是8086基本上后面所以现代化CPU始祖，Intel后面生产的CPU都对8086兼容，所以可以说段这个“祸端”就是从8086种下来的</p>
@@ -165,24 +172,24 @@
 
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目錄</strong>
+  <strong class="toc-title">文章目录</strong>
  
  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">2.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#段设计对程序影响"><span class="toc-number">3.</span> <span class="toc-text">段设计对程序影响</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#兼容性"><span class="toc-number">3.1.</span> <span class="toc-text">兼容性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安全性"><span class="toc-number">3.2.</span> <span class="toc-text">安全性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#32位处理器的改变"><span class="toc-number">4.</span> <span class="toc-text">32位处理器的改变</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
 
   
 <div class="tagslist">
-	<p class="asidetitle">標簽</p>
+	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
 		
 			
@@ -270,7 +277,7 @@
 
 
   <div class="linkslist">
-  <p class="asidetitle">友情鏈接</p>
+  <p class="asidetitle">友情链接</p>
     <ul>
         
           <li>
@@ -286,7 +293,7 @@
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 訂閱</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
   <div class="weiboshow">
@@ -552,7 +559,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

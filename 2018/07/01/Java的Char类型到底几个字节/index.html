@@ -55,7 +55,7 @@
 				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -93,11 +93,18 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-06-30T16:00:00.000Z" itemprop="datePublished"> 發表於 2018-07-01</time>
+    <time datetime="2018-06-30T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-07-01</time>
     
   </p>
 </header>
 	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题的产生"><span class="toc-number">2.</span> <span class="toc-text">问题的产生</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#表面兄弟：JAVA"><span class="toc-number">3.</span> <span class="toc-text">表面兄弟：JAVA</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#亲兄弟：Python"><span class="toc-number">4.</span> <span class="toc-text">亲兄弟：Python</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引用"><span class="toc-number">6.</span> <span class="toc-text">引用</span></a></li></ol>
+		
+		</div>
 		
 		<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>之所以有这个疑问，是上次阅读Java基础书时碰到讲解<code>char</code>类型没有看明白，并且在代码验证过程中错误的理解了代码的意思，导致我对这么个简单问题产生疑惑并且“恶意揣测”Java内部的黑魔法，这里就把我如何走上歪路，并且最终找到“正确”的道路的故事讲出来</p>
 <h2 id="问题的产生"><a href="#问题的产生" class="headerlink" title="问题的产生"></a>问题的产生</h2><p>我们知道<code>Java</code>是采用<code>Unicode</code>进行内部编码，但是使用<code>UTF-16</code>作为外部编码。</p>
@@ -192,24 +199,24 @@ timeit.timeit(&quot;&apos;中国人&apos;.encode(&apos;utf-8&apos;)&quot;)
 
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目錄</strong>
+  <strong class="toc-title">文章目录</strong>
  
  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题的产生"><span class="toc-number">2.</span> <span class="toc-text">问题的产生</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#表面兄弟：JAVA"><span class="toc-number">3.</span> <span class="toc-text">表面兄弟：JAVA</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#亲兄弟：Python"><span class="toc-number">4.</span> <span class="toc-text">亲兄弟：Python</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引用"><span class="toc-number">6.</span> <span class="toc-text">引用</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
 
   
 <div class="tagslist">
-	<p class="asidetitle">標簽</p>
+	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
 		
 			
@@ -297,7 +304,7 @@ timeit.timeit(&quot;&apos;中国人&apos;.encode(&apos;utf-8&apos;)&quot;)
 
 
   <div class="linkslist">
-  <p class="asidetitle">友情鏈接</p>
+  <p class="asidetitle">友情链接</p>
     <ul>
         
           <li>
@@ -313,7 +320,7 @@ timeit.timeit(&quot;&apos;中国人&apos;.encode(&apos;utf-8&apos;)&quot;)
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 訂閱</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
   <div class="weiboshow">
@@ -579,7 +586,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
