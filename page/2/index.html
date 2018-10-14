@@ -45,7 +45,7 @@
 				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -72,1177 +72,246 @@
     <div id="container">
       <div id="main">
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/04/24/从MNIST了解卷积神经网络/" title="从MNIST了解卷积神经网络" itemprop="url">从MNIST了解卷积神经网络</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
-		
-  <p class="article-time">
-    <time datetime="2018-04-23T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-04-24</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
-<p>本文是学习Tensorflow<a href="http://www.tensorfly.cn/tfdoc/tutorials/mnist_pros.html" target="_blank" rel="external">官方文档</a>的过程中的一点感悟，本文假设你对矩阵运算有一定的了解，具体可以看看下面<a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html" target="_blank" rel="external">资料</a></p>
-</blockquote>
-<h2 id="加载数据"><a href="#加载数据" class="headerlink" title="加载数据"></a>加载数据</h2><blockquote>
-<p>首先我们得先把数据下载下来，Tensorflow给我们提供了一个函数来进行下载，这个<a href="https://github.com/tensorflow/tensorflow/blob/master/tensorflow/contrib/learn/python/learn/datasets/mnist.py" target="_blank" rel="external">函数</a>为<a href="https://github.com/tensorflow/tensorflow/blob/master/tensorflow/contrib/learn/python/learn/datasets/mnist.py" target="_blank" rel="external">read_data_sets</a></p>
-</blockquote>
-<p>这个函数<code>read_data_sets</code>函数很简单，查看在目录下面有没有文件没有就去下载，有就解析加载，一方面方便我们获取数据，一方面方便我们直接开箱即食，但是由于这个默认下载地址是需要翻墙，所以我这里提供一个不需要翻墙的<a href="http://yann.lecun.com/exdb/mnist/" target="_blank" rel="external">地址</a>，你只需要加载下面的函数</p>
-<pre><code>from tensorflow.examples.tutorials.mnist import input_data
-mnist = input_data.read_data_sets(&quot;input/&quot;, one_hot=True, source_url=&quot;http://yann.lecun.com/exdb/mnist/&quot;)
-</code></pre><p>等几分钟，数据就会下载到当前目录的<code>input</code>文件夹中，这样你下次运行就能直接本地文件夹中加载图片数据了</p>
-<h2 id="观察数据"><a href="#观察数据" class="headerlink" title="观察数据"></a>观察数据</h2><p>首先我们看看下载了什么数据，打开<code>input</code>文件夹，我们可以看到，Tensorflow给我下载好了四个文件，分为两组，一组训练集一组测试集，每组里面2个文件，一个是手写图片文件，一个标签文件（每张手写的图片代表的数字）</p>
-<p>加载图片数据对于新手来说挺麻烦的，为了让我们专注于模型而不是编程，Tensorflow直接帮我们做好了加载数据的事情，我们上面得到的<code>mnist</code>变量里面就存贮了我们这个项目所需要的数据，我们来看看这个<code>mnist</code>有什么</p>
-<p>我们最关心的就是<code>mnist</code>里面训练数据，这里推荐使用<code>notebook</code>来操作这个数据集，我们首先<code>mnist</code>的训练数据是什么</p>
-<p><img src="/images/mnist-nums.png" alt="mnist数据来源网络"></p>
-<p><code>mnist</code>数据就是上面这些图片，我们把图片把每个像素的二值化，然后把他们放到一个数组中，每张图片对应一个数组</p>
-<p>mnist训练数据存贮在这两个变量中</p>
-<pre><code>mnist.train.labels
-mnist.train.images
-</code></pre><p>其中<code>mnist.train.images</code>是一个<code>(55000, 784)</code>的二维数组，其中<code>mnist.train.labels.shape</code>是一个<code>(55000, 10)</code>的二维数组，现在摆在我们面前的其实很简单，通过<code>55000</code>个图片像素值来训练我们模型，以便能让模型能给一张图片像素值来预测图片代表的数字</p>
-<p>这些数字在人看来非常容易辨认，但是怎么能让电脑也能辨别他呢，这就要用到卷积神经网络的力量，通过卷积神经网络，电脑的准确率能到99%，这就非常恐怖了，我们人有时候也会看走眼呢。</p>
-<p>在谈卷积之前我们先谈谈我们以前的做法，这样通过对比就能知道卷积到底做了什么优化</p>
-<h2 id="传统做法"><a href="#传统做法" class="headerlink" title="传统做法"></a>传统做法</h2><p>其实从传统的角度来看，其实图像识别也就是通过图片的特征值来判断图片代表的含义，但是图片这个东西又很特殊，相比于其他机器学习问题，他的特征值很多，这里我们使用28X28的图片就有784个特征，如果我们图片尺寸再大，这个特征值会变得非常巨大，而且我们知道机器学习需要大量数据才能大展身手，然而每个图片如此巨大，训练巨大的数据集电脑也吃不消</p>
-<p>所以我们必须要将数据进行降维，机器学习里面有很多降维的方法，比如PCA，LDA这些，但是这些方法都有一个问题他们必须把一个图片看做一个整体输入，也就是前面的将28X28转换成一个784的数组，这个数组我们知道，他丧失了一个非常重要的东西维度，我们仔细观察上面的图片</p>
-<p><img src="/images/mnist-nums.png" alt="mnist数据来源网络"></p>
-<p>每个图片其实我们关注的都是数字的二维分布，我们通过闭合的圆的个数来区分8和0，我们通过中间的空白部分来区分0和1，所以我们希望能使用一种新的方法来确定图片特征，一方面能够保存图片的空间信息，一方面能最终数据一维的结果（图片代表的数字），这个就是卷积的引入了，卷积从二维的角度来提取图片的特征，相比于传统的一维提取，它能最大程度保留图片的信息，并且进行深度降维</p>
-<h2 id="从项目了解卷积"><a href="#从项目了解卷积" class="headerlink" title="从项目了解卷积"></a>从项目了解卷积</h2><blockquote>
-<p>一开始学习深度学习卷积神经网络，看了很多资料，但是总是感觉并没有很深的理解，至到接触这个项目，从代码的层次上再去理解卷积才给我恍然大悟的感觉</p>
-</blockquote>
-<p>首先先谈一谈Tensorflow这个库的基础知识，由于Python速度有点慢，所以Tensorflow的后端全部由C++写的，你可以这样理解Tensorflow，Python相当于一个客户端，你可以使用一个session（回话）与服务器（C++）进行交互，这样的话，我们在客户端可以享受Python的方便快捷，也可以享受C++运行的高效性，但是这个也带来一个麻烦，原来Python是一个所见即所得的，现在运行一些东西必须使用session来通知服务器来运行，我们很多中间过程就没法知道，只能通过返回的结果来进行推断了。在官方教程并没有讲太多中间过程，只是一笔带过，所以为了更好的理解卷积神经网络，我们将会以一种很难看的方法运行Tensorflow，但是我们能从这个过程中对卷积的理解更加深刻</p>
-<p><strong>所以接下来我们基本上每个操作都会让后端运行并且分析返回结果，为了方便叙述，我们假设你在运行<code>session.run</code>之前都会运行这个<code>session.run(tf.global_variables_initializer())</code>来初始化所以的变量</strong></p>
-<p>PS：之所以要运行这个，因为我们使用session与<code>C++</code>进行交互，如果我们“不声明”变量，c++会报错的</p>
-<p>下面我们就从这个项目一行一行讲起</p>
-<h3 id="准备数据"><a href="#准备数据" class="headerlink" title="准备数据"></a>准备数据</h3><p>前面我们知道，卷积就是要从二维空间中来提取我们想要的特征，首先我们把数据还原成二维的</p>
-<pre><code>x_image = tf.reshape(x, [-1,28,28,1])
-</code></pre><p>x是上面我们输入的数据，来我们来检测一下，首先我们声明一个<code>session</code></p>
-<pre><code>session = tf.Session()
-</code></pre><p>再从数据集中掏出50张图</p>
-<pre><code>data = mnist.train.next_batch(50)[0]
-</code></pre><p>接下来我们看看这个<code>x_image</code>变成了什么</p>
-<pre><code>session.run(tf.global_variables_initializer())
-
-x_image_data = session.run(x_image, feed_dict={x: data})
-</code></pre><p>我们输入两者的<code>shape</code></p>
-<pre><code>data.shape, x_image_data.shape
-(50, 784) (50, 28, 28, 1)
-</code></pre><p>我们很清楚的看到，我们成功将一维的数组图像（784）变成了二维的数组图像（28X28），其实我们生成了三维（28 X 28 X 1），但是由于我们只有有些图片还会有多个色道（RGB），所以我们为了兼容，声明成28 X 28 X 1</p>
-<p>好的，现在我们成功将一维图片还原成二维的，接下来就是将他们卷起来的时候了</p>
-<h3 id="第一层"><a href="#第一层" class="headerlink" title="第一层"></a>第一层</h3><p>如果你学过一些信号处理你会发现，深度学习使用的卷积其实并不是原始意义上的卷积，他没有“旋转180”的操作，但是他的形式其实是类似的。这个“积”的操作主要是通过矩阵运算来实现的，为了更好的理解卷这个操作，我从网上找了前辈们辛苦做的动图</p>
-<p><img src="/images/Tensorflow-mult.gif" alt="卷积操作-来源网络"></p>
-<p>PS： 这个图与我们数据有点不同，我们每张只有一个色道，这个有三个色道，这张图有两个卷积核，但是我们这个第一层会使用32个，但是其实原理都一样，如果你实在理解不过来，你可以先值看最上面那一排</p>
-<p>我们回到这种图，最左边就是图像输入，中间是卷积核，最后右边是输出，我们可以从图中可以很清楚的看到卷积的与我们平常操作不同，首先输入上我们是二维数据，通过二维的卷积核进行矩阵运算，最后我们输出二维结果，这就是卷积的强大之处，不但保留了原来的二维信息而且能够使用高效的矩阵运算来加速提取特征</p>
-<p>现在我们回到代码</p>
-<p>首先是要声明卷积核，我们可以使用简单的方法，将卷积核全部声明为全0矩阵，但是这个有可能造成0梯度，所以我们加入一点噪音，我们看看加入噪音的卷积核是什么值</p>
-<pre><code>initial = tf.truncated_normal([5, 5, 1, 32], stddev=0.1)
-W_conv1 = tf.Variable(initial)
-session.run(tf.global_variables_initializer())
-
-W_conv1_value = session.run(W_conv1)
-
-W_conv1_value.mean(), W_conv1_value.std()
-(0.001365028, 0.08744488)
-</code></pre><p>我们使用<code>tf.truncated_normal</code>函数声明了32个5X5X1的随机卷积核，看起来随机性还挺不错哦</p>
-<p>PS：前面（5，5，1）代表输入长、宽、色道，后面代表输出输出数量当然我说它是32个它不一点为32个矩阵，应该是（色道X输出数量）个卷积核，但是我们这里只有一个色道，所以只有32个，我们可以通过<code>W_conv1_value.shape</code>查看真实的维度（当前的维度为（5， 5， 1， 32））</p>
-<p>这个卷积核就对应上面图中间的小矩阵，他的长宽都为5，图中长宽都为3，当然我们可以把这个长宽修改，使用5是我们的经验值，通过这个大小的卷积核能够在模型表现能力更好。</p>
-<p>接下来我们就进行最重要的卷积操作了，由上面图可知，要进行卷积必须要有三维的数据与对应的卷积核进行相卷，其实我们在图中还可以看到一个重要的东西，卷积的步长也就是每个框移动的位置（图中的步长为2）</p>
-<p>还有一个较隐秘的知识，你有没有注意到图中的数据原来是7X7的数据，通过卷积核转换之后就变成了3X3了，影响卷积后图像尺寸不但有步长还有框子的大小，假如你的框是7，那图中只剩下一个值了，所以我们避免尺寸减少，我们使用周围填充0来使最边缘的位置卷积也成为到框子的中心，一方面避免边缘数据流失，一方面也能突出边缘数据（周边全为0）</p>
-<p>Tensorflow为我们封装好了上面所以的方法，我们只要通过传参过去就能改变部长，改变填充方式，好了现在就开始来正式“卷”了</p>
-<pre><code>session.run(tf.global_variables_initializer())
-
-v = session.run(tf.nn.conv2d(x_image, W_conv1, strides=[1, 1, 1, 1], padding=&apos;SAME&apos;), feed_dict={x: data})
-</code></pre><p>现在我们来看看卷完后<code>v</code>的<code>shape</code></p>
-<pre><code>   v.shape
-(50, 28, 28, 32)
-</code></pre><p>50代表50个数据，（28、28）代表图片维度，这个32就是卷积核数，50和32这两个应该是固定的，不难理解，我们现在来看看为什么通过卷积核的“卷”，图片还是保持28X28的，这个也是在知乎上涉及到的一个<a href="https://www.zhihu.com/question/46889310" target="_blank" rel="external">问题</a>，现在我们从实验上来解决一下</p>
-<p>首先我们看<code>tf.nn.conv2d</code>函数，他接受四个参数，第一个图片、第二个卷积核、第三个步长，第四个卷积方式</p>
-<p>首先问题是觉得，卷完之后应该是变成24 X 24，这个理解是没错的，我们将pading的值改成VALID再次运行</p>
-<pre><code>session.run(tf.global_variables_initializer())
-
-v = session.run(tf.nn.conv2d(x_image, W_conv1, strides=[1, 1, 1, 1], padding=&apos;VALID&apos;), feed_dict={x: data})
-
-v.shape
-(50, 24, 24, 32)
-</code></pre><p>我们得到了24 X 24的图片，这个SAME和VALID有什么区别呢，这个区别就是填充0没有填充0的原因，SAME在图像周边填0这样就能得到28 X 28</p>
-<p>我们也发现，这个还有一个参数strides，这个就是前面填的步长，步长的长宽就是中间两位设置的（最边上两位跟输入有关，第一个是输入图片数量，最后一个是图片的色道），我们在这里使用使用1步长，我们来试试2步长试试</p>
-<pre><code>v = session.run(tf.nn.conv2d(x_image, W_conv1, strides=[1, 2, 2, 1], padding=&apos;SAME&apos;), feed_dict={x: data})
-
-v.shape
-(50, 14, 14, 32)
-</code></pre><p>果然输出的图像变成28的1/2了</p>
-<p>接下来我们就要把卷积的值丢到神经元函数里面去了，为了符合实际，我们加入一个偏置量<code>b_conv1</code></p>
-<pre><code>def bias_variable(shape):
-  initial = tf.constant(0.1, shape=shape)
-  return tf.Variable(initial)
-b_conv1 = bias_variable([32])
-</code></pre><p>这里我们使用0.1来初始化偏置量，接下来就是丢到神经元函数，这里我们使用numpy 的array的传播性，将b_conv1传递给所有的28X28的维度</p>
-<pre><code>h_conv1 = tf.nn.relu(tf.nn.conv2d(x_image, W_conv1, strides=[1, 1, 1, 1], padding=&apos;SAME&apos;) + b_conv1)
-
-v = session.run(h_conv1,  feed_dict={x: data})
-
-v.shape
-(50, 28, 28, 32)
-</code></pre><p>我们可以看到卷积完后从神经元函数生成的数据是（50X28X28X32）的，最后维度由1变成32，所有我们得使用点方法来缩减数据维度，这里我们使用卷积池的方法</p>
-<p><img src="/images/tensorflow_pool.png" alt="卷积池"></p>
-<p>由上面可以看到，其实很简单就是把最大的挑出来</p>
-<pre><code>h_pool1 = tf.nn.max_pool(h_conv1, ksize=[1, 2, 2, 1],
-                    strides=[1, 2, 2, 1], padding=&apos;SAME&apos;)
-</code></pre><p>这里的参数很简单我就不介绍，这样“瘦身”之后，数据的维度由(50, 28, 28, 32)变成(50, 14, 14, 32)，减少4倍</p>
-<p>到这里我们的第一层卷积就结束了，接下来就是第二层卷积，为什么要多卷一次呢，因为前一层学到的还是太少了，要加强学习，这层和第一层没什么差别，所以我们就跳过这层</p>
-<p>直接贴代码（函数就不复制了，文档里面有）</p>
-<pre><code>W_conv2 = weight_variable([5, 5, 32, 64])
-b_conv2 = bias_variable([64])
-
-h_conv2 = tf.nn.relu(conv2d(h_pool1, W_conv2) + b_conv2)
-h_pool2 = max_pool_2x2(h_conv2)
-</code></pre><h3 id="全连接层"><a href="#全连接层" class="headerlink" title="全连接层"></a>全连接层</h3><p>当我们完成两层卷积之后，我们的数据变成了（50，7,7，64）的四维数组了，我们知道我们传统的机器学习其实最后都是采用二维数组来当做训练数据（X代表特征，Y代表样本），所以全连接层就是把卷积给“反卷”过来，这样后面你方便对接传统机器学习，而且最后我们需要的数据也是输出的也是二维的（对一堆数据统一进行预测，所以这里称二维），但是这里要注意全连接层不是输出层，所以我们可以随意设置输出的维度，最后输出层对接再进行一次全连接层类似操作就能输出我们想输出的维度，这里我们看看全连接层权值变量</p>
-<pre><code>W_fc1 = weight_variable([7 * 7 * 64, 1024])
-b_fc1 = bias_variable([1024])
-</code></pre><p>这里我们声明全连接层的权值变量<code>W_fc1</code>和偏置量<code>b_fc1</code>，我们可以看看<code>W_fc1</code>的<code>shape</code>是多少</p>
-<pre><code>session.run(tf.global_variables_initializer())
-
-session.run(W_fc1).shape
-(3136, 1024)
-</code></pre><p>我们可以看到其实就是一个二维数组维度为（3136,1024），第一个维度跟输入有关，第二个维度影响输出维度，前面我们使用<code>tf.nn.conv2d</code>卷积操作来转换图片，在全连接层我们要使用矩阵运算来转换我们的维度</p>
-<p>矩阵运算非常有趣，我们在前面其实也提到过一点，就是降维的实现PCA就是使用矩阵运算来进行降维，我们把数据分为X（特征），Y（数量），经过一次矩阵运算我们可以实现数量不变，而特征改变，这个就非常强大了，我们可以随便修改矩阵参数来动态修改我们特征数量</p>
-<p>但是矩阵运算也有一定局限性，就是两个运算的矩阵必须是前者长与后者的宽想同，这个跟矩阵运算特性有关，具体可以看看矩阵运算相关<a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html" target="_blank" rel="external">资料</a></p>
-<p>所以为了进行矩阵运算我们第一件事就是改变输入的<code>shape</code>，让它由四维变成二维，以便能够与我们权值矩阵<code>W_fc1</code>进行运算</p>
-<pre><code>h_pool2_flat = tf.reshape(h_pool2, [-1, 7*7*64])
-</code></pre><p>我们简单的使用<code>tf.reshape</code>就能把第二层卷积后的输出变量转换成（50，7<em>7</em>64）的维度，这样我们就能直接与权值矩阵<code>W_fc1</code>进行运算</p>
-<pre><code>h_fc1 = tf.nn.relu(tf.matmul(h_pool2_flat, W_fc1) + b_fc1)
-</code></pre><p>我们这里直接将运算后的值放到激活函数里面去完成全连接层的功能</p>
-<h3 id="输出层"><a href="#输出层" class="headerlink" title="输出层"></a>输出层</h3><p>其实输出层同全连接层很类似，我们就是把前面的变量转换成我们想输出的维度，在进行这个输出层之前，我们得先搞一层<code>Dropout</code>层，这个能有效的避免神经网络的过拟合问题，具体可以看看这篇<a href="http://jmlr.org/papers/volume15/srivastava14a.old/srivastava14a.pdf" target="_blank" rel="external">论文</a></p>
-<pre><code>keep_prob = tf.placeholder(&quot;float&quot;)
-h_fc1_drop = tf.nn.dropout(h_fc1, keep_prob)
-</code></pre><p>因为同全连接层原理类似，输出层我就不就不详细介绍了</p>
-<pre><code>W_fc2 = weight_variable([1024, 10])
-b_fc2 = bias_variable([10])
-
-y_conv=tf.nn.softmax(tf.matmul(h_fc1_drop, W_fc2) + b_fc2)
-</code></pre><p>我们可以看看最后我们输出是什么</p>
-<pre><code>session.run(tf.global_variables_initializer())
-
-session.run(y_conv, feed_dict={x:data, keep_prob:0.5}).shape
-(50, 10)
-</code></pre><p>ok，我们最后得到一个二维数组，50个预测结果（输出采用OneHot方法）</p>
-<h3 id="反向传播"><a href="#反向传播" class="headerlink" title="反向传播"></a>反向传播</h3><p>在前面我们得到了在初始话随机权值下得到输出结果，但是这个结果肯定是错误的，我们必须通过修改每层的权值来修正模型，使模型越来越聪明，所以第一步，我们必须“自我反省”，了解自己与真实结果差距多少</p>
-<pre><code>y_ = tf.placeholder(&quot;float&quot;, [None, 10])
-cross_entropy = -tf.reduce_sum(y_*tf.log(y_conv))
-</code></pre><p>我们引入<code>y_</code>作为实际值（我们模型预测值为<code>y</code>），我们这里使用交叉熵来评判预测准确性，但是单单知道“自己错了”没有什么卵用，我们必须要“改正”，这里我们使用<code>AdamOptimizer</code>优化算法来反向传播我们误差，让模型好好“反省改正”</p>
-<pre><code>train_step = tf.train.AdamOptimizer(1e-4).minimize(cross_entropy)
-</code></pre><p>到这里基本上差不多了，我们已经形成了一个闭环，预测-&gt;评估-&gt;改正-&gt;预测-&gt;……，只有让它不断的训练下去直到我们能接受他的误差我们的模型就训练好了</p>
-<pre><code>correct_prediction = tf.equal(tf.argmax(y_conv,1), tf.argmax(y_,1))
-accuracy = tf.reduce_mean(tf.cast(correct_prediction, &quot;float&quot;))
-session.run(tf.initialize_all_variables())
-for i in range(18000):
-  batch = mnist.train.next_batch(50)
-  if i%100 == 0:
-    train_accuracy = accuracy.eval(feed_dict={
-        x:batch[0], y_: batch[1], keep_prob: 1.0}, session=session)
-    print(&quot;step %d, training accuracy %g&quot;%(i, train_accuracy))
-    if abs(train_accuracy - 1) &lt; 0.01:
-        break
-  train_step.run(feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5}, session=session)
-</code></pre><p>由于我们使用<code>OneHot</code>方法来输出预测变量，所以我们要使用<code>tf.argmax</code>来得到我们想要的真实数字，经过20000轮训练我们正确率可以达到99%，至此卷积神经网络发挥他的威力。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>卷积神经网络是深度学习的一个很重要的组成部分，了解卷积必须要知道为什么要用卷积，用了有什么好处。总而言之，卷积并不是一个很新奇的东西，很早在信号处理中就有应用，但是在图像处理上由于他能保留图像维度信息从而在深度学习领域大放异彩，这也可以看做“是金子总会发光吧”</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="http://www.tensorfly.cn/tfdoc/tutorials/mnist_pros.html" target="_blank" rel="external">http://www.tensorfly.cn/tfdoc/tutorials/mnist_pros.html</a><br><a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html" target="_blank" rel="external">矩阵运算</a><br><a href="https://blog.csdn.net/v_july_v/article/details/51812459" target="_blank" rel="external">通俗理解卷积神经网络</a><br><a href="http://jmlr.org/papers/volume15/srivastava14a.old/srivastava14a.pdf" target="_blank" rel="external">Dropout</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
   
-  <span></span> <a href="/tags/DL/">DL</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/04/24/从MNIST了解卷积神经网络/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/04/24/从MNIST了解卷积神经网络/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/04/19/Ubuntu14安装Tensorflow的CPU优化/" title="Ubuntu14安装Tensorflow的CPU优化" itemprop="url">Ubuntu14安装Tensorflow的CPU优化</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
-		
-  <p class="article-time">
-    <time datetime="2018-04-18T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-04-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <blockquote>
-<p>由于我的笔记本是农卡，没法安装CUDA加速，而且我的显卡只有2G显存，安装OpenCL费力不讨好，而且由于我有一个Google云的300美元的体验，所以可以在Google云上使用TPU来进行加速，所以我就干脆不安装显卡加速，但是Tensorflow提供了指令集优化，由于默认使用pip安装没有提供这个功能，所以只能手动编译安装</p>
-</blockquote>
-<p>假如你是用<code>pip</code>安装的Tensorflow你可以会得到下面警告</p>
-<pre><code>the tensorflow library wasn&apos;t compiled to use sse4.1 instructions
-</code></pre><h2 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h2><ol>
-<li><p>首先你得先看看你CPU支持什么指令集</p>
-<pre><code>cat /proc/cpuinfo|grep flags
-</code></pre></li>
-</ol>
-<p>执行这个指令就能看到你所支持的指令集</p>
-<ol>
-<li><p>然后<a href="https://docs.bazel.build/versions/master/install-ubuntu.html#install-on-ubuntu" target="_blank" rel="external">安装<code>bazel</code></a></p>
-<pre><code>sudo add-apt-repository ppa:webupd8team/java
-sudo apt-get update &amp;&amp; sudo apt-get install oracle-java8-installer
-echo &quot;deb [arch=amd64] http://storage.googleapis.com/bazel-apt stable jdk1.8&quot; | sudo tee /etc/apt/sources.list.d/bazel.list  
-curl https://bazel.build/bazel-release.pub.gpg | sudo apt-key add -  
-sudo apt-get update &amp;&amp; sudo apt-get install bazel  
-sudo apt-get upgrade bazel  
-</code></pre></li>
-</ol>
-<ol>
-<li><p>安装完之后下载<code>tensorflow</code>源码</p>
-<p> mkdir github &amp;&amp; cd github<br> git clone –recurse-submodules <a href="https://github.com/tensorflow/tensorflow" target="_blank" rel="external">https://github.com/tensorflow/tensorflow</a><br> cd tensorflow<br> ./configure  </p>
-</li>
-</ol>
-<p>接下来一路选择<code>N</code>就行</p>
-<ol>
-<li><p>生成<code>whl</code>文件</p>
-<pre><code>bazel build -c opt --copt=-msse3 --copt=-msse4.1 --copt=-msse4.2 --copt=-mavx --copt=-mavx2 --copt=-mfma //tensorflow/tools/pip_package:build_pip_package
-</code></pre></li>
-</ol>
-<p>在源码处开始编译，注意<code>copt</code>命令主要是添加指令集支持，这里你要看看上面的指令集（去掉m就是你的指令集，如-msse3指令集为sse3）你的CPU是否支持（一般都支持我的I5 4200U都支持），如果不支持删掉那个就行</p>
-<p>这里你安装的时间比较长，要看你的CPU了</p>
-<ol>
-<li>验证</li>
-</ol>
-<p>退出安装目录运行<code>python</code></p>
-<p>执行下面两句</p>
-<pre><code>import tensorflow as tf;sess = tf.Session(config=tf.ConfigProto(log_device_placement=True))
-</code></pre><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>如果没有报上面的不支持指令集的warning，那么你的CPU指令集优化版就安装好了，当然这个加速效果因CPU而异，对于Xeon SP系列（100核心以上）已经能加速到50倍，同GPU差距也就2倍了（原来可是100倍），但是对于我的笔记本来说，加速效果可能就在30%左右（核心少），所以当前加速性价比最高的还是GPU加速，骚年还是买个好一点的GPU吧，没事还可以吃吃鸡。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
+<section class="post" itemscope itemprop="blogitem">
   
-  <span></span> <a href="/tags/software-DL/">software, DL</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/04/19/Ubuntu14安装Tensorflow的CPU优化/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/04/19/Ubuntu14安装Tensorflow的CPU优化/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/03/17/正则表达式(regular expression)0/" title="Python正则表达式" itemprop="url">Python正则表达式</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
-		
-  <p class="article-time">
-    <time datetime="2018-03-16T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-03-17</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <hr>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
-<p>这篇博客其实写于2016年，最近在重新学了一下正则表达之后，觉得有必要重新整理一下正则的用法</p>
-<p>Python对正则匹配的库是<code>re</code>，re是基于Perl所用的正则表达式,并有<br>一定的改进.</p>
-</blockquote>
-<p>正则本质就是搜索所需的文本,正则里面有三种搜索方式</p>
-<ol>
-<li>第一种是知道文本内容直接使用普通字符搜索出来,比如要从<code>abcdefg</code>中搜到<code>cd</code></li>
-<li>第二种就是模糊查询,比如我想从英文中找一个数字,一般借助特殊符号(<code>.+*?</code>)或者转义符号(<code>\w\d</code>等)</li>
-<li>第三种就是结合前两种,比如我记得一个单词的前两个字母想把那个单词搜出来.</li>
-</ol>
-<p>这里不介绍正则基本知识,你想知道可以<a href="http://www.regexlab.com/zh/regref.htm" target="_blank" rel="external">点这里</a></p>
-<p>ps: 由于在python里面也是用反斜杠做转义字符,所以比如<code>\\</code>和<code>\b</code>这两个特殊字符必须用<code>\\\\</code>和<code>\\b</code>来代替.但是python提供了一个元字符支持re模块,只要字符前面加上r比如<code>r&#39; regex &#39;</code>就能不关闭python的转义.</p>
-<h5 id="正则里面我觉得很重要的一个概念就是组概念-当我们的文本比较复杂的时候将其分成多个小组是利于我们正则的后期维护和改进"><a href="#正则里面我觉得很重要的一个概念就是组概念-当我们的文本比较复杂的时候将其分成多个小组是利于我们正则的后期维护和改进" class="headerlink" title="正则里面我觉得很重要的一个概念就是组概念,当我们的文本比较复杂的时候将其分成多个小组是利于我们正则的后期维护和改进"></a>正则里面我觉得很重要的一个概念就是组概念,当我们的文本比较复杂的时候将其分成多个小组是利于我们正则的后期维护和改进</h5><blockquote>
-<p>正则里面使用一个括号来表示组比如<code>(a)(b)</code>就分成了两个组</p>
-</blockquote>
-<p>re函数里面<code>search</code>和<code>finall</code>都支持组查询,而且<code>findall</code>方法假如里面有组分布会只显示组成员.</p>
-<p>re库支持搜索选项,这几个选项对于正则有时候非常有用</p>
-<pre><code>DOTALL [简S]-------------允许点字符匹配换行符
-IGNORECASE [简I] --------忽悠大小写
-LOCALE  [简L]  ----------支持本地化字符
-MULTILINE [简M] ---------多行,每行都支持锚点
-UNICODE [简U]  ----------支持Unicode,\w也可以是Unicode了
-VERBOSE  [简X]  --------------神器,会无视代码中的注释空格和换行
-</code></pre><p>我们也可以在正则的组里面使用这些搜索选项,只要用上面的简称的小写比如<code>(?is)</code>就可以在组里面使用这些规则.</p>
-<hr>
-<p>正则里面还有一些比较有趣的函数,同string里面的translate函数,sub函数可以替换找到的变量<br>    bold = re.compile(r’*{2}(.<em>?)\</em>{2}’)<br>    bold.sub(r’<b>\1</b>‘, ‘this <strong>foo</strong> and <strong>ok</strong>‘)</p>
-<blockquote>
-<p><code>\1</code>代表第一组变量也就是foo和ok<br>输出为<code>&#39;this &lt;b&gt;foo&lt;/b&gt; and &lt;b&gt;ok&lt;/b&gt;&#39;</code>我们使用成功用加粗了foo和ok,同<code>translate</code>不同这个方法不需要知道要替换的是什么.</p>
-</blockquote>
-<hr>
-<h3 id="正则的断言"><a href="#正则的断言" class="headerlink" title="正则的断言"></a>正则的断言</h3><blockquote>
-<p>我们可以使用一些特殊的符号来执行一些程序判断选择,比如说判断是否特殊字符,如果有<br>的话就不匹配,这就是断言</p>
-</blockquote>
-<p>断言有两种一种是前向,一种是后向</p>
-<blockquote>
-<p>前向是指判断语句在前面,这种就相当于一个if语句,而后向是匹配后判断,由于已经匹配好了文字所以<br>匹配的字符必须是固定长度的(不能使用*.?).</p>
-</blockquote>
-<p>前向就是在判断后面匹配的表达式必须与规定相同,比如一个邮箱地址我们要匹配可以用&lt;&gt;包起来的,但是不匹配只要一个的我们就可以在前面加上这个<code>^(?=(&lt;.*&gt;$)|([^&lt;].*[^&gt;]$))</code>通过使用<code>?=</code>来断言后面必须是用&lt;&gt;包起来或者没有&lt;&gt;,我们使用前向断言可以通过正则直接过滤掉不符合的(当然你可以用多个简单正则来做但是效率没有这个高),还有否定前向就是通过<code>?!</code>来声明.<br>相对应后向断言就是很简单了,直接在匹配后面使用一个<code>?&lt;=</code>(肯定后向)或<code>?&lt;!</code>(否定后向),不过要注意这个是判断前面匹配是否满足的.</p>
-<blockquote>
-<p>断言只是限定我们想选的文本的范围,他并不会被选择.<br>断言的一个有趣的应用就是选择字符间的空格,我们知道python其实假设每个字符间都一个空格(这就是我们有时候会选出一些空字符出来的原因),这个空格不是我们自己打上去的.</p>
-<h4 id="举个例子"><a href="#举个例子" class="headerlink" title="举个例子"></a>举个例子</h4><h3 id="两个字符串a1和a-1-第一个我们称为A-第二个我们称他为B-假如我们想把数字和字母分出来-对于B来说-很简单因为数字和字母之间有一个空格-我们可以直接使用字符自带的split就行-但是对于A来说-就不那么简单了"><a href="#两个字符串a1和a-1-第一个我们称为A-第二个我们称他为B-假如我们想把数字和字母分出来-对于B来说-很简单因为数字和字母之间有一个空格-我们可以直接使用字符自带的split就行-但是对于A来说-就不那么简单了" class="headerlink" title="两个字符串a1和a 1,第一个我们称为A,第二个我们称他为B,假如我们想把数字和字母分出来,对于B来说,很简单因为数字和字母之间有一个空格,我们可以直接使用字符自带的split就行,但是对于A来说,就不那么简单了."></a>两个字符串<code>a1</code>和<code>a 1</code>,第一个我们称为A,第二个我们称他为B,假如我们想把数字和字母分出来,对于B来说,很简单因为数字和字母之间有一个空格,我们可以直接使用字符自带的<code>split</code>就行,但是对于A来说,就不那么简单了.</h3><h4 id="字母a和数字1中间没有字符-我们必须把字母和数字之间的”空格”给选择出来-这时候就可以用到断言了"><a href="#字母a和数字1中间没有字符-我们必须把字母和数字之间的”空格”给选择出来-这时候就可以用到断言了" class="headerlink" title="字母a和数字1中间没有字符,我们必须把字母和数字之间的”空格”给选择出来,这时候就可以用到断言了."></a>字母a和数字1中间没有字符,我们必须把字母和数字之间的”空格”给选择出来,这时候就可以用到断言了.</h4></blockquote>
-<pre><code>r = re.compile(r&apos;(?&lt;=[a-z])(?=\d)&apos;) 
-</code></pre><p>这个<code>r</code>就可以字母和数字直接的隐形空格给选择出来了</p>
-<h3 id="遗憾的是由于python的正则并不把隐形的空格当做字符-所以我们不能简单的使用正则的re-split方法-选择字符分割-直接将字符串分解开"><a href="#遗憾的是由于python的正则并不把隐形的空格当做字符-所以我们不能简单的使用正则的re-split方法-选择字符分割-直接将字符串分解开" class="headerlink" title="遗憾的是由于python的正则并不把隐形的空格当做字符,所以我们不能简单的使用正则的re.split方法(选择字符分割)直接将字符串分解开."></a>遗憾的是由于python的正则并不把隐形的空格当做字符,所以我们不能简单的使用正则的<code>re.split</code>方法(选择字符分割)直接将字符串分解开.</h3><h4 id="我们就得写几步"><a href="#我们就得写几步" class="headerlink" title="我们就得写几步"></a>我们就得写几步</h4><h3 id="第一先把空格换成-或其他"><a href="#第一先把空格换成-或其他" class="headerlink" title="第一先把空格换成 $$$(或其他)"></a>第一先把空格换成 $$$(或其他)</h3><pre><code>&gt;&gt;&gt; s = r.sub(&apos;$$$&apos;, &apos;a1&apos;)
-&gt;&gt;&gt; print(s)
-&apos;a$$$1&apos;
-</code></pre><h3 id="然后在分割"><a href="#然后在分割" class="headerlink" title="然后在分割"></a>然后在分割</h3><pre><code>&gt;&gt;&gt; s.split(&apos;$$$&apos;)
-&gt;&gt;&gt; [&apos;a&apos;, &apos;1&apos;]
-</code></pre><p>成功分割好了,当然这个只能处理字母在前数字在后的”隐形空格”,只要加一个<code>&quot;|&quot;</code>在把前向改成后向,后向改成前向就可以选择任意字母和数字直接的”隐形空格”了.</p>
-<hr>
-<h3 id="正则的变量"><a href="#正则的变量" class="headerlink" title="正则的变量"></a>正则的变量</h3><blockquote>
-<p>我们可以使用?P<name>来声明一个组(用括号,当然其实我们每使用一个括号re自动帮我们将组取一个<br>名,依次从1-n</name></p>
-</blockquote>
-<p>有时候我们可以要求上面的匹配组,下面也要相应匹配组,我们就可以通过两种方法来引用这个变量,假如你没有使用<code>&lt;?P&lt;name&gt;</code>来声明组你只能通过<code>\n</code>来引用,n是这个变量的序号,第二种是通过<code>(?P=name)</code><br>来引用这个变量,name为你自己定义的组的名字</p>
-<p>re还提供了一种机制来让你修正你的正则,简单来说就是能判断一个组存不存在来约束匹配,语法为</p>
-<pre><code>(?(id)yes-expression|no-expression)
-</code></pre><p>id为组的编号或者name.</p>
-<h2 id="正则的起源"><a href="#正则的起源" class="headerlink" title="正则的起源"></a>正则的起源</h2><p>正则这个东西其实很简单，我们</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
+    <a href="/2018/04/24/从MNIST了解卷积神经网络/" title="从MNIST了解卷积神经网络" itemprop="url">
   
-  <span></span> <a href="/tags/python3/">python3</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/03/17/正则表达式(regular expression)0/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/03/17/正则表达式(regular expression)0/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
+    <h1 itemprop="name">从MNIST了解卷积神经网络</h1>
     
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/02/20/用户空间隔离/" title="用户空间隔离" itemprop="url">用户空间隔离</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
-		
-  <p class="article-time">
-    <time datetime="2018-02-19T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-02-20</time>
-    
-  </p>
-</header>
-    <div class="article-content">
+     
+           <p itemprop="description" >引言
+本文是学习Tensorflow官方文档的过程中的一点感悟，本文假设你对矩阵运算有一定的了解，具体可以看看下面资料
+
+加载数据
+首先我们得先把数据下载下来，Tensorflow给我们提供了一个函数来进行下载，这个函数为read_data_sets
+
+这个函数read_data</p>
         
-        <blockquote>
-<p>通过前面的学习我们知道，在前两个实验中最主要的程序就是<code>kern/init.c</code>文件中<code>i386_init</code>函数，但是我们看到最后却是一个<code>while</code>循环结束。</p>
-</blockquote>
-<pre><code>while (1)
+    
+    <time datetime="2018-04-23T16:00:00.000Z" itemprop="datePublished">2018-04-24</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2018/04/19/Ubuntu14安装Tensorflow的CPU优化/" title="Ubuntu14安装Tensorflow的CPU优化" itemprop="url">
+  
+    <h1 itemprop="name">Ubuntu14安装Tensorflow的CPU优化</h1>
+    
+     
+           <p itemprop="description" >由于我的笔记本是农卡，没法安装CUDA加速，而且我的显卡只有2G显存，安装OpenCL费力不讨好，而且由于我有一个Google云的300美元的体验，所以可以在Google云上使用TPU来进行加速，所以我就干脆不安装显卡加速，但是Tensorflow提供了指令集优化，由于默认使用p</p>
+        
+    
+    <time datetime="2018-04-18T16:00:00.000Z" itemprop="datePublished">2018-04-19</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2018/03/17/正则表达式(regular expression)0/" title="Python正则表达式" itemprop="url">
+  
+    <h1 itemprop="name">Python正则表达式</h1>
+    
+     
+           <p itemprop="description" >引言
+这篇博客其实写于2016年，最近在重新学了一下正则表达之后，觉得有必要重新整理一下正则的用法
+Python对正则匹配的库是re，re是基于Perl所用的正则表达式,并有一定的改进.
+
+正则本质就是搜索所需的文本,正则里面有三种搜索方式
+
+第一种是知道文本内容直接使用普通字符</p>
+        
+    
+    <time datetime="2018-03-16T16:00:00.000Z" itemprop="datePublished">2018-03-17</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2018/02/20/用户空间隔离/" title="用户空间隔离" itemprop="url">
+  
+    <h1 itemprop="name">用户空间隔离</h1>
+    
+     
+           <p itemprop="description" >通过前面的学习我们知道，在前两个实验中最主要的程序就是kern/init.c文件中i386_init函数，但是我们看到最后却是一个while循环结束。
+
+while (1)
     monitor(NULL);
-</code></pre><p>这个<code>monitor</code>就是简单读取用户输入然后通过字符串调用给定的几个函数。我们可以把这个函数看做<code>i386_init</code>的子函数，也就是程序一直在<code>i386_init</code>中运行，也就是一直以内核形式运行。实验三就开始完成一个正常的操作系统的用户模式的建立，以及两者直接转换。</p>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>什么是用户呢，我们把内核当做一个大程序，用户就是小程序，两者基本上没有差别，但是为了让众多用户和内核平稳运行，我们必须要区别对待用户和内核</p>
-<p>首先我们要相信内核，内核是我们精心设计的，相反用户我们不能相信它，任何人都可以犯错误，我们知道计算机程序其实非常精巧，当他们完整的时候，他们可以完成你无法想象的工作，但他们有时候少掉一行指令时，他们就会瞬间崩溃，所以我们必须要保证就算用户怎么折腾都不会把内核搞垮</p>
-<p>所以我们来考虑一下怎么来限制用户不影响整个系统，第一用户不能动内核在内存上的程序，甚至连查看的资格都没有，这就是为什么前面我们已经绞尽脑汁把内核放到高地址上确保其“高高在上”；第二个用户不能在CPU一直跑，假如它有权限一直在CPU上跑，那么内核就废了，没有CPU可以用相当于“断了胳膊”；第三用户必须要有一些内核的权限，比如说申请一些内存啥的。</p>
-<p>接下来我们就从这几个问题出发来探索一下xv6为什么要这样设计用户空间。</p>
-<h2 id="用户是个程序？"><a href="#用户是个程序？" class="headerlink" title="用户是个程序？"></a>用户是个程序？</h2><p>在完成用户设计之前，首先我们先做个实验，来验证一下用户是个程序。首先我们在<code>kern/init.c</code>文件中<code>i386_init</code> 的头部加上<code>#include &lt;inc/elf.h&gt;</code>然后在<code>#if defined(TEST)</code>代码前加入几行代码</p>
-<pre><code>extern uint8_t _binary_obj_user_hello_start[];
-struct Elf* header = ((struct Elf *) _binary_obj_user_hello_start);
-assert(header-&gt;e_magic == ELF_MAGIC);
-((void (*)(void)) (header-&gt;e_entry))();
-</code></pre><p>这段代码你如果仔细观察过前面操作系统载入的源码（<code>boot/main.c</code>中)你会发现基本上差不多。首先我们声明了<code>_binary_obj_user_hello_start</code>外部变量，这个变量是通过<code>ld</code>编译器将内核中用户程序<code>hello.c</code>的起始地址定义来的，由于我们现在没有文件系统，内核就把用户程序一股脑链接到自己身上，在以后有了文件系统就不需要了。但是它给了我们一个便利，我们现在可以直接在内存上运行它</p>
-<p>当然虽然它的确是个程序（assert那不会出错），但是它还是跑不起来，因为它的虚拟地址不在内核内存上，必须要像前面映射内存物理空间才能运行，但是他的确是一个程序，从这里我们得到一个结论，用户其实也就是一段程序，接下来我们就看看如何用软件与硬件的结合的设计解决上面的问题。</p>
-<h2 id="权限"><a href="#权限" class="headerlink" title="权限"></a>权限</h2><p>首先我们来看看权限问题，<code>x86</code>系统硬件给我们提供了一个分段式权限功能，在开启内存分页后，<code>CS</code>寄存器16位里面拿出两位来当做权限管理，分为四级（<code>0b00、0b01、0b10、0b11</code>），最小的权限最大，当然xv6只用了两级，如下图所示</p>
-<p><img src="/images/systemring.png" alt="系统环来源网络"></p>
-<p>PS：当然<code>CS</code>寄存器拿出来三位来当权限管理，但是xv6将第三位用户和内核都设置为1，所以我们也不介绍这一位</p>
-<p>我们在<code>CS</code>寄存器的这两位称为CPL，用来区分权限。在<a href="/2018/01/31/引导和操作系统的交互/">引导和操作系统的交互</a>这篇博客我们知道，在<code>x86</code>系统中，这个<code>CS</code>寄存器是标志段选择子，在<code>GDT</code>表中每个表项也有两位用来标志权限，我们称他们为<code>DPL</code>，他们的意义也就是<code>CS</code>寄存器选择这个段时他们最低拥有的权限。</p>
-<p>当然在<code>GDT</code>表中的段选择子也有一个表示权限的称作<code>RPL</code>，这三者的关系在这<a href="https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86" target="_blank" rel="external">里面</a>介绍的很详细，<code>RPL</code>是历史遗留问题但是操作系统基本上没有使用这个功能，所以这里我们也不解释，感兴趣可以看一下<a href="https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86" target="_blank" rel="external">前面</a>的介绍。</p>
-<p>在<code>kern/env.c</code>的<code>结构体gdt</code>我们声明了一个<code>GDT</code>表，并且声明了一个系统段和用户段。</p>
-<p>这两个段就是我们权限的基础我们接下来通过实验来验证权限位对操作系统的保护</p>
-<p>我们首先在<code>user/badsegment.c</code>中加入一句汇编</p>
-<pre><code>asm volatile(&quot;ljmp %0,$1f\n 1:\n&quot; :: &quot;i&quot; (0x08)); // 将CS设置为0x08
-</code></pre><p>我们尝试将<code>CS</code>设置为<code>0x08</code>（内核段）结果直接引发一个<code>General Protection</code>的异常，但是当我们尝试执行这句</p>
-<pre><code>asm volatile(&quot;ljmp %0,$1f\n 1:\n&quot; :: &quot;i&quot; (0x18));  // 将CS设置为0x18
-</code></pre><p>我们发现程序没有引发异常（这段的含义是跳转到用户段，由于已经在用户段，所以没有触发异常），这说明<code>x86</code>通过<code>CS</code>寄存器很好的实现了内核和用户的保护（用户不能直接跳到内核去执行代码）</p>
-<p>在<code>user/faultwritekernl.c</code>和<code>user/faultreadkernl</code>中我们发现尝试写入或者读取内核也失败了，这是通过前面章节的内存分页权限实现的，这里就不介绍了。</p>
-<p>现在我们知道，通过我们不懈努力内核和用户直接存在一个鸿沟，但是这时候摆在我们面前很大的问题，内核拥有一些非常重要的权限比如申请内存，如果用户没有这个权限那么功能非常受限，所以我们就要提到一个内核和用户交互的手段：Trap。</p>
-<h2 id="Trap"><a href="#Trap" class="headerlink" title="Trap"></a>Trap</h2><p>其实这个Trap包括内部中断、软中断、异常。但是xv6统一将他们叫做陷阱（Trap），这个Trap主要完成从用户到内核的一种跳转，我们就不介绍内部中断和异常，因为这些都是系统完成，我们来介绍了一下软中断，这个我们人为可以操作，而且我们可以把其他中断、异常当做系统去帮我们调用这个指令</p>
-<pre><code>int $n
-</code></pre><p>很简单x86共定义了256个中断向量，存在物理内存<code>0x000</code>-<code>0x3ff</code>之间，每个存贮一个<code>cs</code>值一个<code>eip</code>的值，这个n只要是在256直接就行，当调用这个的时候我们直接调到那里读取<code>cs</code>和<code>eip</code>的值。</p>
-<p>在正式介绍<code>Trap</code>之前我们要简单的介绍一下两个知识点</p>
-<h3 id="IRET"><a href="#IRET" class="headerlink" title="IRET"></a>IRET</h3><p>这是<code>iret</code>是一个机器码，我们前面介绍了无论是操作系统还是用户没有办法直接跳段（会引发<code>General Protection fault</code>），而且我们知道前面只是测试了跳代码段，我们知道两个不同的程序，不仅仅是代码段不同，堆栈段也要不同，才能保证各个程序的独立。所以系统为了解决这个问题，直接提供一个<code>iret</code>指令，这个全名应该叫<code>中断返回</code>，它的功能其实很简单，就是实现上面的跳代码段和堆栈段还有恢复<code>EFLAGS</code>寄存器值，这个主要应用在从系统跳转到用户上面。</p>
-<p>感兴趣的可以看看这个详细<a href="https://stackoverflow.com/questions/6892421/switching-to-user-mode-using-iret" target="_blank" rel="external">资料</a>，接下来我们看看在<code>xv6</code>里面如何使用<code>iret</code>来实现跳段</p>
-<p>在<code>kern/env.c</code>的<code>env_pop_tf</code>函数实现了切换程序段的功能</p>
-<pre><code>asm volatile(
-        &quot;\tmovl %0,%%esp\n&quot;
-        &quot;\tpopal\n&quot;
-        &quot;\tpopl %%es\n&quot;
-        &quot;\tpopl %%ds\n&quot;
-        &quot;\taddl $0x8,%%esp\n&quot; 
-        &quot;\tiret&quot;
-        : : &quot;g&quot; (tf) : &quot;memory&quot;);
-</code></pre><p>首先第一个就是把tf指针指向的值赋给<code>esp</code>寄存器，要想知道这个操作的意思就必须知道，一个结构体其实在程序里面就是一块连续的内存值，所以这里就是把<code>esp</code>的值指向<code>tf</code>代表的<code>Trapframe</code>结构体的开始位置，所以我们得看看这个<code>Trapframe</code>组成是什么</p>
-<pre><code>struct Trapframe {
-    struct PushRegs tf_regs;
-    uint16_t tf_es;
-    uint16_t tf_padding1;
-    uint16_t tf_ds;
-    uint16_t tf_padding2;
-    uint32_t tf_trapno;
-    /* below here defined by x86 hardware */
-    uint32_t tf_err;
-    uintptr_t tf_eip;
-    uint16_t tf_cs;
-    uint16_t tf_padding3;
-    uint32_t tf_eflags;
-    /* below here only when crossing rings, such as from user to kernel */
-    uintptr_t tf_esp;
-    uint16_t tf_ss;
-    uint16_t tf_padding4;
-} __attribute__((packed));
-</code></pre><p>第一个是<code>PushRegs</code>结构体，这个对应我们第一个操作<code>popal</code>，将<code>PushRegs</code>所有值全部从堆栈中取出，我们发现当到<code>iret</code>操作时，正好对应取出代码段还有堆栈段和<code>EFLAGS</code>寄存器，所以其实<code>iret</code>的操作非常简单，只是将三个取出指令和成了一个。</p>
-<h3 id="TSS"><a href="#TSS" class="headerlink" title="TSS"></a>TSS</h3><p>前面我们捋了捋从系统跳转到用户，因为我们给用户的都是刚新建的值，所以这个并没有什么问题，但是你要想一想，当用户想跳转到系统的时候，这个时候它也必须要切换堆栈，因为用户可以还没有准备好（有时候可以是因为堆栈内存不够，如果把寄存器值强行插值到用户堆栈会引发二次异常）。但是假如使用操作系统的堆栈，在我们切换之前系统必须要知道内核堆栈在哪</p>
-<p>所以x86提供了一个<code>tr</code>寄存器给我们使用，这个寄存器的位数为16位，专门存贮一个选择子（类似前面段选择子），这个选择子<code>base</code>地址必须指向一块空余空间。前面知道我们要想从用户跳操作系统，必须知道操作系统的堆栈（中断向量表提供了代码段cs：ip），所以x86干脆规定了这个空间名字为<code>TSS</code>，并声明了一大串寄存器的值备用，当然这些是硬件规定的，软件用不用无所谓，但是硬件会在跳转的时候，读取里面固定位置的值，也就是我们需要的堆栈段<code>ss：esp</code>，在<code>inc/mmu.h</code>的<code>Taskstate</code>结构体中声明了这段内存规定的字段</p>
-<p>所以我们在<code>kern/trap.c</code>中声明了（ss：esp）</p>
-<pre><code>   ts.ts_esp0 = KSTACKTOP;
-ts.ts_ss0 = GD_KD;
-</code></pre><p>这样我们在跳转的时候就能获取到内核的堆栈段，从而进入内核模式，当然硬件设定<code>TSS</code>的作用一开始为了考虑任务切换，它也提供了相应的指令，但是需要200左右时钟周期来完成，所以我们<code>xv6</code>嫌弃其速度太慢，只是使用了其保存内核堆栈地址的作用，所以在<code>xv6</code>中<code>TSS</code>只是一个“数据库”而已。</p>
-<hr>
-<p>介绍完前面的基础知识之后，接下来的就是这个<code>Trap</code>，前面我们知道在得到<code>int</code>这个指令时候这个时候就开始一个<code>Trap</code>开始。</p>
-<p>这个时候硬件接管程序控制，你也可以认为跳转到硬件代码去了。在给的<a href="https://pdos.csail.mit.edu/6.828/2016/xv6/book-rev9.pdf" target="_blank" rel="external">资料</a>第三章的<code>X86 Protection</code>里面介绍了这个过程，我们将前面几个步骤很我们前面给的资料联系起来</p>
-<blockquote>
-<p>后面推寄存器值就不解释了，同<code>Trapframe</code>的反向结构相同，之所以会这样，是因为堆栈地址是向下生长，而程序地址是向上生长的</p>
-</blockquote>
-<p>硬件这部分操作为</p>
-<ul>
-<li>获取中断向量表第n个的地址（n为<code>int</code>后面整数）</li>
-</ul>
-<p>然后开始权限检查，这个也是为什么程序不能随意调用系统资源的原因</p>
-<ul>
-<li>检测DPL与CPL的大小关系</li>
-</ul>
-<p>这个<code>DPL</code>不是前面<code>GDT</code>里面的，这个是存贮在中断向量表中<code>CS</code>里面的值，这个设置可以让我们给每个中断向量设置一个权限，看它允许是用户调用还是系统调用，如果只允许系统调用，那么用户调用直接引发<code>General Protection Fault</code>（13号中断），在我们的xv6中，我们只允许用户调用<code>Debug</code>和<code>System Call</code>中断，其他只能由系统调用</p>
-<ul>
-<li>判断保留<code>esp</code>和<code>ss</code>，检测目标的段与当前段</li>
-</ul>
-<p>当我们在操作系统中出现中断的时候，如果硬件还傻乎乎的将操作系统的堆栈归位那么就进入死循环了，所以这个目的就是避免同属一个段的时候不会切换堆栈</p>
-<ul>
-<li>当跳段的时候，从<code>TSS</code>中取到<code>esp</code>和<code>ss</code>切换堆栈段</li>
-</ul>
-<p>这个就是前面弹到的<code>TSS</code>的功能，接下来我们所以推出去的值全部存贮在要跳的段的堆栈上面了。</p>
-<p>推完<code>Trap</code>程序的寄存器值，保留好“犯罪现场”后，就可以进入内核进行处理这个异常了。</p>
-<p>至此我们介绍完了严格有序的处理从用户到内核的跳转，当我们处理完后就可以通过<code>iret</code>回到用户程序，这样就完成了用户拥有内核权限的设计。</p>
-<hr>
-<h2 id="用户时间控制"><a href="#用户时间控制" class="headerlink" title="用户时间控制"></a>用户时间控制</h2><p>接下来的用户使用CPU时间设置也是通过这个这个<code>Trap</code>的中断实现，你可以理解为硬件在每个CPU上在每隔个<code>10ms</code>的时候就触发一个中断。这样到内核的时候，内核发现是时间中断，就保留用户的寄存器值到用户自己空间（<code>Env</code>里面有一个<code>env_tf</code>变量可以存贮这些信息），然后调用其他或者这个程序，这样的话，我们就实现了一个时间控制。</p>
-<p>PS：这里我们提一下这个<code>Env</code>结构体，内核初始化了1024个这个结构体，这说明我们可以同时拥有1024个用户程序运行，这个结构体就是用户环境，也就是我们在<code>Unix</code>系统上输入<code>ps</code>中的<code>pid</code>（每个<code>pid</code>代表一个程序）</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>至今我们介绍了通过一个简简单单的<code>Trap</code>操作就实现了复杂的权限管理和空间隔离，虽然操作系统看起来非常复杂，但其实都是由简单干练的概念搭建起来的，因为<code>Unix</code>的哲学就是<code>简单至上</code>。</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://stackoverflow.com/questions/6892421/switching-to-user-mode-using-iret" target="_blank" rel="external">https://stackoverflow.com/questions/6892421/switching-to-user-mode-using-iret</a></p>
-<p><a href="https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86" target="_blank" rel="external">https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86</a></p>
-<p><a href="https://en.wikipedia.org/wiki/Task_state_segment" target="_blank" rel="external">https://en.wikipedia.org/wiki/Task_state_segment</a></p>
-
+这个monitor就是简单读取用户输入然后通过字符串调用给定的几个函</p>
         
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
+    
+    <time datetime="2018-02-19T16:00:00.000Z" itemprop="datePublished">2018-02-20</time>
+  </a>
+</section>
 
 
-  <div class="article-tags">
+
+
+
+
   
-  <span></span> <a href="/tags/mit6-828/">mit6.828</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/02/20/用户空间隔离/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/02/20/用户空间隔离/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/02/19/KERNBASE对操作系统的影响/" title="KERNBASE对操作系统的影响" itemprop="url">KERNBASE对操作系统的影响</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
-		
-  <p class="article-time">
-    <time datetime="2018-02-18T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-02-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="概括"><a href="#概括" class="headerlink" title="概括"></a>概括</h2><blockquote>
-<p>这个问题主要在这本<a href="https://pdos.csail.mit.edu/6.828/2016/xv6/book-rev9.pdf" target="_blank" rel="external">xv6-ref</a>的第一章的练习题2中提出来</p>
-</blockquote>
-<p>问题如下</p>
-<pre><code>KERNBASE limits the amount of memory a single process can use, which might be irritating on a machine with a full 4 GB of RAM. Would raising KERNBASE allow a process to use more memory?
-</code></pre><p>根据前面的知识可知这个问题翻译过来就是：在32位处理器下，当<code>KERNBASE</code>为<code>0x80000000</code>时用户最多可以用2GB内存，我们是否能够增加<code>KERNBASE</code>让用户使用超过2GB内存呢？</p>
-<p>ps： 下面<code>KERNBASE</code>简写为<code>KE</code></p>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>要想解答这个问题，我们必须要知道xv6是如何分配内存的，以及如何区分用户和内核，以及<code>KE</code>的作用。</p>
-<p>xv6使用内存分页技术，如果你对这个不了解可以看这篇<a href="/2018/01/31/内存分页/">引导中的静态表</a>和这篇<a href="/2018/02/内存分页设计/">内存分页设计细节</a>，了解完这个我们谈谈用户和内核的内存分页应用。</p>
-<p>注意我们所以计算的前提是在32位处理器的条件下</p>
-<h2 id="用户和内核应用内存分页"><a href="#用户和内核应用内存分页" class="headerlink" title="用户和内核应用内存分页"></a>用户和内核应用内存分页</h2><p>其实用户和内核都是程序，对于用户来说内核只有一个，对于内核来说，用户可以有无数个。为了隔离内核和用户我们必须在内存上就进行隔离，所以单一内核和每个用户都拥有一个内存目录。</p>
-<h3 id="内存分页的意义"><a href="#内存分页的意义" class="headerlink" title="内存分页的意义"></a>内存分页的意义</h3><p> 其实我们可以把内存的目录对应的所有内存表看做一张大的内存映射表，我们使用<code>1024 × 1024</code>个表单项代表<code>4GB</code>内存地址，每个代表<code>4K</code>连续的内存空间，当然大部分程序不会使用全部表单（一般就是内存目录一个，一到三个内存表）</p>
-<p> 当然好处有很多，比如任何程序都可以使用相同的虚拟地址但是在实际运行的时候不会相互影响，这个好处就是通过映射来实现的。</p>
-<ul>
-<li>映射就是虚拟地址到物理地址的一种转换，这是一种<code>多对一</code>的映射，也就是一个虚拟地址只能对应一个物理地址，然而物理地址可以对应多个虚拟地址</li>
-</ul>
-<p>这个转换带来了一个问题，给你一个虚拟地址，你可以查表然后得到物理地址，但是如果给你一个物理地址，你除了遍历没有很好的办法获取虚拟地址（而且有可能你会得到多个虚拟地址）。</p>
-<p>这个问题非常重要，因为它影响了我们后面内核与用户切换的时候地址的搜索，接下来我们看看内核初始化后内存是一种什么样的存在。</p>
-<h2 id="内核内存利用"><a href="#内核内存利用" class="headerlink" title="内核内存利用"></a>内核内存利用</h2><p>看xv6源码我们知道，内核这个程序将程序虚拟地址起点定在<code>KE</code>上，我们知道一个程序由三部分组成指令、数据、堆栈。堆栈是向下生长，而数据、指令向上生长。而xv6把堆栈固定为32KB，所以内存只能向上生长，所以理论上内核最大占用空间只有<code>2^32(4G) - KE</code></p>
-<ul>
-<li>当<code>KE</code>为<code>0xf0000000</code>时，只有256M</li>
-<li>当<code>KE</code>为<code>0x80000000</code>，有2G。</li>
-</ul>
-<p>由于用户内存空间不能超过<code>KE</code>（实际系统中为<code>UTOP</code>，值为<code>KE</code>减去一些为系统功能预留的空间，这里我们忽略他们），所以用户所能得到的内存空间最大为<code>KE</code>，也就是</p>
-<ul>
-<li>当<code>KE</code>为<code>0xf0000000</code>时，为 3840M（4G-256M）</li>
-<li>当<code>KE</code>为<code>0x80000000</code>，有2G。</li>
-</ul>
-<p>通过上面简单的理论值我们推断出答案是：</p>
-<ul>
-<li>增大<code>KE</code>可以增大用户内存</li>
-</ul>
-<p>这个结果看起来是正确的，但是我们知道作为一个操作系统不能固定用户的内存，我们接下来就看看在不同的内存下的实际应用以及<code>xv6</code>自身设计问题，由此来探索这个问题的本质</p>
-<p>我们就分两种情况来考虑 </p>
-<h3 id="物理内存小于（4G-KERNBASE）"><a href="#物理内存小于（4G-KERNBASE）" class="headerlink" title="物理内存小于（4G-KERNBASE）"></a>物理内存小于（4G-KERNBASE）</h3><p>这种情况在很早的时候经常出现，我们计算机的内存可能就几M，这个时候内核假如真的占了<code>4G-KE</code>那连内核都跑不起来何况用户程序。</p>
-<p>我们接下来进入源码来看<code>xv6</code>将实际占用的空间体现在内存表中，我们看到<code>kern/kernld.ld</code>配置文件，其中最主要的一行</p>
-<pre><code>PROVIDE(end = .);
-</code></pre><p>这行位置出现在最后一行，它的作用是提供了一个变量<code>end</code>，我们在C中就可以用这个变量代表机器码的最后一行的虚拟地址，有了这个地址之后，我们就获取了一个重要信息内核程序总长度，假如没有这个变量，我们只能人工设定一个操作系统的占用空间，假如定大了就是浪费，定小了程序就可能崩溃（内存溢出）。分配的细节可以看这篇<a href="/2018/02/内存分页设计/">文章</a>，通过这个变量，我们把内核占用的物理空间给腾出来了。接下来的剩余的物理空间就留给用户了，所以用户能用到的内存最大为<code>实际内存 - 操作系统占用的内存</code>。</p>
-<p>而且我们能够知道操作系统还将内核的内存映射直接固定了，将<code>KE：4G</code>的地址映射到<code>0:4G-KE</code>，公式为<code>虚拟内存=物理内存+KERNBASE</code>，这个映射存在于<code>kern/pmap.c</code>的<code>mem_init</code>函数中，这个带来了一个便利，就是程序变得很简单，假如我们得到一个物理内存地址，我们就能知道虚拟内存地址，但是这个也引来一个巨大的问题，就是当内存大于<code>4G - KE</code>的时候。</p>
-<p>PS：关于知道物理内存能知道虚拟地址在源码的好处主要体现在用户内存空间创建的时候，这个时候处于内核态，当我们得到一个空的物理空间页，我们只要简单的使用上面公式就能获取到虚拟地址，然后内核就能在直接通过指针修改程序。假如没有这个映射，我们就后面动态建立，但是这里涉及到一个非常棘手的<code>成本</code>的问题，我们其实只需要一个值映射，然而我们却要浪费4K的连续内存空间，而且给程序带来了很大的复杂性。</p>
-<p>我们接下来考虑系统内存大于那段映射最大值（4G-KE）时候会造成什么情况</p>
-<h2 id="物理内存大于-（4G-KERNBASE）"><a href="#物理内存大于-（4G-KERNBASE）" class="headerlink" title="物理内存大于 （4G-KERNBASE）"></a>物理内存大于 （4G-KERNBASE）</h2><p>在现在大家内存愈来愈大，这种情况比较常见，由于xv6在程序设计中是动态创建用户空间，当用户比较少占用空间比较小的时候，程序不会用到物理地址比较大的空间，但是当物理内存超过这个阀值（4G-E），在这里我们考虑<code>KE=0xf0000000</code>,也就是物理内存地址大于256M的时候，由于内核没有映射到这么高的地址，所以我们用上面那个物理地址转虚拟地址公式就失效了。</p>
-<p>由于xv6只是一个教学系统，所以为了简化系统，降低程序复杂性所以使用了最简单的直接映射的方法来处理内存，也正是由于这个原因提高<code>KE</code>并不能增加用户最大内存，当然解决的方法也有，我想了两种。</p>
-<ul>
-<li>在内核空间中分配用户内存目录空间，这种最为简单，但是会浪费一定的内存空间（必须在内核一开始运行就占用空间）</li>
-<li>在内核空间中映射一段固定的地址来存放用户内存目录地址，这个程序设计比较复杂，但是只需要初始化一个内存表单就行</li>
-</ul>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过上面的分析，我们得到一个结论：</p>
-<p>由于xv6设计的局限性，增大<code>KERNBASE</code>并不能增大用户最大可用空间，反而会减少。但是如果修改xv6设计可以实现增大<code>KERNBASE</code>增大用户最大可用空间。</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2>
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
+<section class="post" itemscope itemprop="blogitem">
   
-  <span></span> <a href="/tags/mit6-828/">mit6.828</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/02/19/KERNBASE对操作系统的影响/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/02/19/KERNBASE对操作系统的影响/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/02/05/内存分页设计/" title="内存分页设计" itemprop="url">内存分页设计</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
-		
-  <p class="article-time">
-    <time datetime="2018-02-04T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-02-05</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>前面已经通过lab1的这篇<a href="/2018/01/03/内存分页设计/">博文</a>了解了内存分页的实现细节，接下来就谈谈如何具体实现内存分页</p>
-<h2 id="物理载体"><a href="#物理载体" class="headerlink" title="物理载体"></a>物理载体</h2><p>通过了解<a href="/2018/02/19/KERNBASE对操作系统的影响/">KERNBASE对操作系统的影响</a>这篇博文我们知道，其实内存分页就是完成对物理存在的一种分割和隔离，所以我们在完成内存分页系统设计之前必须要构建一个载体，完成对物理存在的一种表示。</p>
-<p>在xv6中声明一个动态数组来代表物理内存，每一个值代表一块4k的内存页。我们主要通过<code>offset - base</code>得到偏移倍数，每个偏移量为<code>4K</code>，也就是通过<code>(offset - base )  &lt;&lt; 12</code>得到物理地址，我们看一下这个数组成员：PageInfo结构体</p>
-<pre><code>struct PageInfo {
-    struct PageInfo *pp_link;
-    uint16_t pp_ref;
-};
-</code></pre><p>主要存在两个值：一个为下一个可用的地址指针，一个为引用次数。</p>
-<p>引用次数比较好理解，但是这个<code>pp_link</code>有什么用呢。其实你可用把这个结构体看做成一个由链表组成的堆栈，我们只需要保留栈顶值（page_free_list)，由于它保存下一个值地址，这样通过不断的push、pop，就能维持一个可用物理内存栈。</p>
-<h2 id="二级指针的妙用"><a href="#二级指针的妙用" class="headerlink" title="二级指针的妙用"></a>二级指针的妙用</h2><p>由于前面的博客原理已经介绍的很详细了，我就不再累赘了，在这里我提一下源码中二级指针的妙用，虽然它只有短短几行，但是运行的结果却是让人大开眼界，体会到指针的神奇威力。</p>
-<p>这段代码出现在<code>kern/pmap.c</code>的<code>check_page_free_list</code>函数中</p>
-<pre><code>if (only_low_memory) {
-    // Move pages with lower addresses first in the free
-    // list, since entry_pgdir does not map all pages.
-    struct PageInfo *pp1, *pp2;
-    struct PageInfo **tp[2] = { &amp;pp1, &amp;pp2 };
-    for (pp = page_free_list; pp; pp = pp-&gt;pp_link) {
-        int pagetype = PDX(page2pa(pp)) &gt;= pdx_limit;
-        *tp[pagetype] = pp;
-        tp[pagetype] = &amp;pp-&gt;pp_link;
-    }
-    *tp[1] = 0;
-    *tp[0] = pp2;
-    page_free_list = pp1;
-}
-</code></pre><p>主要的作用是将“栈底”的元素移到“栈顶”，首先它使用了两个一级指针（pp1、pp2），还有两个二级指针分别指向（pp1、pp2）</p>
-<p> 首先<code>int pagetype = PDX(page2pa(pp)) &gt;= pdx_limit;</code>判断物理地址是否为大于4M还是小于4M，我们把物理内存页分成两组</p>
-<ul>
-<li>小于4M A组</li>
-<li>大于4M B组</li>
-</ul>
-<p>对于小于4M的组，分两种情况</p>
-<ol>
-<li>第一个小于4M的内存页（page1）</li>
-</ol>
-<blockquote>
-<ol>
-<li>*tp[0] (也就是pp1） 存贮了pp的值，也就是pp1 = page1</li>
-<li>tp[0] 存贮了pp -&gt; link 的地址（这个没有什么用）</li>
-</ol>
-</blockquote>
-<ol>
-<li>A组第二个以及以后的内存页（page2）</li>
-</ol>
-<blockquote>
-<ol>
-<li>上一个地址的值等于pp（没什么用）</li>
-<li>tp[0] 存贮了下一个空闲地址的值</li>
-</ol>
-</blockquote>
-<p>对于B组来说也是一样的，最重要的是<code>for</code>循环结束后实现的交换</p>
-<pre><code>*tp[1] = 0; 
-</code></pre><p>B组最后一个的<code>pp_link</code>地址地址设置为NULL，也就相当于把他放到栈底</p>
-<pre><code>*tp[0] = pp2;
-</code></pre><p>A组最后一个变成<code>pp_link</code>地址设置pp2，也就是B组的第一个接到了A组的最后面去了</p>
-<pre><code>page_free_list = pp1;
-</code></pre><p>栈顶变成A组第一个，通过这样的“乾坤大挪移”术就将A组部分移到B组前面去了，也就实现了先使用低地址的物理内存的作用</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>理解内存分页必须要了解背后的原理，了解了原理看具体实现的时候才能事半功倍。</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2>
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
+    <a href="/2018/02/19/KERNBASE对操作系统的影响/" title="KERNBASE对操作系统的影响" itemprop="url">
   
-  <span></span> <a href="/tags/mit6-828/">mit6.828</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/02/05/内存分页设计/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/02/05/内存分页设计/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
+    <h1 itemprop="name">KERNBASE对操作系统的影响</h1>
     
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
+     
+           <p itemprop="description" >概括
+这个问题主要在这本xv6-ref的第一章的练习题2中提出来
+
+问题如下
+KERNBASE limits the amount of memory a single process can use, which might be irritating on a machine</p>
+        
     
-      <a href="/2018/01/31/引导和操作系统的交互/" title="引导和操作系统的交互" itemprop="url">引导和操作系统的交互</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
-		
-  <p class="article-time">
-    <time datetime="2018-01-30T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-01-31</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本来自己查了很多资料，想自己写出来，结果下笔的时候发现别人已经把我想写的部分全部写出来了，而且比我想的还要具体，所以我就不写了，把链接放出了，顺便我补充一些</p>
-<p><a href="http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/" target="_blank" rel="external">http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/</a></p>
-<p><a href="http://leenjewel.github.io/blog/2015/05/26/%5B%28xue-xi-xv6%29%5D-jia-zai-bing-yun-xing-nei-he/" target="_blank" rel="external">http://leenjewel.github.io/blog/2015/05/26/%5B%28xue-xi-xv6%29%5D-jia-zai-bing-yun-xing-nei-he/</a></p>
-<h2 id="ELF文件"><a href="#ELF文件" class="headerlink" title="ELF文件"></a>ELF文件</h2><p>首先你要知道什么是ELF，可以看一下这篇<a href="https://my.oschina.net/u/864891/blog/87965" target="_blank" rel="external">博客</a>，简单来说就是编译完C后的机器码，前面加了一些数据表记录程序的分布情况</p>
-<p>为了帮助我们逆向分析这些代码有什么，我们必须要借助两个工具</p>
-<ul>
-<li>objdump</li>
-<li>readelf</li>
-</ul>
-<p>我们接下来就用实际例子解读mit6.828里面的引导和核心</p>
-<h2 id="引导"><a href="#引导" class="headerlink" title="引导"></a>引导</h2><p>首先我们查看一下引导文件，在<code>boot/</code>目录下有两个文件</p>
-<ul>
-<li>boot.S</li>
-<li>main.c</li>
-</ul>
-<p>两者是通过gcc编译器将汇编和C编译成为一个<code>elf</code>文件，具体在<code>Makefile</code>文件中（<code>boot/Makefrag</code>)，我将它简单翻译一下</p>
-<pre><code>gcc -N -e start -Ttext 0x7C00 -o boot.out boot.o main.o
-</code></pre><p><code>boot.o</code>和<code>main.o</code>就是<code>boot.S</code>和<code>main.c</code>编译后的文件，<code>-e start</code>意思程序从<code>boot.S</code>的<code>start</code>中开始运行（这样就能从汇编开始执行），<code>-Ttext</code>中<code>text</code>代表代码段，也就是说直接指定代码入口地址为<code>0x7C00</code>，我们可以用<code>readelf</code>验证一下</p>
-<pre><code>mit-6.828-2014 ➤ readelf -h obj/boot/boot.out                         git:lab1*
-ELF Header:
-  Magic:   7f 45 4c 46 01 01 01 00 00 00 00 00 00 00 00 00 
-  Class:                             ELF32
-  Data:                              2&apos;s complement, little endian
-  Version:                           1 (current)
-  OS/ABI:                            UNIX - System V
-  ABI Version:                       0
-  Type:                              EXEC (Executable file)
-  Machine:                           Intel 80386
-  Version:                           0x1
-  Entry point address:               0x7c00
-  Start of program headers:          52 (bytes into file)
-  Start of section headers:          4868 (bytes into file)
-  Flags:                             0x0
-  Size of this header:               52 (bytes)
-  Size of program headers:           32 (bytes)
-  Number of program headers:         2
-  Size of section headers:           40 (bytes)
-  Number of section headers:         9
-  Section header string table index: 6
-</code></pre><p>我们读取了一下生成的<code>elf</code>文件头部，我们可以看到<code>Entry point address</code>这个字段，就是我们设定的<code>0x7c00</code>，要了解这个地址的含义我们必须知道虚拟地址和物理地址的区别，可以看一下这篇<a href="http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/" target="_blank" rel="external">博客</a>，接着我们看一下反汇编的汇编代码<code>obj/boot/boot.asm</code>中，我们知道现在<code>0x7c00</code>代表程序把自己当做在内存上的真实内存上面，但是不一定会真的存在这块上，所以我们称它为虚拟的</p>
-<p>首先我们了解一个系统知识，因为电脑启动后会按照启动盘顺序，把每个盘第一个扇形区512B取出来，如果最后两个字节为<code>0xAA55</code>的话就把它放到内存上面的<code>0x7c00</code>上去，我们看一下我们生成的<code>obj/boot/boot</code></p>
-<p>使用<code>hexdump obj/boot/boo</code>可以看到（我把最后一行复制出来）</p>
-<pre><code>00001f0 0000 0000 0000 0000 0000 0000 0000 aa55
-</code></pre><p>最后连个字节为<code>0xaa55</code>，且文件大小刚刚好512B，这时候你可以有一个疑惑了，我们知道<code>gcc</code>我们生成的<code>boot.out</code>的elf文件，但是这个文件还有头部存贮数据，我们如果把整个文件放到磁盘上，当程序在内存<code>0x7c00</code>处执行时，那么文件头部碰到的就是elf头了，所以<br>为了把机器码提取出来并生成合适文件（512B尾部为<code>0xaa55</code>），程序干了两件事</p>
-<ul>
-<li>用objcopy将elf文件中执行代码提取出来（相当于去掉elf头部）</li>
-<li>用脚本修改尾部两字节（在<code>boot/sign.pl</code>用了perl程序来将生成512B且尾部为<code>0xaa55</code>的<code>boot</code>文件）</li>
-</ul>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>后面将核心加载到内存，上面的给出资料写的很详细，我就不多说，只不过由于当前<code>2014</code>的版本同资料有点不同，这里我提一下</p>
-<p>当前版本是将内核头加载在<code>0x10000</code>上，然后在把内核代码加载到<code>0x100000</code>上（前面4个0，后面5个0，我当初看错了，百思不得其解），并将内核地址映射到<code>f0100000</code>上。</p>
-<p>由于资料给的操作系统与2016的操作系统实现细节有点不同，其中最主要的就是一个很重要的<code>KERNBASE</code>常量值由<code>0x80000000</code>变成<code>0xf0000000</code>，这个变量牵扯到了在给出的<code>book-rev8.pdf</code>资料中第一章的最后一个问题，我就把我对这个问题的思考放到这篇<a href="/2018/02/19/KERNBASE对操作系统的影响/">文章</a>中。</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/" target="_blank" rel="external">http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/</a></p>
-<p><a href="https://my.oschina.net/u/864891/blog/87965" target="_blank" rel="external">https://my.oschina.net/u/864891/blog/87965</a></p>
-<p><a href="http://bochs.sourceforge.net/techspec/PORTS.LST" target="_blank" rel="external">端口信息</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/01/31/引导和操作系统的交互/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/01/31/引导和操作系统的交互/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
+    <time datetime="2018-02-18T16:00:00.000Z" itemprop="datePublished">2018-02-19</time>
+  </a>
+</section>
 
 
 
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/01/31/内存分页/" title="内存分页" itemprop="url">内存分页</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
-		
-  <p class="article-time">
-    <time datetime="2018-01-30T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-01-31</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本来自己查了很多资料，想自己写出来，结果下笔的时候发现别人已经把我想写的部分全部写出来了，而且比我想的还要具体，所以我就不写了，把链接放出了，顺便我补充一些</p>
-<p><a href="http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan/" target="_blank" rel="external">http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan/</a></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>由于内存分页在后面的lab2中也会设计，而且给出的资料写的非常详细，所以我就不多提了。这里提一下为了更好的理解什么内存分页的段选择子与CS的关系，我写了一篇<a href="/2018/01/30/从CS寄存器看段的前世今生/">关于CS寄存器的发展史</a></p>
-<p>最后我提一下<code>kern/entrypgdir.c</code>手写的内存分页表</p>
-<p>第一个<code>entry_pgdir</code>是页目录，第二个<code>entry_pgtable</code>页表，而且注意<code>entry_pgtable</code>是代表0-4M物理内存可写可读的真实内存地址</p>
-<p>前面知道了目录和页表的作用，在现实系统中，一个目录下有1024个页表，但是这只有一个页表，而且它代表从0-4M连续的内存空间</p>
-<p>PS：后面12位是权限位，只看前三位，可以知道是从（000-3ff）的高20位物理地址，由于我们声明了<code>__attribute__((__aligned__(PGSIZE)))</code>（地址4K对齐，其实意思是它真实物理地址后12位一定全部为0），所以直接取<code>(uintptr_t)entry_pgtable</code>地址就是页表地址，虽然后面加上权限位<code>PTE_P + PTE_W</code>，但是在寻找真实地址时都会屏蔽（只取前20位如），当初想了很久感觉取不到页表的真实地址，还以为有什么神奇的编译设定，后面查了很久资料才明白，所以这里提个醒后面我们会在lab2中正式接触内存分页技术，这里只是相当于设定了一个“常数”，后面会将器扩展变成“函数”。</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2>
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
   
-  <span></span> <a href="/tags/mit6-828/">mit6.828</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/01/31/内存分页/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/01/31/内存分页/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/01/30/从CS寄存器看段的前世今生/" title="从CS寄存器看段的前世今生" itemprop="url">从CS寄存器看段的前世今生</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
-		
-  <p class="article-time">
-    <time datetime="2018-01-29T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-01-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>Intel作为作为微处理器的航头老大，一直引导CPU的进步发展，也正是因为Intel是一个有着历史包袱的企业，所以站在现代CPU看起来，有一些非常奇葩的设计遗留下来，这些设计一开始是为了兼容，慢慢的将这种兼容又发展成新的功能，把“包袱”转换成“亮点”，段设计就是其中的一个很重要的代表，要想搞懂这个设计在不同的CPU的如何保持兼容和强化，我们必须要慢慢的把CPU的历史给捋顺。</p>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>我们要介绍第一个CPU是8086，虽然Intel前面也生产了4004、8008、8080微处理器，但是8086基本上后面所以现代化CPU始祖，Intel后面生产的CPU都对8086兼容，所以可以说段这个“祸端”就是从8086种下来的</p>
-<p>8086作为第一款的16位处理器，由于技术的问题，出现了一个严重问题寄存器只有16位，而地址总线却有20位，要想只通过一个寄存器表达地址的值显示无法实现，所以8086采用了一个段寄存器，segment × 16+offset（CS:IP），采用这个方式就能实现20位地址索引</p>
-<h2 id="段设计对程序影响"><a href="#段设计对程序影响" class="headerlink" title="段设计对程序影响"></a>段设计对程序影响</h2><p>前面简单的介绍了段设计的原因，现在我们来看看这个设计的对16位程序的影响。</p>
-<h3 id="兼容性"><a href="#兼容性" class="headerlink" title="兼容性"></a>兼容性</h3><p>由于段的存在，我们设计程序的时候可以更加自由，我们可以假设我们是在任何低16位置的内存上，只有到时切换程序时候切换段就可以</p>
-<h3 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h3><p>我们可以用相同的低地址存代码和数据，只需要切换段就行，而且我们也不需要考虑数据要多少空间，代码要多少空间，以便设定跳转地址</p>
-<blockquote>
-<p>可以说段设计是16位程序的一个很优雅的做法，但是到了３２位的时候程序不行了</p>
-</blockquote>
-<h2 id="32位处理器的改变"><a href="#32位处理器的改变" class="headerlink" title="32位处理器的改变"></a>32位处理器的改变</h2><p>我们知道32位处理器的诞生带来了两件事,第一个就是寄存器有32位了,说明最大内存地址可以到4G了(<code>0x000000-0xffffff</code>),而且总线地址也有32位了。这个时候就很尴尬了，原来的段设计到这里就成鸡肋了。但是为了兼容，我们还是给他一个功能，段选择子，当然现代Unix操作系统没有用这个东西，只是在初始化的时候意思意思一下，具体可以看一下这篇<a href="http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/" target="_blank" rel="external">博客</a>的<code>GDB</code>表</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>最近学操作系统感觉有很多疑惑，了解很多知识，总想好好总结一下细节，结果发现总有大神们早就写出来了，而且非常详细，我就不班门弄釜了，把下面的lab好好思考，提炼出自己的知识。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
+<section class="post" itemscope itemprop="blogitem">
   
-  <span></span> <a href="/tags/mit6-828/">mit6.828</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/01/30/从CS寄存器看段的前世今生/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/01/30/从CS寄存器看段的前世今生/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/01/29/什么是操作系统/" title="什么是操作系统" itemprop="url">什么是操作系统</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
-		
-  <p class="article-time">
-    <time datetime="2018-01-28T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-01-29</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本文是基于mit6.828 的lab1对操作系统的思考，网上有不少关于lab1的博客，大部分都是介绍如何完成lab1的问题，介绍的比较详细的有这个<a href="http://www.cnblogs.com/fatsheep9146/category/769143.html" target="_blank" rel="external">博客</a>，在这里我就不从问题出发，建议大家看完上面的博客在看我这篇博文，我这篇博文就是从把我遇到的疑惑提炼出知识点，然后再把这些知识点串起来</p>
-<h2 id="实验目的"><a href="#实验目的" class="headerlink" title="实验目的"></a>实验目的</h2><p>作为操作系统的第一个实验，在完成lab1我们主要目的就是要了解什么是操作系统，后面的lab都是在这个基础上搭建完善好系统的各种功能，就好像你画一幅画，第一步你先把人物的轮廓外形画出来，接下来你在把人的鼻子耳朵眼睛等等慢慢画出来，所以第一个实验非常重要，如果不把骨架搭好，你的操作系统再怎么豪华强大也是空中楼阁，所以我们在这个lab上一定要花上很多时间，万事开头难，只要攻克了这个，操作系统也就离你不远了</p>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>谈操作系统之前必须得谈谈什么是计算机，因为我们的操作系统是运行在计算机上面的，操作系统与计算机关系密切，我们可以用一个很贴切的比方，假如你想了解手套为什么长成那么奇怪，那么你得先举起你的双手看看。</p>
-<p>闲话不多说，进入正题，计算机最核心部分就是CPU，记得电脑刚发明出来的时候，编程只能通过穿孔卡片，当然计算机发明这么久，CPU的核心功能基本上没有变，还是只能通过“穿孔卡片”，只不过我们编程语音将我们的使用的语音如C，Python等变成“穿孔卡片”，这里有个非常重要的概念：<strong>指令</strong>。也就是每个CPU的是每次只能执行一条指令。当然第二个重要的就是内存了，前面说了CPU是必须要通过”穿孔卡片“来编程的，但是随着程序愈来愈大，我们必须要使用一个东西来存贮“卡片”，所以内存孕育而生了，其实很多感叹电脑这个词实在是太贴切了，人脑可以处理问题，电脑也可以处理问题，人脑有短期记忆长期记录，电脑有寄存器（短期记忆）内存（长期记忆）。</p>
-<p>简单的谈了谈计算机，我们提出两个重要的前提</p>
-<ul>
-<li>计算机通过顺序读取一条一条指令来工作</li>
-<li>计算机从内存获取指令</li>
-</ul>
-<p>所以操作系统的就是在内存上面运行自己并帮助其他程序的一个大程序，总的来说它就是内存上面的一段程序，当然它的功能就是好好在它一亩三分地上面“分封诸侯”，维护自己的“王位”。</p>
-<p>由于一开始它只是待在软盘或者磁盘等存贮设备上的一段程序，接下来我们就看操作系统如何“上位”内存的“宫斗大戏”。</p>
-<h2 id="上位篇"><a href="#上位篇" class="headerlink" title="上位篇"></a>上位篇</h2><p>在操作系统“上位”之前，其实计算机还进行了一个小操作系统（BIOS）运行，具体的流程可以看这篇<a href="http://www.ruanyifeng.com/blog/2013/02/booting.html" title="操作系统启动" target="_blank" rel="external">文章</a>，如果把电脑看做人的话，BIOS就是我们的脊髓，它控制我们的身体四肢（硬件），但是却无法灵活的操作他们（比如非条件反射的膝跳反射），但是它却不可少，少了它就成植物人了。BIOS的作用总结起来就是感知硬件，调控硬件（比如CPU电压，内存频率）。</p>
-<p>BIOS与操作系统最密切的一个地方就是设置启动盘，大家可能大多时候都是听文件文件比较多，但是文件这个概念其实是操作系统的，在没有操作系统之前是没有文件这个概念的，只有盘这个概念，比如一块硬盘、一张软盘、一个U盘，所以BIOS的一个重要工作就是选定一个存储硬盘，然后读取上面的程序运行。</p>
-<p>所以我们从这时候可以得到一个结论，安装操作系统，只需要按照BIOS的规定把程序放到某一个存贮设备（磁盘、U盘、软盘）专门位置上（一般是头部开始），开机后然后就静等BIOS把程序加载到内存，就完成了“上位”过程。</p>
-<p>我们已经知道操作系统的外部条件，接下来分析一个操作系统到底该有啥</p>
-<h2 id="操作系统结构"><a href="#操作系统结构" class="headerlink" title="操作系统结构"></a>操作系统结构</h2><p>首先我们要回顾一下操作系统的发家史，刚开始是没有操作系统的这个概念的，随着在电脑上要运行的越来越多，每个程序都要写大量底层代码来操作硬件这样无疑每个程序越来越来臃肿，所以我们需要让操作系统管理来管理硬件，这样不但能够提供程序兼容性（一次编译、到处运行），而且能高效利用硬件（操作系统专供）。所以操作系统也就是程序的分工的产物</p>
-<p>接下来我们看看操作系统的发展历史，大家都知道汇编语言是除了机器语言最接近底层的一种语言，第一个Unix系统一开始也就是使用汇编编写的。但是汇编语言不易于维护，所以1973年汤普逊和里奇用C重构了Unix，但是部分与硬件接触太大的地方还是必须使用汇编（in、out端口，操纵指定寄存器等），所以现代操作系统还是用C与汇编混合编写的（C占大部分），当然最后都会编译成机器码，所以我们从机器码角度来看，最后的结果都是相同的，不同的是我们使用不同的工具来生成机器码</p>
-<p>前面我们介绍了启动盘，其实BIOS给我们只是从启动盘上面取了一小段数据（第一个扇形区）放到内存上面（512B），然后执行那小段上面的机器码，所以接下来就有一个问题，随着我们的操作系统功能越来越完善，取出来的代码肯定不是全部代码，代码只有放到内存上面才能跑，所以前人就把代码分成两部分，一部分称作引导，另一部分才是核心代码，引导作用就是把核心代码放到内存上面去</p>
-<p>所以操作系统被分成两部分</p>
-<ul>
-<li>引导</li>
-<li>核心</li>
-</ul>
-<p>这里比较有意思的地方就是引导和核心如何交换程序控制权，由于要讲解必须要牵扯代码，所以我把这部分分离出来，放到这篇<a href="/2018/01/31/引导和操作系统的交互/">博客</a>上面，要了解细节可以看这篇博客。</p>
-<p>现在我们假设你已经知道引导将核心代码加载在了内存上面，现在我们就从这里开始分析，堆栈作为程序的基础，首先我们要提一下堆栈</p>
-<h3 id="堆栈"><a href="#堆栈" class="headerlink" title="堆栈"></a>堆栈</h3><p>什么是堆栈呢？看下面这张图</p>
-<p><img src="/images/stack.png" alt="堆栈"></p>
-<p>堆顶为大地址，我们使用的时候只要不断把栈顶往下推，就能将线性内存变成一个数据结构。当然有个问题，我们必须要知道什么地方是栈顶，现在我们想想操作系统必须要放到内存的某一个地方，假如放到低位置，那么我必须要记住操作系统的最高位置，如果不这样做当堆栈顶到操作系统的存贮地址，那么操作系统就被破坏了。所以我们只能把操作系统放到高的内存地址，这样我们既能安全的使用堆栈，而且保证了操作系统的安全</p>
-<p>所以我们接下来就谈谈由于这个设定引发的一系列问题</p>
-<h2 id="操作系统的高地址"><a href="#操作系统的高地址" class="headerlink" title="操作系统的高地址"></a>操作系统的高地址</h2><p>在lab1中，操作系统的起始代码被设定为<code>0xF0100000</code>的高位</p>
-<p>从这个地址我们可以分析出来什么<code>0xF0100000</code>，因为我们知道32位操作系统最高只能有4G内存，也就是2的32次方内存，这个地址代表的是系统最后面的255M内存的空间，也就是操作系统给自己留了255M剩余内存，给前面保留了（4G-255M）空间</p>
-<p>操作系统这个设计是非常好的，不仅给自己留下扩展空间，也给其他代码带来便利，就是从0-(4G-255M）这部分内存随便用，怎么改都不会出问题</p>
-<p>从现在角度来看，个人电脑随便都是2G、4G内存，但是在70\80年代，几M内存都很很大的存在，如果我内存没有4G这么大，那么这个操作系统就无法使用了，而且你留下256M给操作系统，有的时候我整个电脑内存都没有这么大，留下那么多，就是浪费</p>
-<p>所以最后他们想出来一个办法，就是现实和理想之间放一个转换器（MMU），也就是动态内存管理。操作系统也不管你机主有多大内存了，我假设你有4G，当你用一块，无论是什么位置，我从空余的地方给你取出来，假如你没有4G，我就把一部分不常用内存值的放到磁盘上面，这样通过这样这样的操作的实现内存的高效利用。</p>
-<p>操作系统对内存这种骚操作就相当于在更高的维度上建立了一种抽象，不论底层硬件怎么变（内存大小不同），我高层都不需要变，只需要底层把根据实际情况依次映射，这样无论你换多大内存，我都不需要重装系统。</p>
-<p>这种映射不通过代码很难将清楚，所以我这里也不提太多，如果你想知道怎么映射，硬件如何配合，你可以看我这篇<a href="/2018/01/31/内存分页/">博客</a>，详细介绍了内存分页的骚操作。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>至处到这里我们的操作系统之旅就结束了，我们成功在引导帮助下上了内存，也使用了提高操作系统的地址保证了堆栈的正常使用，接下来就是操作系统的各种附加功能，我们也会在接下来的lab中继续讲解。</p>
-<p>lab1不止介绍了这两个地方，但是在lab1中我觉得最重要的地方就是要知道操作系统是什么，它从哪里来，它要到哪里去，操作系统毕竟牵涉到硬件，很多硬件知识我们不一定能搞懂，比如说要切换哪几个位到保护模式，怎么输出端口才能读取扇形区，但是我们必须要搞懂他这样做的原因，这也是我在这篇里面谈了很多操作系统历史的原因，希望在理解操作系统上面能给大家带来一点启发。</p>
-<p>在最后的话，我谈一谈我对入门这门课的感受吧，我算编程基础还算比较扎实，但是在一开始学习的过程中一脸懵逼，C语言的各种骚操作，汇编与C疯狂混合，看惯了脚本语言的我，对这种改一下就编译不过的“硬骨头”异常难受，一开始根本看不下去，有的时候看几行代码，查资料好几个小时，而且资料特别难找，你不知道这种骚操作有啥意思，在这里还得感谢学习过这门课的学长学姐们，在网上无私的把自己的感受分享出来，慢慢的根据他们的资料和自己的调试还有自己找资料，慢慢的把这个代码一行一行搞懂，搞懂之后特别感慨，其实也不是很难，难的是要把你知道的所以知识点串起来，然后你就能搞懂为什么要这么做，所以我推荐大家还是多看代码，多去思考为什么要这么做，必须要自己的思考在里面，如果单纯的知识为了完成实验其实很简单，但是难就难在把这门课琢磨透，搞懂他们为什么要这样考你，毕竟大家最后的目的都是自己做出自己的操作系统，只有了解的透彻，才能“破而后立”搞出自己的创新，而不是复制他们的壳子，所以加油把每一行代码都搞懂，多思考，不要骄傲，毕竟这只是教学类的操作系统，要想自己写出来还得不懈努力。</p>
-<p>接下来还有6个lab需要完成，终于迈出的第一步，希望在年前能够完成所有的实验吧！！！加油！！！</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://buweilv.github.io/2017/06/10/jos-bootstrap-3/" target="_blank" rel="external">“C语言虚拟内存表”</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
+    <a href="/2018/02/05/内存分页设计/" title="内存分页设计" itemprop="url">
   
-  <span></span> <a href="/tags/mit6-828/">mit6.828</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/01/29/什么是操作系统/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/01/29/什么是操作系统/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
+    <h1 itemprop="name">内存分页设计</h1>
+    
+     
+           <p itemprop="description" >引言前面已经通过lab1的这篇博文了解了内存分页的实现细节，接下来就谈谈如何具体实现内存分页
+物理载体通过了解KERNBASE对操作系统的影响这篇博文我们知道，其实内存分页就是完成对物理存在的一种分割和隔离，所以我们在完成内存分页系统设计之前必须要构建一个载体，完成对物理存在的一</p>
+        
+    
+    <time datetime="2018-02-04T16:00:00.000Z" itemprop="datePublished">2018-02-05</time>
+  </a>
+</section>
 
 
 
 
 
 
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2018/01/31/引导和操作系统的交互/" title="引导和操作系统的交互" itemprop="url">
+  
+    <h1 itemprop="name">引导和操作系统的交互</h1>
+    
+     
+           <p itemprop="description" >引言本来自己查了很多资料，想自己写出来，结果下笔的时候发现别人已经把我想写的部分全部写出来了，而且比我想的还要具体，所以我就不写了，把链接放出了，顺便我补充一些
+http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6</p>
+        
+    
+    <time datetime="2018-01-30T16:00:00.000Z" itemprop="datePublished">2018-01-31</time>
+  </a>
+</section>
 
-  <nav id="page-nav" class="clearfix">
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2018/01/31/内存分页/" title="内存分页" itemprop="url">
+  
+    <h1 itemprop="name">内存分页</h1>
+    
+     
+           <p itemprop="description" >引言本来自己查了很多资料，想自己写出来，结果下笔的时候发现别人已经把我想写的部分全部写出来了，而且比我想的还要具体，所以我就不写了，把链接放出了，顺便我补充一些
+http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6</p>
+        
+    
+    <time datetime="2018-01-30T16:00:00.000Z" itemprop="datePublished">2018-01-31</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2018/01/30/从CS寄存器看段的前世今生/" title="从CS寄存器看段的前世今生" itemprop="url">
+  
+    <h1 itemprop="name">从CS寄存器看段的前世今生</h1>
+    
+     
+           <p itemprop="description" >引言Intel作为作为微处理器的航头老大，一直引导CPU的进步发展，也正是因为Intel是一个有着历史包袱的企业，所以站在现代CPU看起来，有一些非常奇葩的设计遗留下来，这些设计一开始是为了兼容，慢慢的将这种兼容又发展成新的功能，把“包袱”转换成“亮点”，段设计就是其中的一个很重</p>
+        
+    
+    <time datetime="2018-01-29T16:00:00.000Z" itemprop="datePublished">2018-01-30</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2018/01/29/什么是操作系统/" title="什么是操作系统" itemprop="url">
+  
+    <h1 itemprop="name">什么是操作系统</h1>
+    
+     
+           <p itemprop="description" >引言本文是基于mit6.828 的lab1对操作系统的思考，网上有不少关于lab1的博客，大部分都是介绍如何完成lab1的问题，介绍的比较详细的有这个博客，在这里我就不从问题出发，建议大家看完上面的博客在看我这篇博文，我这篇博文就是从把我遇到的疑惑提炼出知识点，然后再把这些知识点</p>
+        
+    
+    <time datetime="2018-01-28T16:00:00.000Z" itemprop="datePublished">2018-01-29</time>
+  </a>
+</section>
+
+
+
+
+
+
+
+  <nav id="page-nav" class="clearfix unexpand">
     <a class="extend prev" rel="prev" href="/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/3/">Next<span></span></a>
   </nav>
 
 </div>
-      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
 <aside class="clearfix">
 
   
 
   
 <div class="tagslist">
-	<p class="asidetitle">标签</p>
+	<p class="asidetitle">標簽</p>
 		<ul class="clearfix">
 		
 			
@@ -1330,7 +399,7 @@ ELF Header:
 
 
   <div class="linkslist">
-  <p class="asidetitle">友情链接</p>
+  <p class="asidetitle">友情鏈接</p>
     <ul>
         
           <li>
@@ -1346,7 +415,7 @@ ELF Header:
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 訂閱</a>
 </div>
 
   <div class="weiboshow">
@@ -1523,7 +592,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

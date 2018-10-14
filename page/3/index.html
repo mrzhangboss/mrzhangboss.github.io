@@ -45,7 +45,7 @@
 				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -72,1154 +72,251 @@
     <div id="container">
       <div id="main">
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/01/09/mit6.828课程总结/" title="mit6.828课程总结" itemprop="url">mit6.828课程总结</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
-		
-  <p class="article-time">
-    <time datetime="2018-01-08T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-01-09</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
-<p>一开始想直接做一个操作系统，但是万事开头难，学习操作系统需要太多基础知识了，所以就按照网上推荐先学习mit6.828的课程，先把xvf6操作系统搞懂，然后在来实现自己的操作系统，下面就是学习这个课程的体会，按照各个lab的顺序，介绍自己的心得体会</p>
-</blockquote>
-<p>课程的地址是： <a href="https://pdos.csail.mit.edu/6.828/2016/schedule.html" target="_blank" rel="external">mit6.828</a><br>PS：由于<a href="https://pdos.csail.mit.edu/6.828/2016/schedule.html" target="_blank" rel="external">mit6.828</a>课程仓库需要翻墙，所以我把clone下来放到我的github仓库，我的<a href="https://github.com/mrzhangboss/mit6.828-2016" target="_blank" rel="external">仓库</a>里，大家可以clone下来（我会逐渐完成所以的实验）</p>
-<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
-<li><a href="/2018/01/29/什么是操作系统/">什么是操作系统</a> lab1</li>
-<li><a href="/2018/02/05/内存分页设计/">内存分页设计</a> lab2</li>
-<li><a href="/2018/02/20/用户空间隔离/">用户空间隔离</a> lab3</li>
-<li><a href="/2018/02/">并行多核设计</a> lab4</li>
-<li><a href="/2018/02/">文件系统设计</a> lab5</li>
-<li><a href="/2018/02/">网络设计</a> lab6</li>
-</ul>
-<h2 id="课程总结"><a href="#课程总结" class="headerlink" title="课程总结"></a>课程总结</h2><p>学到一半才发现这是一门研究生课程的学习，的确难度非常大，而且每一个实验都可以拿出来大做研究，但是课程给的资料非常详细，基本上每个硬件细节都给出了链接，但是对于最大的困难还是英语资料实在太多，有点“吸收”不过来。不过一路学习下来，感觉还是收获很大，基本上每个实验都环环相扣，每个实现细节都需要反复思考，为什么要这样做，还能怎么做，最终实现的xvf6还有些许跟不上时代的脚步，但是基本上框架已经有了，就是按照这个骨架完善更多细节，所以这个课程还远远没有结束，期待接下来对这个操作系统的进一步改进！！！</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
   
-  <span></span> <a href="/tags/mit6-828/">mit6.828</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/01/09/mit6.828课程总结/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/01/09/mit6.828课程总结/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/01/06/2018新年展望/" title="新年展望" itemprop="url">新年展望</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
-		
-  <p class="article-time">
-    <time datetime="2018-01-05T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-01-06</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
-<p>最近逛知乎的时候看到一篇<a href="https://www.zhihu.com/question/36149122/answer/66366304" target="_blank" rel="external">知乎回答</a>很有趣，也给了很深的感触，自己对于操作系统、数据库、HTTP用的都非常熟练，但是也从来没有去想怎么怎么实现或者背后深层次的原理</p>
-</blockquote>
-<p>以前刚开始学习的时候自己也看过很多关于操作系统、数据库的书，但是就像走马观花一样，很多书就是过了一遍脑子，然后就没有了，在2017年下半年自己也开始尝试把自己以前只是了解只是会用的东西拿出来咀嚼咀嚼，并在这个过程中写出一些自己觉得还是有点干货的博文。而且我也比较享受把复杂的问题简单话的过程。</p>
-<p>操作系统、计算机、数据库、编程原理在我看来都是非常复杂庞大的东西，在2018年，希望能够将上面这些复杂的东西搞的简单一点，当然在这个同时我也会将我将问题简单话的过程中分享出来。</p>
-<p>当然这些东西都太过宽泛，比如操作系统。很多人刚开始学习编程了解了操作系统概念，还有听到很多牛人都说自己写了一个操作系统都会在心里暗暗的立下一个Flag，自己也要做一个操作系统，但是很多人的热情慢慢的被无数的复杂概念慢慢磨掉，最后能坚持到做出一个完整的系统没有几个。作为一个普通人，我们没法一口吃下一个很大的“饼”，当然你如果叫爱因斯坦给你造一个原子弹，它也只能拍拍手跟你说我只能证明它能造出来。所以有效的解决问题的方法是将问题分解，或许最终我们最终造不出操作系统，但是我们对操作系统也能更深一步了解。</p>
-<h2 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h2><p>首先谈谈操作系统，其实我们对操作系统的理解大致都停留在开关机。我们要分解的问题就是我们对这个“黑盒子”的疑问</p>
-<ul>
-<li>操作系统如何管理硬件，比如说鼠标移动点击、键盘输入</li>
-<li>操作系统如何让多用户使用</li>
-<li>操作系统如何在多用户的情况下区分每个用户</li>
-<li>操作系统如何分配内存，如何限制用户的内存</li>
-<li>操作系统如何管理文件，如何避免文件被同时写入</li>
-<li>…..</li>
-</ul>
-<p>当然我这里只是列举了一些直观的问题，在解答这些问题的时候，我们会逐渐衍生出各种问题，最终我希望所有的问题都能被简单话</p>
-<h2 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h2><p>数据库我算使用的比较多了，但是对数据库背后的机制也是懵懵懂懂，只知道他能保证这些功能，比如事务的原子性、一致性、分离性、持久性。</p>
-<p>我觉得了解数据库就是要了解它是如何实现这些特性的，当然这个问题也很宽泛，我们可以尝试分解成</p>
-<ul>
-<li>数据库如何将输入复杂的查询分解成为数据库的操作</li>
-<li>数据库如何避免死锁</li>
-<li>数据对于插入删除异常如何解决</li>
-<li>…..</li>
-</ul>
-<p>其实在我看来数据库可以分解成两大块，一个是编程语音解析（SQL），一个是高效的存贮（Database）</p>
-<p>所以了解数据库也可以尝试了解编译原理，了解如何实现解析SQL，所以接下来我就不提编译原理了</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>其实想想自己的这种把复杂问题简单话就是华罗庚先生曾说的一句话：“把书由薄变厚，再把书由厚变薄”，首先我们得把这些看起来很简单的问题复杂话，最后慢慢的把这个复杂的问题简单话，这样你才能真正的把这个问题给搞懂。</p>
-<p>对于我来说，从小或许受应试教育的影响，自己只学会了复杂问题给解决，但是不懂得解决后再把复杂问题简单话，所以看起来我懂很多复杂问题，但是其实换一个场景，换一个问题就一知半解了。所以自己慢慢的开始改变自己的方法，不满足于解决问题，而着重于简化问题，希望自己的一点经验也能给后来人一点启发。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
+<section class="post" itemscope itemprop="blogitem">
   
-  <span></span> <a href="/tags/summary/">summary</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/01/06/2018新年展望/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/01/06/2018新年展望/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/01/05/红黑树实现原理/" title="红黑树实现原理" itemprop="url">红黑树实现原理</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
-		
-  <p class="article-time">
-    <time datetime="2018-01-04T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-01-05</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <blockquote>
-<p>本篇博客主要基于这篇<a href="/">博客</a>的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍红黑树的实现原理，完整代码在<a href="https://github.com/mrzhangboss/trees" target="_blank" rel="external">github</a>的<code>rbtree.go</code>文件中</p>
-</blockquote>
-<p><a href="/">浅谈”树”这种数据结构</a><br><a href="https://github.com/mrzhangboss/trees" title="github" target="_blank" rel="external">Github</a><br><a href="http://www.cs.usfca.edu/~galles/visualization/RedBlack.html" target="_blank" rel="external">可视化页面</a></p>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2>
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/01/05/红黑树实现原理/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/01/05/红黑树实现原理/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/01/04/二叉搜索树实现原理/" title="二叉搜索树实现原理" itemprop="url">二叉搜索树实现原理</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
-		
-  <p class="article-time">
-    <time datetime="2018-01-03T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-01-04</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <blockquote>
-<p>本篇博客主要基于这篇<a href="">博客</a>的扩展，建议阅读前先阅读这篇<a href="/2017/12/27/浅谈树这种数据结构/">博文</a>，这篇博文详细介绍二叉搜索树的实现原理，完整代码在<a href="https://github.com/mrzhangboss/trees" target="_blank" rel="external">github</a>的<code>binary.go</code>文件中</p>
-</blockquote>
-<p><a href="/2017/12/27/浅谈树这种数据结构/">浅谈”树”这种数据结构</a><br><a href="https://github.com/mrzhangboss/trees" title="github" target="_blank" rel="external">Github</a><br><a href="http://www.cs.usfca.edu/~galles/visualization/BST.html" target="_blank" rel="external">可视化页面</a></p>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>之所以使用Go来实现，个人还是比较喜欢Go的，作为一个基础数据结构，Go用来实现这个速度比Java、C++都快，而且相比Java也能节省内存，而且我也不喜欢换使用冒号。</p>
-<h2 id="二叉搜索树的基本功能"><a href="#二叉搜索树的基本功能" class="headerlink" title="二叉搜索树的基本功能"></a>二叉搜索树的基本功能</h2><p>作为一个树结构，主要必须实现三个功能，<strong>查增删</strong>（当然有改，不过改是删和增的结合所以就不算在里面），当然二叉树还能帮我实现一些额外功能，比如寻找最大值最小值等等，实现一颗二叉搜索树必须要保证在“增”和“删”的时候保持树结构不变，也就是保证还是一颗二叉搜索树</p>
-<p>什么二叉树是二叉搜索树呢，二叉搜索树只需要保证一点</p>
-<ul>
-<li>任何一个节点，它的左子树（不为空）所有值小于这个节点值，它的右子树（不为空）所有值大于这个节点值</li>
-</ul>
-<p>所有我们在实现增删的时候必须要牢记这点，而且我们也可以知道在你开始对这颗二叉树进行增删的时候，它一定已经满足了上面这个条件</p>
-<h3 id="查"><a href="#查" class="headerlink" title="查"></a>查</h3><p><img src="/images/bst-1.png" alt="标准的二叉树"></p>
-<p>如何在上面这颗标准的二叉树里面查询到我们想要的值呢？我们知道一颗二叉树只需要知道根节点（上面的10）就能通过遍历得到所以的节点的值，所以我们在实现中声明一个二叉搜索树的时候只保存一个<code>root</code>节点，通过这个节点，我们就可以实现所以的增删查改功能了</p>
-<p>为了找到每个值a，我们依次要在每个节点上对值进行比较，因为每个节点的值代表已经将这堆数据分成两个部分，一堆比这个值大在右边，一堆比这个值小在左边，这样只要最终能找到一个那个值的最小区间的对应值（找到）或者找到一个为空的叶节点（代表没有找到），</p>
-<p>通过最简单的查找，我们可以反推出一个理论，假如我们需要插入一个值，我们只要先尝试去寻找到那个值，假如找到了，因为已经存贮了就不插入，假如没找到就会找到一个为空的叶子节点，那样只要在父节点将这个为空的叶子节点替换成这个值为a的节点，我们就完成了插入</p>
-<p>所以查找和插入是相对的，知道怎么查找就知道怎么插入，接下来我们详细介绍如何删除，这个非常关键，因为它是后面要介绍的高级树实现高效的删除的关键</p>
-<h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><p>我们还是以上面那种图举例子，删除我们最先想到的是删除12,17那些节点，直接删除掉对二叉树没有什么影响，但是如果我们要删除那些带有节点的呢？我们先简化问题，先看一个只有两个节点的树</p>
-<p><img src="/images/bst-2.png" alt="双节点树"></p>
-<p>我们要想删除10，有两种可能</p>
-<p><img src="/images/bst-3.png" alt="左移"></p>
-<p><img src="/images/bst-4.png" alt="右移"></p>
-<p>一种是将左边值移过来，一种是将右边值移过来，这两种都不会破坏二叉树的平衡，现在我们假设我们倾向将左边的值移过来，我们再回到上面那棵标准的二叉树，如果我们要删除掉10节点，我们要把那个值移过来，我们直接在<a href="http://www.cs.usfca.edu/~galles/visualization/BST.html" target="_blank" rel="external">可视化界面</a>进行这个操作</p>
-<p><img src="/images/bst-5.png" alt="删除10后的标准二叉树"></p>
-<p>我们发现，我们只需要将7和放到10的位置上就完成了一次删除的操作，而7与10的关系是，7是10左边的那堆值最大的，用一个通俗的话来说，<em>完成改朝换代的关键就是要找一个能镇的住手下的人</em>，由于“10”挂了，在左边只有“7”能镇住左边，所以”7”升官直接跑到“10”的位置了</p>
-<p>根据这个原则我们将情况分成三种</p>
-<ol>
-<li>左右子树都为空，直接删掉</li>
-<li>左边子树或者右边子树有一个为空，将不为空的子树提上来当做删除的节点</li>
-<li>左右子树不为空，将左边最大的值提上来替换删除的节点</li>
-</ol>
-<p>对于第三种情况，为了编程方便，我们考虑一种情况，如果左子树的右节点有没有值（比如说上面的5节点），如果它右节点有值，那么左边的最大值肯定出现在，左子树的右节点上（就像上面左子树出现在5的右节点的7节点上面）。然后我们继续判断“7”节点有没有右子树，这样循环下去，我们总能找到一个节点没有右节点，这样我们就找到左子树的最大值了。</p>
-<p>在上面这种情况下，我们将这情况分成两种</p>
-<ul>
-<li>如果左子树的右节点有值（循环下去找到一个节点右节点没有值）</li>
-<li>如果左子树的右节点没值（那么第一个左子树就是最大值）</li>
-</ul>
-<p>具体的<a href="https://github.com/mrzhangboss/trees" title="github" target="_blank" rel="external">代码</a>在<code>binary.go</code>的<code>Delete</code>(寻找节点）方法和<code>delete</code>（删除节点）方法中</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>总的来说，二叉搜索树的插入是最容易理解的，但是删除的话要考虑不同四种的情况所以还是稍微需要点时间理解一下的，小小的一个二叉搜索树也花了近200行代码实现，但是相比后面的AVL树、红黑树的近千行代码来说，二叉搜索树还是比较简单的，而且后面实现的高级树结构基本上都是依赖二叉搜索树的实现（必须要按照二叉树的增删满足二叉搜索树的原则），所以我们对二叉搜索树的增删必须理解透彻。</p>
-<p>引用：</p>
-<p><a href="https://en.wikipedia.org/wiki/Binary_search_tree" target="_blank" rel="external">https://en.wikipedia.org/wiki/Binary_search_tree</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
+    <a href="/2018/01/09/mit6.828课程总结/" title="mit6.828课程总结" itemprop="url">
   
-  <span></span> <a href="/tags/programming/">programming</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/01/04/二叉搜索树实现原理/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/01/04/二叉搜索树实现原理/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
+    <h1 itemprop="name">mit6.828课程总结</h1>
     
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
+     
+           <p itemprop="description" >引言
+一开始想直接做一个操作系统，但是万事开头难，学习操作系统需要太多基础知识了，所以就按照网上推荐先学习mit6.828的课程，先把xvf6操作系统搞懂，然后在来实现自己的操作系统，下面就是学习这个课程的体会，按照各个lab的顺序，介绍自己的心得体会
+
+课程的地址是： mit6</p>
+        
     
-      <a href="/2018/01/04/AVL树实现原理/" title="AVL树实现原理" itemprop="url">AVL树实现原理</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
-		
-  <p class="article-time">
-    <time datetime="2018-01-03T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-01-04</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <blockquote>
-<p>本篇博客主要基于这篇<a href="/2017/12/27/浅谈树这种数据结构/">博客</a>的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍AVL树的实现原理，完整代码在<a href="https://github.com/mrzhangboss/trees" target="_blank" rel="external">github</a>的<code>avl.go</code>文件中</p>
-</blockquote>
-<p><a href="/2017/12/27/浅谈树这种数据结构/">浅谈”树”这种数据结构</a><br><a href="https://github.com/mrzhangboss/trees" title="github" target="_blank" rel="external">Github</a><br><a href="http://www.cs.usfca.edu/~galles/visualization/AVLtree.html" target="_blank" rel="external">可视化页面</a></p>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>AVL树是在对二叉搜索树的一种优化，通过构造一棵高度平衡的二叉搜索树从而实现提高空间利用率，所以在了解如何实现之前，必须了解如何构造一棵二叉搜索树，你可以阅读我的这篇<a href="/2018/01/04/二叉搜索树实现原理/">博客</a>了解如何构建一棵二叉搜索树，虽然我是用Go来实现的，但是不必了解太多Go方面的知识，我在博客中尽量使用图片的方式来介绍实现原理</p>
-<p><a href="/2018/01/04/二叉搜索树实现原理/">二叉搜索树实现原理</a></p>
-<p>由于AVL树本质上也是一棵二叉搜索树，查找并不会改变树的性质，所以AVL的查找也是同二叉搜索树的查询相同，所以这里就重点介绍如何实现“增”和“删”</p>
-<h3 id="树的字段"><a href="#树的字段" class="headerlink" title="树的字段"></a>树的字段</h3><p>在开始介绍如何实现“增”、“删”之前，我想提一下AVL树的存贮字段，在wiki上面的AVL和很多资料上面，AVL的树结构分别由下面四个组成： Val、 Left*、Right*、Parent*。</p>
-<p>Val代表树存贮的值，Left、Right、Parent代表三个指针，分别指向左子树，右子树，父亲，而在我的实现中，我去掉了父亲指针，对于讲解来说，使用一个父指针能很好的解决从子遍历到父亲的经过，但在实际的应用中，我们完全可以使用一个列表存贮从父亲到儿子之间的值，这样的话，能实现一样的功能，而且能节省存贮空间（每个子树都少了一个父指针），但是相应的程序也变得比较复杂起来。</p>
-<p>虽然我在讲解的过程中会直接获取节点的父节点，但是在实际的代码实现中，是通过获取从列表中获取该节点的父节点。</p>
-<h2 id="AVL树的“增”"><a href="#AVL树的“增”" class="headerlink" title="AVL树的“增”"></a>AVL树的“增”</h2><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://en.wikipedia.org/wiki/AVL_tree" target="_blank" rel="external">https://en.wikipedia.org/wiki/AVL_tree</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/01/04/AVL树实现原理/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/01/04/AVL树实现原理/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
+    <time datetime="2018-01-08T16:00:00.000Z" itemprop="datePublished">2018-01-09</time>
+  </a>
+</section>
 
 
 
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/12/27/浅谈树这种数据结构/" title="浅谈&quot;树&quot;这种数据结构" itemprop="url">浅谈&quot;树&quot;这种数据结构</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
-		
-  <p class="article-time">
-    <time datetime="2017-12-26T16:00:00.000Z" itemprop="datePublished"> 发表于 2017-12-27</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <blockquote>
-<p>一直以来我对树这种数据结构就比较头疼，随便找一个红黑树的博客，大部分都是在谈怎么旋转怎么插入怎么删除，将算法讲的头头是道，但是就算你看懂了也不懂为什么要这样做，所以我们这篇博文就从可视化的角度，慢慢的介绍这些树的来世今生。</p>
-</blockquote>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>首先给大家推荐一个神奇的网站，我们这篇博文很大程度上都是依托这个网站从可视化的角度分析各种树</p>
-<p>网站的网址是<a href="http://www.cs.usfca.edu/~galles/visualization/Algorithms.html" target="_blank" rel="external">http://www.cs.usfca.edu/~galles/visualization/Algorithms.html</a></p>
-<p>接下来我们从易到难分别谈谈下面这些树结构</p>
-<ul>
-<li>二叉搜索树</li>
-<li>AVL树</li>
-<li>红黑树</li>
-<li>Splay树</li>
-<li>Trie树</li>
-<li>B树</li>
-<li>B+树</li>
-</ul>
-<p>你可以点击下面高亮的标题尝试这种树结构的可视化操作，当然我在谈的过程中默认你已经打开可视化界面网站。</p>
-<p>在开始介绍各种树结构之前，我们先谈谈为什么我们需要树这种结构。</p>
-<p>假设我们一开始都有一个“柜子”存放东西，当我们东西很少的时候，我找东西的时候只要在柜子里面翻一翻就能找到，当我东西越来越多，在柜子里面找东西消耗的时间越来越多，这时候我就把柜子分类，让每一个柜子的东西都是固定的，这样我们查找时候不会在一个柜子里面寻找很久，这样无论你有多少东西进来，我查找的时间基本不会太长。</p>
-<p>所以树这种数据结构就是为了解决当数据量越来越大的时候相比与线性查找时间基本不会太长。对树查找和线性的区别我们可以看一下这个可视化界面</p>
-<p><a href="http://www.cs.usfca.edu/~galles/visualization/Search.html" target="_blank" rel="external">线性搜索与二分查找</a></p>
-<p>通过输入查找344，我们发现线性搜索花了15步才搜索到，而二分查找只需要2步，而且随着数据越来越大，线性搜索花的步数直线上升，而二分查找只会维持用Log(N)的步伐增长。</p>
-<p>树的结构基本上都是基于二分查找，但是在维护这个查找树的方法上各种树有各种优化方法，接下来我们就从可视化角度来依次介绍各种树的原理和优缺点。</p>
-<h2 id="二叉搜索树"><a href="#二叉搜索树" class="headerlink" title="二叉搜索树"></a><a href="http://www.cs.usfca.edu/~galles/visualization/BST.html" target="_blank" rel="external">二叉搜索树</a></h2><p>这个树可以称作所以后面变种树的鼻祖，基本上所以后面的树都是基于这个树的不足之处进行改良达到其各自的目的。</p>
-<p>我们现在尝试构造一棵二叉树，我们依次插入<code>3,2,4</code>。然后一棵标准的二叉树就出现在我们面前，在我们插入的过程中，我们可以清晰的看到，第一个插入的变成了母节点，而且插入程序实现的非常简单，首先跟母节点进行比较，如果比母节点大，从母节点右边下滑，然后依次找到最后一个为空的节点把自己插入进去。</p>
-<p> <img src="/images/bst-7.png" alt="单调递增二叉搜索树"></p>
-<p>我们接下来尝试一下如果输入一个连续递增的数组进去，比如<code>1， 2， 3， 4， 5</code>，我们发现这个二叉搜索树会逐渐把所以的值放到右节点上。这时候我们我们尝试搜索一下<code>5</code>，我们发送这个二叉搜索树需要5次查询才能得到最终结果，这个基本上等同与线性搜索。</p>
-<p>这里我们就发现二叉搜索树一个致命缺点，它容易造成一种空间的浪费，虽然这个树看起来很“高”，有5层，但是利用率极低，每层只有一个树，这样不但查找的时候效率不高，而且插入的时候效率也不高（很可能需要“爬”很多层）。</p>
-<p>二叉树搜索树实现起来非常简单，只要用一个<code>while</code>循环就能完成插入查找等功能，但是由于它结构控制太低，它对数据要求要很高，它时候依次插入那些无序数字，而对那些有序数据来说，二叉搜索树等同与一个数组。</p>
-<p>所以我们接下来介绍下面改良树，看看其他树是如何提高的空间利用率的，由于这篇主要是简单的谈一下这些树的优缺点，如果你想了解如何实现这样可以看一下我写的这篇<a href="/2018/01/04/二叉搜索树实现原理/" title="二叉搜索树Go实现">博文</a>，详细介绍了如何使用Go语言实现一个高效的二叉搜索树，如果你想彻底了解下面高级的树的实现，强烈建议一下了解一下二叉搜索树实现的方法，因为后面所以的树实现的前提<strong>必须满足是一个二叉搜索树</strong>，这点非常重要。</p>
-<p><a href="/2018/01/04/二叉搜索树实现原理/" title="二叉搜索树Go实现">二叉搜索树Go实现</a></p>
-<h2 id="AVL树"><a href="#AVL树" class="headerlink" title="AVL树"></a><a href="http://www.cs.usfca.edu/~galles/visualization/AVLtree.html" target="_blank" rel="external">AVL树</a></h2><p>1962发明的AVL树现在还生龙活虎的活跃在Windows进程地址空间管理，虽然作为最早的平衡二叉树现在有点干不过后面的年轻的小伙，但是作为前辈，后面小伙很多地方都是借鉴前辈的，所以我们有必要隆重介绍一下这个老前辈。</p>
-<p>首先要说明一下什么是平衡二叉树，前面我们也看到了，二叉搜索树有个弊端，它有可能子树高度不一样，比如说<code>1,2,3,4,5</code>那个母节点<code>1</code>的左子树高度为0，右字数高度为5，平衡二叉树就没有这个问题，它规定所以节点子树高度差不能超过1，这样规定的话我们的树空间利用率就能基本上达到100%了。</p>
-<p>AVL树就是一颗高度平衡二叉树，它的要求也非常简单，就两个</p>
-<ul>
-<li>必须是二叉搜索树</li>
-<li>必须是平衡二叉树</li>
-</ul>
-<p>成为一个二叉查找树非常容易，但是为了必须满足平衡二叉树条件，这里我们给每颗树定义一个高度，默认空为0，这样就可以计算左右子树的高度差是否在-1和1之间判断是否是平衡树。</p>
-<p>了解了这个之后，我们回到web页面，我们输入<code>1,2,3</code>看看AVL树如何避免像二叉搜索树一样过度生长</p>
-<p><img src="/images/avl-1.png" alt="插入前"></p>
-<p><img src="/images/avl-2.png" alt="插入后"></p>
-<p>我们从这两幅图可以看到，插入前AVL树高度为3，经过单旋转后，将2旋转到1的位置，然后让树又满足平衡二叉树的条件和二叉搜索树的条件。让我们思考一下旋转的意义。</p>
-<h3 id="旋转的意义"><a href="#旋转的意义" class="headerlink" title="旋转的意义"></a>旋转的意义</h3><p><strong>第一旋转并没有改变二叉搜索树的特性，我们将二叉树看做一个一个小区间组成的区域，旋转将区间整体移动了，所以我们保持住了区间的稳定，而且我们把旋转的支点看做中心，我们发现通过一次旋转后，支点左右之间的数量发生的变化，其中一方增加一个，其中一个减少一方，通过这种方式，把高度差由<code>2</code>转成<code>0</code></strong></p>
-<p>所以我们在插入和删除的时候造成的高度不平衡可以通过正确的旋转达到一个高度差的减少。而且我们可以很轻松的推断出在插入和删除的时候只需要通过有限的旋转就能实现树的平衡，但是我们也会发现这个平衡是非常严格的，每次插入删除的时候，删除或者增加的那条“路径”（从根节点到修改的节点）的各个节点的高度都会发生变化，所以我们需要检查和更新整条路径上高度差（也称平衡因子）是否满足平衡条件。</p>
-<p>直接纪录每个树的高度并且约束高度差的方法能够很好的规避像上面二叉搜索树造成的空间利用率低问题，但是对于增添和删除操作频繁的数据来说，AVL树并不是一个很好的解决方法，因为每次删除和增加都必须检测路径上的高度差，虽然旋转比较高效，但是每次检测和修改高度会让这个算法花费太多时间在这个严格的条件上面。</p>
-<p>总的来说，AVL树是比较好理解的一种平衡树算法，通过这个树的各种旋转操作，我们能很清晰的发现二叉树是一种很神奇的数据结构，一方面它可能是混乱的（分支混乱），一方面它又是整齐的，通过“扭动”它的身躯，将数据平均的分摊在根节点上面。我非常推荐你在这个<a href="http://www.cs.usfca.edu/~galles/visualization/AVLtree.html" target="_blank" rel="external">可视化界面</a>上通过一步一步将单独递增或者递减的数据插入AVL树中，你会发现AVL通过一次一次的“扭动”，将数据向根节点另一个方向传输过去。</p>
-<p>这里我也不详细介绍AVL树实现的具体原理，如果你想了解更底层的实现，可以看我下面这篇<a href="/2018/01/04/AVL树实现原理/" title="AVL树的实现原理">博客</a></p>
-<p><a href="/2018/01/04/AVL树实现原理/" title="AVL树的实现原理">AVL树的实现原理</a></p>
-<h2 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a><a href="http://www.cs.usfca.edu/~galles/visualization/RedBlack.html" target="_blank" rel="external">红黑树</a></h2><p>在AVL树发明10年后鲁道夫 贝尔发明了红黑树，直到现在红黑树还依旧在C++的STL、Java的HashMap中发挥着重要作用，只所以要先介绍AVL树再介绍红黑树，因为从我的理解上来看，其实红黑树和AVL树原理都是类似的，只不过红黑树修改了AVL树的缺点并且将AVL的平衡原理进行了抽象话。</p>
-<p>从数据结构上来看，红黑树相比于AVL树来说，只是将存贮高度的值换成了存贮颜色的值，从空间的角度上看，红黑树用一个二进制bool值（1Bit）换掉一个存贮int值（4Bit），节省了3Bit的空间，从增删所需要的操做来看，AVL树旋转可能需要lnN 步操作，而红黑树增不超过2次旋转，删不超高3次旋转，在增删效率上远远优于AVL树。所以我们有一个疑问为什么红黑树能用更少的空间实现更高的效率呢？</p>
-<p>回答这个问题之前，我们再捋捋AVL它的实现原理，前面介绍了AVL实现平衡的原理的就是使的左右子树高度差维持在[-1,1]之间，高度差这个东西，你想想高度这个东西其实它就是母节点到叶子节点的路径，所以高度差我们翻译一下就是左右子树路径差，现在我们把平衡后的AVL树条件更加严格一点，我们规定左右子树路径差为0，也就是左右子树高度一样。</p>
-<p><img src="/images/bst-2.png" alt="满二叉树"></p>
-<p>在上面那个严格的条件下，假如我们要新增一个到树末端，假如它加在像上面这样满二叉树上面，那么左右子树高度就立刻不相同了，但是对于一个AVL树来说，在这颗树上末端插一颗树并不会影响树的平衡，所以我们要想一个办法让插入这个值“不算高度”，这时候我们一想，如果我们把树节点分成两种颜色，一种红色一种黑色，红色不算高度，黑色才算高度，那样虽然我现在条件很苛刻“左右子树高度必须一样”，但是如果插入的是红色，那么就能很轻松的实现上面的条件。</p>
-<p>好了我们通过上面的操作成功的将高度变成了黑高（黑色节点的高度），而且满足了一种更加严格的条件“左右子树黑高必须相同），假如说前面AVL树的高度差为[-1,1]之间都能实现高空间利用率的，那么在这种更加严格的条件下也能满足，但是现在又出现一个问题，我们看下面这棵树</p>
-<p><img src="/images/rbt-1.png" alt="不平衡树"></p>
-<p>当我们插入节点3的时候，由于插入一颗红色你把红色节点不算高度，所以在前面的约束条件下，插入3满足条件，但是实际上这棵树并不是一个平衡AVL树，为了避免这种情况的发生我们必须要做一个约束，我们要约束红色节点不能太多，所以我们就约束红色节点后面只能是黑色节点，这样路径上最少都会有一半都是黑色（红色黑色相同）。</p>
-<p>我们现在得到两个约束，现在我们来说思考一下这两个条件的约束到底给我们带来了什么</p>
-<ul>
-<li>黑高相同</li>
-<li>红后面必须为黑</li>
-</ul>
-<p>首先对于黑色节点来说，这棵树是高度平衡的（假设它只能看到黑色节点），高度差为0，但是对于红色节点来说，这棵树有可能是不平衡的（假设有N个黑节点，红色高度差可能有N-1），所以从整体上来看，红黑树牺牲了一定的平衡性换来了插入删除的高效性</p>
-<p>这个高效性表现在哪呢？第一它不在需要更新所有的高度差，它只需要对受影响的路径上的有限节点进行染色就能实现再次的平衡，其次由于它不在需要高度的平衡，所以它能容忍树上的红色的不平衡现象，来减少旋转变化的次数。</p>
-<p>前面我们分析了AVL树旋转的意义那么对于红黑树来说，旋转的意义是什么呢？</p>
-<h3 id="红黑树的旋转意义"><a href="#红黑树的旋转意义" class="headerlink" title="红黑树的旋转意义"></a>红黑树的旋转意义</h3><p>前面我们知道了在AVL树中每一棵树都是独立的个体，所以每次旋转都是一次运输，将树按照节点扭动，但是对于红黑树来说，它要处理的情况是黑树高度的不同，当需要搬到的也是黑树，它的目的就是将黑树的高度平衡，对于红色的树来说，它更像一种胶水，它能保证当数据不平衡的时候（所以的树不可能全部变成黑树）还能使黑树保持一种平衡，从而使一棵树变得相对平衡。</p>
-<p>所以红黑树的旋转的意义同AVL树是类似的，只不过红黑树在旋转的时候要更加注意，它不但要考虑我们要如何在不平衡的节点上平衡黑高，而且要考虑我们平衡了这个节点的黑高有没有对其父亲的黑高造成影响。</p>
-<p>对于红黑树来说，由于颜色是可变的，所以着色（改变颜色）也是一种手段，而对于AVL树来说高度是固定的，只能通过旋转来改变，所以单独讲红黑树的旋转是没有意义的，或许有的时候只需要通过旋转就能实现黑高的统一，或许通过简单着色也能实现黑高的统一，但是只使用一种手段是不能高效的完成所以的条件。所以在我看来<em>着色和旋转是相辅相成的</em></p>
-<p>也正因为我们多了一个着色的手段，所以红黑树比AVL树在某些方面更加高效，随着而来也是更加复杂难懂，但是总体来说AVL和红黑还是类似的，在这里我就不深谈如何实现红黑树，如果你想了解如何实现红黑树，可以看我这篇<a href="/2018/01/05/红黑树实现原理/">博客</a></p>
-<p><a href="/2018/01/05/红黑树实现原理/">红黑树的实现原理</a></p>
-<h4 id="剩余的四种树的简析会待代码实现后陆续更新"><a href="#剩余的四种树的简析会待代码实现后陆续更新" class="headerlink" title="剩余的四种树的简析会待代码实现后陆续更新"></a>剩余的四种树的简析会待代码实现后陆续更新</h4><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://en.wikipedia.org/wiki/Binary_search_tree" target="_blank" rel="external">https://en.wikipedia.org/wiki/Binary_search_tree</a></p>
-<p><a href="https://en.wikipedia.org/wiki/AVL_tree" target="_blank" rel="external">https://en.wikipedia.org/wiki/AVL_tree</a></p>
-<p><a href="https://www.cnblogs.com/vamei/archive/2013/03/21/2964092.html" target="_blank" rel="external">https://www.cnblogs.com/vamei/archive/2013/03/21/2964092.html</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
   
-  <span></span> <a href="/tags/programming/">programming</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/12/27/浅谈树这种数据结构/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/12/27/浅谈树这种数据结构/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/12/26/几个有趣的动态规划/" title="几个有趣的动态规划" itemprop="url">几个有趣的动态规划</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
-		
-  <p class="article-time">
-    <time datetime="2017-12-25T16:00:00.000Z" itemprop="datePublished"> 发表于 2017-12-26</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <blockquote>
-<p>这篇博文是<a href="/2017/12/25/从问题理解动态规划/">从问题理解动态规划</a>的练习篇，通过几个动态规划的问题剖析进一步理解动态规划</p>
-</blockquote>
-<h2 id="找零钱练习题"><a href="#找零钱练习题" class="headerlink" title="找零钱练习题"></a>找零钱练习题</h2><ul>
-<li>给定一个零钱数组比如[1, 2, 5],每个值代表一个面额的纸币，给定一个总数(aim)，求换钱有多少种方法（每种面额纸币不限量）</li>
-</ul>
-<blockquote>
-<p>这个问题非常经典，所以我就从最先容易想到的算法出发慢慢推导出动态规划</p>
-</blockquote>
-<h3 id="正向暴力搜索"><a href="#正向暴力搜索" class="headerlink" title="正向暴力搜索"></a>正向暴力搜索</h3><p>面前一大堆钱，分成三堆，我们必须要从这三堆中抽取出来所以可能的方案，看看能够凑到总数。</p>
-<p>我们第一个想到的就是正向暴力搜索，先从第一堆取出0张、1张、2张….，然后递归下去，让取出0张、1张、2张凑剩下的总数，等到取到最后一个钱堆或者总数正好相同的时候递归停止。</p>
-<p>我们可以很轻松的写出下面的代码（Java）</p>
-<pre><code>int violenceSearch(int[] level, int index, int aim) {
-        if (aim &lt;= 0) {
-            return aim == 0 ? 1 : 0;
-        }
-        if (index &gt;= level.length) {
-            return 0;
-        }
-        int sum = 0;
-        for (int i = 0; i &lt;= aim / level[index]; i++) {
-            sum = sum + violenceSearch(level, index + 1, aim - i * level[index]);
-        }
-        return sum;
-    }
-</code></pre><p>这个函数接受三个参数，第一个是钱堆的面额数组，第二个是当前是拿第几个钱堆的序号，第三个是剩余要凑的总数</p>
-<p>这个算法的核心就是<code>sum = sum + violenceSearch(level, index + 1, aim - i * level[index]);</code>，我们分别从钱堆里面取出想0张、1张…，然后计算剩下的总数和剩下的堆数方法总数和。</p>
-<p>这个算法也可以优化成记忆搜索，总共有多少种方法拼钱，主要与<code>index</code>和<code>aim</code>有关，我们只要用<code>map</code>记录一下这个值就可以优化成为记忆搜索。</p>
-<h3 id="反向暴力搜索"><a href="#反向暴力搜索" class="headerlink" title="反向暴力搜索"></a>反向暴力搜索</h3><p>反向的话比较难想到，但是正向暴力搜索没有办法分解成子函数，也就无法实现动态规划，所以我们必须要反向思考</p>
-<p>首先我们假设纸币面额为1， 2， 5， 我们要凑10块钱，我们假设已经得到了所以的次数F(x, y)(x为由多少种纸币组成，y为凑多少钱），所以我们得到这个我们想要的结果F(3, 10) （也就是由3种面额组成10块）</p>
-<p>假设我们得到了F(3, 10)所以可能的组成结果结合如下面10种</p>
-<ul>
-<li>10张1块</li>
-<li>8张1块、1张2块</li>
-<li>6张1块、2张2块</li>
-<li>5张1块、1张5块</li>
-<li>4张1块、3张2块</li>
-<li>3张1块、1张2块、1张5块</li>
-<li>2张1块、4张2块</li>
-<li>1张1块、2张2块、1张5块</li>
-<li>2张5块</li>
-<li>5张2块</li>
-</ul>
-<p>现在我们把这10种可能按照5块的张数分成3份</p>
-<ul>
-<li>0张5块</li>
-<li><ul>
-<li>10张1块</li>
-</ul>
-</li>
-<li><ul>
-<li>8张1块、1张2块</li>
-</ul>
-</li>
-<li><ul>
-<li>6张1块、2张2块</li>
-</ul>
-</li>
-<li><ul>
-<li>4张1块、3张2块</li>
-</ul>
-</li>
-<li><ul>
-<li>2张1块、4张2块</li>
-</ul>
-</li>
-<li><ul>
-<li>5张2块</li>
-</ul>
-</li>
-<li>1张5块</li>
-<li><ul>
-<li>5张1块、1张5块</li>
-</ul>
-</li>
-<li><ul>
-<li>3张1块、1张2块、1张5块</li>
-</ul>
-</li>
-<li><ul>
-<li>1张1块、2张2块、1张5块</li>
-</ul>
-</li>
-<li>2张5块</li>
-<li><ul>
-<li>2张5块</li>
-</ul>
-</li>
-</ul>
-<p>分别为0张5块（6种），1张5块（3种），2张5块（1种），也就是我们成功将F(3, 10)分解成 F(2, 10), F(2, 5), F(2, 0)</p>
-<p>通过这种方式我们成功构造出子函数，我们很容易就能写出递归函数</p>
-<pre><code>int lowBackVS(int[] level, int index, int aim) {
-    if (index == 0)
-        return aim % level[index] == 0 ? 1 : 0;
-
-    if (aim &lt; level[index]) return lowBackVS(level, index - 1, aim);
-    else {
-        int count = 0;
-        for (int i = 0; i * level[index] &lt;= aim; i++) {
-            count += lowBackVS(level, index - 1, aim - i * level[index]);
-        }
-        return count;
-    }
-}
-</code></pre><p>这里我们要看到第二个<code>if</code>，我们判断剩下的余额是否够当前的一张，如果不够，那直接就是前n-1种纸币能够组成的次数。（也就是假如你剩下4块钱要用一张5块来组成，肯定不可能，直接返回前面的n-1种货币能够凑出4块的种数）</p>
-<p>这种时间复杂度为O(n) = n X aim X aim， 假如aim比较大还是比较耗时间的，我们看看是否能够优化一下</p>
-<h3 id="反向暴力搜索优化"><a href="#反向暴力搜索优化" class="headerlink" title="反向暴力搜索优化"></a>反向暴力搜索优化</h3><p>我们还是回到上面那个例子，我们这次按照能够减去一张5块的进行分类，这样我们就分成了两类</p>
-<ul>
-<li>无法抽掉一张5块</li>
-<li><ul>
-<li>10张1块</li>
-</ul>
-</li>
-<li><ul>
-<li>8张1块、1张2块</li>
-</ul>
-</li>
-<li><ul>
-<li>6张1块、2张2块</li>
-</ul>
-</li>
-<li><ul>
-<li>4张1块、3张2块</li>
-</ul>
-</li>
-<li><ul>
-<li>2张1块、4张2块</li>
-</ul>
-</li>
-<li><ul>
-<li>5张2块</li>
-</ul>
-</li>
-<li>能够抽掉一张5块</li>
-<li><ul>
-<li>5张1块、1张5块</li>
-</ul>
-</li>
-<li><ul>
-<li>3张1块、1张2块、1张5块</li>
-</ul>
-</li>
-<li><ul>
-<li>1张1块、2张2块、1张5块</li>
-</ul>
-</li>
-<li><ul>
-<li>2张5块</li>
-</ul>
-</li>
-</ul>
-<p>一张是无法抽掉一张5块（6种），能够抽到一张5块（4）种<br>我们回到函数定义，这样我们成功将函数F(n, aim)分解成两个F(n-1, aim) 和F(n, aim - level[index])</p>
-<p>我们成功的将子函数进行化简成两项</p>
-<pre><code>int backVS(int[] level, int index, int aim) {
-    if (index == 0)
-        return aim % level[index] == 0 ? 1 : 0;
-
-    if (aim &gt;= level[index])
-        return backVS(level, index - 1, aim) + backVS(level, index, aim - level[index]);
-    else return backVS(level, index - 1, aim);
-
-}
-</code></pre><p>我们可以看到我们成功将时间复杂度降到了O(n) = n X aim，至此我们写出了比较完美的反向暴力搜索方法，当然我们也能够像正向暴力搜索优化成记忆搜索</p>
-<h3 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h3><p>前面我一直没有怎么提记忆搜索法，因为这个方法基本上等同与动态规划，只不过动态规划使用数组存贮，记忆搜索法用字典存贮。</p>
-<p>前面我们知道我们能通过分解函数将问题划分成前面的子问题，所以我们只需要构建一个二维数组，x，y分别代表由几种货币组成（index），组成的总数（aim），这样就能通过慢慢“填”写动态规划表，最后求出由N种货币组成钱数（aim）总数</p>
-<pre><code>int dynamic(int[] level, int index, int aim) {
-    int n = level.length;
-    int[][] dp = new int[n][aim + 1];
-    for (int i = 0; i &lt; n; i++) dp[i][0] = 1;
-    for (int i = 1; i &lt;= aim; i++) dp[0][i] = i % level[0] == 0 ? 1 : 0;
-    for (int i = 1; i &lt; n; i++) {
-        for (int j = 1; j &lt;= aim; j++) {
-            if (j &lt; level[i]) dp[i][j] = dp[i - 1][j];
-            else dp[i][j] = dp[i - 1][j] + dp[i][j - level[i]];
-        }
-    }
-    return dp[n - 1][aim];
-
-}
-</code></pre><p>这里要注意的是初值的初始化，默认当钱数为0的时候值为1（比如说前面的2张5块的方法F(2, 0) = 1），当只由一种钱币组成时，只要总数能够整除第一种钱币面额就为1（全部由这种货币组成）</p>
-<h3 id="动态规划的优化"><a href="#动态规划的优化" class="headerlink" title="动态规划的优化"></a>动态规划的优化</h3><p>当然这个优化可有可无，因为我们观察上面的函数，我们发现其实N层只与前面N-1层一个有关，这样的话，我们如果覆盖掉上一层的值对后面的计算结果也没有影响。所以我们就不使用多维数组，直接使用一维数组，节省了（N-1）* (aim + 1)的空间</p>
-<pre><code>int advanceDynamic(int[] level, int index, int aim) {
-    int[] f = new int[aim + 1];
-    f[0] = 1;
-    int n = level.length;
-    for (int i = 0; i &lt; n; ++i)
-        for (int j = level[i]; j &lt;= aim; ++j)
-            f[j] += f[j - level[i]];
-    return f[aim];
-}
-</code></pre><p>所以我们成功的将代码改的更短，而且更省空间</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>一开始本来想多讲几道动态规划的问题，但是写着写着发现其实大部分都是大同小异，找到子函数，构建表存贮计算过程，其中最大的挑战就是找到分解子函数，所以我就不介绍其他的问题了，我就把这些问题留在下面，你可以试试挑战一下自己</p>
-<ul>
-<li><a href="https://zh.wikipedia.org/wiki/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98" target="_blank" rel="external">背包问题</a></li>
-</ul>
-<blockquote>
-<p>一个背包有一定的承重cap，有N件物品，每件都有自己的价值，记录在数组v中，也都有自己的重量，记录在数组w中，每件物品只能选择要装入背包还是不装入背包，要求在不超过背包承重的前提下，选出物品的总价值最大。</p>
-</blockquote>
-<ul>
-<li><p>最优编辑</p>
-<blockquote>
-<p>对于两个字符串A和B，我们需要进行插入、删除和修改操作将A串变为B串，定义c0，c1，c2分别为三种操作的代价，请设计一个高效算法，求出将A串变为B串所需要的最少代价。</p>
-</blockquote>
-</li>
-<li><p>LIS</p>
-</li>
-</ul>
-<blockquote>
-<p>求出序列的最长上升子序列的长度</p>
-</blockquote>
-<ul>
-<li>LCS</li>
-</ul>
-<blockquote>
-<p>给定两个字符串A和B，返回两个字符串的最长公共子序列的长度。例如，A=”1A2C3D4B56”，B=”B1D23CA45B6A”，”123456”或者”12C4B6”都是最长公共子序列。</p>
-</blockquote>
-<ul>
-<li>走迷宫问题</li>
-</ul>
-<blockquote>
-<p>有一个矩阵map，它每个格子有一个权值。从左上角的格子开始每次只能向右或者向下走，最后到达右下角的位置，路径上所有的数字累加起来就是路径和，返回所有的路径中最小的路径和。</p>
-</blockquote>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
+<section class="post" itemscope itemprop="blogitem">
   
-  <span></span> <a href="/tags/programming/">programming</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/12/26/几个有趣的动态规划/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/12/26/几个有趣的动态规划/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/12/25/从问题理解动态规划/" title="从问题理解动态规划" itemprop="url">从问题理解动态规划</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
-		
-  <p class="article-time">
-    <time datetime="2017-12-24T16:00:00.000Z" itemprop="datePublished"> 发表于 2017-12-25</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <blockquote>
-<p>网上关于动态规划的资料，大部分直接给结论，所以一开始我一头雾水，搞不懂为什么要这么做，这篇博文就从实际问题出发，简单的剖析动态规划</p>
-</blockquote>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>现实生活中总能找到一些问题你没法给出具体答案，比如给你一堆1块、5块、10块的零钱，要你找出多少种能够拼出100块的方法。还有就是迷宫问题这种。这种问题都有一个特征，我们没有办法立刻给出答案，而且我们对这种问题的想到的第一种解决方法就是暴力搜索，把所以的可能方案列出来然后得到答案。这种暴力搜索最终能够解决问题，但是他们在计算的时候花了很多时间在相同的计算上面。为了节省时间，所以我们使用动态规划“优化”暴力搜索</p>
-<h2 id="为什么要使用动态规划？"><a href="#为什么要使用动态规划？" class="headerlink" title="为什么要使用动态规划？"></a>为什么要使用动态规划？</h2><h3 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h3><p>我们先举一个简单的例子，大家都知道走楼梯问题，这也是教科书一个经典的递归程序</p>
-<ul>
-<li>有N阶台阶，一个人一次上两个或者一个，问有多少种走法?</li>
-</ul>
-<p>我们拿到这道题，我们首先会想这样想，从第一个台阶开始，我们使用递归让这个人走一步或者两步，这样每次分解成为两种可能，最后直达走到N阶台阶，或者迈过去了，然后计算这种所以迈到N阶台阶的可能路径。</p>
-<p>这种正向思维很容易理解，但是最终它直接得到的是所以可能的路径，但是这道题我们需要求的是N阶的走法，所以我们从正向思维必须要反过来思考，假如我们从一个台阶出发有两种可能，那么我们到达第N个的台阶来看，也有两种可能，第一种是N-1（迈了一步到达），第二种是N-2（迈了两步到达），这样我们就很清楚了，假如我们要想得到到达N阶台阶的走法总数，那么我们只需要把到达N-1和到达N-2的次数加起来就可以了</p>
-<p>这是一个很重要的思想<strong>把一个复杂的问题，分解成为其他的子问题</strong>，这也是我们完成动态规划的设计的核心思想</p>
-<p>从更好的理解动态规划的优点和源头，我们就从这个简单的例子使用不同的算法来解释为什么要用动态规划</p>
-<h3 id="暴力搜索法"><a href="#暴力搜索法" class="headerlink" title="暴力搜索法"></a>暴力搜索法</h3><p>我们成功的完成了问题的分解，为了完成计算，但是我们还得计算子问题的结果，上面得到一个很重要的公式<code>F(N) = F(N-1) + F(N-2)</code></p>
-<p>我们可以很轻松的写出代码（Python）</p>
-<pre><code>def f(n):
-  return f(n-1) + f(n-2) if n &gt; 2 else n
-</code></pre><p>我们只用一行代码就能将这个问题解决掉，而且效果看起来还不错，我们可以试不同的n都能获取正确的结果，但是n大于30之后，当我在我的电脑上运行起来非常慢，需要几秒钟才能返回结果，而且当n越大，消耗的时间也越多。</p>
-<p> 这是为什么呢？我们现在来思考一下这个暴力算法有什么弊端</p>
-<ul>
-<li>暴力搜索的弊端</li>
-</ul>
-<p>我们现在假设N=10，那么我们现在就把F(10)转换成为F(9)与F(8)的和，那么F(9)又分成了F(8)和F(7)，而F(8)被分成了F(7)和F(6)</p>
-<p>从这里可以看到，F(7)在第二次分解的时候计算了两次,而每次计算的结果都是一样的，所以我们相当于重复了一遍耗时的操作，知道这个问题，我们就必须改进了，我们可以用一个东西存贮计算结果，这样就不需要重复计算了</p>
-<h3 id="记忆搜索法"><a href="#记忆搜索法" class="headerlink" title="记忆搜索法"></a>记忆搜索法</h3><p>我们修改我们算法，加一个参数<code>map</code></p>
-<pre><code>def map_get(map, n):
-    v = map.get(n-1)
-    if not v:
-      v = f(n, map)
-      map[n] = v
-    return v
-
-
-def f(n, map):
-    if n &lt; 3:
-      return n
-    if n in map:
-      return map[n]
-    return map_get(map, n - 1) + map_get(map, n - 2)
-</code></pre><p>我们添加一个辅助的字典存贮我们中间计算过程，虽然让我们的代码臃肿了不少，但是让我们代码速度有了质的变化</p>
-<p>我们尝试使用运行让N增大到100多都能迅速返回，但是当我们逐渐增大到1000的时候我们会发现<code>Python</code>直接报了超出最大堆栈限制的错误</p>
-<ul>
-<li>堆栈超出最大层数的原因</li>
-</ul>
-<p>由于我们使用了递归，递归函数是在递归的时候当前堆栈再次申请一个堆栈待，运行递归函数，为了避免一直无限调用下去耗空堆栈空间（申请也需要一点空间），Python限制了递归层数，由于为了计算超过1000的我们必须至少要递归超过1000次（从1000减一减到小于2），所以我们光荣的被当错程序错乱被误杀了。</p>
-<h3 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h3><p>反观我们这个函数，使用递归，我们很容易理解，但是对于计算机来说，只是为了计算一个数而使用递归是非常不划算的，所以我们要思考这些中间值保留有什么共同点，我们从头开始看，对于第三个来说，它只需要知道第一个和第二个的值就行，而第一个第二个我们知道分别为1和2，对于第四个来说，它只需要知道第三个和第二个，如果我们先把第三个计算下来并保留下来，我们就能知道第四个。</p>
-<p>从头开始思考我们知道，我们只需要保留前面计算的结果就能知道后面的值，我们使用一个列表保存这个中间计算过程，我们将函数改写成下面这个</p>
-<pre><code>def f(n):
-    if n &lt; 3: return n
-    values = [1, 2]
-    for i in range(2, n):
-      values.append(values[i-2]+values[i-1])
-    return values[-1]
-</code></pre><p>接下来我们运行这个函数，我们会发现就算N为10000都能迅速返回</p>
-<p>来看看我们动态规划的“损失”，我们使用了一个列表存贮中间过程，使用了空间“换回”了速度</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我们使用了一个很简单的题目来介绍动态规划，由于这个问题太过于简单，你或许自己在不知道动态规划的时候都能写出来，但是这个从暴力搜索到记忆搜索最后动态规划的算法优化过程中，我们能够清楚的知道设计动态规范其实也非常简单，<strong>将大问题分解成小问题，然后思考小问题的如何细分，最后反过来思考从小问题逆向到最终的大问题</strong>，这就是动态规划。</p>
-<p>当然这道问题并不是很经典的动态规划问题，为了让大家更好的理解动态规划，我在下面这篇的博文中介绍若干中经典的动态规划问题</p>
-<p><a href="/2017/12/26/几个有趣的动态规划/">几个有趣的动态规划</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
+    <a href="/2018/01/06/2018新年展望/" title="新年展望" itemprop="url">
   
-  <span></span> <a href="/tags/programming/">programming</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/12/25/从问题理解动态规划/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/12/25/从问题理解动态规划/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
+    <h1 itemprop="name">新年展望</h1>
     
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
+     
+           <p itemprop="description" >引言
+最近逛知乎的时候看到一篇知乎回答很有趣，也给了很深的感触，自己对于操作系统、数据库、HTTP用的都非常熟练，但是也从来没有去想怎么怎么实现或者背后深层次的原理
+
+以前刚开始学习的时候自己也看过很多关于操作系统、数据库的书，但是就像走马观花一样，很多书就是过了一遍脑子，然后就</p>
+        
     
-      <a href="/2017/12/14/漫谈网络/" title="从子网到“互联网”" itemprop="url">从子网到“互联网”</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
-		
-  <p class="article-time">
-    <time datetime="2017-12-13T16:00:00.000Z" itemprop="datePublished"> 发表于 2017-12-14</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>最近重温《TCP/IP协议簇》，读到子网这个部分，概念都能弄懂，但是不明白子网存在的目的，很多资料都说有两个好处，一是能够判断IP存在局域网还是远程网，另外一个将大的网段分成多个小子网。</p>
-<p>这样就搞得我一头雾水，原来我对互联网的认识是从TCP、HTTP高层协议理解的，我原来对互联网信息传递的理解就像<a href="https://www.zhihu.com/question/20717354/answer/15968282" target="_blank" rel="external">这篇回答</a>，网络就像一个神奇的大网，你只需要把电话线插到“网”中就能同别人连起来。原来我对这个解释并没有什么疑问，但是我越来越深入“互联网”，我就我对“互联网”越来越疑惑。</p>
-<p>举个例子，我们知道这个IPV4理论上总共有<code>4294967296（256*256*256*256）</code>个，按照当前的理论，过几年就要分配完了，那意味这至少有50%已经分配好了，也就是说至少有20亿根“网线”要连到一起，我们知道局域网只要交换机就能搭起来，假设我们一个交换机能插20根网线，那么要搭这个20亿“网线”，至少要用一个亿的交换机，你能想象一个亿的交换机堆在一起组成“互联网”吗？就算假如我们使用数字信号，作为一个程序员，我也很难想象原先的程序员是在有限的内存和硬盘，如何设计强大计算机有条不紊的处理20亿的并发。</p>
-<p>所以这篇文章就要从OSI底层协议出发让我们从底部掀一掀“互联网”的老底，将一个有血有肉的“互联网”展现在我们面前。</p>
-<h2 id="触摸“网”"><a href="#触摸“网”" class="headerlink" title="触摸“网”"></a>触摸“网”</h2><p>我们一直在说着互联网、互联网，由于无数在前人的不懈努力下，其实很多时候我们根本感受不到这张网的存在，比如打开浏览器，输入<code>www.baidu.com</code>，我们直接就能连上千里之外的服务器，其实在浏览器后面，我们发的“包”正沿着网跨越千山万水到达一个机房的服务器中。</p>
-<p>所以为了触摸到网这个东西，我们得用一些工具，我们就在打开的百度中输入<code>traceroute</code>，根据你的操作系统安装好，然后我们打开命令行输入<code>traceroute  -I www.baidu.com</code></p>
-<pre><code>traceroute to www.baidu.com (14.215.177.38), 30 hops max, 60 byte packets
- 1  192.168.1.1 (192.168.1.1)  
- 2  182.96.180.1 (182.96.180.1) 
- 3  68.248.177.220.broad.nc.jx.dynamic.163data.com.cn (220.177.248.68)  
- 4  53.251.177.220.broad.nc.jx.dynamic.163data.com.cn (220.177.251.53)  
- 5  182.98.159.73 (182.98.159.73)  
- 6  202.97.75.117 (202.97.75.117)  
- 7  113.108.208.194 (113.108.208.194) 
- 8  * * *
- 9  14.29.121.194 (14.29.121.194)  
-10  * * *
-11  * * *
-12  14.215.177.38 (14.215.177.38) 
-</code></pre><p>由于百度存在负载均衡，所以你们看到的最终IP地址可能不会同我一样（PS：我去掉了时间），虽然中间还有一些<code>***</code>的存在，但是不管怎么我们终于触摸到这个网的存在。</p>
-<p>我第一次看到这个非常震惊，原来在我的心中，“网”上最多有两个端，一个是我们的客户端，一个是服务器端，现在突然冒充这么多个“中间人”，这些东西是什么呢？</p>
-<p>接下来我们通过回答下面两个问题来慢慢了解互联网的构造。</p>
-<ol>
-<li>为什么第一个IP是局域网内的IP（内网）？</li>
-<li>为什么中间有那么多IP端，他们的作用是什么？</li>
-</ol>
-<h2 id="内网与外网的区别"><a href="#内网与外网的区别" class="headerlink" title="内网与外网的区别"></a>内网与外网的区别</h2><p>解答第一个问题前，我们必须要知道什么是内网什么是外网。</p>
-<p>从IP的角度上来看，刚开始创建以太网时，由于避免连在一起的电脑认错人，就用IP用来做每个电脑的“身份证”，一开始要连在电脑比较少，组织只需要拿个小本本记住哪台服务器对于的IP，但是随着想连在一起的电脑越来越多，这个小本本满满的一本快写满了，虽然可以在多买几本本子记住他们，但是本子越多每次要查他们的IP的时候消耗的时间越多，所以他们决定不再一个一个分IP了，于是他们把40亿IP分成A、B、C、D几类。</p>
-<p>这样组织成功用一个小本子记录了几十亿的IP分配，这里组织指的是因特网协会（ICANN），协会自己分好IP后开始发本子，找到下面的运营商，让他们自己搭网线光钎把他们自己负责的国家区域连起来，但由于地方太多，一个本子也记不下来，所以他们又把组织发给他们的本子分发到地区运营商，这样慢慢缩小，最终每个地区的局域网的本子都不会太大，这样查起来速度快而且网络的压力也平摊下去，但是摆在我们面前有一个问题</p>
-<blockquote>
-<p>假设小明和小华分别住在同一条大街的街头和街尾，小明想给小华写信，小明然后写了一封信信放到邮箱，然后邮递员过来把信取走，在邮局分配再让邮递员送到小华家，本来两个人住在同一条街，邮递员只需要把信从街头送到街尾这次传递就结束了，但是由于不知道小明和小华住在同一条街，这封信绕了一个很大的圈才到小华手中。</p>
-</blockquote>
-<p>从这个故事告诉我们，要解决不必要的传输，我们必须要提供一种机制让“邮递员”知道这封“信”是直接“送”还是发到总部发出去，这种机制就是确定是否是内网还是和外网。</p>
-<p>大家回头看一下IP，假如我们按照组织（ICANN）的本子来分内网还是外网，那会造成极大的浪费，比如说A类，从1.0.0.0 到126.255.255.255，共分了126个，每个分类下有1658万台电脑，可能现在最大的云服务商都没有几千万台机器，假如你就几十台电脑，你申请一个B类IP（子网可以容纳6万多台），那么子网的利用率约为为20/6000，这么大一个网段却只有几个IP有效，这是对IP的极大的浪费，所以我们需要再次切片，将一个IP段智能的切分成很多块。</p>
-<p>有没有什么好的方法能够切分IP呢，我们知道在TCP、HTTP这些高层协议栈中并没有子网这个概念，他们只负责连接和解析，所以我们得从数据链路层里面查看，在这层有一个非常重要的概念：<strong>子网掩码</strong></p>
-<h3 id="子网掩码"><a href="#子网掩码" class="headerlink" title="子网掩码"></a>子网掩码</h3><p>首先我们要了解一个概念：<strong>路由表</strong></p>
-<p>这个就是我们前面提到过的“小本本”，这个路由表就记载了我们主机上面有关子网划分的重要数据，我们可以通过在<code>Linux</code>上的<code>route -n</code>命令显示电脑上的路由表</p>
-<pre><code>Kernel IP routing table
-Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
-0.0.0.0         192.168.1.1     0.0.0.0         UG    0      0        0 wlan0
-192.168.1.0     0.0.0.0         255.255.255.0   U     9      0        0 wlan0
-</code></pre><p>在我的电脑的得到的结果是这样的，这里有两个很重要的参数，<code>Gateway（网关）</code>，<code>Genmask（掩码）</code>，网关和掩码是什么呢？网关就是我们连接上外网的关键，掩码就是区分内网外网的钥匙。</p>
-<p>子网是什么呢？你可以看做是IP与掩码的按位与运算得到新IP，比如说我们上面第一个<code>192.168.1.1</code>与<code>0.0.0.0</code>的运算结果是为<code>0.0.0.0</code>，而且你会发现所以的IP跟<code>0.0.0.0</code>得到结果都是一样的<code>0.0.0.0</code>，这说明对于网关来说，所有的外网IP都是属于同一子网，接下来我们看看第二行，这个网关为<code>0.0.0.0</code>说明这个是局域网，当我们的IP与这个局域网掩码运算后得到的地址与这个局域网IP相同时，说明这个IP属于局域网，我们可以看到我们子网大小为256，由于我用的是路由器，所以说明这个路由器最多可以允许254(.255为广播地址）台设备连接</p>
-<p>接下来我们看看在我的云服务器上的路由表</p>
-<pre><code>Kernel IP routing table
-Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
-0.0.0.0         10.10.6.1     0.0.0.0         UG    0      0        0 eth0
-10.15.6.0     0.0.0.0         255.255.192.0   U     0      0        0 eth0
-</code></pre><p>你可以清楚的看到在第二行我们的内网的大小约为<code>16128=256*(255-192)</code>，如果你感兴趣对子网计算，可以看看我下面引用，在这里我就不解释太多计算细节，你可以看到，通过改变内网掩码，我们可以轻轻松松的将局域网分成不同的大小。</p>
-<p>由于IPV4数量较少，所以在局域网内每个主机并不能都分到单独的独立IP，只有网关需要一个独立IP来访问互联网，在局域网内我们一般使用本地局域网IP（组织特地保留下来不分配给运营商，只在局域网内使用）。所以我们这就能解释第一个问题，<code>traceroute</code>第一个发送的地址不是我们单独IP（路由器IP），而是发送给局域网上的网关。</p>
-<h2 id="包的逐级转发"><a href="#包的逐级转发" class="headerlink" title="包的逐级转发"></a>包的逐级转发</h2><p>解决上面第一个问题之后，我们知道在一个局域网内我们能够通过子网掩码知道当前局域网的子网范围，接下来的包的“旅途”是什么呢，为什么在<code>traceroute</code>的路径中发现那么多IP地址呢。</p>
-<p>回答这个问题前，我们从物理角度上先了解互联网是怎么搭建起来的。</p>
-<blockquote>
-<p>当第一台计算机出现的时候，我们不需要互联网，但是随着计算机原来越多，我们想把计算机都用网线连接起来，一开始电脑都放在一起，只需要找一些长长的网线把他们连接起来，但是随着全球各地的人都有个人电脑，这时候只能靠网络运营商，也就是比如电信、移动、联通这些运营商，他们埋光钎搭网线，慢慢的将网络在各地连接起来，最后将子网络连接到骨干网，最后互联网就这么连接起来了</p>
-</blockquote>
-<p>但是就像送信举的例子一样，如果邮递员能够直接把信从街头送到街尾，那么直接节省了很长一段在路上的花的时间。所以运营商就在各个分支网络搭建大大小小的“局域网”，就一层层代理一样，当一个包请求过来，首先先查看这个IP是否属于当前地区的局域网，如果是就查表找到地址发送过去，如果没有就发送到它的更高一级代理（网关），最终这个IP包到达机房区域的局域网的主机上。</p>
-<p>所以我们能在<code>traceroute</code>查看到一个IP包要传递的那么多的IP地址，那些IP地址都是勤劳的网关，不过相比我们第一个网关，也就是我们在网上冲浪的IP地址，那些网关更像一个一个交通指挥员，指导着我们的发送的“信”一步一步走到指定地点。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>互联网就像一个乐高拼成的巨人，刚开始不了解它，远远的观察它，它就像文明遗迹一样让人赞不绝口，等到你慢慢走进它，你就会发现它的组成其实也很普通，也就是一个一个乐高模块组成，但就是这种无数普通搭建我们的“万里长城”，这或许就是互联网的伟大之处。</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="http://www.cnblogs.com/JuneWang/p/3917697.html" target="_blank" rel="external">子网</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
+    <time datetime="2018-01-05T16:00:00.000Z" itemprop="datePublished">2018-01-06</time>
+  </a>
+</section>
 
 
-  <div class="article-tags">
+
+
+
+
   
-  <span></span> <a href="/tags/HTTP/">HTTP</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/12/14/漫谈网络/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/12/14/漫谈网络/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/11/25/巧用Git钩子/" title="巧用Git钩子" itemprop="url">巧用Git钩子</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
-		
-  <p class="article-time">
-    <time datetime="2017-11-24T16:00:00.000Z" itemprop="datePublished"> 发表于 2017-11-25</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <blockquote>
-<p>以前听学长提过Git钩子，但是自己一直没有仔细了解过，记得我还写过一个github更新的Python包，现在想想其实用自带的钩子就能很好的完成</p>
-</blockquote>
-<h2 id="什么是钩子？"><a href="#什么是钩子？" class="headerlink" title="什么是钩子？"></a>什么是钩子？</h2><p>我们知道Git是迭代式开发工具，我们的开发流程都是<code>git add</code>、<code>git commit</code>，<code>git push</code>，钩子呢就是你完成每一步Git给你的“回调”，举个例子假如你想让服务器每次上传完新的代码后更新网站，如果你没有钩子，你只能自己<code>ssh</code>登录上服务器，自己更新软件，一次两次还好，多了的话你会骂娘的，所以钩子是给我偷懒的脚手架，我们可以很轻松的写一些脚步帮我们完成一些重复的步骤</p>
-<p>介绍玩钩子的作用，我们来介绍一下钩子的分类</p>
-<p>我们知道Git核心是<code>commit</code>和<code>push</code>两个命令，一个对应客户端，一个对应服务端，所以钩子主要分客户端和服务端，由于Git步骤分的很细，所以每个大分类下面还有很多小分类，比如<code>pre-commit</code>，<code>post-commit</code>这些。</p>
-<p>钩子的全部放在<code>.git/hooks</code>下面，在新建一个项目仓库的时候，Git已经在这个文件夹下给我们生成了很多个<code>.sample</code>后缀的钩子，这些钩子只要把<code>.sample</code>去掉就可以运行了，我们可以在这些<code>sample</code>上面修改完成我们自己的钩子</p>
-<h2 id="客户端钩子"><a href="#客户端钩子" class="headerlink" title="客户端钩子"></a>客户端钩子</h2><p>客户端钩子很好理解，你<code>commit</code>之后想做其他事，比如说编译一下程序啥的，这里我就不多讲，主要由下面几个钩子组成</p>
-<ul>
-<li>pre-commit 提交之前</li>
-<li>post-commit 提交之后</li>
-<li>pre-rebase 变基之前</li>
-<li>post-rewrite 替换提交记录之后</li>
-<li>pre-push 推之前</li>
-</ul>
-<p>详细的可以看官网链接<a href="https://git-scm.com/book/zh/v2/%E8%87%AA%E5%AE%9A%E4%B9%89-Git-Git-%E9%92%A9%E5%AD%90#_git_hooks" target="_blank" rel="external">钩子</a></p>
-<p>客户端钩子我觉得一般没有太多作用，因为我在提交之前就会运行脚步进行开发调试什么的，我把介绍重点放在服务端钩子</p>
-<h2 id="服务端钩子"><a href="#服务端钩子" class="headerlink" title="服务端钩子"></a>服务端钩子</h2><p>服务端钩子就是你<code>push</code>之后的事情服务器要运行的脚步，有用推的步骤只有一个，所以钩子只有四个</p>
-<ul>
-<li>pre-receive 接受之前</li>
-<li>update 更新之前</li>
-<li>post-update 更新之后</li>
-<li>post-receive 接受之后</li>
-</ul>
-<p>服务器接收到客户端请求时，<code>pre-receive</code>先进行调用，如果返回值为非0就会拒绝推送，所以我们写钩子的时候一定要记住最后要返回0才能正常接收更新，<code>update</code>主要处理多分支推送，有的时候你一次更新，推三四个分支到服务器，<code>pre-receive</code>只会调用一次，<code>update</code>会对每个的分支调用一次，后面两个都很容易理解</p>
-<p>一般我们就是要在服务端更新代码之后运行脚步，所以我们要修改的就是<code>post-update</code>或者<code>post-receive</code></p>
-<p>bash脚步大家都会写，但是大家可能会很陌生什么是Git服务端，接下来我们就来介绍一下Git服务端是什么</p>
-<h2 id="Git-服务端"><a href="#Git-服务端" class="headerlink" title="Git 服务端"></a>Git 服务端</h2><p>大家一般使用Git都是使用的客户端，但是Git这个工具的确很强，它不但可以当做客户端，也可以当做服务端，为了让大家更好的理解Git服务端，我们先来拿本地文件做”服务器“</p>
-<p>首先我们先新建一个文件夹为<code>server</code>，在新建一个文件夹为<code>local</code>，假设文件夹都在<code>/root</code>文件夹下</p>
-<p>我们执行下面的命令生成服务器</p>
-<pre><code>cd /root/server
-git init --bare
-</code></pre><p>只需要在<code>init</code>后面添加一个<code>--bare</code>选项告诉Git，Git就会帮我们生成一个空的“服务端”，我们可以查看一下文件，我们发现Git 给我们生成下面几个文件夹，其中就有我们的hooks</p>
-<pre><code>branches  config  description  HEAD  hooks  info  objects  refs
-</code></pre><p>但是服务端和客户端生成的位置不一样，客户端是给我们生成一个<code>.git</code>文件夹，里面放了这些文件夹，然而服务端直接将这些文件夹放在主目录了</p>
-<p>行我们已经生成了服务端的，接下来我们生成客户端的钩子</p>
-<pre><code>cd /root/local
-git init
-</code></pre><p>很简单，同我们往常操作一样，我们这时候添加一个<code>README.md</code> 然后<code>commit</code>一下准备开始往服务端推代码了</p>
-<p>在 linux 下直接执行下面命令就行</p>
-<p>   echo “local update” &gt;&gt; README.md<br>   git add README.md<br>   git commit -m “Add ReadME”</p>
-<p>接下来我们就要向”服务器“提交代码了，我们先添加本地文件作为远程服务器</p>
-<pre><code>git remote add origin file:////root/server
-</code></pre><p>然后直接推代码</p>
-<pre><code>git push origin master
-</code></pre><p>这样我们就向我们文件提交了代码，这时候我们回到我们”服务器“</p>
-<pre><code>cd /root/server
-ls
-branches  config  description  HEAD  hooks  info  objects  refs
-</code></pre><p>我们惊奇的发现服务器并没有我们新建的<code>README.md</code>文件，原来Git服务端并不像SVN一样只保留一份代码大家共同修改，<strong>Git服务端只是记录文件变化和分支变化</strong></p>
-<p>这里插一句我为什么会去了解Git钩子，由于一开始实现服务器自动更新我的FastProxyScan项目代码，但是我又不想使用<code>Github</code>钩子（push后发送http请求），太麻烦了，后来我一想干脆直接推到我的服务器上，但是推到服务器上的代码只是记录了分支和提交信息，不包含源文件，所以我只好在在服务器上部署这个项目，并添加一个服务器钩子，当服务器更新完成后，再用钩子把服务器上的项目代码更新</p>
-<h2 id="如何写服务器钩子"><a href="#如何写服务器钩子" class="headerlink" title="如何写服务器钩子"></a>如何写服务器钩子</h2><p>通过上面对本地文件新建仓库，我们知道Git“服务端”新建很简单，我们一般接触比较多的是Github服务端，但是Git非常强大，他可以支持多种协议来连接“服务端”，比如说我们上面用到的本地文件（<code>file</code>协议），假如你用<code>ssh</code>连接远程服务器，你也可以使用类似<code>git remote add origin ssh://username@ip/file/path</code>添加ssh远程仓库</p>
-<p>git 支持的协议有ssh、http、https、file、git等协议，你只要确保你能连接上远程服务器就行，接下来我们谈谈如何写服务器钩子</p>
-<p>在使用<code>git init --bare</code>新建了一个Git服务端之后，在服务端文件下面有一个<code>hooks</code>文件夹，我们要做的就是把脚本放到<code>hooks</code>文件夹里面（当然你要确保它有执行权限），如果你更擅长写<code>Python</code>，<code>Ruby</code>那些脚步也可以，不过要确保前缀后后缀正确。</p>
-<p>这里要提到很重要的一点，由于在执行钩子的时候，环境变量<code>GIT_DIR</code>被设置为服务端当前目录，如果你像我一样想更新在另外一个文件夹下面的项目代码，你必须使用<code>uset GIT_DIR</code>清除变量名，否则只会更新服务端，而不会更新你的项目代码</p>
-<p>这里我提供一个模板</p>
-<p>文件名为 <code>post-update</code>或者<code>post-receive</code></p>
-<pre><code>#!/bin/sh
-cd /project/path/ || exit
-unset GIT_DIR
-git pull origin master
-
-exec git-update-server-info
-</code></pre><p>你只需修改项目文件路径和仓库名即可</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过这个Git钩子了解了Git服务端，也让自己更加了解Git这个软件，以前一直懵懵懂懂，只会向Github提交文件，一直以为Git只是一个版本记录工具而且，现在看来神器之名不是浪得虚名，通过一个小小的钩子，摇身一变成部署神器。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
+<section class="post" itemscope itemprop="blogitem">
   
-  <span></span> <a href="/tags/software/">software</a>
-  </div>
+    <a href="/2018/01/05/红黑树实现原理/" title="红黑树实现原理" itemprop="url">
+  
+    <h1 itemprop="name">红黑树实现原理</h1>
+    
+     
+           <p itemprop="description" >本篇博客主要基于这篇博客的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍红黑树的实现原理，完整代码在github的rbtree.go文件中
 
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/11/25/巧用Git钩子/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/11/25/巧用Git钩子/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
+浅谈”树”这种数据结构Github可视化页面
+引言</p>
+        
+    
+    <time datetime="2018-01-04T16:00:00.000Z" itemprop="datePublished">2018-01-05</time>
+  </a>
+</section>
 
 
 
 
 
 
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2018/01/04/二叉搜索树实现原理/" title="二叉搜索树实现原理" itemprop="url">
+  
+    <h1 itemprop="name">二叉搜索树实现原理</h1>
+    
+     
+           <p itemprop="description" >本篇博客主要基于这篇博客的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍二叉搜索树的实现原理，完整代码在github的binary.go文件中
 
-  <nav id="page-nav" class="clearfix">
+浅谈”树”这种数据结构Github可视化页面
+引言之所以使用Go来实现，个人还是比较喜欢Go的，作为一个基础数据结构，Go用来实现这</p>
+        
+    
+    <time datetime="2018-01-03T16:00:00.000Z" itemprop="datePublished">2018-01-04</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2018/01/04/AVL树实现原理/" title="AVL树实现原理" itemprop="url">
+  
+    <h1 itemprop="name">AVL树实现原理</h1>
+    
+     
+           <p itemprop="description" >本篇博客主要基于这篇博客的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍AVL树的实现原理，完整代码在github的avl.go文件中
+
+浅谈”树”这种数据结构Github可视化页面
+引言AVL树是在对二叉搜索树的一种优化，通过构造一棵高度平衡的二叉搜索树从而实现提高空间利用率</p>
+        
+    
+    <time datetime="2018-01-03T16:00:00.000Z" itemprop="datePublished">2018-01-04</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2017/12/27/浅谈树这种数据结构/" title="浅谈&quot;树&quot;这种数据结构" itemprop="url">
+  
+    <h1 itemprop="name">浅谈&quot;树&quot;这种数据结构</h1>
+    
+     
+           <p itemprop="description" >一直以来我对树这种数据结构就比较头疼，随便找一个红黑树的博客，大部分都是在谈怎么旋转怎么插入怎么删除，将算法讲的头头是道，但是就算你看懂了也不懂为什么要这样做，所以我们这篇博文就从可视化的角度，慢慢的介绍这些树的来世今生。
+
+引言首先给大家推荐一个神奇的网站，我们这篇博文很大程度</p>
+        
+    
+    <time datetime="2017-12-26T16:00:00.000Z" itemprop="datePublished">2017-12-27</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2017/12/26/几个有趣的动态规划/" title="几个有趣的动态规划" itemprop="url">
+  
+    <h1 itemprop="name">几个有趣的动态规划</h1>
+    
+     
+           <p itemprop="description" >这篇博文是从问题理解动态规划的练习篇，通过几个动态规划的问题剖析进一步理解动态规划
+
+找零钱练习题
+给定一个零钱数组比如[1, 2, 5],每个值代表一个面额的纸币，给定一个总数(aim)，求换钱有多少种方法（每种面额纸币不限量）
+
+
+这个问题非常经典，所以我就从最先容易想到的算</p>
+        
+    
+    <time datetime="2017-12-25T16:00:00.000Z" itemprop="datePublished">2017-12-26</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2017/12/25/从问题理解动态规划/" title="从问题理解动态规划" itemprop="url">
+  
+    <h1 itemprop="name">从问题理解动态规划</h1>
+    
+     
+           <p itemprop="description" >网上关于动态规划的资料，大部分直接给结论，所以一开始我一头雾水，搞不懂为什么要这么做，这篇博文就从实际问题出发，简单的剖析动态规划
+
+引言现实生活中总能找到一些问题你没法给出具体答案，比如给你一堆1块、5块、10块的零钱，要你找出多少种能够拼出100块的方法。还有就是迷宫问题这种</p>
+        
+    
+    <time datetime="2017-12-24T16:00:00.000Z" itemprop="datePublished">2017-12-25</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2017/12/14/漫谈网络/" title="从子网到“互联网”" itemprop="url">
+  
+    <h1 itemprop="name">从子网到“互联网”</h1>
+    
+     
+           <p itemprop="description" >引言最近重温《TCP/IP协议簇》，读到子网这个部分，概念都能弄懂，但是不明白子网存在的目的，很多资料都说有两个好处，一是能够判断IP存在局域网还是远程网，另外一个将大的网段分成多个小子网。
+这样就搞得我一头雾水，原来我对互联网的认识是从TCP、HTTP高层协议理解的，我原来对互</p>
+        
+    
+    <time datetime="2017-12-13T16:00:00.000Z" itemprop="datePublished">2017-12-14</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2017/11/25/巧用Git钩子/" title="巧用Git钩子" itemprop="url">
+  
+    <h1 itemprop="name">巧用Git钩子</h1>
+    
+     
+           <p itemprop="description" >以前听学长提过Git钩子，但是自己一直没有仔细了解过，记得我还写过一个github更新的Python包，现在想想其实用自带的钩子就能很好的完成
+
+什么是钩子？我们知道Git是迭代式开发工具，我们的开发流程都是git add、git commit，git push，钩子呢就是你完成</p>
+        
+    
+    <time datetime="2017-11-24T16:00:00.000Z" itemprop="datePublished">2017-11-25</time>
+  </a>
+</section>
+
+
+
+
+
+
+
+  <nav id="page-nav" class="clearfix unexpand">
     <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
   </nav>
 
 </div>
-      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
 <aside class="clearfix">
 
   
 
   
 <div class="tagslist">
-	<p class="asidetitle">标签</p>
+	<p class="asidetitle">標簽</p>
 		<ul class="clearfix">
 		
 			
@@ -1307,7 +404,7 @@ exec git-update-server-info
 
 
   <div class="linkslist">
-  <p class="asidetitle">友情链接</p>
+  <p class="asidetitle">友情鏈接</p>
     <ul>
         
           <li>
@@ -1323,7 +420,7 @@ exec git-update-server-info
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 訂閱</a>
 </div>
 
   <div class="weiboshow">
@@ -1500,7 +597,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
