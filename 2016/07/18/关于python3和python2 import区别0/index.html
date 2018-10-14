@@ -99,13 +99,6 @@ python2是默认相对路径导入,python3是默认绝对路径导入首先这�
 </header>
 	<div class="article-content">
 		
-		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
-		
-			<ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#python2是默认相对路径导入-python3是默认绝对路径导入"><span class="toc-number">1.</span> <span class="toc-text">python2是默认相对路径导入,python3是默认绝对路径导入</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#以module的方式运行"><span class="toc-number"></span> <span class="toc-text">以module的方式运行</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#python里面的module分三种-一种是build-in-module-内建库-一种是第三方库-还有一种是你自己写的库-如上面的flask"><span class="toc-number">0.1.</span> <span class="toc-text">python里面的module分三种,一种是build-in module(内建库),一种是第三方库,还有一种是你自己写的库(如上面的flask).</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#当你直接使用"><span class="toc-number">1.</span> <span class="toc-text">当你直接使用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#python3默认绝对路径-自己的库不会优先于第三方库被扫描-有两个解决方法-把自己的库重命名-第二个方法就是把包含主文件的文件夹加上init-py-你可以在sys-path的路径里加上-或者具体上一个上一个文件夹的路径-怪绕口的-其实你只要python能找到你的上一个文件夹-就行"><span class="toc-number">2.</span> <span class="toc-text">python3默认绝对路径,自己的库不会优先于第三方库被扫描.有两个解决方法,把自己的库重命名,第二个方法就是把包含主文件的文件夹加上init.py,你可以在sys.path的路径里加上..或者具体上一个上一个文件夹的路径.怪绕口的,其实你只要python能找到你的上一个文件夹,就行.</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#由于我平时喜欢一边写代码一遍测试功能-图方便就使用doctest直接插在方法里面-在代码后面加上"><span class="toc-number">3.</span> <span class="toc-text">由于我平时喜欢一边写代码一遍测试功能,图方便就使用doctest直接插在方法里面,在代码后面加上</span></a></li></ol>
-		
-		</div>
-		
 		<blockquote>
 <p>最近从python2转到python3,发现还是有一些不同,一些库改名字很好解决,但是这个import机制不了解原理是不好理解的.</p>
 </blockquote>

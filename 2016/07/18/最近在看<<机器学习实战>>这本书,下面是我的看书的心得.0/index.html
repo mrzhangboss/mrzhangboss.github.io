@@ -99,13 +99,6 @@
 </header>
 	<div class="article-content">
 		
-		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
-		
-			<ol class="toc"><li class="toc-item toc-level-6"><a class="toc-link" href="#先谈谈我对机器学习的理解"><span class="toc-number">1.</span> <span class="toc-text">先谈谈我对机器学习的理解</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是机器学习"><span class="toc-number"></span> <span class="toc-text">什么是机器学习?</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#机器学习很简单，就像人一样，我们教机器通过我们教的来判断新的事物，或者在从新的事物里面学习处理新的事物。"><span class="toc-number"></span> <span class="toc-text">机器学习很简单，就像人一样，我们教机器通过我们教的来判断新的事物，或者在从新的事物里面学习处理新的事物。</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何分类"><span class="toc-number"></span> <span class="toc-text">如何分类?</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#K-近邻算法-k-Nearest-Neighbor"><span class="toc-number"></span> <span class="toc-text">K-近邻算法 ( k-Nearest Neighbor )</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#接下来我一个点-0-1-这个点应该分为红还是绿呢-我们添加两条辅助线"><span class="toc-number"></span> <span class="toc-text">接下来我一个点(0, -1),这个点应该分为红还是绿呢,我们添加两条辅助线</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#K-近邻算法是最简单最有效的算法了-但是他也有缺点-比如他必须保存所有训练样本的数据-当训练样本很大的时候就会占用很多内存空间-我们后面会学到的KVM只取支持向量的训练样本来计算可以减少很多占用内存"><span class="toc-number"></span> <span class="toc-text">K-近邻算法是最简单最有效的算法了,但是他也有缺点,比如他必须保存所有训练样本的数据,当训练样本很大的时候就会占用很多内存空间,我们后面会学到的KVM只取支持向量的训练样本来计算可以减少很多占用内存</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#而且K-近邻算法对训练数据集都要计算距离值-实际使用可能会非常耗时-我们后面学到的logistic回归能很好解决这个问题"><span class="toc-number"></span> <span class="toc-text">而且K-近邻算法对训练数据集都要计算距离值,实际使用可能会非常耗时,我们后面学到的logistic回归能很好解决这个问题.</span></a>
-		
-		</div>
-		
 		<h6 id="先谈谈我对机器学习的理解"><a href="#先谈谈我对机器学习的理解" class="headerlink" title="先谈谈我对机器学习的理解"></a>先谈谈我对机器学习的理解</h6><h2 id="什么是机器学习"><a href="#什么是机器学习" class="headerlink" title="什么是机器学习?"></a>什么是机器学习?</h2><p>我们人类有从婴儿开始就开始学习,父母教我们穿衣吃饭、老师教我们读书写字，我们开始能辨别好人坏人，开始通过自己的经验来判断新事物。</p>
 <h5 id="机器学习很简单，就像人一样，我们教机器通过我们教的来判断新的事物，或者在从新的事物里面学习处理新的事物。"><a href="#机器学习很简单，就像人一样，我们教机器通过我们教的来判断新的事物，或者在从新的事物里面学习处理新的事物。" class="headerlink" title="机器学习很简单，就像人一样，我们教机器通过我们教的来判断新的事物，或者在从新的事物里面学习处理新的事物。"></a>机器学习很简单，就像人一样，我们教机器通过我们教的来判断新的事物，或者在从新的事物里面学习处理新的事物。</h5><p>这看起来很复杂的样子,但是从我们神经网络来看,我们可以把学习当做建立一个神经元连接,通过输入的信号得到一个输出的信号.我们只要简单的把输入的信号分类就可以了.通过无数个分类我们就可以建立复杂的神经系统,进而实现’学习’这个功能.</p>
 <h2 id="如何分类"><a href="#如何分类" class="headerlink" title="如何分类?"></a>如何分类?</h2><blockquote>

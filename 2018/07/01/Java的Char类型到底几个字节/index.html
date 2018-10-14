@@ -99,13 +99,6 @@
 </header>
 	<div class="article-content">
 		
-		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
-		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题的产生"><span class="toc-number">2.</span> <span class="toc-text">问题的产生</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#表面兄弟：JAVA"><span class="toc-number">3.</span> <span class="toc-text">表面兄弟：JAVA</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#亲兄弟：Python"><span class="toc-number">4.</span> <span class="toc-text">亲兄弟：Python</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引用"><span class="toc-number">6.</span> <span class="toc-text">引用</span></a></li></ol>
-		
-		</div>
-		
 		<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>之所以有这个疑问，是上次阅读Java基础书时碰到讲解<code>char</code>类型没有看明白，并且在代码验证过程中错误的理解了代码的意思，导致我对这么个简单问题产生疑惑并且“恶意揣测”Java内部的黑魔法，这里就把我如何走上歪路，并且最终找到“正确”的道路的故事讲出来</p>
 <h2 id="问题的产生"><a href="#问题的产生" class="headerlink" title="问题的产生"></a>问题的产生</h2><p>我们知道<code>Java</code>是采用<code>Unicode</code>进行内部编码，但是使用<code>UTF-16</code>作为外部编码。</p>
 <p>怎么来理解这个东西呢。首先你要知道<code>Unicode</code>是在我们熟悉的<code>GB 18030</code>、<code>BIG-5</code>、<code>ISO8859-1</code>之后出现的，它的出现就是为了统一全世界的编码，因为前面这些编码都太片面了，只包含自己国家或者少数几个国家的字符。</p>

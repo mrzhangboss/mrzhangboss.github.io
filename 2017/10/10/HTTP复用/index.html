@@ -99,13 +99,6 @@
 </header>
 	<div class="article-content">
 		
-		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
-		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#起因"><span class="toc-number">1.</span> <span class="toc-text">起因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP复用"><span class="toc-number">2.</span> <span class="toc-text">HTTP复用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP长连接"><span class="toc-number">2.1.</span> <span class="toc-text">HTTP长连接</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#存贮单元—ConnectionPool"><span class="toc-number">3.</span> <span class="toc-text">存贮单元—ConnectionPool</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP与URL的关系"><span class="toc-number">3.1.</span> <span class="toc-text">TCP与URL的关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ConnectionPool的实现"><span class="toc-number">3.2.</span> <span class="toc-text">ConnectionPool的实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP复用在Requests的具体表现"><span class="toc-number">4.</span> <span class="toc-text">HTTP复用在Requests的具体表现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#深入requests的ConnectionPool"><span class="toc-number">5.</span> <span class="toc-text">深入requests的ConnectionPool</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP连接池的作用"><span class="toc-number">6.</span> <span class="toc-text">TCP连接池的作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#异步框架下HTTP复用"><span class="toc-number">7.</span> <span class="toc-text">异步框架下HTTP复用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">8.</span> <span class="toc-text">总结</span></a></li></ol>
-		
-		</div>
-		
 		<blockquote>
 <p>曾经有人问过我一个问题什么是TCP复用，我当时没有回答上来，后面我又遇到一些并发性能问题的时候，我才开始慢慢明白为什么会有这个问题，以及这个问题背后的秘密</p>
 </blockquote>

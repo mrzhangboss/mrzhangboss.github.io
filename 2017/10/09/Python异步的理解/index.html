@@ -117,13 +117,6 @@
 </header>
 	<div class="article-content">
 		
-		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
-		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#起因"><span class="toc-number">1.</span> <span class="toc-text">起因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Python异步的多种实现"><span class="toc-number">2.</span> <span class="toc-text">Python异步的多种实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#了解异步基础"><span class="toc-number">3.</span> <span class="toc-text">了解异步基础</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#浅析Python异步实现"><span class="toc-number">4.</span> <span class="toc-text">浅析Python异步实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#深入asyncio了解Python异步"><span class="toc-number">5.</span> <span class="toc-text">深入asyncio了解Python异步</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#引用"><span class="toc-number">5.1.</span> <span class="toc-text">引用</span></a></li></ol></li></ol>
-		
-		</div>
-		
 		<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><blockquote>
 <p>异步的出现主要是单线程的io等待，由于任务大部分是io处于等待，假如让一个线程工作，所有任务按照流水线形式执行，假如一个请求需要1秒，五个请求需要五秒，那么如果能让他们同时运行的话，那么速度就能增加五倍</p>
 </blockquote>

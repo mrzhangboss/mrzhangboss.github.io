@@ -105,13 +105,6 @@ python对线程的支持并不是非常好，所以你可以在很多文章上�
 </header>
 	<div class="article-content">
 		
-		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
-		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#静态语言没有这个弊端呢。"><span class="toc-number">1.</span> <span class="toc-text">静态语言没有这个弊端呢。</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#解决方案"><span class="toc-number">1.0.1.</span> <span class="toc-text">解决方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程锁和进程锁"><span class="toc-number">1.0.2.</span> <span class="toc-text">线程锁和进程锁</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#为了实现线程安全，我们也要借助锁的存在，我们先用下面的代码来验证一下多线程对于线程安全的问题。我们声明一个线程锁-threading-Lock"><span class="toc-number">1.0.2.0.1.</span> <span class="toc-text">为了实现线程安全，我们也要借助锁的存在，我们先用下面的代码来验证一下多线程对于线程安全的问题。我们声明一个线程锁 threading.Lock(),</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#模拟负载"><span class="toc-number">2.</span> <span class="toc-text">模拟负载</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#保护线程"><span class="toc-number">3.</span> <span class="toc-text">保护线程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#得到value值"><span class="toc-number">4.</span> <span class="toc-text">得到value值</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ps：当同一线程相互争夺锁时，失败的会进出线程队列等待锁解开。"><span class="toc-number">4.0.0.1.</span> <span class="toc-text">ps：当同一线程相互争夺锁时，失败的会进出线程队列等待锁解开。</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#线程进程工作方式"><span class="toc-number">5.</span> <span class="toc-text">线程进程工作方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#单行"><span class="toc-number">5.0.1.</span> <span class="toc-text">单行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#并行"><span class="toc-number">5.0.2.</span> <span class="toc-text">并行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#单行混合并行"><span class="toc-number">5.0.3.</span> <span class="toc-text">单行混合并行</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程和进程通信方式"><span class="toc-number">5.1.</span> <span class="toc-text">线程和进程通信方式</span></a></li></ol></li></ol>
-		
-		</div>
-		
 		<p>### </p>
 <blockquote>
 <p>最近学了两个python库，一个负责管理线程，一个负责管理进程，原来一直写的都<br>是些单线程的程序，虽然web也关于并发和多涉及到线程，但都是框架管理的，学习&gt;过后发现了解线程和进程对python的web开发也有一定帮助。下面先谈谈这对python对线程和进程的支持再谈谈对这两个库的应用。</p>
