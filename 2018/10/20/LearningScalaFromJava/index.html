@@ -4,32 +4,23 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>mit6.828课程总结 | lunge博客</title>
+    <title>Learning Scala From Java | lunge博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="张伦">
     
 
     
-    <meta name="description" content="引言
-一开始想直接做一个操作系统，但是万事开头难，学习操作系统需要太多基础知识了，所以就按照网上推荐先学习mit6.828的课程，先把xvf6操作系统搞懂，然后在来实现自己的操作系统，下面就是学习这个课程的体会，按照各个lab的顺序，介绍自己的心得体会
-
-课程的地址是： mit6.828PS：由于mit6.828课程仓库需要翻墙，所以我把clone下来放到我的github仓库，我的仓库里，大家可以">
+    <meta name="description" content="Recently I had finshed reading one book : &amp;lt;&amp;lt; Scala for The Impatient&amp;gt;&amp;gt;, I found a lot intrest thing during reading this book.Cause I had known Python and Java before, I can see  mixed fet">
 <meta property="og:type" content="article">
-<meta property="og:title" content="mit6.828课程总结">
-<meta property="og:url" content="https://mrzhangboss.github.io/2018/01/09/mit6.828课程总结/index.html">
+<meta property="og:title" content="Learning Scala From Java">
+<meta property="og:url" content="https://mrzhangboss.github.io/2018/10/20/LearningScalaFromJava/index.html">
 <meta property="og:site_name" content="lunge博客">
-<meta property="og:description" content="引言
-一开始想直接做一个操作系统，但是万事开头难，学习操作系统需要太多基础知识了，所以就按照网上推荐先学习mit6.828的课程，先把xvf6操作系统搞懂，然后在来实现自己的操作系统，下面就是学习这个课程的体会，按照各个lab的顺序，介绍自己的心得体会
-
-课程的地址是： mit6.828PS：由于mit6.828课程仓库需要翻墙，所以我把clone下来放到我的github仓库，我的仓库里，大家可以">
-<meta property="og:updated_time" content="2018-02-26T09:44:22.197Z">
+<meta property="og:description" content="Recently I had finshed reading one book : &amp;lt;&amp;lt; Scala for The Impatient&amp;gt;&amp;gt;, I found a lot intrest thing during reading this book.Cause I had known Python and Java before, I can see  mixed fet">
+<meta property="og:updated_time" content="2018-10-21T02:22:02.299Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="mit6.828课程总结">
-<meta name="twitter:description" content="引言
-一开始想直接做一个操作系统，但是万事开头难，学习操作系统需要太多基础知识了，所以就按照网上推荐先学习mit6.828的课程，先把xvf6操作系统搞懂，然后在来实现自己的操作系统，下面就是学习这个课程的体会，按照各个lab的顺序，介绍自己的心得体会
-
-课程的地址是： mit6.828PS：由于mit6.828课程仓库需要翻墙，所以我把clone下来放到我的github仓库，我的仓库里，大家可以">
+<meta name="twitter:title" content="Learning Scala From Java">
+<meta name="twitter:description" content="Recently I had finshed reading one book : &amp;lt;&amp;lt; Scala for The Impatient&amp;gt;&amp;gt;, I found a lot intrest thing during reading this book.Cause I had known Python and Java before, I can see  mixed fet">
 <meta name="twitter:creator" content="@mrzhangboss">
 
     
@@ -89,14 +80,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2018/01/09/mit6.828课程总结/" title="mit6.828课程总结" itemprop="url">mit6.828课程总结</a>
+      <a href="/2018/10/20/LearningScalaFromJava/" title="Learning Scala From Java" itemprop="url">Learning Scala From Java</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-01-08T16:00:00.000Z" itemprop="datePublished"> Published 2018-01-09</time>
+    <time datetime="2018-10-19T16:00:00.000Z" itemprop="datePublished"> Published 2018-10-20</time>
     
   </p>
 </header>
@@ -105,23 +96,78 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#目录"><span class="toc-number">2.</span> <span class="toc-text">目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#课程总结"><span class="toc-number">3.</span> <span class="toc-text">课程总结</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Introudction"><span class="toc-number">1.</span> <span class="toc-text">Introudction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stronger-Object-Oriented"><span class="toc-number">2.</span> <span class="toc-text">Stronger Object-Oriented</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Enhance-Function"><span class="toc-number">3.</span> <span class="toc-text">Enhance Function</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Do-More"><span class="toc-number">4.</span> <span class="toc-text">Do More</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Summary"><span class="toc-number">5.</span> <span class="toc-text">Summary</span></a></li></ol>
 		
 		</div>
 		
-		<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
-<p>一开始想直接做一个操作系统，但是万事开头难，学习操作系统需要太多基础知识了，所以就按照网上推荐先学习mit6.828的课程，先把xvf6操作系统搞懂，然后在来实现自己的操作系统，下面就是学习这个课程的体会，按照各个lab的顺序，介绍自己的心得体会</p>
+		<blockquote>
+<p>Recently I had finshed reading one book : &lt;&lt; Scala for The Impatient&gt;&gt;, I found a lot intrest thing during reading this book.Cause I had known <code>Python</code> and <code>Java</code> before, I can see  mixed fetures of <code>Scala</code> between <code>Python</code> and <code>Java</code>.This  blog is my thought  of studying a new language from other learned language.</p>
 </blockquote>
-<p>课程的地址是： <a href="https://pdos.csail.mit.edu/6.828/2016/schedule.html" target="_blank" rel="external">mit6.828</a><br>PS：由于<a href="https://pdos.csail.mit.edu/6.828/2016/schedule.html" target="_blank" rel="external">mit6.828</a>课程仓库需要翻墙，所以我把clone下来放到我的github仓库，我的<a href="https://github.com/mrzhangboss/mit6.828-2016" target="_blank" rel="external">仓库</a>里，大家可以clone下来（我会逐渐完成所以的实验）</p>
-<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
-<li><a href="/2018/01/29/什么是操作系统/">什么是操作系统</a> lab1</li>
-<li><a href="/2018/02/05/内存分页设计/">内存分页设计</a> lab2</li>
-<li><a href="/2018/02/20/用户空间隔离/">用户空间隔离</a> lab3</li>
-<li><a href="/2018/02/">并行多核设计</a> lab4</li>
-<li><a href="/2018/02/">文件系统设计</a> lab5</li>
-<li><a href="/2018/02/">网络设计</a> lab6</li>
+<h2 id="Introudction"><a href="#Introudction" class="headerlink" title="Introudction"></a>Introudction</h2><p>What is <code>Scala</code>, <code>Scala</code> is a new lanuage ? No technically <code>Scala</code> is <code>Java</code>. They both create <code>*.class</code> file, and run on <code>JVM</code>.The most different between them: <code>Scala</code> use <code>.scala</code> as suffix and <code>Java</code> use <code>.java</code> as suffix.</p>
+<p>The difference of two lanuage is the syntax which deeply affectting your coding style.This blog will introuce the most different of two lanuage and we will find out why is it.</p>
+<h2 id="Stronger-Object-Oriented"><a href="#Stronger-Object-Oriented" class="headerlink" title="Stronger Object-Oriented"></a>Stronger Object-Oriented</h2><p><code>Scala</code> and <code>Java</code> both generate <code>Java bytecode</code>(we will call it <code>bytecode</code> later) file, and let it run on the <code>JVM</code>.The <code>bytecode</code> is totally a <code>object-oriented</code> format.</p>
+<p>The basic structure of <code>bytecode</code> is <code>class</code>, but we will see something wrong in <code>Java</code>.For examples.In <code>Java</code> library, they give us two type <code>int</code> and <code>Integer</code>. One is <code>C</code> level data type, Other is a really <code>Object Class</code>.This is a huge problem, do we really need a <code>Object Class</code> like <code>Integer</code>, this <code>Class</code> make a <code>C</code> level data type not so effective (It’s huge than <code>int</code>).The only reason we need it for <code>collection</code> data type like <code>List</code>,<code>Set</code>,<code>Map</code> and so on can only load Class Object.So we not only make it ugly in <code>Java</code> but also we waste lot of time  <code>packing</code> and <code>unpacking</code> between Class-Object and C-level Object.</p>
+<p>This problem is fixed or improve by <code>Scala</code>.In <code>Scala</code> libray, there are no <code>int</code> or <code>long</code> or <code>char</code> anymore.There are all to be <code>Class</code>.And  in <code>Scala</code> offical collection (<code>scala.collection</code>) we can load this Class-Object as a c-level data type undergroud. This trick is done by <code>Manifest</code> type, using <code>reflect</code> to make the collections to save base type like <code>int</code>，<code>char</code> and so on as its’ elements.</p>
+<p>In this way, we not only delete c-level data type, but also delete the un-object-oriented part in a object-oriented lanuage.This is improvement of <code>Scala</code>.We needn’t <code>pack</code>  and <code>unpack</code> again and again.But we share the speed of <code>C</code> level data type without touch it.</p>
+<h2 id="Enhance-Function"><a href="#Enhance-Function" class="headerlink" title="Enhance Function"></a>Enhance Function</h2><p><code>Java8</code> support <code>lambda</code> fuction in 2014,so in a long time if you want use something like <code>function</code>, you can use a anonymous class which implemented some interface.<br>eg:</p>
+<pre><code>Thread thread = new Thread(new Runnable() {
+    @Override
+    public void run() {
+        // do something     
+    }
+});
+</code></pre><p>You can see if we want run a thread we must initialize one object.Actually you only need the <code>run</code> function.</p>
+<p>Let’s see what <code>Python</code> do with function.If you want to call one object as function you only need give a object <code>__call__</code> function.Then you can call as <code>obj(*arg, **kwds)</code>.The <code>Python</code> will transform it to <code>obj.__call__(*arg, **kwds)</code>.</p>
+<p>We can learn it from <code>Python</code>, if <code>Java</code> want to call <code>obj</code> as <code>function</code> so he need use some unnified rule.So when you can write just function and <code>Java</code> will turn it to some Interface.</p>
+<p><code>Scala</code>build 23 generic <code>Class</code> from <code>Function0</code> to <code>Function22</code> to help us write our <code>function</code> as a object.By the way, in <code>Java</code>, you maybe use <code>avoid</code> in a <code>method</code> to announcing no nedd to return.In <code>Scala</code>, you must have a <code>return</code>, if you really don’t need one, just return <code>Unit</code> which is same as <code>void</code>.</p>
+<p>Now you can use <code>fuction</code> as a veriables now in <code>Scala</code></p>
+<pre><code>def rInt(): Int = 1
+val k: () =&gt; Int = rInt _
+</code></pre><p>In upper, we use fuction <code>rInt</code> as a virable of <code>k</code>, <code>() =&gt; Int</code> is tell the <code>Scala</code> the type of <code>function</code>.So when call some thing like <code>k()</code>, it will tranceform to <code>k.applay()</code>.</p>
+<p><code>Scala</code>  build a rule for us like <code>HTTP</code> to <code>Internet</code>.Maybe this is not so meaning just building 23 <code>trait</code> (like <code>interface</code> in <code>Java</code>).But you will a huge power when on the basement.It kind like <code>HTTP</code>, thanks to it, the <code>Internet</code> give a amazing world to us.</p>
+<h2 id="Do-More"><a href="#Do-More" class="headerlink" title="Do More"></a>Do More</h2><p><code>Scala</code> is shorter than <code>Java</code>.In my word, I think <code>Java</code> is kind of wordy.If you want to <code>print</code> some word, you nedd use <code>System.out.println</code>, maybe you can <code>static import</code> to reduce it(use <code>import static System.out</code>).Also there are too mush strict rule in <code>Java</code>.Such as: Only one public class in a file.Your package need use same physcial address.etc.</p>
+<p><code>Java</code> is strict lanuage, you aren’t trust by the compiler.While <code>Scala</code> give us more freedoom.You can save a lot of time in it.</p>
+<p>Let us see what <code>Scala</code> do for us.</p>
+<ul>
+<li>add varies and method in builder</li>
 </ul>
-<h2 id="课程总结"><a href="#课程总结" class="headerlink" title="课程总结"></a>课程总结</h2><p>学到一半才发现这是一门研究生课程的学习，的确难度非常大，而且每一个实验都可以拿出来大做研究，但是课程给的资料非常详细，基本上每个硬件细节都给出了链接，但是对于最大的困难还是英语资料实在太多，有点“吸收”不过来。不过一路学习下来，感觉还是收获很大，基本上每个实验都环环相扣，每个实现细节都需要反复思考，为什么要这样做，还能怎么做，最终实现的xvf6还有些许跟不上时代的脚步，但是基本上框架已经有了，就是按照这个骨架完善更多细节，所以这个课程还远远没有结束，期待接下来对这个操作系统的进一步改进！！！</p>
+<p>just use one line like </p>
+<pre><code>class T(var name:String)
+</code></pre><p>it’s equal </p>
+<pre><code>class T{
+private String name;
+public String getName(){
+return this.name;
+}
+public String setName(String name){
+this.name = name;
+}
+public T(String name) {
+this.name = name;
+}
+}
+</code></pre><ul>
+<li>saving brackets</li>
+</ul>
+<p>if a fuction use no params, you can save brackets.It maybe confused if you want a <code>function</code> not just call them.Just add <code>_</code> after your function.<code>Scala</code> will know you just need a function.</p>
+<ul>
+<li>use symbol as your function</li>
+</ul>
+<p>In <code>Java</code>, we are not allowed to use <code>*</code>,<code>/</code>，<code>+=</code> as your class method, <code>Scala</code> open it, you can what you like.Sometimes, <code>+</code> will be more clearly than just <code>add</code>.</p>
+<ul>
+<li>add your patch to other library</li>
+</ul>
+<p>In the your kingdom of <code>Scala</code>, you can simple add any patch to other class without recompiling <code>Java</code> again.</p>
+<pre><code>implicit def addKing(w:String) = new {
+  def king()= println(w + &quot; is my king&quot;)
+}
+
+def say = &quot;Scala&quot; king
+</code></pre><p>just add one rule use <code>implicit</code> to tell <code>Scala</code>, you can add <code>String</code> a new method <code>king</code>.if you run <code>say</code>, it will print <code>Scala is my king</code>.</p>
+<p>Compare <code>Java</code>, <code>Scala</code> more like a human, he will think a lot for your code.If <code>String</code> have no method call <code>king</code>, he will look up in his scope, is there any definenation of a convertion to a new <code>Class</code> which have a method call <code>king</code>.If he find one, he will do it for you, convert the <code>String</code> to the new <code>Class</code> and call the method again.</p>
+<hr>
+<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><p>There are so many secret in <code>Scala</code>, if you realy want to know how <code>Scala</code> do for us, just use <code>scalac</code> to compile to <code>.class</code> file, and use <code>javap</code> to tranceform to <code>Java</code> code.That will help you a lot.There are  also a intresting part in new power <code>switch</code>  in <code>Scala</code>, it’s too important to write a new blog to introducing it.</p>
+<p><code>Scala</code> is a intersting lanuage, if you want to know more about it, you can read the <code>Scala</code> library code .It’s really perfect.</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -130,7 +176,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/mit6-828/">mit6.828</a>
+  <span></span> <a href="/tags/Scala-Java/">Scala Java</a>
   </div>
 
 </div>
@@ -139,7 +185,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://mrzhangboss.github.io/2018/01/09/mit6.828课程总结/" data-title="mit6.828课程总结 | lunge博客" data-tsina="5364356330" class="share clearfix">
+	  <div data-url="https://mrzhangboss.github.io/2018/10/20/LearningScalaFromJava/" data-title="Learning Scala From Java | lunge博客" data-tsina="5364356330" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -152,19 +198,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2018/01/29/什么是操作系统/" title="什么是操作系统">
-  <strong>上一篇：</strong><br/>
-  <span>
-  什么是操作系统</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2018/01/06/2018新年展望/"  title="新年展望">
+<a href="/2018/10/14/BuildHadoopClusterinOneComputer/"  title="Build Hadoop Cluster in One Computer">
  <strong>下一篇：</strong><br/> 
- <span>新年展望
+ <span>Build Hadoop Cluster in One Computer
 </span>
 </a>
 </div>
@@ -173,7 +211,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2018/01/09/mit6.828课程总结/" data-title="mit6.828课程总结" data-url="https://mrzhangboss.github.io/2018/01/09/mit6.828课程总结/"></div>
+	<div class="ds-thread" data-thread-key="2018/10/20/LearningScalaFromJava/" data-title="Learning Scala From Java" data-url="https://mrzhangboss.github.io/2018/10/20/LearningScalaFromJava/"></div>
 </section>
 
 
@@ -185,7 +223,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#目录"><span class="toc-number">2.</span> <span class="toc-text">目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#课程总结"><span class="toc-number">3.</span> <span class="toc-text">课程总结</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Introudction"><span class="toc-number">1.</span> <span class="toc-text">Introudction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stronger-Object-Oriented"><span class="toc-number">2.</span> <span class="toc-text">Stronger Object-Oriented</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Enhance-Function"><span class="toc-number">3.</span> <span class="toc-text">Enhance Function</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Do-More"><span class="toc-number">4.</span> <span class="toc-text">Do More</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Summary"><span class="toc-number">5.</span> <span class="toc-text">Summary</span></a></li></ol>
  
   </div>
 

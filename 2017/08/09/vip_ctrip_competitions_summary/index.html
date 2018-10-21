@@ -61,7 +61,7 @@
 				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -77,7 +77,7 @@
  					
 					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="Search" />
 					</form>
 					
 					</li>
@@ -99,14 +99,14 @@
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2017-08-09T11:21:40.000Z" itemprop="datePublished"> 发表于 2017-08-09</time>
+    <time datetime="2017-08-09T11:21:40.000Z" itemprop="datePublished"> Published 2017-08-09</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目录</strong>
+			<strong class="toc-title">Contents</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#观察数据"><span class="toc-number">1.</span> <span class="toc-text">观察数据</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#望"><span class="toc-number">1.1.</span> <span class="toc-text">望</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#闻"><span class="toc-number">1.2.</span> <span class="toc-text">闻</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#问"><span class="toc-number">1.3.</span> <span class="toc-text">问</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#切"><span class="toc-number">1.4.</span> <span class="toc-text">切</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#总结：-数据比赛就如同问诊，我们不断对特征进行望闻问切，对于高手来说他们能很快的从原始特征中挑选出病根，对症下药，而新手的话，一阵摸瞎，经常会碰到在比赛中期做出一个很好的结果，接下来很长一段时间都没有进步的情况。掌握科学有效的挑选特征方法需要一个“医者心”，必须学会对特征“负责”，要学会望闻问切。"><span class="toc-number">1.4.1.</span> <span class="toc-text">总结： 数据比赛就如同问诊，我们不断对特征进行望闻问切，对于高手来说他们能很快的从原始特征中挑选出病根，对症下药，而新手的话，一阵摸瞎，经常会碰到在比赛中期做出一个很好的结果，接下来很长一段时间都没有进步的情况。掌握科学有效的挑选特征方法需要一个“医者心”，必须学会对特征“负责”，要学会望闻问切。</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#并行化算法"><span class="toc-number">2.</span> <span class="toc-text">并行化算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-使用系统自带函数，拒绝for循环"><span class="toc-number">2.1.</span> <span class="toc-text">1 . 使用系统自带函数，拒绝for循环</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-使用多进程，充分发挥使用多核性能"><span class="toc-number">2.2.</span> <span class="toc-text">2 . 使用多进程，充分发挥使用多核性能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-压缩数据，让矩阵运算更快"><span class="toc-number">2.3.</span> <span class="toc-text">3 . 压缩数据，让矩阵运算更快</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结：-这两次比赛，我从菜鸟出发慢慢的从一个程序员变成了数据挖掘机，在模块化和并行化方面，我觉得我的进步不错，但是在数据特征挖掘方面我与大神之间的差距还是巨大的，这也是我止步于前五的主要原因，接下来我要加强对数据方向的锻炼，希望能够在工作和比赛之中得到更好的进步"><span class="toc-number">2.4.</span> <span class="toc-text">总结： 这两次比赛，我从菜鸟出发慢慢的从一个程序员变成了数据挖掘机，在模块化和并行化方面，我觉得我的进步不错，但是在数据特征挖掘方面我与大神之间的差距还是巨大的，这也是我止步于前五的主要原因，接下来我要加强对数据方向的锻炼，希望能够在工作和比赛之中得到更好的进步</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#在最下面贴一下我的携程比赛代码（基于Notebook）"><span class="toc-number">2.4.1.</span> <span class="toc-text">在最下面贴一下我的携程比赛代码（基于Notebook）</span></a></li></ol></li></ol></li></ol>
 		
@@ -249,24 +249,24 @@
 
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目录</strong>
+  <strong class="toc-title">Contents</strong>
  
  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#观察数据"><span class="toc-number">1.</span> <span class="toc-text">观察数据</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#望"><span class="toc-number">1.1.</span> <span class="toc-text">望</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#闻"><span class="toc-number">1.2.</span> <span class="toc-text">闻</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#问"><span class="toc-number">1.3.</span> <span class="toc-text">问</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#切"><span class="toc-number">1.4.</span> <span class="toc-text">切</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#总结：-数据比赛就如同问诊，我们不断对特征进行望闻问切，对于高手来说他们能很快的从原始特征中挑选出病根，对症下药，而新手的话，一阵摸瞎，经常会碰到在比赛中期做出一个很好的结果，接下来很长一段时间都没有进步的情况。掌握科学有效的挑选特征方法需要一个“医者心”，必须学会对特征“负责”，要学会望闻问切。"><span class="toc-number">1.4.1.</span> <span class="toc-text">总结： 数据比赛就如同问诊，我们不断对特征进行望闻问切，对于高手来说他们能很快的从原始特征中挑选出病根，对症下药，而新手的话，一阵摸瞎，经常会碰到在比赛中期做出一个很好的结果，接下来很长一段时间都没有进步的情况。掌握科学有效的挑选特征方法需要一个“医者心”，必须学会对特征“负责”，要学会望闻问切。</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#并行化算法"><span class="toc-number">2.</span> <span class="toc-text">并行化算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-使用系统自带函数，拒绝for循环"><span class="toc-number">2.1.</span> <span class="toc-text">1 . 使用系统自带函数，拒绝for循环</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-使用多进程，充分发挥使用多核性能"><span class="toc-number">2.2.</span> <span class="toc-text">2 . 使用多进程，充分发挥使用多核性能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-压缩数据，让矩阵运算更快"><span class="toc-number">2.3.</span> <span class="toc-text">3 . 压缩数据，让矩阵运算更快</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结：-这两次比赛，我从菜鸟出发慢慢的从一个程序员变成了数据挖掘机，在模块化和并行化方面，我觉得我的进步不错，但是在数据特征挖掘方面我与大神之间的差距还是巨大的，这也是我止步于前五的主要原因，接下来我要加强对数据方向的锻炼，希望能够在工作和比赛之中得到更好的进步"><span class="toc-number">2.4.</span> <span class="toc-text">总结： 这两次比赛，我从菜鸟出发慢慢的从一个程序员变成了数据挖掘机，在模块化和并行化方面，我觉得我的进步不错，但是在数据特征挖掘方面我与大神之间的差距还是巨大的，这也是我止步于前五的主要原因，接下来我要加强对数据方向的锻炼，希望能够在工作和比赛之中得到更好的进步</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#在最下面贴一下我的携程比赛代码（基于Notebook）"><span class="toc-number">2.4.1.</span> <span class="toc-text">在最下面贴一下我的携程比赛代码（基于Notebook）</span></a></li></ol></li></ol></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
 
   
 
   
 <div class="tagslist">
-	<p class="asidetitle">标签</p>
+	<p class="asidetitle">Tags</p>
 		<ul class="clearfix">
 		
 			
@@ -310,7 +310,7 @@
 			
 		
 			
-				<li><a href="/tags/big-data-hadoop/" title="big-data hadoop">big-data hadoop<sup>1</sup></a></li>
+				<li><a href="/tags/Scala-Java/" title="Scala Java">Scala Java<sup>1</sup></a></li>
 			
 		
 			
@@ -346,7 +346,7 @@
 			
 		
 			
-				<li><a href="/tags/js/" title="js">js<sup>1</sup></a></li>
+				<li><a href="/tags/big-data-hadoop/" title="big-data hadoop">big-data hadoop<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -354,7 +354,7 @@
 
 
   <div class="linkslist">
-  <p class="asidetitle">友情链接</p>
+  <p class="asidetitle">Links</p>
     <ul>
         
           <li>
@@ -370,11 +370,11 @@
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">新浪微博</p>
+  <p class="asidetitle">Weibo</p>
     <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5364356330&verifier=&dpc=1"></iframe>
 </div>
 
@@ -636,7 +636,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

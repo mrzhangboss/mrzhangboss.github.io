@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mrzhangboss.github.io/"/>
-  <updated>2018-10-14T05:03:36.169Z</updated>
+  <updated>2018-10-21T02:22:02.299Z</updated>
   <id>https://mrzhangboss.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Learning Scala From Java</title>
+    <link href="https://mrzhangboss.github.io/2018/10/20/LearningScalaFromJava/"/>
+    <id>https://mrzhangboss.github.io/2018/10/20/LearningScalaFromJava/</id>
+    <published>2018-10-19T16:00:00.000Z</published>
+    <updated>2018-10-21T02:22:02.299Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;Recently I had finshed reading one book : &amp;lt;&amp;lt; Scala for The Impatient&amp;gt;&amp;gt;, I found a lot intrest thing during
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Scala Java" scheme="https://mrzhangboss.github.io/tags/Scala-Java/"/>
+    
+  </entry>
   
   <entry>
     <title>Build Hadoop Cluster in One Computer</title>
@@ -420,28 +445,6 @@
   </entry>
   
   <entry>
-    <title>引导和操作系统的交互</title>
-    <link href="https://mrzhangboss.github.io/2018/01/31/%E5%BC%95%E5%AF%BC%E5%92%8C%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E4%BA%A4%E4%BA%92/"/>
-    <id>https://mrzhangboss.github.io/2018/01/31/引导和操作系统的交互/</id>
-    <published>2018-01-30T16:00:00.000Z</published>
-    <updated>2018-02-26T09:44:31.325Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h2 id=&quot;引言&quot;&gt;&lt;a href=&quot;#引言&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
     <title>内存分页</title>
     <link href="https://mrzhangboss.github.io/2018/01/31/%E5%86%85%E5%AD%98%E5%88%86%E9%A1%B5/"/>
     <id>https://mrzhangboss.github.io/2018/01/31/内存分页/</id>
@@ -466,11 +469,11 @@
   </entry>
   
   <entry>
-    <title>从CS寄存器看段的前世今生</title>
-    <link href="https://mrzhangboss.github.io/2018/01/30/%E4%BB%8ECS%E5%AF%84%E5%AD%98%E5%99%A8%E7%9C%8B%E6%AE%B5%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/"/>
-    <id>https://mrzhangboss.github.io/2018/01/30/从CS寄存器看段的前世今生/</id>
-    <published>2018-01-29T16:00:00.000Z</published>
-    <updated>2018-02-26T09:44:35.721Z</updated>
+    <title>引导和操作系统的交互</title>
+    <link href="https://mrzhangboss.github.io/2018/01/31/%E5%BC%95%E5%AF%BC%E5%92%8C%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E4%BA%A4%E4%BA%92/"/>
+    <id>https://mrzhangboss.github.io/2018/01/31/引导和操作系统的交互/</id>
+    <published>2018-01-30T16:00:00.000Z</published>
+    <updated>2018-02-26T09:44:31.325Z</updated>
     
     <summary type="html">
     
@@ -485,16 +488,14 @@
     </summary>
     
     
-      <category term="mit6.828" scheme="https://mrzhangboss.github.io/tags/mit6-828/"/>
-    
   </entry>
   
   <entry>
-    <title>什么是操作系统</title>
-    <link href="https://mrzhangboss.github.io/2018/01/29/%E4%BB%80%E4%B9%88%E6%98%AF%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
-    <id>https://mrzhangboss.github.io/2018/01/29/什么是操作系统/</id>
-    <published>2018-01-28T16:00:00.000Z</published>
-    <updated>2018-02-02T03:56:08.504Z</updated>
+    <title>从CS寄存器看段的前世今生</title>
+    <link href="https://mrzhangboss.github.io/2018/01/30/%E4%BB%8ECS%E5%AF%84%E5%AD%98%E5%99%A8%E7%9C%8B%E6%AE%B5%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/"/>
+    <id>https://mrzhangboss.github.io/2018/01/30/从CS寄存器看段的前世今生/</id>
+    <published>2018-01-29T16:00:00.000Z</published>
+    <updated>2018-02-26T09:44:35.721Z</updated>
     
     <summary type="html">
     
@@ -502,7 +503,7 @@
       
         
         
-          &lt;h2 id=&quot;引言&quot;&gt;&lt;a href=&quot;#引言&quot; class=&quot;headerlink&quot; title=&quot;引言&quot;&gt;&lt;/a&gt;引言&lt;/h2&gt;&lt;p&gt;本文是基于mit6.828
+          &lt;h2 id=&quot;引言&quot;&gt;&lt;a href=&quot;#引言&quot; class=&quot;headerlink&quot;
         
       
     
