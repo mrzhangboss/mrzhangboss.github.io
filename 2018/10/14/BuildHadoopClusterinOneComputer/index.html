@@ -19,7 +19,7 @@
 <meta property="og:description" content="If you are hadoop novice, I strongly suggest you beginning your study from single node building,you can learn from this website, after you having finshed build one single node, then you can reading m">
 <meta property="og:image" content="https://mrzhangboss.github.io/images/vm-create1.png">
 <meta property="og:image" content="https://mrzhangboss.github.io/images/vm-net-adapter.png">
-<meta property="og:updated_time" content="2018-10-14T05:03:36.169Z">
+<meta property="og:updated_time" content="2018-10-22T13:58:21.199Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Build Hadoop Cluster in One Computer">
 <meta name="twitter:description" content="If you are hadoop novice, I strongly suggest you beginning your study from single node building,you can learn from this website, after you having finshed build one single node, then you can reading m">
@@ -167,7 +167,7 @@ iface eth0 inet static
 address 192.168.0.105
 netmask 255.255.255.0
 gateway 192.168.0.1
-</code></pre><p>PS: make true, you need change the <code>eth0</code> and <code>gateway</code> IP to yours.</p>
+</code></pre><p>PS: make true, you need change the <code>eth0</code> and <code>gateway</code> IP to yours.The address <code>IP</code> must be subnet of gateway under the control of netmast.eg, you can’t set you ip address to 10.1.1.1 if your gateway is 192.168.0.1.The easiest way is set by <code>dhcp</code> format.And just change the last number.If you still can’t connect the Internet.Try add one line <code>dns-nameservers 8.8.8.8</code> .</p>
 <pre><code>ifdown eth0
 ifup  eth0
 </code></pre><p>now run upper commands in your vm(<code>eth0</code> need your NIC name).If run <code>ifconfig</code> again, you can see our IP address chage to <code>192.168.0.105</code> now!</p>
