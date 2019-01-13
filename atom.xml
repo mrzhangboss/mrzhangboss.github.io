@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mrzhangboss.github.io/"/>
-  <updated>2018-10-21T02:22:02.299Z</updated>
+  <updated>2019-01-13T09:38:19.167Z</updated>
   <id>https://mrzhangboss.github.io/</id>
   
   <author>
@@ -15,6 +15,56 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>如何在Ubuntu上发布Scala Jar包到Maven中央仓库</title>
+    <link href="https://mrzhangboss.github.io/2019/01/13/%E5%A6%82%E4%BD%95%E5%9C%A8Ubuntu%E4%B8%8A%E5%8F%91%E5%B8%83ScalaJar%E5%8C%85%E5%88%B0Maven%E4%B8%AD%E5%A4%AE%E4%BB%93%E5%BA%93/"/>
+    <id>https://mrzhangboss.github.io/2019/01/13/如何在Ubuntu上发布ScalaJar包到Maven中央仓库/</id>
+    <published>2019-01-12T16:00:00.000Z</published>
+    <updated>2019-01-13T09:38:19.167Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;由于网上的教程大多数是&lt;code&gt;Windows&lt;/code&gt;下的，而且都是介绍怎么打包&lt;code&gt;Java&lt;/code&gt;的&lt;code&gt;Jar&lt;/code&gt;包，关于&lt;code&gt;Scala&lt;/code&gt;相关的比较少，因此我踩了不少坑才成功的把包发布到
+        
+      
+    
+    </summary>
+    
+    
+      <category term="scala Java" scheme="https://mrzhangboss.github.io/tags/scala-Java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Big Data Questions</title>
+    <link href="https://mrzhangboss.github.io/2018/11/07/BigDataQuestions/"/>
+    <id>https://mrzhangboss.github.io/2018/11/07/BigDataQuestions/</id>
+    <published>2018-11-06T16:00:00.000Z</published>
+    <updated>2018-11-07T13:49:44.047Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;Recently I found that I’m kind of over talking when I speak with others, so I want to train my conclusion of solving
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Hadoop Spark Hive Hbase" scheme="https://mrzhangboss.github.io/tags/Hadoop-Spark-Hive-Hbase/"/>
+    
+  </entry>
   
   <entry>
     <title>Learning Scala From Java</title>
@@ -450,52 +500,6 @@
     <id>https://mrzhangboss.github.io/2018/01/31/内存分页/</id>
     <published>2018-01-30T16:00:00.000Z</published>
     <updated>2018-02-26T09:44:28.929Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h2 id=&quot;引言&quot;&gt;&lt;a href=&quot;#引言&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-    
-      <category term="mit6.828" scheme="https://mrzhangboss.github.io/tags/mit6-828/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>引导和操作系统的交互</title>
-    <link href="https://mrzhangboss.github.io/2018/01/31/%E5%BC%95%E5%AF%BC%E5%92%8C%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E4%BA%A4%E4%BA%92/"/>
-    <id>https://mrzhangboss.github.io/2018/01/31/引导和操作系统的交互/</id>
-    <published>2018-01-30T16:00:00.000Z</published>
-    <updated>2018-02-26T09:44:31.325Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h2 id=&quot;引言&quot;&gt;&lt;a href=&quot;#引言&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>从CS寄存器看段的前世今生</title>
-    <link href="https://mrzhangboss.github.io/2018/01/30/%E4%BB%8ECS%E5%AF%84%E5%AD%98%E5%99%A8%E7%9C%8B%E6%AE%B5%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/"/>
-    <id>https://mrzhangboss.github.io/2018/01/30/从CS寄存器看段的前世今生/</id>
-    <published>2018-01-29T16:00:00.000Z</published>
-    <updated>2018-02-26T09:44:35.721Z</updated>
     
     <summary type="html">
     
