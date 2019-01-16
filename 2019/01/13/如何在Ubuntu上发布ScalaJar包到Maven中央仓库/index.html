@@ -23,7 +23,7 @@ PS：因为这篇主要">
 
 如何你想直接使用ctrl-c + ctrl-v那么你直接去我的github上的最小化打包版本把pom.xml里面的build给复制下来就可以了（前提是你已经把gpg给配置好了）。
 PS：因为这篇主要">
-<meta property="og:updated_time" content="2019-01-13T09:38:19.167Z">
+<meta property="og:updated_time" content="2019-01-16T13:11:26.474Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="如何在Ubuntu上发布Scala Jar包到Maven中央仓库">
 <meta name="twitter:description" content="由于网上的教程大多数是Windows下的，而且都是介绍怎么打包Java的Jar包，关于Scala相关的比较少，因此我踩了不少坑才成功的把包发布到Maven中央仓库，你们可以才中央仓库里面搜到我的包
@@ -266,7 +266,7 @@ sub   rsa2048/EE34357C 2019-01-12 [E]
     &lt;/configuration&gt;
 &lt;/plugin&gt;
 </code></pre><p>PS：我在<a href="https://github.com/mrzhangboss/ahocorasick/tree/MiniDeployToSonatypeDemo" target="_blank" rel="external">项目</a>里面把这个插件注释掉了，你们可以把注释取消</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这篇博文主要是把发布涉及到的库以及知识点简单的介绍了一下，其实发布并不难，很多时候我们只是卡在某一步上，只要我们知道原理，就能把钉子拔掉，顺利上路，在这里顺便推广一下我的项目，这个项目是地址自动补全的子项目，使用<code>Aho-corasick</code>原理，针对中文文本以及地址的特殊性，能够快速从文本中找出匹配的上百万关键词，并且自动推断出最可能路径</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这篇博文主要是把发布涉及到的库以及知识点简单的介绍了一下，其实发布并不难，很多时候我们只是卡在某一步上，只要我们知道原理，就能把钉子拔掉，顺利上路，在这里顺便推广一下我的项目，这个项目基于<code>Aho-corasick</code>自动匹配关键词，使用统计方法来对输出最匹配路径，项目展示的<a href="http://ahocorasick.zhanglun.me/" target="_blank" rel="external">Demo</a>在<a href="http://ahocorasick.zhanglun.me/" target="_blank" rel="external">http://ahocorasick.zhanglun.me/</a>  ，随意输入地点能够迅速匹配出相关城市，比如打入“樟树”能够找到“江西省-宜春市-樟树市”，假如你服务器内存够的话还可以根据村委会名字来寻找到你的地点，而且搜索的速度只和你的地点名长度有关，不会随着关键词的增长而变慢</p>
 <h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://stackoverflow.com/questions/5901378/what-exactly-is-a-maven-snapshot-and-why-do-we-need-it/5907727" target="_blank" rel="external">SNAPSHOT</a></p>
   
 	</div>
