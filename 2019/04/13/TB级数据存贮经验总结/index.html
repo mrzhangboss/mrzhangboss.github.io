@@ -1,0 +1,617 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-cn">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>TB级数据存贮经验总结 | lunge博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="张伦">
+    
+
+    
+    <meta name="description" content="项目背景
+
+这个项目是深圳一家证卷公司一个TB级日志离线导入项目，当数据达到10T左右的时候，他们的存贮架构以及检索系统直接奔溃，在朋友的推荐下，我负责对这个项目进行整体的重构以及优化，对于我一个大数据新手来说这是一个挑战也是一个学习的机会，最终幸不辱命最终完成了系统的优化，由原来的48小时导入优化至7个小时，并且提供亚秒级的查询检索，下面就是我对这个项目的总结
+历史方案介绍
+集群架构
+
+集群由">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TB级数据存贮经验总结">
+<meta property="og:url" content="https://mrzhangboss.github.io/2019/04/13/TB级数据存贮经验总结/index.html">
+<meta property="og:site_name" content="lunge博客">
+<meta property="og:description" content="项目背景
+
+这个项目是深圳一家证卷公司一个TB级日志离线导入项目，当数据达到10T左右的时候，他们的存贮架构以及检索系统直接奔溃，在朋友的推荐下，我负责对这个项目进行整体的重构以及优化，对于我一个大数据新手来说这是一个挑战也是一个学习的机会，最终幸不辱命最终完成了系统的优化，由原来的48小时导入优化至7个小时，并且提供亚秒级的查询检索，下面就是我对这个项目的总结
+历史方案介绍
+集群架构
+
+集群由">
+<meta property="og:updated_time" content="2019-04-13T01:46:40.629Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TB级数据存贮经验总结">
+<meta name="twitter:description" content="项目背景
+
+这个项目是深圳一家证卷公司一个TB级日志离线导入项目，当数据达到10T左右的时候，他们的存贮架构以及检索系统直接奔溃，在朋友的推荐下，我负责对这个项目进行整体的重构以及优化，对于我一个大数据新手来说这是一个挑战也是一个学习的机会，最终幸不辱命最终完成了系统的优化，由原来的48小时导入优化至7个小时，并且提供亚秒级的查询检索，下面就是我对这个项目的总结
+历史方案介绍
+集群架构
+
+集群由">
+<meta name="twitter:creator" content="@mrzhangboss">
+
+    
+    <link rel="alternative" href="/atom.xml" title="lunge博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/wx2.png">
+    
+    
+    <link rel="apple-touch-icon" href="/img/wx2.png">
+    <link rel="apple-touch-icon-precomposed" href="/img/wx2.png">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/wx2.png" alt="lunge博客" title="lunge博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/04/13/TB级数据存贮经验总结/" title="TB级数据存贮经验总结" itemprop="url">TB级数据存贮经验总结</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
+		
+  <p class="article-time">
+    <time datetime="2019-04-12T16:00:00.000Z" itemprop="datePublished"> 发表于 2019-04-13</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#历史方案介绍"><span class="toc-number">1.</span> <span class="toc-text">历史方案介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#架构优化"><span class="toc-number">2.</span> <span class="toc-text">架构优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#读取和存贮优化"><span class="toc-number">2.1.</span> <span class="toc-text">读取和存贮优化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#提高处理速度"><span class="toc-number">3.</span> <span class="toc-text">提高处理速度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a></li></ol>
+		
+		</div>
+		
+		<blockquote>
+<p>项目背景</p>
+</blockquote>
+<p>这个项目是深圳一家证卷公司一个TB级日志离线导入项目，当数据达到10T左右的时候，他们的存贮架构以及检索系统直接奔溃，在朋友的推荐下，我负责对这个项目进行整体的重构以及优化，对于我一个大数据新手来说这是一个挑战也是一个学习的机会，最终幸不辱命最终完成了系统的优化，由原来的48小时导入优化至7个小时，并且提供亚秒级的查询检索，下面就是我对这个项目的总结</p>
+<h2 id="历史方案介绍"><a href="#历史方案介绍" class="headerlink" title="历史方案介绍"></a>历史方案介绍</h2><blockquote>
+<p>集群架构</p>
+</blockquote>
+<p>集群由8台高性能服务器组成，其中两台负责接收历史日志包，两台提供ES和Spark服务，其他四台提供HDFS存贮服务，总存贮量在200TB，其中我们导入主要在两台高性能服务器上面，每台内存256GB，总计512G内存</p>
+<blockquote>
+<p>历史方案</p>
+</blockquote>
+<p>原来的解决方案是日志被解析完成之后导入两份数据分别存贮到ElasticSearch（下面简称ES）和Kafka之中，其中存贮到Kafka之中的数据会被Spark读取，然后写入到HBase</p>
+<h2 id="架构优化"><a href="#架构优化" class="headerlink" title="架构优化"></a>架构优化</h2><h3 id="读取和存贮优化"><a href="#读取和存贮优化" class="headerlink" title="读取和存贮优化"></a>读取和存贮优化</h3><p>历史解决方案对日志数据的存贮是一个并行化的，但是由于项目对数据准确性要求严格，假如其中ES导入或者HBase导入失败之后，所以的数据都得重新生成，但是原来架构不提供删除HBase数据的功能（能实现但是不能检测是否删除），所以在读取方面我丢弃使用Kafka并行导入的方案，待ES导入完成并且校对完成后再从ES中获取数据导入到HBase中</p>
+<p>原来的导入是直接使用HBase提供的Put方案，单个插入到HBase当中，由于我们一次导入的量多的话大概在10个亿左右，虽然HBase能够承受住压力但是由于行键设计导致会造成region的”脑裂”，原来解决方案为了避免这个现象进行了region的预分配，由于这个预分配导致了另外的一个Bug，后面会提到。所以为了提高导入效率和避免脑裂，我采用了HBase的Bulk Load将数据直接”存”至HBase</p>
+<hr>
+<p>回头看看，其实大数据解决方案非常简单，当我刚接触项目的时候，在看原来的解决方案，惊讶的发现他们的代码其实非常简单，就像教程里面的demo一样，但是随着在实际接触这个”大”数据的过程中，大数据考验的是你代码的”结实”，能不能扛的住，什么花里胡哨的骚操作都没有，所以大数据的代码非常简洁质朴，如果说那些优雅的代码是面对对象的话，那么大数据的代码就是面对数据的。所以我接下来也不谈大数据框架，谈一谈我在这个项目中学到的大数据处理经验</p>
+<h2 id="提高处理速度"><a href="#提高处理速度" class="headerlink" title="提高处理速度"></a>提高处理速度</h2><blockquote>
+<p>读取速度</p>
+</blockquote>
+<p>大数据处理最核心的点就是分而治之，也就是我们常说的<code>MapReduce</code>中<code>Map</code>，无论数据有多大，只要我们分的够小，每一份我们计算机都很很快处理，那么我同时运行这些，意味着我就能在一个很短的时间内跑一个巨大的数据。</p>
+<p>由于我们是从ES中读取数据，ES的Map的个数是由分片（shards）来控制的ES的分片默认是十片（5个原始5个备份），假如我们采用默认设置，我们读取数据Map的大小最大为10（具体跟你给的Container大小和每个核心数的大小有关，给足的话就是10），这里要谈一下这个项目中的分片设计，分片这个东西对于每一个Index来说，不是越多越好，越多读取速度快，但是写入慢，反之。所以这个项目使用别名的方法来保证分片不会膨胀，当一个Index数据大于20GB的时候，会自动新建一个别的Index，比如原来是<code>es _index_0</code>，写满20G后，再新建一个 <code>es_index_1</code>，然后把新数据导入到里面去，然后每个Index固定分片为4片，这样所有的数据会均匀的分布到ES中去</p>
+<p>这种解决方法带来一个问题就是，我们获取数据的时候只能通过<code>es_index_*</code>，而且我们的ES中每次导入的<code>Map.size</code>只能是4，所以无论给<code>Spark</code>任务多少个<code>Container</code>多少个核心，他的Task任务最大也就是4个，一开始我一直在琢磨是否能够提高这个Task来加速数据读取，我尝试使用ES时间索引把数据切分成多份，并行跑多个Spark任务，但是无论我并行多少个，从ES一个月导出来时间总和单个Spark任务读取速度一致</p>
+<p>出现这个问题的原因主要是磁盘的性能关系，由于Bulk Load有一个很重要的部分就是Shuffle排序，所以数据在导入HBase之前一定会落盘，所以读取由两个条件限制，ES的获取速度和磁盘写入速度，由于ES读取速度也跟磁盘读取速度有关，所以读取基本上由磁盘的性能有关，由于集群Spark跑在机械硬盘上，除非换SSD否则在软件上优化无法取得较大的收益</p>
+<p>所以我放弃在读取上面优化，接下来介绍我在处理上面的优化</p>
+<blockquote>
+<p>处理速度</p>
+</blockquote>
+<p>其实导入到HBase的原理非常简单，只要使用Spark生成一个HFile然后调用HRegion将数据导入到HBase中去，HFile你可以看着一个排序好的文件，但是如何将1TB数据排序并在内存中生成HFile文件（可能比1TB小如果采用压缩的话，不压缩比原始文件要大得多）这个步骤就很复杂了</p>
+<p>Spark作为大数据界的神兵利器，处理PB级的数据也不在话下，但是怎么处理呢，简单来说就是三个和尚挑水，现在缸很大，但是和尚很多，如果要像迅速把缸里的水挑完，那就让很多和尚通力合作，同时去挑，但是如果里面10个和尚，9个是不干活，只有一个挑水，那么这个任务就花很长时间来完成，这个就是我们说的数据倾斜</p>
+<p>所以其实提高处理速度的方法只有一个把任务均分给CPU每个核心，接下来我就这个项目来谈一谈我遇到的数据倾斜问题</p>
+<p>首先我们要知道一个前面我们讲了Spark作为大数据上的神兵利器，他不会假设用户内存能装下所有的数据，但是用户的磁盘一定能装下所有的数据，我们其实要Spark做的最主要的一件事就是对数据的RowKey（HBase的行键）进行排序，然后把排好序的文件导入到HBase中，排序这个东西最主要的是要把所有的数据都放到一起排一遍，也就是说1个T的数据至少都得放到内存或者磁盘里面来进行排序</p>
+<p>我们接下来缕缕Spark处理数据的流程，其实你可以在UI界面上看到所以的stage，前面读取数据算一个Map stage，接下来我们要完成，排序的stage，还有保存数据的stage，按照正常流程，每个stage都会做一个Shuffle，也就是理论上我们总共要做两次Shuffle，然而TB级数据的Shuffle在机械硬盘上的速度非常慢（相比SSD），所以我们就的优化Shuffle过程</p>
+<p>我们先来谈一下一个正常大数据的排序怎么样，我们用打擂台来打比方，首先我们将所有选手分成10个小组，等小组赛打完，所以等小组都分好名次，然后我们搞一个10个人的擂台，小组第一名全部上擂台打比赛，打完决定出第一名，第一名成为擂主出擂台，然后这个时候再从其他其他小组中找一个积分最高的上来，继续打擂台，打完再找出第一名，继续上面的循环，最后每个人都出了擂台，名次也排练出来了</p>
+<p>这个排序方法是Spark早期使用的方法，这个方法可以面对超大数据，假设数据有10个T，我只有1M内存，我也能完成数据的排序，只是每次排1M，然后写文件，这种方式可以面对海量数据，但是有一个弊端，在排完序后每次必须要把所有的文件全部都打开读取”第一名”，也就是说我们做完一次Map之后，还的进行一次Reduce</p>
+<p>那怎么来去掉这个Reduce呢，考虑这种情况，我们在分组的时候，由一个”裁判”把每个人公正的计算他原来的历史积分在什么档次，然后把他分在那个档次的组，等所有组打完，排名就出来了，你属于哪个档第几名，也就知道你的排名了</p>
+<p>这个方法就是预先评估你的组数，但是这个也有一个问题，假如选手水平层次不齐，强者太少，弱者太多，那么有些组非常多的人打比赛，有的组没有人打比赛，这样，最后总耗时是那个人最多的小组的时间</p>
+<p>接下来我们回到上面的Shuffle过程，如果我们把那个排序过程使用上面的预估方法，那么我们就能在减少一次Shuffle过程，但是这个也带来了一个风险，就是预估如果失败（HBase会加载HFile失败）或者预估不均会导致运行异常</p>
+<p>所以我采用Spark提供的<code>sortWithinPartitions</code>方法来ES数据进行一个分区并排序，分区的方法是通过账号ID来进行，很不幸线上数据部分账号异常，一个月某些账号占了总数的40%左右，这个就导致我们预估不均，那如何来解决这个问题呢，解决方案由很多，由于我们数据只有少量资金账户异常，所以我们采用最简单的方案，分多批次跑，每个任务分剔除大账户的部分，其他的任务就是单个大账户单独跑，得益ES强大的统计功能，只需要执行几次HTTP请求就能完成设计</p>
+<hr>
+<p>至此整个数据优化导入部分就说完了，当然还有其他优化的地方没有讲，比如使用堆外内存加速排序，使用更大的Shuffle cache优化写入，切分更小的块避免磁盘split …..</p>
+<p>PS：亚秒级的查询主要通过Spark一个聚合生成HBase一张小表来实现，当然也可以使用MySql这些关系型数据库</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>记得我以前去面试大数据岗位的时候，我问面试官怎么才能提高自己大数据能力，他说必须要通过实践才能体会，经过这次项目我也感受到了，只有真正的面对大数据，你才能提高自己的大数据能力，小数据一下子就跑完了，完全体会不到内存OOM的”乐趣”，大数据的难点在于了解数据如何被处理，以及对大数据各个组件“协作”对经验。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/big-data/">big-data</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://mrzhangboss.github.io/2019/04/13/TB级数据存贮经验总结/" data-title="TB级数据存贮经验总结 | lunge博客" data-tsina="5364356330" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2019/03/17/重构-总结/"  title="重构-总结">
+ <strong>下一篇：</strong><br/> 
+ <span>重构-总结
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2019/04/13/TB级数据存贮经验总结/" data-title="TB级数据存贮经验总结" data-url="https://mrzhangboss.github.io/2019/04/13/TB级数据存贮经验总结/"></div>
+</section>
+
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#历史方案介绍"><span class="toc-number">1.</span> <span class="toc-text">历史方案介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#架构优化"><span class="toc-number">2.</span> <span class="toc-text">架构优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#读取和存贮优化"><span class="toc-number">2.1.</span> <span class="toc-text">读取和存贮优化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#提高处理速度"><span class="toc-number">3.</span> <span class="toc-text">提高处理速度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/summary/" title="summary">summary<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/programming/" title="programming">programming<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/python/" title="python">python<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/software/" title="software">software<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mit6-828/" title="mit6.828">mit6.828<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/github/" title="github">github<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/competition/" title="competition">competition<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/TDD/" title="TDD">TDD<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python3/" title="Python3">Python3<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/big-data/" title="big-data">big-data<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/big-data-hadoop/" title="big-data hadoop">big-data hadoop<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/software-DL/" title="software, DL">software, DL<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/transform/" title="transform">transform<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/js/" title="js">js<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hadoop-Spark-Hive-Hbase/" title="Hadoop Spark Hive Hbase">Hadoop Spark Hive Hbase<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Scala-Java/" title="Scala Java">Scala Java<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL-ElasticSearch-Python3/" title="MySQL, ElasticSearch, Python3">MySQL, ElasticSearch, Python3<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/scala-Java/" title="scala Java">scala Java<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://segmentfault.com/ " target="_blank" title="一个面向程序员交流分享的新一代社区">segmentfault</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5364356330&verifier=&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m zhanglun. <br/>
+			This is my blog.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/5364356330" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/mrzhangboss" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/6599843" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		<a href="https://twitter.com/mrzhangboss" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/100011375031071" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/zhang-lun-59-53" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		
+		<a href="mailto:2529450174@qq.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
+		
+		<a href="/about" target="_blank" title="张伦">张伦</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lunge"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-80810286-1,UA-80810286-2', 'auto,auto');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

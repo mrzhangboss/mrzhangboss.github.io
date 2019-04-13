@@ -45,7 +45,7 @@
 				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -61,7 +61,7 @@
  					
 					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
 					</form>
 					
 					</li>
@@ -71,6 +71,72 @@
     </header>
     <div id="container">
       <div id="main">
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2018/02/19/KERNBASE对操作系统的影响/" title="KERNBASE对操作系统的影响" itemprop="url">
+  
+    <h1 itemprop="name">KERNBASE对操作系统的影响</h1>
+    
+     
+           <p itemprop="description" >概括
+这个问题主要在这本xv6-ref的第一章的练习题2中提出来
+
+问题如下
+KERNBASE limits the amount of memory a single process can use, which might be irritating on a machine</p>
+        
+    
+    <time datetime="2018-02-18T16:00:00.000Z" itemprop="datePublished">2018-02-19</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2018/02/05/内存分页设计/" title="内存分页设计" itemprop="url">
+  
+    <h1 itemprop="name">内存分页设计</h1>
+    
+     
+           <p itemprop="description" >引言前面已经通过lab1的这篇博文了解了内存分页的实现细节，接下来就谈谈如何具体实现内存分页
+物理载体通过了解KERNBASE对操作系统的影响这篇博文我们知道，其实内存分页就是完成对物理存在的一种分割和隔离，所以我们在完成内存分页系统设计之前必须要构建一个载体，完成对物理存在的一</p>
+        
+    
+    <time datetime="2018-02-04T16:00:00.000Z" itemprop="datePublished">2018-02-05</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2018/01/31/内存分页/" title="内存分页" itemprop="url">
+  
+    <h1 itemprop="name">内存分页</h1>
+    
+     
+           <p itemprop="description" >引言本来自己查了很多资料，想自己写出来，结果下笔的时候发现别人已经把我想写的部分全部写出来了，而且比我想的还要具体，所以我就不写了，把链接放出了，顺便我补充一些
+http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6</p>
+        
+    
+    <time datetime="2018-01-30T16:00:00.000Z" itemprop="datePublished">2018-01-31</time>
+  </a>
+</section>
+
+
+
+
+
 
   
 <section class="post" itemscope itemprop="blogitem">
@@ -225,94 +291,23 @@ http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6</p>
 
 
 
-  
-<section class="post" itemscope itemprop="blogitem">
-  
-    <a href="/2018/01/04/二叉搜索树实现原理/" title="二叉搜索树实现原理" itemprop="url">
-  
-    <h1 itemprop="name">二叉搜索树实现原理</h1>
-    
-     
-           <p itemprop="description" >本篇博客主要基于这篇博客的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍二叉搜索树的实现原理，完整代码在github的binary.go文件中
-
-浅谈”树”这种数据结构Github可视化页面
-引言之所以使用Go来实现，个人还是比较喜欢Go的，作为一个基础数据结构，Go用来实现这</p>
-        
-    
-    <time datetime="2018-01-03T16:00:00.000Z" itemprop="datePublished">2018-01-04</time>
-  </a>
-</section>
-
-
-
-
-
-
-  
-<section class="post" itemscope itemprop="blogitem">
-  
-    <a href="/2017/12/27/浅谈树这种数据结构/" title="浅谈&quot;树&quot;这种数据结构" itemprop="url">
-  
-    <h1 itemprop="name">浅谈&quot;树&quot;这种数据结构</h1>
-    
-     
-           <p itemprop="description" >一直以来我对树这种数据结构就比较头疼，随便找一个红黑树的博客，大部分都是在谈怎么旋转怎么插入怎么删除，将算法讲的头头是道，但是就算你看懂了也不懂为什么要这样做，所以我们这篇博文就从可视化的角度，慢慢的介绍这些树的来世今生。
-
-引言首先给大家推荐一个神奇的网站，我们这篇博文很大程度</p>
-        
-    
-    <time datetime="2017-12-26T16:00:00.000Z" itemprop="datePublished">2017-12-27</time>
-  </a>
-</section>
-
-
-
-
-
-
-  
-<section class="post" itemscope itemprop="blogitem">
-  
-    <a href="/2017/12/26/几个有趣的动态规划/" title="几个有趣的动态规划" itemprop="url">
-  
-    <h1 itemprop="name">几个有趣的动态规划</h1>
-    
-     
-           <p itemprop="description" >这篇博文是从问题理解动态规划的练习篇，通过几个动态规划的问题剖析进一步理解动态规划
-
-找零钱练习题
-给定一个零钱数组比如[1, 2, 5],每个值代表一个面额的纸币，给定一个总数(aim)，求换钱有多少种方法（每种面额纸币不限量）
-
-
-这个问题非常经典，所以我就从最先容易想到的算</p>
-        
-    
-    <time datetime="2017-12-25T16:00:00.000Z" itemprop="datePublished">2017-12-26</time>
-  </a>
-</section>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix unexpand">
-    <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
   </nav>
 
 </div>
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
 
   
 <div class="tagslist">
-	<p class="asidetitle">Tags</p>
+	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
 		
 			
@@ -320,15 +315,15 @@ http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6</p>
 			
 		
 			
-				<li><a href="/tags/programming/" title="programming">programming<sup>10</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/software/" title="software">software<sup>8</sup></a></li>
+				<li><a href="/tags/programming/" title="programming">programming<sup>12</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/python/" title="python">python<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/software/" title="software">software<sup>8</sup></a></li>
 			
 		
 			
@@ -348,43 +343,11 @@ http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6</p>
 			
 		
 			
-				<li><a href="/tags/TDD/" title="TDD">TDD<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/Java/" title="Java">Java<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/MySQL-ElasticSearch-Python3/" title="MySQL, ElasticSearch, Python3">MySQL, ElasticSearch, Python3<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/software-DL/" title="software, DL">software, DL<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/DL/" title="DL">DL<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/python3/" title="python3">python3<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/js/" title="js">js<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/transform/" title="transform">transform<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Python3-C/" title="Python3, C++">Python3, C++<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Python3-GIL/" title="Python3, GIL">Python3, GIL<sup>1</sup></a></li>
+				<li><a href="/tags/TDD/" title="TDD">TDD<sup>2</sup></a></li>
 			
 		
 			
@@ -392,7 +355,39 @@ http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6</p>
 			
 		
 			
+				<li><a href="/tags/big-data/" title="big-data">big-data<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/big-data-hadoop/" title="big-data hadoop">big-data hadoop<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/software-DL/" title="software, DL">software, DL<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/transform/" title="transform">transform<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/js/" title="js">js<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hadoop-Spark-Hive-Hbase/" title="Hadoop Spark Hive Hbase">Hadoop Spark Hive Hbase<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Scala-Java/" title="Scala Java">Scala Java<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL-ElasticSearch-Python3/" title="MySQL, ElasticSearch, Python3">MySQL, ElasticSearch, Python3<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/scala-Java/" title="scala Java">scala Java<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -400,7 +395,7 @@ http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6</p>
 
 
   <div class="linkslist">
-  <p class="asidetitle">Links</p>
+  <p class="asidetitle">友情链接</p>
     <ul>
         
           <li>
@@ -416,11 +411,11 @@ http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6</p>
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">Weibo</p>
+  <p class="asidetitle">新浪微博</p>
     <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5364356330&verifier=&dpc=1"></iframe>
 </div>
 
@@ -593,7 +588,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
