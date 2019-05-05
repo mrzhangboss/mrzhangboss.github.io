@@ -45,7 +45,7 @@
 				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -61,7 +61,7 @@
  					
 					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="Search" />
 					</form>
 					
 					</li>
@@ -71,6 +71,31 @@
     </header>
     <div id="container">
       <div id="main">
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2016/07/18/大数据学习小总结0/" title="大数据学习小总结" itemprop="url">
+  
+    <h1 itemprop="name">大数据学习小总结</h1>
+    
+     
+           <p itemprop="description" >最近在学习大数据,书看了不少,但是总是觉得很迷茫,不知道怎么学下去,今天突然想写点什么来总结一下这些天.
+
+起因逛博客的时候看到一篇分享如何修炼成大数据高手感觉很有趣
+买了两本书
+
+这两本书都是很多年前写的,但是最近这几年随着”大数据”被大家越炒越热,随即被大家所看重.这两个作者</p>
+        
+    
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished">2016-07-18</time>
+  </a>
+</section>
+
+
+
+
+
 
   
 <section class="post" itemscope itemprop="blogitem">
@@ -117,16 +142,12 @@
   
 <section class="post" itemscope itemprop="blogitem">
   
-    <a href="/2016/07/18/python的编码问题研究------使用scrapy体验  0/" title="python的编码问题研究------使用scrapy体验" itemprop="url">
+    <a href="/2016/07/18/python学习0/" title="python学习" itemprop="url">
   
-    <h1 itemprop="name">python的编码问题研究------使用scrapy体验</h1>
+    <h1 itemprop="name">python学习</h1>
     
      
-           <p itemprop="description" >基于python2
-
-scrapy是一款非常轻量级的爬虫框架，但是由于它隐藏了太多关于网络请求的细节，所以我们有时候会遭遇到一下很尴尬的bug，当然这主要是因为碰到一些不规范的网站。
-python的编码转码网上有很多文章，如果你不了解这个你可以参考下面了解。
-Ned Batche</p>
+           <p itemprop="description" >由于有其他编程语言基础，所以对于python的学习并不吃力，但是整体感觉python的确与前面学习c、c———1. 实时编译VS静态编译不需要输入任何前缀，直接将代码放在python解释器上面就能运行，虽然window下不支持直接点开文件就能使用，但是只要安装了python解释器</p>
         
     
     <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished">2016-07-18</time>
@@ -141,13 +162,14 @@ Ned Batche</p>
   
 <section class="post" itemscope itemprop="blogitem">
   
-    <a href="/2016/07/18/Numpy的简析0/" title="Numpy的简析" itemprop="url">
+    <a href="/2016/07/18/关于python3和python2 import区别0/" title="关于python3和python2 import区别" itemprop="url">
   
-    <h1 itemprop="name">Numpy的简析</h1>
+    <h1 itemprop="name">关于python3和python2 import区别</h1>
     
      
-           <p itemprop="description" >numpy简单来说就是python的C版数组实现,因为python原生列表虽然好使,但是生成大量数据时开销很大,而numpy是基于C的,生成大量数组非常简单,而且操作他们速度非常快.
-由于numpy是基于C的,所以numpy是一种强类型的,当然numpy是可以判断数组里面是数据类</p>
+           <p itemprop="description" >最近从python2转到python3,发现还是有一些不同,一些库改名字很好解决,但是这个import机制不了解原理是不好理解的.
+
+python2是默认相对路径导入,python3是默认绝对路径导入首先这个包的导入机制,就是你在一个module里面引用另一个module,pyt</p>
         
     
     <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished">2016-07-18</time>
@@ -211,14 +233,37 @@ string.capwords(&amp;apos;this are some words&amp;apos;</p>
   
 <section class="post" itemscope itemprop="blogitem">
   
-    <a href="/2016/07/18/关于python3和python2 import区别0/" title="关于python3和python2 import区别" itemprop="url">
+    <a href="/2016/07/18/EF搭建可扩展菜单/" title="EF搭建可扩展菜单" itemprop="url">
   
-    <h1 itemprop="name">关于python3和python2 import区别</h1>
+    <h1 itemprop="name">EF搭建可扩展菜单</h1>
     
      
-           <p itemprop="description" >最近从python2转到python3,发现还是有一些不同,一些库改名字很好解决,但是这个import机制不了解原理是不好理解的.
+           <p itemprop="description" >&amp;gt;
+由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF Code First更是坑了我一把，我想把我碰到坑给大家分享一下。1.类库的实现首先我选择树这个数据结构</p>
+        
+    
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished">2016-07-18</time>
+  </a>
+</section>
 
-python2是默认相对路径导入,python3是默认绝对路径导入首先这个包的导入机制,就是你在一个module里面引用另一个module,pyt</p>
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2016/07/18/python的编码问题研究------使用scrapy体验  0/" title="python的编码问题研究------使用scrapy体验" itemprop="url">
+  
+    <h1 itemprop="name">python的编码问题研究------使用scrapy体验</h1>
+    
+     
+           <p itemprop="description" >基于python2
+
+scrapy是一款非常轻量级的爬虫框架，但是由于它隐藏了太多关于网络请求的细节，所以我们有时候会遭遇到一下很尴尬的bug，当然这主要是因为碰到一些不规范的网站。
+python的编码转码网上有很多文章，如果你不了解这个你可以参考下面了解。
+Ned Batche</p>
         
     
     <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished">2016-07-18</time>
@@ -252,64 +297,23 @@ Python的图形处理库如PIL一直很强大，但是要想使用好它必</p>
 
 
 
-  
-<section class="post" itemscope itemprop="blogitem">
-  
-    <a href="/2016/07/18/GitHub Education Pack0/" title="GitHub Education Pack" itemprop="url">
-  
-    <h1 itemprop="name">GitHub Education Pack</h1>
-    
-     
-           <p itemprop="description" >GitHub推出一个对学生和教师的福利包,对于学生来说这是一个不小的福利,只要通过一个edu邮箱就可以领取,但奈何国内有些无良人买卖邮箱,所以GitHub对于.cn的邮箱一律拒绝,但是可以通过上传学生证的方法得到验证,题主刚开始用学校邮箱试了试,失败了,抱着试一试的心态,上传了学</p>
-        
-    
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished">2016-07-18</time>
-  </a>
-</section>
-
-
-
-
-
-
-  
-<section class="post" itemscope itemprop="blogitem">
-  
-    <a href="/2016/07/18/最近在看<<机器学习实战>>这本书,下面是我的看书的心得.0/" title="&lt;&lt;机器学习实战&gt;&gt;心得." itemprop="url">
-  
-    <h1 itemprop="name">&lt;&lt;机器学习实战&gt;&gt;心得.</h1>
-    
-     
-           <p itemprop="description" >先谈谈我对机器学习的理解什么是机器学习?我们人类有从婴儿开始就开始学习,父母教我们穿衣吃饭、老师教我们读书写字，我们开始能辨别好人坏人，开始通过自己的经验来判断新事物。
-机器学习很简单，就像人一样，我们教机器通过我们教的来判断新的事物，或者在从新的事物里面学习处理新的事物。这看起</p>
-        
-    
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished">2016-07-18</time>
-  </a>
-</section>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix unexpand">
     <a class="extend prev" rel="prev" href="/page/7/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/9/">Next<span></span></a>
   </nav>
 
 </div>
-      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
 
   
 
   
 <div class="tagslist">
-	<p class="asidetitle">标签</p>
+	<p class="asidetitle">Tags</p>
 		<ul class="clearfix">
 		
 			
@@ -353,15 +357,15 @@ Python的图形处理库如PIL一直很强大，但是要想使用好它必</p>
 			
 		
 			
+				<li><a href="/tags/big-data/" title="big-data">big-data<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/Python3/" title="Python3">Python3<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/big-data/" title="big-data">big-data<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/big-data-hadoop/" title="big-data hadoop">big-data hadoop<sup>1</sup></a></li>
+				<li><a href="/tags/Scala-Java/" title="Scala Java">Scala Java<sup>1</sup></a></li>
 			
 		
 			
@@ -381,7 +385,7 @@ Python的图形处理库如PIL一直很强大，但是要想使用好它必</p>
 			
 		
 			
-				<li><a href="/tags/Scala-Java/" title="Scala Java">Scala Java<sup>1</sup></a></li>
+				<li><a href="/tags/big-data-hadoop/" title="big-data hadoop">big-data hadoop<sup>1</sup></a></li>
 			
 		
 			
@@ -397,7 +401,7 @@ Python的图形处理库如PIL一直很强大，但是要想使用好它必</p>
 
 
   <div class="linkslist">
-  <p class="asidetitle">友情链接</p>
+  <p class="asidetitle">Links</p>
     <ul>
         
           <li>
@@ -413,11 +417,11 @@ Python的图形处理库如PIL一直很强大，但是要想使用好它必</p>
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">新浪微博</p>
+  <p class="asidetitle">Weibo</p>
     <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5364356330&verifier=&dpc=1"></iframe>
 </div>
 
@@ -590,7 +594,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
