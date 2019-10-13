@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mrzhangboss.github.io/"/>
-  <updated>2019-10-06T09:07:33.660Z</updated>
+  <updated>2019-10-13T09:16:18.743Z</updated>
   <id>https://mrzhangboss.github.io/</id>
   
   <author>
@@ -15,6 +15,49 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Apache Atlas 2.0.0部署实践</title>
+    <link href="https://mrzhangboss.github.io/2019/10/12/ApacheAtlas%E9%83%A8%E7%BD%B2%E5%AE%9E%E8%B7%B5/"/>
+    <id>https://mrzhangboss.github.io/2019/10/12/ApacheAtlas部署实践/</id>
+    <published>2019-10-11T16:00:00.000Z</published>
+    <updated>2019-10-13T09:16:18.743Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;Atlas 是一个可扩展和可扩展的核心基础治理服务集 - 使企业能够有效地和高效地满足 Hadoop 中的合规性要求，并允许与整个企业数据生态系统的集成。[来自百科]&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img
+        
+      
+    
+    </summary>
+    
+    
+      <category term="big-data" scheme="https://mrzhangboss.github.io/tags/big-data/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>深入MapReduce</title>
+    <link href="https://mrzhangboss.github.io/2019/10/06/%E6%B7%B1%E5%85%A5MapReduce/"/>
+    <id>https://mrzhangboss.github.io/2019/10/06/深入MapReduce/</id>
+    <published>2019-10-05T16:00:00.000Z</published>
+    <updated>2019-10-06T09:08:21.825Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+      <category term="big-data hadoop" scheme="https://mrzhangboss.github.io/tags/big-data-hadoop/"/>
+    
+  </entry>
   
   <entry>
     <title>如何真正精通</title>
@@ -468,56 +511,6 @@
     
     
       <category term="Java" scheme="https://mrzhangboss.github.io/tags/Java/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>从MNIST了解卷积神经网络</title>
-    <link href="https://mrzhangboss.github.io/2018/04/24/%E4%BB%8EMNIST%E4%BA%86%E8%A7%A3%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/"/>
-    <id>https://mrzhangboss.github.io/2018/04/24/从MNIST了解卷积神经网络/</id>
-    <published>2018-04-23T16:00:00.000Z</published>
-    <updated>2018-04-25T00:27:55.712Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h2 id=&quot;引言&quot;&gt;&lt;a href=&quot;#引言&quot; class=&quot;headerlink&quot; title=&quot;引言&quot;&gt;&lt;/a&gt;引言&lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;本文是学习Tensorflow&lt;a
-        
-      
-    
-    </summary>
-    
-    
-      <category term="DL" scheme="https://mrzhangboss.github.io/tags/DL/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Ubuntu16.04安装Tensorflow的CPU优化</title>
-    <link href="https://mrzhangboss.github.io/2018/04/19/Ubuntu14%E5%AE%89%E8%A3%85Tensorflow%E7%9A%84CPU%E4%BC%98%E5%8C%96/"/>
-    <id>https://mrzhangboss.github.io/2018/04/19/Ubuntu14安装Tensorflow的CPU优化/</id>
-    <published>2018-04-18T16:00:00.000Z</published>
-    <updated>2019-02-24T07:33:05.282Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;blockquote&gt;
-&lt;p&gt;由于我的笔记本是农卡，没法安装CUDA加速，而且我的显卡只有2G显存，安装OpenCL费力不讨好，而且由于我有一个Google云的300美元的体验，所以可以在Google云上使用TPU来进行加速，所以我就干脆不安装显卡加速，但是Tensorflow
-        
-      
-    
-    </summary>
-    
-    
-      <category term="software, DL" scheme="https://mrzhangboss.github.io/tags/software-DL/"/>
     
   </entry>
   
