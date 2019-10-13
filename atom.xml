@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mrzhangboss.github.io/"/>
-  <updated>2019-10-13T09:16:18.743Z</updated>
+  <updated>2019-10-13T10:27:03.939Z</updated>
   <id>https://mrzhangboss.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>FlinkSQL Client实战</title>
+    <link href="https://mrzhangboss.github.io/2019/10/12/FlinkSQLClient%E5%AE%9E%E6%88%98/"/>
+    <id>https://mrzhangboss.github.io/2019/10/12/FlinkSQLClient实战/</id>
+    <published>2019-10-11T16:00:00.000Z</published>
+    <updated>2019-10-13T10:27:03.939Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;Flink SQL Client 是一个帮助用户直接运行SQL，而不要进行编译运行的工具，首先他支持多个数据源，在Flink1.9.0中支持了Hive，这样就把批处理和流计算结合了起来，这篇博客详解了Hive在Flink SQL
+        
+      
+    
+    </summary>
+    
+    
+      <category term="big-data Flink hive" scheme="https://mrzhangboss.github.io/tags/big-data-Flink-hive/"/>
+    
+  </entry>
   
   <entry>
     <title>Apache Atlas 2.0.0部署实践</title>
@@ -480,30 +505,6 @@
         
         
           &lt;h2 id=&quot;引言&quot;&gt;&lt;a href=&quot;#引言&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-    
-      <category term="Java" scheme="https://mrzhangboss.github.io/tags/Java/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>从例子里解Spring IOC</title>
-    <link href="https://mrzhangboss.github.io/2018/05/28/%E4%BB%8E%E4%BE%8B%E5%AD%90%E9%87%8C%E8%A7%A3Spring%20IOC/"/>
-    <id>https://mrzhangboss.github.io/2018/05/28/从例子里解Spring IOC/</id>
-    <published>2018-05-27T16:00:00.000Z</published>
-    <updated>2018-05-28T12:44:51.382Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h2 id=&quot;Spring的IOC理解&quot;&gt;&lt;a href=&quot;#Spring的IOC理解&quot; class=&quot;headerlink&quot; title=&quot;Spring的IOC理解&quot;&gt;&lt;/a&gt;Spring的IOC理解&lt;/h2&gt;&lt;h2 id=&quot;什么是IOC&quot;&gt;&lt;a
         
       
     

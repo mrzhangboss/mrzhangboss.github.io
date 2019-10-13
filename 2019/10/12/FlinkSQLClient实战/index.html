@@ -4,35 +4,35 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>FastProxyScan项目介绍 | lunge博客</title>
+    <title>FlinkSQL Client实战 | lunge博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="张伦">
     
 
     
-    <meta name="description" content="为了给我的站点增加人气，我把这个项目的介绍放到我的博客，如果你觉得这个项目还不错的话，请不要吝啬你的star
+    <meta name="description" content="Flink SQL Client 是一个帮助用户直接运行SQL，而不要进行编译运行的工具，首先他支持多个数据源，在Flink1.9.0中支持了Hive，这样就把批处理和流计算结合了起来，这篇博客详解了Hive在Flink SQL Client中的安装和使用，以及探索在上面做的一些复杂开发实践
 
-github传送门Demo传送门
-引子一开始自己只想做一个代理池，于是搜了搜Github发现类似的项目，大多数都是爬取网上的一些代理商的免费代理，这部分代理大多都是没有用的，可用性非常低，于是我自己就干脆做一个“代理商”，自己扫描主机把可用的代理扫描出来。
-但是现在网络主机实在太多了，">
+Hive安装依赖的jar包如下
+antlr4-runtime-4.5.jar        
+flin">
 <meta property="og:type" content="article">
-<meta property="og:title" content="FastProxyScan项目介绍">
-<meta property="og:url" content="https://mrzhangboss.github.io/2017/11/23/FastProxyScan-Introduction/index.html">
+<meta property="og:title" content="FlinkSQL Client实战">
+<meta property="og:url" content="https://mrzhangboss.github.io/2019/10/12/FlinkSQLClient实战/index.html">
 <meta property="og:site_name" content="lunge博客">
-<meta property="og:description" content="为了给我的站点增加人气，我把这个项目的介绍放到我的博客，如果你觉得这个项目还不错的话，请不要吝啬你的star
+<meta property="og:description" content="Flink SQL Client 是一个帮助用户直接运行SQL，而不要进行编译运行的工具，首先他支持多个数据源，在Flink1.9.0中支持了Hive，这样就把批处理和流计算结合了起来，这篇博客详解了Hive在Flink SQL Client中的安装和使用，以及探索在上面做的一些复杂开发实践
 
-github传送门Demo传送门
-引子一开始自己只想做一个代理池，于是搜了搜Github发现类似的项目，大多数都是爬取网上的一些代理商的免费代理，这部分代理大多都是没有用的，可用性非常低，于是我自己就干脆做一个“代理商”，自己扫描主机把可用的代理扫描出来。
-但是现在网络主机实在太多了，">
-<meta property="og:updated_time" content="2017-12-01T00:38:16.899Z">
+Hive安装依赖的jar包如下
+antlr4-runtime-4.5.jar        
+flin">
+<meta property="og:updated_time" content="2019-10-13T10:27:03.939Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="FastProxyScan项目介绍">
-<meta name="twitter:description" content="为了给我的站点增加人气，我把这个项目的介绍放到我的博客，如果你觉得这个项目还不错的话，请不要吝啬你的star
+<meta name="twitter:title" content="FlinkSQL Client实战">
+<meta name="twitter:description" content="Flink SQL Client 是一个帮助用户直接运行SQL，而不要进行编译运行的工具，首先他支持多个数据源，在Flink1.9.0中支持了Hive，这样就把批处理和流计算结合了起来，这篇博客详解了Hive在Flink SQL Client中的安装和使用，以及探索在上面做的一些复杂开发实践
 
-github传送门Demo传送门
-引子一开始自己只想做一个代理池，于是搜了搜Github发现类似的项目，大多数都是爬取网上的一些代理商的免费代理，这部分代理大多都是没有用的，可用性非常低，于是我自己就干脆做一个“代理商”，自己扫描主机把可用的代理扫描出来。
-但是现在网络主机实在太多了，">
+Hive安装依赖的jar包如下
+antlr4-runtime-4.5.jar        
+flin">
 <meta name="twitter:creator" content="@mrzhangboss">
 
     
@@ -92,14 +92,14 @@ github传送门Demo传送门
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/11/23/FastProxyScan-Introduction/" title="FastProxyScan项目介绍" itemprop="url">FastProxyScan项目介绍</a>
+      <a href="/2019/10/12/FlinkSQLClient实战/" title="FlinkSQL Client实战" itemprop="url">FlinkSQL Client实战</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2017-11-22T16:00:00.000Z" itemprop="datePublished"> Published 2017-11-23</time>
+    <time datetime="2019-10-11T16:00:00.000Z" itemprop="datePublished"> Published 2019-10-12</time>
     
   </p>
 </header>
@@ -108,88 +108,38 @@ github传送门Demo传送门
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引子"><span class="toc-number">1.</span> <span class="toc-text">引子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#项目依赖"><span class="toc-number">2.</span> <span class="toc-text">项目依赖</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#项目结构"><span class="toc-number">3.</span> <span class="toc-text">项目结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装教程"><span class="toc-number">4.</span> <span class="toc-text">安装教程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Hive安装"><span class="toc-number">1.</span> <span class="toc-text">Hive安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hive使用中遇到的问题"><span class="toc-number">2.</span> <span class="toc-text">Hive使用中遇到的问题</span></a></li></ol>
 		
 		</div>
 		
 		<blockquote>
-<p>为了给我的站点增加人气，我把这个项目的介绍放到我的博客，如果你觉得这个项目还不错的话，请不要吝啬你的star</p>
+<p>Flink SQL Client 是一个帮助用户直接运行SQL，而不要进行编译运行的工具，首先他支持多个数据源，在Flink1.9.0中支持了Hive，这样就把批处理和流计算结合了起来，这篇博客详解了Hive在Flink SQL Client中的安装和使用，以及探索在上面做的一些复杂开发实践</p>
 </blockquote>
-<p><a href="https://github.com/mrzhangboss/FastProxyScan" target="_blank" rel="external">github传送门</a><br><a href="http://115.159.146.115" target="_blank" rel="external">Demo传送门</a></p>
-<h2 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h2><p>一开始自己只想做一个代理池，于是搜了搜Github发现类似的项目，大多数都是爬取网上的一些代理商的免费代理，这部分代理大多都是没有用的，可用性非常低，于是我自己就干脆做一个“代理商”，自己扫描主机把可用的代理扫描出来。</p>
-<p>但是现在网络主机实在太多了，至少几百万台，所以这个项目的核心就是快速扫描，在最短的时间内检测更多的代理，目前项目的速度最好只能完成1000代理每小时的速度（日扫描两万代理），希望能继续优化代码，加快速度，如果你对这个项目感兴趣可以Fork下来，欢迎各位的Pull Request </p>
-<h2 id="项目依赖"><a href="#项目依赖" class="headerlink" title="项目依赖"></a>项目依赖</h2><p>项目基于Python3.5+开发</p>
-<p>软件依赖</p>
-<ul>
-<li>nmap</li>
-</ul>
-<h2 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h2><p>项目主要由三个部分组成</p>
-<ul>
-<li>主机扫描</li>
-<li>端口检测</li>
-<li>代理检查</li>
-</ul>
-<p>项目结构为</p>
-<ul>
-<li>proxy_pool</li>
-<li><ul>
-<li>scanner</li>
-</ul>
-</li>
-<li><ul>
-<li>display</li>
-</ul>
-</li>
-<li><ul>
-<li>database</li>
-</ul>
-</li>
-</ul>
-<p>现在依次介绍在搜索速度上的优化</p>
-<ul>
-<li>主机搜索</li>
-</ul>
-<p>全球的IP都是有ISP统一分配的，ISP主要由下面几大洲分配，我们中国处于亚太区，所以我们的IP由亚太互联网络信息中心（APNIC）分配IP，目前中国分配的IPV4总数为3亿左右，这个数量还是比较大</p>
-<p>我们可以从 <a href="http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest" target="_blank" rel="external">http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest</a>下载最新分配的IP地址</p>
-<p>但是代理服务器只存在特定的服务器上，所以现在版本还没有发布V1.0主要是因为搜索的效果不是很好（搜索的主机代理转换率太低），目前还在想其他方法，等有更好的解决方法就会发布V1.0</p>
-<ul>
-<li>端口检测</li>
-</ul>
-<p>使用<code>nmap</code>的“TCP SYN scan”最大化加快端口检测速度（需要root权限）</p>
-<ul>
-<li>代理检测</li>
-</ul>
-<p>使用<code>nmap</code>先验端口与<code>Python</code>异步最大化代理检测速率</p>
-<h2 id="安装教程"><a href="#安装教程" class="headerlink" title="安装教程"></a>安装教程</h2><p>项目采用Django做后台管理，所以只需要一点Django基础知识就能在这个项目上做二次开发，如果你只想获取最新的可用代理，可以通过<a href="http://115.159.146.115" target="_blank" rel="external">http://115.159.146.115</a> 调用API接口获取最新可用代理（我的站点带宽有限，所以只开放最新100个代理，并且只是20分钟更新一次）</p>
-<p>环境安装</p>
-<ul>
-<li>nmap 安装</li>
-<li>python3.5+ 安装</li>
-</ul>
-<p>运行：</p>
-<pre><code>git clone https://github.com/mrzhangboss/FastProxyScan.git
-cd FastProxyScan
-python3.5 install -r requirement.txt
-</code></pre><ul>
-<li>主机检测</li>
-</ul>
-<pre><code>cd pool/proxy_pool
-sudo python3.5 manage.py scan --vps
-</code></pre><ul>
-<li><p>端口检测</p>
-<p>  sudo python3.5 manage.py scan  –proxy -m 100</p>
-</li>
-</ul>
-<p>m是并行参数，值越大速度越快</p>
-<ul>
-<li><p>代理检测</p>
-<p>  sudo python3.5 manage.py check –start -c <a href="http://115.159.146.115/ip" target="_blank" rel="external">http://115.159.146.115/ip</a></p>
-</li>
-</ul>
-<p>c是检测ip头网址，可以使用我提供的 <a href="http://115.159.146.115/ip" target="_blank" rel="external">http://115.159.146.115/ip</a> 返回请求头，可以参考我的上一篇博文 <a href="http://blog.zhanglun.me/2017/11/20/%E4%BB%A3%E7%90%86%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/" target="_blank" rel="external">代理的前世今生</a></p>
-<p>在我搭建的DEMO站点上，我使用supervisor让这三个程序循环运行，你可以使用crontab定时调度也可以像我一样。</p>
-<p>数据库当前采用的Sqlite3，但是数据库模型全部使用ORM开发，你可以很方便的修改<code>settings.py</code>来放入其他数据库，如果你懂一点Django的话</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>如果你像了解更多开发这个项目背后的知识的话，可以看看我上一篇博文 <a href="http://blog.zhanglun.me/2017/11/20/%E4%BB%A3%E7%90%86%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/" target="_blank" rel="external">代理的前世今生</a></p>
+<h2 id="Hive安装"><a href="#Hive安装" class="headerlink" title="Hive安装"></a>Hive安装</h2><p>依赖的<code>jar</code>包如下</p>
+<pre><code>antlr4-runtime-4.5.jar        
+flink-connector-hive_2.11-1.9.0.jar
+antlr-runtime-3.5.2.jar        
+flink-hadoop-compatibility_2.11-1.9.0.jar
+datanucleus-api-jdo-4.2.4.jar  
+hive-exec-2.3.4.jar
+datanucleus-api-jdo-5.2.2.jar 
+javax.jdo-3.2.0-m3.jar
+datanucleus-core-4.1.17.jar   
+datanucleus-rdbms-4.1.9.jar    
+flink-shaded-hadoop-2-uber-2.7.5-8.0.jar
+</code></pre><p>将这些复制到<code>flink/lib</code>目录下面即可，下面是下载链接</p>
+<p><a href="https://drive.google.com/file/d/1WDFFa6ePkIu4Wft_0jEEhS7ekto5_DSo/view?usp=sharing" target="_blank" rel="external">Google Driver下载地址</a><br>百度云提取码：ghea <a href="https://pan.baidu.com/s/1EA8YRUKjC7OzhJ3MPA0GlA" target="_blank" rel="external">百度云下载地址</a></p>
+<h2 id="Hive使用中遇到的问题"><a href="#Hive使用中遇到的问题" class="headerlink" title="Hive使用中遇到的问题"></a>Hive使用中遇到的问题</h2><ol>
+<li>目前只支持2.3.4和1.2.1</li>
+<li>支持的类型有限，时间类型只支持1个<code>Date</code><br>PS: Sqoop导入数据库表到Hive的时候，只能将<code>DateTime</code>和<code>TimeStamp</code>设置为<code>String</code>，否则无法在Client中使用</li>
+<li>跨越<code>Catalog</code>读取表的时候Hive不能存放在<code>default</code>（默认）数据库中，否则会解析异常</li>
+</ol>
+<p>例如：想从Hive默认数据库中获取表<code>a</code>，使用<code>insert b select * from hive_catalog.default.a</code>会解析失败</p>
+<ol>
+<li>Hive不支持写入分区表，也不支持Overwrite，只支持append模式</li>
+</ol>
+<hr>
+<p>未完待续</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -198,7 +148,7 @@ sudo python3.5 manage.py scan --vps
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/github/">github</a>
+  <span></span> <a href="/tags/big-data-Flink-hive/">big-data Flink hive</a>
   </div>
 
 </div>
@@ -207,7 +157,7 @@ sudo python3.5 manage.py scan --vps
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://mrzhangboss.github.io/2017/11/23/FastProxyScan-Introduction/" data-title="FastProxyScan项目介绍 | lunge博客" data-tsina="5364356330" class="share clearfix">
+	  <div data-url="https://mrzhangboss.github.io/2019/10/12/FlinkSQLClient实战/" data-title="FlinkSQL Client实战 | lunge博客" data-tsina="5364356330" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -220,19 +170,11 @@ sudo python3.5 manage.py scan --vps
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2017/11/25/巧用Git钩子/" title="巧用Git钩子">
-  <strong>上一篇：</strong><br/>
-  <span>
-  巧用Git钩子</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2017/11/20/代理的前世今生/"  title="代理的前世今生">
+<a href="/2019/10/12/ApacheAtlas部署实践/"  title="Apache Atlas 2.0.0部署实践">
  <strong>下一篇：</strong><br/> 
- <span>代理的前世今生
+ <span>Apache Atlas 2.0.0部署实践
 </span>
 </a>
 </div>
@@ -241,7 +183,7 @@ sudo python3.5 manage.py scan --vps
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2017/11/23/FastProxyScan-Introduction/" data-title="FastProxyScan项目介绍" data-url="https://mrzhangboss.github.io/2017/11/23/FastProxyScan-Introduction/"></div>
+	<div class="ds-thread" data-thread-key="2019/10/12/FlinkSQLClient实战/" data-title="FlinkSQL Client实战" data-url="https://mrzhangboss.github.io/2019/10/12/FlinkSQLClient实战/"></div>
 </section>
 
 
@@ -253,7 +195,7 @@ sudo python3.5 manage.py scan --vps
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引子"><span class="toc-number">1.</span> <span class="toc-text">引子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#项目依赖"><span class="toc-number">2.</span> <span class="toc-text">项目依赖</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#项目结构"><span class="toc-number">3.</span> <span class="toc-text">项目结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装教程"><span class="toc-number">4.</span> <span class="toc-text">安装教程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Hive安装"><span class="toc-number">1.</span> <span class="toc-text">Hive安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hive使用中遇到的问题"><span class="toc-number">2.</span> <span class="toc-text">Hive使用中遇到的问题</span></a></li></ol>
  
   </div>
 
