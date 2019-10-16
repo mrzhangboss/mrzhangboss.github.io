@@ -45,7 +45,7 @@
 				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -61,7 +61,7 @@
  					
 					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
 					</form>
 					
 					</li>
@@ -71,6 +71,27 @@
     </header>
     <div id="container">
       <div id="main">
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2016/07/18/Numpy的简析0/" title="Numpy的简析" itemprop="url">
+  
+    <h1 itemprop="name">Numpy的简析</h1>
+    
+     
+           <p itemprop="description" >numpy简单来说就是python的C版数组实现,因为python原生列表虽然好使,但是生成大量数据时开销很大,而numpy是基于C的,生成大量数组非常简单,而且操作他们速度非常快.
+由于numpy是基于C的,所以numpy是一种强类型的,当然numpy是可以判断数组里面是数据类</p>
+        
+    
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished">2016-07-18</time>
+  </a>
+</section>
+
+
+
+
+
 
   
 <section class="post" itemscope itemprop="blogitem">
@@ -95,14 +116,16 @@
   
 <section class="post" itemscope itemprop="blogitem">
   
-    <a href="/2016/07/18/关于python3和python2 import区别0/" title="关于python3和python2 import区别" itemprop="url">
+    <a href="/2016/07/18/python的编码问题研究------使用scrapy体验  0/" title="python的编码问题研究------使用scrapy体验" itemprop="url">
   
-    <h1 itemprop="name">关于python3和python2 import区别</h1>
+    <h1 itemprop="name">python的编码问题研究------使用scrapy体验</h1>
     
      
-           <p itemprop="description" >最近从python2转到python3,发现还是有一些不同,一些库改名字很好解决,但是这个import机制不了解原理是不好理解的.
+           <p itemprop="description" >基于python2
 
-python2是默认相对路径导入,python3是默认绝对路径导入首先这个包的导入机制,就是你在一个module里面引用另一个module,pyt</p>
+scrapy是一款非常轻量级的爬虫框架，但是由于它隐藏了太多关于网络请求的细节，所以我们有时候会遭遇到一下很尴尬的bug，当然这主要是因为碰到一些不规范的网站。
+python的编码转码网上有很多文章，如果你不了解这个你可以参考下面了解。
+Ned Batche</p>
         
     
     <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished">2016-07-18</time>
@@ -138,26 +161,6 @@ python2是默认相对路径导入,python3是默认绝对路径导入首先这�
   
 <section class="post" itemscope itemprop="blogitem">
   
-    <a href="/2016/07/18/在Linux下玩转Vim0/" title="在Linux下玩转Vim" itemprop="url">
-  
-    <h1 itemprop="name">在Linux下玩转Vim</h1>
-    
-     
-           <p itemprop="description" >学了鸟哥的书前面基础后，突然想在Linux下用gcc玩C语言，然后了解到了Vim这个神一样的编译器，接下来经过超长时间虐心的安装无数插件无数依赖包，突然有种打自己一顿的感觉，还好终于把Vim装的和VS差不多了，接下来我介绍我安装Vim的经验吧。我虚拟机下的Linux原来是红旗6的</p>
-        
-    
-    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished">2016-07-18</time>
-  </a>
-</section>
-
-
-
-
-
-
-  
-<section class="post" itemscope itemprop="blogitem">
-  
     <a href="/2016/07/18/python学习0/" title="python学习" itemprop="url">
   
     <h1 itemprop="name">python学习</h1>
@@ -178,17 +181,41 @@ python2是默认相对路径导入,python3是默认绝对路径导入首先这�
   
 <section class="post" itemscope itemprop="blogitem">
   
-    <a href="/2016/07/18/大数据学习小总结0/" title="大数据学习小总结" itemprop="url">
+    <a href="/2016/07/18/字符串处理0/" title="字符串处理" itemprop="url">
   
-    <h1 itemprop="name">大数据学习小总结</h1>
+    <h1 itemprop="name">字符串处理</h1>
     
      
-           <p itemprop="description" >最近在学习大数据,书看了不少,但是总是觉得很迷茫,不知道怎么学下去,今天突然想写点什么来总结一下这些天.
+           <p itemprop="description" >string
+原来的很多函数都逐渐迁移到str和unicode对象上去了,不过有两个函数没有迁移出去
 
-起因逛博客的时候看到一篇分享如何修炼成大数据高手感觉很有趣
-买了两本书
 
-这两本书都是很多年前写的,但是最近这几年随着”大数据”被大家越炒越热,随即被大家所看重.这两个作者</p>
+第一个是capwords
+
+个人觉得没什么卵用就是将英文单词首字母大写
+
+比如
+string.capwords(&amp;apos;this are some words&amp;apos;</p>
+        
+    
+    <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished">2016-07-18</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2016/07/18/ 阿里云服务器初体验0/" title="阿里云服务器初体验" itemprop="url">
+  
+    <h1 itemprop="name">阿里云服务器初体验</h1>
+    
+     
+           <p itemprop="description" >申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。1.用户名和密码找了半天没有找到那个是用户名，试了实例的id，没有用，最后终于在登录帮助名里面找到了，用户名竟然是root！！！！,我用的是Ubuntu系统，说好的Ubuntu不提供root权限的呢，阿里还真会改</p>
         
     
     <time datetime="2016-07-18T08:07:36.000Z" itemprop="datePublished">2016-07-18</time>
@@ -206,17 +233,17 @@ python2是默认相对路径导入,python3是默认绝对路径导入首先这�
   </nav>
 
 </div>
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
 
   
 <div class="tagslist">
-	<p class="asidetitle">Tags</p>
+	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
 		
 			
@@ -272,7 +299,7 @@ python2是默认相对路径导入,python3是默认绝对路径导入首先这�
 			
 		
 			
-				<li><a href="/tags/big-data-Flink-hive/" title="big-data Flink hive">big-data Flink hive<sup>1</sup></a></li>
+				<li><a href="/tags/Flink/" title="Flink">Flink<sup>1</sup></a></li>
 			
 		
 			
@@ -304,7 +331,7 @@ python2是默认相对路径导入,python3是默认绝对路径导入首先这�
 
 
   <div class="linkslist">
-  <p class="asidetitle">Links</p>
+  <p class="asidetitle">友情链接</p>
     <ul>
         
           <li>
@@ -320,11 +347,11 @@ python2是默认相对路径导入,python3是默认绝对路径导入首先这�
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">Weibo</p>
+  <p class="asidetitle">新浪微博</p>
     <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5364356330&verifier=&dpc=1"></iframe>
 </div>
 
@@ -497,7 +524,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

@@ -4,32 +4,32 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>AVL树实现原理 | lunge博客</title>
+    <title>Flink批和流处理的思考 | lunge博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="张伦">
     
 
     
-    <meta name="description" content="本篇博客主要基于这篇博客的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍AVL树的实现原理，完整代码在github的avl.go文件中
+    <meta name="description" content="随着2019年8月份，Flink1.9.0正式发布，Flink并入Blink代码，开始同时支持批和流的处理，于此同时，批量同时处理所遇到的问题也就产生了
 
-浅谈”树”这种数据结构Github可视化页面
-引言AVL树是在对二叉搜索树的一种优化，通过构造一棵高度平衡的二叉搜索树从而实现提高空间利用率，所以在了解如何实现之前，必须了解如何构造一棵二叉搜索树，你可以阅读我的这篇博客了解如何构建一棵二叉搜索树，虽然我是用">
+首先我们要知道，什么是批，什么是流，批好比一瓶水，我们看到到它在那里，流就像雨水，我们只能看着它慢慢的从天上掉下来，什么时候掉完我们不知道
+批处理解决我们非常好理解，分而治之即可，然而对于流数据的解决该如何呢，当然也是分而治之，但是我们分的是">
 <meta property="og:type" content="article">
-<meta property="og:title" content="AVL树实现原理">
-<meta property="og:url" content="https://mrzhangboss.github.io/2018/01/04/AVL树实现原理/index.html">
+<meta property="og:title" content="Flink批和流处理的思考">
+<meta property="og:url" content="https://mrzhangboss.github.io/2019/10/16/Flink批和流处理的思考/index.html">
 <meta property="og:site_name" content="lunge博客">
-<meta property="og:description" content="本篇博客主要基于这篇博客的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍AVL树的实现原理，完整代码在github的avl.go文件中
+<meta property="og:description" content="随着2019年8月份，Flink1.9.0正式发布，Flink并入Blink代码，开始同时支持批和流的处理，于此同时，批量同时处理所遇到的问题也就产生了
 
-浅谈”树”这种数据结构Github可视化页面
-引言AVL树是在对二叉搜索树的一种优化，通过构造一棵高度平衡的二叉搜索树从而实现提高空间利用率，所以在了解如何实现之前，必须了解如何构造一棵二叉搜索树，你可以阅读我的这篇博客了解如何构建一棵二叉搜索树，虽然我是用">
-<meta property="og:updated_time" content="2018-01-05T09:52:21.427Z">
+首先我们要知道，什么是批，什么是流，批好比一瓶水，我们看到到它在那里，流就像雨水，我们只能看着它慢慢的从天上掉下来，什么时候掉完我们不知道
+批处理解决我们非常好理解，分而治之即可，然而对于流数据的解决该如何呢，当然也是分而治之，但是我们分的是">
+<meta property="og:updated_time" content="2019-10-16T14:14:51.785Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="AVL树实现原理">
-<meta name="twitter:description" content="本篇博客主要基于这篇博客的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍AVL树的实现原理，完整代码在github的avl.go文件中
+<meta name="twitter:title" content="Flink批和流处理的思考">
+<meta name="twitter:description" content="随着2019年8月份，Flink1.9.0正式发布，Flink并入Blink代码，开始同时支持批和流的处理，于此同时，批量同时处理所遇到的问题也就产生了
 
-浅谈”树”这种数据结构Github可视化页面
-引言AVL树是在对二叉搜索树的一种优化，通过构造一棵高度平衡的二叉搜索树从而实现提高空间利用率，所以在了解如何实现之前，必须了解如何构造一棵二叉搜索树，你可以阅读我的这篇博客了解如何构建一棵二叉搜索树，虽然我是用">
+首先我们要知道，什么是批，什么是流，批好比一瓶水，我们看到到它在那里，流就像雨水，我们只能看着它慢慢的从天上掉下来，什么时候掉完我们不知道
+批处理解决我们非常好理解，分而治之即可，然而对于流数据的解决该如何呢，当然也是分而治之，但是我们分的是">
 <meta name="twitter:creator" content="@mrzhangboss">
 
     
@@ -89,14 +89,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2018/01/04/AVL树实现原理/" title="AVL树实现原理" itemprop="url">AVL树实现原理</a>
+      <a href="/2019/10/16/Flink批和流处理的思考/" title="Flink批和流处理的思考" itemprop="url">Flink批和流处理的思考</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
 		
   <p class="article-time">
-    <time datetime="2018-01-03T16:00:00.000Z" itemprop="datePublished"> 发表于 2018-01-04</time>
+    <time datetime="2019-10-15T16:00:00.000Z" itemprop="datePublished"> 发表于 2019-10-16</time>
     
   </p>
 </header>
@@ -105,26 +105,37 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#树的字段"><span class="toc-number">1.1.</span> <span class="toc-text">树的字段</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AVL树的“增”"><span class="toc-number">2.</span> <span class="toc-text">AVL树的“增”</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引用"><span class="toc-number">3.</span> <span class="toc-text">引用</span></a></li></ol>
+			
 		
 		</div>
 		
 		<blockquote>
-<p>本篇博客主要基于这篇<a href="/2017/12/27/浅谈树这种数据结构/">博客</a>的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍AVL树的实现原理，完整代码在<a href="https://github.com/mrzhangboss/trees" target="_blank" rel="external">github</a>的<code>avl.go</code>文件中</p>
+<p>随着2019年8月份，Flink1.9.0正式发布，Flink并入Blink代码，开始同时支持批和流的处理，于此同时，批量同时处理所遇到的问题也就产生了</p>
 </blockquote>
-<p><a href="/2017/12/27/浅谈树这种数据结构/">浅谈”树”这种数据结构</a><br><a href="https://github.com/mrzhangboss/trees" title="github" target="_blank" rel="external">Github</a><br><a href="http://www.cs.usfca.edu/~galles/visualization/AVLtree.html" target="_blank" rel="external">可视化页面</a></p>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>AVL树是在对二叉搜索树的一种优化，通过构造一棵高度平衡的二叉搜索树从而实现提高空间利用率，所以在了解如何实现之前，必须了解如何构造一棵二叉搜索树，你可以阅读我的这篇<a href="/2018/01/04/二叉搜索树实现原理/">博客</a>了解如何构建一棵二叉搜索树，虽然我是用Go来实现的，但是不必了解太多Go方面的知识，我在博客中尽量使用图片的方式来介绍实现原理</p>
-<p><a href="/2018/01/04/二叉搜索树实现原理/">二叉搜索树实现原理</a></p>
-<p>由于AVL树本质上也是一棵二叉搜索树，查找并不会改变树的性质，所以AVL的查找也是同二叉搜索树的查询相同，所以这里就重点介绍如何实现“增”和“删”</p>
-<h3 id="树的字段"><a href="#树的字段" class="headerlink" title="树的字段"></a>树的字段</h3><p>在开始介绍如何实现“增”、“删”之前，我想提一下AVL树的存贮字段，在wiki上面的AVL和很多资料上面，AVL的树结构分别由下面四个组成： Val、 Left*、Right*、Parent*。</p>
-<p>Val代表树存贮的值，Left、Right、Parent代表三个指针，分别指向左子树，右子树，父亲，而在我的实现中，我去掉了父亲指针，对于讲解来说，使用一个父指针能很好的解决从子遍历到父亲的经过，但在实际的应用中，我们完全可以使用一个列表存贮从父亲到儿子之间的值，这样的话，能实现一样的功能，而且能节省存贮空间（每个子树都少了一个父指针），但是相应的程序也变得比较复杂起来。</p>
-<p>虽然我在讲解的过程中会直接获取节点的父节点，但是在实际的代码实现中，是通过获取从列表中获取该节点的父节点。</p>
-<h2 id="AVL树的“增”"><a href="#AVL树的“增”" class="headerlink" title="AVL树的“增”"></a>AVL树的“增”</h2><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://en.wikipedia.org/wiki/AVL_tree" target="_blank" rel="external">https://en.wikipedia.org/wiki/AVL_tree</a></p>
+<p>首先我们要知道，什么是批，什么是流，批好比一瓶水，我们看到到它在那里，流就像雨水，我们只能看着它慢慢的从天上掉下来，什么时候掉完我们不知道</p>
+<p>批处理解决我们非常好理解，分而治之即可，然而对于流数据的解决该如何呢，当然也是分而治之，但是我们分的是时间，所以对于流数据最重要的第一是不能让历史数据沉淀下来</p>
+<p>我们回到现实中，理想状态我们处理数据总希望数据全部都能获取到，由于数据库三范式的存在，我们的数据不是完整的，比如消费记录只会存一个id代表用户，而我们希望统计用户记录的年龄分布就不能只通过记录表来实现</p>
+<p>所以我们第一个挑战就是<code>Join</code>，把多个维度表汇集到一起，什么是<code>Join</code>呢，就是把不同的表进行分组，我们这里就不讨论大表和大表的<code>Join</code>，因为这个不是<code>Flink</code>的强项，对于这个来说，我只能说<code>MapReduce</code>欢迎您。</p>
+<p>我们就讨论一种情况，大表处理表，小表配置表，因为这代表实际大数据处理的中最常见的情况，由于Flink的批流一致的支持，我们现在处理<code>Join</code>有两张情况</p>
+<p>第一种是批流进行<code>Join</code>，第二种是流和流（双流）<code>Join</code>，当然由于Flink底层其实把批看做一种特殊的流（无后续增加），我们也可以看成一种</p>
+<p>对于批和流的<code>Join</code>，Flink的优化是将批变成<code>State</code>，这样流只需要进行内存匹配而不需要每次进行<code>Join</code>的时候在读取一遍批处理数据，这个方式来说最简单，但是也有一个问题，我们的配置表变成的“一次性”的了，假如我们想更新配置表，但是流计算察觉不到变化也就实现不了一个动态的更新</p>
+<p>接下来我们在看看流和流的<code>Join</code>，对于最简单的双流<code>Join</code>来说，为了维持流数据的更新，必须存贮两个流的所以历史数据，对于小表来说存储耗费不了内存，但是大表来说就不一样的，所以双流<code>Join</code>不适合大表和小表的<code>Join</code>，但是统计的话可以，<code>Flink</code>针对一些东西做了优化不会存储所以历史数据，只保留一个统计<code>State</code>，会根据更新动态来修改，那么大表和小表就没法实现双流<code>Join</code>了吗</p>
+<p>当然不是，我们想想为什么大表小表会保留历史数据才能维持结果正确，我们思考一个例子，我们有很多不同种类的商品，然后我们有一个本子记录客人想买的商品（实时更新），为了做到正确匹配客人像要的商品，我们必须记住我们所以种类的商品，当有个客人想买的时候才能匹配上，假如你忘了你们有什么匹配的商品，那么这个客人就买不到了，因为匹配不上</p>
+<p>这种情况是必须要记住所以种类的，但是我们大部分情况是这样的，我们的大表里面记录了系统某个指标，我们的配置表里面保存了我们想监听的指标，当我们更新我们的配置表的时候代表从这个时刻起我们对某个指标感兴趣，对于历史的数据我们其实是不感兴趣的，所以，你完全可以“忘掉”原来的大表历史数据，<code>Flink</code>对于这个功能使用了<code>Temporal Join</code>来支持</p>
+<p>例如：</p>
+<pre><code>select * from source a, lateral table (ConfigTable(a.protime)) b
+where a.id = b.id;
+</code></pre><p>我们只要注册<code>ConfigTable</code>到一个流表上就代表告诉<code>Flink</code>历史数据可以不用记住了，我只关心现在的最新配置能不能匹配上，这样就解决了对大表的时间分片</p>
   
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Flink/">Flink</a>
+  </div>
 
 </div>
 
@@ -132,7 +143,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://mrzhangboss.github.io/2018/01/04/AVL树实现原理/" data-title="AVL树实现原理 | lunge博客" data-tsina="5364356330" class="share clearfix">
+	  <div data-url="https://mrzhangboss.github.io/2019/10/16/Flink批和流处理的思考/" data-title="Flink批和流处理的思考 | lunge博客" data-tsina="5364356330" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -145,19 +156,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2018/01/04/二叉搜索树实现原理/" title="二叉搜索树实现原理">
-  <strong>上一篇：</strong><br/>
-  <span>
-  二叉搜索树实现原理</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2017/12/27/浅谈树这种数据结构/"  title="浅谈&quot;树&quot;这种数据结构">
+<a href="/2019/10/12/FlinkSQLClient实战/"  title="FlinkSQL Client实战">
  <strong>下一篇：</strong><br/> 
- <span>浅谈&quot;树&quot;这种数据结构
+ <span>FlinkSQL Client实战
 </span>
 </a>
 </div>
@@ -166,7 +169,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2018/01/04/AVL树实现原理/" data-title="AVL树实现原理" data-url="https://mrzhangboss.github.io/2018/01/04/AVL树实现原理/"></div>
+	<div class="ds-thread" data-thread-key="2019/10/16/Flink批和流处理的思考/" data-title="Flink批和流处理的思考" data-url="https://mrzhangboss.github.io/2019/10/16/Flink批和流处理的思考/"></div>
 </section>
 
 
@@ -178,7 +181,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#树的字段"><span class="toc-number">1.1.</span> <span class="toc-text">树的字段</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AVL树的“增”"><span class="toc-number">2.</span> <span class="toc-text">AVL树的“增”</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引用"><span class="toc-number">3.</span> <span class="toc-text">引用</span></a></li></ol>
+ 
  
   </div>
 

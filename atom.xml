@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mrzhangboss.github.io/"/>
-  <updated>2019-10-13T10:27:03.939Z</updated>
+  <updated>2019-10-16T14:14:51.785Z</updated>
   <id>https://mrzhangboss.github.io/</id>
   
   <author>
@@ -17,11 +17,38 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Flink批和流处理的思考</title>
+    <link href="https://mrzhangboss.github.io/2019/10/16/Flink%E6%89%B9%E5%92%8C%E6%B5%81%E5%A4%84%E7%90%86%E7%9A%84%E6%80%9D%E8%80%83/"/>
+    <id>https://mrzhangboss.github.io/2019/10/16/Flink批和流处理的思考/</id>
+    <published>2019-10-15T16:00:00.000Z</published>
+    <updated>2019-10-16T14:14:51.785Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;随着2019年8月份，Flink1.9.0正式发布，Flink并入Blink代码，开始同时支持批和流的处理，于此同时，批量同时处理所遇到的问题也就产生了&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;首先我们要知道，什么是批，什么是流，批好比一瓶水，我
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Flink" scheme="https://mrzhangboss.github.io/tags/Flink/"/>
+    
+  </entry>
+  
+  <entry>
     <title>FlinkSQL Client实战</title>
     <link href="https://mrzhangboss.github.io/2019/10/12/FlinkSQLClient%E5%AE%9E%E6%88%98/"/>
     <id>https://mrzhangboss.github.io/2019/10/12/FlinkSQLClient实战/</id>
     <published>2019-10-11T16:00:00.000Z</published>
-    <updated>2019-10-13T10:27:03.939Z</updated>
+    <updated>2019-10-15T14:33:21.198Z</updated>
     
     <summary type="html">
     
@@ -488,30 +515,6 @@
     
     
       <category term="python" scheme="https://mrzhangboss.github.io/tags/python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Java的char类型到底几个字节</title>
-    <link href="https://mrzhangboss.github.io/2018/07/01/Java%E7%9A%84Char%E7%B1%BB%E5%9E%8B%E5%88%B0%E5%BA%95%E5%87%A0%E4%B8%AA%E5%AD%97%E8%8A%82/"/>
-    <id>https://mrzhangboss.github.io/2018/07/01/Java的Char类型到底几个字节/</id>
-    <published>2018-06-30T16:00:00.000Z</published>
-    <updated>2018-07-03T00:06:25.882Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h2 id=&quot;引言&quot;&gt;&lt;a href=&quot;#引言&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-    
-      <category term="Java" scheme="https://mrzhangboss.github.io/tags/Java/"/>
     
   </entry>
   
