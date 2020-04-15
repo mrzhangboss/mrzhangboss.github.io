@@ -11,28 +11,25 @@
     
 
     
-    <meta name="description" content="Flink SQL Client 是一个帮助用户直接运行SQL，而不要进行编译运行的工具，首先他支持多个数据源，在Flink1.9.0中支持了Hive，这样就把批处理和流计算结合了起来，这篇博客详解了Hive在Flink SQL Client中的安装和使用，以及探索在上面做的一些复杂开发实践
+    <meta name="description" content="Flink SQL Client 是一个帮助用户直接运行SQL，而不要进行编译运行的工具，首先他支持多个数据源，在Flink1.9.0开始支持了Hive，并且在Flink 1.10.0时候发布了企业级Hive支持，这样就把批处理和流计算结合了起来，这篇博客详解了Hive在Flink SQL Client中的安装和使用，以及探索在上面做的一些复杂开发实践
 
 Hive安装依赖的jar包如下
-antlr4-runtime-4.5.jar        
-flin">
+antl">
 <meta property="og:type" content="article">
 <meta property="og:title" content="FlinkSQL Client实战">
 <meta property="og:url" content="https://mrzhangboss.github.io/2019/10/12/FlinkSQLClient实战/index.html">
 <meta property="og:site_name" content="lunge博客">
-<meta property="og:description" content="Flink SQL Client 是一个帮助用户直接运行SQL，而不要进行编译运行的工具，首先他支持多个数据源，在Flink1.9.0中支持了Hive，这样就把批处理和流计算结合了起来，这篇博客详解了Hive在Flink SQL Client中的安装和使用，以及探索在上面做的一些复杂开发实践
+<meta property="og:description" content="Flink SQL Client 是一个帮助用户直接运行SQL，而不要进行编译运行的工具，首先他支持多个数据源，在Flink1.9.0开始支持了Hive，并且在Flink 1.10.0时候发布了企业级Hive支持，这样就把批处理和流计算结合了起来，这篇博客详解了Hive在Flink SQL Client中的安装和使用，以及探索在上面做的一些复杂开发实践
 
 Hive安装依赖的jar包如下
-antlr4-runtime-4.5.jar        
-flin">
-<meta property="og:updated_time" content="2019-10-15T14:33:21.198Z">
+antl">
+<meta property="og:updated_time" content="2020-04-15T15:04:22.905Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="FlinkSQL Client实战">
-<meta name="twitter:description" content="Flink SQL Client 是一个帮助用户直接运行SQL，而不要进行编译运行的工具，首先他支持多个数据源，在Flink1.9.0中支持了Hive，这样就把批处理和流计算结合了起来，这篇博客详解了Hive在Flink SQL Client中的安装和使用，以及探索在上面做的一些复杂开发实践
+<meta name="twitter:description" content="Flink SQL Client 是一个帮助用户直接运行SQL，而不要进行编译运行的工具，首先他支持多个数据源，在Flink1.9.0开始支持了Hive，并且在Flink 1.10.0时候发布了企业级Hive支持，这样就把批处理和流计算结合了起来，这篇博客详解了Hive在Flink SQL Client中的安装和使用，以及探索在上面做的一些复杂开发实践
 
 Hive安装依赖的jar包如下
-antlr4-runtime-4.5.jar        
-flin">
+antl">
 <meta name="twitter:creator" content="@mrzhangboss">
 
     
@@ -108,14 +105,14 @@ flin">
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Hive安装"><span class="toc-number">1.</span> <span class="toc-text">Hive安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hive使用中遇到的问题"><span class="toc-number">2.</span> <span class="toc-text">Hive使用中遇到的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#批和流处的反思"><span class="toc-number">3.</span> <span class="toc-text">批和流处的反思</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Hive安装"><span class="toc-number">1.</span> <span class="toc-text">Hive安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hive使用中遇到的问题"><span class="toc-number">2.</span> <span class="toc-text">Hive使用中遇到的问题</span></a></li></ol>
 		
 		</div>
 		
 		<blockquote>
-<p>Flink SQL Client 是一个帮助用户直接运行SQL，而不要进行编译运行的工具，首先他支持多个数据源，在Flink1.9.0中支持了Hive，这样就把批处理和流计算结合了起来，这篇博客详解了Hive在Flink SQL Client中的安装和使用，以及探索在上面做的一些复杂开发实践</p>
+<p>Flink SQL Client 是一个帮助用户直接运行SQL，而不要进行编译运行的工具，首先他支持多个数据源，在Flink1.9.0开始支持了Hive，并且在Flink 1.10.0时候发布了企业级Hive支持，这样就把批处理和流计算结合了起来，这篇博客详解了Hive在Flink SQL Client中的安装和使用，以及探索在上面做的一些复杂开发实践</p>
 </blockquote>
-<h2 id="Hive安装"><a href="#Hive安装" class="headerlink" title="Hive安装"></a>Hive安装</h2><p>依赖的<code>jar</code>包如下</p>
+<h2 id="Hive安装"><a href="#Hive安装" class="headerlink" title="Hive安装"></a>Hive安装</h2><p><del>依赖的<code>jar</code>包如下</del></p>
 <pre><code>antlr4-runtime-4.5.jar        
 flink-connector-hive_2.11-1.9.0.jar
 antlr-runtime-3.5.2.jar        
@@ -127,18 +124,13 @@ javax.jdo-3.2.0-m3.jar
 datanucleus-core-4.1.17.jar   
 datanucleus-rdbms-4.1.9.jar    
 flink-shaded-hadoop-2-uber-2.7.5-8.0.jar
-</code></pre><p>将这些复制到<code>flink/lib</code>目录下面即可，下面是下载链接</p>
-<p><a href="https://drive.google.com/file/d/1WDFFa6ePkIu4Wft_0jEEhS7ekto5_DSo/view?usp=sharing" target="_blank" rel="external">Google Driver下载地址</a><br>百度云提取码：ghea <a href="https://pan.baidu.com/s/1EA8YRUKjC7OzhJ3MPA0GlA" target="_blank" rel="external">百度云下载地址</a></p>
-<h2 id="Hive使用中遇到的问题"><a href="#Hive使用中遇到的问题" class="headerlink" title="Hive使用中遇到的问题"></a>Hive使用中遇到的问题</h2><ol>
-<li>目前只支持2.3.4和1.2.1</li>
-<li>支持的读取的hive类型有限，时间类型只支持1个<code>Date</code><br>PS: Sqoop导入数据库表到Hive的时候，只能将<code>DateTime</code>和<code>TimeStamp</code>设置为<code>String</code>，否则无法在Client中使用</li>
-<li>跨越<code>Catalog</code>读取表的时候Hive不能存放在<code>default</code>（默认）数据库中，否则会解析异常</li>
-</ol>
-<p>例如：想从Hive默认数据库中获取表<code>a</code>，使用<code>insert b select * from hive_catalog.default.a</code>会解析失败</p>
-<ol>
-<li>Hive不支持写入分区表，也不支持Overwrite，只支持append模式</li>
-</ol>
-<h2 id="批和流处的反思"><a href="#批和流处的反思" class="headerlink" title="批和流处的反思"></a>批和流处的反思</h2><p>在Flink1.9之前，在</p>
+</code></pre><p><del>将这些复制到<code>flink/lib</code>目录下面即可，下面是下载链接</del><br><del><a href="https://drive.google.com/file/d/1hRit-IsX7zvkHloUg5S36czWKvpBgBtN/view?usp=sharing" target="_blank" rel="external">1.10.0 flink hive jar Google Driver 下载地址</a></del><br><del><a href="https://drive.google.com/file/d/1WDFFa6ePkIu4Wft_0jEEhS7ekto5_DSo/view?usp=sharing" target="_blank" rel="external">1.9.0 flink hive jar Google Driver下载地址</a></del><br><del>百度云提取码： <a href="https://pan.baidu.com/s/1EA8YRUKjC7OzhJ3MPA0GlA" target="_blank" rel="external">1.9.0 flink hive 百度云下载地址</a></del><br> <del>百度云提取码: e9c7 链接:  <a href="https://pan.baidu.com/s/1WFH4T7AiV31PrptTRTqzJA" target="_blank" rel="external">1.10.0 flink hive 百度云下载地址</a></del></p>
+<h2 id="Hive使用中遇到的问题"><a href="#Hive使用中遇到的问题" class="headerlink" title="Hive使用中遇到的问题"></a>Hive使用中遇到的问题</h2><p><del>1. 目前只支持2.3.4和1.2.1</del><br><del>2. 支持的读取的hive类型有限，时间类型只支持1个<code>Date</code></del><br><del>PS: Sqoop导入数据库表到Hive的时候，只能将<code>DateTime</code>和<code>TimeStamp</code>设置为<code>String</code>，否则无法在Client中使用</del><br><del>3. 跨越<code>Catalog</code>读取表的时候Hive不能存放在<code>default</code>（默认）数据库中，否则会解析异常</del></p>
+<p><del>例如：想从Hive默认数据库中获取表<code>a</code>，使用<code>insert b select * from hive_catalog.default.a</code>会解析失败</del></p>
+<p><del>4. Hive不支持写入分区表，也不支持Overwrite，只支持append模式</del></p>
+<p>目前flink-1.10已经支持多个Hive版本并且修复了上面所遇到的问题，但是目前在<code>SQL Client</code>里面使用较为麻烦，需要自己安装缺少的jar包(而且版本不兼容的话会出现各种奇奇怪怪的bug），所以我写了一个项目把所以的依赖打包到一起这样只要一行命令就可以生成所需要的依赖，而且支持多个<code>Hive</code>版本</p>
+<p>下面是这个项目的github地址</p>
+<p><a href="https://github.com/mrzhangboss/flink-hive-dependence.git" target="_blank" rel="external">Flink SQL Client Hive 依赖生成器</a></p>
 <hr>
 <p>未完待续</p>
   
@@ -204,7 +196,7 @@ flink-shaded-hadoop-2-uber-2.7.5-8.0.jar
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Hive安装"><span class="toc-number">1.</span> <span class="toc-text">Hive安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hive使用中遇到的问题"><span class="toc-number">2.</span> <span class="toc-text">Hive使用中遇到的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#批和流处的反思"><span class="toc-number">3.</span> <span class="toc-text">批和流处的反思</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Hive安装"><span class="toc-number">1.</span> <span class="toc-text">Hive安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hive使用中遇到的问题"><span class="toc-number">2.</span> <span class="toc-text">Hive使用中遇到的问题</span></a></li></ol>
  
   </div>
 
@@ -268,15 +260,11 @@ flink-shaded-hadoop-2-uber-2.7.5-8.0.jar
 			
 		
 			
-				<li><a href="/tags/Python3-GIL/" title="Python3, GIL">Python3, GIL<sup>1</sup></a></li>
+				<li><a href="/tags/Hadoop-Spark-Hive-Hbase/" title="Hadoop Spark Hive Hbase">Hadoop Spark Hive Hbase<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/big-data-Flink-hive/" title="big-data Flink hive">big-data Flink hive<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/transform/" title="transform">transform<sup>1</sup></a></li>
+				<li><a href="/tags/Flink/" title="Flink">Flink<sup>1</sup></a></li>
 			
 		
 			
@@ -284,11 +272,15 @@ flink-shaded-hadoop-2-uber-2.7.5-8.0.jar
 			
 		
 			
+				<li><a href="/tags/transform/" title="transform">transform<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/Python3/" title="Python3">Python3<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Hadoop-Spark-Hive-Hbase/" title="Hadoop Spark Hive Hbase">Hadoop Spark Hive Hbase<sup>1</sup></a></li>
+				<li><a href="/tags/Scala-Java/" title="Scala Java">Scala Java<sup>1</sup></a></li>
 			
 		
 			
@@ -296,7 +288,7 @@ flink-shaded-hadoop-2-uber-2.7.5-8.0.jar
 			
 		
 			
-				<li><a href="/tags/Scala-Java/" title="Scala Java">Scala Java<sup>1</sup></a></li>
+				<li><a href="/tags/Python3-GIL/" title="Python3, GIL">Python3, GIL<sup>1</sup></a></li>
 			
 		
 		</ul>
