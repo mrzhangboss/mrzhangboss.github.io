@@ -1,0 +1,590 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-cn">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>大数据架构小结 | lunge博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="张伦">
+    
+
+    
+    <meta name="description" content="首先说说什么是大数据，最简单用数据量为单位，大于1亿就算大的，因为小于1亿就在数据库做就可以了，所以大数据是公司数据大到数据库处理不了的时候才要考虑的事情，小公司MySQL优化一下索引就可以了
+
+那怎么解决了，Google给了我们三篇论文作为解决方法，这个也是大数据的基石，所有后面才有Hadoop的横空出世，我们也知道了解决这个问题的方法，就是对症下药，你是大数据，我就是“大”机器，以前在一台服">
+<meta property="og:type" content="article">
+<meta property="og:title" content="大数据架构小结">
+<meta property="og:url" content="https://mrzhangboss.github.io/2020/12/21/大数据架构小结/index.html">
+<meta property="og:site_name" content="lunge博客">
+<meta property="og:description" content="首先说说什么是大数据，最简单用数据量为单位，大于1亿就算大的，因为小于1亿就在数据库做就可以了，所以大数据是公司数据大到数据库处理不了的时候才要考虑的事情，小公司MySQL优化一下索引就可以了
+
+那怎么解决了，Google给了我们三篇论文作为解决方法，这个也是大数据的基石，所有后面才有Hadoop的横空出世，我们也知道了解决这个问题的方法，就是对症下药，你是大数据，我就是“大”机器，以前在一台服">
+<meta property="og:updated_time" content="2021-02-23T12:25:24.753Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="大数据架构小结">
+<meta name="twitter:description" content="首先说说什么是大数据，最简单用数据量为单位，大于1亿就算大的，因为小于1亿就在数据库做就可以了，所以大数据是公司数据大到数据库处理不了的时候才要考虑的事情，小公司MySQL优化一下索引就可以了
+
+那怎么解决了，Google给了我们三篇论文作为解决方法，这个也是大数据的基石，所有后面才有Hadoop的横空出世，我们也知道了解决这个问题的方法，就是对症下药，你是大数据，我就是“大”机器，以前在一台服">
+<meta name="twitter:creator" content="@mrzhangboss">
+
+    
+    <link rel="alternative" href="/atom.xml" title="lunge博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/wx2.png">
+    
+    
+    <link rel="apple-touch-icon" href="/img/wx2.png">
+    <link rel="apple-touch-icon-precomposed" href="/img/wx2.png">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/wx2.png" alt="lunge博客" title="lunge博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="Search" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/12/21/大数据架构小结/" title="大数据架构小结" itemprop="url">大数据架构小结</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
+		
+  <p class="article-time">
+    <time datetime="2020-12-20T16:00:00.000Z" itemprop="datePublished"> Published 2020-12-21</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">1.</span> <span class="toc-text">总结</span></a></li></ol>
+		
+		</div>
+		
+		<blockquote>
+<p>首先说说什么是大数据，最简单用数据量为单位，大于1亿就算大的，因为小于1亿就在数据库做就可以了，所以大数据是公司数据大到数据库处理不了的时候才要考虑的事情，小公司MySQL优化一下索引就可以了</p>
+</blockquote>
+<p>那怎么解决了，Google给了我们三篇论文作为解决方法，这个也是大数据的基石，所有后面才有Hadoop的横空出世，我们也知道了解决这个问题的方法，就是对症下药，你是大数据，我就是“大”机器，以前在一台服务器就可以处理，现在上十台、一百台</p>
+<p>但是又出来一个问题，怎么管理，搭建过简单的4节点的机器就知道，那些大数据组件配置虽然不负责，但是很繁琐，关键最坑的事，你一开始并不知道怎么配置最好，你大部分时间都浪费在修改配置，更新所有组件配置，重启，最坑的是依赖关，比如Hbase依赖Zookeeper，你更新了Zookeeper，HBase你也得重启。而且最麻烦的是你用的那些开源大数据组件更新频繁，你很多时候要踩很多坑才能搭一个简单的大数据架构</p>
+<p>所有就有了Cloudera和Hortonworks（被Cloudera合并了）这些提供一整套解决方法的公司，他们能提供什么了，就是管理这个大数据架构的一套系统，通过这个系统，你很容易就搭建起来一个可用的大数据集群</p>
+<p>但是一个悲伤的消息就是Cloudera也要恰饭了，6.3.3之后不会提供免费的版本供小公司使用，对于大公司自己可能会考虑做一个类似的系统（其实也不难，就是一套web管理系统以及专业的解决方案）。但是对于小公司来说，做一个这样的系统成本太高了，但是目前来看6.3.2还算良心，支持到2022年，虽然节点最多只能100个，但是超过100个，说明你公司应该负的起钱买新版了</p>
+<p>CDH是Cloudera提供给大公司的大数据一套架构，接下来我们就剖析一下Cloudera为什么能凭这一套解决方案支撑起百亿美元的市值</p>
+<p>这里我就不介绍这些基本组件了，网上都有，我就谈谈这些组件是怎么解决大数据这个问题的</p>
+<p>首先我们得知道我们要搞大数据的原因，很简单我们想从大数据中得到我们想要的结果，比如淘宝双十一大屏，我们就想知道淘宝双十一卖了多少钱，最后只要一个数字就好了。</p>
+<p>接下来我们就以最简单的求和举例子来思考Cloudera提供的CDH来处理这个问题，第一步是存第二步是算</p>
+<p>首先是存，假如你数据是具有唯一性的，你就存到HBase，用Row-key来区分，假如你不具有唯一性那你就存到Hadoop里面去，这是最基本的，也是Google三篇论文中的两个</p>
+<p>接下来就是算，MR也就是Google三篇论文中的Map-Reduce理论。由于MR写起来非常复杂，所以就有Hive把SQL转换成MR程序</p>
+<p>这三板斧下来连Google那样的大体量都能解决，但是这个方法有个弊端就是慢，很多不必要的东西比如数据落盘这些耗时间的东西拖慢了整体的速度，而且大数据是这样万一，必须要等所有的步骤都走完才能得到最终结果，所以就是最慢的那一个步骤拖慢了整体速度</p>
+<p>MR的产生是因为内存放不了所有数据才把中间数据落盘，所以假如你内存比磁盘还要大，那在内存里面跑就可以了，Spark就是这样产生的，用内存来加速计算，Spark就像一个万能工具箱一样，你可以直接用它读取各种数据源，来各种折腾，它提供了一整套的框架来帮你做这些，但是对于企业来说懂Spark的人少，懂SQL的多</p>
+<p>所以Cloudera自己开发了一个框架impala来方便那些懂SQL的人直接来进行数据计算，这个方案好是好，但是有个问题，impala一开始只能读取Hive表上的数据，由于Hive存在一个问题就是它由于存贮在Hadoop上所以她只能新增不能删除</p>
+<p>所以impala只能在离线大数据上做分析，你要全量的数据得把最新的数据覆盖掉后才能开始计算，所以他们又做了一个类似HBase的数据库Kudu，基本上融合了HBase 快速新增更新删除和Hive的SQL优好的两个，这样我们就可以用impala读取最新Kudu数据做实时大数据分析了，而且速度要比Spark还快</p>
+<p>当然也不是说impala一定是一个万能手术刀，能解决所有大数据问题，大数据这个东西吧特别有意思，我们永远也找不到一个完美的解决方法，只能找到一个相对好的解决方案。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>以前我刚开始了解大数据的时候，我一直觉得哪个强就用那个，其实恰恰相反，每个大数据组件都有其存在的意义，面对大数据，我们不需要一套方案跑通所有，而是找一个最优雅的方法来解决特定问题，其实大数据有很多开源的框架，这些开源组件都有其特定的能力去解决他们遇到的问题，等真正有一天一套解决方案能解决所有问题，那应该大部分软件工程师都应该要失业了</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/summary/">summary</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://mrzhangboss.github.io/2020/12/21/大数据架构小结/" data-title="大数据架构小结 | lunge博客" data-tsina="5364356330" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2020/12/24/技术虾虾看/" title="技术虾虾看">
+  <strong>上一篇：</strong><br/>
+  <span>
+  技术虾虾看</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2020/08/22/金融学习目录/"  title="金融学习目录">
+ <strong>下一篇：</strong><br/> 
+ <span>金融学习目录
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2020/12/21/大数据架构小结/" data-title="大数据架构小结" data-url="https://mrzhangboss.github.io/2020/12/21/大数据架构小结/"></div>
+</section>
+
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">1.</span> <span class="toc-text">总结</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/summary/" title="summary">summary<sup>20</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/programming/" title="programming">programming<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/software/" title="software">software<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/python/" title="python">python<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mit6-828/" title="mit6.828">mit6.828<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/github/" title="github">github<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/big-data/" title="big-data">big-data<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/competition/" title="competition">competition<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/TDD/" title="TDD">TDD<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/big-data-hadoop/" title="big-data hadoop">big-data hadoop<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/感想/" title="感想">感想<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python3-GIL/" title="Python3, GIL">Python3, GIL<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hadoop-Spark-Hive-Hbase/" title="Hadoop Spark Hive Hbase">Hadoop Spark Hive Hbase<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/transform/" title="transform">transform<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/js/" title="js">js<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python3/" title="Python3">Python3<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/big-data-Flink-hive/" title="big-data Flink hive">big-data Flink hive<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/python3/" title="python3">python3<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://segmentfault.com/ " target="_blank" title="一个面向程序员交流分享的新一代社区">segmentfault</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">Weibo</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5364356330&verifier=&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m zhanglun. <br/>
+			This is my blog.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/5364356330" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/mrzhangboss" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/6599843" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		<a href="https://twitter.com/mrzhangboss" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/100011375031071" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/zhang-lun-59-53" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		
+		<a href="mailto:2529450174@qq.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2021 
+		
+		<a href="/about" target="_blank" title="张伦">张伦</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lunge"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-80810286-1,UA-80810286-2', 'auto,auto');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

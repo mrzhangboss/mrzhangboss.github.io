@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mrzhangboss.github.io/"/>
-  <updated>2020-03-11T03:08:34.387Z</updated>
+  <updated>2021-02-23T12:43:15.678Z</updated>
   <id>https://mrzhangboss.github.io/</id>
   
   <author>
@@ -15,6 +15,267 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>技术如何深入</title>
+    <link href="https://mrzhangboss.github.io/2021/01/07/%E6%8A%80%E6%9C%AF%E5%A6%82%E4%BD%95%E6%B7%B1%E5%85%A5/"/>
+    <id>https://mrzhangboss.github.io/2021/01/07/技术如何深入/</id>
+    <published>2021-01-06T16:00:00.000Z</published>
+    <updated>2021-02-23T12:43:15.678Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;为什么会有这篇博客呢，因为随着你阅历的增长，以及各种你即将面临的问题，比如婚姻、跳槽这种，你会有一种焦虑感，你一直在原地踏步，你怎么面对你的未来呢&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;所以这篇博客其实很大程度是一种反思&lt;/p&gt;
+&lt;p&gt;首先要明
+        
+      
+    
+    </summary>
+    
+    
+      <category term="summary" scheme="https://mrzhangboss.github.io/tags/summary/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>浅析Spring</title>
+    <link href="https://mrzhangboss.github.io/2021/01/07/%E6%B5%85%E6%9E%90Spring/"/>
+    <id>https://mrzhangboss.github.io/2021/01/07/浅析Spring/</id>
+    <published>2021-01-06T16:00:00.000Z</published>
+    <updated>2021-02-23T12:41:12.957Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;Spring核心就是IoC（依赖注入）AoP（面向切面）本篇就基于一个开源项目 tiny-spring
+        
+      
+    
+    </summary>
+    
+    
+      <category term="summary" scheme="https://mrzhangboss.github.io/tags/summary/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>浅析微服务</title>
+    <link href="https://mrzhangboss.github.io/2021/01/07/%E6%B5%85%E6%9E%90%E5%BE%AE%E6%9C%8D%E5%8A%A1/"/>
+    <id>https://mrzhangboss.github.io/2021/01/07/浅析微服务/</id>
+    <published>2021-01-06T16:00:00.000Z</published>
+    <updated>2021-02-23T12:40:21.696Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;这篇博客主要是从web技术发展来探索微服务的起源&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;要想了解微服务是什么得从web框架出来之后开始讲起，大部分可能不知道微服务，一定知道写web服务的框架，懂Java的可以用Spring
+        
+      
+    
+    </summary>
+    
+    
+      <category term="summary" scheme="https://mrzhangboss.github.io/tags/summary/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Tomcat高并发浅析</title>
+    <link href="https://mrzhangboss.github.io/2020/12/31/Tomcat%E9%AB%98%E5%B9%B6%E5%8F%91%E6%B5%85%E6%9E%90/"/>
+    <id>https://mrzhangboss.github.io/2020/12/31/Tomcat高并发浅析/</id>
+    <published>2020-12-30T16:00:00.000Z</published>
+    <updated>2021-02-23T12:38:14.239Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;Tomcat作为Java老牌web服务器，所以研究Tomcat就能搞懂高并发，本文是查阅大量资料总结的自己对于web高并发服务器的理解，有可能部分理解是错误的，欢迎来纠错，本文尽量不使用代码，网上查到的都是一大段一大段代码，让人看的头痛&lt;/p&gt;
+&lt;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="summary" scheme="https://mrzhangboss.github.io/tags/summary/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Select和epoll浅析</title>
+    <link href="https://mrzhangboss.github.io/2020/12/30/Select%E5%92%8Cepoll%E6%B5%85%E6%9E%90/"/>
+    <id>https://mrzhangboss.github.io/2020/12/30/Select和epoll浅析/</id>
+    <published>2020-12-29T16:00:00.000Z</published>
+    <updated>2021-02-23T12:36:18.027Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;这篇文章是【Tomcat高并发浅析】的姊妹篇，专门通过分析Select和epoll两个框架来介绍如何实现高并发&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&quot;起因&quot;&gt;&lt;a href=&quot;#起因&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="summary" scheme="https://mrzhangboss.github.io/tags/summary/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>技术虾虾看</title>
+    <link href="https://mrzhangboss.github.io/2020/12/24/%E6%8A%80%E6%9C%AF%E8%99%BE%E8%99%BE%E7%9C%8B/"/>
+    <id>https://mrzhangboss.github.io/2020/12/24/技术虾虾看/</id>
+    <published>2020-12-23T16:00:00.000Z</published>
+    <updated>2021-02-23T12:34:28.574Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;仔细回顾我这7年的技术生涯，从高三的时候开始就自学C语言，那时候不知道怎么回事，高考发挥的不是很好，总想着既然高考失败了，那就在大学赢回来，相比于其他大学生来说，我上大学不是天天游戏恋爱，反而是每天就研究IT技术&lt;/p&gt;
+&lt;p&gt;当时我记得自己刚从高考完，不知道怎么才能在大学
+        
+      
+    
+    </summary>
+    
+    
+      <category term="summary" scheme="https://mrzhangboss.github.io/tags/summary/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>大数据架构小结</title>
+    <link href="https://mrzhangboss.github.io/2020/12/21/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%9E%B6%E6%9E%84%E5%B0%8F%E7%BB%93/"/>
+    <id>https://mrzhangboss.github.io/2020/12/21/大数据架构小结/</id>
+    <published>2020-12-20T16:00:00.000Z</published>
+    <updated>2021-02-23T12:25:24.753Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;首先说说什么是大数据，最简单用数据量为单位，大于1亿就算大的，因为小于1亿就在数据库做就可以了，所以大数据是公司数据大到数据库处理不了的时候才要考虑的事情，小公司MySQL优化一下索引就可以了&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;那怎么解决了
+        
+      
+    
+    </summary>
+    
+    
+      <category term="summary" scheme="https://mrzhangboss.github.io/tags/summary/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>金融学习目录</title>
+    <link href="https://mrzhangboss.github.io/2020/08/22/%E9%87%91%E8%9E%8D%E5%AD%A6%E4%B9%A0%E7%9B%AE%E5%BD%95/"/>
+    <id>https://mrzhangboss.github.io/2020/08/22/金融学习目录/</id>
+    <published>2020-08-22T13:42:41.624Z</published>
+    <updated>2020-08-22T13:42:41.900Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;欢迎使用 &lt;strong&gt;{小书匠}(xiaoshujiang)编辑器&lt;/strong&gt;，您可以通过 &lt;code&gt;小书匠主按钮&amp;gt;模板&lt;/code&gt;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="目录" scheme="https://mrzhangboss.github.io/tags/%E7%9B%AE%E5%BD%95/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>八月杂感</title>
+    <link href="https://mrzhangboss.github.io/2020/08/22/%E5%85%AB%E6%9C%88%E6%9D%82%E6%84%9F/"/>
+    <id>https://mrzhangboss.github.io/2020/08/22/八月杂感/</id>
+    <published>2020-08-22T13:20:14.644Z</published>
+    <updated>2020-08-22T13:42:11.244Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;一眨眼暑假就要过完了，这段博客又停下来了，倒不是因为我停下来学东西，而是我又忘了去归纳总结自己学的东西，总是一个鲁莽的心态去学，总感觉停下来会阻挡自己学习的脚步，但是其实写博客也是学习，把自己的学到的知识转换成自己的东西，写出来的过程就是帮自己的过
+        
+      
+    
+    </summary>
+    
+    
+      <category term="感想" scheme="https://mrzhangboss.github.io/tags/%E6%84%9F%E6%83%B3/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>5月杂感</title>
+    <link href="https://mrzhangboss.github.io/2020/05/14/5%E6%9C%88%E6%9D%82%E6%84%9F/"/>
+    <id>https://mrzhangboss.github.io/2020/05/14/5月杂感/</id>
+    <published>2020-05-14T13:58:34.900Z</published>
+    <updated>2020-05-14T16:24:21.091Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;不知不觉2020已经过了快一半了，2020的确是个魔幻的一年，两年都没生过病的我却在疫情开始的时候发了个烧，幸好一天就退了，但是也是魔幻&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;这次疫情的确影响颇深，我也花了一段时间才慢慢从担心确诊人数到开始安之
+        
+      
+    
+    </summary>
+    
+    
+      <category term="感想" scheme="https://mrzhangboss.github.io/tags/%E6%84%9F%E6%83%B3/"/>
+    
+  </entry>
   
   <entry>
     <title>深夜有感</title>
@@ -71,6 +332,31 @@
   </entry>
   
   <entry>
+    <title>FlinkSQL Client实战</title>
+    <link href="https://mrzhangboss.github.io/2019/10/12/FlinkSQLClient%E5%AE%9E%E6%88%98/"/>
+    <id>https://mrzhangboss.github.io/2019/10/12/FlinkSQLClient实战/</id>
+    <published>2019-10-11T16:00:00.000Z</published>
+    <updated>2020-04-15T15:04:22.905Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;Flink SQL Client 是一个帮助用户直接运行SQL，而不要进行编译运行的工具，首先他支持多个数据源，在Flink1.9.0开始支持了Hive，并且在Flink
+        
+      
+    
+    </summary>
+    
+    
+      <category term="big-data Flink hive" scheme="https://mrzhangboss.github.io/tags/big-data-Flink-hive/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Apache Atlas 2.0.0部署实践</title>
     <link href="https://mrzhangboss.github.io/2019/10/12/ApacheAtlas%E9%83%A8%E7%BD%B2%E5%AE%9E%E8%B7%B5/"/>
     <id>https://mrzhangboss.github.io/2019/10/12/ApacheAtlas部署实践/</id>
@@ -94,31 +380,6 @@
     
     
       <category term="big-data" scheme="https://mrzhangboss.github.io/tags/big-data/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>FlinkSQL Client实战</title>
-    <link href="https://mrzhangboss.github.io/2019/10/12/FlinkSQLClient%E5%AE%9E%E6%88%98/"/>
-    <id>https://mrzhangboss.github.io/2019/10/12/FlinkSQLClient实战/</id>
-    <published>2019-10-11T16:00:00.000Z</published>
-    <updated>2020-04-15T15:04:22.905Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;blockquote&gt;
-&lt;p&gt;Flink SQL Client 是一个帮助用户直接运行SQL，而不要进行编译运行的工具，首先他支持多个数据源，在Flink1.9.0开始支持了Hive，并且在Flink
-        
-      
-    
-    </summary>
-    
-    
-      <category term="big-data Flink hive" scheme="https://mrzhangboss.github.io/tags/big-data-Flink-hive/"/>
     
   </entry>
   
@@ -262,259 +523,6 @@
     
     
       <category term="programming" scheme="https://mrzhangboss.github.io/tags/programming/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>如何在Ubuntu上发布Scala Jar包到Maven中央仓库</title>
-    <link href="https://mrzhangboss.github.io/2019/01/13/%E5%A6%82%E4%BD%95%E5%9C%A8Ubuntu%E4%B8%8A%E5%8F%91%E5%B8%83ScalaJar%E5%8C%85%E5%88%B0Maven%E4%B8%AD%E5%A4%AE%E4%BB%93%E5%BA%93/"/>
-    <id>https://mrzhangboss.github.io/2019/01/13/如何在Ubuntu上发布ScalaJar包到Maven中央仓库/</id>
-    <published>2019-01-12T16:00:00.000Z</published>
-    <updated>2020-03-11T03:08:34.499Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;blockquote&gt;
-&lt;p&gt;由于网上的教程大多数是&lt;code&gt;Windows&lt;/code&gt;下的，而且都是介绍怎么打包&lt;code&gt;Java&lt;/code&gt;的&lt;code&gt;Jar&lt;/code&gt;包，关于&lt;code&gt;Scala&lt;/code&gt;相关的比较少，因此我踩了不少坑才成功的把包发布到
-        
-      
-    
-    </summary>
-    
-    
-      <category term="scala Java" scheme="https://mrzhangboss.github.io/tags/scala-Java/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Big Data Questions</title>
-    <link href="https://mrzhangboss.github.io/2018/11/07/BigDataQuestions/"/>
-    <id>https://mrzhangboss.github.io/2018/11/07/BigDataQuestions/</id>
-    <published>2018-11-06T16:00:00.000Z</published>
-    <updated>2020-03-11T03:08:34.447Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;blockquote&gt;
-&lt;p&gt;Recently I found that I’m kind of over talking when I speak with others, so I want to train my conclusion of solving
-        
-      
-    
-    </summary>
-    
-    
-      <category term="Hadoop Spark Hive Hbase" scheme="https://mrzhangboss.github.io/tags/Hadoop-Spark-Hive-Hbase/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Learning Scala From Java</title>
-    <link href="https://mrzhangboss.github.io/2018/10/20/LearningScalaFromJava/"/>
-    <id>https://mrzhangboss.github.io/2018/10/20/LearningScalaFromJava/</id>
-    <published>2018-10-19T16:00:00.000Z</published>
-    <updated>2020-03-11T03:08:34.455Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;blockquote&gt;
-&lt;p&gt;Recently I had finshed reading one book : &amp;lt;&amp;lt; Scala for The Impatient&amp;gt;&amp;gt;, I found a lot intrest thing during
-        
-      
-    
-    </summary>
-    
-    
-      <category term="Scala Java" scheme="https://mrzhangboss.github.io/tags/Scala-Java/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Build Hadoop Cluster in One Computer</title>
-    <link href="https://mrzhangboss.github.io/2018/10/14/BuildHadoopClusterinOneComputer/"/>
-    <id>https://mrzhangboss.github.io/2018/10/14/BuildHadoopClusterinOneComputer/</id>
-    <published>2018-10-13T16:00:00.000Z</published>
-    <updated>2020-03-11T03:08:34.503Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;blockquote&gt;
-&lt;p&gt;If you are hadoop novice, I strongly suggest you beginning your study from single node building,you can learn from this &lt;a
-        
-      
-    
-    </summary>
-    
-    
-      <category term="big-data hadoop" scheme="https://mrzhangboss.github.io/tags/big-data-hadoop/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Starting Using English In My Blog</title>
-    <link href="https://mrzhangboss.github.io/2018/10/13/StartingUsingEnglishInMyBlog/"/>
-    <id>https://mrzhangboss.github.io/2018/10/13/StartingUsingEnglishInMyBlog/</id>
-    <published>2018-10-12T16:00:00.000Z</published>
-    <updated>2020-03-11T03:08:34.547Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;blockquote&gt;
-&lt;p&gt;Happily, I decide to using English for my blog&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;The reasons why I want to use English to write blog
-        
-      
-    
-    </summary>
-    
-    
-      <category term="summary" scheme="https://mrzhangboss.github.io/tags/summary/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>也谈谈验证码</title>
-    <link href="https://mrzhangboss.github.io/2018/09/27/%E4%B9%9F%E8%B0%88%E8%B0%88%E9%AA%8C%E8%AF%81%E7%A0%81/"/>
-    <id>https://mrzhangboss.github.io/2018/09/27/也谈谈验证码/</id>
-    <published>2018-09-26T16:00:00.000Z</published>
-    <updated>2020-03-11T03:08:34.503Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;hr&gt;
-&lt;p&gt;未完待续&lt;/p&gt;
-
-        
-      
-    
-    </summary>
-    
-    
-      <category term="Python3" scheme="https://mrzhangboss.github.io/tags/Python3/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>触摸Python的GIL</title>
-    <link href="https://mrzhangboss.github.io/2018/09/15/%E8%A7%A6%E6%91%B8Python%E7%9A%84GIL/"/>
-    <id>https://mrzhangboss.github.io/2018/09/15/触摸Python的GIL/</id>
-    <published>2018-09-14T16:00:00.000Z</published>
-    <updated>2020-03-11T03:08:34.503Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;blockquote&gt;
-&lt;p&gt;Python的&lt;code&gt;GIL&lt;/code&gt;一直是被大家攻击其语言的一个弊端，每次在讨论语言特性的时候这点总是会被人们提起，但是这个东西好像就一个“污点”，大家都知道，但是大家都不了解为什么。本片博客就是好好的探索一下GIL，让我们不再畏惧它&lt;/
-        
-      
-    
-    </summary>
-    
-    
-      <category term="Python3, GIL" scheme="https://mrzhangboss.github.io/tags/Python3-GIL/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>如何让你的Python更快</title>
-    <link href="https://mrzhangboss.github.io/2018/09/12/%E5%A6%82%E4%BD%95%E8%AE%A9%E4%BD%A0%E7%9A%84Python%E5%83%8FC%E4%B8%80%E6%A0%B7%E5%BF%AB/"/>
-    <id>https://mrzhangboss.github.io/2018/09/12/如何让你的Python像C一样快/</id>
-    <published>2018-09-11T16:00:00.000Z</published>
-    <updated>2020-03-11T03:08:34.503Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h2 id=&quot;引言&quot;&gt;&lt;a href=&quot;#引言&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-    
-      <category term="Python3, C++" scheme="https://mrzhangboss.github.io/tags/Python3-C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>千万级数据处理小结</title>
-    <link href="https://mrzhangboss.github.io/2018/09/06/%E5%8D%83%E4%B8%87%E7%BA%A7%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E5%B0%8F%E7%BB%93/"/>
-    <id>https://mrzhangboss.github.io/2018/09/06/千万级数据处理小结/</id>
-    <published>2018-09-05T16:00:00.000Z</published>
-    <updated>2020-03-11T03:08:34.503Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h2 id=&quot;引言&quot;&gt;&lt;a href=&quot;#引言&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-    
-      <category term="MySQL, ElasticSearch, Python3" scheme="https://mrzhangboss.github.io/tags/MySQL-ElasticSearch-Python3/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>毕业两月反思</title>
-    <link href="https://mrzhangboss.github.io/2018/08/25/%E6%AF%95%E4%B8%9A%E4%B8%A4%E6%9C%88%E5%8F%8D%E6%80%9D/"/>
-    <id>https://mrzhangboss.github.io/2018/08/25/毕业两月反思/</id>
-    <published>2018-08-24T16:00:00.000Z</published>
-    <updated>2020-03-11T03:08:34.503Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;blockquote&gt;
-&lt;p&gt;毕业近两个月了，然而这两个月对自己的状态不太满意故写下这篇博客反思&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2 id=&quot;引言&quot;&gt;&lt;a href=&quot;#引言&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-    
-      <category term="summary" scheme="https://mrzhangboss.github.io/tags/summary/"/>
     
   </entry>
   
