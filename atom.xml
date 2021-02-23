@@ -202,30 +202,6 @@
   </entry>
   
   <entry>
-    <title>金融学习目录</title>
-    <link href="https://mrzhangboss.github.io/2020/08/22/%E9%87%91%E8%9E%8D%E5%AD%A6%E4%B9%A0%E7%9B%AE%E5%BD%95/"/>
-    <id>https://mrzhangboss.github.io/2020/08/22/金融学习目录/</id>
-    <published>2020-08-22T13:42:41.624Z</published>
-    <updated>2020-08-22T13:42:41.900Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;欢迎使用 &lt;strong&gt;{小书匠}(xiaoshujiang)编辑器&lt;/strong&gt;，您可以通过 &lt;code&gt;小书匠主按钮&amp;gt;模板&lt;/code&gt;
-        
-      
-    
-    </summary>
-    
-    
-      <category term="目录" scheme="https://mrzhangboss.github.io/tags/%E7%9B%AE%E5%BD%95/"/>
-    
-  </entry>
-  
-  <entry>
     <title>八月杂感</title>
     <link href="https://mrzhangboss.github.io/2020/08/22/%E5%85%AB%E6%9C%88%E6%9D%82%E6%84%9F/"/>
     <id>https://mrzhangboss.github.io/2020/08/22/八月杂感/</id>
@@ -332,31 +308,6 @@
   </entry>
   
   <entry>
-    <title>FlinkSQL Client实战</title>
-    <link href="https://mrzhangboss.github.io/2019/10/12/FlinkSQLClient%E5%AE%9E%E6%88%98/"/>
-    <id>https://mrzhangboss.github.io/2019/10/12/FlinkSQLClient实战/</id>
-    <published>2019-10-11T16:00:00.000Z</published>
-    <updated>2020-04-15T15:04:22.905Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;blockquote&gt;
-&lt;p&gt;Flink SQL Client 是一个帮助用户直接运行SQL，而不要进行编译运行的工具，首先他支持多个数据源，在Flink1.9.0开始支持了Hive，并且在Flink
-        
-      
-    
-    </summary>
-    
-    
-      <category term="big-data Flink hive" scheme="https://mrzhangboss.github.io/tags/big-data-Flink-hive/"/>
-    
-  </entry>
-  
-  <entry>
     <title>Apache Atlas 2.0.0部署实践</title>
     <link href="https://mrzhangboss.github.io/2019/10/12/ApacheAtlas%E9%83%A8%E7%BD%B2%E5%AE%9E%E8%B7%B5/"/>
     <id>https://mrzhangboss.github.io/2019/10/12/ApacheAtlas部署实践/</id>
@@ -380,6 +331,31 @@
     
     
       <category term="big-data" scheme="https://mrzhangboss.github.io/tags/big-data/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>FlinkSQL Client实战</title>
+    <link href="https://mrzhangboss.github.io/2019/10/12/FlinkSQLClient%E5%AE%9E%E6%88%98/"/>
+    <id>https://mrzhangboss.github.io/2019/10/12/FlinkSQLClient实战/</id>
+    <published>2019-10-11T16:00:00.000Z</published>
+    <updated>2020-04-15T15:04:22.905Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;Flink SQL Client 是一个帮助用户直接运行SQL，而不要进行编译运行的工具，首先他支持多个数据源，在Flink1.9.0开始支持了Hive，并且在Flink
+        
+      
+    
+    </summary>
+    
+    
+      <category term="big-data Flink hive" scheme="https://mrzhangboss.github.io/tags/big-data-Flink-hive/"/>
     
   </entry>
   
@@ -523,6 +499,31 @@
     
     
       <category term="programming" scheme="https://mrzhangboss.github.io/tags/programming/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>如何在Ubuntu上发布Scala Jar包到Maven中央仓库</title>
+    <link href="https://mrzhangboss.github.io/2019/01/13/%E5%A6%82%E4%BD%95%E5%9C%A8Ubuntu%E4%B8%8A%E5%8F%91%E5%B8%83ScalaJar%E5%8C%85%E5%88%B0Maven%E4%B8%AD%E5%A4%AE%E4%BB%93%E5%BA%93/"/>
+    <id>https://mrzhangboss.github.io/2019/01/13/如何在Ubuntu上发布ScalaJar包到Maven中央仓库/</id>
+    <published>2019-01-12T16:00:00.000Z</published>
+    <updated>2020-03-11T03:08:34.499Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;由于网上的教程大多数是&lt;code&gt;Windows&lt;/code&gt;下的，而且都是介绍怎么打包&lt;code&gt;Java&lt;/code&gt;的&lt;code&gt;Jar&lt;/code&gt;包，关于&lt;code&gt;Scala&lt;/code&gt;相关的比较少，因此我踩了不少坑才成功的把包发布到
+        
+      
+    
+    </summary>
+    
+    
+      <category term="scala Java" scheme="https://mrzhangboss.github.io/tags/scala-Java/"/>
     
   </entry>
   
