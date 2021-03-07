@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mrzhangboss.github.io/"/>
-  <updated>2021-02-23T12:43:15.678Z</updated>
+  <updated>2021-03-07T03:40:48.153Z</updated>
   <id>https://mrzhangboss.github.io/</id>
   
   <author>
@@ -17,11 +17,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>技术如何深入</title>
-    <link href="https://mrzhangboss.github.io/2021/01/07/%E6%8A%80%E6%9C%AF%E5%A6%82%E4%BD%95%E6%B7%B1%E5%85%A5/"/>
-    <id>https://mrzhangboss.github.io/2021/01/07/技术如何深入/</id>
-    <published>2021-01-06T16:00:00.000Z</published>
-    <updated>2021-02-23T12:43:15.678Z</updated>
+    <title>面试杂思</title>
+    <link href="https://mrzhangboss.github.io/2021/03/07/%E9%9D%A2%E8%AF%95%E6%9D%82%E6%80%9D/"/>
+    <id>https://mrzhangboss.github.io/2021/03/07/面试杂思/</id>
+    <published>2021-03-06T16:00:00.000Z</published>
+    <updated>2021-03-07T03:40:48.153Z</updated>
     
     <summary type="html">
     
@@ -30,10 +30,36 @@
         
         
           &lt;blockquote&gt;
-&lt;p&gt;为什么会有这篇博客呢，因为随着你阅历的增长，以及各种你即将面临的问题，比如婚姻、跳槽这种，你会有一种焦虑感，你一直在原地踏步，你怎么面对你的未来呢&lt;/p&gt;
+&lt;p&gt;最近在面试，面试之前总觉得有一丝焦虑&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;所以这篇博客其实很大程度是一种反思&lt;/p&gt;
-&lt;p&gt;首先要明
+&lt;p&gt;我不知道这丝焦虑是不是学生时代带给我的，对于我来说，这种焦虑是害怕自己不知道这个知识点而很囧。或者对于我来说，我自己一直对自己不够自信。为什么呢，因为对于我来说，我自己
+        
+      
+    
+    </summary>
+    
+    
+      <category term="summary" scheme="https://mrzhangboss.github.io/tags/summary/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>浅析微服务</title>
+    <link href="https://mrzhangboss.github.io/2021/01/07/%E6%B5%85%E6%9E%90%E5%BE%AE%E6%9C%8D%E5%8A%A1/"/>
+    <id>https://mrzhangboss.github.io/2021/01/07/浅析微服务/</id>
+    <published>2021-01-06T16:00:00.000Z</published>
+    <updated>2021-02-23T12:40:21.696Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;这篇博客主要是从web技术发展来探索微服务的起源&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;要想了解微服务是什么得从web框架出来之后开始讲起，大部分可能不知道微服务，一定知道写web服务的框架，懂Java的可以用Spring
         
       
     
@@ -70,11 +96,11 @@
   </entry>
   
   <entry>
-    <title>浅析微服务</title>
-    <link href="https://mrzhangboss.github.io/2021/01/07/%E6%B5%85%E6%9E%90%E5%BE%AE%E6%9C%8D%E5%8A%A1/"/>
-    <id>https://mrzhangboss.github.io/2021/01/07/浅析微服务/</id>
+    <title>技术如何深入</title>
+    <link href="https://mrzhangboss.github.io/2021/01/07/%E6%8A%80%E6%9C%AF%E5%A6%82%E4%BD%95%E6%B7%B1%E5%85%A5/"/>
+    <id>https://mrzhangboss.github.io/2021/01/07/技术如何深入/</id>
     <published>2021-01-06T16:00:00.000Z</published>
-    <updated>2021-02-23T12:40:21.696Z</updated>
+    <updated>2021-02-23T12:43:15.678Z</updated>
     
     <summary type="html">
     
@@ -83,9 +109,10 @@
         
         
           &lt;blockquote&gt;
-&lt;p&gt;这篇博客主要是从web技术发展来探索微服务的起源&lt;/p&gt;
+&lt;p&gt;为什么会有这篇博客呢，因为随着你阅历的增长，以及各种你即将面临的问题，比如婚姻、跳槽这种，你会有一种焦虑感，你一直在原地踏步，你怎么面对你的未来呢&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;要想了解微服务是什么得从web框架出来之后开始讲起，大部分可能不知道微服务，一定知道写web服务的框架，懂Java的可以用Spring
+&lt;p&gt;所以这篇博客其实很大程度是一种反思&lt;/p&gt;
+&lt;p&gt;首先要明
         
       
     
@@ -499,31 +526,6 @@
     
     
       <category term="programming" scheme="https://mrzhangboss.github.io/tags/programming/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>如何在Ubuntu上发布Scala Jar包到Maven中央仓库</title>
-    <link href="https://mrzhangboss.github.io/2019/01/13/%E5%A6%82%E4%BD%95%E5%9C%A8Ubuntu%E4%B8%8A%E5%8F%91%E5%B8%83ScalaJar%E5%8C%85%E5%88%B0Maven%E4%B8%AD%E5%A4%AE%E4%BB%93%E5%BA%93/"/>
-    <id>https://mrzhangboss.github.io/2019/01/13/如何在Ubuntu上发布ScalaJar包到Maven中央仓库/</id>
-    <published>2019-01-12T16:00:00.000Z</published>
-    <updated>2020-03-11T03:08:34.499Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;blockquote&gt;
-&lt;p&gt;由于网上的教程大多数是&lt;code&gt;Windows&lt;/code&gt;下的，而且都是介绍怎么打包&lt;code&gt;Java&lt;/code&gt;的&lt;code&gt;Jar&lt;/code&gt;包，关于&lt;code&gt;Scala&lt;/code&gt;相关的比较少，因此我踩了不少坑才成功的把包发布到
-        
-      
-    
-    </summary>
-    
-    
-      <category term="scala Java" scheme="https://mrzhangboss.github.io/tags/scala-Java/"/>
     
   </entry>
   
