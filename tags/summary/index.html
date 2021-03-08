@@ -1,32 +1,60 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 <meta name="generator" content="Hexo 3.9.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/wx2.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/wx2.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/wx2.png">
+  <link rel="mask-icon" href="/img/wx2.png" color="#222">
 
 <link rel="stylesheet" href="/css/main.css">
 
 
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
 
 <script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"mrzhangboss.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
-  </script>
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://mrzhangboss.github.io').hostname,
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.7.1',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"manual","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
 
   <meta property="og:type" content="website">
-<meta property="og:title" content="小轮子的奋斗笔记">
+<meta property="og:title" content="小轮子的笔记">
 <meta property="og:url" content="https://mrzhangboss.github.io/tags/summary/index.html">
-<meta property="og:site_name" content="小轮子的奋斗笔记">
-<meta property="og:locale" content="zh-cn">
+<meta property="og:site_name" content="小轮子的笔记">
+<meta property="og:locale" content="zh-CN">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="小轮子的奋斗笔记">
+<meta name="twitter:title" content="小轮子的笔记">
 
 <link rel="canonical" href="https://mrzhangboss.github.io/tags/summary/">
 
@@ -35,13 +63,12 @@
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : false,
-    isPost : false,
-    lang   : 'zh-cn'
+    isHome: false,
+    isPost: false
   };
 </script>
 
-  <title>Tag: summary | 小轮子的奋斗笔记</title>
+  <title>标签: summary | 小轮子的笔记</title>
   
 
 
@@ -80,65 +107,83 @@
 
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小轮子的笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="Toggle navigation bar">
+    <div class="toggle" aria-label="切换导航栏">
       <span class="toggle-line toggle-line-first"></span>
       <span class="toggle-line toggle-line-middle"></span>
       <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">小轮子的奋斗笔记</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-    </div>
-  </div>
 </div>
 
 
-
-
 <nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
+  
+  <ul id="menu" class="menu">
         <li class="menu-item menu-item-home">
 
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
 
   </li>
         <li class="menu-item menu-item-about">
 
-    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
 
   </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
   </ul>
+
 </nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
 
+</div>
+<div class="search-pop-overlay"></div>
 
-
-
+  </div>
 </div>
     </header>
 
@@ -154,7 +199,7 @@
         <div class="content-wrap">
           
 
-          <div class="content tag">
+          <div class="content">
             
 
   
@@ -163,14 +208,14 @@
   <div class="post-block">
     <div class="posts-collapse">
       <div class="collection-title">
-        <h2 class="collection-header">summary
-          <small>Tag</small>
-        </h2>
+        <h1 class="collection-header">summary
+          <small>标签</small>
+        </h1>
       </div>
 
       
     <div class="collection-year">
-      <span class="collection-header">2021</span>
+      <h1 class="collection-header">2021</h1>
     </div>
 
   <article itemscope itemtype="http://schema.org/Article">
@@ -184,11 +229,11 @@
         </time>
       </div>
 
-      <div class="post-title">
+      <h2 class="post-title">
           <a class="post-title-link" href="/2021/03/07/面试杂思/" itemprop="url">
             <span itemprop="name">面试杂思</span>
           </a>
-      </div>
+      </h2>
 
     </header>
   </article>
@@ -204,11 +249,11 @@
         </time>
       </div>
 
-      <div class="post-title">
+      <h2 class="post-title">
           <a class="post-title-link" href="/2021/01/07/浅析微服务/" itemprop="url">
             <span itemprop="name">浅析微服务</span>
           </a>
-      </div>
+      </h2>
 
     </header>
   </article>
@@ -224,11 +269,11 @@
         </time>
       </div>
 
-      <div class="post-title">
+      <h2 class="post-title">
           <a class="post-title-link" href="/2021/01/07/浅析Spring/" itemprop="url">
             <span itemprop="name">浅析Spring</span>
           </a>
-      </div>
+      </h2>
 
     </header>
   </article>
@@ -244,16 +289,16 @@
         </time>
       </div>
 
-      <div class="post-title">
+      <h2 class="post-title">
           <a class="post-title-link" href="/2021/01/07/技术如何深入/" itemprop="url">
             <span itemprop="name">技术如何深入</span>
           </a>
-      </div>
+      </h2>
 
     </header>
   </article>
     <div class="collection-year">
-      <span class="collection-header">2020</span>
+      <h1 class="collection-header">2020</h1>
     </div>
 
   <article itemscope itemtype="http://schema.org/Article">
@@ -267,11 +312,11 @@
         </time>
       </div>
 
-      <div class="post-title">
+      <h2 class="post-title">
           <a class="post-title-link" href="/2020/12/31/Tomcat高并发浅析/" itemprop="url">
             <span itemprop="name">Tomcat高并发浅析</span>
           </a>
-      </div>
+      </h2>
 
     </header>
   </article>
@@ -287,11 +332,11 @@
         </time>
       </div>
 
-      <div class="post-title">
+      <h2 class="post-title">
           <a class="post-title-link" href="/2020/12/30/Select和epoll浅析/" itemprop="url">
             <span itemprop="name">Select和epoll浅析</span>
           </a>
-      </div>
+      </h2>
 
     </header>
   </article>
@@ -307,11 +352,11 @@
         </time>
       </div>
 
-      <div class="post-title">
+      <h2 class="post-title">
           <a class="post-title-link" href="/2020/12/24/技术虾虾看/" itemprop="url">
             <span itemprop="name">技术虾虾看</span>
           </a>
-      </div>
+      </h2>
 
     </header>
   </article>
@@ -327,11 +372,11 @@
         </time>
       </div>
 
-      <div class="post-title">
+      <h2 class="post-title">
           <a class="post-title-link" href="/2020/12/21/大数据架构小结/" itemprop="url">
             <span itemprop="name">大数据架构小结</span>
           </a>
-      </div>
+      </h2>
 
     </header>
   </article>
@@ -347,16 +392,16 @@
         </time>
       </div>
 
-      <div class="post-title">
+      <h2 class="post-title">
           <a class="post-title-link" href="/2020/01/07/深夜有感/" itemprop="url">
             <span itemprop="name">深夜有感</span>
           </a>
-      </div>
+      </h2>
 
     </header>
   </article>
     <div class="collection-year">
-      <span class="collection-header">2018</span>
+      <h1 class="collection-header">2018</h1>
     </div>
 
   <article itemscope itemtype="http://schema.org/Article">
@@ -370,11 +415,11 @@
         </time>
       </div>
 
-      <div class="post-title">
+      <h2 class="post-title">
           <a class="post-title-link" href="/2018/10/13/StartingUsingEnglishInMyBlog/" itemprop="url">
             <span itemprop="name">Starting Using English In My Blog</span>
           </a>
-      </div>
+      </h2>
 
     </header>
   </article>
@@ -387,7 +432,7 @@
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/tags/summary/page/2/">2</a><a class="page-number" href="/tags/summary/page/3/">3</a><a class="extend next" rel="next" href="/tags/summary/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/tags/summary/page/2/">2</a><a class="page-number" href="/tags/summary/page/3/">3</a><a class="extend next" rel="next" href="/tags/summary/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -397,7 +442,7 @@
 
 <script>
   window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
+    let activeClass = CONFIG.comments.activeClass;
     if (CONFIG.comments.storage) {
       activeClass = localStorage.getItem('comments_active') || activeClass;
     }
@@ -431,10 +476,10 @@
 
       <ul class="sidebar-nav motion-element">
         <li class="sidebar-nav-toc">
-          Table of Contents
+          文章目录
         </li>
         <li class="sidebar-nav-overview">
-          Overview
+          站点概览
         </li>
       </ul>
 
@@ -445,6 +490,8 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="张伦"
+      src="/images/myself.jpg">
   <p class="site-author-name" itemprop="name">张伦</p>
   <div class="site-description" itemprop="description"></div>
 </div>
@@ -454,15 +501,25 @@
           <a href="/archives/">
         
           <span class="site-state-item-count">98</span>
-          <span class="site-state-item-name">posts</span>
+          <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
         <span class="site-state-item-count">29</span>
-        <span class="site-state-item-name">tags</span>
+        <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
 </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mrzhangboss" title="GitHub → https://github.com/mrzhangboss" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/xiaolunzi6@gmail.com" title="E-Mail → xiaolunzi6@gmail.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
 
 
 
@@ -480,17 +537,27 @@
       <div class="footer-inner">
         
 
-        
-
 <div class="copyright">
   
-  &copy; 
+  &copy; 2016 – 
   <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
-    <i class="fa fa-heart"></i>
+    <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">张伦</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">NaNm</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">NaN:aN</span>
 </div>
+  <div class="theme-info">主题 – <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.1
+  </div>
 
         
 
@@ -506,6 +573,8 @@
   </div>
 
   
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
   <script src="/lib/anime.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
@@ -513,6 +582,7 @@
 <script src="/js/schemes/pisces.js"></script>
 <script src="/js/next-boot.js"></script>
 
+  <script defer src="/lib/three/three.min.js"></script>
 
 
   
@@ -520,6 +590,7 @@
 
 
 
+  <script src="/js/local-search.js"></script>
 
 
 
@@ -530,6 +601,9 @@
 
 
 
+
+
+  
 
   
 

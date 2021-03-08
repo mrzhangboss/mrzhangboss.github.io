@@ -1,33 +1,61 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 <meta name="generator" content="Hexo 3.9.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/wx2.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/wx2.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/wx2.png">
+  <link rel="mask-icon" href="/img/wx2.png" color="#222">
 
 <link rel="stylesheet" href="/css/main.css">
 
 
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
 
 <script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"mrzhangboss.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
-  </script>
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://mrzhangboss.github.io').hostname,
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.7.1',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"manual","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
 
   <meta name="description" content="最近在学习大数据,书看了不少,但是总是觉得很迷茫,不知道怎么学下去,今天突然想写点什么来总结一下这些天.  起因逛博客的时候看到一篇分享如何修炼成大数据高手感觉很有趣 买了两本书  这两本书都是很多年前写的,但是最近这几年随着”大数据”被大家越炒越热,随即被大家所看重.这两个作者很牛,在30年前大数据还只是萌芽的时候就提出未来大数据的重要性和价值.大数据是什么了,现在为什么这么火,以前没有大数据">
 <meta name="keywords" content="summary">
 <meta property="og:type" content="article">
 <meta property="og:title" content="大数据学习小总结">
 <meta property="og:url" content="https://mrzhangboss.github.io/2016/07/18/大数据学习小总结0/index.html">
-<meta property="og:site_name" content="小轮子的奋斗笔记">
+<meta property="og:site_name" content="小轮子的笔记">
 <meta property="og:description" content="最近在学习大数据,书看了不少,但是总是觉得很迷茫,不知道怎么学下去,今天突然想写点什么来总结一下这些天.  起因逛博客的时候看到一篇分享如何修炼成大数据高手感觉很有趣 买了两本书  这两本书都是很多年前写的,但是最近这几年随着”大数据”被大家越炒越热,随即被大家所看重.这两个作者很牛,在30年前大数据还只是萌芽的时候就提出未来大数据的重要性和价值.大数据是什么了,现在为什么这么火,以前没有大数据">
-<meta property="og:locale" content="zh-cn">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://www.36dsj.com/wp-content/uploads/2014/05/15.png">
 <meta property="og:image" content="http://www.36dsj.com/wp-content/uploads/2014/05/23.png">
 <meta property="og:updated_time" content="2020-03-11T03:08:34.419Z">
@@ -43,13 +71,12 @@
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : false,
-    isPost : true,
-    lang   : 'zh-cn'
+    isHome: false,
+    isPost: true
   };
 </script>
 
-  <title>大数据学习小总结 | 小轮子的奋斗笔记</title>
+  <title>大数据学习小总结 | 小轮子的笔记</title>
   
 
 
@@ -88,65 +115,83 @@
 
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小轮子的笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="Toggle navigation bar">
+    <div class="toggle" aria-label="切换导航栏">
       <span class="toggle-line toggle-line-first"></span>
       <span class="toggle-line toggle-line-middle"></span>
       <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">小轮子的奋斗笔记</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-    </div>
-  </div>
 </div>
 
 
-
-
 <nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
+  
+  <ul id="menu" class="menu">
         <li class="menu-item menu-item-home">
 
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
 
   </li>
         <li class="menu-item menu-item-about">
 
-    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
 
   </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
   </ul>
+
 </nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
 
+</div>
+<div class="search-pop-overlay"></div>
 
-
-
+  </div>
 </div>
     </header>
 
@@ -162,23 +207,24 @@
         <div class="content-wrap">
           
 
-          <div class="content post posts-expand">
+          <div class="content">
             
 
-    
+  <div class="posts-expand">
+      
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-cn">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/大数据学习小总结0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/myself.jpg">
       <meta itemprop="name" content="张伦">
       <meta itemprop="description" content="">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小轮子的奋斗笔记">
+      <meta itemprop="name" content="小轮子的笔记">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -188,21 +234,33 @@
         <div class="post-meta">
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
+                <i class="fa fa-calendar-o"></i>
               </span>
-              <span class="post-meta-item-text">Posted on</span>
+              <span class="post-meta-item-text">发表于</span>
 
-              <time title="Created: 2016-07-18 16:07:36" itemprop="dateCreated datePublished" datetime="2016-07-18T16:07:36+08:00">2016-07-18</time>
+              <time title="创建时间：2016-07-18 16:07:36" itemprop="dateCreated datePublished" datetime="2016-07-18T16:07:36+08:00">2016-07-18</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
+                  <i class="fa fa-calendar-check-o"></i>
                 </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-03-11 11:08:34" itemprop="dateModified" datetime="2020-03-11T11:08:34+08:00">2020-03-11</time>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-11 11:08:34" itemprop="dateModified" datetime="2020-03-11T11:08:34+08:00">2020-03-11</time>
               </span>
 
           
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span></span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>NaN:aN</span>
+            </span>
 
         </div>
       </header>
@@ -225,22 +283,42 @@
     
     
     
+        <div class="reward-container">
+  <div>原创技术分享，您的支持将鼓励我继续创作</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechat_pay.jpg" alt="张伦 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.jpeg" alt="张伦 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
         
 
   <div class="followme">
-    <p>Welcome to my other publishing channels</p>
+    <p>欢迎关注我的其它发布渠道</p>
 
     <div class="social-list">
 
-        <div class="social-item">
-          <a target="_blank" class="social-link" href="/atom.xml">
-            <span class="icon">
-              <i class="fa fa-rss"></i>
-            </span>
+            <div class="social-item">
+              <a target="_blank" class="social-link" href="/atom.xml">
+                <span class="icon">
+                  <i class="fa fa-rss"></i>
+                </span>
 
-            <span class="label">RSS</span>
-          </a>
-        </div>
+                <span class="label">RSS</span>
+              </a>
+            </div>
     </div>
   </div>
 
@@ -271,6 +349,7 @@
   
   
 
+  </div>
 
 
           </div>
@@ -278,7 +357,7 @@
 
 <script>
   window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
+    let activeClass = CONFIG.comments.activeClass;
     if (CONFIG.comments.storage) {
       activeClass = localStorage.getItem('comments_active') || activeClass;
     }
@@ -312,10 +391,10 @@
 
       <ul class="sidebar-nav motion-element">
         <li class="sidebar-nav-toc">
-          Table of Contents
+          文章目录
         </li>
         <li class="sidebar-nav-overview">
-          Overview
+          站点概览
         </li>
       </ul>
 
@@ -327,6 +406,8 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="张伦"
+      src="/images/myself.jpg">
   <p class="site-author-name" itemprop="name">张伦</p>
   <div class="site-description" itemprop="description"></div>
 </div>
@@ -336,15 +417,25 @@
           <a href="/archives/">
         
           <span class="site-state-item-count">98</span>
-          <span class="site-state-item-name">posts</span>
+          <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
         <span class="site-state-item-count">29</span>
-        <span class="site-state-item-name">tags</span>
+        <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
 </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mrzhangboss" title="GitHub → https://github.com/mrzhangboss" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/xiaolunzi6@gmail.com" title="E-Mail → xiaolunzi6@gmail.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
 
 
 
@@ -362,17 +453,27 @@
       <div class="footer-inner">
         
 
-        
-
 <div class="copyright">
   
-  &copy; 
+  &copy; 2016 – 
   <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
-    <i class="fa fa-heart"></i>
+    <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">张伦</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">NaNm</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">NaN:aN</span>
 </div>
+  <div class="theme-info">主题 – <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.1
+  </div>
 
         
 
@@ -388,6 +489,8 @@
   </div>
 
   
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
   <script src="/lib/anime.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
@@ -395,6 +498,7 @@
 <script src="/js/schemes/pisces.js"></script>
 <script src="/js/next-boot.js"></script>
 
+  <script defer src="/lib/three/three.min.js"></script>
 
 
   
@@ -402,6 +506,7 @@
 
 
 
+  <script src="/js/local-search.js"></script>
 
 
 
@@ -412,6 +517,9 @@
 
 
 
+
+
+  
 
   
 
