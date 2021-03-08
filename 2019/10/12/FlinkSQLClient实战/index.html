@@ -20,15 +20,6 @@
     var CONFIG = {"hostname":"mrzhangboss.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-    (function(){
-        if(''){
-            if (prompt('请输入文章密码') !== ''){
-                alert('密码错误！');
-                history.back();
-            }
-        }
-    })();
-
   <meta name="description" content="Flink SQL Client 是一个帮助用户直接运行SQL，而不要进行编译运行的工具，首先他支持多个数据源，在Flink1.9.0开始支持了Hive，并且在Flink 1.10.0时候发布了企业级Hive支持，这样就把批处理和流计算结合了起来，这篇博客详解了Hive在Flink SQL Client中的安装和使用，以及探索在上面做的一些复杂开发实践  Hive安装依赖的jar包如下 antl">
 <meta name="keywords" content="big-data Flink hive">
 <meta property="og:type" content="article">
