@@ -1,111 +1,218 @@
-
- <!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="zh-cn">
 <head>
   <meta charset="UTF-8">
-  
-    <title>什么是操作系统 | lunge博客</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
-    
-    <meta name="author" content="张伦">
-    
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-    
-    <meta name="description" content="引言本文是基于mit6.828 的lab1对操作系统的思考，网上有不少关于lab1的博客，大部分都是介绍如何完成lab1的问题，介绍的比较详细的有这个博客，在这里我就不从问题出发，建议大家看完上面的博客在看我这篇博文，我这篇博文就是从把我遇到的疑惑提炼出知识点，然后再把这些知识点串起来
-实验目的作为操作系统的第一个实验，在完成lab1我们主要目的就是要了解什么是操作系统，后面的lab都是在这个基础">
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"mrzhangboss.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="引言本文是基于mit6.828 的lab1对操作系统的思考，网上有不少关于lab1的博客，大部分都是介绍如何完成lab1的问题，介绍的比较详细的有这个博客，在这里我就不从问题出发，建议大家看完上面的博客在看我这篇博文，我这篇博文就是从把我遇到的疑惑提炼出知识点，然后再把这些知识点串起来 实验目的作为操作系统的第一个实验，在完成lab1我们主要目的就是要了解什么是操作系统，后面的lab都是在这个基础">
+<meta name="keywords" content="mit6.828">
 <meta property="og:type" content="article">
 <meta property="og:title" content="什么是操作系统">
 <meta property="og:url" content="https://mrzhangboss.github.io/2018/01/29/什么是操作系统/index.html">
-<meta property="og:site_name" content="lunge博客">
-<meta property="og:description" content="引言本文是基于mit6.828 的lab1对操作系统的思考，网上有不少关于lab1的博客，大部分都是介绍如何完成lab1的问题，介绍的比较详细的有这个博客，在这里我就不从问题出发，建议大家看完上面的博客在看我这篇博文，我这篇博文就是从把我遇到的疑惑提炼出知识点，然后再把这些知识点串起来
-实验目的作为操作系统的第一个实验，在完成lab1我们主要目的就是要了解什么是操作系统，后面的lab都是在这个基础">
+<meta property="og:site_name" content="小轮子的奋斗笔记">
+<meta property="og:description" content="引言本文是基于mit6.828 的lab1对操作系统的思考，网上有不少关于lab1的博客，大部分都是介绍如何完成lab1的问题，介绍的比较详细的有这个博客，在这里我就不从问题出发，建议大家看完上面的博客在看我这篇博文，我这篇博文就是从把我遇到的疑惑提炼出知识点，然后再把这些知识点串起来 实验目的作为操作系统的第一个实验，在完成lab1我们主要目的就是要了解什么是操作系统，后面的lab都是在这个基础">
+<meta property="og:locale" content="zh-cn">
 <meta property="og:image" content="https://mrzhangboss.github.io/images/stack.png">
 <meta property="og:updated_time" content="2020-03-11T03:08:34.443Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="什么是操作系统">
-<meta name="twitter:description" content="引言本文是基于mit6.828 的lab1对操作系统的思考，网上有不少关于lab1的博客，大部分都是介绍如何完成lab1的问题，介绍的比较详细的有这个博客，在这里我就不从问题出发，建议大家看完上面的博客在看我这篇博文，我这篇博文就是从把我遇到的疑惑提炼出知识点，然后再把这些知识点串起来
-实验目的作为操作系统的第一个实验，在完成lab1我们主要目的就是要了解什么是操作系统，后面的lab都是在这个基础">
+<meta name="twitter:description" content="引言本文是基于mit6.828 的lab1对操作系统的思考，网上有不少关于lab1的博客，大部分都是介绍如何完成lab1的问题，介绍的比较详细的有这个博客，在这里我就不从问题出发，建议大家看完上面的博客在看我这篇博文，我这篇博文就是从把我遇到的疑惑提炼出知识点，然后再把这些知识点串起来 实验目的作为操作系统的第一个实验，在完成lab1我们主要目的就是要了解什么是操作系统，后面的lab都是在这个基础">
 <meta name="twitter:image" content="https://mrzhangboss.github.io/images/stack.png">
-<meta name="twitter:creator" content="@mrzhangboss">
 
-    
-    <link rel="alternative" href="/atom.xml" title="lunge博客" type="application/atom+xml">
-    
-    
-    <link rel="icon" href="/img/wx2.png">
-    
-    
-    <link rel="apple-touch-icon" href="/img/wx2.png">
-    <link rel="apple-touch-icon-precomposed" href="/img/wx2.png">
-    
-    <link rel="stylesheet" href="/css/style.css">
+<link rel="canonical" href="https://mrzhangboss.github.io/2018/01/29/什么是操作系统/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-cn'
+  };
+</script>
+
+  <title>什么是操作系统 | 小轮子的奋斗笔记</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
 </head>
 
-  <body>
-    <header>
-      
-<div>
-		
-			<div id="imglogo">
-				<a href="/"><img src="/img/wx2.png" alt="lunge博客" title="lunge博客"/></a>
-			</div>
-			
-			<div id="textlogo">
-				<h1 class="site-name"><a href="/" title="lunge博客">lunge博客</a></h1>
-				<h2 class="blog-motto"></h2>
-			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
-			</a></div>
-			<nav class="animated">
-				<ul>
-					<ul>
-					 
-						<li><a href="/">Home</a></li>
-					
-						<li><a href="/archives">Archives</a></li>
-					
-						<li><a href="/about">About</a></li>
-					
-					<li>
- 					
-					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
-						<label>Search</label>
-						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="Search" />
-					</form>
-					
-					</li>
-				</ul>
-			</nav>			
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">小轮子的奋斗笔记</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
 </div>
     </header>
-    <div id="container">
-      <div id="main" class="post" itemscope itemprop="blogPost">
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
   
-	<article itemprop="articleBody"> 
-		<header class="article-info clearfix">
-  <h1 itemprop="name">
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-cn">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/01/29/什么是操作系统/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小轮子的奋斗笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          什么是操作系统
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-01-29 00:00:00" itemprop="dateCreated datePublished" datetime="2018-01-29T00:00:00+08:00">2018-01-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-03-11 11:08:34" itemprop="dateModified" datetime="2020-03-11T11:08:34+08:00">2020-03-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
     
-      <a href="/2018/01/29/什么是操作系统/" title="什么是操作系统" itemprop="url">什么是操作系统</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="张伦" target="_blank" itemprop="author">张伦</a>
-		
-  <p class="article-time">
-    <time datetime="2018-01-28T16:00:00.000Z" itemprop="datePublished"> Published 2018-01-29</time>
     
-  </p>
-</header>
-	<div class="article-content">
-		
-		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
-		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实验目的"><span class="toc-number">2.</span> <span class="toc-text">实验目的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">3.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#上位篇"><span class="toc-number">4.</span> <span class="toc-text">上位篇</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#操作系统结构"><span class="toc-number">5.</span> <span class="toc-text">操作系统结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#堆栈"><span class="toc-number">5.1.</span> <span class="toc-text">堆栈</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#操作系统的高地址"><span class="toc-number">6.</span> <span class="toc-text">操作系统的高地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">7.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引用"><span class="toc-number">8.</span> <span class="toc-text">引用</span></a></li></ol>
-		
-		</div>
-		
-		<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本文是基于mit6.828 的lab1对操作系统的思考，网上有不少关于lab1的博客，大部分都是介绍如何完成lab1的问题，介绍的比较详细的有这个<a href="http://www.cnblogs.com/fatsheep9146/category/769143.html" target="_blank" rel="external">博客</a>，在这里我就不从问题出发，建议大家看完上面的博客在看我这篇博文，我这篇博文就是从把我遇到的疑惑提炼出知识点，然后再把这些知识点串起来</p>
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本文是基于mit6.828 的lab1对操作系统的思考，网上有不少关于lab1的博客，大部分都是介绍如何完成lab1的问题，介绍的比较详细的有这个<a href="http://www.cnblogs.com/fatsheep9146/category/769143.html" target="_blank" rel="external">博客</a>，在这里我就不从问题出发，建议大家看完上面的博客在看我这篇博文，我这篇博文就是从把我遇到的疑惑提炼出知识点，然后再把这些知识点串起来</p>
 <h2 id="实验目的"><a href="#实验目的" class="headerlink" title="实验目的"></a>实验目的</h2><p>作为操作系统的第一个实验，在完成lab1我们主要目的就是要了解什么是操作系统，后面的lab都是在这个基础上搭建完善好系统的各种功能，就好像你画一幅画，第一步你先把人物的轮廓外形画出来，接下来你在把人的鼻子耳朵眼睛等等慢慢画出来，所以第一个实验非常重要，如果不把骨架搭好，你的操作系统再怎么豪华强大也是空中楼阁，所以我们在这个lab上一定要花上很多时间，万事开头难，只要攻克了这个，操作系统也就离你不远了</p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>谈操作系统之前必须得谈谈什么是计算机，因为我们的操作系统是运行在计算机上面的，操作系统与计算机关系密切，我们可以用一个很贴切的比方，假如你想了解手套为什么长成那么奇怪，那么你得先举起你的双手看看。</p>
 <p>闲话不多说，进入正题，计算机最核心部分就是CPU，记得电脑刚发明出来的时候，编程只能通过穿孔卡片，当然计算机发明这么久，CPU的核心功能基本上没有变，还是只能通过“穿孔卡片”，只不过我们编程语音将我们的使用的语音如C，Python等变成“穿孔卡片”，这里有个非常重要的概念：<strong>指令</strong>。也就是每个CPU的是每次只能执行一条指令。当然第二个重要的就是内存了，前面说了CPU是必须要通过”穿孔卡片“来编程的，但是随着程序愈来愈大，我们必须要使用一个东西来存贮“卡片”，所以内存孕育而生了，其实很多感叹电脑这个词实在是太贴切了，人脑可以处理问题，电脑也可以处理问题，人脑有短期记忆长期记录，电脑有寄存器（短期记忆）内存（长期记忆）。</p>
@@ -146,466 +253,205 @@
 <p>在最后的话，我谈一谈我对入门这门课的感受吧，我算编程基础还算比较扎实，但是在一开始学习的过程中一脸懵逼，C语言的各种骚操作，汇编与C疯狂混合，看惯了脚本语言的我，对这种改一下就编译不过的“硬骨头”异常难受，一开始根本看不下去，有的时候看几行代码，查资料好几个小时，而且资料特别难找，你不知道这种骚操作有啥意思，在这里还得感谢学习过这门课的学长学姐们，在网上无私的把自己的感受分享出来，慢慢的根据他们的资料和自己的调试还有自己找资料，慢慢的把这个代码一行一行搞懂，搞懂之后特别感慨，其实也不是很难，难的是要把你知道的所以知识点串起来，然后你就能搞懂为什么要这么做，所以我推荐大家还是多看代码，多去思考为什么要这么做，必须要自己的思考在里面，如果单纯的知识为了完成实验其实很简单，但是难就难在把这门课琢磨透，搞懂他们为什么要这样考你，毕竟大家最后的目的都是自己做出自己的操作系统，只有了解的透彻，才能“破而后立”搞出自己的创新，而不是复制他们的壳子，所以加油把每一行代码都搞懂，多思考，不要骄傲，毕竟这只是教学类的操作系统，要想自己写出来还得不懈努力。</p>
 <p>接下来还有6个lab需要完成，终于迈出的第一步，希望在年前能够完成所有的实验吧！！！加油！！！</p>
 <h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://buweilv.github.io/2017/06/10/jos-bootstrap-3/" target="_blank" rel="external">“C语言虚拟内存表”</a></p>
-  
-	</div>
-		<footer class="article-footer clearfix">
-<div class="article-catetags">
 
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/mit6-828/">mit6.828</a>
-  </div>
-
-</div>
-
-
-
-	<div class="article-share" id="share">
-	
-	  <div data-url="https://mrzhangboss.github.io/2018/01/29/什么是操作系统/" data-title="什么是操作系统 | lunge博客" data-tsina="5364356330" class="share clearfix">
-	  </div>
-	
-	</div>
-
-
-</footer>
-
-   	       
-	</article>
-	
-<nav class="article-nav clearfix">
- 
- <div class="prev" >
- <a href="/2018/01/30/从CS寄存器看段的前世今生/" title="从CS寄存器看段的前世今生">
-  <strong>上一篇：</strong><br/>
-  <span>
-  从CS寄存器看段的前世今生</span>
-</a>
-</div>
-
-
-<div class="next">
-<a href="/2018/01/09/mit6.828课程总结/"  title="mit6.828课程总结">
- <strong>下一篇：</strong><br/> 
- <span>mit6.828课程总结
-</span>
-</a>
-</div>
-
-</nav>
-
-	
-<section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2018/01/29/什么是操作系统/" data-title="什么是操作系统" data-url="https://mrzhangboss.github.io/2018/01/29/什么是操作系统/"></div>
-</section>
-
-
-
-
-</div>  
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
-
-  <div id="toc" class="toc-aside">
-  <strong class="toc-title">Contents</strong>
- 
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实验目的"><span class="toc-number">2.</span> <span class="toc-text">实验目的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">3.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#上位篇"><span class="toc-number">4.</span> <span class="toc-text">上位篇</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#操作系统结构"><span class="toc-number">5.</span> <span class="toc-text">操作系统结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#堆栈"><span class="toc-number">5.1.</span> <span class="toc-text">堆栈</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#操作系统的高地址"><span class="toc-number">6.</span> <span class="toc-text">操作系统的高地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">7.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引用"><span class="toc-number">8.</span> <span class="toc-text">引用</span></a></li></ol>
- 
-  </div>
-
-<div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
-<aside class="clearfix">
-
-  
-
-  
-<div class="tagslist">
-	<p class="asidetitle">Tags</p>
-		<ul class="clearfix">
-		
-			
-				<li><a href="/tags/summary/" title="summary">summary<sup>21</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/programming/" title="programming">programming<sup>12</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/software/" title="software">software<sup>8</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/python/" title="python">python<sup>8</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/mit6-828/" title="mit6.828">mit6.828<sup>7</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/github/" title="github">github<sup>4</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>4</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/big-data/" title="big-data">big-data<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/competition/" title="competition">competition<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/TDD/" title="TDD">TDD<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Java/" title="Java">Java<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/big-data-hadoop/" title="big-data hadoop">big-data hadoop<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/感想/" title="感想">感想<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Python3-GIL/" title="Python3, GIL">Python3, GIL<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Hadoop-Spark-Hive-Hbase/" title="Hadoop Spark Hive Hbase">Hadoop Spark Hive Hbase<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/transform/" title="transform">transform<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/js/" title="js">js<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Python3/" title="Python3">Python3<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/big-data-Flink-hive/" title="big-data Flink hive">big-data Flink hive<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/python3/" title="python3">python3<sup>1</sup></a></li>
-			
-		
-		</ul>
-</div>
-
-
-  <div class="linkslist">
-  <p class="asidetitle">Links</p>
-    <ul>
-        
-          <li>
-            
-            	<a href="https://segmentfault.com/ " target="_blank" title="一个面向程序员交流分享的新一代社区">segmentfault</a>
-            
-          </li>
-        
-    </ul>
-</div>
-
-  
-
-
-  <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
-</div>
-
-  <div class="weiboshow">
-  <p class="asidetitle">Weibo</p>
-    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5364356330&verifier=&dpc=1"></iframe>
-</div>
-
-
-</aside>
-</div>
     </div>
-    <footer><div id="footer" >
-	
-	<div class="line">
-		<span></span>
-		<div class="author"></div>
-	</div>
-	
-	
-	<section class="info">
-		<p> Hello ,I&#39;m zhanglun. <br/>
-			This is my blog.</p>
-	</section>
-	 
-	<div class="social-font" class="clearfix">
-		
-		<a href="http://weibo.com/5364356330" target="_blank" class="icon-weibo" title="微博"></a>
-		
-		
-		<a href="https://github.com/mrzhangboss" target="_blank" class="icon-github" title="github"></a>
-		
-		
-		<a href="http://stackoverflow.com/users/6599843" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
-		
-		
-		<a href="https://twitter.com/mrzhangboss" target="_blank" class="icon-twitter" title="twitter"></a>
-		
-		
-		<a href="https://www.facebook.com/100011375031071" target="_blank" class="icon-facebook" title="facebook"></a>
-		
-		
-		
-		
-		<a href="http://www.zhihu.com/people/zhang-lun-59-53" target="_blank" class="icon-zhihu" title="知乎"></a>
-		
-		
-		
-		<a href="mailto:2529450174@qq.com" target="_blank" class="icon-email" title="Email Me"></a>
-		
-	</div>
-			
-		
 
-		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2021 
-		
-		<a href="/about" target="_blank" title="张伦">张伦</a>
-		
-		
-		</p>
-</div>
-</footer>
-    <script src="/js/jquery-2.0.3.min.js"></script>
-<script src="/js/jquery.imagesloaded.min.js"></script>
-<script src="/js/gallery.js"></script>
-<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
-
-<script type="text/javascript">
-$(document).ready(function(){ 
-  $('.navbar').click(function(){
-    $('header nav').toggleClass('shownav');
-  });
-  var myWidth = 0;
-  function getSize(){
-    if( typeof( window.innerWidth ) == 'number' ) {
-      myWidth = window.innerWidth;
-    } else if( document.documentElement && document.documentElement.clientWidth) {
-      myWidth = document.documentElement.clientWidth;
-    };
-  };
-  var m = $('#main'),
-      a = $('#asidepart'),
-      c = $('.closeaside'),
-      o = $('.openaside');
-  c.click(function(){
-    a.addClass('fadeOut').css('display', 'none');
-    o.css('display', 'block').addClass('fadeIn');
-    m.addClass('moveMain');
-  });
-  o.click(function(){
-    o.css('display', 'none').removeClass('beforeFadeIn');
-    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
-    m.removeClass('moveMain');
-  });
-  $(window).scroll(function(){
-    o.css("top",Math.max(80,260-$(this).scrollTop()));
-  });
-  
-  $(window).resize(function(){
-    getSize(); 
-    if (myWidth >= 1024) {
-      $('header nav').removeClass('shownav');
-    }else{
-      m.removeClass('moveMain');
-      a.css('display', 'block').removeClass('fadeOut');
-      o.css('display', 'none');
-      
-      $('#toc.toc-aside').css('display', 'none');
+    
+    
+    
         
-    }
-  });
-});
-</script>
 
-<script type="text/javascript">
-$(document).ready(function(){ 
-  var ai = $('.article-content>iframe'),
-      ae = $('.article-content>embed'),
-      t  = $('#toc'),
-      ta = $('#toc.toc-aside'),
-      o  = $('.openaside'),
-      c  = $('.closeaside');
-  if(ai.length>0){
-    ai.wrap('<div class="video-container" />');
-  };
-  if(ae.length>0){
-   ae.wrap('<div class="video-container" />');
-  };
-  c.click(function(){
-    ta.css('display', 'block').addClass('fadeIn');
-  });
-  o.click(function(){
-    ta.css('display', 'none');
-  });
-  $(window).scroll(function(){
-    ta.css("top",Math.max(140,320-$(this).scrollTop()));
-  });
-});
-</script>
+  <div class="followme">
+    <p>Welcome to my other publishing channels</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
 
 
-<script type="text/javascript">
-$(document).ready(function(){ 
-  var $this = $('.share'),
-      url = $this.attr('data-url'),
-      encodedUrl = encodeURIComponent(url),
-      title = $this.attr('data-title'),
-      tsina = $this.attr('data-tsina'),
-      description = $this.attr('description');
-  var html = [
-  '<div class="hoverqrcode clearfix"></div>',
-  '<a class="overlay" id="qrcode"></a>',
-  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
-  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
-  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
-  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
-  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
-  '<span title="Share to"></span>'
-  ].join('');
-  $this.append(html);
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/mit6-828/" rel="tag"># mit6.828</a>
+          </div>
 
-  $('.hoverqrcode').hide();
+        
 
-  var myWidth = 0;
-  function updatehoverqrcode(){
-    if( typeof( window.innerWidth ) == 'number' ) {
-      myWidth = window.innerWidth;
-    } else if( document.documentElement && document.documentElement.clientWidth) {
-      myWidth = document.documentElement.clientWidth;
-    };
-    var qrsize = myWidth > 1024 ? 200:100;
-    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
-    var p = $('.article-share-qrcode').position();
-    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
-                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
-                          .qrcode(options);
-  };
-  $(window).resize(function(){
-    $('.hoverqrcode').hide();
-  });
-  $('.article-share-qrcode').click(function(){
-    updatehoverqrcode();
-    $('.hoverqrcode').toggle();
-  });
-  $('.article-share-qrcode').hover(function(){}, function(){
-      $('.hoverqrcode').hide();
-  });
-});   
-</script>
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/01/09/mit6.828课程总结/" rel="prev" title="mit6.828课程总结">
+      <i class="fa fa-chevron-left"></i> mit6.828课程总结
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/01/30/从CS寄存器看段的前世今生/" rel="next" title="从CS寄存器看段的前世今生">
+      从CS寄存器看段的前世今生 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
 
 
 
-<script type="text/javascript">
-  var duoshuoQuery = {short_name:"lunge"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-    || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-</script> 
-
-
-
-
-
-
-
-
-
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){ 
-  $('.article-content').each(function(i){
-    $(this).find('img').each(function(){
-      if ($(this).parent().hasClass('fancybox')) return;
-      var alt = this.alt;
-      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
-      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
-    });
-    $(this).find('.fancybox').each(function(){
-      $(this).attr('rel', 'article' + i);
-    });
-  });
-  if($.fancybox){
-    $('.fancybox').fancybox();
-  }
-}); 
-</script>
-
-
-
-<!-- Analytics Begin -->
-
-<script type="text/javascript">
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-ga('create', 'UA-80810286-1,UA-80810286-2', 'auto,auto');  
-ga('send', 'pageview');
-</script>
-
-
+          </div>
+          
 
 <script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
 </script>
 
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实验目的"><span class="nav-number">2.</span> <span class="nav-text">实验目的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">3.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#上位篇"><span class="nav-number">4.</span> <span class="nav-text">上位篇</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作系统结构"><span class="nav-number">5.</span> <span class="nav-text">操作系统结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#堆栈"><span class="nav-number">5.1.</span> <span class="nav-text">堆栈</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作系统的高地址"><span class="nav-number">6.</span> <span class="nav-text">操作系统的高地址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用"><span class="nav-number">8.</span> <span class="nav-text">引用</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">张伦</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">98</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
 
 
-<!-- Analytics End -->
 
-<!-- Totop Begin -->
+      </div>
 
-	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
-	</div>
-	<script src="/js/totop.js"></script>
-
-<!-- Totop End -->
-
-<!-- MathJax Begin -->
-<!-- mathjax config similar to math.stackexchange -->
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
 
 
-<!-- MathJax End -->
+      </div>
+    </main>
 
-<!-- Tiny_search Begin -->
+    <footer class="footer">
+      <div class="footer-inner">
+        
 
-<!-- Tiny_search End -->
+        
 
-  </body>
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张伦</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
 </html>
