@@ -250,13 +250,13 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>2.3k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -273,12 +273,12 @@
 </blockquote>
 <p>scrapy是一款非常轻量级的爬虫框架，但是由于它隐藏了太多关于网络请求的细节，所以我们有时候会遭遇到一下很尴尬的bug，当然这主要是因为碰到一些不规范的网站。</p>
 <p>python的编码转码网上有很多文章，如果你不了解这个你可以参考下面了解。</p>
-<p><a href="http://nedbatchelder.com/text/unipain.html" target="_blank" rel="external">Ned Batchelder 关于python unicode和str的理解，通俗易懂</a></p>
-<p><a href="http://www.tuicool.com/articles/ZbEFnya" target="_blank" rel="external">关于scrapy 入门</a></p>
-<p><a href="http://blog.csdn.net/crazyhacking/article/details/39375535" target="_blank" rel="external"> 关于 encode的认识</a></p>
+<p><a href="http://nedbatchelder.com/text/unipain.html" target="_blank" rel="noopener">Ned Batchelder 关于python unicode和str的理解，通俗易懂</a></p>
+<p><a href="http://www.tuicool.com/articles/ZbEFnya" target="_blank" rel="noopener">关于scrapy 入门</a></p>
+<p><a href="http://blog.csdn.net/crazyhacking/article/details/39375535" target="_blank" rel="noopener"> 关于 encode的认识</a></p>
 <p>通过上面我们可以很好的理解python的转码译码，在这里我想谈一下我自己对其的认识吧，我一开始接触的c语言序列的基本上都是强类型，比如C里面假如我想写一个函数每个传人的参数都得是有类型的，但是python弱化了类型这一点，python也是面对对象的，但是他的对象就是鸡同鸭讲，照猫画虎就能运行，弱类型适合动态语言，我们不确定下一行代码输入的是什么，自从学python起，一直感觉python对类型一直不严格，这样就给了我一种错觉，只要长得差不多就能一样的比划，比如在两个string，<code>&#39;中国&#39;</code>,<code>u&#39;中国&#39;</code>,看起来差不多但是如果你把<code>u&#39;中国&#39;</code>存入文件中就会出错（假如你没定义编码规则)</p>
 <pre><code>UnicodeEncodeError: &apos;ascii&apos; codec can&apos;t encode characters in position 344-351: ordinal not in range(128)
-</code></pre><p>unicode字符编码错误，要想理解这个要对unicode字符集和unicode编码有一定的理解，推荐你读一下这篇博客<a href="http://www.techug.com/character-set" target="_blank" rel="external">字符编码的知识</a>,python内部使用unicode字符集存贮所以的编码的字符，为什么要用unicode字符集举个栗子吧：</p>
+</code></pre><p>unicode字符编码错误，要想理解这个要对unicode字符集和unicode编码有一定的理解，推荐你读一下这篇博客<a href="http://www.techug.com/character-set" target="_blank" rel="noopener">字符编码的知识</a>,python内部使用unicode字符集存贮所以的编码的字符，为什么要用unicode字符集举个栗子吧：</p>
 <blockquote>
 <p>A是米国的程序员，他使用asicc编码的文件上传了一封邮件，<br>B是中国的程序员他使用gbk编码的文件上传了一封邮件，<br>现在C要用程序同时处理A和B的邮件，有两种解决方法他把A的文件译码再编码成B的gbk，或者将B的文件译码成asicc但是中文无法处理，那么只能使用第一种方法将A的文件编码成gbk，但是改天D又来啦，他是俄国人，天啊噜gbk可能没有把俄语编进去，那肿么办，我们迫切需要一种编码可以把所以的字符放进去，所以unicode出现了，Unicode中将字符集按照一定的类别划分到0~16这17个层面（Planes）中，每个层面中拥有216=65536个字符码，因此Unicode总共拥有的字符码，也即是Unicode的字符空间总共有17*65536=1114112，一共有1114112这么多的字符可以用，这下我们不用担心了吧，太好了这下不用愁了，</p>
 </blockquote>
@@ -290,7 +290,7 @@
 <pre><code>response.xpath(&apos;//xpath&apos;).extract()    
 </code></pre><p>选择器返回的是一个unicode编码的字符集，但是他是接受的是一个字符流，spider可能调用了<br><code>response.body.decode(response.encoding)</code>进行转码，但是这个response.encoding有时候会判断错误，比如将我一个gbk编码的文件判断成cp1253,这个时候假如我把他解码成encode成其他编码方式的话，我们就会得到乱码，那怎么纠正呢，我们可以这样干<br>先将得到的列表中每个<code>content</code>取出来，然后使用<code>content.encode(resonse.encoding)</code>转码成原始字符流，现在你可以将它用正确的编码转换成unicode了</p>
 <p>下面是我github上的关于这个scrapy的项目，在coding_pitch.py文件里面就是对于这个乱码的处理</p>
-<p><a href="https://github.com/MrZhangLoveLearning/ncuscrapy.git" target="_blank" rel="external">南昌大学教务处公告爬取</a></p>
+<p><a href="https://github.com/MrZhangLoveLearning/ncuscrapy.git" target="_blank" rel="noopener">南昌大学教务处公告爬取</a></p>
 
     </div>
 
@@ -348,12 +348,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2016/07/18/泛型继承的理解0/" rel="prev" title="泛型继承的理解">
-      <i class="fa fa-chevron-left"></i> 泛型继承的理解
+    <a href="/2016/07/18/关于python3和python2 import区别0/" rel="prev" title="关于python3和python2 import区别">
+      <i class="fa fa-chevron-left"></i> 关于python3和python2 import区别
     </a></div>
       <div class="post-nav-item">
-    <a href="/2016/07/18/在Linux下玩转Vim0/" rel="next" title="在Linux下玩转Vim">
-      在Linux下玩转Vim <i class="fa fa-chevron-right"></i>
+    <a href="/2016/07/19/关于技术栈的总结/" rel="next" title="关于技术栈的总结">
+      关于技术栈的总结 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -436,7 +436,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-count">28</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -478,12 +478,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">NaNm</span>
+    <span title="站点总字数">232k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">NaN:aN</span>
+    <span title="站点阅读时长">3:31</span>
 </div>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.1
   </div>

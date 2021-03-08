@@ -250,13 +250,13 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>1.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>1 分钟</span>
             </span>
 
         </div>
@@ -280,7 +280,7 @@
 <p>我们知道对于一个HTTP服务器，我们希望调用这个接口方法之前能对用户发的东西做一个核验，就像拦截器一样，但是Java里面怎么实现呢，就是调用一个方法之前调用一个特定方法，我们有两种方法，第一种就是定死类名，在调用所有方法之前就调用这个东西，第二张就是重新继承这个方法，在调用父方法之前或者之后在调用我们想调用的方法</p>
 <p>显然第一种太蠢了，我们得先判断这个方法不存在，第二种可以使用Java Proxy类来实现（当然有局限只能是接口，可以用动态生成的类比如Cglib来做），我们而且可以把那个想注入的方法也看作一个特殊的bean（默认在普通的bean之前就做好），这样最终我们把普通的bean使用IoC容器给初始化，然后在用代理类把这个bean继承出来</p>
 <p>这样我们就实现了一个高度控制的类方法，而Spring最主要就是要组装一个Servlet类来处理不同路径下面的请求，网络处理那些事情都交给Tomcat来处理了，所以其实Spring的职责也很简单，就是组装，最后根据组装模块来响应Tomcat发过来的request，返回一个response,因为Spring需要生成很多类，而且假如你使用为了支持注解，Spring还得使用反射来获取所有类的注解，反射速度也是非常慢的，所有Spring启动一般需要一点时间，甚至比其他框架比如Python还要慢，不过这些类的生成都是一次性的（不是单例除外），生成完之后就可以直接使用这些生成好的类的方法来响应Tomcat请求了</p>
-<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><p><a href="https://github.com/code4craft/tiny-spring/blob/master/changelog.md" target="_blank" rel="external">https://github.com/code4craft/tiny-spring/blob/master/changelog.md</a></p>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><p><a href="https://github.com/code4craft/tiny-spring/blob/master/changelog.md" target="_blank" rel="noopener">https://github.com/code4craft/tiny-spring/blob/master/changelog.md</a></p>
 
     </div>
 
@@ -338,8 +338,8 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/01/07/技术如何深入/" rel="prev" title="技术如何深入">
-      <i class="fa fa-chevron-left"></i> 技术如何深入
+    <a href="/2020/12/31/Tomcat高并发浅析/" rel="prev" title="Tomcat高并发浅析">
+      <i class="fa fa-chevron-left"></i> Tomcat高并发浅析
     </a></div>
       <div class="post-nav-item">
     <a href="/2021/01/07/浅析微服务/" rel="next" title="浅析微服务">
@@ -427,7 +427,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-count">28</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -469,12 +469,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">NaNm</span>
+    <span title="站点总字数">232k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">NaN:aN</span>
+    <span title="站点阅读时长">3:31</span>
 </div>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.1
   </div>

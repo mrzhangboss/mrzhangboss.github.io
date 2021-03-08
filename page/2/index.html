@@ -246,13 +246,13 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>1.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>1 分钟</span>
             </span>
 
         </div>
@@ -335,13 +335,13 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>1.4k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>1 分钟</span>
             </span>
 
         </div>
@@ -428,13 +428,13 @@ where a.id = b.id;
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>6.3k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>6 分钟</span>
             </span>
 
         </div>
@@ -455,10 +455,10 @@ where a.id = b.id;
 <li>源码安装</li>
 </ol>
 <blockquote>
-<p>首先在<a href="https://www.apache.org/dyn/closer.cgi/atlas/2.0.0/apache-atlas-2.0.0-sources.tar.gz" target="_blank" rel="external">https://www.apache.org/dyn/closer.cgi/atlas/2.0.0/apache-atlas-2.0.0-sources.tar.gz</a>下载2.0.0源码</p>
+<p>首先在<a href="https://www.apache.org/dyn/closer.cgi/atlas/2.0.0/apache-atlas-2.0.0-sources.tar.gz" target="_blank" rel="noopener">https://www.apache.org/dyn/closer.cgi/atlas/2.0.0/apache-atlas-2.0.0-sources.tar.gz</a>下载2.0.0源码</p>
 </blockquote>
 <p>解压源码</p>
-<ol>
+<ol start="2">
 <li>选择Atlas架构</li>
 </ol>
 <p>Atlas支持多种架构作为后端</p>
@@ -469,7 +469,7 @@ where a.id = b.id;
 <p>你可以选择多种，这里我们采用集成<code>HBase + Solr</code>方式编译</p>
 <pre><code>mvn clean -DskipTests package -Pdist,embedded-hbase-solr
 </code></pre><p>执行代码即可（推荐使用阿里云的maven源加速编译）</p>
-<ol>
+<ol start="3">
 <li>修改环境变量</li>
 </ol>
 <p>编译完之后在<code>/distro/target</code>下面有很多tar.gz包，我们需要的是<code>apache-atlas-2.0.0-server.tar.gz</code>包，解压到当前目录</p>
@@ -573,7 +573,7 @@ at org.apache.atlas.hook.AtlasHook
 atlas.graph.index.search.backend=solr5 
 </code></pre><ul>
 <li><p>异常一： Caused by: java.lang.ClassNotFoundException: org.json.JSONObject</p>
-<p>包缺失，下载<a href="http://www.java2s.com/Code/Jar/j/Downloadjavajsonjar.htm" target="_blank" rel="external">java-json.jar</a> 到<code>Sqoop</code>文件夹</p>
+<p>包缺失，下载<a href="http://www.java2s.com/Code/Jar/j/Downloadjavajsonjar.htm" target="_blank" rel="noopener">java-json.jar</a> 到<code>Sqoop</code>文件夹</p>
 <ul>
 <li>异常二：<code>Import failed: java.io.IOException: java.lang.ClassNotFoundException: org.apache.hadoop.hive.conf.HiveConf 
 Could not load org.apache.hadoop.hive.conf.HiveConf. Make sure HIVE_CONF_DIR is set correctly</code></li>
@@ -586,7 +586,7 @@ Could not load org.apache.hadoop.hive.conf.HiveConf. Make sure HIVE_CONF_DIR is 
 <li>异常三： <code>Error when removing metric from org.apache.kafka.common.metrics.JmxReporter
 java.security.AccessControlException: access denied (&quot;javax.management.MBeanTrustPermission&quot; &quot;register&quot;)</code></li>
 </ul>
-<p>根据<a href="https://stackoverflow.com/questions/12195868/java-security-accesscontrolexception-when-using-ant-but-runs-ok-when-invoking-j" target="_blank" rel="external">stackoverflow</a> 解决</p>
+<p>根据<a href="https://stackoverflow.com/questions/12195868/java-security-accesscontrolexception-when-using-ant-but-runs-ok-when-invoking-j" target="_blank" rel="noopener">stackoverflow</a> 解决</p>
 <ul>
 <li>异常四：<code>java.lang.NoSuchMethodError: com.fasterxml.jackson.databind.ObjectMapper.readerFor</code></li>
 </ul>
@@ -693,13 +693,13 @@ atlas.kafka.bootstrap.servers=localhost:9092
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>1.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>1 分钟</span>
             </span>
 
         </div>
@@ -726,13 +726,13 @@ javax.jdo-3.2.0-m3.jar
 datanucleus-core-4.1.17.jar   
 datanucleus-rdbms-4.1.9.jar    
 flink-shaded-hadoop-2-uber-2.7.5-8.0.jar
-</code></pre><p><del>将这些复制到<code>flink/lib</code>目录下面即可，下面是下载链接</del><br><del><a href="https://drive.google.com/file/d/1hRit-IsX7zvkHloUg5S36czWKvpBgBtN/view?usp=sharing" target="_blank" rel="external">1.10.0 flink hive jar Google Driver 下载地址</a></del><br><del><a href="https://drive.google.com/file/d/1WDFFa6ePkIu4Wft_0jEEhS7ekto5_DSo/view?usp=sharing" target="_blank" rel="external">1.9.0 flink hive jar Google Driver下载地址</a></del><br><del>百度云提取码： <a href="https://pan.baidu.com/s/1EA8YRUKjC7OzhJ3MPA0GlA" target="_blank" rel="external">1.9.0 flink hive 百度云下载地址</a></del><br> <del>百度云提取码: e9c7 链接:  <a href="https://pan.baidu.com/s/1WFH4T7AiV31PrptTRTqzJA" target="_blank" rel="external">1.10.0 flink hive 百度云下载地址</a></del></p>
+</code></pre><p><del>将这些复制到<code>flink/lib</code>目录下面即可，下面是下载链接</del><br><del><a href="https://drive.google.com/file/d/1hRit-IsX7zvkHloUg5S36czWKvpBgBtN/view?usp=sharing" target="_blank" rel="noopener">1.10.0 flink hive jar Google Driver 下载地址</a></del><br><del><a href="https://drive.google.com/file/d/1WDFFa6ePkIu4Wft_0jEEhS7ekto5_DSo/view?usp=sharing" target="_blank" rel="noopener">1.9.0 flink hive jar Google Driver下载地址</a></del><br><del>百度云提取码： <a href="https://pan.baidu.com/s/1EA8YRUKjC7OzhJ3MPA0GlA" target="_blank" rel="noopener">1.9.0 flink hive 百度云下载地址</a></del><br> <del>百度云提取码: e9c7 链接:  <a href="https://pan.baidu.com/s/1WFH4T7AiV31PrptTRTqzJA" target="_blank" rel="noopener">1.10.0 flink hive 百度云下载地址</a></del></p>
 <h2 id="Hive使用中遇到的问题"><a href="#Hive使用中遇到的问题" class="headerlink" title="Hive使用中遇到的问题"></a>Hive使用中遇到的问题</h2><p><del>1. 目前只支持2.3.4和1.2.1</del><br><del>2. 支持的读取的hive类型有限，时间类型只支持1个<code>Date</code></del><br><del>PS: Sqoop导入数据库表到Hive的时候，只能将<code>DateTime</code>和<code>TimeStamp</code>设置为<code>String</code>，否则无法在Client中使用</del><br><del>3. 跨越<code>Catalog</code>读取表的时候Hive不能存放在<code>default</code>（默认）数据库中，否则会解析异常</del></p>
 <p><del>例如：想从Hive默认数据库中获取表<code>a</code>，使用<code>insert b select * from hive_catalog.default.a</code>会解析失败</del></p>
 <p><del>4. Hive不支持写入分区表，也不支持Overwrite，只支持append模式</del></p>
 <p>目前flink-1.10已经支持多个Hive版本并且修复了上面所遇到的问题，但是目前在<code>SQL Client</code>里面使用较为麻烦，需要自己安装缺少的jar包(而且版本不兼容的话会出现各种奇奇怪怪的bug），所以我写了一个项目把所以的依赖打包到一起这样只要一行命令就可以生成所需要的依赖，而且支持多个<code>Hive</code>版本</p>
 <p>下面是这个项目的github地址</p>
-<p><a href="https://github.com/mrzhangboss/flink-hive-dependence.git" target="_blank" rel="external">Flink SQL Client Hive 依赖生成器</a></p>
+<p><a href="https://github.com/mrzhangboss/flink-hive-dependence.git" target="_blank" rel="noopener">Flink SQL Client Hive 依赖生成器</a></p>
 <hr>
 <p>未完待续</p>
 
@@ -793,13 +793,13 @@ flink-shaded-hadoop-2-uber-2.7.5-8.0.jar
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>0</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>1 分钟</span>
             </span>
 
         </div>
@@ -869,13 +869,13 @@ flink-shaded-hadoop-2-uber-2.7.5-8.0.jar
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>3.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -980,13 +980,13 @@ flink-shaded-hadoop-2-uber-2.7.5-8.0.jar
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>7.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>6 分钟</span>
             </span>
 
         </div>
@@ -1012,21 +1012,21 @@ flink-shaded-hadoop-2-uber-2.7.5-8.0.jar
 <p>$$\begin{bmatrix} 1 &amp; 0.8 &amp; 0.1 \end{bmatrix}$$</p>
 <p>我们得到上面的品味值（加权值），所以对于最后一个商品，我们把其他用户评价与他们与用户一的值相乘，我们就把他们对数据的评价可靠性给量化下来了，所以就可以下一步排序输出我们的推荐。</p>
 <p>我们知道现在的大数据强大在于能给所有用户都推荐他们想要的数据，但是从我们上面的描述来看，我们为了获取一个用户的品味值就得对数据进行大量运算，如果一个用户要1s的，一亿个用户就得要3年才能算完，所以我们得将我们的for循环改成矩阵运算，才能通过大数据将所以用户的推荐给算出来</p>
-<p>现在我们来谈谈怎么用矩阵运算来加速这个过程，我们用$$R<em>{UI}$$ 来代替上面的评价矩阵，我们首先要把$$R</em>{UI}$$ 给倒置，然后让两个做矩阵乘法，得到”品味矩阵“ $$W_{UU}$$</p>
-<p>$$R<em>{UI}$$ * $$R</em>{UI}^T $$ = $$W_{UU}$$</p>
-<p>这个$$W<em>{UU}$$ 是什么呢，他是一个行数为用户总数，列数也为用户总数的方阵，每一行代表，第i个用户，他与其他用户的品味差距，有了这个我们可以将$$W</em>{UU}$$ 与 $$R<em>{UI}$$ 做一个矩阵乘法，这样我们就得到一个$$V</em>{UI}$$矩阵，这个矩阵就是我们对$$R_{UI}$$的一个预测值，我们就把一些用户没有评价的值给预测出现，接下来就对每一行先做一个过滤，取出用户没有购买的，然后把没有购买的按照大小排序输出</p>
+<p>现在我们来谈谈怎么用矩阵运算来加速这个过程，我们用$$R_{UI}$$ 来代替上面的评价矩阵，我们首先要把$$R_{UI}$$ 给倒置，然后让两个做矩阵乘法，得到”品味矩阵“ $$W_{UU}$$</p>
+<p>$$R_{UI}$$ * $$R_{UI}^T $$ = $$W_{UU}$$</p>
+<p>这个$$W_{UU}$$ 是什么呢，他是一个行数为用户总数，列数也为用户总数的方阵，每一行代表，第i个用户，他与其他用户的品味差距，有了这个我们可以将$$W_{UU}$$ 与 $$R_{UI}$$ 做一个矩阵乘法，这样我们就得到一个$$V_{UI}$$矩阵，这个矩阵就是我们对$$R_{UI}$$的一个预测值，我们就把一些用户没有评价的值给预测出现，接下来就对每一行先做一个过滤，取出用户没有购买的，然后把没有购买的按照大小排序输出</p>
 <p>PS：也可以用点乘一下矩阵进行过滤，就是将没有将用户与商品购买记录生产一个UI矩阵，购买过置0，每购买过置1，这样点乘后购买过无论分多高都变成0了，把0过滤就ok了</p>
 <p>我们来总结一下上面用到的矩阵公式</p>
 <ol>
-<li>$$R<em>{UI}$$ * $$R</em>{UI}^T $$ = $$W_{UU}$$</li>
-<li>$$W<em>{UU}$$ * $$R</em>{UI}$$ = $$V_{UI}$$</li>
+<li>$$R_{UI}$$ * $$R_{UI}^T $$ = $$W_{UU}$$</li>
+<li>$$W_{UU}$$ * $$R_{UI}$$ = $$V_{UI}$$</li>
 </ol>
 <p> 初略一看没有啥问题，但是你要想一下假如用户数非常大，有一千万（很容易达到，QQ微信都10几亿了），那个$$W_{UU}$$ 矩阵的大小有 1千万 * 一千万 = 1e+14 ，我们根本没有足够的内存来存放这个矩阵，而且有一个问题，就是其实假如我们有一千万件商品，但是一个用户一辈子可能就买了几十件，这是一个巨大的稀疏矩阵</p>
 <p>所以虽然我们这个矩阵算法很高效，能通过两次运算就把用户推荐给全部输出，但是假如用户量多或者商品多第一内存不够，第二个矩阵太稀疏了，在没有大数据之前或者计算机还没有现在这么强的时候，大家的解决方法是对数据进行抽样，把大数据分解成为小数据，但是大数据的魅力就是使用全部数据而不是部分，所以我们要使用一些抽象的算法来帮助我们把这个问题给解决了</p>
-<p>首先我们还是要用所以的用户数据，所以的商品数据，但是现在我们做一个抽象，我们假设用户身上有几十种特征来决定他们的品味（比如年龄，性别，性格等），我们直接跳过前面两个计算步骤，我们假设用户特征矩阵$$U<em>{UP}$$ (每个用户有P个特征，决定他们品味)，对于商品，我们假设就是因为这些特征导致的一个商品特征矩阵$$I</em>{PI}$$</p>
-<p>最后我们假设，我们这个$$U<em>{UP}$$ 矩阵乘法$$I</em>{PI}$$就是 我们上面得到的$$V_{UI}$$ ，也就是公式为</p>
-<p>$$U<em>{UP}$$ *$$I</em>{PI}$$ = $$V_{UI}$$ </p>
-<p>假如我们能计算出来这个 $$U<em>{UP}$$和 $$I</em>{PI}$$，那么我们就基本上算出所以用户的评价了，这个就是ALS的原理，我们利用这个抽象能将原来的亿亿相乘的计算，改成亿与常数P的相乘的计算</p>
+<p>首先我们还是要用所以的用户数据，所以的商品数据，但是现在我们做一个抽象，我们假设用户身上有几十种特征来决定他们的品味（比如年龄，性别，性格等），我们直接跳过前面两个计算步骤，我们假设用户特征矩阵$$U_{UP}$$ (每个用户有P个特征，决定他们品味)，对于商品，我们假设就是因为这些特征导致的一个商品特征矩阵$$I_{PI}$$</p>
+<p>最后我们假设，我们这个$$U_{UP}$$ 矩阵乘法$$I_{PI}$$就是 我们上面得到的$$V_{UI}$$ ，也就是公式为</p>
+<p>$$U_{UP}$$ *$$I_{PI}$$ = $$V_{UI}$$ </p>
+<p>假如我们能计算出来这个 $$U_{UP}$$和 $$I_{PI}$$，那么我们就基本上算出所以用户的评价了，这个就是ALS的原理，我们利用这个抽象能将原来的亿亿相乘的计算，改成亿与常数P的相乘的计算</p>
 <p>当然具体的原理没有这么简单，涉及到很多矩阵运算的知识，我这里就不多说了，具体可以看下面给的论文《Collaborative Filtering for Implicit Feedback Datasets》，Spark的Mlib中的ALS实现就是基于这篇论文的，也可以参考一下Python的实现，公式推导比较复杂，但是实现还是非常好理解的</p>
 <h2 id="Python实战"><a href="#Python实战" class="headerlink" title="Python实战"></a>Python实战</h2><p>首先我们来先试试使用Python来快速搭建我们的模型出来</p>
 <pre><code>{&apos;account&apos;: &apos;1920286160&apos;, &apos;content&apos;: &apos;你的笑容灿烂了一整个夏天!&apos;, &apos;source&apos;: &apos;http://wp1.sina.cn/wap240/5d738637jw1dpmonay1thj.jpg&apos;, &apos;time&apos;: &apos;2012-02-01 13:48:39&apos;, &apos;from&apos;: &apos;网页版&apos;, &apos;comment&apos;: 0, &apos;forward&apos;: 0, &apos;forward_account&apos;: &apos;1567852087&apos;, &apos;forward_content&apos;: &apos;民浩君！！ &apos;,&apos;forward_id&apos;: &apos;xdasfd21x-s&apos;， &apos;forword_nickname&apos;: &apos;全球流行风尚&apos;, &apos;is_forward_followed&apos;: &apos;0&apos;}
@@ -1101,9 +1101,9 @@ val MSE = ratesAndPreds.map { case ((user, product), (r1, r2)) =&gt;
 println(s&quot;Mean Squared Error = $MSE&quot;)
 </code></pre><p>最终我们这35亿数据用时4个半小时跑完模型并计算出MSE （均方误差），当然由于我的核心比较小，假如在一个大集群上面的话速度会快很多，值得注意的是，在Spark运行这35亿数据的时候，物理磁盘占用达到800多个G，所以在哪里省下来（内存）的就得从哪里还回来（磁盘）O(∩_∩)O哈哈~</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我们这次只是完成了一个非常简陋的推荐系统，只是具备简单的推荐功能，我们还没有考虑到一些“冷启动”问题，一个“智能”的推荐系统需要考虑到很多方面，我的推荐系统还有很多地方需要完善，但是从我的这个Demo里面也可以看到其实大数据也是非常“简单”的，由于数据量太大，你只能使用最简洁的代码来训练你的模型，你的算法要最大可能性满足分布式要求，推荐系统最核心的地方还是如何将你的推荐算法变成一个优秀的分布式算法，我们这篇博客只是走马观花的谈了一下它的原理，看看有空好好研究一下Spark分布式算法是怎么实现的。</p>
-<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><p><a href="https://blog.csdn.net/antkillerfarm/article/details/53734658" target="_blank" rel="external">ALS原理介绍</a></p>
-<p><a href="https://yq.aliyun.com/articles/684195" target="_blank" rel="external">Python实现ALS</a></p>
-<p><a href="http://yifanhu.net/PUB/cf.pdf" target="_blank" rel="external">Spark Mlib ALS 论文</a></p>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><p><a href="https://blog.csdn.net/antkillerfarm/article/details/53734658" target="_blank" rel="noopener">ALS原理介绍</a></p>
+<p><a href="https://yq.aliyun.com/articles/684195" target="_blank" rel="noopener">Python实现ALS</a></p>
+<p><a href="http://yifanhu.net/PUB/cf.pdf" target="_blank" rel="noopener">Spark Mlib ALS 论文</a></p>
 
       
     </div>
@@ -1162,13 +1162,13 @@ println(s&quot;Mean Squared Error = $MSE&quot;)
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>3.8k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -1280,13 +1280,13 @@ println(s&quot;Mean Squared Error = $MSE&quot;)
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>0</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>1 分钟</span>
             </span>
 
         </div>
@@ -1357,13 +1357,13 @@ println(s&quot;Mean Squared Error = $MSE&quot;)
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>197</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>1 分钟</span>
             </span>
 
         </div>
@@ -1378,7 +1378,7 @@ println(s&quot;Mean Squared Error = $MSE&quot;)
           <blockquote>
 <p>很早就听说过思维导图，但是怎么去画，怎么让它帮助你去学习，我以前不得其道，以为就像记老师讲的笔记一样，尝试几次后感觉无用就弃之高阁了，这次在知乎上看到一篇回答感觉很是在理，就实践了一番</p>
 </blockquote>
-<p>下面是原答案<a href="https://www.zhihu.com/question/20273625/answer/531743073" target="_blank" rel="external">思维导图真的有效吗？ - YJango的回答 - 知乎</a></p>
+<p>下面是原答案<a href="https://www.zhihu.com/question/20273625/answer/531743073" target="_blank" rel="noopener">思维导图真的有效吗？ - YJango的回答 - 知乎</a></p>
 <p>我按照这个方法重新把&lt;&lt;代码整洁之道&gt;&gt;读了一篇，受益匪浅，下面是我的思维导图</p>
 <p><img src="/images/代码整洁之道-思维导图.png" alt="思维导图"></p>
 <p>一千个人有一千个哈莫雷特，所以我就不写自己的看法了</p>
@@ -1476,7 +1476,7 @@ println(s&quot;Mean Squared Error = $MSE&quot;)
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-count">28</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1518,12 +1518,12 @@ println(s&quot;Mean Squared Error = $MSE&quot;)
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">NaNm</span>
+    <span title="站点总字数">232k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">NaN:aN</span>
+    <span title="站点阅读时长">3:31</span>
 </div>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.1
   </div>

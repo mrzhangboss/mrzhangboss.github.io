@@ -252,13 +252,13 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>3.8k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -270,7 +270,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本文是基于mit6.828 的lab1对操作系统的思考，网上有不少关于lab1的博客，大部分都是介绍如何完成lab1的问题，介绍的比较详细的有这个<a href="http://www.cnblogs.com/fatsheep9146/category/769143.html" target="_blank" rel="external">博客</a>，在这里我就不从问题出发，建议大家看完上面的博客在看我这篇博文，我这篇博文就是从把我遇到的疑惑提炼出知识点，然后再把这些知识点串起来</p>
+        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本文是基于mit6.828 的lab1对操作系统的思考，网上有不少关于lab1的博客，大部分都是介绍如何完成lab1的问题，介绍的比较详细的有这个<a href="http://www.cnblogs.com/fatsheep9146/category/769143.html" target="_blank" rel="noopener">博客</a>，在这里我就不从问题出发，建议大家看完上面的博客在看我这篇博文，我这篇博文就是从把我遇到的疑惑提炼出知识点，然后再把这些知识点串起来</p>
 <h2 id="实验目的"><a href="#实验目的" class="headerlink" title="实验目的"></a>实验目的</h2><p>作为操作系统的第一个实验，在完成lab1我们主要目的就是要了解什么是操作系统，后面的lab都是在这个基础上搭建完善好系统的各种功能，就好像你画一幅画，第一步你先把人物的轮廓外形画出来，接下来你在把人的鼻子耳朵眼睛等等慢慢画出来，所以第一个实验非常重要，如果不把骨架搭好，你的操作系统再怎么豪华强大也是空中楼阁，所以我们在这个lab上一定要花上很多时间，万事开头难，只要攻克了这个，操作系统也就离你不远了</p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>谈操作系统之前必须得谈谈什么是计算机，因为我们的操作系统是运行在计算机上面的，操作系统与计算机关系密切，我们可以用一个很贴切的比方，假如你想了解手套为什么长成那么奇怪，那么你得先举起你的双手看看。</p>
 <p>闲话不多说，进入正题，计算机最核心部分就是CPU，记得电脑刚发明出来的时候，编程只能通过穿孔卡片，当然计算机发明这么久，CPU的核心功能基本上没有变，还是只能通过“穿孔卡片”，只不过我们编程语音将我们的使用的语音如C，Python等变成“穿孔卡片”，这里有个非常重要的概念：<strong>指令</strong>。也就是每个CPU的是每次只能执行一条指令。当然第二个重要的就是内存了，前面说了CPU是必须要通过”穿孔卡片“来编程的，但是随着程序愈来愈大，我们必须要使用一个东西来存贮“卡片”，所以内存孕育而生了，其实很多感叹电脑这个词实在是太贴切了，人脑可以处理问题，电脑也可以处理问题，人脑有短期记忆长期记录，电脑有寄存器（短期记忆）内存（长期记忆）。</p>
@@ -281,7 +281,7 @@
 </ul>
 <p>所以操作系统的就是在内存上面运行自己并帮助其他程序的一个大程序，总的来说它就是内存上面的一段程序，当然它的功能就是好好在它一亩三分地上面“分封诸侯”，维护自己的“王位”。</p>
 <p>由于一开始它只是待在软盘或者磁盘等存贮设备上的一段程序，接下来我们就看操作系统如何“上位”内存的“宫斗大戏”。</p>
-<h2 id="上位篇"><a href="#上位篇" class="headerlink" title="上位篇"></a>上位篇</h2><p>在操作系统“上位”之前，其实计算机还进行了一个小操作系统（BIOS）运行，具体的流程可以看这篇<a href="http://www.ruanyifeng.com/blog/2013/02/booting.html" title="操作系统启动" target="_blank" rel="external">文章</a>，如果把电脑看做人的话，BIOS就是我们的脊髓，它控制我们的身体四肢（硬件），但是却无法灵活的操作他们（比如非条件反射的膝跳反射），但是它却不可少，少了它就成植物人了。BIOS的作用总结起来就是感知硬件，调控硬件（比如CPU电压，内存频率）。</p>
+<h2 id="上位篇"><a href="#上位篇" class="headerlink" title="上位篇"></a>上位篇</h2><p>在操作系统“上位”之前，其实计算机还进行了一个小操作系统（BIOS）运行，具体的流程可以看这篇<a href="http://www.ruanyifeng.com/blog/2013/02/booting.html" title="操作系统启动" target="_blank" rel="noopener">文章</a>，如果把电脑看做人的话，BIOS就是我们的脊髓，它控制我们的身体四肢（硬件），但是却无法灵活的操作他们（比如非条件反射的膝跳反射），但是它却不可少，少了它就成植物人了。BIOS的作用总结起来就是感知硬件，调控硬件（比如CPU电压，内存频率）。</p>
 <p>BIOS与操作系统最密切的一个地方就是设置启动盘，大家可能大多时候都是听文件文件比较多，但是文件这个概念其实是操作系统的，在没有操作系统之前是没有文件这个概念的，只有盘这个概念，比如一块硬盘、一张软盘、一个U盘，所以BIOS的一个重要工作就是选定一个存储硬盘，然后读取上面的程序运行。</p>
 <p>所以我们从这时候可以得到一个结论，安装操作系统，只需要按照BIOS的规定把程序放到某一个存贮设备（磁盘、U盘、软盘）专门位置上（一般是头部开始），开机后然后就静等BIOS把程序加载到内存，就完成了“上位”过程。</p>
 <p>我们已经知道操作系统的外部条件，接下来分析一个操作系统到底该有啥</p>
@@ -310,7 +310,7 @@
 <p>lab1不止介绍了这两个地方，但是在lab1中我觉得最重要的地方就是要知道操作系统是什么，它从哪里来，它要到哪里去，操作系统毕竟牵涉到硬件，很多硬件知识我们不一定能搞懂，比如说要切换哪几个位到保护模式，怎么输出端口才能读取扇形区，但是我们必须要搞懂他这样做的原因，这也是我在这篇里面谈了很多操作系统历史的原因，希望在理解操作系统上面能给大家带来一点启发。</p>
 <p>在最后的话，我谈一谈我对入门这门课的感受吧，我算编程基础还算比较扎实，但是在一开始学习的过程中一脸懵逼，C语言的各种骚操作，汇编与C疯狂混合，看惯了脚本语言的我，对这种改一下就编译不过的“硬骨头”异常难受，一开始根本看不下去，有的时候看几行代码，查资料好几个小时，而且资料特别难找，你不知道这种骚操作有啥意思，在这里还得感谢学习过这门课的学长学姐们，在网上无私的把自己的感受分享出来，慢慢的根据他们的资料和自己的调试还有自己找资料，慢慢的把这个代码一行一行搞懂，搞懂之后特别感慨，其实也不是很难，难的是要把你知道的所以知识点串起来，然后你就能搞懂为什么要这么做，所以我推荐大家还是多看代码，多去思考为什么要这么做，必须要自己的思考在里面，如果单纯的知识为了完成实验其实很简单，但是难就难在把这门课琢磨透，搞懂他们为什么要这样考你，毕竟大家最后的目的都是自己做出自己的操作系统，只有了解的透彻，才能“破而后立”搞出自己的创新，而不是复制他们的壳子，所以加油把每一行代码都搞懂，多思考，不要骄傲，毕竟这只是教学类的操作系统，要想自己写出来还得不懈努力。</p>
 <p>接下来还有6个lab需要完成，终于迈出的第一步，希望在年前能够完成所有的实验吧！！！加油！！！</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://buweilv.github.io/2017/06/10/jos-bootstrap-3/" target="_blank" rel="external">“C语言虚拟内存表”</a></p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://buweilv.github.io/2017/06/10/jos-bootstrap-3/" target="_blank" rel="noopener">“C语言虚拟内存表”</a></p>
 
     </div>
 
@@ -457,7 +457,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-count">28</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -499,12 +499,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">NaNm</span>
+    <span title="站点总字数">232k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">NaN:aN</span>
+    <span title="站点阅读时长">3:31</span>
 </div>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.1
   </div>

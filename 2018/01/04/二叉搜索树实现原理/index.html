@@ -256,13 +256,13 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>1.8k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -275,9 +275,9 @@
 
       
         <blockquote>
-<p>本篇博客主要基于这篇<a href="">博客</a>的扩展，建议阅读前先阅读这篇<a href="/2017/12/27/浅谈树这种数据结构/">博文</a>，这篇博文详细介绍二叉搜索树的实现原理，完整代码在<a href="https://github.com/mrzhangboss/trees" target="_blank" rel="external">github</a>的<code>binary.go</code>文件中</p>
+<p>本篇博客主要基于这篇<a href>博客</a>的扩展，建议阅读前先阅读这篇<a href="/2017/12/27/浅谈树这种数据结构/">博文</a>，这篇博文详细介绍二叉搜索树的实现原理，完整代码在<a href="https://github.com/mrzhangboss/trees" target="_blank" rel="noopener">github</a>的<code>binary.go</code>文件中</p>
 </blockquote>
-<p><a href="/2017/12/27/浅谈树这种数据结构/">浅谈”树”这种数据结构</a><br><a href="https://github.com/mrzhangboss/trees" title="github" target="_blank" rel="external">Github</a><br><a href="http://www.cs.usfca.edu/~galles/visualization/BST.html" target="_blank" rel="external">可视化页面</a></p>
+<p><a href="/2017/12/27/浅谈树这种数据结构/">浅谈”树”这种数据结构</a><br><a href="https://github.com/mrzhangboss/trees" title="github" target="_blank" rel="noopener">Github</a><br><a href="http://www.cs.usfca.edu/~galles/visualization/BST.html" target="_blank" rel="noopener">可视化页面</a></p>
 <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>之所以使用Go来实现，个人还是比较喜欢Go的，作为一个基础数据结构，Go用来实现这个速度比Java、C++都快，而且相比Java也能节省内存，而且我也不喜欢换使用冒号。</p>
 <h2 id="二叉搜索树的基本功能"><a href="#二叉搜索树的基本功能" class="headerlink" title="二叉搜索树的基本功能"></a>二叉搜索树的基本功能</h2><p>作为一个树结构，主要必须实现三个功能，<strong>查增删</strong>（当然有改，不过改是删和增的结合所以就不算在里面），当然二叉树还能帮我实现一些额外功能，比如寻找最大值最小值等等，实现一颗二叉搜索树必须要保证在“增”和“删”的时候保持树结构不变，也就是保证还是一颗二叉搜索树</p>
 <p>什么二叉树是二叉搜索树呢，二叉搜索树只需要保证一点</p>
@@ -295,7 +295,7 @@
 <p>我们要想删除10，有两种可能</p>
 <p><img src="/images/bst-3.png" alt="左移"></p>
 <p><img src="/images/bst-4.png" alt="右移"></p>
-<p>一种是将左边值移过来，一种是将右边值移过来，这两种都不会破坏二叉树的平衡，现在我们假设我们倾向将左边的值移过来，我们再回到上面那棵标准的二叉树，如果我们要删除掉10节点，我们要把那个值移过来，我们直接在<a href="http://www.cs.usfca.edu/~galles/visualization/BST.html" target="_blank" rel="external">可视化界面</a>进行这个操作</p>
+<p>一种是将左边值移过来，一种是将右边值移过来，这两种都不会破坏二叉树的平衡，现在我们假设我们倾向将左边的值移过来，我们再回到上面那棵标准的二叉树，如果我们要删除掉10节点，我们要把那个值移过来，我们直接在<a href="http://www.cs.usfca.edu/~galles/visualization/BST.html" target="_blank" rel="noopener">可视化界面</a>进行这个操作</p>
 <p><img src="/images/bst-5.png" alt="删除10后的标准二叉树"></p>
 <p>我们发现，我们只需要将7和放到10的位置上就完成了一次删除的操作，而7与10的关系是，7是10左边的那堆值最大的，用一个通俗的话来说，<em>完成改朝换代的关键就是要找一个能镇的住手下的人</em>，由于“10”挂了，在左边只有“7”能镇住左边，所以”7”升官直接跑到“10”的位置了</p>
 <p>根据这个原则我们将情况分成三种</p>
@@ -310,10 +310,10 @@
 <li>如果左子树的右节点有值（循环下去找到一个节点右节点没有值）</li>
 <li>如果左子树的右节点没值（那么第一个左子树就是最大值）</li>
 </ul>
-<p>具体的<a href="https://github.com/mrzhangboss/trees" title="github" target="_blank" rel="external">代码</a>在<code>binary.go</code>的<code>Delete</code>(寻找节点）方法和<code>delete</code>（删除节点）方法中</p>
+<p>具体的<a href="https://github.com/mrzhangboss/trees" title="github" target="_blank" rel="noopener">代码</a>在<code>binary.go</code>的<code>Delete</code>(寻找节点）方法和<code>delete</code>（删除节点）方法中</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>总的来说，二叉搜索树的插入是最容易理解的，但是删除的话要考虑不同四种的情况所以还是稍微需要点时间理解一下的，小小的一个二叉搜索树也花了近200行代码实现，但是相比后面的AVL树、红黑树的近千行代码来说，二叉搜索树还是比较简单的，而且后面实现的高级树结构基本上都是依赖二叉搜索树的实现（必须要按照二叉树的增删满足二叉搜索树的原则），所以我们对二叉搜索树的增删必须理解透彻。</p>
 <p>引用：</p>
-<p><a href="https://en.wikipedia.org/wiki/Binary_search_tree" target="_blank" rel="external">https://en.wikipedia.org/wiki/Binary_search_tree</a></p>
+<p><a href="https://en.wikipedia.org/wiki/Binary_search_tree" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Binary_search_tree</a></p>
 
     </div>
 
@@ -371,12 +371,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2017/12/27/浅谈树这种数据结构/" rel="prev" title="浅谈"树"这种数据结构">
-      <i class="fa fa-chevron-left"></i> 浅谈"树"这种数据结构
+    <a href="/2018/01/04/AVL树实现原理/" rel="prev" title="AVL树实现原理">
+      <i class="fa fa-chevron-left"></i> AVL树实现原理
     </a></div>
       <div class="post-nav-item">
-    <a href="/2018/01/04/AVL树实现原理/" rel="next" title="AVL树实现原理">
-      AVL树实现原理 <i class="fa fa-chevron-right"></i>
+    <a href="/2018/01/05/红黑树实现原理/" rel="next" title="红黑树实现原理">
+      红黑树实现原理 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -460,7 +460,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-count">28</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -502,12 +502,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">NaNm</span>
+    <span title="站点总字数">232k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">NaN:aN</span>
+    <span title="站点阅读时长">3:31</span>
 </div>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.1
   </div>

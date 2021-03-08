@@ -250,13 +250,13 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>3.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -271,7 +271,7 @@
         <blockquote>
 <p>最近打了两个比赛，一直忙着工作和打比赛，没有时间总结，今天抽空好好总结一番</p>
 </blockquote>
-<p>先说一下比赛结果吧，队名全为<code>OfferGo</code><a href="https://www.datafountain.cn/competitions/260/details" target="_blank" rel="external">唯品会购买预测</a>第五名，<a href="https://www.kesci.com/apps/home/#!/competition/597172316a1cd9104c2df248/leaderboard/0" target="_blank" rel="external">携程房屋预测复赛</a>第六名,两个比赛打的都不算太好,只能算勉强及格,虽然离大神的距离还有十万八千米，不过总算可以称的上入了门，现在来总结一下我入门的经验吧。</p>
+<p>先说一下比赛结果吧，队名全为<code>OfferGo</code><a href="https://www.datafountain.cn/competitions/260/details" target="_blank" rel="noopener">唯品会购买预测</a>第五名，<a href="https://www.kesci.com/apps/home/#!/competition/597172316a1cd9104c2df248/leaderboard/0" target="_blank" rel="noopener">携程房屋预测复赛</a>第六名,两个比赛打的都不算太好,只能算勉强及格,虽然离大神的距离还有十万八千米，不过总算可以称的上入了门，现在来总结一下我入门的经验吧。</p>
 <h2 id="观察数据"><a href="#观察数据" class="headerlink" title="观察数据"></a>观察数据</h2><blockquote>
 <p>我参加过很多群,发现很多新手缺乏观察数据的能力,他们每次进入一个群总是嚷嚷这让大神发<code>baseline</code></p>
 </blockquote>
@@ -319,7 +319,7 @@
 <p>在<code>Python</code>里面探测线性关系最简单的方法是调用特征值和预测值的相关性系数（<code>corr</code>），我们可以简单的使用<code>df[[&#39;feature&#39;, &#39;target&#39;]].corr()</code>就可以得到线性相关系数，这个数的绝对值越接近1，相关性越大，一般来说相关性越大和越好对结果都不好，最好的特征相关性处于中间位置。</p>
 <p>相关性低我们可以理解，为什么相关性高反而不好呢，因为数据比赛里面给我们的数据大部分都是不平衡的数据，正负样本失衡，一般相关性很高的值一般为分类同预测值相同，比如一个二分类问题，预测值为0和1，给的样本正负比为1000:1，那么如果有一个特征全为0或者其他，那么他与预测值的相关性会达到90%以上，然而这个值是毫无作用的。</p>
 <p>所以我们通过简单的相关系数并不能很好的观察特征真正相关性，一般我们要辅助图像法和统计法。</p>
-<p>图像法就是通过将特征值分布与预测值相关性图表画在同一个图表里，具体可以参考<a href="https://www.kaggle.com/benhamner/d/uciml/iris/python-data-visualizations" target="_blank" rel="external">可视化特征</a></p>
+<p>图像法就是通过将特征值分布与预测值相关性图表画在同一个图表里，具体可以参考<a href="https://www.kaggle.com/benhamner/d/uciml/iris/python-data-visualizations" target="_blank" rel="noopener">可视化特征</a></p>
 <p>统计法类似图标，使用统计方法观察，特征值与预测值的相关性，一般使用<code>groupby</code>方法对两个特征进行统计就可以进行简单的观察</p>
 <p><code>问</code>只是一个简单的手段，一般我们在大量添加特征的时候，为了节省模型训练时间，在将特征放入管道之前进行一个简单的过滤删除的工作，真正重要的步骤在<code>切</code>这个方面</p>
 <h3 id="切"><a href="#切" class="headerlink" title="切"></a>切</h3><blockquote>
@@ -338,7 +338,7 @@
 <p>而<code>Python</code>由于是一门解释性语言，比其他静态语音速度要慢许多，你一方面使用<code>for</code>循环加大运算次数，一方面执行一次时间长，这相重叠加你的算法会跑的比蜗牛还慢</p>
 <p>所以我们避免使用我们写的函数，尽量使用库系统函数，因为库系统函数底层是使用<code>C</code>或<code>C++</code>实现的，而且他们在底层进行使用矩阵话运算代替单一浮点计算，我们使用库的函数（比如<code>mean</code>，<code>groupby</code>等）一方面能底层能使用C加快速度，一方面使用矩阵运算加快速度，两个叠加你的算法跑的比飞机还快。</p>
 <h3 id="2-使用多进程，充分发挥使用多核性能"><a href="#2-使用多进程，充分发挥使用多核性能" class="headerlink" title="2 . 使用多进程，充分发挥使用多核性能"></a>2 . 使用多进程，充分发挥使用多核性能</h3><p>由于<code>Python</code>的<code>GIL</code>锁，使得<code>Python</code>无法利用多核进行计算，所以我们只能使用多个进程来充分利用多核</p>
-<p>实现多进程有两个要点（具体可以参考我携程比赛代码 <a href="https://www.github.com/mrzhangboss" target="_blank" rel="external">Github地址</a>)</p>
+<p>实现多进程有两个要点（具体可以参考我携程比赛代码 <a href="https://www.github.com/mrzhangboss" target="_blank" rel="noopener">Github地址</a>)</p>
 <ul>
 <li>特征提取模块化</li>
 <li>进程池的搭建和维护</li>
@@ -346,7 +346,7 @@
 <p>我在携程比赛中的<code>mult_run.ipynb</code>中搭建了一个进程池，通过第三方调度和监控进程内存CPU等信息，达到充分“榨干”每个核的功效</p>
 <h3 id="3-压缩数据，让矩阵运算更快"><a href="#3-压缩数据，让矩阵运算更快" class="headerlink" title="3 . 压缩数据，让矩阵运算更快"></a>3 . 压缩数据，让矩阵运算更快</h3><p>由于在对特征进行提取过程中，<code>Python</code>会自动将低位制值转换成高位制值，比如<code>float16</code>在进行一次<code>groupby</code>之后就会转换成<code>float64</code>，由于在矩阵运算时候，高进制值会占更多内存和运行时间，所以为了加快算法运行，我们要将其压缩，一方面节省内存，一方面能够让算法运行的更快</p>
 <p>在携程的比赛中，原始数据有一个G，我将其压缩之后只占用300M内存空间，这为我后面在一台12G内存的笔记本实现并行化算法提供了巨大帮助，当然我每次在生成新特征的时候也会进行压缩，具体可以参考我携程的<code>utils.py</code>文件</p>
-<h3 id="总结：-这两次比赛，我从菜鸟出发慢慢的从一个程序员变成了数据挖掘机，在模块化和并行化方面，我觉得我的进步不错，但是在数据特征挖掘方面我与大神之间的差距还是巨大的，这也是我止步于前五的主要原因，接下来我要加强对数据方向的锻炼，希望能够在工作和比赛之中得到更好的进步"><a href="#总结：-这两次比赛，我从菜鸟出发慢慢的从一个程序员变成了数据挖掘机，在模块化和并行化方面，我觉得我的进步不错，但是在数据特征挖掘方面我与大神之间的差距还是巨大的，这也是我止步于前五的主要原因，接下来我要加强对数据方向的锻炼，希望能够在工作和比赛之中得到更好的进步" class="headerlink" title="总结： 这两次比赛，我从菜鸟出发慢慢的从一个程序员变成了数据挖掘机，在模块化和并行化方面，我觉得我的进步不错，但是在数据特征挖掘方面我与大神之间的差距还是巨大的，这也是我止步于前五的主要原因，接下来我要加强对数据方向的锻炼，希望能够在工作和比赛之中得到更好的进步"></a>总结： 这两次比赛，我从菜鸟出发慢慢的从一个程序员变成了数据挖掘机，在模块化和并行化方面，我觉得我的进步不错，但是在数据特征挖掘方面我与大神之间的差距还是巨大的，这也是我止步于前五的主要原因，接下来我要加强对数据方向的锻炼，希望能够在工作和比赛之中得到更好的进步</h3><h4 id="在最下面贴一下我的携程比赛代码（基于Notebook）"><a href="#在最下面贴一下我的携程比赛代码（基于Notebook）" class="headerlink" title="在最下面贴一下我的携程比赛代码（基于Notebook）"></a>在最下面贴一下我的携程比赛代码（基于Notebook）</h4><p><a href="https://www.github.com/mrzhangboss/ctrip_room_predict" target="_blank" rel="external">https://www.github.com/mrzhangboss/ctrip_room_predict</a></p>
+<h3 id="总结：-这两次比赛，我从菜鸟出发慢慢的从一个程序员变成了数据挖掘机，在模块化和并行化方面，我觉得我的进步不错，但是在数据特征挖掘方面我与大神之间的差距还是巨大的，这也是我止步于前五的主要原因，接下来我要加强对数据方向的锻炼，希望能够在工作和比赛之中得到更好的进步"><a href="#总结：-这两次比赛，我从菜鸟出发慢慢的从一个程序员变成了数据挖掘机，在模块化和并行化方面，我觉得我的进步不错，但是在数据特征挖掘方面我与大神之间的差距还是巨大的，这也是我止步于前五的主要原因，接下来我要加强对数据方向的锻炼，希望能够在工作和比赛之中得到更好的进步" class="headerlink" title="总结： 这两次比赛，我从菜鸟出发慢慢的从一个程序员变成了数据挖掘机，在模块化和并行化方面，我觉得我的进步不错，但是在数据特征挖掘方面我与大神之间的差距还是巨大的，这也是我止步于前五的主要原因，接下来我要加强对数据方向的锻炼，希望能够在工作和比赛之中得到更好的进步"></a>总结： 这两次比赛，我从菜鸟出发慢慢的从一个程序员变成了数据挖掘机，在模块化和并行化方面，我觉得我的进步不错，但是在数据特征挖掘方面我与大神之间的差距还是巨大的，这也是我止步于前五的主要原因，接下来我要加强对数据方向的锻炼，希望能够在工作和比赛之中得到更好的进步</h3><h4 id="在最下面贴一下我的携程比赛代码（基于Notebook）"><a href="#在最下面贴一下我的携程比赛代码（基于Notebook）" class="headerlink" title="在最下面贴一下我的携程比赛代码（基于Notebook）"></a>在最下面贴一下我的携程比赛代码（基于Notebook）</h4><p><a href="https://www.github.com/mrzhangboss/ctrip_room_predict" target="_blank" rel="noopener">https://www.github.com/mrzhangboss/ctrip_room_predict</a></p>
 
     </div>
 
@@ -493,7 +493,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-count">28</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -535,12 +535,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">NaNm</span>
+    <span title="站点总字数">232k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">NaN:aN</span>
+    <span title="站点阅读时长">3:31</span>
 </div>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.1
   </div>

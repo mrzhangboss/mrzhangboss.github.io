@@ -246,13 +246,13 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>1.8k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -345,13 +345,13 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>3.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -366,7 +366,7 @@
           <blockquote>
 <p>最近打了两个比赛，一直忙着工作和打比赛，没有时间总结，今天抽空好好总结一番</p>
 </blockquote>
-<p>先说一下比赛结果吧，队名全为<code>OfferGo</code><a href="https://www.datafountain.cn/competitions/260/details" target="_blank" rel="external">唯品会购买预测</a>第五名，<a href="https://www.kesci.com/apps/home/#!/competition/597172316a1cd9104c2df248/leaderboard/0" target="_blank" rel="external">携程房屋预测复赛</a>第六名,两个比赛打的都不算太好,只能算勉强及格,虽然离大神的距离还有十万八千米，不过总算可以称的上入了门，现在来总结一下我入门的经验吧。</p>
+<p>先说一下比赛结果吧，队名全为<code>OfferGo</code><a href="https://www.datafountain.cn/competitions/260/details" target="_blank" rel="noopener">唯品会购买预测</a>第五名，<a href="https://www.kesci.com/apps/home/#!/competition/597172316a1cd9104c2df248/leaderboard/0" target="_blank" rel="noopener">携程房屋预测复赛</a>第六名,两个比赛打的都不算太好,只能算勉强及格,虽然离大神的距离还有十万八千米，不过总算可以称的上入了门，现在来总结一下我入门的经验吧。</p>
 <h2 id="观察数据"><a href="#观察数据" class="headerlink" title="观察数据"></a>观察数据</h2><blockquote>
 <p>我参加过很多群,发现很多新手缺乏观察数据的能力,他们每次进入一个群总是嚷嚷这让大神发<code>baseline</code></p>
 </blockquote>
@@ -414,7 +414,7 @@
 <p>在<code>Python</code>里面探测线性关系最简单的方法是调用特征值和预测值的相关性系数（<code>corr</code>），我们可以简单的使用<code>df[[&#39;feature&#39;, &#39;target&#39;]].corr()</code>就可以得到线性相关系数，这个数的绝对值越接近1，相关性越大，一般来说相关性越大和越好对结果都不好，最好的特征相关性处于中间位置。</p>
 <p>相关性低我们可以理解，为什么相关性高反而不好呢，因为数据比赛里面给我们的数据大部分都是不平衡的数据，正负样本失衡，一般相关性很高的值一般为分类同预测值相同，比如一个二分类问题，预测值为0和1，给的样本正负比为1000:1，那么如果有一个特征全为0或者其他，那么他与预测值的相关性会达到90%以上，然而这个值是毫无作用的。</p>
 <p>所以我们通过简单的相关系数并不能很好的观察特征真正相关性，一般我们要辅助图像法和统计法。</p>
-<p>图像法就是通过将特征值分布与预测值相关性图表画在同一个图表里，具体可以参考<a href="https://www.kaggle.com/benhamner/d/uciml/iris/python-data-visualizations" target="_blank" rel="external">可视化特征</a></p>
+<p>图像法就是通过将特征值分布与预测值相关性图表画在同一个图表里，具体可以参考<a href="https://www.kaggle.com/benhamner/d/uciml/iris/python-data-visualizations" target="_blank" rel="noopener">可视化特征</a></p>
 <p>统计法类似图标，使用统计方法观察，特征值与预测值的相关性，一般使用<code>groupby</code>方法对两个特征进行统计就可以进行简单的观察</p>
 <p><code>问</code>只是一个简单的手段，一般我们在大量添加特征的时候，为了节省模型训练时间，在将特征放入管道之前进行一个简单的过滤删除的工作，真正重要的步骤在<code>切</code>这个方面</p>
 <h3 id="切"><a href="#切" class="headerlink" title="切"></a>切</h3><blockquote>
@@ -433,7 +433,7 @@
 <p>而<code>Python</code>由于是一门解释性语言，比其他静态语音速度要慢许多，你一方面使用<code>for</code>循环加大运算次数，一方面执行一次时间长，这相重叠加你的算法会跑的比蜗牛还慢</p>
 <p>所以我们避免使用我们写的函数，尽量使用库系统函数，因为库系统函数底层是使用<code>C</code>或<code>C++</code>实现的，而且他们在底层进行使用矩阵话运算代替单一浮点计算，我们使用库的函数（比如<code>mean</code>，<code>groupby</code>等）一方面能底层能使用C加快速度，一方面使用矩阵运算加快速度，两个叠加你的算法跑的比飞机还快。</p>
 <h3 id="2-使用多进程，充分发挥使用多核性能"><a href="#2-使用多进程，充分发挥使用多核性能" class="headerlink" title="2 . 使用多进程，充分发挥使用多核性能"></a>2 . 使用多进程，充分发挥使用多核性能</h3><p>由于<code>Python</code>的<code>GIL</code>锁，使得<code>Python</code>无法利用多核进行计算，所以我们只能使用多个进程来充分利用多核</p>
-<p>实现多进程有两个要点（具体可以参考我携程比赛代码 <a href="https://www.github.com/mrzhangboss" target="_blank" rel="external">Github地址</a>)</p>
+<p>实现多进程有两个要点（具体可以参考我携程比赛代码 <a href="https://www.github.com/mrzhangboss" target="_blank" rel="noopener">Github地址</a>)</p>
 <ul>
 <li>特征提取模块化</li>
 <li>进程池的搭建和维护</li>
@@ -441,7 +441,7 @@
 <p>我在携程比赛中的<code>mult_run.ipynb</code>中搭建了一个进程池，通过第三方调度和监控进程内存CPU等信息，达到充分“榨干”每个核的功效</p>
 <h3 id="3-压缩数据，让矩阵运算更快"><a href="#3-压缩数据，让矩阵运算更快" class="headerlink" title="3 . 压缩数据，让矩阵运算更快"></a>3 . 压缩数据，让矩阵运算更快</h3><p>由于在对特征进行提取过程中，<code>Python</code>会自动将低位制值转换成高位制值，比如<code>float16</code>在进行一次<code>groupby</code>之后就会转换成<code>float64</code>，由于在矩阵运算时候，高进制值会占更多内存和运行时间，所以为了加快算法运行，我们要将其压缩，一方面节省内存，一方面能够让算法运行的更快</p>
 <p>在携程的比赛中，原始数据有一个G，我将其压缩之后只占用300M内存空间，这为我后面在一台12G内存的笔记本实现并行化算法提供了巨大帮助，当然我每次在生成新特征的时候也会进行压缩，具体可以参考我携程的<code>utils.py</code>文件</p>
-<h3 id="总结：-这两次比赛，我从菜鸟出发慢慢的从一个程序员变成了数据挖掘机，在模块化和并行化方面，我觉得我的进步不错，但是在数据特征挖掘方面我与大神之间的差距还是巨大的，这也是我止步于前五的主要原因，接下来我要加强对数据方向的锻炼，希望能够在工作和比赛之中得到更好的进步"><a href="#总结：-这两次比赛，我从菜鸟出发慢慢的从一个程序员变成了数据挖掘机，在模块化和并行化方面，我觉得我的进步不错，但是在数据特征挖掘方面我与大神之间的差距还是巨大的，这也是我止步于前五的主要原因，接下来我要加强对数据方向的锻炼，希望能够在工作和比赛之中得到更好的进步" class="headerlink" title="总结： 这两次比赛，我从菜鸟出发慢慢的从一个程序员变成了数据挖掘机，在模块化和并行化方面，我觉得我的进步不错，但是在数据特征挖掘方面我与大神之间的差距还是巨大的，这也是我止步于前五的主要原因，接下来我要加强对数据方向的锻炼，希望能够在工作和比赛之中得到更好的进步"></a>总结： 这两次比赛，我从菜鸟出发慢慢的从一个程序员变成了数据挖掘机，在模块化和并行化方面，我觉得我的进步不错，但是在数据特征挖掘方面我与大神之间的差距还是巨大的，这也是我止步于前五的主要原因，接下来我要加强对数据方向的锻炼，希望能够在工作和比赛之中得到更好的进步</h3><h4 id="在最下面贴一下我的携程比赛代码（基于Notebook）"><a href="#在最下面贴一下我的携程比赛代码（基于Notebook）" class="headerlink" title="在最下面贴一下我的携程比赛代码（基于Notebook）"></a>在最下面贴一下我的携程比赛代码（基于Notebook）</h4><p><a href="https://www.github.com/mrzhangboss/ctrip_room_predict" target="_blank" rel="external">https://www.github.com/mrzhangboss/ctrip_room_predict</a></p>
+<h3 id="总结：-这两次比赛，我从菜鸟出发慢慢的从一个程序员变成了数据挖掘机，在模块化和并行化方面，我觉得我的进步不错，但是在数据特征挖掘方面我与大神之间的差距还是巨大的，这也是我止步于前五的主要原因，接下来我要加强对数据方向的锻炼，希望能够在工作和比赛之中得到更好的进步"><a href="#总结：-这两次比赛，我从菜鸟出发慢慢的从一个程序员变成了数据挖掘机，在模块化和并行化方面，我觉得我的进步不错，但是在数据特征挖掘方面我与大神之间的差距还是巨大的，这也是我止步于前五的主要原因，接下来我要加强对数据方向的锻炼，希望能够在工作和比赛之中得到更好的进步" class="headerlink" title="总结： 这两次比赛，我从菜鸟出发慢慢的从一个程序员变成了数据挖掘机，在模块化和并行化方面，我觉得我的进步不错，但是在数据特征挖掘方面我与大神之间的差距还是巨大的，这也是我止步于前五的主要原因，接下来我要加强对数据方向的锻炼，希望能够在工作和比赛之中得到更好的进步"></a>总结： 这两次比赛，我从菜鸟出发慢慢的从一个程序员变成了数据挖掘机，在模块化和并行化方面，我觉得我的进步不错，但是在数据特征挖掘方面我与大神之间的差距还是巨大的，这也是我止步于前五的主要原因，接下来我要加强对数据方向的锻炼，希望能够在工作和比赛之中得到更好的进步</h3><h4 id="在最下面贴一下我的携程比赛代码（基于Notebook）"><a href="#在最下面贴一下我的携程比赛代码（基于Notebook）" class="headerlink" title="在最下面贴一下我的携程比赛代码（基于Notebook）"></a>在最下面贴一下我的携程比赛代码（基于Notebook）</h4><p><a href="https://www.github.com/mrzhangboss/ctrip_room_predict" target="_blank" rel="noopener">https://www.github.com/mrzhangboss/ctrip_room_predict</a></p>
 
       
     </div>
@@ -500,13 +500,13 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>4.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>4 分钟</span>
             </span>
 
         </div>
@@ -540,7 +540,7 @@
 <li>能够输出结果</li>
 </ul>
 <p>其实简单来说,我们要做的是一个能够非常方便的扩展的脚手架,我们不可以第一次就把所以的特征全部找出来,所以我们要搭建一个能够实时添加<code>Feture</code>的框架.</p>
-<p>其实很早以前就看过类似文章,也有很多人推荐<a href="https://github.com/ChenglongChen/Kaggle_HomeDepot" target="_blank" rel="external">大神开源的一个脚手架</a>,然而找到的大多是用<code>python</code>实现</p>
+<p>其实很早以前就看过类似文章,也有很多人推荐<a href="https://github.com/ChenglongChen/Kaggle_HomeDepot" target="_blank" rel="noopener">大神开源的一个脚手架</a>,然而找到的大多是用<code>python</code>实现</p>
 <p>我因为一开始就是使用<code>Notebook</code>进行数据挖掘,主要<code>Notebook</code>能够提供一个实时的反馈,而纯<code>python</code>,对于复杂多变的数据来说,显得非常笨重,你经常有个好想法想验证一下,又得重新跑一遍,尤其是对于我的机器配置来说,重新跑一边的时间都够我喝杯茶了.而且<code>notebook</code>有个特点,可视化特别方便,有时候从数据上看不到,可以画个图表</p>
 <p>好了,夸了这么久,现在就来仔细讲讲脚手架如何搭建.</p>
 <p>我们先回到赛题,第一步审题,当时我看到日平均两个字,直接把日字省略,看成平均用电量,结果白白浪费了两个验证机会…..</p>
@@ -593,7 +593,7 @@
 <p>建立一个好的脚手架只是能让你在增添特征,选择特征时更加轻松,其实比赛看的还是你对数据的一种掌控力,建立这个脚手架主要是为了节省更多时间给提取特征、选择特征上.特征决定你的上限.</p>
 <p>这次比赛比较特殊,模型在这个比赛效果可能没有规则好,因为数据量太小,我<code>stacking</code>一下直接完全拟合了.可惜验证的次数还是<br>太少,除去前面两次错误的提交,我只有三次验证机会,如果次数多一点的话,选择特征降维或者模型调参一下遏制拟合结果可能会好很多吧.</p>
 <p>但是这次比赛自己学到了如何搭一个<code>ipy</code>的管道和增加了一些特征调参、特征降维的经验。因为以前看到的搭建管道资料都是基于<code>py</code>,很少基于<code>ipy</code>的,所以把自己搭建<code>ipy</code>管道经验分享出来,也希望自己写的这篇博文能够抛砖引玉,帮助大家搭建自己的完美管道.</p>
-<p>附上我的<a href="https://github.com/mrzhangboss/electricAI" target="_blank" rel="external">开源示例</a>:  <a href="https://github.com/mrzhangboss/electricAI" target="_blank" rel="external">https://github.com/mrzhangboss/electricAI</a><br>大家觉得有帮助就给我点个star吧</p>
+<p>附上我的<a href="https://github.com/mrzhangboss/electricAI" target="_blank" rel="noopener">开源示例</a>:  <a href="https://github.com/mrzhangboss/electricAI" target="_blank" rel="noopener">https://github.com/mrzhangboss/electricAI</a><br>大家觉得有帮助就给我点个star吧</p>
 
       
     </div>
@@ -652,13 +652,13 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>123</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>1 分钟</span>
             </span>
 
         </div>
@@ -749,13 +749,13 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>1.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>1 分钟</span>
             </span>
 
         </div>
@@ -801,7 +801,7 @@
 <p>我们独立出来<code>master</code>，<code>master</code>负责生成<code>Request</code>去重以及任务调度，而<code>slaver</code>只负责从<code>master</code>获取任务爬取。</p>
 <p>这种方法我们可以很轻松对<code>master</code>改良而不影响<code>slaver</code>，通过让<code>master</code>定时从<code>数据库</code>中获取新的任务生成到任务列表，我们可以轻松添加新的任务到<code>slaver</code>集群中去。</p>
 <p>下一步我们就介绍如何修改<code>scrapy-redis</code>达到我们新框架需要</p>
-<h1 id="重构scrapy-redis"><a href="#重构scrapy-redis" class="headerlink" title="重构scrapy-redis"></a>重构<code>scrapy-redis</code></h1><p>参考：<br><a href="http://blog.csdn.net/bone_ace/article/details/50989104" target="_blank" rel="external">基于Redis的三种分布式爬虫策略</a></p>
+<h1 id="重构scrapy-redis"><a href="#重构scrapy-redis" class="headerlink" title="重构scrapy-redis"></a>重构<code>scrapy-redis</code></h1><p>参考：<br><a href="http://blog.csdn.net/bone_ace/article/details/50989104" target="_blank" rel="noopener">基于Redis的三种分布式爬虫策略</a></p>
 
       
     </div>
@@ -860,13 +860,13 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>3.7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -1096,13 +1096,13 @@ result None
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>717</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>1 分钟</span>
             </span>
 
         </div>
@@ -1183,13 +1183,13 @@ result None
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>770</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>1 分钟</span>
             </span>
 
         </div>
@@ -1202,7 +1202,7 @@ result None
 
       
           <blockquote>
-<p>这是我从<code>Quora</code>上看到的一篇非常简短但详细的数据科学家的‘技能点’<br>来自eBay的一个数据科学家的回答<br>翻译来自<a href="https://www.quora.com/How-do-I-become-Data-analyst-scientist-Do-I-need-to-have-good-programming-skills/answer/Paul-Jeon-3?srid=ue3s8" target="_blank" rel="external">Quora回答</a></p>
+<p>这是我从<code>Quora</code>上看到的一篇非常简短但详细的数据科学家的‘技能点’<br>来自eBay的一个数据科学家的回答<br>翻译来自<a href="https://www.quora.com/How-do-I-become-Data-analyst-scientist-Do-I-need-to-have-good-programming-skills/answer/Paul-Jeon-3?srid=ue3s8" target="_blank" rel="noopener">Quora回答</a></p>
 </blockquote>
 <p>这是面试谷歌、英特尔、脸书等大的世界五百强公司的数据科学家相关岗位常见的技术要求，在我看来主要有七点</p>
 <ul>
@@ -1305,13 +1305,13 @@ result None
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>2.3k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -1348,7 +1348,7 @@ http-request del-header Host
         proxy_set_header X-Forwarded-For $remote_addr; # add X-Forwarded
   }
 }
-</code></pre><ol>
+</code></pre><ol start="2">
 <li>haproxy支持多开</li>
 </ol>
 <blockquote>
@@ -1385,12 +1385,12 @@ location / {
 <li>格式错误（format error）</li>
 </ol>
 <p>一般你写的<code>nginx</code>的配置文件有问题，这时候可以用<code>nginx -t</code>检查格式，修改正确后会显示<code>success</code></p>
-<ol>
+<ol start="2">
 <li>无法绑定地址（bind error）</li>
 </ol>
 <p>一般是因为有别的应用程序占用端口造成的，这时候用<code>netstat -tulpn</code>检查端口，然后选择<code>kill</code>掉占用端口的程序或者换一个端口</p>
 <h2 id="ansible-playbook-编写"><a href="#ansible-playbook-编写" class="headerlink" title="ansible playbook 编写"></a>ansible playbook 编写</h2><blockquote>
-<p>具体代码可以参考<a href="https://github.com/mrzhangboss/nginx-load-balance-ansible-playbook" target="_blank" rel="external">nginx均衡负载ansible-playbook</a><br>首先你得写一个<code>hosts</code></p>
+<p>具体代码可以参考<a href="https://github.com/mrzhangboss/nginx-load-balance-ansible-playbook" target="_blank" rel="noopener">nginx均衡负载ansible-playbook</a><br>首先你得写一个<code>hosts</code></p>
 </blockquote>
 <pre><code>[ali]
 my ansible_ssh_host=1.1.1.1 ansible_ssh_user=root 
@@ -1414,7 +1414,7 @@ google ansible_ssh_host=1.1.1.3 ansible_ssh_user=root
     service: name=nginx state=restarted enabled=yes
 </code></pre><p>解释一下<code>notify</code>，在复制完成之后就启用一个<code>handler</code>完成<code>nginx</code>的重启，当然这里也可以使用<code>reload</code>，假如在生产环境的话。</p>
 <p>客户端和代理的<code>playbook</code>差不多就不多介绍了。</p>
-<h4 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h4><p><a href="https://www.zybuluo.com/phper/note/90310" target="_blank" rel="external">nginx的配置、虚拟主机、负载均衡和反向代理</a></p>
+<h4 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h4><p><a href="https://www.zybuluo.com/phper/note/90310" target="_blank" rel="noopener">nginx的配置、虚拟主机、负载均衡和反向代理</a></p>
 
       
     </div>
@@ -1473,13 +1473,13 @@ google ansible_ssh_host=1.1.1.3 ansible_ssh_user=root
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>980</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>1 分钟</span>
             </span>
 
         </div>
@@ -1614,7 +1614,7 @@ google ansible_ssh_host=1.1.1.3 ansible_ssh_user=root
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-count">28</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1656,12 +1656,12 @@ google ansible_ssh_host=1.1.1.3 ansible_ssh_user=root
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">NaNm</span>
+    <span title="站点总字数">232k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">NaN:aN</span>
+    <span title="站点阅读时长">3:31</span>
 </div>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.1
   </div>

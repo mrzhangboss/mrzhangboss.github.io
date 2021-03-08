@@ -249,13 +249,13 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>709</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>1 分钟</span>
             </span>
 
         </div>
@@ -268,16 +268,16 @@
 
       
         <blockquote>
-<p>本篇博客主要基于这篇<a href="/2017/12/27/浅谈树这种数据结构/">博客</a>的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍AVL树的实现原理，完整代码在<a href="https://github.com/mrzhangboss/trees" target="_blank" rel="external">github</a>的<code>avl.go</code>文件中</p>
+<p>本篇博客主要基于这篇<a href="/2017/12/27/浅谈树这种数据结构/">博客</a>的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍AVL树的实现原理，完整代码在<a href="https://github.com/mrzhangboss/trees" target="_blank" rel="noopener">github</a>的<code>avl.go</code>文件中</p>
 </blockquote>
-<p><a href="/2017/12/27/浅谈树这种数据结构/">浅谈”树”这种数据结构</a><br><a href="https://github.com/mrzhangboss/trees" title="github" target="_blank" rel="external">Github</a><br><a href="http://www.cs.usfca.edu/~galles/visualization/AVLtree.html" target="_blank" rel="external">可视化页面</a></p>
+<p><a href="/2017/12/27/浅谈树这种数据结构/">浅谈”树”这种数据结构</a><br><a href="https://github.com/mrzhangboss/trees" title="github" target="_blank" rel="noopener">Github</a><br><a href="http://www.cs.usfca.edu/~galles/visualization/AVLtree.html" target="_blank" rel="noopener">可视化页面</a></p>
 <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>AVL树是在对二叉搜索树的一种优化，通过构造一棵高度平衡的二叉搜索树从而实现提高空间利用率，所以在了解如何实现之前，必须了解如何构造一棵二叉搜索树，你可以阅读我的这篇<a href="/2018/01/04/二叉搜索树实现原理/">博客</a>了解如何构建一棵二叉搜索树，虽然我是用Go来实现的，但是不必了解太多Go方面的知识，我在博客中尽量使用图片的方式来介绍实现原理</p>
 <p><a href="/2018/01/04/二叉搜索树实现原理/">二叉搜索树实现原理</a></p>
 <p>由于AVL树本质上也是一棵二叉搜索树，查找并不会改变树的性质，所以AVL的查找也是同二叉搜索树的查询相同，所以这里就重点介绍如何实现“增”和“删”</p>
 <h3 id="树的字段"><a href="#树的字段" class="headerlink" title="树的字段"></a>树的字段</h3><p>在开始介绍如何实现“增”、“删”之前，我想提一下AVL树的存贮字段，在wiki上面的AVL和很多资料上面，AVL的树结构分别由下面四个组成： Val、 Left*、Right*、Parent*。</p>
 <p>Val代表树存贮的值，Left、Right、Parent代表三个指针，分别指向左子树，右子树，父亲，而在我的实现中，我去掉了父亲指针，对于讲解来说，使用一个父指针能很好的解决从子遍历到父亲的经过，但在实际的应用中，我们完全可以使用一个列表存贮从父亲到儿子之间的值，这样的话，能实现一样的功能，而且能节省存贮空间（每个子树都少了一个父指针），但是相应的程序也变得比较复杂起来。</p>
 <p>虽然我在讲解的过程中会直接获取节点的父节点，但是在实际的代码实现中，是通过获取从列表中获取该节点的父节点。</p>
-<h2 id="AVL树的“增”"><a href="#AVL树的“增”" class="headerlink" title="AVL树的“增”"></a>AVL树的“增”</h2><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://en.wikipedia.org/wiki/AVL_tree" target="_blank" rel="external">https://en.wikipedia.org/wiki/AVL_tree</a></p>
+<h2 id="AVL树的“增”"><a href="#AVL树的“增”" class="headerlink" title="AVL树的“增”"></a>AVL树的“增”</h2><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://en.wikipedia.org/wiki/AVL_tree" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/AVL_tree</a></p>
 
     </div>
 
@@ -332,12 +332,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2018/01/04/二叉搜索树实现原理/" rel="prev" title="二叉搜索树实现原理">
-      <i class="fa fa-chevron-left"></i> 二叉搜索树实现原理
+    <a href="/2017/12/27/浅谈树这种数据结构/" rel="prev" title="浅谈"树"这种数据结构">
+      <i class="fa fa-chevron-left"></i> 浅谈"树"这种数据结构
     </a></div>
       <div class="post-nav-item">
-    <a href="/2018/01/05/红黑树实现原理/" rel="next" title="红黑树实现原理">
-      红黑树实现原理 <i class="fa fa-chevron-right"></i>
+    <a href="/2018/01/04/二叉搜索树实现原理/" rel="next" title="二叉搜索树实现原理">
+      二叉搜索树实现原理 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -421,7 +421,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-count">28</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -463,12 +463,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">NaNm</span>
+    <span title="站点总字数">232k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">NaN:aN</span>
+    <span title="站点阅读时长">3:31</span>
 </div>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.1
   </div>

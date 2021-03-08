@@ -252,13 +252,13 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>5.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>5 分钟</span>
             </span>
 
         </div>
@@ -291,7 +291,7 @@ assert(header-&gt;e_magic == ELF_MAGIC);
 <p><img src="/images/systemring.png" alt="系统环来源网络"></p>
 <p>PS：当然<code>CS</code>寄存器拿出来三位来当权限管理，但是xv6将第三位用户和内核都设置为1，所以我们也不介绍这一位</p>
 <p>我们在<code>CS</code>寄存器的这两位称为CPL，用来区分权限。在<a href="/2018/01/31/引导和操作系统的交互/">引导和操作系统的交互</a>这篇博客我们知道，在<code>x86</code>系统中，这个<code>CS</code>寄存器是标志段选择子，在<code>GDT</code>表中每个表项也有两位用来标志权限，我们称他们为<code>DPL</code>，他们的意义也就是<code>CS</code>寄存器选择这个段时他们最低拥有的权限。</p>
-<p>当然在<code>GDT</code>表中的段选择子也有一个表示权限的称作<code>RPL</code>，这三者的关系在这<a href="https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86" target="_blank" rel="external">里面</a>介绍的很详细，<code>RPL</code>是历史遗留问题但是操作系统基本上没有使用这个功能，所以这里我们也不解释，感兴趣可以看一下<a href="https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86" target="_blank" rel="external">前面</a>的介绍。</p>
+<p>当然在<code>GDT</code>表中的段选择子也有一个表示权限的称作<code>RPL</code>，这三者的关系在这<a href="https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86" target="_blank" rel="noopener">里面</a>介绍的很详细，<code>RPL</code>是历史遗留问题但是操作系统基本上没有使用这个功能，所以这里我们也不解释，感兴趣可以看一下<a href="https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86" target="_blank" rel="noopener">前面</a>的介绍。</p>
 <p>在<code>kern/env.c</code>的<code>结构体gdt</code>我们声明了一个<code>GDT</code>表，并且声明了一个系统段和用户段。</p>
 <p>这两个段就是我们权限的基础我们接下来通过实验来验证权限位对操作系统的保护</p>
 <p>我们首先在<code>user/badsegment.c</code>中加入一句汇编</p>
@@ -306,7 +306,7 @@ assert(header-&gt;e_magic == ELF_MAGIC);
 </code></pre><p>很简单x86共定义了256个中断向量，存在物理内存<code>0x000</code>-<code>0x3ff</code>之间，每个存贮一个<code>cs</code>值一个<code>eip</code>的值，这个n只要是在256直接就行，当调用这个的时候我们直接调到那里读取<code>cs</code>和<code>eip</code>的值。</p>
 <p>在正式介绍<code>Trap</code>之前我们要简单的介绍一下两个知识点</p>
 <h3 id="IRET"><a href="#IRET" class="headerlink" title="IRET"></a>IRET</h3><p>这是<code>iret</code>是一个机器码，我们前面介绍了无论是操作系统还是用户没有办法直接跳段（会引发<code>General Protection fault</code>），而且我们知道前面只是测试了跳代码段，我们知道两个不同的程序，不仅仅是代码段不同，堆栈段也要不同，才能保证各个程序的独立。所以系统为了解决这个问题，直接提供一个<code>iret</code>指令，这个全名应该叫<code>中断返回</code>，它的功能其实很简单，就是实现上面的跳代码段和堆栈段还有恢复<code>EFLAGS</code>寄存器值，这个主要应用在从系统跳转到用户上面。</p>
-<p>感兴趣的可以看看这个详细<a href="https://stackoverflow.com/questions/6892421/switching-to-user-mode-using-iret" target="_blank" rel="external">资料</a>，接下来我们看看在<code>xv6</code>里面如何使用<code>iret</code>来实现跳段</p>
+<p>感兴趣的可以看看这个详细<a href="https://stackoverflow.com/questions/6892421/switching-to-user-mode-using-iret" target="_blank" rel="noopener">资料</a>，接下来我们看看在<code>xv6</code>里面如何使用<code>iret</code>来实现跳段</p>
 <p>在<code>kern/env.c</code>的<code>env_pop_tf</code>函数实现了切换程序段的功能</p>
 <pre><code>asm volatile(
         &quot;\tmovl %0,%%esp\n&quot;
@@ -344,7 +344,7 @@ ts.ts_ss0 = GD_KD;
 </code></pre><p>这样我们在跳转的时候就能获取到内核的堆栈段，从而进入内核模式，当然硬件设定<code>TSS</code>的作用一开始为了考虑任务切换，它也提供了相应的指令，但是需要200左右时钟周期来完成，所以我们<code>xv6</code>嫌弃其速度太慢，只是使用了其保存内核堆栈地址的作用，所以在<code>xv6</code>中<code>TSS</code>只是一个“数据库”而已。</p>
 <hr>
 <p>介绍完前面的基础知识之后，接下来的就是这个<code>Trap</code>，前面我们知道在得到<code>int</code>这个指令时候这个时候就开始一个<code>Trap</code>开始。</p>
-<p>这个时候硬件接管程序控制，你也可以认为跳转到硬件代码去了。在给的<a href="https://pdos.csail.mit.edu/6.828/2016/xv6/book-rev9.pdf" target="_blank" rel="external">资料</a>第三章的<code>X86 Protection</code>里面介绍了这个过程，我们将前面几个步骤很我们前面给的资料联系起来</p>
+<p>这个时候硬件接管程序控制，你也可以认为跳转到硬件代码去了。在给的<a href="https://pdos.csail.mit.edu/6.828/2016/xv6/book-rev9.pdf" target="_blank" rel="noopener">资料</a>第三章的<code>X86 Protection</code>里面介绍了这个过程，我们将前面几个步骤很我们前面给的资料联系起来</p>
 <blockquote>
 <p>后面推寄存器值就不解释了，同<code>Trapframe</code>的反向结构相同，之所以会这样，是因为堆栈地址是向下生长，而程序地址是向上生长的</p>
 </blockquote>
@@ -371,9 +371,9 @@ ts.ts_ss0 = GD_KD;
 <h2 id="用户时间控制"><a href="#用户时间控制" class="headerlink" title="用户时间控制"></a>用户时间控制</h2><p>接下来的用户使用CPU时间设置也是通过这个这个<code>Trap</code>的中断实现，你可以理解为硬件在每个CPU上在每隔个<code>10ms</code>的时候就触发一个中断。这样到内核的时候，内核发现是时间中断，就保留用户的寄存器值到用户自己空间（<code>Env</code>里面有一个<code>env_tf</code>变量可以存贮这些信息），然后调用其他或者这个程序，这样的话，我们就实现了一个时间控制。</p>
 <p>PS：这里我们提一下这个<code>Env</code>结构体，内核初始化了1024个这个结构体，这说明我们可以同时拥有1024个用户程序运行，这个结构体就是用户环境，也就是我们在<code>Unix</code>系统上输入<code>ps</code>中的<code>pid</code>（每个<code>pid</code>代表一个程序）</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>至今我们介绍了通过一个简简单单的<code>Trap</code>操作就实现了复杂的权限管理和空间隔离，虽然操作系统看起来非常复杂，但其实都是由简单干练的概念搭建起来的，因为<code>Unix</code>的哲学就是<code>简单至上</code>。</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://stackoverflow.com/questions/6892421/switching-to-user-mode-using-iret" target="_blank" rel="external">https://stackoverflow.com/questions/6892421/switching-to-user-mode-using-iret</a></p>
-<p><a href="https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86" target="_blank" rel="external">https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86</a></p>
-<p><a href="https://en.wikipedia.org/wiki/Task_state_segment" target="_blank" rel="external">https://en.wikipedia.org/wiki/Task_state_segment</a></p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://stackoverflow.com/questions/6892421/switching-to-user-mode-using-iret" target="_blank" rel="noopener">https://stackoverflow.com/questions/6892421/switching-to-user-mode-using-iret</a></p>
+<p><a href="https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86" target="_blank" rel="noopener">https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86</a></p>
+<p><a href="https://en.wikipedia.org/wiki/Task_state_segment" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Task_state_segment</a></p>
 
     </div>
 
@@ -520,7 +520,7 @@ ts.ts_ss0 = GD_KD;
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-count">28</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -562,12 +562,12 @@ ts.ts_ss0 = GD_KD;
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">NaNm</span>
+    <span title="站点总字数">232k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">NaN:aN</span>
+    <span title="站点阅读时长">3:31</span>
 </div>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.1
   </div>

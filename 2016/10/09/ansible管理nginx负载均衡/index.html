@@ -250,13 +250,13 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>2.3k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -293,7 +293,7 @@ http-request del-header Host
         proxy_set_header X-Forwarded-For $remote_addr; # add X-Forwarded
   }
 }
-</code></pre><ol>
+</code></pre><ol start="2">
 <li>haproxy支持多开</li>
 </ol>
 <blockquote>
@@ -330,12 +330,12 @@ location / {
 <li>格式错误（format error）</li>
 </ol>
 <p>一般你写的<code>nginx</code>的配置文件有问题，这时候可以用<code>nginx -t</code>检查格式，修改正确后会显示<code>success</code></p>
-<ol>
+<ol start="2">
 <li>无法绑定地址（bind error）</li>
 </ol>
 <p>一般是因为有别的应用程序占用端口造成的，这时候用<code>netstat -tulpn</code>检查端口，然后选择<code>kill</code>掉占用端口的程序或者换一个端口</p>
 <h2 id="ansible-playbook-编写"><a href="#ansible-playbook-编写" class="headerlink" title="ansible playbook 编写"></a>ansible playbook 编写</h2><blockquote>
-<p>具体代码可以参考<a href="https://github.com/mrzhangboss/nginx-load-balance-ansible-playbook" target="_blank" rel="external">nginx均衡负载ansible-playbook</a><br>首先你得写一个<code>hosts</code></p>
+<p>具体代码可以参考<a href="https://github.com/mrzhangboss/nginx-load-balance-ansible-playbook" target="_blank" rel="noopener">nginx均衡负载ansible-playbook</a><br>首先你得写一个<code>hosts</code></p>
 </blockquote>
 <pre><code>[ali]
 my ansible_ssh_host=1.1.1.1 ansible_ssh_user=root 
@@ -359,7 +359,7 @@ google ansible_ssh_host=1.1.1.3 ansible_ssh_user=root
     service: name=nginx state=restarted enabled=yes
 </code></pre><p>解释一下<code>notify</code>，在复制完成之后就启用一个<code>handler</code>完成<code>nginx</code>的重启，当然这里也可以使用<code>reload</code>，假如在生产环境的话。</p>
 <p>客户端和代理的<code>playbook</code>差不多就不多介绍了。</p>
-<h4 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h4><p><a href="https://www.zybuluo.com/phper/note/90310" target="_blank" rel="external">nginx的配置、虚拟主机、负载均衡和反向代理</a></p>
+<h4 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h4><p><a href="https://www.zybuluo.com/phper/note/90310" target="_blank" rel="noopener">nginx的配置、虚拟主机、负载均衡和反向代理</a></p>
 
     </div>
 
@@ -506,7 +506,7 @@ google ansible_ssh_host=1.1.1.3 ansible_ssh_user=root
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-count">28</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -548,12 +548,12 @@ google ansible_ssh_host=1.1.1.3 ansible_ssh_user=root
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">NaNm</span>
+    <span title="站点总字数">232k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">NaN:aN</span>
+    <span title="站点阅读时长">3:31</span>
 </div>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.1
   </div>

@@ -250,13 +250,13 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>3.3k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -294,7 +294,7 @@
 <p>就以上面的例子，对于<code>root</code>和<code>son</code>这两个节点，其中<code>root</code>是父节点，我们可以用很多个属性来定义它，比如<code>root[count(son, 2)]</code>（意思是选择有两个<code>son</code>的<code>root</code>），其中对于父节点关系的中<code>son</code>节点来说（有点绕），他又可以用属性来约束比如<code>root[count(son[@id], 2)]</code>(意思是选择有两个<code>son</code>的<code>root</code>,并且每个<code>son</code>都有<code>id</code>这个属性）。从这里我们可以看其实节点和属性是可以相互嵌套的。</p>
 <p>从上面这个小例子我们可以看到，<code>XPath</code>的威力就是它可以用来非常详细的约束节点与其他节点或属性的关系，这种关系可以是绝对的，也可以是相对的，一切取决你的取舍，绝对代表严格，相对代表宽松。</p>
 <p>PS：当然我们这里的<code>属性</code>是一种宽泛的理解，在<code>XPath</code>中节点还包括<code>text</code>值，我们可以把它看做节点的一种<code>text</code>属性。</p>
-<h2 id="XPath的其他关系"><a href="#XPath的其他关系" class="headerlink" title="XPath的其他关系"></a><code>XPath</code>的其他关系</h2><p>前面我们介绍了<code>XPath</code>中最重要的一种关系：父子关系。这个也是我们使用<code>XPath</code>使用的最主要的一种关系，现在基本上网络上的教程都是基于这种关系的，我们这篇博客主要不详细介绍这种关系，你可以在<a href="https://www.w3schools.com/xml/xpath_syntax.asp" target="_blank" rel="external">w3cshool</a>上了解更多内容。</p>
+<h2 id="XPath的其他关系"><a href="#XPath的其他关系" class="headerlink" title="XPath的其他关系"></a><code>XPath</code>的其他关系</h2><p>前面我们介绍了<code>XPath</code>中最重要的一种关系：父子关系。这个也是我们使用<code>XPath</code>使用的最主要的一种关系，现在基本上网络上的教程都是基于这种关系的，我们这篇博客主要不详细介绍这种关系，你可以在<a href="https://www.w3schools.com/xml/xpath_syntax.asp" target="_blank" rel="noopener">w3cshool</a>上了解更多内容。</p>
 <p>我们先用问题来引入其他的关系，我们再把上面的简单<code>XML</code>进行修改</p>
 <pre><code>&lt;root&gt;
     &lt;son id=&quot;1&quot;&gt; I&apos; m son1 &lt;/son&gt;
@@ -307,7 +307,7 @@
 <pre><code>/root/son[@id=&apos;1&apos;]
 </code></pre><p>接下来我们通过定位的<code>son</code>来拿到它后面的兄弟（也有前面的兄弟语法）</p>
 <pre><code>/root/son[@id=&apos;1&apos;]/following-sibling::target[1]
-</code></pre><p>在这里<code>/following-sibling</code>代表它要找到接下来的兄弟，后面<code>::target[1]</code>是进一步限定我是要拿到兄弟里面第一个<code>target</code>，我们可以通过这个<a href="https://www.freeformatter.com/xpath-tester.html#ad-output" target="_blank" rel="external">网站</a>在线测试一下我们的<code>XPath</code></p>
+</code></pre><p>在这里<code>/following-sibling</code>代表它要找到接下来的兄弟，后面<code>::target[1]</code>是进一步限定我是要拿到兄弟里面第一个<code>target</code>，我们可以通过这个<a href="https://www.freeformatter.com/xpath-tester.html#ad-output" target="_blank" rel="noopener">网站</a>在线测试一下我们的<code>XPath</code></p>
 <p>当然我们可以通过第二个<code>son</code>来找到它前面的兄弟，对应语法是下面的</p>
 <pre><code>/root/son[@id=&apos;2&apos;]/preceding-sibling::target[1]
 </code></pre><p>在前面我们可以看到这个<code>following-sibling</code>和<code>preceding-sibling</code>他们都是一种寻找兄弟关系的，其实假如我们把<code>-sibling</code>去掉，他们能更加宽泛。</p>
@@ -473,7 +473,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-count">28</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -515,12 +515,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">NaNm</span>
+    <span title="站点总字数">232k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">NaN:aN</span>
+    <span title="站点阅读时长">3:31</span>
 </div>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.1
   </div>

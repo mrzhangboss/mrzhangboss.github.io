@@ -250,13 +250,13 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>6.7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>6 分钟</span>
             </span>
 
         </div>
@@ -271,7 +271,7 @@
         <blockquote>
 <p>曾经有人问过我一个问题什么是TCP复用，我当时没有回答上来，后面我又遇到一些并发性能问题的时候，我才开始慢慢明白为什么会有这个问题，以及这个问题背后的秘密</p>
 </blockquote>
-<p>其实当时应该他想考我的是爬虫的请求优化，准确来说是HTTP持久连接（HTTP persistent connection），并不是TCP复用，这才导致我当时查阅很多资料，并没有发现TCP复用能优化客户端，因为<a href="http://gaibianziji.blog.51cto.com/1082897/1211940" target="_blank" rel="external">TCP复用</a>是服务端的事，现在就让我从源头开始慢慢解读这个问题</p>
+<p>其实当时应该他想考我的是爬虫的请求优化，准确来说是HTTP持久连接（HTTP persistent connection），并不是TCP复用，这才导致我当时查阅很多资料，并没有发现TCP复用能优化客户端，因为<a href="http://gaibianziji.blog.51cto.com/1082897/1211940" target="_blank" rel="noopener">TCP复用</a>是服务端的事，现在就让我从源头开始慢慢解读这个问题</p>
 <h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>我们知道我们每次发的HTTP请求在底层都是一个套接字的通信，我们可以从底层开始做一个测试</p>
 <p>我们使用个for循环，申请1024个socket</p>
 <pre><code>import socket
@@ -307,13 +307,13 @@ for  i in range(1024):
 <li>服务器port</li>
 </ol>
 <p>简单来说就是两个二元组（local_ip, local_port), (server_ip, server_port)</p>
-<p>但是我们发一次的请求是一般是通过URL，也就是类似“<a href="http://www.baidu.com”，这样的url来请求的，这个同我们TCP有什么关系呢？" target="_blank" rel="external">http://www.baidu.com”，这样的url来请求的，这个同我们TCP有什么关系呢？</a></p>
+<p>但是我们发一次的请求是一般是通过URL，也就是类似“<a href="http://www.baidu.com”，这样的url来请求的，这个同我们TCP有什么关系呢？" target="_blank" rel="noopener">http://www.baidu.com”，这样的url来请求的，这个同我们TCP有什么关系呢？</a></p>
 <p>首先介绍一下“http”代表通信协议，这里使用的是HTTP协议，“://”后面的就是请求的域名，域名后面如果有冒号就是我们请求的端口号这里没有，根据HTTP协议这里默认是80端口（HTTPS是443），域名后面的就是请求路径，这里也没有就默认问“/”，也就是我们通过这个“url”就知道我们这次请求的具体位置了，现在我们找到了端口，但是请求的IP在哪呢？</p>
 <p>这里就要介绍一下DNS了，我们为了让我们的站点更好记，我们使用域名代替ip地址，通过在DNS服务上注册我们域名，以及绑定我们域名对应的IP地址，我们就能让计算机通过域名来转换成IP地址，这里就不详细介绍了</p>
 <p>所以呢我们现在了解了，一个TCP连接只是涉及到URL的域名和端口号，我们请求站点的时候主要是通过不同的路径来获取内容，所以我们可以很清楚的知道，只要我们URL的域名和端口一样，那么我们所以的URL都能共用这个TCP接口</p>
 <h3 id="ConnectionPool的实现"><a href="#ConnectionPool的实现" class="headerlink" title="ConnectionPool的实现"></a>ConnectionPool的实现</h3><p>简单来说为了实现HTTP复用，我们只需要保存TCP连接就行了，但是通过前面我们知道，我们保留的TCP连接必须和你要请求的url要域名端口一样，有时候一个站点的服务可能由多个域名多个端口组成，所以原本我们只要用一个变量保留上一次请求的TCP连接，为了程序更加健壮，我们需要一个TCP连接池，存贮不同的TCP连接。</p>
 <p>每次新的URL来的时候我们就是先从TCP连接池中查看有没有相同的域名和端口，如果有就用它发请求，如果没有就新建一个TCP连接，这就是TCP连接的基本原理，当然还要一点编程的时候要注意，我们从池子里面取出一个用完必须放回，否则池子用完了又得新建，那就完全丢掉了复用这个概念了</p>
-<h2 id="HTTP复用在Requests的具体表现"><a href="#HTTP复用在Requests的具体表现" class="headerlink" title="HTTP复用在Requests的具体表现"></a>HTTP复用在Requests的具体表现</h2><p>前面介绍了一大堆概念，但是从头到尾如果让我们自己来做一个实在太难了，幸好我们有<code>Requests</code>这个库，它的<code>Session</code>对象在<a href="http://requests-docs-cn.readthedocs.io/zh_CN/latest/user/advanced.html" target="_blank" rel="external">文档</a>介绍了它就维护了一个TCP连接池并且能够复用TCP连接</p>
+<h2 id="HTTP复用在Requests的具体表现"><a href="#HTTP复用在Requests的具体表现" class="headerlink" title="HTTP复用在Requests的具体表现"></a>HTTP复用在Requests的具体表现</h2><p>前面介绍了一大堆概念，但是从头到尾如果让我们自己来做一个实在太难了，幸好我们有<code>Requests</code>这个库，它的<code>Session</code>对象在<a href="http://requests-docs-cn.readthedocs.io/zh_CN/latest/user/advanced.html" target="_blank" rel="noopener">文档</a>介绍了它就维护了一个TCP连接池并且能够复用TCP连接</p>
 <p>接下来我们就从代码入手来更好的理解这个进程池的高级用法，我们为了更好看到每一次请求底层的操作，我们这里自己先自己搭建一个本地服务器，我们使用<code>Flask</code>来搭建一个本地服务器<br>新建一个<code>web.py</code>文件，在运行</p>
 <pre><code>from flask import Flask, request
 from werkzeug.serving import WSGIRequestHandler
@@ -383,11 +383,11 @@ finally:
     session.close()
     print(&apos;cost&apos;, end - begin, &apos;speed&apos;, nums / (end - begin), &apos;req/s&apos;)
 </code></pre><p>在我的电脑测试测试下<code>421.73 req/s</code>,基本上达到异步的效率（可以调节limit至100左右达到最大）</p>
-<p>在这里解释一下为什么要使用<code>semaphore</code>（asyncio锁），由于当前版本（aiohttp==2.2.5）下<code>aiohttp</code>的HTTP连接池无法在没有锁的情况下复用TCP连接（具体可以看一下我提的这个<a href="https://github.com/aio-libs/aiohttp/issues/2323" target="_blank" rel="external">issue</a>,这里由于牵扯到太多异步框架的知识，我就详细不介绍异步库，如果想了解更多的话就看我上一片博文<a href="/2017/10/09/Python%E5%BC%82%E6%AD%A5%E7%9A%84%E7%90%86%E8%A7%A3/">Python异步的理解</a></p>
+<p>在这里解释一下为什么要使用<code>semaphore</code>（asyncio锁），由于当前版本（aiohttp==2.2.5）下<code>aiohttp</code>的HTTP连接池无法在没有锁的情况下复用TCP连接（具体可以看一下我提的这个<a href="https://github.com/aio-libs/aiohttp/issues/2323" target="_blank" rel="noopener">issue</a>,这里由于牵扯到太多异步框架的知识，我就详细不介绍异步库，如果想了解更多的话就看我上一片博文<a href="/2017/10/09/Python%E5%BC%82%E6%AD%A5%E7%9A%84%E7%90%86%E8%A7%A3/">Python异步的理解</a></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在如何提高请求效率和速度上，HTTP复用算是从协议出发上的一种优化，他主要利用方向是在单个站点多次请求上面，假如每个站点都只是一个请求的话，那他就无用武之地，不过现在站点不可能一次请求就完成交互，所以了解这个HTTP复用如何是非常有帮助的。</p>
 <p>引用：</p>
-<p><a href="https://laike9m.com/blog/requests-secret-pool_connections-and-pool_maxsize,89/" target="_blank" rel="external">Requests’ secret: pool_connections and pool_maxsize</a></p>
-<p><a href="https://pawelmhm.github.io/asyncio/python/aiohttp/2016/04/22/asyncio-aiohttp.html" target="_blank" rel="external">Making 1 million requests with python-aiohttp</a></p>
+<p><a href="https://laike9m.com/blog/requests-secret-pool_connections-and-pool_maxsize,89/" target="_blank" rel="noopener">Requests’ secret: pool_connections and pool_maxsize</a></p>
+<p><a href="https://pawelmhm.github.io/asyncio/python/aiohttp/2016/04/22/asyncio-aiohttp.html" target="_blank" rel="noopener">Making 1 million requests with python-aiohttp</a></p>
 
     </div>
 
@@ -534,7 +534,7 @@ finally:
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-count">28</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -576,12 +576,12 @@ finally:
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">NaNm</span>
+    <span title="站点总字数">232k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">NaN:aN</span>
+    <span title="站点阅读时长">3:31</span>
 </div>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.1
   </div>

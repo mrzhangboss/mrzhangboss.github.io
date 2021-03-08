@@ -250,13 +250,13 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>4.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>4 分钟</span>
             </span>
 
         </div>
@@ -297,7 +297,7 @@
 <h2 id="ElasticSearch存贮和排序"><a href="#ElasticSearch存贮和排序" class="headerlink" title="ElasticSearch存贮和排序"></a><code>ElasticSearch</code>存贮和排序</h2><p>接下来我就介绍，我怎么优化存储和编写定制动态<code>DSL</code>来实现我们想要的功能。</p>
 <p>在我介绍之前，我先简单的谈一下我对<code>ElasticSearch</code>的理解</p>
 <h3 id="ElasticSearch简介"><a href="#ElasticSearch简介" class="headerlink" title="ElasticSearch简介"></a>ElasticSearch简介</h3><p>在我没有真正使用<code>ElasticSearch</code>之前，我就在知乎上听过它的大名，<code>ElasticSearch</code>真正让我震惊的是当我把上千万数据导入到它里面去，它能在毫秒级别给你响应，而我在<code>MySQL</code>调用<code>SQL</code>进行查询得花几十分钟</p>
-<p>我们可以把<code>ElasticSearch</code>类比成一个数据库，相比于<code>MySQL</code>它在查询性能上做到了苛刻的，我一开始想好好介绍它是怎么做到的，但是我发现有人已经总结的非常好了，可以看看这份<a href="https://zhuanlan.zhihu.com/p/33671444" target="_blank" rel="external">资料</a>，它之所以能做到这么快的原因就是这个：索引+内存+缓存</p>
+<p>我们可以把<code>ElasticSearch</code>类比成一个数据库，相比于<code>MySQL</code>它在查询性能上做到了苛刻的，我一开始想好好介绍它是怎么做到的，但是我发现有人已经总结的非常好了，可以看看这份<a href="https://zhuanlan.zhihu.com/p/33671444" target="_blank" rel="noopener">资料</a>，它之所以能做到这么快的原因就是这个：索引+内存+缓存</p>
 <p><code>ElasticSearch</code>使用倒叙索引让查询时间复杂度降到logN级，使用内存让物理查询速度达到极限，加上一些过滤缓存让其在复杂查询还是简单查询都能保持在一个很平稳的速度</p>
 <p><code>ElasticSearch</code>相比与<code>MySQL</code>还有一个特点，就是对大文本搜索的支持，<code>ElasticSearch</code>对文本默认自动进行分词，并且通过一些高级分类算法（TF/IDF，5.0后使用更加先进的BM25算法），对匹配的文本进行打分，依次返回得分高低列表，而<code>MySQL</code>在大文本检索只有一个全文索引支持，从实现上来看就是一个加了索引的<code>Like</code>查询，所以<code>ElasticSearch</code>在设计的特定算法加持下被称为“搜索引擎”</p>
 <p>但是<code>ElasticSearch</code>同现在商业的搜索引擎，比如Google、百度、Bing这些又有些不同，<code>ElasticSearch</code>传入的是纯文本，所以它只能使用一些<code>TF/IDF</code>算法来计算给定关键词与文本的相关项，但是现在商业引擎输入的是网页，所以现在商业引擎比如Google就使用<code>Google Page Rank</code>算法来再次计算文档相关性。当然现代商业引擎不单仅仅使用<code>Google Page Rank</code>算法，他还会考虑更加因素进去（比如百度的竞价排行，Google的恶意影响网页排行检测），但是从本质上来说，无论是<code>ElasticSearch</code>和现代商业引擎都在做同一件事，给匹配项打分，这就是他们与<code>MySQL</code>的全文检索的不同（<code>MySQL</code>没有后面打分排行的概率，他只有<code>order by</code>的这个概率）</p>
@@ -305,7 +305,7 @@
 <p>所以我们就不能让<code>ElasticSearch</code>自动帮我们对文本进行分词，但是我们想利用<code>打分</code>这个机制帮我们完成最可能在最前面返回</p>
 <p>所以我们把每篇文章里面的人物解析出来的属性（姓名，出生年月，民族等）设定为<code>keyword</code>类型，这样<code>ElasticSearch</code>就不会对这个字段进行分词，查询的时候也必须全匹配才能命中，由于一篇文章可能设计到多个人，所以我把它用一个<code>list</code>存到一个<code>document</code>里面</p>
 <p>但是这个又引起了另外一个问题，对与一个<code>document</code>里面的<code>list</code>，<code>ElasticSearch</code>会把它进行转换</p>
-<p>我们用<a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/nested.html" target="_blank" rel="external">官方文档的例子</a>解释，我们存入了下面这个<code>document</code></p>
+<p>我们用<a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/nested.html" target="_blank" rel="noopener">官方文档的例子</a>解释，我们存入了下面这个<code>document</code></p>
 <pre><code>{
   &quot;group&quot; : &quot;fans&quot;,
   &quot;user&quot; : [ 
@@ -325,8 +325,8 @@
   &quot;user.first&quot; : [ &quot;张&quot;, &quot;李&quot; ],
   &quot;user.last&quot; :  [ &quot;华&quot;, &quot;四&quot; ]
 }
-</code></pre><p>这样你查询这个人<code>张四</code>，我们发现上面这个文档也返回了（选了<code>user.first</code>列表的第一个值，<code>user.last</code>的第二个值，这个结果明显是错误的，我们怎么才能避免<code>ElasticSearch</code>的“自作聪明”呢，答案很简单我们把<code>user</code>声明为<code>nested</code>对象，这样<code>ElasticSearch</code>就不会把它拆开了而是把它当做两个文档（有些人可能会说这个会不要影响它的速率，恰恰相反，<code>ElasticSearch</code>会经常使用类似技术来加速，详情可以看上面的<a href="https://zhuanlan.zhihu.com/p/33671444" target="_blank" rel="external">博文</a>)</p>
-<p>现在我们解决了重重困难终于要到排序的阶段了，然而我们没有使用<code>string</code>类型（支持TF/IDF算法）而使用了<code>keyword</code>类型，导致我们没有办法使用<code>ElasticSearch</code>提供的高级排序算法，所以我们得自己手动进行提分，怎么来提分呢，很简单使用<a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-boost.html" target="_blank" rel="external">boost</a></p>
+</code></pre><p>这样你查询这个人<code>张四</code>，我们发现上面这个文档也返回了（选了<code>user.first</code>列表的第一个值，<code>user.last</code>的第二个值，这个结果明显是错误的，我们怎么才能避免<code>ElasticSearch</code>的“自作聪明”呢，答案很简单我们把<code>user</code>声明为<code>nested</code>对象，这样<code>ElasticSearch</code>就不会把它拆开了而是把它当做两个文档（有些人可能会说这个会不要影响它的速率，恰恰相反，<code>ElasticSearch</code>会经常使用类似技术来加速，详情可以看上面的<a href="https://zhuanlan.zhihu.com/p/33671444" target="_blank" rel="noopener">博文</a>)</p>
+<p>现在我们解决了重重困难终于要到排序的阶段了，然而我们没有使用<code>string</code>类型（支持TF/IDF算法）而使用了<code>keyword</code>类型，导致我们没有办法使用<code>ElasticSearch</code>提供的高级排序算法，所以我们得自己手动进行提分，怎么来提分呢，很简单使用<a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-boost.html" target="_blank" rel="noopener">boost</a></p>
 <p>前面我们提到了我们的文档可能解析出来对象多个属性（姓名、年龄、性别、居住地），但是有些文档也可能没有这些信息，我们查询的时候是有一个信息列表（这个人姓名、年龄、性别等等），所以我们使用<code>boost</code>对命中的信息越多的进行提分，所以我们最终就能完成命中越多信息的排在越前面，当然命中信息少的也会被筛选出来只不过位置稍微靠后</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过这次直面千万数据，让我学习到了不少，虽然一开始目的只想简单搜索出来最匹配的数据，但是在实际过程中，通过不断对产生结果提出问题，最终实现了一个比较满意的产品，整个产品在不断的优化过程中逐渐成型并且稳定，我觉得对我帮助最大就是撰写设计文档，并且在产品成型的过程中把结果反馈上去，最后慢慢迭代一个最好的版本</p>
 
@@ -475,7 +475,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-count">28</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -517,12 +517,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">NaNm</span>
+    <span title="站点总字数">232k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">NaN:aN</span>
+    <span title="站点阅读时长">3:31</span>
 </div>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.1
   </div>

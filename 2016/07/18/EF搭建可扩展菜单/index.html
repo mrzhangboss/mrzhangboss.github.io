@@ -48,18 +48,18 @@
   };
 </script>
 
-  <meta name="description" content="&amp;gt; 由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF Code First更是坑了我一把，我想把我碰到坑给大家分享一下。1.类库的实现首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个bool类型IsFoot来定义是否为根菜单，每个Menu">
+  <meta name="description" content="由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF Code First更是坑了我一把，我想把我碰到坑给大家分享一下。1.类库的实现首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个bool类型IsFoot来定义是否为根菜单，每个Menus有一">
 <meta name="keywords" content="programming">
 <meta property="og:type" content="article">
 <meta property="og:title" content="EF搭建可扩展菜单">
 <meta property="og:url" content="https://mrzhangboss.github.io/2016/07/18/EF搭建可扩展菜单/index.html">
 <meta property="og:site_name" content="小轮子的笔记">
-<meta property="og:description" content="&amp;gt; 由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF Code First更是坑了我一把，我想把我碰到坑给大家分享一下。1.类库的实现首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个bool类型IsFoot来定义是否为根菜单，每个Menu">
+<meta property="og:description" content="由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF Code First更是坑了我一把，我想把我碰到坑给大家分享一下。1.类库的实现首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个bool类型IsFoot来定义是否为根菜单，每个Menus有一">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2020-03-11T03:08:34.403Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="EF搭建可扩展菜单">
-<meta name="twitter:description" content="&amp;gt; 由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF Code First更是坑了我一把，我想把我碰到坑给大家分享一下。1.类库的实现首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个bool类型IsFoot来定义是否为根菜单，每个Menu">
+<meta name="twitter:description" content="由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF Code First更是坑了我一把，我想把我碰到坑给大家分享一下。1.类库的实现首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个bool类型IsFoot来定义是否为根菜单，每个Menus有一">
 
 <link rel="canonical" href="https://mrzhangboss.github.io/2016/07/18/EF搭建可扩展菜单/">
 
@@ -250,13 +250,13 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>1.9k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -268,7 +268,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>&gt;</p>
+        <blockquote>
+</blockquote>
 <h3 id="由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。"><a href="#由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。" class="headerlink" title="由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。"></a>由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。</h3><h4 id="由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF-Code-First更是坑了我一把，我想把我碰到坑给大家分享一下。"><a href="#由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF-Code-First更是坑了我一把，我想把我碰到坑给大家分享一下。" class="headerlink" title="由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF Code First更是坑了我一把，我想把我碰到坑给大家分享一下。"></a>由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF Code First更是坑了我一把，我想把我碰到坑给大家分享一下。</h4><h2 id="1-类库的实现"><a href="#1-类库的实现" class="headerlink" title="1.类库的实现"></a>1.类库的实现</h2><h3 id="首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个bool类型IsFoot来定义是否为根菜单，每个Menus有一个父级菜单Menus，有一群子菜单，下面是我定义的Menu库。"><a href="#首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个bool类型IsFoot来定义是否为根菜单，每个Menus有一个父级菜单Menus，有一群子菜单，下面是我定义的Menu库。" class="headerlink" title="首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个bool类型IsFoot来定义是否为根菜单，每个Menus有一个父级菜单Menus，有一群子菜单，下面是我定义的Menu库。"></a>首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个<code>bool</code>类型<strong>IsFoot</strong>来定义是否为根菜单，每个Menus有一个父级菜单Menus，有一群子菜单，下面是我定义的Menu库。</h3><pre><code>  [Description(&quot;菜单&quot;)]
 public class Menus
 {
@@ -294,7 +295,7 @@ public class Menus
 
 }
 </code></pre><h3 id="每个Menus都包含了一个文章集合-虽然有些菜单不一定有文章但是EF可以允许我们0对多，或1对多。"><a href="#每个Menus都包含了一个文章集合-虽然有些菜单不一定有文章但是EF可以允许我们0对多，或1对多。" class="headerlink" title="每个Menus都包含了一个文章集合,虽然有些菜单不一定有文章但是EF可以允许我们0对多，或1对多。"></a>每个Menus都包含了一个文章集合,虽然有些菜单不一定有文章但是EF可以允许我们0对多，或1对多。</h3><h2 id="2-生成数据库"><a href="#2-生成数据库" class="headerlink" title="2.  生成数据库"></a>2.  生成数据库</h2><hr>
-<p>EF比较人性化的是，当我们数据库里面没有我们想要生成的表时，我们不需要多余的代码，只要当成数据库有表，像平时一样添加数据然后EF会帮我们自动在数据库里面建好表，当然你如果有相同名字的表话它报错，会提醒你数据库里面有如果想保存数据要做好数据迁移工作，数据迁移不是我们的重点，如果想了解的话，<a href="http://www.cnblogs.com/guomingfeng/archive/2013/06/15/mvc-ef-configuration-migration.html" target="_blank" rel="external">点击这里</a></p>
+<p>EF比较人性化的是，当我们数据库里面没有我们想要生成的表时，我们不需要多余的代码，只要当成数据库有表，像平时一样添加数据然后EF会帮我们自动在数据库里面建好表，当然你如果有相同名字的表话它报错，会提醒你数据库里面有如果想保存数据要做好数据迁移工作，数据迁移不是我们的重点，如果想了解的话，<a href="http://www.cnblogs.com/guomingfeng/archive/2013/06/15/mvc-ef-configuration-migration.html" target="_blank" rel="noopener">点击这里</a></p>
 <h3 id="生成的数据库包含两个表，一个Menus表，一个是Article表（PS：上面没有给出Article的类型定义，想要的可以自己写），对于这个来说，我们并没有在表里面定义外键属性，只是用来一个引用属性，引用属性是一种“虚属性”，我们通过这个属性来建立起两个对象的虚拟联系，比如说父与子，这种关系是虚拟的对于两者之间的联系是通过血缘来联系的，这个血缘是存在的，相对应就是数据库里面的外键联系，外键也可以看做是表中的一个字段，它记录了一种关系。"><a href="#生成的数据库包含两个表，一个Menus表，一个是Article表（PS：上面没有给出Article的类型定义，想要的可以自己写），对于这个来说，我们并没有在表里面定义外键属性，只是用来一个引用属性，引用属性是一种“虚属性”，我们通过这个属性来建立起两个对象的虚拟联系，比如说父与子，这种关系是虚拟的对于两者之间的联系是通过血缘来联系的，这个血缘是存在的，相对应就是数据库里面的外键联系，外键也可以看做是表中的一个字段，它记录了一种关系。" class="headerlink" title="生成的数据库包含两个表，一个Menus表，一个是Article表（PS：上面没有给出Article的类型定义，想要的可以自己写），对于这个来说，我们并没有在表里面定义外键属性，只是用来一个引用属性，引用属性是一种“虚属性”，我们通过这个属性来建立起两个对象的虚拟联系，比如说父与子，这种关系是虚拟的对于两者之间的联系是通过血缘来联系的，这个血缘是存在的，相对应就是数据库里面的外键联系，外键也可以看做是表中的一个字段，它记录了一种关系。"></a>生成的数据库包含两个表，一个Menus表，一个是Article表（PS：上面没有给出Article的类型定义，想要的可以自己写），对于这个来说，我们并没有在表里面定义外键属性，只是用来一个引用属性，引用属性是一种“虚属性”，我们通过这个属性来建立起两个对象的虚拟联系，比如说父与子，这种关系是虚拟的对于两者之间的联系是通过血缘来联系的，这个血缘是存在的，相对应就是数据库里面的外键联系，外键也可以看做是表中的一个字段，它记录了一种关系。</h3><h4 id="由于EF的智能关系，当我们Code-First时，他会帮我们自动建好外键如果我们不定义的话，当我们使用EF的时候是不需要考虑外键的值的初始化，如果我们没有给他赋值EF会自动给他赋值。"><a href="#由于EF的智能关系，当我们Code-First时，他会帮我们自动建好外键如果我们不定义的话，当我们使用EF的时候是不需要考虑外键的值的初始化，如果我们没有给他赋值EF会自动给他赋值。" class="headerlink" title="由于EF的智能关系，当我们Code First时，他会帮我们自动建好外键如果我们不定义的话，当我们使用EF的时候是不需要考虑外键的值的初始化，如果我们没有给他赋值EF会自动给他赋值。"></a>由于EF的智能关系，当我们Code First时，他会帮我们自动建好外键如果我们不定义的话，当我们使用EF的时候是不需要考虑外键的值的初始化，如果我们没有给他赋值EF会自动给他赋值。</h4><hr>
 <p>讲完了EF的建立，现在就谈谈使用Code First在项目中遇到的问题。</p>
 <hr>
@@ -304,7 +305,7 @@ public int sonListMenusID{get;set;}
 </code></pre><p>或者用Fluent API 在继承的方法 onModelCreate中添加</p>
 <pre><code>modelBuilder.Entity&lt;Menus&gt;().HasRequired(p=&gt;p.sonList).WithMany(l=&gt;l.Menus).HasForeignKey(p=&gt;p.sonListMenusID)
 </code></pre><p>通过这种创建方式当我们创建子集菜单时我们就可以成功利用EF特性帮我们自动添加上外键，以及建立好实体关系。</p>
-<p>关于更详细的外键知识可以点击<a href="http://www.cnblogs.com/Gyoung/archive/2013/01/22/2869782.html" target="_blank" rel="external">这里</a></p>
+<p>关于更详细的外键知识可以点击<a href="http://www.cnblogs.com/Gyoung/archive/2013/01/22/2869782.html" target="_blank" rel="noopener">这里</a></p>
 
     </div>
 
@@ -362,12 +363,12 @@ public int sonListMenusID{get;set;}
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2016/07/18/ 阿里云服务器初体验0/" rel="prev" title="阿里云服务器初体验">
-      <i class="fa fa-chevron-left"></i> 阿里云服务器初体验
+    <a href="/2016/07/18/泛型继承的理解0/" rel="prev" title="泛型继承的理解">
+      <i class="fa fa-chevron-left"></i> 泛型继承的理解
     </a></div>
       <div class="post-nav-item">
-    <a href="/2016/07/18/富文本编辑器CKEditor配置CKFinder0/" rel="next" title="富文本编辑器CKEditor配置CKFinder">
-      富文本编辑器CKEditor配置CKFinder <i class="fa fa-chevron-right"></i>
+    <a href="/2016/07/18/GitHub Education Pack0/" rel="next" title="GitHub Education Pack">
+      GitHub Education Pack <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -451,7 +452,7 @@ public int sonListMenusID{get;set;}
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-count">28</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -493,12 +494,12 @@ public int sonListMenusID{get;set;}
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">NaNm</span>
+    <span title="站点总字数">232k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">NaN:aN</span>
+    <span title="站点阅读时长">3:31</span>
 </div>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.1
   </div>

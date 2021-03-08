@@ -250,13 +250,13 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>4.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>4 分钟</span>
             </span>
 
         </div>
@@ -269,7 +269,7 @@
 
       
         <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>最近重温《TCP/IP协议簇》，读到子网这个部分，概念都能弄懂，但是不明白子网存在的目的，很多资料都说有两个好处，一是能够判断IP存在局域网还是远程网，另外一个将大的网段分成多个小子网。</p>
-<p>这样就搞得我一头雾水，原来我对互联网的认识是从TCP、HTTP高层协议理解的，我原来对互联网信息传递的理解就像<a href="https://www.zhihu.com/question/20717354/answer/15968282" target="_blank" rel="external">这篇回答</a>，网络就像一个神奇的大网，你只需要把电话线插到“网”中就能同别人连起来。原来我对这个解释并没有什么疑问，但是我越来越深入“互联网”，我就我对“互联网”越来越疑惑。</p>
+<p>这样就搞得我一头雾水，原来我对互联网的认识是从TCP、HTTP高层协议理解的，我原来对互联网信息传递的理解就像<a href="https://www.zhihu.com/question/20717354/answer/15968282" target="_blank" rel="noopener">这篇回答</a>，网络就像一个神奇的大网，你只需要把电话线插到“网”中就能同别人连起来。原来我对这个解释并没有什么疑问，但是我越来越深入“互联网”，我就我对“互联网”越来越疑惑。</p>
 <p>举个例子，我们知道这个IPV4理论上总共有<code>4294967296（256*256*256*256）</code>个，按照当前的理论，过几年就要分配完了，那意味这至少有50%已经分配好了，也就是说至少有20亿根“网线”要连到一起，我们知道局域网只要交换机就能搭起来，假设我们一个交换机能插20根网线，那么要搭这个20亿“网线”，至少要用一个亿的交换机，你能想象一个亿的交换机堆在一起组成“互联网”吗？就算假如我们使用数字信号，作为一个程序员，我也很难想象原先的程序员是在有限的内存和硬盘，如何设计强大计算机有条不紊的处理20亿的并发。</p>
 <p>所以这篇文章就要从OSI底层协议出发让我们从底部掀一掀“互联网”的老底，将一个有血有肉的“互联网”展现在我们面前。</p>
 <h2 id="触摸“网”"><a href="#触摸“网”" class="headerlink" title="触摸“网”"></a>触摸“网”</h2><p>我们一直在说着互联网、互联网，由于无数在前人的不懈努力下，其实很多时候我们根本感受不到这张网的存在，比如打开浏览器，输入<code>www.baidu.com</code>，我们直接就能连上千里之外的服务器，其实在浏览器后面，我们发的“包”正沿着网跨越千山万水到达一个机房的服务器中。</p>
@@ -326,7 +326,7 @@ Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
 <p>但是就像送信举的例子一样，如果邮递员能够直接把信从街头送到街尾，那么直接节省了很长一段在路上的花的时间。所以运营商就在各个分支网络搭建大大小小的“局域网”，就一层层代理一样，当一个包请求过来，首先先查看这个IP是否属于当前地区的局域网，如果是就查表找到地址发送过去，如果没有就发送到它的更高一级代理（网关），最终这个IP包到达机房区域的局域网的主机上。</p>
 <p>所以我们能在<code>traceroute</code>查看到一个IP包要传递的那么多的IP地址，那些IP地址都是勤劳的网关，不过相比我们第一个网关，也就是我们在网上冲浪的IP地址，那些网关更像一个一个交通指挥员，指导着我们的发送的“信”一步一步走到指定地点。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>互联网就像一个乐高拼成的巨人，刚开始不了解它，远远的观察它，它就像文明遗迹一样让人赞不绝口，等到你慢慢走进它，你就会发现它的组成其实也很普通，也就是一个一个乐高模块组成，但就是这种无数普通搭建我们的“万里长城”，这或许就是互联网的伟大之处。</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="http://www.cnblogs.com/JuneWang/p/3917697.html" target="_blank" rel="external">子网</a></p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="http://www.cnblogs.com/JuneWang/p/3917697.html" target="_blank" rel="noopener">子网</a></p>
 
     </div>
 
@@ -473,7 +473,7 @@ Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-count">28</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -515,12 +515,12 @@ Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">NaNm</span>
+    <span title="站点总字数">232k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">NaN:aN</span>
+    <span title="站点阅读时长">3:31</span>
 </div>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.1
   </div>

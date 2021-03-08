@@ -250,13 +250,13 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>1.9k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -278,7 +278,7 @@
 <p><del>执行这个指令就能看到你所支持的指令集</del></p>
 <p>最新的<code>tensorflow</code>1.12不需要这步，可以根据你的CPU进行推测</p>
 <p>~~2. 然后安装<code>bazel</code></p>
-<p><del>由于直接从源代码安装比较简单，所以直接从<a href="https://github.com/bazelbuild/bazel/releases" target="_blank" rel="external">github</a>上面下载<code>0.18.1</code>相对应的版本就行（最好不要使用最新版，最新版没法编译）</del></p>
+<p><del>由于直接从源代码安装比较简单，所以直接从<a href="https://github.com/bazelbuild/bazel/releases" target="_blank" rel="noopener">github</a>上面下载<code>0.18.1</code>相对应的版本就行（最好不要使用最新版，最新版没法编译）</del></p>
 <p><del>3. 安装完之后下载<code>tensorflow</code>源码</del></p>
 <pre><code>mkdir github &amp;&amp; cd github
 git clone --recurse-submodules https://github.com/tensorflow/tensorflow
@@ -293,9 +293,9 @@ cd tensorflow
 <pre><code>bazel build --config=opt //tensorflow/tools/pip_package:build_pip_package
 </code></pre><p><del>当然如果你想开启<code>MKL</code>也可以在<code>opt</code>加上改成<code>--config mkl</code></del></p>
 <p>最新版使用<code>bazel</code>编译由于依赖网络下载，而我大天朝的网络一直报check-sum错误，官方说是我们网络的问题，我在我香港服务器尝试了一下，相同的环境下使用<code>bazel</code>是能安装的，但是由于安装到后面<code>bazel</code>需要太多内存了，所以直接爆照，而我本地内存大然而尝试了N多方法（尝试使用<code>proxychain</code>由于安装时需要连接本地<code>bazel</code>服务器，而设置过滤本地网络又没有用，也尝试使用全局代理也绕不过去），最终没有办法只能安装一个别人已经编译好的CPU的加速的。现在放出地址</p>
-<p><a href="https://github.com/mind/wheels/releases" target="_blank" rel="external">github tensorflow 编译好的版本下载</a></p>
+<p><a href="https://github.com/mind/wheels/releases" target="_blank" rel="noopener">github tensorflow 编译好的版本下载</a></p>
 <p>你找一个你操作系统对应以及和你Python版本对应的下载下来用<code>pip</code>安装一下就可以了。</p>
-<ol>
+<ol start="5">
 <li>验证</li>
 </ol>
 <p>退出安装目录运行<code>python</code></p>
@@ -452,7 +452,7 @@ bazel --host_jvm_args=&quot;-Dhttp.proxyHost=localhost -Dhttp.proxyPort=8123 -Dh
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-count">28</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -494,12 +494,12 @@ bazel --host_jvm_args=&quot;-Dhttp.proxyHost=localhost -Dhttp.proxyPort=8123 -Dh
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">NaNm</span>
+    <span title="站点总字数">232k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">NaN:aN</span>
+    <span title="站点阅读时长">3:31</span>
 </div>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.1
   </div>

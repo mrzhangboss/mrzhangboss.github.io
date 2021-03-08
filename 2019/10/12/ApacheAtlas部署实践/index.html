@@ -255,13 +255,13 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>6.3k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>6 分钟</span>
             </span>
 
         </div>
@@ -282,10 +282,10 @@
 <li>源码安装</li>
 </ol>
 <blockquote>
-<p>首先在<a href="https://www.apache.org/dyn/closer.cgi/atlas/2.0.0/apache-atlas-2.0.0-sources.tar.gz" target="_blank" rel="external">https://www.apache.org/dyn/closer.cgi/atlas/2.0.0/apache-atlas-2.0.0-sources.tar.gz</a>下载2.0.0源码</p>
+<p>首先在<a href="https://www.apache.org/dyn/closer.cgi/atlas/2.0.0/apache-atlas-2.0.0-sources.tar.gz" target="_blank" rel="noopener">https://www.apache.org/dyn/closer.cgi/atlas/2.0.0/apache-atlas-2.0.0-sources.tar.gz</a>下载2.0.0源码</p>
 </blockquote>
 <p>解压源码</p>
-<ol>
+<ol start="2">
 <li>选择Atlas架构</li>
 </ol>
 <p>Atlas支持多种架构作为后端</p>
@@ -296,7 +296,7 @@
 <p>你可以选择多种，这里我们采用集成<code>HBase + Solr</code>方式编译</p>
 <pre><code>mvn clean -DskipTests package -Pdist,embedded-hbase-solr
 </code></pre><p>执行代码即可（推荐使用阿里云的maven源加速编译）</p>
-<ol>
+<ol start="3">
 <li>修改环境变量</li>
 </ol>
 <p>编译完之后在<code>/distro/target</code>下面有很多tar.gz包，我们需要的是<code>apache-atlas-2.0.0-server.tar.gz</code>包，解压到当前目录</p>
@@ -400,7 +400,7 @@ at org.apache.atlas.hook.AtlasHook
 atlas.graph.index.search.backend=solr5 
 </code></pre><ul>
 <li><p>异常一： Caused by: java.lang.ClassNotFoundException: org.json.JSONObject</p>
-<p>包缺失，下载<a href="http://www.java2s.com/Code/Jar/j/Downloadjavajsonjar.htm" target="_blank" rel="external">java-json.jar</a> 到<code>Sqoop</code>文件夹</p>
+<p>包缺失，下载<a href="http://www.java2s.com/Code/Jar/j/Downloadjavajsonjar.htm" target="_blank" rel="noopener">java-json.jar</a> 到<code>Sqoop</code>文件夹</p>
 <ul>
 <li>异常二：<code>Import failed: java.io.IOException: java.lang.ClassNotFoundException: org.apache.hadoop.hive.conf.HiveConf 
 Could not load org.apache.hadoop.hive.conf.HiveConf. Make sure HIVE_CONF_DIR is set correctly</code></li>
@@ -413,7 +413,7 @@ Could not load org.apache.hadoop.hive.conf.HiveConf. Make sure HIVE_CONF_DIR is 
 <li>异常三： <code>Error when removing metric from org.apache.kafka.common.metrics.JmxReporter
 java.security.AccessControlException: access denied (&quot;javax.management.MBeanTrustPermission&quot; &quot;register&quot;)</code></li>
 </ul>
-<p>根据<a href="https://stackoverflow.com/questions/12195868/java-security-accesscontrolexception-when-using-ant-but-runs-ok-when-invoking-j" target="_blank" rel="external">stackoverflow</a> 解决</p>
+<p>根据<a href="https://stackoverflow.com/questions/12195868/java-security-accesscontrolexception-when-using-ant-but-runs-ok-when-invoking-j" target="_blank" rel="noopener">stackoverflow</a> 解决</p>
 <ul>
 <li>异常四：<code>java.lang.NoSuchMethodError: com.fasterxml.jackson.databind.ObjectMapper.readerFor</code></li>
 </ul>
@@ -608,7 +608,7 @@ atlas.kafka.bootstrap.servers=localhost:9092
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-count">28</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -650,12 +650,12 @@ atlas.kafka.bootstrap.servers=localhost:9092
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">NaNm</span>
+    <span title="站点总字数">232k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">NaN:aN</span>
+    <span title="站点阅读时长">3:31</span>
 </div>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.1
   </div>

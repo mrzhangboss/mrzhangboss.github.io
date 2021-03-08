@@ -246,13 +246,13 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>2.3k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -379,13 +379,13 @@ def f(n, map):
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>4.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>4 分钟</span>
             </span>
 
         </div>
@@ -398,7 +398,7 @@ def f(n, map):
 
       
           <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>最近重温《TCP/IP协议簇》，读到子网这个部分，概念都能弄懂，但是不明白子网存在的目的，很多资料都说有两个好处，一是能够判断IP存在局域网还是远程网，另外一个将大的网段分成多个小子网。</p>
-<p>这样就搞得我一头雾水，原来我对互联网的认识是从TCP、HTTP高层协议理解的，我原来对互联网信息传递的理解就像<a href="https://www.zhihu.com/question/20717354/answer/15968282" target="_blank" rel="external">这篇回答</a>，网络就像一个神奇的大网，你只需要把电话线插到“网”中就能同别人连起来。原来我对这个解释并没有什么疑问，但是我越来越深入“互联网”，我就我对“互联网”越来越疑惑。</p>
+<p>这样就搞得我一头雾水，原来我对互联网的认识是从TCP、HTTP高层协议理解的，我原来对互联网信息传递的理解就像<a href="https://www.zhihu.com/question/20717354/answer/15968282" target="_blank" rel="noopener">这篇回答</a>，网络就像一个神奇的大网，你只需要把电话线插到“网”中就能同别人连起来。原来我对这个解释并没有什么疑问，但是我越来越深入“互联网”，我就我对“互联网”越来越疑惑。</p>
 <p>举个例子，我们知道这个IPV4理论上总共有<code>4294967296（256*256*256*256）</code>个，按照当前的理论，过几年就要分配完了，那意味这至少有50%已经分配好了，也就是说至少有20亿根“网线”要连到一起，我们知道局域网只要交换机就能搭起来，假设我们一个交换机能插20根网线，那么要搭这个20亿“网线”，至少要用一个亿的交换机，你能想象一个亿的交换机堆在一起组成“互联网”吗？就算假如我们使用数字信号，作为一个程序员，我也很难想象原先的程序员是在有限的内存和硬盘，如何设计强大计算机有条不紊的处理20亿的并发。</p>
 <p>所以这篇文章就要从OSI底层协议出发让我们从底部掀一掀“互联网”的老底，将一个有血有肉的“互联网”展现在我们面前。</p>
 <h2 id="触摸“网”"><a href="#触摸“网”" class="headerlink" title="触摸“网”"></a>触摸“网”</h2><p>我们一直在说着互联网、互联网，由于无数在前人的不懈努力下，其实很多时候我们根本感受不到这张网的存在，比如打开浏览器，输入<code>www.baidu.com</code>，我们直接就能连上千里之外的服务器，其实在浏览器后面，我们发的“包”正沿着网跨越千山万水到达一个机房的服务器中。</p>
@@ -455,7 +455,7 @@ Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
 <p>但是就像送信举的例子一样，如果邮递员能够直接把信从街头送到街尾，那么直接节省了很长一段在路上的花的时间。所以运营商就在各个分支网络搭建大大小小的“局域网”，就一层层代理一样，当一个包请求过来，首先先查看这个IP是否属于当前地区的局域网，如果是就查表找到地址发送过去，如果没有就发送到它的更高一级代理（网关），最终这个IP包到达机房区域的局域网的主机上。</p>
 <p>所以我们能在<code>traceroute</code>查看到一个IP包要传递的那么多的IP地址，那些IP地址都是勤劳的网关，不过相比我们第一个网关，也就是我们在网上冲浪的IP地址，那些网关更像一个一个交通指挥员，指导着我们的发送的“信”一步一步走到指定地点。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>互联网就像一个乐高拼成的巨人，刚开始不了解它，远远的观察它，它就像文明遗迹一样让人赞不绝口，等到你慢慢走进它，你就会发现它的组成其实也很普通，也就是一个一个乐高模块组成，但就是这种无数普通搭建我们的“万里长城”，这或许就是互联网的伟大之处。</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="http://www.cnblogs.com/JuneWang/p/3917697.html" target="_blank" rel="external">子网</a></p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="http://www.cnblogs.com/JuneWang/p/3917697.html" target="_blank" rel="noopener">子网</a></p>
 
       
     </div>
@@ -514,13 +514,13 @@ Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>2.9k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -547,7 +547,7 @@ Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
 <li>post-rewrite 替换提交记录之后</li>
 <li>pre-push 推之前</li>
 </ul>
-<p>详细的可以看官网链接<a href="https://git-scm.com/book/zh/v2/%E8%87%AA%E5%AE%9A%E4%B9%89-Git-Git-%E9%92%A9%E5%AD%90#_git_hooks" target="_blank" rel="external">钩子</a></p>
+<p>详细的可以看官网链接<a href="https://git-scm.com/book/zh/v2/%E8%87%AA%E5%AE%9A%E4%B9%89-Git-Git-%E9%92%A9%E5%AD%90#_git_hooks" target="_blank" rel="noopener">钩子</a></p>
 <p>客户端钩子我觉得一般没有太多作用，因为我在提交之前就会运行脚步进行开发调试什么的，我把介绍重点放在服务端钩子</p>
 <h2 id="服务端钩子"><a href="#服务端钩子" class="headerlink" title="服务端钩子"></a>服务端钩子</h2><p>服务端钩子就是你<code>push</code>之后的事情服务器要运行的脚步，有用推的步骤只有一个，所以钩子只有四个</p>
 <ul>
@@ -655,13 +655,13 @@ exec git-update-server-info
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>1.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>1 分钟</span>
             </span>
 
         </div>
@@ -676,7 +676,7 @@ exec git-update-server-info
           <blockquote>
 <p>为了给我的站点增加人气，我把这个项目的介绍放到我的博客，如果你觉得这个项目还不错的话，请不要吝啬你的star</p>
 </blockquote>
-<p><a href="https://github.com/mrzhangboss/FastProxyScan" target="_blank" rel="external">github传送门</a><br><a href="http://115.159.146.115" target="_blank" rel="external">Demo传送门</a></p>
+<p><a href="https://github.com/mrzhangboss/FastProxyScan" target="_blank" rel="noopener">github传送门</a><br><a href="http://115.159.146.115" target="_blank" rel="noopener">Demo传送门</a></p>
 <h2 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h2><p>一开始自己只想做一个代理池，于是搜了搜Github发现类似的项目，大多数都是爬取网上的一些代理商的免费代理，这部分代理大多都是没有用的，可用性非常低，于是我自己就干脆做一个“代理商”，自己扫描主机把可用的代理扫描出来。</p>
 <p>但是现在网络主机实在太多了，至少几百万台，所以这个项目的核心就是快速扫描，在最短的时间内检测更多的代理，目前项目的速度最好只能完成1000代理每小时的速度（日扫描两万代理），希望能继续优化代码，加快速度，如果你对这个项目感兴趣可以Fork下来，欢迎各位的Pull Request </p>
 <h2 id="项目依赖"><a href="#项目依赖" class="headerlink" title="项目依赖"></a>项目依赖</h2><p>项目基于Python3.5+开发</p>
@@ -711,7 +711,7 @@ exec git-update-server-info
 <li>主机搜索</li>
 </ul>
 <p>全球的IP都是有ISP统一分配的，ISP主要由下面几大洲分配，我们中国处于亚太区，所以我们的IP由亚太互联网络信息中心（APNIC）分配IP，目前中国分配的IPV4总数为3亿左右，这个数量还是比较大</p>
-<p>我们可以从 <a href="http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest" target="_blank" rel="external">http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest</a>下载最新分配的IP地址</p>
+<p>我们可以从 <a href="http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest" target="_blank" rel="noopener">http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest</a>下载最新分配的IP地址</p>
 <p>但是代理服务器只存在特定的服务器上，所以现在版本还没有发布V1.0主要是因为搜索的效果不是很好（搜索的主机代理转换率太低），目前还在想其他方法，等有更好的解决方法就会发布V1.0</p>
 <ul>
 <li>端口检测</li>
@@ -721,7 +721,7 @@ exec git-update-server-info
 <li>代理检测</li>
 </ul>
 <p>使用<code>nmap</code>先验端口与<code>Python</code>异步最大化代理检测速率</p>
-<h2 id="安装教程"><a href="#安装教程" class="headerlink" title="安装教程"></a>安装教程</h2><p>项目采用Django做后台管理，所以只需要一点Django基础知识就能在这个项目上做二次开发，如果你只想获取最新的可用代理，可以通过<a href="http://115.159.146.115" target="_blank" rel="external">http://115.159.146.115</a> 调用API接口获取最新可用代理（我的站点带宽有限，所以只开放最新100个代理，并且只是20分钟更新一次）</p>
+<h2 id="安装教程"><a href="#安装教程" class="headerlink" title="安装教程"></a>安装教程</h2><p>项目采用Django做后台管理，所以只需要一点Django基础知识就能在这个项目上做二次开发，如果你只想获取最新的可用代理，可以通过<a href="http://115.159.146.115" target="_blank" rel="noopener">http://115.159.146.115</a> 调用API接口获取最新可用代理（我的站点带宽有限，所以只开放最新100个代理，并且只是20分钟更新一次）</p>
 <p>环境安装</p>
 <ul>
 <li>nmap 安装</li>
@@ -744,10 +744,10 @@ sudo python3.5 manage.py scan --vps
 <p>m是并行参数，值越大速度越快</p>
 <ul>
 <li><p>代理检测</p>
-<p>  sudo python3.5 manage.py check –start -c <a href="http://115.159.146.115/ip" target="_blank" rel="external">http://115.159.146.115/ip</a></p>
+<p>  sudo python3.5 manage.py check –start -c <a href="http://115.159.146.115/ip" target="_blank" rel="noopener">http://115.159.146.115/ip</a></p>
 </li>
 </ul>
-<p>c是检测ip头网址，可以使用我提供的 <a href="http://115.159.146.115/ip" target="_blank" rel="external">http://115.159.146.115/ip</a> 返回请求头，可以参考我的上一篇博文 <a href="/2017/11/20/%E4%BB%A3%E7%90%86%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/">代理的前世今生</a></p>
+<p>c是检测ip头网址，可以使用我提供的 <a href="http://115.159.146.115/ip" target="_blank" rel="noopener">http://115.159.146.115/ip</a> 返回请求头，可以参考我的上一篇博文 <a href="/2017/11/20/%E4%BB%A3%E7%90%86%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/">代理的前世今生</a></p>
 <p>在我搭建的DEMO站点上，我使用supervisor让这三个程序循环运行，你可以使用crontab定时调度也可以像我一样。</p>
 <p>数据库当前采用的Sqlite3，但是数据库模型全部使用ORM开发，你可以很方便的修改<code>settings.py</code>来放入其他数据库，如果你懂一点Django的话</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>如果你像了解更多开发这个项目背后的知识的话，可以看看我上一篇博文 <a href="/2017/11/20/%E4%BB%A3%E7%90%86%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/">代理的前世今生</a></p>
@@ -809,13 +809,13 @@ sudo python3.5 manage.py scan --vps
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>2.7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -928,13 +928,13 @@ print(resp.read())
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>1.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>1 分钟</span>
             </span>
 
         </div>
@@ -1033,13 +1033,13 @@ print(resp.read())
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>2.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -1146,13 +1146,13 @@ print(resp.read())
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>6.7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>6 分钟</span>
             </span>
 
         </div>
@@ -1167,7 +1167,7 @@ print(resp.read())
           <blockquote>
 <p>曾经有人问过我一个问题什么是TCP复用，我当时没有回答上来，后面我又遇到一些并发性能问题的时候，我才开始慢慢明白为什么会有这个问题，以及这个问题背后的秘密</p>
 </blockquote>
-<p>其实当时应该他想考我的是爬虫的请求优化，准确来说是HTTP持久连接（HTTP persistent connection），并不是TCP复用，这才导致我当时查阅很多资料，并没有发现TCP复用能优化客户端，因为<a href="http://gaibianziji.blog.51cto.com/1082897/1211940" target="_blank" rel="external">TCP复用</a>是服务端的事，现在就让我从源头开始慢慢解读这个问题</p>
+<p>其实当时应该他想考我的是爬虫的请求优化，准确来说是HTTP持久连接（HTTP persistent connection），并不是TCP复用，这才导致我当时查阅很多资料，并没有发现TCP复用能优化客户端，因为<a href="http://gaibianziji.blog.51cto.com/1082897/1211940" target="_blank" rel="noopener">TCP复用</a>是服务端的事，现在就让我从源头开始慢慢解读这个问题</p>
 <h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>我们知道我们每次发的HTTP请求在底层都是一个套接字的通信，我们可以从底层开始做一个测试</p>
 <p>我们使用个for循环，申请1024个socket</p>
 <pre><code>import socket
@@ -1203,13 +1203,13 @@ for  i in range(1024):
 <li>服务器port</li>
 </ol>
 <p>简单来说就是两个二元组（local_ip, local_port), (server_ip, server_port)</p>
-<p>但是我们发一次的请求是一般是通过URL，也就是类似“<a href="http://www.baidu.com”，这样的url来请求的，这个同我们TCP有什么关系呢？" target="_blank" rel="external">http://www.baidu.com”，这样的url来请求的，这个同我们TCP有什么关系呢？</a></p>
+<p>但是我们发一次的请求是一般是通过URL，也就是类似“<a href="http://www.baidu.com”，这样的url来请求的，这个同我们TCP有什么关系呢？" target="_blank" rel="noopener">http://www.baidu.com”，这样的url来请求的，这个同我们TCP有什么关系呢？</a></p>
 <p>首先介绍一下“http”代表通信协议，这里使用的是HTTP协议，“://”后面的就是请求的域名，域名后面如果有冒号就是我们请求的端口号这里没有，根据HTTP协议这里默认是80端口（HTTPS是443），域名后面的就是请求路径，这里也没有就默认问“/”，也就是我们通过这个“url”就知道我们这次请求的具体位置了，现在我们找到了端口，但是请求的IP在哪呢？</p>
 <p>这里就要介绍一下DNS了，我们为了让我们的站点更好记，我们使用域名代替ip地址，通过在DNS服务上注册我们域名，以及绑定我们域名对应的IP地址，我们就能让计算机通过域名来转换成IP地址，这里就不详细介绍了</p>
 <p>所以呢我们现在了解了，一个TCP连接只是涉及到URL的域名和端口号，我们请求站点的时候主要是通过不同的路径来获取内容，所以我们可以很清楚的知道，只要我们URL的域名和端口一样，那么我们所以的URL都能共用这个TCP接口</p>
 <h3 id="ConnectionPool的实现"><a href="#ConnectionPool的实现" class="headerlink" title="ConnectionPool的实现"></a>ConnectionPool的实现</h3><p>简单来说为了实现HTTP复用，我们只需要保存TCP连接就行了，但是通过前面我们知道，我们保留的TCP连接必须和你要请求的url要域名端口一样，有时候一个站点的服务可能由多个域名多个端口组成，所以原本我们只要用一个变量保留上一次请求的TCP连接，为了程序更加健壮，我们需要一个TCP连接池，存贮不同的TCP连接。</p>
 <p>每次新的URL来的时候我们就是先从TCP连接池中查看有没有相同的域名和端口，如果有就用它发请求，如果没有就新建一个TCP连接，这就是TCP连接的基本原理，当然还要一点编程的时候要注意，我们从池子里面取出一个用完必须放回，否则池子用完了又得新建，那就完全丢掉了复用这个概念了</p>
-<h2 id="HTTP复用在Requests的具体表现"><a href="#HTTP复用在Requests的具体表现" class="headerlink" title="HTTP复用在Requests的具体表现"></a>HTTP复用在Requests的具体表现</h2><p>前面介绍了一大堆概念，但是从头到尾如果让我们自己来做一个实在太难了，幸好我们有<code>Requests</code>这个库，它的<code>Session</code>对象在<a href="http://requests-docs-cn.readthedocs.io/zh_CN/latest/user/advanced.html" target="_blank" rel="external">文档</a>介绍了它就维护了一个TCP连接池并且能够复用TCP连接</p>
+<h2 id="HTTP复用在Requests的具体表现"><a href="#HTTP复用在Requests的具体表现" class="headerlink" title="HTTP复用在Requests的具体表现"></a>HTTP复用在Requests的具体表现</h2><p>前面介绍了一大堆概念，但是从头到尾如果让我们自己来做一个实在太难了，幸好我们有<code>Requests</code>这个库，它的<code>Session</code>对象在<a href="http://requests-docs-cn.readthedocs.io/zh_CN/latest/user/advanced.html" target="_blank" rel="noopener">文档</a>介绍了它就维护了一个TCP连接池并且能够复用TCP连接</p>
 <p>接下来我们就从代码入手来更好的理解这个进程池的高级用法，我们为了更好看到每一次请求底层的操作，我们这里自己先自己搭建一个本地服务器，我们使用<code>Flask</code>来搭建一个本地服务器<br>新建一个<code>web.py</code>文件，在运行</p>
 <pre><code>from flask import Flask, request
 from werkzeug.serving import WSGIRequestHandler
@@ -1279,11 +1279,11 @@ finally:
     session.close()
     print(&apos;cost&apos;, end - begin, &apos;speed&apos;, nums / (end - begin), &apos;req/s&apos;)
 </code></pre><p>在我的电脑测试测试下<code>421.73 req/s</code>,基本上达到异步的效率（可以调节limit至100左右达到最大）</p>
-<p>在这里解释一下为什么要使用<code>semaphore</code>（asyncio锁），由于当前版本（aiohttp==2.2.5）下<code>aiohttp</code>的HTTP连接池无法在没有锁的情况下复用TCP连接（具体可以看一下我提的这个<a href="https://github.com/aio-libs/aiohttp/issues/2323" target="_blank" rel="external">issue</a>,这里由于牵扯到太多异步框架的知识，我就详细不介绍异步库，如果想了解更多的话就看我上一片博文<a href="/2017/10/09/Python%E5%BC%82%E6%AD%A5%E7%9A%84%E7%90%86%E8%A7%A3/">Python异步的理解</a></p>
+<p>在这里解释一下为什么要使用<code>semaphore</code>（asyncio锁），由于当前版本（aiohttp==2.2.5）下<code>aiohttp</code>的HTTP连接池无法在没有锁的情况下复用TCP连接（具体可以看一下我提的这个<a href="https://github.com/aio-libs/aiohttp/issues/2323" target="_blank" rel="noopener">issue</a>,这里由于牵扯到太多异步框架的知识，我就详细不介绍异步库，如果想了解更多的话就看我上一片博文<a href="/2017/10/09/Python%E5%BC%82%E6%AD%A5%E7%9A%84%E7%90%86%E8%A7%A3/">Python异步的理解</a></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在如何提高请求效率和速度上，HTTP复用算是从协议出发上的一种优化，他主要利用方向是在单个站点多次请求上面，假如每个站点都只是一个请求的话，那他就无用武之地，不过现在站点不可能一次请求就完成交互，所以了解这个HTTP复用如何是非常有帮助的。</p>
 <p>引用：</p>
-<p><a href="https://laike9m.com/blog/requests-secret-pool_connections-and-pool_maxsize,89/" target="_blank" rel="external">Requests’ secret: pool_connections and pool_maxsize</a></p>
-<p><a href="https://pawelmhm.github.io/asyncio/python/aiohttp/2016/04/22/asyncio-aiohttp.html" target="_blank" rel="external">Making 1 million requests with python-aiohttp</a></p>
+<p><a href="https://laike9m.com/blog/requests-secret-pool_connections-and-pool_maxsize,89/" target="_blank" rel="noopener">Requests’ secret: pool_connections and pool_maxsize</a></p>
+<p><a href="https://pawelmhm.github.io/asyncio/python/aiohttp/2016/04/22/asyncio-aiohttp.html" target="_blank" rel="noopener">Making 1 million requests with python-aiohttp</a></p>
 
       
     </div>
@@ -1342,13 +1342,13 @@ finally:
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>3.8k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -1428,7 +1428,7 @@ while True:
         if line == b&apos;\r\n&apos;:
             break
     writer.close()
-</code></pre><p>我们成功的用一个函数描绘了建立一次连接并且进行通信的过程，假如你懂一点<code>asyncio</code>，你就会发现它与<code>twister</code>回调的不同，使用<code>await</code>关键字把函数挂起，然后等待回调，根据回调接着进行下面的操作，我们成功的用同步的语句把异步写出来，而且是使用Python的原生实现，所以当<code>asyncio</code>出来的时候Guido（Python之父）是多么自豪，你可以看下面引用 <a href="https://www.youtube.com/watch?v=1coLC-MUCJc" target="_blank" rel="external">Tulip: Async I/O for Python 3</a>演讲的视频</p>
+</code></pre><p>我们成功的用一个函数描绘了建立一次连接并且进行通信的过程，假如你懂一点<code>asyncio</code>，你就会发现它与<code>twister</code>回调的不同，使用<code>await</code>关键字把函数挂起，然后等待回调，根据回调接着进行下面的操作，我们成功的用同步的语句把异步写出来，而且是使用Python的原生实现，所以当<code>asyncio</code>出来的时候Guido（Python之父）是多么自豪，你可以看下面引用 <a href="https://www.youtube.com/watch?v=1coLC-MUCJc" target="_blank" rel="noopener">Tulip: Async I/O for Python 3</a>演讲的视频</p>
 <h2 id="浅析Python异步实现"><a href="#浅析Python异步实现" class="headerlink" title="浅析Python异步实现"></a>浅析Python异步实现</h2><p>前面我们知道了异步的基础就是等待，那么Guido是如何在协程的帮助下将异步实现出来的呢，接下来我们就简单的谈一下这个实现基础</p>
 <p>我们先将上面<code>twister</code>改成<code>gevent</code>方式的</p>
 <pre><code>sel = selectors.DefaultSelector()
@@ -1464,8 +1464,8 @@ socket.socket()..connect((&apos;localhost&apos;, 8000))
 </code></pre><p>然后你就会发现在主线程里面打印出来客户端的连接信息</p>
 <p>通过这个小例子我们知道，实现异步要解决的问题就是一个公用注册器（能够注册所以的io等待），一个容器（能够存贮所以的协程），一个核心能够一直执行等待回调和处理回调（多个协程）</p>
 <h2 id="深入asyncio了解Python异步"><a href="#深入asyncio了解Python异步" class="headerlink" title="深入asyncio了解Python异步"></a>深入asyncio了解Python异步</h2><p>通过上面我们简单的知道了，如何通过协程与<code>select</code>合作完成异步操作，然而我们上面写的只是最最最基本的实现，接下来我们来深入<code>asyncio</code>源码了解如何让异步变得更加简单</p>
-<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><p><a href="http://blog.csdn.net/screaming/article/details/51377870" target="_blank" rel="external">Python异步并发框架</a></p>
-<p><a href="http://python.jobbole.com/87988/" target="_blank" rel="external">Python 中的异步编程：Asyncio</a><br><a href="https://www.youtube.com/watch?v=1coLC-MUCJc" target="_blank" rel="external">Tulip: Async I/O for Python 3</a><br><a href="https://xidui.github.io/2015/10/29/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3python3-4-Asyncio%E5%BA%93%E4%B8%8ENode-js%E7%9A%84%E5%BC%82%E6%AD%A5IO%E6%9C%BA%E5%88%B6/" target="_blank" rel="external">【译】深入理解python3.4中Asyncio库与Node.js的异步IO机制</a></p>
+<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><p><a href="http://blog.csdn.net/screaming/article/details/51377870" target="_blank" rel="noopener">Python异步并发框架</a></p>
+<p><a href="http://python.jobbole.com/87988/" target="_blank" rel="noopener">Python 中的异步编程：Asyncio</a><br><a href="https://www.youtube.com/watch?v=1coLC-MUCJc" target="_blank" rel="noopener">Tulip: Async I/O for Python 3</a><br><a href="https://xidui.github.io/2015/10/29/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3python3-4-Asyncio%E5%BA%93%E4%B8%8ENode-js%E7%9A%84%E5%BC%82%E6%AD%A5IO%E6%9C%BA%E5%88%B6/" target="_blank" rel="noopener">【译】深入理解python3.4中Asyncio库与Node.js的异步IO机制</a></p>
 
       
     </div>
@@ -1524,13 +1524,13 @@ socket.socket()..connect((&apos;localhost&apos;, 8000))
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>2.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -1697,7 +1697,7 @@ name text
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-count">28</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1739,12 +1739,12 @@ name text
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">NaNm</span>
+    <span title="站点总字数">232k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">NaN:aN</span>
+    <span title="站点阅读时长">3:31</span>
 </div>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.1
   </div>

@@ -256,13 +256,13 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>4.7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>4 分钟</span>
             </span>
 
         </div>
@@ -278,7 +278,7 @@
 <p>一直以来我对树这种数据结构就比较头疼，随便找一个红黑树的博客，大部分都是在谈怎么旋转怎么插入怎么删除，将算法讲的头头是道，但是就算你看懂了也不懂为什么要这样做，所以我们这篇博文就从可视化的角度，慢慢的介绍这些树的来世今生。</p>
 </blockquote>
 <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>首先给大家推荐一个神奇的网站，我们这篇博文很大程度上都是依托这个网站从可视化的角度分析各种树</p>
-<p>网站的网址是<a href="http://www.cs.usfca.edu/~galles/visualization/Algorithms.html" target="_blank" rel="external">http://www.cs.usfca.edu/~galles/visualization/Algorithms.html</a></p>
+<p>网站的网址是<a href="http://www.cs.usfca.edu/~galles/visualization/Algorithms.html" target="_blank" rel="noopener">http://www.cs.usfca.edu/~galles/visualization/Algorithms.html</a></p>
 <p>接下来我们从易到难分别谈谈下面这些树结构</p>
 <ul>
 <li>二叉搜索树</li>
@@ -293,10 +293,10 @@
 <p>在开始介绍各种树结构之前，我们先谈谈为什么我们需要树这种结构。</p>
 <p>假设我们一开始都有一个“柜子”存放东西，当我们东西很少的时候，我找东西的时候只要在柜子里面翻一翻就能找到，当我东西越来越多，在柜子里面找东西消耗的时间越来越多，这时候我就把柜子分类，让每一个柜子的东西都是固定的，这样我们查找时候不会在一个柜子里面寻找很久，这样无论你有多少东西进来，我查找的时间基本不会太长。</p>
 <p>所以树这种数据结构就是为了解决当数据量越来越大的时候相比与线性查找时间基本不会太长。对树查找和线性的区别我们可以看一下这个可视化界面</p>
-<p><a href="http://www.cs.usfca.edu/~galles/visualization/Search.html" target="_blank" rel="external">线性搜索与二分查找</a></p>
+<p><a href="http://www.cs.usfca.edu/~galles/visualization/Search.html" target="_blank" rel="noopener">线性搜索与二分查找</a></p>
 <p>通过输入查找344，我们发现线性搜索花了15步才搜索到，而二分查找只需要2步，而且随着数据越来越大，线性搜索花的步数直线上升，而二分查找只会维持用Log(N)的步伐增长。</p>
 <p>树的结构基本上都是基于二分查找，但是在维护这个查找树的方法上各种树有各种优化方法，接下来我们就从可视化角度来依次介绍各种树的原理和优缺点。</p>
-<h2 id="二叉搜索树"><a href="#二叉搜索树" class="headerlink" title="二叉搜索树"></a><a href="http://www.cs.usfca.edu/~galles/visualization/BST.html" target="_blank" rel="external">二叉搜索树</a></h2><p>这个树可以称作所以后面变种树的鼻祖，基本上所以后面的树都是基于这个树的不足之处进行改良达到其各自的目的。</p>
+<h2 id="二叉搜索树"><a href="#二叉搜索树" class="headerlink" title="二叉搜索树"></a><a href="http://www.cs.usfca.edu/~galles/visualization/BST.html" target="_blank" rel="noopener">二叉搜索树</a></h2><p>这个树可以称作所以后面变种树的鼻祖，基本上所以后面的树都是基于这个树的不足之处进行改良达到其各自的目的。</p>
 <p>我们现在尝试构造一棵二叉树，我们依次插入<code>3,2,4</code>。然后一棵标准的二叉树就出现在我们面前，在我们插入的过程中，我们可以清晰的看到，第一个插入的变成了母节点，而且插入程序实现的非常简单，首先跟母节点进行比较，如果比母节点大，从母节点右边下滑，然后依次找到最后一个为空的节点把自己插入进去。</p>
 <p> <img src="/images/bst-7.png" alt="单调递增二叉搜索树"></p>
 <p>我们接下来尝试一下如果输入一个连续递增的数组进去，比如<code>1， 2， 3， 4， 5</code>，我们发现这个二叉搜索树会逐渐把所以的值放到右节点上。这时候我们我们尝试搜索一下<code>5</code>，我们发送这个二叉搜索树需要5次查询才能得到最终结果，这个基本上等同与线性搜索。</p>
@@ -304,7 +304,7 @@
 <p>二叉树搜索树实现起来非常简单，只要用一个<code>while</code>循环就能完成插入查找等功能，但是由于它结构控制太低，它对数据要求要很高，它时候依次插入那些无序数字，而对那些有序数据来说，二叉搜索树等同与一个数组。</p>
 <p>所以我们接下来介绍下面改良树，看看其他树是如何提高的空间利用率的，由于这篇主要是简单的谈一下这些树的优缺点，如果你想了解如何实现这样可以看一下我写的这篇<a href="/2018/01/04/二叉搜索树实现原理/" title="二叉搜索树Go实现">博文</a>，详细介绍了如何使用Go语言实现一个高效的二叉搜索树，如果你想彻底了解下面高级的树的实现，强烈建议一下了解一下二叉搜索树实现的方法，因为后面所以的树实现的前提<strong>必须满足是一个二叉搜索树</strong>，这点非常重要。</p>
 <p><a href="/2018/01/04/二叉搜索树实现原理/" title="二叉搜索树Go实现">二叉搜索树Go实现</a></p>
-<h2 id="AVL树"><a href="#AVL树" class="headerlink" title="AVL树"></a><a href="http://www.cs.usfca.edu/~galles/visualization/AVLtree.html" target="_blank" rel="external">AVL树</a></h2><p>1962发明的AVL树现在还生龙活虎的活跃在Windows进程地址空间管理，虽然作为最早的平衡二叉树现在有点干不过后面的年轻的小伙，但是作为前辈，后面小伙很多地方都是借鉴前辈的，所以我们有必要隆重介绍一下这个老前辈。</p>
+<h2 id="AVL树"><a href="#AVL树" class="headerlink" title="AVL树"></a><a href="http://www.cs.usfca.edu/~galles/visualization/AVLtree.html" target="_blank" rel="noopener">AVL树</a></h2><p>1962发明的AVL树现在还生龙活虎的活跃在Windows进程地址空间管理，虽然作为最早的平衡二叉树现在有点干不过后面的年轻的小伙，但是作为前辈，后面小伙很多地方都是借鉴前辈的，所以我们有必要隆重介绍一下这个老前辈。</p>
 <p>首先要说明一下什么是平衡二叉树，前面我们也看到了，二叉搜索树有个弊端，它有可能子树高度不一样，比如说<code>1,2,3,4,5</code>那个母节点<code>1</code>的左子树高度为0，右字数高度为5，平衡二叉树就没有这个问题，它规定所以节点子树高度差不能超过1，这样规定的话我们的树空间利用率就能基本上达到100%了。</p>
 <p>AVL树就是一颗高度平衡二叉树，它的要求也非常简单，就两个</p>
 <ul>
@@ -319,10 +319,10 @@
 <h3 id="旋转的意义"><a href="#旋转的意义" class="headerlink" title="旋转的意义"></a>旋转的意义</h3><p><strong>第一旋转并没有改变二叉搜索树的特性，我们将二叉树看做一个一个小区间组成的区域，旋转将区间整体移动了，所以我们保持住了区间的稳定，而且我们把旋转的支点看做中心，我们发现通过一次旋转后，支点左右之间的数量发生的变化，其中一方增加一个，其中一个减少一方，通过这种方式，把高度差由<code>2</code>转成<code>0</code></strong></p>
 <p>所以我们在插入和删除的时候造成的高度不平衡可以通过正确的旋转达到一个高度差的减少。而且我们可以很轻松的推断出在插入和删除的时候只需要通过有限的旋转就能实现树的平衡，但是我们也会发现这个平衡是非常严格的，每次插入删除的时候，删除或者增加的那条“路径”（从根节点到修改的节点）的各个节点的高度都会发生变化，所以我们需要检查和更新整条路径上高度差（也称平衡因子）是否满足平衡条件。</p>
 <p>直接纪录每个树的高度并且约束高度差的方法能够很好的规避像上面二叉搜索树造成的空间利用率低问题，但是对于增添和删除操作频繁的数据来说，AVL树并不是一个很好的解决方法，因为每次删除和增加都必须检测路径上的高度差，虽然旋转比较高效，但是每次检测和修改高度会让这个算法花费太多时间在这个严格的条件上面。</p>
-<p>总的来说，AVL树是比较好理解的一种平衡树算法，通过这个树的各种旋转操作，我们能很清晰的发现二叉树是一种很神奇的数据结构，一方面它可能是混乱的（分支混乱），一方面它又是整齐的，通过“扭动”它的身躯，将数据平均的分摊在根节点上面。我非常推荐你在这个<a href="http://www.cs.usfca.edu/~galles/visualization/AVLtree.html" target="_blank" rel="external">可视化界面</a>上通过一步一步将单独递增或者递减的数据插入AVL树中，你会发现AVL通过一次一次的“扭动”，将数据向根节点另一个方向传输过去。</p>
+<p>总的来说，AVL树是比较好理解的一种平衡树算法，通过这个树的各种旋转操作，我们能很清晰的发现二叉树是一种很神奇的数据结构，一方面它可能是混乱的（分支混乱），一方面它又是整齐的，通过“扭动”它的身躯，将数据平均的分摊在根节点上面。我非常推荐你在这个<a href="http://www.cs.usfca.edu/~galles/visualization/AVLtree.html" target="_blank" rel="noopener">可视化界面</a>上通过一步一步将单独递增或者递减的数据插入AVL树中，你会发现AVL通过一次一次的“扭动”，将数据向根节点另一个方向传输过去。</p>
 <p>这里我也不详细介绍AVL树实现的具体原理，如果你想了解更底层的实现，可以看我下面这篇<a href="/2018/01/04/AVL树实现原理/" title="AVL树的实现原理">博客</a></p>
 <p><a href="/2018/01/04/AVL树实现原理/" title="AVL树的实现原理">AVL树的实现原理</a></p>
-<h2 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a><a href="http://www.cs.usfca.edu/~galles/visualization/RedBlack.html" target="_blank" rel="external">红黑树</a></h2><p>在AVL树发明10年后鲁道夫 贝尔发明了红黑树，直到现在红黑树还依旧在C++的STL、Java的HashMap中发挥着重要作用，只所以要先介绍AVL树再介绍红黑树，因为从我的理解上来看，其实红黑树和AVL树原理都是类似的，只不过红黑树修改了AVL树的缺点并且将AVL的平衡原理进行了抽象话。</p>
+<h2 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a><a href="http://www.cs.usfca.edu/~galles/visualization/RedBlack.html" target="_blank" rel="noopener">红黑树</a></h2><p>在AVL树发明10年后鲁道夫 贝尔发明了红黑树，直到现在红黑树还依旧在C++的STL、Java的HashMap中发挥着重要作用，只所以要先介绍AVL树再介绍红黑树，因为从我的理解上来看，其实红黑树和AVL树原理都是类似的，只不过红黑树修改了AVL树的缺点并且将AVL的平衡原理进行了抽象话。</p>
 <p>从数据结构上来看，红黑树相比于AVL树来说，只是将存贮高度的值换成了存贮颜色的值，从空间的角度上看，红黑树用一个二进制bool值（1Bit）换掉一个存贮int值（4Bit），节省了3Bit的空间，从增删所需要的操做来看，AVL树旋转可能需要lnN 步操作，而红黑树增不超过2次旋转，删不超高3次旋转，在增删效率上远远优于AVL树。所以我们有一个疑问为什么红黑树能用更少的空间实现更高的效率呢？</p>
 <p>回答这个问题之前，我们再捋捋AVL它的实现原理，前面介绍了AVL实现平衡的原理的就是使的左右子树高度差维持在[-1,1]之间，高度差这个东西，你想想高度这个东西其实它就是母节点到叶子节点的路径，所以高度差我们翻译一下就是左右子树路径差，现在我们把平衡后的AVL树条件更加严格一点，我们规定左右子树路径差为0，也就是左右子树高度一样。</p>
 <p><img src="/images/bst-2.png" alt="满二叉树"></p>
@@ -343,9 +343,9 @@
 <p>对于红黑树来说，由于颜色是可变的，所以着色（改变颜色）也是一种手段，而对于AVL树来说高度是固定的，只能通过旋转来改变，所以单独讲红黑树的旋转是没有意义的，或许有的时候只需要通过旋转就能实现黑高的统一，或许通过简单着色也能实现黑高的统一，但是只使用一种手段是不能高效的完成所以的条件。所以在我看来<em>着色和旋转是相辅相成的</em></p>
 <p>也正因为我们多了一个着色的手段，所以红黑树比AVL树在某些方面更加高效，随着而来也是更加复杂难懂，但是总体来说AVL和红黑还是类似的，在这里我就不深谈如何实现红黑树，如果你想了解如何实现红黑树，可以看我这篇<a href="/2018/01/05/红黑树实现原理/">博客</a></p>
 <p><a href="/2018/01/05/红黑树实现原理/">红黑树的实现原理</a></p>
-<h4 id="剩余的四种树的简析会待代码实现后陆续更新"><a href="#剩余的四种树的简析会待代码实现后陆续更新" class="headerlink" title="剩余的四种树的简析会待代码实现后陆续更新"></a>剩余的四种树的简析会待代码实现后陆续更新</h4><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://en.wikipedia.org/wiki/Binary_search_tree" target="_blank" rel="external">https://en.wikipedia.org/wiki/Binary_search_tree</a></p>
-<p><a href="https://en.wikipedia.org/wiki/AVL_tree" target="_blank" rel="external">https://en.wikipedia.org/wiki/AVL_tree</a></p>
-<p><a href="https://www.cnblogs.com/vamei/archive/2013/03/21/2964092.html" target="_blank" rel="external">https://www.cnblogs.com/vamei/archive/2013/03/21/2964092.html</a></p>
+<h4 id="剩余的四种树的简析会待代码实现后陆续更新"><a href="#剩余的四种树的简析会待代码实现后陆续更新" class="headerlink" title="剩余的四种树的简析会待代码实现后陆续更新"></a>剩余的四种树的简析会待代码实现后陆续更新</h4><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://en.wikipedia.org/wiki/Binary_search_tree" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Binary_search_tree</a></p>
+<p><a href="https://en.wikipedia.org/wiki/AVL_tree" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/AVL_tree</a></p>
+<p><a href="https://www.cnblogs.com/vamei/archive/2013/03/21/2964092.html" target="_blank" rel="noopener">https://www.cnblogs.com/vamei/archive/2013/03/21/2964092.html</a></p>
 
     </div>
 
@@ -407,8 +407,8 @@
       <i class="fa fa-chevron-left"></i> 几个有趣的动态规划
     </a></div>
       <div class="post-nav-item">
-    <a href="/2018/01/04/二叉搜索树实现原理/" rel="next" title="二叉搜索树实现原理">
-      二叉搜索树实现原理 <i class="fa fa-chevron-right"></i>
+    <a href="/2018/01/04/AVL树实现原理/" rel="next" title="AVL树实现原理">
+      AVL树实现原理 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -492,7 +492,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-count">28</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -534,12 +534,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">NaNm</span>
+    <span title="站点总字数">232k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">NaN:aN</span>
+    <span title="站点阅读时长">3:31</span>
 </div>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.1
   </div>

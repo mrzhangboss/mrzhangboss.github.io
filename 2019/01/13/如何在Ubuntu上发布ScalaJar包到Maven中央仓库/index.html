@@ -250,13 +250,13 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>6.3k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>6 分钟</span>
             </span>
 
         </div>
@@ -269,17 +269,17 @@
 
       
         <blockquote>
-<p>由于网上的教程大多数是<code>Windows</code>下的，而且都是介绍怎么打包<code>Java</code>的<code>Jar</code>包，关于<code>Scala</code>相关的比较少，因此我踩了不少坑才成功的把包发布到<code>Maven</code>中央仓库，你们可以才中央仓库里面搜到<a href="https://search.maven.org/artifact/me.zhanglun.ahocorasick/trie/1.0.5/jar" target="_blank" rel="external">我的包</a></p>
+<p>由于网上的教程大多数是<code>Windows</code>下的，而且都是介绍怎么打包<code>Java</code>的<code>Jar</code>包，关于<code>Scala</code>相关的比较少，因此我踩了不少坑才成功的把包发布到<code>Maven</code>中央仓库，你们可以才中央仓库里面搜到<a href="https://search.maven.org/artifact/me.zhanglun.ahocorasick/trie/1.0.5/jar" target="_blank" rel="noopener">我的包</a></p>
 </blockquote>
-<p>如何你想直接使用<code>ctrl-c</code> + <code>ctrl-v</code>那么你直接去我的github上的<a href="https://github.com/mrzhangboss/ahocorasick/tree/MiniDeployToSonatypeDemo" target="_blank" rel="external">最小化打包版本</a>把<code>pom.xml</code>里面的<code>build</code>给复制下来就可以了（前提是你已经把<code>gpg</code>给配置好了）。</p>
+<p>如何你想直接使用<code>ctrl-c</code> + <code>ctrl-v</code>那么你直接去我的github上的<a href="https://github.com/mrzhangboss/ahocorasick/tree/MiniDeployToSonatypeDemo" target="_blank" rel="noopener">最小化打包版本</a>把<code>pom.xml</code>里面的<code>build</code>给复制下来就可以了（前提是你已经把<code>gpg</code>给配置好了）。</p>
 <p>PS：因为这篇主要是介绍步骤所以就用中文写了</p>
-<h2 id="第一步：选择用什么打包"><a href="#第一步：选择用什么打包" class="headerlink" title="第一步：选择用什么打包"></a>第一步：选择用什么打包</h2><p>由于<code>Scala</code>既可以选择用<code>SBT</code>打包，又可以用<code>maven</code>打包，所以你要先选择使用什么来打包，一开始我使用<code>SBT</code>来尝试进行打包上传，但是一直卡在没法配置好<code>SBT</code>的<code>gpg</code>插件（这个主要是对你的文件进行签名），我甚至到<code>Github</code>去看别人的项目是怎么配置的，但是我搜到的<code>Scala</code>项目大部分都没有选择把包发到<code>sonatype</code>去，有的是自己搭建中央仓库有的是根本没有提供中央仓库下载的。虽然我很想用<code>SBT</code>把<code>Scala</code>打包（毕竟是专门给<code>Scala</code>用的），但是那个<a href="https://www.scala-sbt.org/sbt-pgp/" target="_blank" rel="external">插件</a> 实在是卡的死死的，而且文档太少了，官网上的SBT似乎一直是用的0.13.5+，但是我用的是1.2+，在选择低版本还是选择换一种打包方式面前我选择听从大牛的意见，选择使用<code>maven</code>进行对<code>Scala</code>打包（毕竟<code>Scala</code>杀手级应用<code>Spark</code>也是用的<code>maven</code>进行打包）</p>
+<h2 id="第一步：选择用什么打包"><a href="#第一步：选择用什么打包" class="headerlink" title="第一步：选择用什么打包"></a>第一步：选择用什么打包</h2><p>由于<code>Scala</code>既可以选择用<code>SBT</code>打包，又可以用<code>maven</code>打包，所以你要先选择使用什么来打包，一开始我使用<code>SBT</code>来尝试进行打包上传，但是一直卡在没法配置好<code>SBT</code>的<code>gpg</code>插件（这个主要是对你的文件进行签名），我甚至到<code>Github</code>去看别人的项目是怎么配置的，但是我搜到的<code>Scala</code>项目大部分都没有选择把包发到<code>sonatype</code>去，有的是自己搭建中央仓库有的是根本没有提供中央仓库下载的。虽然我很想用<code>SBT</code>把<code>Scala</code>打包（毕竟是专门给<code>Scala</code>用的），但是那个<a href="https://www.scala-sbt.org/sbt-pgp/" target="_blank" rel="noopener">插件</a> 实在是卡的死死的，而且文档太少了，官网上的SBT似乎一直是用的0.13.5+，但是我用的是1.2+，在选择低版本还是选择换一种打包方式面前我选择听从大牛的意见，选择使用<code>maven</code>进行对<code>Scala</code>打包（毕竟<code>Scala</code>杀手级应用<code>Spark</code>也是用的<code>maven</code>进行打包）</p>
 <p>而且<code>SBT</code>有一个特别困扰我的地方，虽然我一直用阿里源，但是<code>SBT</code>更新依赖的速度实在是太慢了，无论是新建项目还是增加第三方包，相比<code>maven</code>它的速度都特别慢</p>
 <p>当然我做不到不代表大家做不到，如果有人能够搞定用<code>Maven</code>打包，记得在<code>Github</code>上发个<code>issue</code>告诉我</p>
-<h2 id="第二步：在中央仓库上面新建项目"><a href="#第二步：在中央仓库上面新建项目" class="headerlink" title="第二步：在中央仓库上面新建项目"></a>第二步：在中央仓库上面新建项目</h2><p>为了将包发到<code>maven</code>中央库，我们得借助【sonatype]<a href="https://issues.sonatype.org" target="_blank" rel="external">4</a>来帮我们上传，首先你得去上面注册一个用户</p>
+<h2 id="第二步：在中央仓库上面新建项目"><a href="#第二步：在中央仓库上面新建项目" class="headerlink" title="第二步：在中央仓库上面新建项目"></a>第二步：在中央仓库上面新建项目</h2><p>为了将包发到<code>maven</code>中央库，我们得借助【sonatype]<a href="https://issues.sonatype.org" target="_blank" rel="noopener">4</a>来帮我们上传，首先你得去上面注册一个用户</p>
 <p>相比于<code>Python</code>发包，<code>Java</code>有一个<code>group</code>的概念，也就是说每个包都属于不同的组织，比如说Java的核心包<code>java.lang</code>也可以看做是一个组织，在<code>Pypi</code>发包你只要不重名就行，但是在<code>maven</code>中央库发包，你可以重名但是不能重复组织名，由于我有个<code>zhanglun.me</code>的域名，所以我就新建了一个<code>me.zhanglun.ahocorasick</code>组织，你也可以理解组织就是一个网址，我新建了一个<code>ahocorasick.zhanglun.me</code>的网址，由于名字我们没法规定重名，但是网址可以，所以在<code>sonatype</code>上新建一个项目后你得要有帮你审核一下这个域名是否是你的（如果你使用<code>com.github.xxx</code>来作为域名的话那就不要审核了）</p>
-<p>随便找篇<a href="https://www.sojson.com/blog/250.html" target="_blank" rel="external">教程</a>新建完项目，等你的项目变成<code>Resolved</code>，接下来我们就来配置上传的秘钥</p>
-<h2 id="第三步：-上传配置"><a href="#第三步：-上传配置" class="headerlink" title="第三步： 上传配置"></a>第三步： 上传配置</h2><p>相比于<code>Python</code>直接将打包好的egg包发到<code>pypi</code>，<code>sonatype</code>需要你对你上传的文件都签名以验证安全，怎么签名呢，借助一个开源的<a href="https://www.gnupg.org/" target="_blank" rel="external">GnuPG</a>，我们只要自己制作一个秘钥，然后上传到秘钥服务器，然后我们就可以用这个秘钥来对我们的文件进行签名（会产生一个<code>.asc</code> 文件，里面是签名值）</p>
+<p>随便找篇<a href="https://www.sojson.com/blog/250.html" target="_blank" rel="noopener">教程</a>新建完项目，等你的项目变成<code>Resolved</code>，接下来我们就来配置上传的秘钥</p>
+<h2 id="第三步：-上传配置"><a href="#第三步：-上传配置" class="headerlink" title="第三步： 上传配置"></a>第三步： 上传配置</h2><p>相比于<code>Python</code>直接将打包好的egg包发到<code>pypi</code>，<code>sonatype</code>需要你对你上传的文件都签名以验证安全，怎么签名呢，借助一个开源的<a href="https://www.gnupg.org/" target="_blank" rel="noopener">GnuPG</a>，我们只要自己制作一个秘钥，然后上传到秘钥服务器，然后我们就可以用这个秘钥来对我们的文件进行签名（会产生一个<code>.asc</code> 文件，里面是签名值）</p>
 <p>所以关键就是把这个秘钥产生并且上传到秘钥服务器，在<code>Ubuntu</code>上有两个版本的<code>GnuPG</code>，一个是1.0版一个是2.0版，我试过使用1.0版但是没法传到秘钥服务器上面，所以大家还是最好使用2.0来生成秘钥和上传到服务器。</p>
 <p>首先生成key，全部选择默认进行，填上你的个人信息，最后就会生成一个key</p>
 <pre><code>gpg2 --gen-key 
@@ -410,7 +410,7 @@ sub   rsa2048/EE34357C 2019-01-12 [E]
         &lt;/execution&gt;
     &lt;/executions&gt;
 &lt;/plugin&gt;
-</code></pre><p>加上这两个插件你就可以发布<code>release</code>版本了（第一次你得要跟工作人员comment一下才能上传到中央库，以后就不要了）。现在你就可以只要执行<code>mvn clean deploy</code>就能在<a href="https://oss.sonatype.org/#welcome" target="_blank" rel="external">管理页面</a>的Staging Repositories下面看到你构件，你只要选择最后一个，然后点击<code>close</code>，<code>close</code>结束之后在点击<code>release</code>就能在<code>maven</code>中央库看到你的开源包了，是不是很激动</p>
+</code></pre><p>加上这两个插件你就可以发布<code>release</code>版本了（第一次你得要跟工作人员comment一下才能上传到中央库，以后就不要了）。现在你就可以只要执行<code>mvn clean deploy</code>就能在<a href="https://oss.sonatype.org/#welcome" target="_blank" rel="noopener">管理页面</a>的Staging Repositories下面看到你构件，你只要选择最后一个，然后点击<code>close</code>，<code>close</code>结束之后在点击<code>release</code>就能在<code>maven</code>中央库看到你的开源包了，是不是很激动</p>
 <p>但是每次都要登录上面去点击很繁琐，所以你可以安装下面的插件帮你直接发布，不需要登录网站</p>
 <p>加上下面的插件就能自动帮你发布了</p>
 <pre><code>&lt;plugin&gt;
@@ -424,9 +424,9 @@ sub   rsa2048/EE34357C 2019-01-12 [E]
         &lt;autoReleaseAfterClose&gt;true&lt;/autoReleaseAfterClose&gt;
     &lt;/configuration&gt;
 &lt;/plugin&gt;
-</code></pre><p>PS：我在<a href="https://github.com/mrzhangboss/ahocorasick/tree/MiniDeployToSonatypeDemo" target="_blank" rel="external">项目</a>里面把这个插件注释掉了，你们可以把注释取消</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这篇博文主要是把发布涉及到的库以及知识点简单的介绍了一下，其实发布并不难，很多时候我们只是卡在某一步上，只要我们知道原理，就能把钉子拔掉，顺利上路，在这里顺便推广一下我的项目，这个项目基于<code>Aho-corasick</code>自动匹配关键词，使用统计方法来对输出最匹配路径，项目展示的<a href="http://ahocorasick.zhanglun.me/" target="_blank" rel="external">Demo</a>在<a href="http://ahocorasick.zhanglun.me/" target="_blank" rel="external">http://ahocorasick.zhanglun.me/</a>  ，随意输入地点能够迅速匹配出相关城市，比如打入“樟树”能够找到“江西省-宜春市-樟树市”，假如你服务器内存够的话还可以根据村委会名字来寻找到你的地点，而且搜索的速度只和你的地点名长度有关，不会随着关键词的增长而变慢</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://stackoverflow.com/questions/5901378/what-exactly-is-a-maven-snapshot-and-why-do-we-need-it/5907727" target="_blank" rel="external">SNAPSHOT</a></p>
+</code></pre><p>PS：我在<a href="https://github.com/mrzhangboss/ahocorasick/tree/MiniDeployToSonatypeDemo" target="_blank" rel="noopener">项目</a>里面把这个插件注释掉了，你们可以把注释取消</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这篇博文主要是把发布涉及到的库以及知识点简单的介绍了一下，其实发布并不难，很多时候我们只是卡在某一步上，只要我们知道原理，就能把钉子拔掉，顺利上路，在这里顺便推广一下我的项目，这个项目基于<code>Aho-corasick</code>自动匹配关键词，使用统计方法来对输出最匹配路径，项目展示的<a href="http://ahocorasick.zhanglun.me/" target="_blank" rel="noopener">Demo</a>在<a href="http://ahocorasick.zhanglun.me/" target="_blank" rel="noopener">http://ahocorasick.zhanglun.me/</a>  ，随意输入地点能够迅速匹配出相关城市，比如打入“樟树”能够找到“江西省-宜春市-樟树市”，假如你服务器内存够的话还可以根据村委会名字来寻找到你的地点，而且搜索的速度只和你的地点名长度有关，不会随着关键词的增长而变慢</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://stackoverflow.com/questions/5901378/what-exactly-is-a-maven-snapshot-and-why-do-we-need-it/5907727" target="_blank" rel="noopener">SNAPSHOT</a></p>
 
     </div>
 
@@ -573,7 +573,7 @@ sub   rsa2048/EE34357C 2019-01-12 [E]
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-count">28</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -615,12 +615,12 @@ sub   rsa2048/EE34357C 2019-01-12 [E]
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">NaNm</span>
+    <span title="站点总字数">232k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">NaN:aN</span>
+    <span title="站点阅读时长">3:31</span>
 </div>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.1
   </div>

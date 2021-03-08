@@ -253,13 +253,13 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>11k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>10 分钟</span>
             </span>
 
         </div>
@@ -272,7 +272,7 @@
 
       
         <blockquote>
-<p>If you are hadoop novice, I strongly suggest you beginning your study from single node building,you can learn from this <a href="https://www.tutorialspoint.com/hadoop/" target="_blank" rel="external">website</a>, after you having finshed build one single node, then you can reading my blog to learn how to run a N-node clusters just in your computer.</p>
+<p>If you are hadoop novice, I strongly suggest you beginning your study from single node building,you can learn from this <a href="https://www.tutorialspoint.com/hadoop/" target="_blank" rel="noopener">website</a>, after you having finshed build one single node, then you can reading my blog to learn how to run a N-node clusters just in your computer.</p>
 </blockquote>
 <h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>This blog is introduce using one computer to build a N-node clusters.I suggest you use ubuntu to build. You can also use Windows, but you’d better install virtualbox to install one desktop ubuntu  as your base server.In this blog, we will try two different way to build hadoop clusters in one computer.</p>
 <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>Before you start learning, you can download these required softwares from Intelnet.</p>
@@ -280,33 +280,33 @@
 <li>JDK8(optional)</li>
 </ul>
 <p>we can also install it by apt tool, but may be slow in China.So you’d better download it from website.</p>
-<p><a href="https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="external">https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html</a></p>
-<p>choose “jdk-8u181-linux-x64.tar.gz” to download.You can alse install in your master computer later, you can read from this <a href="https://websiteforstudents.com/how-to-install-oracle-java-jdk8-on-ubuntu-16-04-17-10-18-04-desktops/" target="_blank" rel="external">blog</a></p>
+<p><a href="https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="noopener">https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html</a></p>
+<p>choose “jdk-8u181-linux-x64.tar.gz” to download.You can alse install in your master computer later, you can read from this <a href="https://websiteforstudents.com/how-to-install-oracle-java-jdk8-on-ubuntu-16-04-17-10-18-04-desktops/" target="_blank" rel="noopener">blog</a></p>
 <ul>
 <li>Hadoop(2.85)</li>
 </ul>
 <p>I choose latest 2.85 version, you can download from this website.</p>
-<p><a href="https://www.apache.org/dyn/closer.cgi/hadoop/common/hadoop-2.8.5/hadoop-2.8.5-src.tar.gz" target="_blank" rel="external">https://www.apache.org/dyn/closer.cgi/hadoop/common/hadoop-2.8.5/hadoop-2.8.5-src.tar.gz</a></p>
+<p><a href="https://www.apache.org/dyn/closer.cgi/hadoop/common/hadoop-2.8.5/hadoop-2.8.5-src.tar.gz" target="_blank" rel="noopener">https://www.apache.org/dyn/closer.cgi/hadoop/common/hadoop-2.8.5/hadoop-2.8.5-src.tar.gz</a></p>
 <ul>
 <li>Ubuntu Image</li>
 </ul>
 <p>In this trip, we choose Ubuntu16.04 server for build clusters.You can use 163 mirrors to speed up your download.</p>
-<p><a href="http://mirrors.163.com/ubuntu-releases/16.04.5/ubuntu-16.04.5-server-amd64.iso" target="_blank" rel="external">http://mirrors.163.com/ubuntu-releases/16.04.5/ubuntu-16.04.5-server-amd64.iso</a></p>
+<p><a href="http://mirrors.163.com/ubuntu-releases/16.04.5/ubuntu-16.04.5-server-amd64.iso" target="_blank" rel="noopener">http://mirrors.163.com/ubuntu-releases/16.04.5/ubuntu-16.04.5-server-amd64.iso</a></p>
 <ul>
 <li><p>Virtualbox</p>
-<p>we need <code>virtualbox</code> to create our clusters. It’s easy for you to install virtualbox in ubuntu. You can read this <a href="https://tecadmin.net/install-oracle-virtualbox-on-ubuntu/" target="_blank" rel="external">article</a> to install virtualbox-5.2</p>
+<p>we need <code>virtualbox</code> to create our clusters. It’s easy for you to install virtualbox in ubuntu. You can read this <a href="https://tecadmin.net/install-oracle-virtualbox-on-ubuntu/" target="_blank" rel="noopener">article</a> to install virtualbox-5.2</p>
 <ul>
 <li>Docker</li>
 </ul>
 </li>
 </ul>
-<p>we will try use docker build our clusters, it’s easy install in ubuntu.The install tutorials is <a href="https://docs.docker.com/install/linux/docker-ce/ubuntu/#uninstall-old-versions" target="_blank" rel="external">https://docs.docker.com/install/linux/docker-ce/ubuntu/#uninstall-old-versions</a></p>
+<p>we will try use docker build our clusters, it’s easy install in ubuntu.The install tutorials is <a href="https://docs.docker.com/install/linux/docker-ce/ubuntu/#uninstall-old-versions" target="_blank" rel="noopener">https://docs.docker.com/install/linux/docker-ce/ubuntu/#uninstall-old-versions</a></p>
 <h2 id="Clusters-On-VirtualBox"><a href="#Clusters-On-VirtualBox" class="headerlink" title="Clusters On VirtualBox"></a>Clusters On VirtualBox</h2><p>Now I assuming you’re working on a ubuntu16.04 desktop OS.Now let’s begining our trip.</p>
 <p>First,let’s init a master, after we install required software in master, we can use virtualbox <code>clone</code> function to easy to build slave.</p>
 <h3 id="Build-Ubuntu-VMS"><a href="#Build-Ubuntu-VMS" class="headerlink" title="Build Ubuntu VMS"></a>Build Ubuntu VMS</h3><ul>
 <li>new a machine named master</li>
 </ul>
-<p><img src="/images/vm-create1.png" alt=""></p>
+<p><img src="/images/vm-create1.png" alt></p>
 <ul>
 <li>Choose 2G RAM, VDI </li>
 </ul>
@@ -317,7 +317,7 @@
 <p>For our clusters runing, we need a connected internet between master and slaves.If we have many computers, it’s simple, we just need they both have public IP or private IP in one LAN.But if we just in one computer, how can we have independent IP for our master and slaves.</p>
 <p>This is why we install <code>virtualbox</code>, <code>virtualbox</code> provide our independent computers in just one computer.Moreover, it can provide a simulate NIC for each computer.By using that, each computer can have they own private IP in LAN. </p>
 <p>So the key our cluster running is the <code>bridge</code></p>
-<p><img src="/images/vm-net-adapter.png" alt=""></p>
+<p><img src="/images/vm-net-adapter.png" alt></p>
 <p>we need choose the <code>bridged adapter</code> to make master and slaves just in same LAN.Pay attention to make true you need choose your real NIC.In ubuntu you just run <code>ifconfig</code> and find out have one line <code>inet addr:192.168.1.12</code> .Usually it’s <code>eth0</code> in ubuntu.</p>
 <p>When you have finished OS installment.You can login in and start installing hadoop clusters.</p>
 <blockquote>
@@ -428,7 +428,7 @@ sbin/start-dfs.sh
 </code></pre><p>We try format our namenode, and start dfs server, now run <code>jps</code>, you  can see <code>NameNode</code> and <code>SecondaryNameNode</code> server started.</p>
 <p>Now we try start <code>Yarn</code> to start <code>MapReduce FrameWork</code>.</p>
 <pre><code>sbin/start-yarn.sh
-</code></pre><p>Now, rerun <code>jps</code>, you can see <code>ResourceManager</code> running.You can also try <code>netstat -tuplen|grep 8088</code>, you will find the <code>ResourceManager</code> open some tcp port like 8080,8031,8033,etc.And the <code>8088</code> is the website of  managing clusters.You can open <a href="http://master:8088" target="_blank" rel="external">http://master:8088</a> to see the <code>clusters</code> status.Now you can only see blank node in clusters, for we have not started one slave yet.</p>
+</code></pre><p>Now, rerun <code>jps</code>, you can see <code>ResourceManager</code> running.You can also try <code>netstat -tuplen|grep 8088</code>, you will find the <code>ResourceManager</code> open some tcp port like 8080,8031,8033,etc.And the <code>8088</code> is the website of  managing clusters.You can open <a href="http://master:8088" target="_blank" rel="noopener">http://master:8088</a> to see the <code>clusters</code> status.Now you can only see blank node in clusters, for we have not started one slave yet.</p>
 <p>Congratulation, our master is starting, in the running, we need input our password when start, after complete all slave building, we can use ssh-key to autologin.</p>
 <blockquote>
 <p>Now let’s build our slaves.</p>
@@ -442,7 +442,7 @@ sbin/start-dfs.sh
 <pre><code> cd /usr/local/hadoop
 bin/hadoop datanode -format
 sbin/start-dfs.sh &amp;&amp; sbin/start-yarn.sh
-</code></pre><p>After running these command, check <a href="http://master:8088" target="_blank" rel="external">http://master:8088</a>  to find the master have one slave online named <code>slave1</code>.</p>
+</code></pre><p>After running these command, check <a href="http://master:8088" target="_blank" rel="noopener">http://master:8088</a>  to find the master have one slave online named <code>slave1</code>.</p>
 <p>PS: Now you can generate ssh-key for your login in slaves, just run <code>ssh-keygen -t rsa &amp;&amp; ssh-copy-id slave1</code>, you don’t need input your password to start your clusters.</p>
 <p>Now we have one node clusters, if you want more, you can add more slaves repeatting upper produce.</p>
 <p>After you build your N-Clusters , you can now run those commands to check the hadoop working or not.</p>
@@ -502,9 +502,9 @@ sudo docker run -itd \
                 --hostname hadoop-slave2 \
                 kiwenlau/hadoop:1.0 &amp;&gt; /dev/null
 </code></pre><p>After doing that, we have finshed all softwares build.Now just run<code>sudo docker exec -it hadoop-master bash</code> into <code>master</code>, and then start our clusters <code>bash start-hadoop.sh</code>.</p>
-<p>Now you can enjoy your clusters in few minutes, open <a href="http://127.0.0.1:8088/" target="_blank" rel="external">http://127.0.0.1:8088/</a> to see our clusters running happily.</p>
+<p>Now you can enjoy your clusters in few minutes, open <a href="http://127.0.0.1:8088/" target="_blank" rel="noopener">http://127.0.0.1:8088/</a> to see our clusters running happily.</p>
 <h2 id="Conclusion-1"><a href="#Conclusion-1" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>After introducing two way to build a hadoop clusters, you will find it’s easy to build a clusters if you know how they work together.In a word, we kind of like using <code>Docker</code> to running hadoop clusters, we can easy move add more <code>Hadoop</code> slaves in just one command.Meantime we can use <code>bridge</code> or <code>overlay</code> network for us building a more safe hadoop clusters.</p>
-<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><p><a href="https://github.com/kiwenlau/hadoop-cluster-docker" target="_blank" rel="external">https://github.com/kiwenlau/hadoop-cluster-docker</a></p>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><p><a href="https://github.com/kiwenlau/hadoop-cluster-docker" target="_blank" rel="noopener">https://github.com/kiwenlau/hadoop-cluster-docker</a></p>
 
     </div>
 
@@ -651,7 +651,7 @@ sudo docker run -itd \
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-count">28</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -693,12 +693,12 @@ sudo docker run -itd \
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">NaNm</span>
+    <span title="站点总字数">232k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">NaN:aN</span>
+    <span title="站点阅读时长">3:31</span>
 </div>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.1
   </div>

@@ -250,13 +250,13 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>1.4k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>1 分钟</span>
             </span>
 
         </div>
@@ -285,7 +285,7 @@
 <p>接下来我们再看看坐在店里的顾客了（建立好了TCP连接），这个时候顾客都知道今天能吃上就安安静静的等了，餐馆呢就把顾客点好菜发给后厨（Tomcat把HTTP请求发给Servlet容器），有的菜烧得快有的菜烧得慢（每个请求耗时不同），菜好了就端上去了，客户呢觉得吃饱了那就走了（关闭TCP连接），觉得没吃饱就继续叫（继续发送HTTP请求），假如有时候叫了一道特别难的菜，后厨做了很久都没端上来，假如你不急那就慢慢等，假如你急的化那你可以直接走（抛出一个Read timed out错误）</p>
 <p>现在我们总结一下，从用户角度上来看，他碰到的问题就是两种，第一种就是餐馆人太多了，没法吃（拒绝连接），第二种就是餐馆上菜太慢（读取超时）。从餐馆角度上来看，为了服务好用户他首先得安排好足够的椅子，第二个就是要让后台上菜速度要快，上菜快可以通过增加厨师（增大最大线程数），你也可以针对做菜某些步骤慢的地方多派人手（SQL调优、缓存优化等等）</p>
 <p>PS: 这篇文章还有一个重要的问题没有提，用户进了餐馆（建立了TCP连接），他什么时候叫菜（发送HTTP请求）我们是不知道，我们怎么来实现一个高效的系统来服务客户，来满足成千上万的顾客有求必应，我会在另外一篇博客来专门谈这个东西【Select和epoll浅析】</p>
-<h3 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h3><p><a href="https://qiankunli.github.io/2019/11/26/tomcat_source.html" target="_blank" rel="external">https://qiankunli.github.io/2019/11/26/tomcat_source.html</a></p>
+<h3 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h3><p><a href="https://qiankunli.github.io/2019/11/26/tomcat_source.html" target="_blank" rel="noopener">https://qiankunli.github.io/2019/11/26/tomcat_source.html</a></p>
 
     </div>
 
@@ -347,8 +347,8 @@
       <i class="fa fa-chevron-left"></i> Select和epoll浅析
     </a></div>
       <div class="post-nav-item">
-    <a href="/2021/01/07/技术如何深入/" rel="next" title="技术如何深入">
-      技术如何深入 <i class="fa fa-chevron-right"></i>
+    <a href="/2021/01/07/浅析Spring/" rel="next" title="浅析Spring">
+      浅析Spring <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -432,7 +432,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-count">28</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -474,12 +474,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">NaNm</span>
+    <span title="站点总字数">232k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">NaN:aN</span>
+    <span title="站点阅读时长">3:31</span>
 </div>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.1
   </div>

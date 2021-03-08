@@ -255,13 +255,13 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>8.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>8 分钟</span>
             </span>
 
         </div>
@@ -274,12 +274,12 @@
 
       
         <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
-<p>本文是学习Tensorflow<a href="http://www.tensorfly.cn/tfdoc/tutorials/mnist_pros.html" target="_blank" rel="external">官方文档</a>的过程中的一点感悟，本文假设你对矩阵运算有一定的了解，具体可以看看下面<a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html" target="_blank" rel="external">资料</a></p>
+<p>本文是学习Tensorflow<a href="http://www.tensorfly.cn/tfdoc/tutorials/mnist_pros.html" target="_blank" rel="noopener">官方文档</a>的过程中的一点感悟，本文假设你对矩阵运算有一定的了解，具体可以看看下面<a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html" target="_blank" rel="noopener">资料</a></p>
 </blockquote>
 <h2 id="加载数据"><a href="#加载数据" class="headerlink" title="加载数据"></a>加载数据</h2><blockquote>
-<p>首先我们得先把数据下载下来，Tensorflow给我们提供了一个函数来进行下载，这个<a href="https://github.com/tensorflow/tensorflow/blob/master/tensorflow/contrib/learn/python/learn/datasets/mnist.py" target="_blank" rel="external">函数</a>为<a href="https://github.com/tensorflow/tensorflow/blob/master/tensorflow/contrib/learn/python/learn/datasets/mnist.py" target="_blank" rel="external">read_data_sets</a></p>
+<p>首先我们得先把数据下载下来，Tensorflow给我们提供了一个函数来进行下载，这个<a href="https://github.com/tensorflow/tensorflow/blob/master/tensorflow/contrib/learn/python/learn/datasets/mnist.py" target="_blank" rel="noopener">函数</a>为<a href="https://github.com/tensorflow/tensorflow/blob/master/tensorflow/contrib/learn/python/learn/datasets/mnist.py" target="_blank" rel="noopener">read_data_sets</a></p>
 </blockquote>
-<p>这个函数<code>read_data_sets</code>函数很简单，查看在目录下面有没有文件没有就去下载，有就解析加载，一方面方便我们获取数据，一方面方便我们直接开箱即食，但是由于这个默认下载地址是需要翻墙，所以我这里提供一个不需要翻墙的<a href="http://yann.lecun.com/exdb/mnist/" target="_blank" rel="external">地址</a>，你只需要加载下面的函数</p>
+<p>这个函数<code>read_data_sets</code>函数很简单，查看在目录下面有没有文件没有就去下载，有就解析加载，一方面方便我们获取数据，一方面方便我们直接开箱即食，但是由于这个默认下载地址是需要翻墙，所以我这里提供一个不需要翻墙的<a href="http://yann.lecun.com/exdb/mnist/" target="_blank" rel="noopener">地址</a>，你只需要加载下面的函数</p>
 <pre><code>from tensorflow.examples.tutorials.mnist import input_data
 mnist = input_data.read_data_sets(&quot;input/&quot;, one_hot=True, source_url=&quot;http://yann.lecun.com/exdb/mnist/&quot;)
 </code></pre><p>等几分钟，数据就会下载到当前目录的<code>input</code>文件夹中，这样你下次运行就能直接本地文件夹中加载图片数据了</p>
@@ -346,7 +346,7 @@ v = session.run(tf.nn.conv2d(x_image, W_conv1, strides=[1, 1, 1, 1], padding=&ap
 </code></pre><p>现在我们来看看卷完后<code>v</code>的<code>shape</code></p>
 <pre><code>   v.shape
 (50, 28, 28, 32)
-</code></pre><p>50代表50个数据，（28、28）代表图片维度，这个32就是卷积核数，50和32这两个应该是固定的，不难理解，我们现在来看看为什么通过卷积核的“卷”，图片还是保持28X28的，这个也是在知乎上涉及到的一个<a href="https://www.zhihu.com/question/46889310" target="_blank" rel="external">问题</a>，现在我们从实验上来解决一下</p>
+</code></pre><p>50代表50个数据，（28、28）代表图片维度，这个32就是卷积核数，50和32这两个应该是固定的，不难理解，我们现在来看看为什么通过卷积核的“卷”，图片还是保持28X28的，这个也是在知乎上涉及到的一个<a href="https://www.zhihu.com/question/46889310" target="_blank" rel="noopener">问题</a>，现在我们从实验上来解决一下</p>
 <p>首先我们看<code>tf.nn.conv2d</code>函数，他接受四个参数，第一个图片、第二个卷积核、第三个步长，第四个卷积方式</p>
 <p>首先问题是觉得，卷完之后应该是变成24 X 24，这个理解是没错的，我们将pading的值改成VALID再次运行</p>
 <pre><code>session.run(tf.global_variables_initializer())
@@ -397,13 +397,13 @@ session.run(W_fc1).shape
 (3136, 1024)
 </code></pre><p>我们可以看到其实就是一个二维数组维度为（3136,1024），第一个维度跟输入有关，第二个维度影响输出维度，前面我们使用<code>tf.nn.conv2d</code>卷积操作来转换图片，在全连接层我们要使用矩阵运算来转换我们的维度</p>
 <p>矩阵运算非常有趣，我们在前面其实也提到过一点，就是降维的实现PCA就是使用矩阵运算来进行降维，我们把数据分为X（特征），Y（数量），经过一次矩阵运算我们可以实现数量不变，而特征改变，这个就非常强大了，我们可以随便修改矩阵参数来动态修改我们特征数量</p>
-<p>但是矩阵运算也有一定局限性，就是两个运算的矩阵必须是前者长与后者的宽想同，这个跟矩阵运算特性有关，具体可以看看矩阵运算相关<a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html" target="_blank" rel="external">资料</a></p>
+<p>但是矩阵运算也有一定局限性，就是两个运算的矩阵必须是前者长与后者的宽想同，这个跟矩阵运算特性有关，具体可以看看矩阵运算相关<a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html" target="_blank" rel="noopener">资料</a></p>
 <p>所以为了进行矩阵运算我们第一件事就是改变输入的<code>shape</code>，让它由四维变成二维，以便能够与我们权值矩阵<code>W_fc1</code>进行运算</p>
 <pre><code>h_pool2_flat = tf.reshape(h_pool2, [-1, 7*7*64])
 </code></pre><p>我们简单的使用<code>tf.reshape</code>就能把第二层卷积后的输出变量转换成（50，7<em>7</em>64）的维度，这样我们就能直接与权值矩阵<code>W_fc1</code>进行运算</p>
 <pre><code>h_fc1 = tf.nn.relu(tf.matmul(h_pool2_flat, W_fc1) + b_fc1)
 </code></pre><p>我们这里直接将运算后的值放到激活函数里面去完成全连接层的功能</p>
-<h3 id="输出层"><a href="#输出层" class="headerlink" title="输出层"></a>输出层</h3><p>其实输出层同全连接层很类似，我们就是把前面的变量转换成我们想输出的维度，在进行这个输出层之前，我们得先搞一层<code>Dropout</code>层，这个能有效的避免神经网络的过拟合问题，具体可以看看这篇<a href="http://jmlr.org/papers/volume15/srivastava14a.old/srivastava14a.pdf" target="_blank" rel="external">论文</a></p>
+<h3 id="输出层"><a href="#输出层" class="headerlink" title="输出层"></a>输出层</h3><p>其实输出层同全连接层很类似，我们就是把前面的变量转换成我们想输出的维度，在进行这个输出层之前，我们得先搞一层<code>Dropout</code>层，这个能有效的避免神经网络的过拟合问题，具体可以看看这篇<a href="http://jmlr.org/papers/volume15/srivastava14a.old/srivastava14a.pdf" target="_blank" rel="noopener">论文</a></p>
 <pre><code>keep_prob = tf.placeholder(&quot;float&quot;)
 h_fc1_drop = tf.nn.dropout(h_fc1, keep_prob)
 </code></pre><p>因为同全连接层原理类似，输出层我就不就不详细介绍了</p>
@@ -437,7 +437,7 @@ for i in range(18000):
   train_step.run(feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5}, session=session)
 </code></pre><p>由于我们使用<code>OneHot</code>方法来输出预测变量，所以我们要使用<code>tf.argmax</code>来得到我们想要的真实数字，经过20000轮训练我们正确率可以达到99%，至此卷积神经网络发挥他的威力。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>卷积神经网络是深度学习的一个很重要的组成部分，了解卷积必须要知道为什么要用卷积，用了有什么好处。总而言之，卷积并不是一个很新奇的东西，很早在信号处理中就有应用，但是在图像处理上由于他能保留图像维度信息从而在深度学习领域大放异彩，这也可以看做“是金子总会发光吧”</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="http://www.tensorfly.cn/tfdoc/tutorials/mnist_pros.html" target="_blank" rel="external">http://www.tensorfly.cn/tfdoc/tutorials/mnist_pros.html</a><br><a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html" target="_blank" rel="external">矩阵运算</a><br><a href="https://blog.csdn.net/v_july_v/article/details/51812459" target="_blank" rel="external">通俗理解卷积神经网络</a><br><a href="http://jmlr.org/papers/volume15/srivastava14a.old/srivastava14a.pdf" target="_blank" rel="external">Dropout</a></p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="http://www.tensorfly.cn/tfdoc/tutorials/mnist_pros.html" target="_blank" rel="noopener">http://www.tensorfly.cn/tfdoc/tutorials/mnist_pros.html</a><br><a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html" target="_blank" rel="noopener">矩阵运算</a><br><a href="https://blog.csdn.net/v_july_v/article/details/51812459" target="_blank" rel="noopener">通俗理解卷积神经网络</a><br><a href="http://jmlr.org/papers/volume15/srivastava14a.old/srivastava14a.pdf" target="_blank" rel="noopener">Dropout</a></p>
 
     </div>
 
@@ -584,7 +584,7 @@ for i in range(18000):
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-count">28</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -626,12 +626,12 @@ for i in range(18000):
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">NaNm</span>
+    <span title="站点总字数">232k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">NaN:aN</span>
+    <span title="站点阅读时长">3:31</span>
 </div>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.1
   </div>

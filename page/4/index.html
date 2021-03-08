@@ -246,13 +246,13 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>3.3k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -290,7 +290,7 @@
 <p>就以上面的例子，对于<code>root</code>和<code>son</code>这两个节点，其中<code>root</code>是父节点，我们可以用很多个属性来定义它，比如<code>root[count(son, 2)]</code>（意思是选择有两个<code>son</code>的<code>root</code>），其中对于父节点关系的中<code>son</code>节点来说（有点绕），他又可以用属性来约束比如<code>root[count(son[@id], 2)]</code>(意思是选择有两个<code>son</code>的<code>root</code>,并且每个<code>son</code>都有<code>id</code>这个属性）。从这里我们可以看其实节点和属性是可以相互嵌套的。</p>
 <p>从上面这个小例子我们可以看到，<code>XPath</code>的威力就是它可以用来非常详细的约束节点与其他节点或属性的关系，这种关系可以是绝对的，也可以是相对的，一切取决你的取舍，绝对代表严格，相对代表宽松。</p>
 <p>PS：当然我们这里的<code>属性</code>是一种宽泛的理解，在<code>XPath</code>中节点还包括<code>text</code>值，我们可以把它看做节点的一种<code>text</code>属性。</p>
-<h2 id="XPath的其他关系"><a href="#XPath的其他关系" class="headerlink" title="XPath的其他关系"></a><code>XPath</code>的其他关系</h2><p>前面我们介绍了<code>XPath</code>中最重要的一种关系：父子关系。这个也是我们使用<code>XPath</code>使用的最主要的一种关系，现在基本上网络上的教程都是基于这种关系的，我们这篇博客主要不详细介绍这种关系，你可以在<a href="https://www.w3schools.com/xml/xpath_syntax.asp" target="_blank" rel="external">w3cshool</a>上了解更多内容。</p>
+<h2 id="XPath的其他关系"><a href="#XPath的其他关系" class="headerlink" title="XPath的其他关系"></a><code>XPath</code>的其他关系</h2><p>前面我们介绍了<code>XPath</code>中最重要的一种关系：父子关系。这个也是我们使用<code>XPath</code>使用的最主要的一种关系，现在基本上网络上的教程都是基于这种关系的，我们这篇博客主要不详细介绍这种关系，你可以在<a href="https://www.w3schools.com/xml/xpath_syntax.asp" target="_blank" rel="noopener">w3cshool</a>上了解更多内容。</p>
 <p>我们先用问题来引入其他的关系，我们再把上面的简单<code>XML</code>进行修改</p>
 <pre><code>&lt;root&gt;
     &lt;son id=&quot;1&quot;&gt; I&apos; m son1 &lt;/son&gt;
@@ -303,7 +303,7 @@
 <pre><code>/root/son[@id=&apos;1&apos;]
 </code></pre><p>接下来我们通过定位的<code>son</code>来拿到它后面的兄弟（也有前面的兄弟语法）</p>
 <pre><code>/root/son[@id=&apos;1&apos;]/following-sibling::target[1]
-</code></pre><p>在这里<code>/following-sibling</code>代表它要找到接下来的兄弟，后面<code>::target[1]</code>是进一步限定我是要拿到兄弟里面第一个<code>target</code>，我们可以通过这个<a href="https://www.freeformatter.com/xpath-tester.html#ad-output" target="_blank" rel="external">网站</a>在线测试一下我们的<code>XPath</code></p>
+</code></pre><p>在这里<code>/following-sibling</code>代表它要找到接下来的兄弟，后面<code>::target[1]</code>是进一步限定我是要拿到兄弟里面第一个<code>target</code>，我们可以通过这个<a href="https://www.freeformatter.com/xpath-tester.html#ad-output" target="_blank" rel="noopener">网站</a>在线测试一下我们的<code>XPath</code></p>
 <p>当然我们可以通过第二个<code>son</code>来找到它前面的兄弟，对应语法是下面的</p>
 <pre><code>/root/son[@id=&apos;2&apos;]/preceding-sibling::target[1]
 </code></pre><p>在前面我们可以看到这个<code>following-sibling</code>和<code>preceding-sibling</code>他们都是一种寻找兄弟关系的，其实假如我们把<code>-sibling</code>去掉，他们能更加宽泛。</p>
@@ -381,13 +381,13 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>3.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -411,12 +411,12 @@
 <p>我们来回顾一下，我们知道<code>Unicode</code>的范围是<code>U+0000-U+10ffff</code>，这意味着我们没法用两个字节来表示，但是在<code>Java</code>里面<code>char</code>类型字节为2字节，而对于字符串类<code>String</code>来说，其组成就是一个<code>char</code>字组，对于小于<code>U+10000</code>的<code>Unicode</code>码来说，<code>String</code>对象最小组成单位就是<code>char</code>，但是对于大于<code>U+10000</code>的<code>Unicode</code>码来说却是<code>char</code>数组，我们用代码来展示一下两者之间的关系。</p>
 <pre><code>char[] chars = Character.toChars(0x1f121);
 String s = new String(chars);
-</code></pre><p>而且我们将<code>s</code>输出的话，会发现它是一个字符，但是它的<code>length</code>却为二，而且我们将<code>s</code>每个字符转换成二进制你会发现他们的值依次为<code>0xd83c</code>和<code>0xdd21</code>，他们存贮的值全部以<code>UTF-16</code>的格式存贮，具体编码详细我就不细说了，下面<a href="https://zh.wikipedia.org/wiki/UTF-16" target="_blank" rel="external">资料</a>介绍的很详细（需要翻墙）。在<code>Unicode</code>里面占一个字符的值，却以两个基本类型存贮，当然为了维持这种“表面兄弟”的关系，<code>Java</code>也使用了“码点”来支持一下兄弟，只要使用<code>codePointAt</code>代替<code>charAt</code>，用<code>codePointCount</code>代替<code>length</code>，我们也能处理超过<code>U+10000</code>的<code>Unicode</code>编码（对于不超过<code>U+10000</code>的字符那就是“真兄弟”）</p>
+</code></pre><p>而且我们将<code>s</code>输出的话，会发现它是一个字符，但是它的<code>length</code>却为二，而且我们将<code>s</code>每个字符转换成二进制你会发现他们的值依次为<code>0xd83c</code>和<code>0xdd21</code>，他们存贮的值全部以<code>UTF-16</code>的格式存贮，具体编码详细我就不细说了，下面<a href="https://zh.wikipedia.org/wiki/UTF-16" target="_blank" rel="noopener">资料</a>介绍的很详细（需要翻墙）。在<code>Unicode</code>里面占一个字符的值，却以两个基本类型存贮，当然为了维持这种“表面兄弟”的关系，<code>Java</code>也使用了“码点”来支持一下兄弟，只要使用<code>codePointAt</code>代替<code>charAt</code>，用<code>codePointCount</code>代替<code>length</code>，我们也能处理超过<code>U+10000</code>的<code>Unicode</code>编码（对于不超过<code>U+10000</code>的字符那就是“真兄弟”）</p>
 <p>当我不知道一个<code>char</code>只能放两个字节的时候，我强行使用<code>char c = (char)0x1f121</code>来“存”一个超过<code>U+10000</code>的<code>Unicode</code>码，结果被<code>Java</code>无情的溢出掉，只取到了部分值，但是我却误以为<code>Java</code>有黑魔法能用两个字节存贮了三个字节才能存下的值，乃至我闹了个笑话。</p>
 <p>总结一下<code>Java</code>是一个非常严谨的语言，规定死的东西就不会变，表面上看<code>Java</code>能够支持<code>Unicode</code>编码，但是实际上他只是编译器支持，比如你写一个<code>🄡</code>（0x1f122）的值来赋给<code>String</code>如下面：</p>
 <pre><code>String ns = &quot;🄡&quot;
 </code></pre><p>表面上看，<code>Java</code>完全支持<code>Unicode</code>码，但在实际的上面他内部还是用<code>UTF-16</code>进行编码，只是在编译的时候帮我们将<code>0x1f122</code>转换成为两个<br><code>0xd83c</code>和<code>0xdd21</code>存贮在<code>char</code>字符组里面。</p>
-<p>其实这个表面兄弟是相对的，从<code>Python3``Unicode</code>支持来比较一下就能发现不同。</p>
+<p>其实这个表面兄弟是相对的，从<code>Python3`</code>Unicode`支持来比较一下就能发现不同。</p>
 <h2 id="亲兄弟：Python"><a href="#亲兄弟：Python" class="headerlink" title="亲兄弟：Python"></a>亲兄弟：Python</h2><p><code>Python3</code>对<code>Unicode</code>是非常友好的，它在明面上完全按照<code>Unicode</code>的编码表使用来存贮<code>Unicode</code>码，对应它的<code>Unicode</code>字符串，最小单元都是<code>Unicode</code>码，多说无意，上代码。</p>
 <pre><code>  c = chr(0x1f122)
 print(len(c))  # = 1
@@ -424,7 +424,7 @@ print(type(c)) # str
 </code></pre><p>我们可以看到我们得到的最小的码元是字符串<code>str</code>类型，无论这个<code>Unicode</code>码是否大于<code>U+10000</code>，<code>Python</code>都把它视为一个基本单位，这样避免了你对其进行一些误操作，插句话来讲讲怎么得到这个大小呢，我们使用<code>sys.getsizeof</code>方法就能计算出来</p>
 <pre><code>sys.getsizeof(chr(0x1f122))  # 80
 sys.getsizeof(chr(0x1f122) * 2) # 84
-</code></pre><p>由于<code>Python</code>使用一些字段来标注类型，所以直接使用<code>sys.getsizeof</code>得不得一个<code>Unicode</code>码需要的字节，所以我们计算两个的差，很清楚的就能得到一个<code>Unicode</code>码使用四个字节，你可以依次乘下去，而且你发现一个有趣的现象，对于小于<code>U+007F</code>的<code>Unicode</code>码，其大小为一字节，而对于<code>U+0080-U+07FF</code>其大小为两字节。具体可以看参考<a href="https://en.wikipedia.org/wiki/UTF-8" target="_blank" rel="external">资料</a>，<code>Python</code>内部是使用<code>UTF-8</code>来存贮<code>Unicode</code>码的，但是<code>Python</code>将这一切都隐藏起来，你从表面上看好像一个<code>Unicode</code>就是一个最小单元，对于其底层我们不得而知，我们可以从侧面来验证一下</p>
+</code></pre><p>由于<code>Python</code>使用一些字段来标注类型，所以直接使用<code>sys.getsizeof</code>得不得一个<code>Unicode</code>码需要的字节，所以我们计算两个的差，很清楚的就能得到一个<code>Unicode</code>码使用四个字节，你可以依次乘下去，而且你发现一个有趣的现象，对于小于<code>U+007F</code>的<code>Unicode</code>码，其大小为一字节，而对于<code>U+0080-U+07FF</code>其大小为两字节。具体可以看参考<a href="https://en.wikipedia.org/wiki/UTF-8" target="_blank" rel="noopener">资料</a>，<code>Python</code>内部是使用<code>UTF-8</code>来存贮<code>Unicode</code>码的，但是<code>Python</code>将这一切都隐藏起来，你从表面上看好像一个<code>Unicode</code>就是一个最小单元，对于其底层我们不得而知，我们可以从侧面来验证一下</p>
 <pre><code> timeit.timeit(&quot;&apos;中国人&apos;.encode(&apos;gbk&apos;)&quot;)
 &gt;&gt; 0.6366317819999949
 timeit.timeit(&quot;&apos;中国人&apos;.encode(&apos;utf-8&apos;)&quot;)
@@ -432,8 +432,8 @@ timeit.timeit(&quot;&apos;中国人&apos;.encode(&apos;utf-8&apos;)&quot;)
 </code></pre><p>我们可以看到将<code>Unicode</code>编译成其他编码方式，其中<code>utf-8</code>速度是最快的，因为基本上是复制一下就行了，而其他的差距到了三倍</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过前面我们知道，<code>Python</code>之所以 <code>Unicode</code>如此“亲兄弟”是因为做了一层封装得来的，相比<code>Java</code>将<code>Unicode</code>码（使用<code>UTF-16</code>作为底层编码）暴露给出来，<code>Java</code>在底层上却是非常“坦诚”，你想直接使用<code>Unicode</code>码值也可以，<code>Java</code>编译器会帮你把<code>Unicode</code>码值转换成<code>UTF-16</code>，你也可以从<code>UTF-16</code>码生成<code>String</code>字符串，这样底层在实现查找的时候也是使用统一的编码进行。但是也正是由于这么“底层”，代码看起来总不是那么“亲”，相比于<code>Python</code>的“一视同仁”，我们也可以理解这就是这两种语言的各自特点所在。</p>
 <p>总的来说如果你想直接接触代码底层，推荐使用<code>Java</code>，假如你只想研究其本质，推荐使用<code>Python</code>来进行自然语言处理，他的封装能让你不需要了解其内部组成。</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://zh.wikipedia.org/wiki/UTF-16" target="_blank" rel="external">https://zh.wikipedia.org/wiki/UTF-16</a></p>
-<p><a href="https://en.wikipedia.org/wiki/UTF-8" target="_blank" rel="external">https://en.wikipedia.org/wiki/UTF-8</a></p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://zh.wikipedia.org/wiki/UTF-16" target="_blank" rel="noopener">https://zh.wikipedia.org/wiki/UTF-16</a></p>
+<p><a href="https://en.wikipedia.org/wiki/UTF-8" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/UTF-8</a></p>
 
       
     </div>
@@ -492,13 +492,13 @@ timeit.timeit(&quot;&apos;中国人&apos;.encode(&apos;utf-8&apos;)&quot;)
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>5.4k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>5 分钟</span>
             </span>
 
         </div>
@@ -706,7 +706,7 @@ Car running...
 <pre><code>&lt;context:component-scan base-package=&quot;....&quot;&gt;&lt;/context:component-scan&gt;
 </code></pre><p>第二种是使用<code>AnnotationConfigApplicationContext</code>来对象来进行扫描，第三种就是<code>SpringApplication</code>来运行<code>Spring</code>程序自动扫描</p>
 <p>这三种方式假如你最后要做一个<code>web</code>程序的话，第三种是非常方便的，这里我们就不谈怎么使用注解来代替<code>xml</code>文件了，本质上是一样的，其实在我没有理解<code>Bean</code>的强大之前，我比较推崇使用注解来写<code>Bean</code>，但是随着对<code>Bean</code>的探索，我发现<code>xml</code>文件才是最佳选择，他将程序依赖与代码分离开来，假如我们还想用程序依赖写在代码里面，那就违背了<code>Bean</code>的设计初衷</p>
-<p>如果你想了解怎么使用注解可以阅读这篇<a href="https://blog.csdn.net/sinat_34596644/article/details/53080026" target="_blank" rel="external">博客</a></p>
+<p>如果你想了解怎么使用注解可以阅读这篇<a href="https://blog.csdn.net/sinat_34596644/article/details/53080026" target="_blank" rel="noopener">博客</a></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>至此，我们从问题的出现到问题的解决探索了IOC背后的故事，但是你可能会有一个疑问，为什么<code>Spring</code>里面会有<code>IOC</code>问题。</p>
 <p>其实这个也跟<code>Web</code>的发展有关，我们知道从Web的发展，一开始是没有前端的，只有后端，慢慢的后端分离出来前端，Web端页面也被分离出视图层和数据层，随着逐渐分离，也就出现我们前面举到的例子，类越来越多，比如视图层依赖数据层，数据层依赖控制层…..</p>
 <p>这种层层依赖的问题延生出来的IOC的提出，也就慢慢的促进了<code>Bean</code>这个库的开发，也正是因为<code>Bean</code>我们才能享受静态强类型语言的低耦合的酸爽。</p>
@@ -768,13 +768,13 @@ Car running...
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>8.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>8 分钟</span>
             </span>
 
         </div>
@@ -787,12 +787,12 @@ Car running...
 
       
           <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
-<p>本文是学习Tensorflow<a href="http://www.tensorfly.cn/tfdoc/tutorials/mnist_pros.html" target="_blank" rel="external">官方文档</a>的过程中的一点感悟，本文假设你对矩阵运算有一定的了解，具体可以看看下面<a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html" target="_blank" rel="external">资料</a></p>
+<p>本文是学习Tensorflow<a href="http://www.tensorfly.cn/tfdoc/tutorials/mnist_pros.html" target="_blank" rel="noopener">官方文档</a>的过程中的一点感悟，本文假设你对矩阵运算有一定的了解，具体可以看看下面<a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html" target="_blank" rel="noopener">资料</a></p>
 </blockquote>
 <h2 id="加载数据"><a href="#加载数据" class="headerlink" title="加载数据"></a>加载数据</h2><blockquote>
-<p>首先我们得先把数据下载下来，Tensorflow给我们提供了一个函数来进行下载，这个<a href="https://github.com/tensorflow/tensorflow/blob/master/tensorflow/contrib/learn/python/learn/datasets/mnist.py" target="_blank" rel="external">函数</a>为<a href="https://github.com/tensorflow/tensorflow/blob/master/tensorflow/contrib/learn/python/learn/datasets/mnist.py" target="_blank" rel="external">read_data_sets</a></p>
+<p>首先我们得先把数据下载下来，Tensorflow给我们提供了一个函数来进行下载，这个<a href="https://github.com/tensorflow/tensorflow/blob/master/tensorflow/contrib/learn/python/learn/datasets/mnist.py" target="_blank" rel="noopener">函数</a>为<a href="https://github.com/tensorflow/tensorflow/blob/master/tensorflow/contrib/learn/python/learn/datasets/mnist.py" target="_blank" rel="noopener">read_data_sets</a></p>
 </blockquote>
-<p>这个函数<code>read_data_sets</code>函数很简单，查看在目录下面有没有文件没有就去下载，有就解析加载，一方面方便我们获取数据，一方面方便我们直接开箱即食，但是由于这个默认下载地址是需要翻墙，所以我这里提供一个不需要翻墙的<a href="http://yann.lecun.com/exdb/mnist/" target="_blank" rel="external">地址</a>，你只需要加载下面的函数</p>
+<p>这个函数<code>read_data_sets</code>函数很简单，查看在目录下面有没有文件没有就去下载，有就解析加载，一方面方便我们获取数据，一方面方便我们直接开箱即食，但是由于这个默认下载地址是需要翻墙，所以我这里提供一个不需要翻墙的<a href="http://yann.lecun.com/exdb/mnist/" target="_blank" rel="noopener">地址</a>，你只需要加载下面的函数</p>
 <pre><code>from tensorflow.examples.tutorials.mnist import input_data
 mnist = input_data.read_data_sets(&quot;input/&quot;, one_hot=True, source_url=&quot;http://yann.lecun.com/exdb/mnist/&quot;)
 </code></pre><p>等几分钟，数据就会下载到当前目录的<code>input</code>文件夹中，这样你下次运行就能直接本地文件夹中加载图片数据了</p>
@@ -859,7 +859,7 @@ v = session.run(tf.nn.conv2d(x_image, W_conv1, strides=[1, 1, 1, 1], padding=&ap
 </code></pre><p>现在我们来看看卷完后<code>v</code>的<code>shape</code></p>
 <pre><code>   v.shape
 (50, 28, 28, 32)
-</code></pre><p>50代表50个数据，（28、28）代表图片维度，这个32就是卷积核数，50和32这两个应该是固定的，不难理解，我们现在来看看为什么通过卷积核的“卷”，图片还是保持28X28的，这个也是在知乎上涉及到的一个<a href="https://www.zhihu.com/question/46889310" target="_blank" rel="external">问题</a>，现在我们从实验上来解决一下</p>
+</code></pre><p>50代表50个数据，（28、28）代表图片维度，这个32就是卷积核数，50和32这两个应该是固定的，不难理解，我们现在来看看为什么通过卷积核的“卷”，图片还是保持28X28的，这个也是在知乎上涉及到的一个<a href="https://www.zhihu.com/question/46889310" target="_blank" rel="noopener">问题</a>，现在我们从实验上来解决一下</p>
 <p>首先我们看<code>tf.nn.conv2d</code>函数，他接受四个参数，第一个图片、第二个卷积核、第三个步长，第四个卷积方式</p>
 <p>首先问题是觉得，卷完之后应该是变成24 X 24，这个理解是没错的，我们将pading的值改成VALID再次运行</p>
 <pre><code>session.run(tf.global_variables_initializer())
@@ -910,13 +910,13 @@ session.run(W_fc1).shape
 (3136, 1024)
 </code></pre><p>我们可以看到其实就是一个二维数组维度为（3136,1024），第一个维度跟输入有关，第二个维度影响输出维度，前面我们使用<code>tf.nn.conv2d</code>卷积操作来转换图片，在全连接层我们要使用矩阵运算来转换我们的维度</p>
 <p>矩阵运算非常有趣，我们在前面其实也提到过一点，就是降维的实现PCA就是使用矩阵运算来进行降维，我们把数据分为X（特征），Y（数量），经过一次矩阵运算我们可以实现数量不变，而特征改变，这个就非常强大了，我们可以随便修改矩阵参数来动态修改我们特征数量</p>
-<p>但是矩阵运算也有一定局限性，就是两个运算的矩阵必须是前者长与后者的宽想同，这个跟矩阵运算特性有关，具体可以看看矩阵运算相关<a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html" target="_blank" rel="external">资料</a></p>
+<p>但是矩阵运算也有一定局限性，就是两个运算的矩阵必须是前者长与后者的宽想同，这个跟矩阵运算特性有关，具体可以看看矩阵运算相关<a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html" target="_blank" rel="noopener">资料</a></p>
 <p>所以为了进行矩阵运算我们第一件事就是改变输入的<code>shape</code>，让它由四维变成二维，以便能够与我们权值矩阵<code>W_fc1</code>进行运算</p>
 <pre><code>h_pool2_flat = tf.reshape(h_pool2, [-1, 7*7*64])
 </code></pre><p>我们简单的使用<code>tf.reshape</code>就能把第二层卷积后的输出变量转换成（50，7<em>7</em>64）的维度，这样我们就能直接与权值矩阵<code>W_fc1</code>进行运算</p>
 <pre><code>h_fc1 = tf.nn.relu(tf.matmul(h_pool2_flat, W_fc1) + b_fc1)
 </code></pre><p>我们这里直接将运算后的值放到激活函数里面去完成全连接层的功能</p>
-<h3 id="输出层"><a href="#输出层" class="headerlink" title="输出层"></a>输出层</h3><p>其实输出层同全连接层很类似，我们就是把前面的变量转换成我们想输出的维度，在进行这个输出层之前，我们得先搞一层<code>Dropout</code>层，这个能有效的避免神经网络的过拟合问题，具体可以看看这篇<a href="http://jmlr.org/papers/volume15/srivastava14a.old/srivastava14a.pdf" target="_blank" rel="external">论文</a></p>
+<h3 id="输出层"><a href="#输出层" class="headerlink" title="输出层"></a>输出层</h3><p>其实输出层同全连接层很类似，我们就是把前面的变量转换成我们想输出的维度，在进行这个输出层之前，我们得先搞一层<code>Dropout</code>层，这个能有效的避免神经网络的过拟合问题，具体可以看看这篇<a href="http://jmlr.org/papers/volume15/srivastava14a.old/srivastava14a.pdf" target="_blank" rel="noopener">论文</a></p>
 <pre><code>keep_prob = tf.placeholder(&quot;float&quot;)
 h_fc1_drop = tf.nn.dropout(h_fc1, keep_prob)
 </code></pre><p>因为同全连接层原理类似，输出层我就不就不详细介绍了</p>
@@ -950,7 +950,7 @@ for i in range(18000):
   train_step.run(feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5}, session=session)
 </code></pre><p>由于我们使用<code>OneHot</code>方法来输出预测变量，所以我们要使用<code>tf.argmax</code>来得到我们想要的真实数字，经过20000轮训练我们正确率可以达到99%，至此卷积神经网络发挥他的威力。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>卷积神经网络是深度学习的一个很重要的组成部分，了解卷积必须要知道为什么要用卷积，用了有什么好处。总而言之，卷积并不是一个很新奇的东西，很早在信号处理中就有应用，但是在图像处理上由于他能保留图像维度信息从而在深度学习领域大放异彩，这也可以看做“是金子总会发光吧”</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="http://www.tensorfly.cn/tfdoc/tutorials/mnist_pros.html" target="_blank" rel="external">http://www.tensorfly.cn/tfdoc/tutorials/mnist_pros.html</a><br><a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html" target="_blank" rel="external">矩阵运算</a><br><a href="https://blog.csdn.net/v_july_v/article/details/51812459" target="_blank" rel="external">通俗理解卷积神经网络</a><br><a href="http://jmlr.org/papers/volume15/srivastava14a.old/srivastava14a.pdf" target="_blank" rel="external">Dropout</a></p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="http://www.tensorfly.cn/tfdoc/tutorials/mnist_pros.html" target="_blank" rel="noopener">http://www.tensorfly.cn/tfdoc/tutorials/mnist_pros.html</a><br><a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html" target="_blank" rel="noopener">矩阵运算</a><br><a href="https://blog.csdn.net/v_july_v/article/details/51812459" target="_blank" rel="noopener">通俗理解卷积神经网络</a><br><a href="http://jmlr.org/papers/volume15/srivastava14a.old/srivastava14a.pdf" target="_blank" rel="noopener">Dropout</a></p>
 
       
     </div>
@@ -1009,13 +1009,13 @@ for i in range(18000):
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>1.9k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -1037,7 +1037,7 @@ for i in range(18000):
 <p><del>执行这个指令就能看到你所支持的指令集</del></p>
 <p>最新的<code>tensorflow</code>1.12不需要这步，可以根据你的CPU进行推测</p>
 <p>~~2. 然后安装<code>bazel</code></p>
-<p><del>由于直接从源代码安装比较简单，所以直接从<a href="https://github.com/bazelbuild/bazel/releases" target="_blank" rel="external">github</a>上面下载<code>0.18.1</code>相对应的版本就行（最好不要使用最新版，最新版没法编译）</del></p>
+<p><del>由于直接从源代码安装比较简单，所以直接从<a href="https://github.com/bazelbuild/bazel/releases" target="_blank" rel="noopener">github</a>上面下载<code>0.18.1</code>相对应的版本就行（最好不要使用最新版，最新版没法编译）</del></p>
 <p><del>3. 安装完之后下载<code>tensorflow</code>源码</del></p>
 <pre><code>mkdir github &amp;&amp; cd github
 git clone --recurse-submodules https://github.com/tensorflow/tensorflow
@@ -1052,9 +1052,9 @@ cd tensorflow
 <pre><code>bazel build --config=opt //tensorflow/tools/pip_package:build_pip_package
 </code></pre><p><del>当然如果你想开启<code>MKL</code>也可以在<code>opt</code>加上改成<code>--config mkl</code></del></p>
 <p>最新版使用<code>bazel</code>编译由于依赖网络下载，而我大天朝的网络一直报check-sum错误，官方说是我们网络的问题，我在我香港服务器尝试了一下，相同的环境下使用<code>bazel</code>是能安装的，但是由于安装到后面<code>bazel</code>需要太多内存了，所以直接爆照，而我本地内存大然而尝试了N多方法（尝试使用<code>proxychain</code>由于安装时需要连接本地<code>bazel</code>服务器，而设置过滤本地网络又没有用，也尝试使用全局代理也绕不过去），最终没有办法只能安装一个别人已经编译好的CPU的加速的。现在放出地址</p>
-<p><a href="https://github.com/mind/wheels/releases" target="_blank" rel="external">github tensorflow 编译好的版本下载</a></p>
+<p><a href="https://github.com/mind/wheels/releases" target="_blank" rel="noopener">github tensorflow 编译好的版本下载</a></p>
 <p>你找一个你操作系统对应以及和你Python版本对应的下载下来用<code>pip</code>安装一下就可以了。</p>
-<ol>
+<ol start="5">
 <li>验证</li>
 </ol>
 <p>退出安装目录运行<code>python</code></p>
@@ -1123,13 +1123,13 @@ bazel --host_jvm_args=&quot;-Dhttp.proxyHost=localhost -Dhttp.proxyPort=8123 -Dh
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>2.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -1144,6 +1144,8 @@ bazel --host_jvm_args=&quot;-Dhttp.proxyHost=localhost -Dhttp.proxyPort=8123 -Dh
           <hr>
 <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
 <p>这篇博客其实写于2016年，最近在重新学了一下正则表达之后，觉得有必要重新整理一下正则的用法</p>
+</blockquote>
+<blockquote>
 <p>Python对正则匹配的库是<code>re</code>，re是基于Perl所用的正则表达式,并有<br>一定的改进.</p>
 </blockquote>
 <p>正则本质就是搜索所需的文本,正则里面有三种搜索方式</p>
@@ -1152,7 +1154,7 @@ bazel --host_jvm_args=&quot;-Dhttp.proxyHost=localhost -Dhttp.proxyPort=8123 -Dh
 <li>第二种就是模糊查询,比如我想从英文中找一个数字,一般借助特殊符号(<code>.+*?</code>)或者转义符号(<code>\w\d</code>等)</li>
 <li>第三种就是结合前两种,比如我记得一个单词的前两个字母想把那个单词搜出来.</li>
 </ol>
-<p>这里不介绍正则基本知识,你想知道可以<a href="http://www.regexlab.com/zh/regref.htm" target="_blank" rel="external">点这里</a></p>
+<p>这里不介绍正则基本知识,你想知道可以<a href="http://www.regexlab.com/zh/regref.htm" target="_blank" rel="noopener">点这里</a></p>
 <p>ps: 由于在python里面也是用反斜杠做转义字符,所以比如<code>\\</code>和<code>\b</code>这两个特殊字符必须用<code>\\\\</code>和<code>\\b</code>来代替.但是python提供了一个元字符支持re模块,只要字符前面加上r比如<code>r&#39; regex &#39;</code>就能不关闭python的转义.</p>
 <h5 id="正则里面我觉得很重要的一个概念就是组概念-当我们的文本比较复杂的时候将其分成多个小组是利于我们正则的后期维护和改进"><a href="#正则里面我觉得很重要的一个概念就是组概念-当我们的文本比较复杂的时候将其分成多个小组是利于我们正则的后期维护和改进" class="headerlink" title="正则里面我觉得很重要的一个概念就是组概念,当我们的文本比较复杂的时候将其分成多个小组是利于我们正则的后期维护和改进"></a>正则里面我觉得很重要的一个概念就是组概念,当我们的文本比较复杂的时候将其分成多个小组是利于我们正则的后期维护和改进</h5><blockquote>
 <p>正则里面使用一个括号来表示组比如<code>(a)(b)</code>就分成了两个组</p>
@@ -1182,8 +1184,8 @@ VERBOSE  [简X]  --------------神器,会无视代码中的注释空格和换行
 <p>前向就是在判断后面匹配的表达式必须与规定相同,比如一个邮箱地址我们要匹配可以用&lt;&gt;包起来的,但是不匹配只要一个的我们就可以在前面加上这个<code>^(?=(&lt;.*&gt;$)|([^&lt;].*[^&gt;]$))</code>通过使用<code>?=</code>来断言后面必须是用&lt;&gt;包起来或者没有&lt;&gt;,我们使用前向断言可以通过正则直接过滤掉不符合的(当然你可以用多个简单正则来做但是效率没有这个高),还有否定前向就是通过<code>?!</code>来声明.<br>相对应后向断言就是很简单了,直接在匹配后面使用一个<code>?&lt;=</code>(肯定后向)或<code>?&lt;!</code>(否定后向),不过要注意这个是判断前面匹配是否满足的.</p>
 <blockquote>
 <p>断言只是限定我们想选的文本的范围,他并不会被选择.<br>断言的一个有趣的应用就是选择字符间的空格,我们知道python其实假设每个字符间都一个空格(这就是我们有时候会选出一些空字符出来的原因),这个空格不是我们自己打上去的.</p>
-<h4 id="举个例子"><a href="#举个例子" class="headerlink" title="举个例子"></a>举个例子</h4><h3 id="两个字符串a1和a-1-第一个我们称为A-第二个我们称他为B-假如我们想把数字和字母分出来-对于B来说-很简单因为数字和字母之间有一个空格-我们可以直接使用字符自带的split就行-但是对于A来说-就不那么简单了"><a href="#两个字符串a1和a-1-第一个我们称为A-第二个我们称他为B-假如我们想把数字和字母分出来-对于B来说-很简单因为数字和字母之间有一个空格-我们可以直接使用字符自带的split就行-但是对于A来说-就不那么简单了" class="headerlink" title="两个字符串a1和a 1,第一个我们称为A,第二个我们称他为B,假如我们想把数字和字母分出来,对于B来说,很简单因为数字和字母之间有一个空格,我们可以直接使用字符自带的split就行,但是对于A来说,就不那么简单了."></a>两个字符串<code>a1</code>和<code>a 1</code>,第一个我们称为A,第二个我们称他为B,假如我们想把数字和字母分出来,对于B来说,很简单因为数字和字母之间有一个空格,我们可以直接使用字符自带的<code>split</code>就行,但是对于A来说,就不那么简单了.</h3><h4 id="字母a和数字1中间没有字符-我们必须把字母和数字之间的”空格”给选择出来-这时候就可以用到断言了"><a href="#字母a和数字1中间没有字符-我们必须把字母和数字之间的”空格”给选择出来-这时候就可以用到断言了" class="headerlink" title="字母a和数字1中间没有字符,我们必须把字母和数字之间的”空格”给选择出来,这时候就可以用到断言了."></a>字母a和数字1中间没有字符,我们必须把字母和数字之间的”空格”给选择出来,这时候就可以用到断言了.</h4></blockquote>
-<pre><code>r = re.compile(r&apos;(?&lt;=[a-z])(?=\d)&apos;) 
+</blockquote>
+<h4 id="举个例子"><a href="#举个例子" class="headerlink" title="举个例子"></a>举个例子</h4><h3 id="两个字符串a1和a-1-第一个我们称为A-第二个我们称他为B-假如我们想把数字和字母分出来-对于B来说-很简单因为数字和字母之间有一个空格-我们可以直接使用字符自带的split就行-但是对于A来说-就不那么简单了"><a href="#两个字符串a1和a-1-第一个我们称为A-第二个我们称他为B-假如我们想把数字和字母分出来-对于B来说-很简单因为数字和字母之间有一个空格-我们可以直接使用字符自带的split就行-但是对于A来说-就不那么简单了" class="headerlink" title="两个字符串a1和a 1,第一个我们称为A,第二个我们称他为B,假如我们想把数字和字母分出来,对于B来说,很简单因为数字和字母之间有一个空格,我们可以直接使用字符自带的split就行,但是对于A来说,就不那么简单了."></a>两个字符串<code>a1</code>和<code>a 1</code>,第一个我们称为A,第二个我们称他为B,假如我们想把数字和字母分出来,对于B来说,很简单因为数字和字母之间有一个空格,我们可以直接使用字符自带的<code>split</code>就行,但是对于A来说,就不那么简单了.</h3><h4 id="字母a和数字1中间没有字符-我们必须把字母和数字之间的”空格”给选择出来-这时候就可以用到断言了"><a href="#字母a和数字1中间没有字符-我们必须把字母和数字之间的”空格”给选择出来-这时候就可以用到断言了" class="headerlink" title="字母a和数字1中间没有字符,我们必须把字母和数字之间的”空格”给选择出来,这时候就可以用到断言了."></a>字母a和数字1中间没有字符,我们必须把字母和数字之间的”空格”给选择出来,这时候就可以用到断言了.</h4><pre><code>r = re.compile(r&apos;(?&lt;=[a-z])(?=\d)&apos;) 
 </code></pre><p>这个<code>r</code>就可以字母和数字直接的隐形空格给选择出来了</p>
 <h3 id="遗憾的是由于python的正则并不把隐形的空格当做字符-所以我们不能简单的使用正则的re-split方法-选择字符分割-直接将字符串分解开"><a href="#遗憾的是由于python的正则并不把隐形的空格当做字符-所以我们不能简单的使用正则的re-split方法-选择字符分割-直接将字符串分解开" class="headerlink" title="遗憾的是由于python的正则并不把隐形的空格当做字符,所以我们不能简单的使用正则的re.split方法(选择字符分割)直接将字符串分解开."></a>遗憾的是由于python的正则并不把隐形的空格当做字符,所以我们不能简单的使用正则的<code>re.split</code>方法(选择字符分割)直接将字符串分解开.</h3><h4 id="我们就得写几步"><a href="#我们就得写几步" class="headerlink" title="我们就得写几步"></a>我们就得写几步</h4><h3 id="第一先把空格换成-或其他"><a href="#第一先把空格换成-或其他" class="headerlink" title="第一先把空格换成 $$$(或其他)"></a>第一先把空格换成 $$$(或其他)</h3><pre><code>&gt;&gt;&gt; s = r.sub(&apos;$$$&apos;, &apos;a1&apos;)
 &gt;&gt;&gt; print(s)
@@ -1258,13 +1260,13 @@ VERBOSE  [简X]  --------------神器,会无视代码中的注释空格和换行
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>5.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>5 分钟</span>
             </span>
 
         </div>
@@ -1297,7 +1299,7 @@ assert(header-&gt;e_magic == ELF_MAGIC);
 <p><img src="/images/systemring.png" alt="系统环来源网络"></p>
 <p>PS：当然<code>CS</code>寄存器拿出来三位来当权限管理，但是xv6将第三位用户和内核都设置为1，所以我们也不介绍这一位</p>
 <p>我们在<code>CS</code>寄存器的这两位称为CPL，用来区分权限。在<a href="/2018/01/31/引导和操作系统的交互/">引导和操作系统的交互</a>这篇博客我们知道，在<code>x86</code>系统中，这个<code>CS</code>寄存器是标志段选择子，在<code>GDT</code>表中每个表项也有两位用来标志权限，我们称他们为<code>DPL</code>，他们的意义也就是<code>CS</code>寄存器选择这个段时他们最低拥有的权限。</p>
-<p>当然在<code>GDT</code>表中的段选择子也有一个表示权限的称作<code>RPL</code>，这三者的关系在这<a href="https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86" target="_blank" rel="external">里面</a>介绍的很详细，<code>RPL</code>是历史遗留问题但是操作系统基本上没有使用这个功能，所以这里我们也不解释，感兴趣可以看一下<a href="https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86" target="_blank" rel="external">前面</a>的介绍。</p>
+<p>当然在<code>GDT</code>表中的段选择子也有一个表示权限的称作<code>RPL</code>，这三者的关系在这<a href="https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86" target="_blank" rel="noopener">里面</a>介绍的很详细，<code>RPL</code>是历史遗留问题但是操作系统基本上没有使用这个功能，所以这里我们也不解释，感兴趣可以看一下<a href="https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86" target="_blank" rel="noopener">前面</a>的介绍。</p>
 <p>在<code>kern/env.c</code>的<code>结构体gdt</code>我们声明了一个<code>GDT</code>表，并且声明了一个系统段和用户段。</p>
 <p>这两个段就是我们权限的基础我们接下来通过实验来验证权限位对操作系统的保护</p>
 <p>我们首先在<code>user/badsegment.c</code>中加入一句汇编</p>
@@ -1312,7 +1314,7 @@ assert(header-&gt;e_magic == ELF_MAGIC);
 </code></pre><p>很简单x86共定义了256个中断向量，存在物理内存<code>0x000</code>-<code>0x3ff</code>之间，每个存贮一个<code>cs</code>值一个<code>eip</code>的值，这个n只要是在256直接就行，当调用这个的时候我们直接调到那里读取<code>cs</code>和<code>eip</code>的值。</p>
 <p>在正式介绍<code>Trap</code>之前我们要简单的介绍一下两个知识点</p>
 <h3 id="IRET"><a href="#IRET" class="headerlink" title="IRET"></a>IRET</h3><p>这是<code>iret</code>是一个机器码，我们前面介绍了无论是操作系统还是用户没有办法直接跳段（会引发<code>General Protection fault</code>），而且我们知道前面只是测试了跳代码段，我们知道两个不同的程序，不仅仅是代码段不同，堆栈段也要不同，才能保证各个程序的独立。所以系统为了解决这个问题，直接提供一个<code>iret</code>指令，这个全名应该叫<code>中断返回</code>，它的功能其实很简单，就是实现上面的跳代码段和堆栈段还有恢复<code>EFLAGS</code>寄存器值，这个主要应用在从系统跳转到用户上面。</p>
-<p>感兴趣的可以看看这个详细<a href="https://stackoverflow.com/questions/6892421/switching-to-user-mode-using-iret" target="_blank" rel="external">资料</a>，接下来我们看看在<code>xv6</code>里面如何使用<code>iret</code>来实现跳段</p>
+<p>感兴趣的可以看看这个详细<a href="https://stackoverflow.com/questions/6892421/switching-to-user-mode-using-iret" target="_blank" rel="noopener">资料</a>，接下来我们看看在<code>xv6</code>里面如何使用<code>iret</code>来实现跳段</p>
 <p>在<code>kern/env.c</code>的<code>env_pop_tf</code>函数实现了切换程序段的功能</p>
 <pre><code>asm volatile(
         &quot;\tmovl %0,%%esp\n&quot;
@@ -1350,7 +1352,7 @@ ts.ts_ss0 = GD_KD;
 </code></pre><p>这样我们在跳转的时候就能获取到内核的堆栈段，从而进入内核模式，当然硬件设定<code>TSS</code>的作用一开始为了考虑任务切换，它也提供了相应的指令，但是需要200左右时钟周期来完成，所以我们<code>xv6</code>嫌弃其速度太慢，只是使用了其保存内核堆栈地址的作用，所以在<code>xv6</code>中<code>TSS</code>只是一个“数据库”而已。</p>
 <hr>
 <p>介绍完前面的基础知识之后，接下来的就是这个<code>Trap</code>，前面我们知道在得到<code>int</code>这个指令时候这个时候就开始一个<code>Trap</code>开始。</p>
-<p>这个时候硬件接管程序控制，你也可以认为跳转到硬件代码去了。在给的<a href="https://pdos.csail.mit.edu/6.828/2016/xv6/book-rev9.pdf" target="_blank" rel="external">资料</a>第三章的<code>X86 Protection</code>里面介绍了这个过程，我们将前面几个步骤很我们前面给的资料联系起来</p>
+<p>这个时候硬件接管程序控制，你也可以认为跳转到硬件代码去了。在给的<a href="https://pdos.csail.mit.edu/6.828/2016/xv6/book-rev9.pdf" target="_blank" rel="noopener">资料</a>第三章的<code>X86 Protection</code>里面介绍了这个过程，我们将前面几个步骤很我们前面给的资料联系起来</p>
 <blockquote>
 <p>后面推寄存器值就不解释了，同<code>Trapframe</code>的反向结构相同，之所以会这样，是因为堆栈地址是向下生长，而程序地址是向上生长的</p>
 </blockquote>
@@ -1377,9 +1379,9 @@ ts.ts_ss0 = GD_KD;
 <h2 id="用户时间控制"><a href="#用户时间控制" class="headerlink" title="用户时间控制"></a>用户时间控制</h2><p>接下来的用户使用CPU时间设置也是通过这个这个<code>Trap</code>的中断实现，你可以理解为硬件在每个CPU上在每隔个<code>10ms</code>的时候就触发一个中断。这样到内核的时候，内核发现是时间中断，就保留用户的寄存器值到用户自己空间（<code>Env</code>里面有一个<code>env_tf</code>变量可以存贮这些信息），然后调用其他或者这个程序，这样的话，我们就实现了一个时间控制。</p>
 <p>PS：这里我们提一下这个<code>Env</code>结构体，内核初始化了1024个这个结构体，这说明我们可以同时拥有1024个用户程序运行，这个结构体就是用户环境，也就是我们在<code>Unix</code>系统上输入<code>ps</code>中的<code>pid</code>（每个<code>pid</code>代表一个程序）</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>至今我们介绍了通过一个简简单单的<code>Trap</code>操作就实现了复杂的权限管理和空间隔离，虽然操作系统看起来非常复杂，但其实都是由简单干练的概念搭建起来的，因为<code>Unix</code>的哲学就是<code>简单至上</code>。</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://stackoverflow.com/questions/6892421/switching-to-user-mode-using-iret" target="_blank" rel="external">https://stackoverflow.com/questions/6892421/switching-to-user-mode-using-iret</a></p>
-<p><a href="https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86" target="_blank" rel="external">https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86</a></p>
-<p><a href="https://en.wikipedia.org/wiki/Task_state_segment" target="_blank" rel="external">https://en.wikipedia.org/wiki/Task_state_segment</a></p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://stackoverflow.com/questions/6892421/switching-to-user-mode-using-iret" target="_blank" rel="noopener">https://stackoverflow.com/questions/6892421/switching-to-user-mode-using-iret</a></p>
+<p><a href="https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86" target="_blank" rel="noopener">https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86</a></p>
+<p><a href="https://en.wikipedia.org/wiki/Task_state_segment" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Task_state_segment</a></p>
 
       
     </div>
@@ -1438,13 +1440,13 @@ ts.ts_ss0 = GD_KD;
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>2.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -1457,7 +1459,7 @@ ts.ts_ss0 = GD_KD;
 
       
           <h2 id="概括"><a href="#概括" class="headerlink" title="概括"></a>概括</h2><blockquote>
-<p>这个问题主要在这本<a href="https://pdos.csail.mit.edu/6.828/2016/xv6/book-rev9.pdf" target="_blank" rel="external">xv6-ref</a>的第一章的练习题2中提出来</p>
+<p>这个问题主要在这本<a href="https://pdos.csail.mit.edu/6.828/2016/xv6/book-rev9.pdf" target="_blank" rel="noopener">xv6-ref</a>的第一章的练习题2中提出来</p>
 </blockquote>
 <p>问题如下</p>
 <pre><code>KERNBASE limits the amount of memory a single process can use, which might be irritating on a machine with a full 4 GB of RAM. Would raising KERNBASE allow a process to use more memory?
@@ -1563,13 +1565,13 @@ ts.ts_ss0 = GD_KD;
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>1.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>1 分钟</span>
             </span>
 
         </div>
@@ -1622,7 +1624,7 @@ ts.ts_ss0 = GD_KD;
 <li>tp[0] 存贮了pp -&gt; link 的地址（这个没有什么用）</li>
 </ol>
 </blockquote>
-<ol>
+<ol start="2">
 <li>A组第二个以及以后的内存页（page2）</li>
 </ol>
 <blockquote>
@@ -1697,13 +1699,13 @@ ts.ts_ss0 = GD_KD;
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span></span>
+              <span>2.3k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>NaN:aN</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -1716,9 +1718,9 @@ ts.ts_ss0 = GD_KD;
 
       
           <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本来自己查了很多资料，想自己写出来，结果下笔的时候发现别人已经把我想写的部分全部写出来了，而且比我想的还要具体，所以我就不写了，把链接放出了，顺便我补充一些</p>
-<p><a href="http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/" target="_blank" rel="external">http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/</a></p>
-<p><a href="http://leenjewel.github.io/blog/2015/05/26/%5B%28xue-xi-xv6%29%5D-jia-zai-bing-yun-xing-nei-he/" target="_blank" rel="external">http://leenjewel.github.io/blog/2015/05/26/%5B%28xue-xi-xv6%29%5D-jia-zai-bing-yun-xing-nei-he/</a></p>
-<h2 id="ELF文件"><a href="#ELF文件" class="headerlink" title="ELF文件"></a>ELF文件</h2><p>首先你要知道什么是ELF，可以看一下这篇<a href="https://my.oschina.net/u/864891/blog/87965" target="_blank" rel="external">博客</a>，简单来说就是编译完C后的机器码，前面加了一些数据表记录程序的分布情况</p>
+<p><a href="http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/" target="_blank" rel="noopener">http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/</a></p>
+<p><a href="http://leenjewel.github.io/blog/2015/05/26/%5B%28xue-xi-xv6%29%5D-jia-zai-bing-yun-xing-nei-he/" target="_blank" rel="noopener">http://leenjewel.github.io/blog/2015/05/26/%5B%28xue-xi-xv6%29%5D-jia-zai-bing-yun-xing-nei-he/</a></p>
+<h2 id="ELF文件"><a href="#ELF文件" class="headerlink" title="ELF文件"></a>ELF文件</h2><p>首先你要知道什么是ELF，可以看一下这篇<a href="https://my.oschina.net/u/864891/blog/87965" target="_blank" rel="noopener">博客</a>，简单来说就是编译完C后的机器码，前面加了一些数据表记录程序的分布情况</p>
 <p>为了帮助我们逆向分析这些代码有什么，我们必须要借助两个工具</p>
 <ul>
 <li>objdump</li>
@@ -1754,7 +1756,7 @@ ELF Header:
   Size of section headers:           40 (bytes)
   Number of section headers:         9
   Section header string table index: 6
-</code></pre><p>我们读取了一下生成的<code>elf</code>文件头部，我们可以看到<code>Entry point address</code>这个字段，就是我们设定的<code>0x7c00</code>，要了解这个地址的含义我们必须知道虚拟地址和物理地址的区别，可以看一下这篇<a href="http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/" target="_blank" rel="external">博客</a>，接着我们看一下反汇编的汇编代码<code>obj/boot/boot.asm</code>中，我们知道现在<code>0x7c00</code>代表程序把自己当做在内存上的真实内存上面，但是不一定会真的存在这块上，所以我们称它为虚拟的</p>
+</code></pre><p>我们读取了一下生成的<code>elf</code>文件头部，我们可以看到<code>Entry point address</code>这个字段，就是我们设定的<code>0x7c00</code>，要了解这个地址的含义我们必须知道虚拟地址和物理地址的区别，可以看一下这篇<a href="http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/" target="_blank" rel="noopener">博客</a>，接着我们看一下反汇编的汇编代码<code>obj/boot/boot.asm</code>中，我们知道现在<code>0x7c00</code>代表程序把自己当做在内存上的真实内存上面，但是不一定会真的存在这块上，所以我们称它为虚拟的</p>
 <p>首先我们了解一个系统知识，因为电脑启动后会按照启动盘顺序，把每个盘第一个扇形区512B取出来，如果最后两个字节为<code>0xAA55</code>的话就把它放到内存上面的<code>0x7c00</code>上去，我们看一下我们生成的<code>obj/boot/boot</code></p>
 <p>使用<code>hexdump obj/boot/boo</code>可以看到（我把最后一行复制出来）</p>
 <pre><code>00001f0 0000 0000 0000 0000 0000 0000 0000 aa55
@@ -1766,9 +1768,9 @@ ELF Header:
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>后面将核心加载到内存，上面的给出资料写的很详细，我就不多说，只不过由于当前<code>2014</code>的版本同资料有点不同，这里我提一下</p>
 <p>当前版本是将内核头加载在<code>0x10000</code>上，然后在把内核代码加载到<code>0x100000</code>上（前面4个0，后面5个0，我当初看错了，百思不得其解），并将内核地址映射到<code>f0100000</code>上。</p>
 <p>由于资料给的操作系统与2016的操作系统实现细节有点不同，其中最主要的就是一个很重要的<code>KERNBASE</code>常量值由<code>0x80000000</code>变成<code>0xf0000000</code>，这个变量牵扯到了在给出的<code>book-rev8.pdf</code>资料中第一章的最后一个问题，我就把我对这个问题的思考放到这篇<a href="/2018/02/19/KERNBASE对操作系统的影响/">文章</a>中。</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/" target="_blank" rel="external">http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/</a></p>
-<p><a href="https://my.oschina.net/u/864891/blog/87965" target="_blank" rel="external">https://my.oschina.net/u/864891/blog/87965</a></p>
-<p><a href="http://bochs.sourceforge.net/techspec/PORTS.LST" target="_blank" rel="external">端口信息</a></p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/" target="_blank" rel="noopener">http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/</a></p>
+<p><a href="https://my.oschina.net/u/864891/blog/87965" target="_blank" rel="noopener">https://my.oschina.net/u/864891/blog/87965</a></p>
+<p><a href="http://bochs.sourceforge.net/techspec/PORTS.LST" target="_blank" rel="noopener">端口信息</a></p>
 
       
     </div>
@@ -1863,7 +1865,7 @@ ELF Header:
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-count">28</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1905,12 +1907,12 @@ ELF Header:
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">NaNm</span>
+    <span title="站点总字数">232k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">NaN:aN</span>
+    <span title="站点阅读时长">3:31</span>
 </div>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.1
   </div>
