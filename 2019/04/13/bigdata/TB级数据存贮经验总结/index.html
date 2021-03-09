@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/wx2.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/wx2.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/wx2.png">
+  <link rel="mask-icon" href="/img/wx2.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://mrzhangboss.github.io').hostname,
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.7.1',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="项目背景  这个项目是深圳一家证卷公司一个TB级日志离线导入项目，当数据达到10T左右的时候，他们的存贮架构以及检索系统直接奔溃，在朋友的推荐下，我负责对这个项目进行整体的重构以及优化，对于我一个大数据新手来说这是一个挑战也是一个学习的机会，最终幸不辱命最终完成了系统的优化，由原来的48小时导入优化至7个小时，并且提供亚秒级的查询检索，下面就是我对这个项目的总结 历史方案介绍 集群架构  集群由">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TB级数据存贮经验总结">
+<meta property="og:url" content="https://mrzhangboss.github.io/2019/04/13/bigdata/TB级数据存贮经验总结/index.html">
+<meta property="og:site_name" content="小轮子的笔记">
+<meta property="og:description" content="项目背景  这个项目是深圳一家证卷公司一个TB级日志离线导入项目，当数据达到10T左右的时候，他们的存贮架构以及检索系统直接奔溃，在朋友的推荐下，我负责对这个项目进行整体的重构以及优化，对于我一个大数据新手来说这是一个挑战也是一个学习的机会，最终幸不辱命最终完成了系统的优化，由原来的48小时导入优化至7个小时，并且提供亚秒级的查询检索，下面就是我对这个项目的总结 历史方案介绍 集群架构  集群由">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-03-09T12:01:40.659Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TB级数据存贮经验总结">
+<meta name="twitter:description" content="项目背景  这个项目是深圳一家证卷公司一个TB级日志离线导入项目，当数据达到10T左右的时候，他们的存贮架构以及检索系统直接奔溃，在朋友的推荐下，我负责对这个项目进行整体的重构以及优化，对于我一个大数据新手来说这是一个挑战也是一个学习的机会，最终幸不辱命最终完成了系统的优化，由原来的48小时导入优化至7个小时，并且提供亚秒级的查询检索，下面就是我对这个项目的总结 历史方案介绍 集群架构  集群由">
+
+<link rel="canonical" href="https://mrzhangboss.github.io/2019/04/13/bigdata/TB级数据存贮经验总结/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>TB级数据存贮经验总结 | 小轮子的笔记</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小轮子的笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/mrzhangboss" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2019/04/13/bigdata/TB级数据存贮经验总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小轮子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          TB级数据存贮经验总结
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-04-13 00:00:00" itemprop="dateCreated datePublished" datetime="2019-04-13T00:00:00+08:00">2019-04-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:01:40" itemprop="dateModified" datetime="2021-03-09T20:01:40+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/大数据/" itemprop="url" rel="index">
+                    <span itemprop="name">大数据</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>3.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>项目背景</p>
+</blockquote>
+<p>这个项目是深圳一家证卷公司一个TB级日志离线导入项目，当数据达到10T左右的时候，他们的存贮架构以及检索系统直接奔溃，在朋友的推荐下，我负责对这个项目进行整体的重构以及优化，对于我一个大数据新手来说这是一个挑战也是一个学习的机会，最终幸不辱命最终完成了系统的优化，由原来的48小时导入优化至7个小时，并且提供亚秒级的查询检索，下面就是我对这个项目的总结</p>
+<h2 id="历史方案介绍"><a href="#历史方案介绍" class="headerlink" title="历史方案介绍"></a>历史方案介绍</h2><blockquote>
+<p>集群架构</p>
+</blockquote>
+<p>集群由8台高性能服务器组成，其中两台负责接收历史日志包，两台提供ES和Spark服务，其他四台提供HDFS存贮服务，总存贮量在200TB，其中我们导入主要在两台高性能服务器上面，每台内存256GB，总计512G内存</p>
+<blockquote>
+<p>历史方案</p>
+</blockquote>
+<p>原来的解决方案是日志被解析完成之后导入两份数据分别存贮到ElasticSearch（下面简称ES）和Kafka之中，其中存贮到Kafka之中的数据会被Spark读取，然后写入到HBase</p>
+<h2 id="架构优化"><a href="#架构优化" class="headerlink" title="架构优化"></a>架构优化</h2><h3 id="读取和存贮优化"><a href="#读取和存贮优化" class="headerlink" title="读取和存贮优化"></a>读取和存贮优化</h3><p>历史解决方案对日志数据的存贮是一个并行化的，但是由于项目对数据准确性要求严格，假如其中ES导入或者HBase导入失败之后，所以的数据都得重新生成，但是原来架构不提供删除HBase数据的功能（能实现但是不能检测是否删除），所以在读取方面我丢弃使用Kafka并行导入的方案，待ES导入完成并且校对完成后再从ES中获取数据导入到HBase中</p>
+<p>原来的导入是直接使用HBase提供的Put方案，单个插入到HBase当中，由于我们一次导入的量多的话大概在10个亿左右，虽然HBase能够承受住压力但是由于行键设计导致会造成region的”脑裂”，原来解决方案为了避免这个现象进行了region的预分配，由于这个预分配导致了另外的一个Bug，后面会提到。所以为了提高导入效率和避免脑裂，我采用了HBase的Bulk Load将数据直接”存”至HBase</p>
+<hr>
+<p>回头看看，其实大数据解决方案非常简单，当我刚接触项目的时候，在看原来的解决方案，惊讶的发现他们的代码其实非常简单，就像教程里面的demo一样，但是随着在实际接触这个”大”数据的过程中，大数据考验的是你代码的”结实”，能不能扛的住，什么花里胡哨的骚操作都没有，所以大数据的代码非常简洁质朴，如果说那些优雅的代码是面对对象的话，那么大数据的代码就是面对数据的。所以我接下来也不谈大数据框架，谈一谈我在这个项目中学到的大数据处理经验</p>
+<h2 id="提高处理速度"><a href="#提高处理速度" class="headerlink" title="提高处理速度"></a>提高处理速度</h2><blockquote>
+<p>读取速度</p>
+</blockquote>
+<p>大数据处理最核心的点就是分而治之，也就是我们常说的<code>MapReduce</code>中<code>Map</code>，无论数据有多大，只要我们分的够小，每一份我们计算机都很很快处理，那么我同时运行这些，意味着我就能在一个很短的时间内跑一个巨大的数据。</p>
+<p>由于我们是从ES中读取数据，ES的Map的个数是由分片（shards）来控制的ES的分片默认是十片（5个原始5个备份），假如我们采用默认设置，我们读取数据Map的大小最大为10（具体跟你给的Container大小和每个核心数的大小有关，给足的话就是10），这里要谈一下这个项目中的分片设计，分片这个东西对于每一个Index来说，不是越多越好，越多读取速度快，但是写入慢，反之。所以这个项目使用别名的方法来保证分片不会膨胀，当一个Index数据大于20GB的时候，会自动新建一个别的Index，比如原来是<code>es _index_0</code>，写满20G后，再新建一个 <code>es_index_1</code>，然后把新数据导入到里面去，然后每个Index固定分片为4片，这样所有的数据会均匀的分布到ES中去</p>
+<p>这种解决方法带来一个问题就是，我们获取数据的时候只能通过<code>es_index_*</code>，而且我们的ES中每次导入的<code>Map.size</code>只能是4，所以无论给<code>Spark</code>任务多少个<code>Container</code>多少个核心，他的Task任务最大也就是4个，一开始我一直在琢磨是否能够提高这个Task来加速数据读取，我尝试使用ES时间索引把数据切分成多份，并行跑多个Spark任务，但是无论我并行多少个，从ES一个月导出来时间总和单个Spark任务读取速度一致</p>
+<p>出现这个问题的原因主要是磁盘的性能关系，由于Bulk Load有一个很重要的部分就是Shuffle排序，所以数据在导入HBase之前一定会落盘，所以读取由两个条件限制，ES的获取速度和磁盘写入速度，由于ES读取速度也跟磁盘读取速度有关，所以读取基本上由磁盘的性能有关，由于集群Spark跑在机械硬盘上，除非换SSD否则在软件上优化无法取得较大的收益</p>
+<p>所以我放弃在读取上面优化，接下来介绍我在处理上面的优化</p>
+<blockquote>
+<p>处理速度</p>
+</blockquote>
+<p>其实导入到HBase的原理非常简单，只要使用Spark生成一个HFile然后调用HRegion将数据导入到HBase中去，HFile你可以看着一个排序好的文件，但是如何将1TB数据排序并在内存中生成HFile文件（可能比1TB小如果采用压缩的话，不压缩比原始文件要大得多）这个步骤就很复杂了</p>
+<p>Spark作为大数据界的神兵利器，处理PB级的数据也不在话下，但是怎么处理呢，简单来说就是三个和尚挑水，现在缸很大，但是和尚很多，如果要像迅速把缸里的水挑完，那就让很多和尚通力合作，同时去挑，但是如果里面10个和尚，9个是不干活，只有一个挑水，那么这个任务就花很长时间来完成，这个就是我们说的数据倾斜</p>
+<p>所以其实提高处理速度的方法只有一个把任务均分给CPU每个核心，接下来我就这个项目来谈一谈我遇到的数据倾斜问题</p>
+<p>首先我们要知道一个前面我们讲了Spark作为大数据上的神兵利器，他不会假设用户内存能装下所有的数据，但是用户的磁盘一定能装下所有的数据，我们其实要Spark做的最主要的一件事就是对数据的RowKey（HBase的行键）进行排序，然后把排好序的文件导入到HBase中，排序这个东西最主要的是要把所有的数据都放到一起排一遍，也就是说1个T的数据至少都得放到内存或者磁盘里面来进行排序</p>
+<p>我们接下来缕缕Spark处理数据的流程，其实你可以在UI界面上看到所以的stage，前面读取数据算一个Map stage，接下来我们要完成，排序的stage，还有保存数据的stage，按照正常流程，每个stage都会做一个Shuffle，也就是理论上我们总共要做两次Shuffle，然而TB级数据的Shuffle在机械硬盘上的速度非常慢（相比SSD），所以我们就的优化Shuffle过程</p>
+<p>我们先来谈一下一个正常大数据的排序怎么样，我们用打擂台来打比方，首先我们将所有选手分成10个小组，等小组赛打完，所以等小组都分好名次，然后我们搞一个10个人的擂台，小组第一名全部上擂台打比赛，打完决定出第一名，第一名成为擂主出擂台，然后这个时候再从其他其他小组中找一个积分最高的上来，继续打擂台，打完再找出第一名，继续上面的循环，最后每个人都出了擂台，名次也排练出来了</p>
+<p>这个排序方法是Spark早期使用的方法，这个方法可以面对超大数据，假设数据有10个T，我只有1M内存，我也能完成数据的排序，只是每次排1M，然后写文件，这种方式可以面对海量数据，但是有一个弊端，在排完序后每次必须要把所有的文件全部都打开读取”第一名”，也就是说我们做完一次Map之后，还的进行一次Reduce</p>
+<p>那怎么来去掉这个Reduce呢，考虑这种情况，我们在分组的时候，由一个”裁判”把每个人公正的计算他原来的历史积分在什么档次，然后把他分在那个档次的组，等所有组打完，排名就出来了，你属于哪个档第几名，也就知道你的排名了</p>
+<p>这个方法就是预先评估你的组数，但是这个也有一个问题，假如选手水平层次不齐，强者太少，弱者太多，那么有些组非常多的人打比赛，有的组没有人打比赛，这样，最后总耗时是那个人最多的小组的时间</p>
+<p>接下来我们回到上面的Shuffle过程，如果我们把那个排序过程使用上面的预估方法，那么我们就能在减少一次Shuffle过程，但是这个也带来了一个风险，就是预估如果失败（HBase会加载HFile失败）或者预估不均会导致运行异常</p>
+<p>所以我采用Spark提供的<code>sortWithinPartitions</code>方法来ES数据进行一个分区并排序，分区的方法是通过账号ID来进行，很不幸线上数据部分账号异常，一个月某些账号占了总数的40%左右，这个就导致我们预估不均，那如何来解决这个问题呢，解决方案由很多，由于我们数据只有少量资金账户异常，所以我们采用最简单的方案，分多批次跑，每个任务分剔除大账户的部分，其他的任务就是单个大账户单独跑，得益ES强大的统计功能，只需要执行几次HTTP请求就能完成设计</p>
+<hr>
+<p>至此整个数据优化导入部分就说完了，当然还有其他优化的地方没有讲，比如使用堆外内存加速排序，使用更大的Shuffle cache优化写入，切分更小的块避免磁盘split …..</p>
+<p>PS：亚秒级的查询主要通过Spark一个聚合生成HBase一张小表来实现，当然也可以使用MySql这些关系型数据库</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>记得我以前去面试大数据岗位的时候，我问面试官怎么才能提高自己大数据能力，他说必须要通过实践才能体会，经过这次项目我也感受到了，只有真正的面对大数据，你才能提高自己的大数据能力，小数据一下子就跑完了，完全体会不到内存OOM的”乐趣”，大数据的难点在于了解数据如何被处理，以及对大数据各个组件“协作”对经验。</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>原创技术分享，您的支持将鼓励我继续创作</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechat_pay.jpg" alt="张伦 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.jpeg" alt="张伦 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+            <div class="social-item">
+              <a target="_blank" class="social-link" href="/atom.xml">
+                <span class="icon">
+                  <i class="fa fa-rss"></i>
+                </span>
+
+                <span class="label">RSS</span>
+              </a>
+            </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/03/17/summary/book/重构-总结/" rel="prev" title="重构-总结">
+      <i class="fa fa-chevron-left"></i> 重构-总结
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/05/05/ai/推荐系统微博数据实战/" rel="next" title="推荐系统微博数据实战">
+      推荐系统微博数据实战 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#历史方案介绍"><span class="nav-number">1.</span> <span class="nav-text">历史方案介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#架构优化"><span class="nav-number">2.</span> <span class="nav-text">架构优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#读取和存贮优化"><span class="nav-number">2.1.</span> <span class="nav-text">读取和存贮优化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#提高处理速度"><span class="nav-number">3.</span> <span class="nav-text">提高处理速度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="张伦"
+      src="/images/myself.jpg">
+  <p class="site-author-name" itemprop="name">张伦</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">97</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mrzhangboss" title="GitHub → https://github.com/mrzhangboss" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/xiaolunzi6@gmail.com" title="E-Mail → xiaolunzi6@gmail.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张伦</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">233k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:32</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+  <script defer src="/lib/three/three.min.js"></script>
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: 'a1640c4cb3df144d5622',
+      clientSecret: '1e1b46413b757ba7dc67d4d621a8bfbbea1f3f80',
+      repo: 'comments',
+      owner: 'mrzhangboss',
+      admin: ['mrzhangboss'],
+      id: '55cbfdd126b85140289f1cff511c1d97',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

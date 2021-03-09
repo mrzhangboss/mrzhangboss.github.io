@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/wx2.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/wx2.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/wx2.png">
+  <link rel="mask-icon" href="/img/wx2.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://mrzhangboss.github.io').hostname,
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.7.1',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="基于:大航杯“智造扬中”电力AI大赛参赛经验  赛题背景   主办方为大航集团提供21个月江苏省杨中市1454家企业日用电量,来估计下一个月日总用电量  从给的数据分析,这次给的数据只有历史企业日用电量,用来估计日总用电量,是一个典型的时域分析问题 但是这同我们以往的时序问题不一样,向往常时序问题预测的是每个企业的未来每日的用电量,而这个比赛却是求全部企业的总数. 由于我报名比赛时候比较晚,比赛已">
+<meta name="keywords" content="比赛">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何搭建自动生成上万特征的管道">
+<meta property="og:url" content="https://mrzhangboss.github.io/2017/06/13/ai/competition/大航杯“智造扬中”电力AI大赛参赛经验/index.html">
+<meta property="og:site_name" content="小轮子的笔记">
+<meta property="og:description" content="基于:大航杯“智造扬中”电力AI大赛参赛经验  赛题背景   主办方为大航集团提供21个月江苏省杨中市1454家企业日用电量,来估计下一个月日总用电量  从给的数据分析,这次给的数据只有历史企业日用电量,用来估计日总用电量,是一个典型的时域分析问题 但是这同我们以往的时序问题不一样,向往常时序问题预测的是每个企业的未来每日的用电量,而这个比赛却是求全部企业的总数. 由于我报名比赛时候比较晚,比赛已">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://mrzhangboss.github.io/images/electric_power_ai.jpg">
+<meta property="og:updated_time" content="2021-03-09T11:55:42.302Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何搭建自动生成上万特征的管道">
+<meta name="twitter:description" content="基于:大航杯“智造扬中”电力AI大赛参赛经验  赛题背景   主办方为大航集团提供21个月江苏省杨中市1454家企业日用电量,来估计下一个月日总用电量  从给的数据分析,这次给的数据只有历史企业日用电量,用来估计日总用电量,是一个典型的时域分析问题 但是这同我们以往的时序问题不一样,向往常时序问题预测的是每个企业的未来每日的用电量,而这个比赛却是求全部企业的总数. 由于我报名比赛时候比较晚,比赛已">
+<meta name="twitter:image" content="https://mrzhangboss.github.io/images/electric_power_ai.jpg">
+
+<link rel="canonical" href="https://mrzhangboss.github.io/2017/06/13/ai/competition/大航杯“智造扬中”电力AI大赛参赛经验/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>如何搭建自动生成上万特征的管道 | 小轮子的笔记</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小轮子的笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/mrzhangboss" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2017/06/13/ai/competition/大航杯“智造扬中”电力AI大赛参赛经验/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小轮子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          如何搭建自动生成上万特征的管道
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-06-13 18:56:31" itemprop="dateCreated datePublished" datetime="2017-06-13T18:56:31+08:00">2017-06-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 19:55:42" itemprop="dateModified" datetime="2021-03-09T19:55:42+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/" itemprop="url" rel="index">
+                    <span itemprop="name">人工智能</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>4.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>基于:大航杯“智造扬中”电力AI大赛参赛经验</p>
+<p><img src="/images/electric_power_ai.jpg" alt="大航杯AI大赛"></p>
+<p>赛题背景</p>
+<blockquote>
+<p> 主办方为大航集团提供21个月江苏省杨中市1454家企业日用电量,来估计下一个月日总用电量</p>
+</blockquote>
+<p>从给的数据分析,这次给的数据只有历史企业日用电量,用来估计日总用电量,是一个典型的时域分析问题</p>
+<p>但是这同我们以往的时序问题不一样,向往常时序问题预测的是每个企业的未来每日的用电量,而这个比赛却是求全部企业的总数.</p>
+<p>由于我报名比赛时候比较晚,比赛已经接近尾声,比赛5月18号开始,6月8号中午切换数据,13号截止,我6月8号晚上下载数据,由于我以前已经做了几个类似的比赛,但是一直没有系统的做一个,抱着锻炼的自己的态度,决定系统做一次,权当练手.</p>
+<p>首先分析一下提交的结果,预测一个月的日总用电量,总共为31个数据,给的历史数据只有21个月的,按月的比例来看,只有21个值去训练值去预测一个值,根据往常的比赛经验来看,这种比赛适合使用规则方法来做,然而我剩下的验证机会不多了,只能用模型,但是过拟合的危险非常大,如果不能找到一个好的方法克服过拟合,复赛都进不去.</p>
+<p>当然最后还是没有找到一个很好的办法,止步于复赛,不过这次比赛让我学到很多,主要通过这次比赛自己琢磨出来自己如何搭建基于<code>IPython Notebook</code>的管道结构,这个管道帮我自动生成上万特征.</p>
+<h2 id="管道"><a href="#管道" class="headerlink" title="管道"></a>管道</h2><blockquote>
+<p>什么是管道,在数据挖掘比赛中很多大神都着重讲了一定要搭建一个自动化的架构,我们暂且称他为”管道”,这个”管道”我们要能够把数据倒进去,结果倒出来.</p>
+</blockquote>
+<p>这个管道用专业的术语来看要有以下几个功能</p>
+<ul>
+<li>能够自由添加<code>Feture</code></li>
+<li>能够自动评判得到添加的<code>Feture</code>的效果</li>
+<li>管道能够自己选择合适的参数训练模型</li>
+<li>能够输出结果</li>
+</ul>
+<p>其实简单来说,我们要做的是一个能够非常方便的扩展的脚手架,我们不可以第一次就把所以的特征全部找出来,所以我们要搭建一个能够实时添加<code>Feture</code>的框架.</p>
+<p>其实很早以前就看过类似文章,也有很多人推荐<a href="https://github.com/ChenglongChen/Kaggle_HomeDepot" target="_blank" rel="noopener">大神开源的一个脚手架</a>,然而找到的大多是用<code>python</code>实现</p>
+<p>我因为一开始就是使用<code>Notebook</code>进行数据挖掘,主要<code>Notebook</code>能够提供一个实时的反馈,而纯<code>python</code>,对于复杂多变的数据来说,显得非常笨重,你经常有个好想法想验证一下,又得重新跑一遍,尤其是对于我的机器配置来说,重新跑一边的时间都够我喝杯茶了.而且<code>notebook</code>有个特点,可视化特别方便,有时候从数据上看不到,可以画个图表</p>
+<p>好了,夸了这么久,现在就来仔细讲讲脚手架如何搭建.</p>
+<p>我们先回到赛题,第一步审题,当时我看到日平均两个字,直接把日字省略,看成平均用电量,结果白白浪费了两个验证机会…..</p>
+<p>审完了题我们来看我们要提交的数据,换数据后要预测十月日用电总量.我们来看看给我们数据,只有一份数据,表头如下</p>
+<pre><code>record_date,user_id,power_consumption
+2015/1/1,1,1135
+2015/1/2,1,570
+2015/1/3,1,3418
+2015/1/4,1,3968
+2015/1/5,1,3986
+</code></pre><p>解释一下字段,<code>record_date</code>–日期,<code>user_id</code>–企业id, <code>power_consumption</code>–日用电量<br>非常简单,就这么简单单单的数据,我现在要教大家怎么从这么简单的数据上抽取6000维度的</p>
+<p>我把代码已经推到<code>Github</code>上了(由于数据比较少,我把数据也推上去了,方便大家本地跑跑,看完如果对你有帮助的话,请不要吝啬你的star哦),我就对照我的代码解释如何搭建一个可以跑出上万维度的脚手架</p>
+<h2 id="数据划分-split-samples-ipynb"><a href="#数据划分-split-samples-ipynb" class="headerlink" title="数据划分(split_samples.ipynb)"></a>数据划分(<code>split_samples.ipynb</code>)</h2><p>首先要搭建本地预测集,也就是线下样本(这个很重要,有时候线下的结果很大程度对应你线上的结果)</p>
+<p>给的数据要我们从前面21个月预测下一个月的日总用电量,我们很容易就能想到,那我们用前面20个月预测第21个月来做线下测试,但是这样我们就只有30个训练样本,要来预测30个,99.999%过拟合啊,首先我们要扩大样本,我们采用滑动移窗的方法把预测的样本按照月份推移,也就是分别预测9月8月7月等等</p>
+<p>这种方法在实现<code>Notebook</code>有几个难点,首先你划分了预测集,那么就也要划分训练集,就相当于把一份数据切分成好几份,切分完之后有个问题,你必须要隔离每个部分</p>
+<p>举个例子,我们把训练集划分成为2份,1月到7月预测8月,2月到8月预测9月,训练1-7月数据集的时候,我们不能让这个训练集接触到2月到8月的数据,因为8月对于前一个训练集来说是未知的,<br>如果我们让第一个训练集接触倒第二个训练集我们称为信息泄露,很影响线上的结果</p>
+<p>我们知道这个问题之后,我们就要用巧妙的方法来解决,首先我们要考虑我们代码的复杂度,以前我的解决训练集隔离的方法采用的是循环法,使用一个列表存贮所以训练集,然后使用<code>for</code>循环分别传参到函数里面,这个方法能解决隔离训练集,但是有几个问题</p>
+<p>在单个<code>ipy</code>文件中训练所以的样本,在测试的时候跑起来太慢,而且要把数据全部加载在内存里面,这次数据量还算小,但是对于某些小内存的电脑来说,这种方法时不时就得报<code>Memory Error</code>,而且感觉调试起来特别麻烦,所以一直在寻找更好的解决方案.</p>
+<p>这次想到了一种巧妙的方法,虽然有点取巧但是效果我很满意.</p>
+<p>我们先看到<code>split_samples.ipynb</code>文件,首先我把数据划分为9个样本,一个预测样本.分别放入不同文件夹进行物理隔离.但是名字相同.</p>
+<p>再其次我让<code>ipy</code>能够获取参数,这样我通过外部参数就能更换数据集,平常添加<code>Feture</code>的时候默认选取一个训练集,这样我开发的时候调试就非常方便,而且可以丢掉<code>for</code>循环,还我一个清新脱俗的<code>ipy</code>.</p>
+<p>这里说一个小细节,因为我传参必须要外部调用这种,对于运行<code>ipy</code>我使用了<code>runipy</code>这个工具,然后我死活没有找到,如何使用<code>runipy</code>把参数传倒<code>ipy</code>里面去的方法(如果找到了请告诉我),我一拍脑袋那就转换成<code>py</code>文件传过去,通过<code>sys.argv</code>很轻松就能获取到,所以我又用<code>jupyter nbconvert</code>的工具把<code>ipy</code>转换成<code>py</code>文件</p>
+<p>所以绕了一圈最后又回到了<code>py</code>上(手动滑稽).不过我们工作还是在<code>ipy</code>上进行,生成的<code>py</code>文件我好像没打开过….</p>
+<h2 id="特征提取-extract-fetures-ipynb"><a href="#特征提取-extract-fetures-ipynb" class="headerlink" title="特征提取(extract_fetures.ipynb)"></a>特征提取(<code>extract_fetures.ipynb</code>)</h2><p>聊完如何划分数据集,现在我们进入如何特征提取,我们可以看到这次数据其实就三个特征:时间-企业-用电量.由于企业的信息只有一个<code>id</code>,所以我首先提取的是时序的特征,首先把时间分解为八个维度</p>
+<ul>
+<li>dayofweek</li>
+<li>dayofyear</li>
+<li>days_in_month</li>
+<li>quarter</li>
+<li>week</li>
+<li>weekofyear</li>
+<li>month</li>
+<li>year</li>
+</ul>
+<p>我们可以通过<code>pandas</code>轻松提取出来</p>
+<p>然后我们再从两个方向来看,第一个就是我们日总用电量特征,从全部企业日总用电量</p>
+<p>第二个就是日用电量特征,从每个企业日用电量来看,这些特征我们使用简单统计又可以得到10个维度数据(mean,std,等等)</p>
+<p>看完这些之后我们又可以从多个时间维度来看这些特征,比如30天前,90天前等等(我划分了30,60, 90,180,360五个),</p>
+<p>这样我们就有了 <code>8 * 2 * 5 * 10</code>个特征,但是这远远达不到我们说的上万维度,</p>
+<p>现在我们从业务逻辑上来思考,因为我们知道,其实我们中国节假日和周末,天气这些对用电量影响非常大(我们老家打雷就停电…..)</p>
+<p>所以我们要引入外部数据集,我采用两个爬虫分别是<code>weather_crawl,holiday_crawl</code>爬取了天气和节假日的数据</p>
+<p>我们按照前面的思路,从天气节假日的角度又可以划分出n多特征(这时候我的特征已经达到3000了)</p>
+<p>完了这些基础特征后,我发现有些特征重要性特别大(使用<code>Randomforest</code>得到),这时候我们又要请出我们第二大神器,交叉特征,比如月和假期的特征融合,这一波操作直接让我的特征到了6000+维度(如果将窗口扩大轻轻松松上万)</p>
+<p>在这里要介绍一个特征生成的方法,有时候我们特征少,我们会采用自己命名的,自己生成,然后这个由于规律性比较大,<br>如果我们自己手动一个一个写的话,这上万<code>Fetures</code>够你写的,所以要让他自己生成特征,我们只要建好模子就行,由于这次<br>时间仓促,基本上我没有自己手动命名<code>feture</code>,全部都由程序生成,省掉很多代码量,具体可以看看代码实现,原理很简单.</p>
+<h1 id="训练模型-train-model-ipynb"><a href="#训练模型-train-model-ipynb" class="headerlink" title="训练模型(train_model.ipynb)"></a>训练模型(<code>train_model.ipynb</code>)</h1><p>训练模型的话,一般比赛都推荐先使用树模型,一方面速度快,第二个可以看到<code>feture</code>的重要性,这对于你挑选交叉特征非常有用,模型调参的我这里就不讲,一方面我自己也不是很懂,第二个方面也网上教程也多,我讲的不一定比他好</p>
+<p>这里要推荐一个发现有趣的包,<code>mlxtend</code>,我用他来进行<code>stacking</code>特别方便,有意思的时,我用他融合了四个模型,最后我的训练结果竟然为1,完全拟合了……</p>
+<p>这个包可以很简单的进行模型的<code>stacking</code>,然而这个比赛我没有把他用好(手动滑稽)</p>
+<p>通过训练模型后我们把模型存到<code>pkl</code>文件中,然后在用他来预测数据,这样在文件夹里转一圈的原因,因为原来打过部分比赛数据量太大,训练模型后内存不足,只能先<code>del</code>,清空内存,再预测,存到文件夹后,结束进程,清空内存,这样就能省下空间来读取下一步数据.</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>其实在这个脚手架上可以扩展很多东西,比如最后搏一搏单车变摩托的时候,我就在分割数据和训练数据之间加了一个过滤清洗数据层,在训练模型和融合特征之间加了一个降维的中间层.</p>
+<p>建立一个好的脚手架只是能让你在增添特征,选择特征时更加轻松,其实比赛看的还是你对数据的一种掌控力,建立这个脚手架主要是为了节省更多时间给提取特征、选择特征上.特征决定你的上限.</p>
+<p>这次比赛比较特殊,模型在这个比赛效果可能没有规则好,因为数据量太小,我<code>stacking</code>一下直接完全拟合了.可惜验证的次数还是<br>太少,除去前面两次错误的提交,我只有三次验证机会,如果次数多一点的话,选择特征降维或者模型调参一下遏制拟合结果可能会好很多吧.</p>
+<p>但是这次比赛自己学到了如何搭一个<code>ipy</code>的管道和增加了一些特征调参、特征降维的经验。因为以前看到的搭建管道资料都是基于<code>py</code>,很少基于<code>ipy</code>的,所以把自己搭建<code>ipy</code>管道经验分享出来,也希望自己写的这篇博文能够抛砖引玉,帮助大家搭建自己的完美管道.</p>
+<p>附上我的<a href="https://github.com/mrzhangboss/electricAI" target="_blank" rel="noopener">开源示例</a>:  <a href="https://github.com/mrzhangboss/electricAI" target="_blank" rel="noopener">https://github.com/mrzhangboss/electricAI</a><br>大家觉得有帮助就给我点个star吧</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>原创技术分享，您的支持将鼓励我继续创作</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechat_pay.jpg" alt="张伦 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.jpeg" alt="张伦 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+            <div class="social-item">
+              <a target="_blank" class="social-link" href="/atom.xml">
+                <span class="icon">
+                  <i class="fa fa-rss"></i>
+                </span>
+
+                <span class="label">RSS</span>
+              </a>
+            </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/比赛/" rel="tag"># 比赛</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/05/16/ai/如何成为一名数据挖掘机/" rel="prev" title="如何成为一名数据挖掘机">
+      <i class="fa fa-chevron-left"></i> 如何成为一名数据挖掘机
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/08/09/ai/competition/vip_ctrip_competitions_summary/" rel="next" title="唯品会预测和携程房屋预测总结">
+      唯品会预测和携程房屋预测总结 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#管道"><span class="nav-number">1.</span> <span class="nav-text">管道</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据划分-split-samples-ipynb"><span class="nav-number">2.</span> <span class="nav-text">数据划分(split_samples.ipynb)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特征提取-extract-fetures-ipynb"><span class="nav-number">3.</span> <span class="nav-text">特征提取(extract_fetures.ipynb)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#训练模型-train-model-ipynb"><span class="nav-number"></span> <span class="nav-text">训练模型(train_model.ipynb)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number"></span> <span class="nav-text">总结</span></a></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="张伦"
+      src="/images/myself.jpg">
+  <p class="site-author-name" itemprop="name">张伦</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">97</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mrzhangboss" title="GitHub → https://github.com/mrzhangboss" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/xiaolunzi6@gmail.com" title="E-Mail → xiaolunzi6@gmail.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张伦</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">233k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:32</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+  <script defer src="/lib/three/three.min.js"></script>
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: 'a1640c4cb3df144d5622',
+      clientSecret: '1e1b46413b757ba7dc67d4d621a8bfbbea1f3f80',
+      repo: 'comments',
+      owner: 'mrzhangboss',
+      admin: ['mrzhangboss'],
+      id: '3446f0899469cfab1a282adf89934f71',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

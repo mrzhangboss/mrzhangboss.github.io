@@ -209,7 +209,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/08/09/从关系角度来看XPath/">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/07/01/java/Java的Char类型到底几个字节/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/myself.jpg">
@@ -223,142 +223,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2018/08/09/从关系角度来看XPath/" class="post-title-link" itemprop="url">从关系角度来看XPath</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-08-09 00:00:00" itemprop="dateCreated datePublished" datetime="2018-08-09T00:00:00+08:00">2018-08-09</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-11 11:08:34" itemprop="dateModified" datetime="2020-03-11T11:08:34+08:00">2020-03-11</time>
-              </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>3.3k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>3 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>这段时间没有写博客，一个原因是由于刚毕业没了学校的学习动力反而下降，另外一个方面由于花了很长时间研究编译原理，然而自己却对它没有太多理解，所以也就没有整理自己的知识，现在慢慢稳定下来，会继续像以前一样更新博客</p>
-</blockquote>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>为什么要介绍<code>XPath</code>呢，我一直以为我对<code>XPath</code>还是比较了解的，但是随着我对<code>XPath</code>的了解越来越深，我就对它的越来越敬佩，</p>
-<p>简单来说，我以前认为<code>XPath</code>对结构性文档只能是一把“枪”，指哪打哪，没想到它是一个“巡航导弹”，自动追踪目标。</p>
-<p>接下来我们就慢慢从<code>XPath</code>的基础来谈谈其威力</p>
-<h2 id="什么是XPath"><a href="#什么是XPath" class="headerlink" title="什么是XPath"></a>什么是<code>XPath</code></h2><p>首先我们要知道<code>XPath</code>是一种语言，你可以理解它是正则、也可以理解它是<code>SQL</code>，他们的目的都是从数据中找到我们想要的东西。相比于<code>SQL</code>从数据库中获取数据，<code>XPath</code>是从一个<code>XML</code>文件中获取数据。</p>
-<p>好的，我们知道<code>XPath</code>要操作的对象，什么是<code>XML</code>，它是一种结构式文档，我们也可以把它看做一种树结构。</p>
-<pre><code>&lt;root&gt;
-    &lt;son&gt; I&apos; m son &lt;/son&gt;
-&lt;/root&gt;
-</code></pre><p>如上面就是一个简单的<code>XML</code>文档，首先从一个父节点点出发，到最后的一个父节点结束，中间可以有很多子节点，也可以有孙节点，但对于每个节点来说，其父亲只能有一个。</p>
-<p>这种文档的出现是由于我们编码程序中<code>树结构</code>出现而出现的一种数据。相比于正则直接操作文本，<code>XPath</code>要面对的是是一堆有规律的文本，虽然我们也能使用正则来操作<code>XML</code>文档，但是正则无法捕获这种<code>XML</code>的关系，而这个也是<code>XPath</code>最有力的地方。</p>
-<p>在这种关系中，我们最常使用也是最核心的就是父子关系，这个关系简单的通过一个<code>/</code>就能体现，比如现在我们把上面的<code>XML</code>复杂化给他添加一个儿子</p>
-<pre><code>&lt;root&gt;
-        &lt;son id=&quot;1&quot;&gt; I&apos; m son1 &lt;/son&gt;
-        &lt;son id=&quot;2&quot;&gt; I&apos;m son2&lt;/son&gt;
-    &lt;/root&gt;
-</code></pre><p>为了获取第二个儿子我们简单的使用这个<code>XPath</code>语句就能获取到</p>
-<pre><code>/root/son[@id=&apos;1&apos;]
-</code></pre><p>PS: 当然在<code>XPath</code>中我们可以使用<code>//</code>来代表一个泛指，通过<code>//son[@id=&#39;1&#39;]</code>我们可以把儿子找出来而不关心他的父亲，甚至更进一步，我不关心它是谁，只要它的<code>id</code>为<code>1</code>就行，我们用<code>node()</code>函数来替代一个节点，这样只要<code>//node()[@id=&#39;1&#39;]</code>就能拿到<code>id</code>为1的节点了</p>
-<p>我们来看看这个<code>XPath</code>，我们定义了一种关系<code>root</code>和<code>son</code>的父子关系，<code>XPath</code>的威力就是能用很简单的语句来定义一个节点的关系，在这句中，<code>root</code>和<code>son</code>都是节点，我们使用<code>/</code>来约定节点父子关系，使用<code>[]</code>来定义节点与自己内部节点或者属性的直接的关系（<code>@</code>是获取属性）</p>
-<p>要掌握<code>XPath</code>必须要明白，<code>XPath</code>重要的就是“面”和“点”的关系，“面”代表节点，“点”代表属性，对于面来说，它可以包含很多个点，对于点来说，它有可以看做由很多个更小的面组成（微观上）</p>
-<p>就以上面的例子，对于<code>root</code>和<code>son</code>这两个节点，其中<code>root</code>是父节点，我们可以用很多个属性来定义它，比如<code>root[count(son, 2)]</code>（意思是选择有两个<code>son</code>的<code>root</code>），其中对于父节点关系的中<code>son</code>节点来说（有点绕），他又可以用属性来约束比如<code>root[count(son[@id], 2)]</code>(意思是选择有两个<code>son</code>的<code>root</code>,并且每个<code>son</code>都有<code>id</code>这个属性）。从这里我们可以看其实节点和属性是可以相互嵌套的。</p>
-<p>从上面这个小例子我们可以看到，<code>XPath</code>的威力就是它可以用来非常详细的约束节点与其他节点或属性的关系，这种关系可以是绝对的，也可以是相对的，一切取决你的取舍，绝对代表严格，相对代表宽松。</p>
-<p>PS：当然我们这里的<code>属性</code>是一种宽泛的理解，在<code>XPath</code>中节点还包括<code>text</code>值，我们可以把它看做节点的一种<code>text</code>属性。</p>
-<h2 id="XPath的其他关系"><a href="#XPath的其他关系" class="headerlink" title="XPath的其他关系"></a><code>XPath</code>的其他关系</h2><p>前面我们介绍了<code>XPath</code>中最重要的一种关系：父子关系。这个也是我们使用<code>XPath</code>使用的最主要的一种关系，现在基本上网络上的教程都是基于这种关系的，我们这篇博客主要不详细介绍这种关系，你可以在<a href="https://www.w3schools.com/xml/xpath_syntax.asp" target="_blank" rel="noopener">w3cshool</a>上了解更多内容。</p>
-<p>我们先用问题来引入其他的关系，我们再把上面的简单<code>XML</code>进行修改</p>
-<pre><code>&lt;root&gt;
-    &lt;son id=&quot;1&quot;&gt; I&apos; m son1 &lt;/son&gt;
-    &lt;target&gt; son1 target&lt;/target&gt;
-    &lt;son id=&quot;2&quot;&gt; I&apos;m son2&lt;/son&gt;
-    &lt;target&gt; son2 target &lt;/target&gt;
-&lt;/root&gt;
-</code></pre><p> 我们引入两个目标，现在我们想拿到<code>son</code>（id为1）的旁边<code>target</code>，假如我们使用父子关系，使用<code>/root/target[1]</code>(<code>XPath</code>索引从1开始）也可以获取到，但是这里引入了一个约束，必须是<code>root</code>下第一个<code>target</code>节点，假如这个<code>XML</code>它是随机的，<code>son</code>和<code>target</code>是一个集合，但是他们的位置不定，这个时候我们不能仅仅依赖父子关系来确定节点位置。</p>
-<p> 这里我们引入<code>兄弟</code>（sibling）这个概率，<code>son</code>和<code>target</code>是一队兄弟，我们能通过知道<code>son</code>的位置从而定位到<code>target</code>的位置，那个这个<code>XPath</code>该怎么写呢，首先我们要确定<code>son</code>的位置</p>
-<pre><code>/root/son[@id=&apos;1&apos;]
-</code></pre><p>接下来我们通过定位的<code>son</code>来拿到它后面的兄弟（也有前面的兄弟语法）</p>
-<pre><code>/root/son[@id=&apos;1&apos;]/following-sibling::target[1]
-</code></pre><p>在这里<code>/following-sibling</code>代表它要找到接下来的兄弟，后面<code>::target[1]</code>是进一步限定我是要拿到兄弟里面第一个<code>target</code>，我们可以通过这个<a href="https://www.freeformatter.com/xpath-tester.html#ad-output" target="_blank" rel="noopener">网站</a>在线测试一下我们的<code>XPath</code></p>
-<p>当然我们可以通过第二个<code>son</code>来找到它前面的兄弟，对应语法是下面的</p>
-<pre><code>/root/son[@id=&apos;2&apos;]/preceding-sibling::target[1]
-</code></pre><p>在前面我们可以看到这个<code>following-sibling</code>和<code>preceding-sibling</code>他们都是一种寻找兄弟关系的，其实假如我们把<code>-sibling</code>去掉，他们能更加宽泛。</p>
-<p>我们把<code>son</code>和<code>target</code>包起来，这个在现实中可能更常见</p>
-<pre><code>&lt;root&gt;
-&lt;group&gt;
-    &lt;son id=&quot;1&quot;&gt; I&apos; m son1 &lt;/son&gt;
-    &lt;target&gt; son1 target&lt;/target&gt;
-&lt;/group&gt;
-&lt;group&gt;
-    &lt;son id=&quot;2&quot;&gt; I&apos;m son2&lt;/son&gt;
-    &lt;target&gt; son2 target &lt;/target&gt;
-&lt;/group&gt;
-&lt;/root&gt;
-</code></pre><p>假如我们还使用上面的语句，我们会发现，我们没法找到语句，这个时候你把兄弟这个约束去掉</p>
-<pre><code>/root/group/son[@id=&apos;2&apos;]/preceding::target[1]
-</code></pre><p>你会惊奇的发现<code>XPath</code>准确的找到我们的目标，这个令人震惊的是它能实现一种“翻山越岭”的查找。</p>
-<p>假如你使用正则或者普通的父子关系，你必须先找到它的<code>group</code>然后再使用<code>for</code>循环来遍历所以的<code>group</code>找到<code>son</code>….</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我们使用简单一个前后关系就能轻松实现上百行代码，当我以前不了解这个<code>XPath</code>的关系约束前，为了寻找这个约束写过几十行代码才能定位，而现在简简单单一行就搞定，我们不得不佩服前人的智慧，我只想说一句“真香～～～”。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/07/01/Java的Char类型到底几个字节/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小轮子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/07/01/Java的Char类型到底几个字节/" class="post-title-link" itemprop="url">Java的char类型到底几个字节</a>
+            <a href="/2018/07/01/java/Java的Char类型到底几个字节/" class="post-title-link" itemprop="url">Java的char类型到底几个字节</a>
         </h1>
 
         <div class="post-meta">
@@ -375,8 +240,19 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-11 11:08:34" itemprop="dateModified" datetime="2020-03-11T11:08:34+08:00">2020-03-11</time>
+                <time title="修改时间：2021-03-09 20:02:26" itemprop="dateModified" datetime="2021-03-09T20:02:26+08:00">2021-03-09</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+            </span>
 
           
             <span class="post-meta-item" title="本文字数">
@@ -455,7 +331,7 @@ timeit.timeit(&quot;&apos;中国人&apos;.encode(&apos;utf-8&apos;)&quot;)
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/05/28/从例子里解Spring IOC/">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/05/28/java/springboot/从例子里解SpringIOC/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/myself.jpg">
@@ -469,7 +345,7 @@ timeit.timeit(&quot;&apos;中国人&apos;.encode(&apos;utf-8&apos;)&quot;)
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2018/05/28/从例子里解Spring IOC/" class="post-title-link" itemprop="url">从例子里解Spring IOC</a>
+            <a href="/2018/05/28/java/springboot/从例子里解SpringIOC/" class="post-title-link" itemprop="url">从例子里解Spring IOC</a>
         </h1>
 
         <div class="post-meta">
@@ -486,8 +362,19 @@ timeit.timeit(&quot;&apos;中国人&apos;.encode(&apos;utf-8&apos;)&quot;)
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-11 11:08:34" itemprop="dateModified" datetime="2020-03-11T11:08:34+08:00">2020-03-11</time>
+                <time title="修改时间：2021-03-09 20:10:03" itemprop="dateModified" datetime="2021-03-09T20:10:03+08:00">2021-03-09</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+            </span>
 
           
             <span class="post-meta-item" title="本文字数">
@@ -731,7 +618,7 @@ Car running...
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/04/24/从MNIST了解卷积神经网络/">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/04/24/ai/从MNIST了解卷积神经网络/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/myself.jpg">
@@ -745,7 +632,7 @@ Car running...
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2018/04/24/从MNIST了解卷积神经网络/" class="post-title-link" itemprop="url">从MNIST了解卷积神经网络</a>
+            <a href="/2018/04/24/ai/从MNIST了解卷积神经网络/" class="post-title-link" itemprop="url">从MNIST了解卷积神经网络</a>
         </h1>
 
         <div class="post-meta">
@@ -762,8 +649,19 @@ Car running...
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-11 11:08:34" itemprop="dateModified" datetime="2020-03-11T11:08:34+08:00">2020-03-11</time>
+                <time title="修改时间：2021-03-09 19:57:07" itemprop="dateModified" datetime="2021-03-09T19:57:07+08:00">2021-03-09</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/" itemprop="url" rel="index">
+                    <span itemprop="name">人工智能</span>
+                  </a>
+                </span>
+            </span>
 
           
             <span class="post-meta-item" title="本文字数">
@@ -972,7 +870,7 @@ for i in range(18000):
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/04/19/Ubuntu14安装Tensorflow的CPU优化/">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/04/19/software/Ubuntu14安装Tensorflow的CPU优化/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/myself.jpg">
@@ -986,7 +884,7 @@ for i in range(18000):
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2018/04/19/Ubuntu14安装Tensorflow的CPU优化/" class="post-title-link" itemprop="url">Ubuntu16.04安装Tensorflow的CPU优化</a>
+            <a href="/2018/04/19/software/Ubuntu14安装Tensorflow的CPU优化/" class="post-title-link" itemprop="url">Ubuntu16.04安装Tensorflow的CPU优化</a>
         </h1>
 
         <div class="post-meta">
@@ -1003,8 +901,19 @@ for i in range(18000):
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-11 11:08:34" itemprop="dateModified" datetime="2020-03-11T11:08:34+08:00">2020-03-11</time>
+                <time title="修改时间：2021-03-09 20:08:28" itemprop="dateModified" datetime="2021-03-09T20:08:28+08:00">2021-03-09</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/软件/" itemprop="url" rel="index">
+                    <span itemprop="name">软件</span>
+                  </a>
+                </span>
+            </span>
 
           
             <span class="post-meta-item" title="本文字数">
@@ -1086,7 +995,7 @@ bazel --host_jvm_args=&quot;-Dhttp.proxyHost=localhost -Dhttp.proxyPort=8123 -Dh
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/03/17/正则表达式(regular expression)0/">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/03/17/python/正则表达式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/myself.jpg">
@@ -1100,7 +1009,7 @@ bazel --host_jvm_args=&quot;-Dhttp.proxyHost=localhost -Dhttp.proxyPort=8123 -Dh
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2018/03/17/正则表达式(regular expression)0/" class="post-title-link" itemprop="url">Python正则表达式</a>
+            <a href="/2018/03/17/python/正则表达式/" class="post-title-link" itemprop="url">Python正则表达式</a>
         </h1>
 
         <div class="post-meta">
@@ -1117,8 +1026,19 @@ bazel --host_jvm_args=&quot;-Dhttp.proxyHost=localhost -Dhttp.proxyPort=8123 -Dh
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-11 11:08:34" itemprop="dateModified" datetime="2020-03-11T11:08:34+08:00">2020-03-11</time>
+                <time title="修改时间：2021-03-09 20:05:18" itemprop="dateModified" datetime="2021-03-09T20:05:18+08:00">2021-03-09</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+            </span>
 
           
             <span class="post-meta-item" title="本文字数">
@@ -1223,7 +1143,7 @@ VERBOSE  [简X]  --------------神器,会无视代码中的注释空格和换行
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/02/20/用户空间隔离/">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/02/20/algorithm/mit6_828/用户空间隔离/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/myself.jpg">
@@ -1237,7 +1157,7 @@ VERBOSE  [简X]  --------------神器,会无视代码中的注释空格和换行
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2018/02/20/用户空间隔离/" class="post-title-link" itemprop="url">用户空间隔离</a>
+            <a href="/2018/02/20/algorithm/mit6_828/用户空间隔离/" class="post-title-link" itemprop="url">用户空间隔离</a>
         </h1>
 
         <div class="post-meta">
@@ -1254,8 +1174,19 @@ VERBOSE  [简X]  --------------神器,会无视代码中的注释空格和换行
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-11 11:08:34" itemprop="dateModified" datetime="2020-03-11T11:08:34+08:00">2020-03-11</time>
+                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+            </span>
 
           
             <span class="post-meta-item" title="本文字数">
@@ -1403,7 +1334,7 @@ ts.ts_ss0 = GD_KD;
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/02/19/KERNBASE对操作系统的影响/">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/02/19/algorithm/mit6_828/KERNBASE对操作系统的影响/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/myself.jpg">
@@ -1417,7 +1348,7 @@ ts.ts_ss0 = GD_KD;
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2018/02/19/KERNBASE对操作系统的影响/" class="post-title-link" itemprop="url">KERNBASE对操作系统的影响</a>
+            <a href="/2018/02/19/algorithm/mit6_828/KERNBASE对操作系统的影响/" class="post-title-link" itemprop="url">KERNBASE对操作系统的影响</a>
         </h1>
 
         <div class="post-meta">
@@ -1434,8 +1365,19 @@ ts.ts_ss0 = GD_KD;
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-11 11:08:34" itemprop="dateModified" datetime="2020-03-11T11:08:34+08:00">2020-03-11</time>
+                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+            </span>
 
           
             <span class="post-meta-item" title="本文字数">
@@ -1528,7 +1470,7 @@ ts.ts_ss0 = GD_KD;
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/02/05/内存分页设计/">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/02/05/algorithm/mit6_828/内存分页设计/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/myself.jpg">
@@ -1542,7 +1484,7 @@ ts.ts_ss0 = GD_KD;
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2018/02/05/内存分页设计/" class="post-title-link" itemprop="url">内存分页设计</a>
+            <a href="/2018/02/05/algorithm/mit6_828/内存分页设计/" class="post-title-link" itemprop="url">内存分页设计</a>
         </h1>
 
         <div class="post-meta">
@@ -1559,8 +1501,19 @@ ts.ts_ss0 = GD_KD;
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-11 11:08:34" itemprop="dateModified" datetime="2020-03-11T11:08:34+08:00">2020-03-11</time>
+                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+            </span>
 
           
             <span class="post-meta-item" title="本文字数">
@@ -1662,7 +1615,7 @@ ts.ts_ss0 = GD_KD;
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/01/31/内存分页/">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/01/31/algorithm/mit6_828/引导和操作系统的交互/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/myself.jpg">
@@ -1676,7 +1629,7 @@ ts.ts_ss0 = GD_KD;
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2018/01/31/内存分页/" class="post-title-link" itemprop="url">内存分页</a>
+            <a href="/2018/01/31/algorithm/mit6_828/引导和操作系统的交互/" class="post-title-link" itemprop="url">引导和操作系统的交互</a>
         </h1>
 
         <div class="post-meta">
@@ -1693,8 +1646,160 @@ ts.ts_ss0 = GD_KD;
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-11 11:08:34" itemprop="dateModified" datetime="2020-03-11T11:08:34+08:00">2020-03-11</time>
+                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>2.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本来自己查了很多资料，想自己写出来，结果下笔的时候发现别人已经把我想写的部分全部写出来了，而且比我想的还要具体，所以我就不写了，把链接放出了，顺便我补充一些</p>
+<p><a href="http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/" target="_blank" rel="noopener">http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/</a></p>
+<p><a href="http://leenjewel.github.io/blog/2015/05/26/%5B%28xue-xi-xv6%29%5D-jia-zai-bing-yun-xing-nei-he/" target="_blank" rel="noopener">http://leenjewel.github.io/blog/2015/05/26/%5B%28xue-xi-xv6%29%5D-jia-zai-bing-yun-xing-nei-he/</a></p>
+<h2 id="ELF文件"><a href="#ELF文件" class="headerlink" title="ELF文件"></a>ELF文件</h2><p>首先你要知道什么是ELF，可以看一下这篇<a href="https://my.oschina.net/u/864891/blog/87965" target="_blank" rel="noopener">博客</a>，简单来说就是编译完C后的机器码，前面加了一些数据表记录程序的分布情况</p>
+<p>为了帮助我们逆向分析这些代码有什么，我们必须要借助两个工具</p>
+<ul>
+<li>objdump</li>
+<li>readelf</li>
+</ul>
+<p>我们接下来就用实际例子解读mit6.828里面的引导和核心</p>
+<h2 id="引导"><a href="#引导" class="headerlink" title="引导"></a>引导</h2><p>首先我们查看一下引导文件，在<code>boot/</code>目录下有两个文件</p>
+<ul>
+<li>boot.S</li>
+<li>main.c</li>
+</ul>
+<p>两者是通过gcc编译器将汇编和C编译成为一个<code>elf</code>文件，具体在<code>Makefile</code>文件中（<code>boot/Makefrag</code>)，我将它简单翻译一下</p>
+<pre><code>gcc -N -e start -Ttext 0x7C00 -o boot.out boot.o main.o
+</code></pre><p><code>boot.o</code>和<code>main.o</code>就是<code>boot.S</code>和<code>main.c</code>编译后的文件，<code>-e start</code>意思程序从<code>boot.S</code>的<code>start</code>中开始运行（这样就能从汇编开始执行），<code>-Ttext</code>中<code>text</code>代表代码段，也就是说直接指定代码入口地址为<code>0x7C00</code>，我们可以用<code>readelf</code>验证一下</p>
+<pre><code>mit-6.828-2014 ➤ readelf -h obj/boot/boot.out                         git:lab1*
+ELF Header:
+  Magic:   7f 45 4c 46 01 01 01 00 00 00 00 00 00 00 00 00 
+  Class:                             ELF32
+  Data:                              2&apos;s complement, little endian
+  Version:                           1 (current)
+  OS/ABI:                            UNIX - System V
+  ABI Version:                       0
+  Type:                              EXEC (Executable file)
+  Machine:                           Intel 80386
+  Version:                           0x1
+  Entry point address:               0x7c00
+  Start of program headers:          52 (bytes into file)
+  Start of section headers:          4868 (bytes into file)
+  Flags:                             0x0
+  Size of this header:               52 (bytes)
+  Size of program headers:           32 (bytes)
+  Number of program headers:         2
+  Size of section headers:           40 (bytes)
+  Number of section headers:         9
+  Section header string table index: 6
+</code></pre><p>我们读取了一下生成的<code>elf</code>文件头部，我们可以看到<code>Entry point address</code>这个字段，就是我们设定的<code>0x7c00</code>，要了解这个地址的含义我们必须知道虚拟地址和物理地址的区别，可以看一下这篇<a href="http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/" target="_blank" rel="noopener">博客</a>，接着我们看一下反汇编的汇编代码<code>obj/boot/boot.asm</code>中，我们知道现在<code>0x7c00</code>代表程序把自己当做在内存上的真实内存上面，但是不一定会真的存在这块上，所以我们称它为虚拟的</p>
+<p>首先我们了解一个系统知识，因为电脑启动后会按照启动盘顺序，把每个盘第一个扇形区512B取出来，如果最后两个字节为<code>0xAA55</code>的话就把它放到内存上面的<code>0x7c00</code>上去，我们看一下我们生成的<code>obj/boot/boot</code></p>
+<p>使用<code>hexdump obj/boot/boo</code>可以看到（我把最后一行复制出来）</p>
+<pre><code>00001f0 0000 0000 0000 0000 0000 0000 0000 aa55
+</code></pre><p>最后连个字节为<code>0xaa55</code>，且文件大小刚刚好512B，这时候你可以有一个疑惑了，我们知道<code>gcc</code>我们生成的<code>boot.out</code>的elf文件，但是这个文件还有头部存贮数据，我们如果把整个文件放到磁盘上，当程序在内存<code>0x7c00</code>处执行时，那么文件头部碰到的就是elf头了，所以<br>为了把机器码提取出来并生成合适文件（512B尾部为<code>0xaa55</code>），程序干了两件事</p>
+<ul>
+<li>用objcopy将elf文件中执行代码提取出来（相当于去掉elf头部）</li>
+<li>用脚本修改尾部两字节（在<code>boot/sign.pl</code>用了perl程序来将生成512B且尾部为<code>0xaa55</code>的<code>boot</code>文件）</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>后面将核心加载到内存，上面的给出资料写的很详细，我就不多说，只不过由于当前<code>2014</code>的版本同资料有点不同，这里我提一下</p>
+<p>当前版本是将内核头加载在<code>0x10000</code>上，然后在把内核代码加载到<code>0x100000</code>上（前面4个0，后面5个0，我当初看错了，百思不得其解），并将内核地址映射到<code>f0100000</code>上。</p>
+<p>由于资料给的操作系统与2016的操作系统实现细节有点不同，其中最主要的就是一个很重要的<code>KERNBASE</code>常量值由<code>0x80000000</code>变成<code>0xf0000000</code>，这个变量牵扯到了在给出的<code>book-rev8.pdf</code>资料中第一章的最后一个问题，我就把我对这个问题的思考放到这篇<a href="/2018/02/19/KERNBASE对操作系统的影响/">文章</a>中。</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/" target="_blank" rel="noopener">http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/</a></p>
+<p><a href="https://my.oschina.net/u/864891/blog/87965" target="_blank" rel="noopener">https://my.oschina.net/u/864891/blog/87965</a></p>
+<p><a href="http://bochs.sourceforge.net/techspec/PORTS.LST" target="_blank" rel="noopener">端口信息</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/01/31/algorithm/mit6_828/内存分页/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小轮子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/01/31/algorithm/mit6_828/内存分页/" class="post-title-link" itemprop="url">内存分页</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-01-31 00:00:00" itemprop="dateCreated datePublished" datetime="2018-01-31T00:00:00+08:00">2018-01-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+            </span>
 
           
             <span class="post-meta-item" title="本文字数">
@@ -1813,20 +1918,20 @@ ts.ts_ss0 = GD_KD;
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">98</span>
+          <span class="site-state-item-count">97</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-count">32</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1868,12 +1973,12 @@ ts.ts_ss0 = GD_KD;
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">232k</span>
+    <span title="站点总字数">233k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:31</span>
+    <span title="站点阅读时长">3:32</span>
 </div>
 
         
