@@ -49,14 +49,13 @@
 </script>
 
   <meta name="description" content="泛型对于解决面对对象编程的算法设计可以提高其运算速度，但是对于引用类型来说还是没什么差别，因为引用类型只是指针的地址的调用，简单来说泛型还是挺好理解的，但是对于泛型、非泛型、继承和接口的融合就有些迷惑了。比如说这种接口public interface IEnumeratot&amp;lt;T&amp;gt;:IDisposable,IEnumerator,ICompare&amp;lt;T&amp;gt; 这个泛型接口继承了两个">
-<meta name="keywords" content="programming">
 <meta property="og:type" content="article">
 <meta property="og:title" content="泛型继承的理解">
 <meta property="og:url" content="https://mrzhangboss.github.io/2016/07/18/useless/泛型继承的理解/index.html">
-<meta property="og:site_name" content="小轮子的笔记">
+<meta property="og:site_name" content="小伦子的笔记">
 <meta property="og:description" content="泛型对于解决面对对象编程的算法设计可以提高其运算速度，但是对于引用类型来说还是没什么差别，因为引用类型只是指针的地址的调用，简单来说泛型还是挺好理解的，但是对于泛型、非泛型、继承和接口的融合就有些迷惑了。比如说这种接口public interface IEnumeratot&amp;lt;T&amp;gt;:IDisposable,IEnumerator,ICompare&amp;lt;T&amp;gt; 这个泛型接口继承了两个">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-03-11T03:08:34.415Z">
+<meta property="og:updated_time" content="2021-03-09T12:34:28.765Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="泛型继承的理解">
 <meta name="twitter:description" content="泛型对于解决面对对象编程的算法设计可以提高其运算速度，但是对于引用类型来说还是没什么差别，因为引用类型只是指针的地址的调用，简单来说泛型还是挺好理解的，但是对于泛型、非泛型、继承和接口的融合就有些迷惑了。比如说这种接口public interface IEnumeratot&amp;lt;T&amp;gt;:IDisposable,IEnumerator,ICompare&amp;lt;T&amp;gt; 这个泛型接口继承了两个">
@@ -73,7 +72,7 @@
   };
 </script>
 
-  <title>泛型继承的理解 | 小轮子的笔记</title>
+  <title>泛型继承的理解 | 小伦子的笔记</title>
   
 
 
@@ -117,7 +116,7 @@
     <div>
       <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">小轮子的笔记</span>
+        <span class="site-title">小伦子的笔记</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -223,7 +222,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小轮子的笔记">
+      <meta itemprop="name" content="小伦子的笔记">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -244,7 +243,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-11 11:08:34" itemprop="dateModified" datetime="2020-03-11T11:08:34+08:00">2020-03-11</time>
+                <time title="修改时间：2021-03-09 20:34:28" itemprop="dateModified" datetime="2021-03-09T20:34:28+08:00">2021-03-09</time>
               </span>
 
           
@@ -373,9 +372,6 @@ public class TypeNode&lt;T&gt;:Node
 
 
       <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/programming/" rel="tag"># programming</a>
-          </div>
 
         
 
@@ -383,12 +379,12 @@ public class TypeNode&lt;T&gt;:Node
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2016/07/18/useless/EFCodeFirst导航属性/" rel="prev" title="EFCode First 导航属性">
-      <i class="fa fa-chevron-left"></i> EFCode First 导航属性
+    <a href="/2016/07/18/useless/EF搭建可扩展菜单/" rel="prev" title="EF搭建可扩展菜单">
+      <i class="fa fa-chevron-left"></i> EF搭建可扩展菜单
     </a></div>
       <div class="post-nav-item">
-    <a href="/2016/07/18/ai/机器学习实战心得/" rel="next" title="<<机器学习实战>>心得.">
-      <<机器学习实战>>心得. <i class="fa fa-chevron-right"></i>
+    <a href="/2016/07/18/python/关于python3和python2import区别/" rel="next" title="关于python3和python2 import区别">
+      关于python3和python2 import区别 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -473,13 +469,13 @@ public class TypeNode&lt;T&gt;:Node
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -494,6 +490,26 @@ public class TypeNode&lt;T&gt;:Node
   </div>
 
 
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      友链
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.guyskk.com/" title="https://blog.guyskk.com/" rel="noopener" target="_blank">康德</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.ityouknow.com/" title="http://www.ityouknow.com/" rel="noopener" target="_blank">纯洁的微笑</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://bugstack.cn/" title="https://bugstack.cn/" rel="noopener" target="_blank">虫洞栈</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.javaboy.org/" title="https://www.javaboy.org/" rel="noopener" target="_blank">江南一点雨</a>
+        </li>
+    </ul>
+  </div>
 
       </div>
 

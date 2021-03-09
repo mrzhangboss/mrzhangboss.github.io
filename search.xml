@@ -1,22 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>阿里云服务器初体验</title>
-    <url>/2016/07/18/software/%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%88%9D%E4%BD%93%E9%AA%8C/</url>
-    <content><![CDATA[<h3 id="申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。"><a href="#申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。" class="headerlink" title="申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。"></a>申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。</h3><h3 id="1-用户名和密码"><a href="#1-用户名和密码" class="headerlink" title="1.用户名和密码"></a>1.用户名和密码</h3><p>找了半天没有找到那个是用户名，试了实例的id，没有用，最后终于在登录帮助名里面找到了，用户名竟然是<code>root</code>！！！！,我用的是Ubuntu系统，说好的Ubuntu不提供root权限的呢，阿里还真会改造Linux系统<br>，但是我觉得用root登录还是不安全，我觉得新建一个用户吧</p>
-<p>在root权限下</p>
-<pre><code>useradd -s /bin/bash -r -m yourname
-</code></pre><p>解释一下，本来直接<code>useradd yourname</code> 就可以新建一个<code>yourname</code>账号，但是如果用你新建的用户登录的话，你无法使用Tab键和上下左右键 ，你键入 <code>echo $SHELL</code>，会发现是<code>/bin/sh</code>，因为Ubuntu默认创建账号使用<code>/bin/sh</code>，假如你没加这个可以删掉 用这个<code>userdel yourname</code>重新来一遍，搞完这个只是创建了一个普通用户，你使用不了sudo获取最高权限，这个怎么办，很简单在<code>/etc/sudoers</code>里面找到<br>        root ALL=(ALL:ALL) ALL</p>
-<p>模仿它加上自己的账号名就可以</p>
-]]></content>
-      <categories>
-        <category>软件</category>
-      </categories>
-      <tags>
-        <tag>HTTP</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>集体智慧编程之推荐系统(Programming Colletive Intelligence)</title>
     <url>/2016/09/17/ai/recommendations-Programming-Colletive-Intelligence-impression/</url>
     <content><![CDATA[<blockquote>
@@ -329,6 +313,37 @@ f(n) ={           1                   n= 2
       </categories>
   </entry>
   <entry>
+    <title>红黑树实现原理</title>
+    <url>/2018/01/05/algorithm/%E7%BA%A2%E9%BB%91%E6%A0%91%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/</url>
+    <content><![CDATA[<blockquote>
+<p>本篇博客主要基于这篇<a href="/">博客</a>的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍红黑树的实现原理，完整代码在<a href="https://github.com/mrzhangboss/trees" target="_blank" rel="noopener">github</a>的<code>rbtree.go</code>文件中</p>
+</blockquote>
+<p><a href="/">浅谈”树”这种数据结构</a><br><a href="https://github.com/mrzhangboss/trees" title="github" target="_blank" rel="noopener">Github</a><br><a href="http://www.cs.usfca.edu/~galles/visualization/RedBlack.html" target="_blank" rel="noopener">可视化页面</a></p>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Big Data Questions</title>
+    <url>/2018/11/07/bigdata/BigDataQuestions/</url>
+    <content><![CDATA[<blockquote>
+<p>Recently I found that I’m kind of over talking when I speak with others, so I want to train my conclusion of solving problem. Here are some problems I meet when I read books of Big Data.</p>
+</blockquote>
+<ul>
+<li>No 1. Why <code>Spark</code> does not use map-reduce?</li>
+</ul>
+<p>Disk reading is too slow to complete big data analyze.Map-reduce is a shuffle which meanings parallizing.<code>Spark</code> just use memory to complete parallizing a huge problem.</p>
+<ul>
+<li>No 2. How Hadoop to append data?</li>
+</ul>
+<p>Just use </p>
+]]></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
+  </entry>
+  <entry>
     <title>漫谈排序算法</title>
     <url>/2017/11/12/algorithm/%E6%BC%AB%E8%B0%88%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/</url>
     <content><![CDATA[<h1 id="0x00-引子"><a href="#0x00-引子" class="headerlink" title="0x00 引子"></a>0x00 引子</h1><blockquote>
@@ -363,37 +378,6 @@ f(n) ={           1                   n= 2
 ]]></content>
       <categories>
         <category>算法</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>红黑树实现原理</title>
-    <url>/2018/01/05/algorithm/%E7%BA%A2%E9%BB%91%E6%A0%91%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/</url>
-    <content><![CDATA[<blockquote>
-<p>本篇博客主要基于这篇<a href="/">博客</a>的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍红黑树的实现原理，完整代码在<a href="https://github.com/mrzhangboss/trees" target="_blank" rel="noopener">github</a>的<code>rbtree.go</code>文件中</p>
-</blockquote>
-<p><a href="/">浅谈”树”这种数据结构</a><br><a href="https://github.com/mrzhangboss/trees" title="github" target="_blank" rel="noopener">Github</a><br><a href="http://www.cs.usfca.edu/~galles/visualization/RedBlack.html" target="_blank" rel="noopener">可视化页面</a></p>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2>]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>Big Data Questions</title>
-    <url>/2018/11/07/bigdata/BigDataQuestions/</url>
-    <content><![CDATA[<blockquote>
-<p>Recently I found that I’m kind of over talking when I speak with others, so I want to train my conclusion of solving problem. Here are some problems I meet when I read books of Big Data.</p>
-</blockquote>
-<ul>
-<li>No 1. Why <code>Spark</code> does not use map-reduce?</li>
-</ul>
-<p>Disk reading is too slow to complete big data analyze.Map-reduce is a shuffle which meanings parallizing.<code>Spark</code> just use memory to complete parallizing a huge problem.</p>
-<ul>
-<li>No 2. How Hadoop to append data?</li>
-</ul>
-<p>Just use </p>
-]]></content>
-      <categories>
-        <category>大数据</category>
       </categories>
   </entry>
   <entry>
@@ -837,6 +821,16 @@ JPEG (83, 81) RGB
       </categories>
   </entry>
   <entry>
+    <title>python学习</title>
+    <url>/2016/07/18/python/python%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<h4 id="由于有其他编程语言基础，所以对于python的学习并不吃力，但是整体感觉python的确与前面学习c、c———"><a href="#由于有其他编程语言基础，所以对于python的学习并不吃力，但是整体感觉python的确与前面学习c、c———" class="headerlink" title="由于有其他编程语言基础，所以对于python的学习并不吃力，但是整体感觉python的确与前面学习c、c———"></a>由于有其他编程语言基础，所以对于python的学习并不吃力，但是整体感觉python的确与前面学习c、c———</h4><h3 id="1-实时编译VS静态编译"><a href="#1-实时编译VS静态编译" class="headerlink" title="1. 实时编译VS静态编译"></a>1. 实时编译VS静态编译</h3><p>不需要输入任何前缀，直接将代码放在python解释器上面就能运行，虽然window下不支持直接点开文件就能使用，但是只要安装了python解释器就能很轻松的运行。</p>
+<p>分量轻是他的特点吧！相比打开vs等半天然后，编译连接最后执行。python是一门很轻巧的语言，没有满屏的分号，大括号，基本类型比如int、string、float不区分直接拿来用就可以了，任何一个变量都是一个对象，对象可以千变万化，感觉python是一门很野的熊孩子什么都不在乎，比如说你什么了相同的两个变量</p>
+<h1 id="这门强类型语言则不允许，在同级作用域内他只允许声明一次，python或许已经没有声明了，每个名字只是一个对象而已并没有他的归属。"><a href="#这门强类型语言则不允许，在同级作用域内他只允许声明一次，python或许已经没有声明了，每个名字只是一个对象而已并没有他的归属。" class="headerlink" title="这门强类型语言则不允许，在同级作用域内他只允许声明一次，python或许已经没有声明了，每个名字只是一个对象而已并没有他的归属。"></a>这门强类型语言则不允许，在同级作用域内他只允许声明一次，python或许已经没有声明了，每个名字只是一个对象而已并没有他的归属。</h1><h4 id="2-动态语言VS静态语言"><a href="#2-动态语言VS静态语言" class="headerlink" title="2.动态语言VS静态语言"></a>2.动态语言VS静态语言</h4><h1 id="给我感受是一颗静止的树的话，那么python就是一匹‘野马’，C"><a href="#给我感受是一颗静止的树的话，那么python就是一匹‘野马’，C" class="headerlink" title="给我感受是一颗静止的树的话，那么python就是一匹‘野马’，C"></a>给我感受是一颗静止的树的话，那么python就是一匹‘野马’，C</h1>]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
+  </entry>
+  <entry>
     <title>Python 线程(threading) 进程(multiprocessing)</title>
     <url>/2016/07/18/python/Python%E7%BA%BF%E7%A8%8B%E5%92%8C%E8%BF%9B%E7%A8%8B/</url>
     <content><![CDATA[<p>### </p>
@@ -919,47 +913,6 @@ for t in threading.enumerate():
       </categories>
   </entry>
   <entry>
-    <title>python学习</title>
-    <url>/2016/07/18/python/python%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[<h4 id="由于有其他编程语言基础，所以对于python的学习并不吃力，但是整体感觉python的确与前面学习c、c———"><a href="#由于有其他编程语言基础，所以对于python的学习并不吃力，但是整体感觉python的确与前面学习c、c———" class="headerlink" title="由于有其他编程语言基础，所以对于python的学习并不吃力，但是整体感觉python的确与前面学习c、c———"></a>由于有其他编程语言基础，所以对于python的学习并不吃力，但是整体感觉python的确与前面学习c、c———</h4><h3 id="1-实时编译VS静态编译"><a href="#1-实时编译VS静态编译" class="headerlink" title="1. 实时编译VS静态编译"></a>1. 实时编译VS静态编译</h3><p>不需要输入任何前缀，直接将代码放在python解释器上面就能运行，虽然window下不支持直接点开文件就能使用，但是只要安装了python解释器就能很轻松的运行。</p>
-<p>分量轻是他的特点吧！相比打开vs等半天然后，编译连接最后执行。python是一门很轻巧的语言，没有满屏的分号，大括号，基本类型比如int、string、float不区分直接拿来用就可以了，任何一个变量都是一个对象，对象可以千变万化，感觉python是一门很野的熊孩子什么都不在乎，比如说你什么了相同的两个变量</p>
-<h1 id="这门强类型语言则不允许，在同级作用域内他只允许声明一次，python或许已经没有声明了，每个名字只是一个对象而已并没有他的归属。"><a href="#这门强类型语言则不允许，在同级作用域内他只允许声明一次，python或许已经没有声明了，每个名字只是一个对象而已并没有他的归属。" class="headerlink" title="这门强类型语言则不允许，在同级作用域内他只允许声明一次，python或许已经没有声明了，每个名字只是一个对象而已并没有他的归属。"></a>这门强类型语言则不允许，在同级作用域内他只允许声明一次，python或许已经没有声明了，每个名字只是一个对象而已并没有他的归属。</h1><h4 id="2-动态语言VS静态语言"><a href="#2-动态语言VS静态语言" class="headerlink" title="2.动态语言VS静态语言"></a>2.动态语言VS静态语言</h4><h1 id="给我感受是一颗静止的树的话，那么python就是一匹‘野马’，C"><a href="#给我感受是一颗静止的树的话，那么python就是一匹‘野马’，C" class="headerlink" title="给我感受是一颗静止的树的话，那么python就是一匹‘野马’，C"></a>给我感受是一颗静止的树的话，那么python就是一匹‘野马’，C</h1>]]></content>
-      <categories>
-        <category>Python</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>python的编码问题研究------使用scrapy体验</title>
-    <url>/2016/07/18/python/python%E7%9A%84%E7%BC%96%E7%A0%81%E9%97%AE%E9%A2%98%E7%A0%94%E7%A9%B6/</url>
-    <content><![CDATA[<blockquote>
-<p>基于python2</p>
-</blockquote>
-<p>scrapy是一款非常轻量级的爬虫框架，但是由于它隐藏了太多关于网络请求的细节，所以我们有时候会遭遇到一下很尴尬的bug，当然这主要是因为碰到一些不规范的网站。</p>
-<p>python的编码转码网上有很多文章，如果你不了解这个你可以参考下面了解。</p>
-<p><a href="http://nedbatchelder.com/text/unipain.html" target="_blank" rel="noopener">Ned Batchelder 关于python unicode和str的理解，通俗易懂</a></p>
-<p><a href="http://www.tuicool.com/articles/ZbEFnya" target="_blank" rel="noopener">关于scrapy 入门</a></p>
-<p><a href="http://blog.csdn.net/crazyhacking/article/details/39375535" target="_blank" rel="noopener"> 关于 encode的认识</a></p>
-<p>通过上面我们可以很好的理解python的转码译码，在这里我想谈一下我自己对其的认识吧，我一开始接触的c语言序列的基本上都是强类型，比如C里面假如我想写一个函数每个传人的参数都得是有类型的，但是python弱化了类型这一点，python也是面对对象的，但是他的对象就是鸡同鸭讲，照猫画虎就能运行，弱类型适合动态语言，我们不确定下一行代码输入的是什么，自从学python起，一直感觉python对类型一直不严格，这样就给了我一种错觉，只要长得差不多就能一样的比划，比如在两个string，<code>&#39;中国&#39;</code>,<code>u&#39;中国&#39;</code>,看起来差不多但是如果你把<code>u&#39;中国&#39;</code>存入文件中就会出错（假如你没定义编码规则)</p>
-<pre><code>UnicodeEncodeError: &apos;ascii&apos; codec can&apos;t encode characters in position 344-351: ordinal not in range(128)
-</code></pre><p>unicode字符编码错误，要想理解这个要对unicode字符集和unicode编码有一定的理解，推荐你读一下这篇博客<a href="http://www.techug.com/character-set" target="_blank" rel="noopener">字符编码的知识</a>,python内部使用unicode字符集存贮所以的编码的字符，为什么要用unicode字符集举个栗子吧：</p>
-<blockquote>
-<p>A是米国的程序员，他使用asicc编码的文件上传了一封邮件，<br>B是中国的程序员他使用gbk编码的文件上传了一封邮件，<br>现在C要用程序同时处理A和B的邮件，有两种解决方法他把A的文件译码再编码成B的gbk，或者将B的文件译码成asicc但是中文无法处理，那么只能使用第一种方法将A的文件编码成gbk，但是改天D又来啦，他是俄国人，天啊噜gbk可能没有把俄语编进去，那肿么办，我们迫切需要一种编码可以把所以的字符放进去，所以unicode出现了，Unicode中将字符集按照一定的类别划分到0~16这17个层面（Planes）中，每个层面中拥有216=65536个字符码，因此Unicode总共拥有的字符码，也即是Unicode的字符空间总共有17*65536=1114112，一共有1114112这么多的字符可以用，这下我们不用担心了吧，太好了这下不用愁了，</p>
-</blockquote>
-<p>python 内部使用unicode字符集作为一个译码中转站，因为他编码了所以的字符集，只要你能在自己编码方案上找到自己的字，我就能在unicode字符集找到你的位置，所以使用unicode可以很好的解决多种编码方案产生的问题（比如gbk，utf-8）</p>
-<p>当然其他编码方案如果想使用unicode解码成其他的必须同unicode有一一对应关系，不过现在主流的编码方案如gbk，gb2312，utf-8都是unicode系的。</p>
-<p>了解了这些基础知识就可以知道了为什么存贮<code>u&#39;中国&#39;</code>存不进文件里面去了，因为unicode并不提供给当今字符解析器的方法，就是<code>\u234e</code>一个16进制数字，屏幕上不知道他对应什么图形，所以python系统要求存进文件的必须是字节流，也就是可以unicode是一种更高级的字符流，这个字符流能存贮当今世界所以定义的字符，但是他只是一个规定字符集合，我们只需要把发现的字符放进去占据一个位置，但是我们不需要考虑屏幕是否认识这个字符，这个字符的存贮由编码方案负责，如utf-8这些，假如没有字符编码方案可以存贮这些，我们虽然在unicode上有这个字符但是我们无法print出来，所以我们必须将unicode转换成普通字符流，有人就会问了，假如我真的没有找到一个合适编码方案可以存贮所有语言，我们可以将他编码成unicode—escape类型，这里我们不多讲。</p>
-<p>这就可以解释我们大部分碰到的错误unicodedecodeerror和unicodeencodeerror错误，都是因为字符编码方案不了解造成的，网上很多说碰到这种错误就encode，decode搞一下就行但是不弄清楚这背后的知识就会犯迷糊。</p>
-<p>接下来我谈谈我遇到的错误吧，在爬取<code>http://yjsy.ncu.edu.cn/yjs_showmsg.asp?id=2770</code>这个页面时（这是一个不规范的页面没有设置charset），因为每个spider调用的</p>
-<pre><code>response.xpath(&apos;//xpath&apos;).extract()    
-</code></pre><p>选择器返回的是一个unicode编码的字符集，但是他是接受的是一个字符流，spider可能调用了<br><code>response.body.decode(response.encoding)</code>进行转码，但是这个response.encoding有时候会判断错误，比如将我一个gbk编码的文件判断成cp1253,这个时候假如我把他解码成encode成其他编码方式的话，我们就会得到乱码，那怎么纠正呢，我们可以这样干<br>先将得到的列表中每个<code>content</code>取出来，然后使用<code>content.encode(resonse.encoding)</code>转码成原始字符流，现在你可以将它用正确的编码转换成unicode了</p>
-<p>下面是我github上的关于这个scrapy的项目，在coding_pitch.py文件里面就是对于这个乱码的处理</p>
-<p><a href="https://github.com/MrZhangLoveLearning/ncuscrapy.git" target="_blank" rel="noopener">南昌大学教务处公告爬取</a></p>
-]]></content>
-      <categories>
-        <category>Python</category>
-      </categories>
-  </entry>
-  <entry>
     <title>从关系角度来看XPath</title>
     <url>/2018/08/09/python/%E4%BB%8E%E5%85%B3%E7%B3%BB%E8%A7%92%E5%BA%A6%E6%9D%A5%E7%9C%8BXPath/</url>
     <content><![CDATA[<blockquote>
@@ -1021,6 +974,37 @@ for t in threading.enumerate():
 </code></pre><p>你会惊奇的发现<code>XPath</code>准确的找到我们的目标，这个令人震惊的是它能实现一种“翻山越岭”的查找。</p>
 <p>假如你使用正则或者普通的父子关系，你必须先找到它的<code>group</code>然后再使用<code>for</code>循环来遍历所以的<code>group</code>找到<code>son</code>….</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我们使用简单一个前后关系就能轻松实现上百行代码，当我以前不了解这个<code>XPath</code>的关系约束前，为了寻找这个约束写过几十行代码才能定位，而现在简简单单一行就搞定，我们不得不佩服前人的智慧，我只想说一句“真香～～～”。</p>
+]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>python的编码问题研究------使用scrapy体验</title>
+    <url>/2016/07/18/python/python%E7%9A%84%E7%BC%96%E7%A0%81%E9%97%AE%E9%A2%98%E7%A0%94%E7%A9%B6/</url>
+    <content><![CDATA[<blockquote>
+<p>基于python2</p>
+</blockquote>
+<p>scrapy是一款非常轻量级的爬虫框架，但是由于它隐藏了太多关于网络请求的细节，所以我们有时候会遭遇到一下很尴尬的bug，当然这主要是因为碰到一些不规范的网站。</p>
+<p>python的编码转码网上有很多文章，如果你不了解这个你可以参考下面了解。</p>
+<p><a href="http://nedbatchelder.com/text/unipain.html" target="_blank" rel="noopener">Ned Batchelder 关于python unicode和str的理解，通俗易懂</a></p>
+<p><a href="http://www.tuicool.com/articles/ZbEFnya" target="_blank" rel="noopener">关于scrapy 入门</a></p>
+<p><a href="http://blog.csdn.net/crazyhacking/article/details/39375535" target="_blank" rel="noopener"> 关于 encode的认识</a></p>
+<p>通过上面我们可以很好的理解python的转码译码，在这里我想谈一下我自己对其的认识吧，我一开始接触的c语言序列的基本上都是强类型，比如C里面假如我想写一个函数每个传人的参数都得是有类型的，但是python弱化了类型这一点，python也是面对对象的，但是他的对象就是鸡同鸭讲，照猫画虎就能运行，弱类型适合动态语言，我们不确定下一行代码输入的是什么，自从学python起，一直感觉python对类型一直不严格，这样就给了我一种错觉，只要长得差不多就能一样的比划，比如在两个string，<code>&#39;中国&#39;</code>,<code>u&#39;中国&#39;</code>,看起来差不多但是如果你把<code>u&#39;中国&#39;</code>存入文件中就会出错（假如你没定义编码规则)</p>
+<pre><code>UnicodeEncodeError: &apos;ascii&apos; codec can&apos;t encode characters in position 344-351: ordinal not in range(128)
+</code></pre><p>unicode字符编码错误，要想理解这个要对unicode字符集和unicode编码有一定的理解，推荐你读一下这篇博客<a href="http://www.techug.com/character-set" target="_blank" rel="noopener">字符编码的知识</a>,python内部使用unicode字符集存贮所以的编码的字符，为什么要用unicode字符集举个栗子吧：</p>
+<blockquote>
+<p>A是米国的程序员，他使用asicc编码的文件上传了一封邮件，<br>B是中国的程序员他使用gbk编码的文件上传了一封邮件，<br>现在C要用程序同时处理A和B的邮件，有两种解决方法他把A的文件译码再编码成B的gbk，或者将B的文件译码成asicc但是中文无法处理，那么只能使用第一种方法将A的文件编码成gbk，但是改天D又来啦，他是俄国人，天啊噜gbk可能没有把俄语编进去，那肿么办，我们迫切需要一种编码可以把所以的字符放进去，所以unicode出现了，Unicode中将字符集按照一定的类别划分到0~16这17个层面（Planes）中，每个层面中拥有216=65536个字符码，因此Unicode总共拥有的字符码，也即是Unicode的字符空间总共有17*65536=1114112，一共有1114112这么多的字符可以用，这下我们不用担心了吧，太好了这下不用愁了，</p>
+</blockquote>
+<p>python 内部使用unicode字符集作为一个译码中转站，因为他编码了所以的字符集，只要你能在自己编码方案上找到自己的字，我就能在unicode字符集找到你的位置，所以使用unicode可以很好的解决多种编码方案产生的问题（比如gbk，utf-8）</p>
+<p>当然其他编码方案如果想使用unicode解码成其他的必须同unicode有一一对应关系，不过现在主流的编码方案如gbk，gb2312，utf-8都是unicode系的。</p>
+<p>了解了这些基础知识就可以知道了为什么存贮<code>u&#39;中国&#39;</code>存不进文件里面去了，因为unicode并不提供给当今字符解析器的方法，就是<code>\u234e</code>一个16进制数字，屏幕上不知道他对应什么图形，所以python系统要求存进文件的必须是字节流，也就是可以unicode是一种更高级的字符流，这个字符流能存贮当今世界所以定义的字符，但是他只是一个规定字符集合，我们只需要把发现的字符放进去占据一个位置，但是我们不需要考虑屏幕是否认识这个字符，这个字符的存贮由编码方案负责，如utf-8这些，假如没有字符编码方案可以存贮这些，我们虽然在unicode上有这个字符但是我们无法print出来，所以我们必须将unicode转换成普通字符流，有人就会问了，假如我真的没有找到一个合适编码方案可以存贮所有语言，我们可以将他编码成unicode—escape类型，这里我们不多讲。</p>
+<p>这就可以解释我们大部分碰到的错误unicodedecodeerror和unicodeencodeerror错误，都是因为字符编码方案不了解造成的，网上很多说碰到这种错误就encode，decode搞一下就行但是不弄清楚这背后的知识就会犯迷糊。</p>
+<p>接下来我谈谈我遇到的错误吧，在爬取<code>http://yjsy.ncu.edu.cn/yjs_showmsg.asp?id=2770</code>这个页面时（这是一个不规范的页面没有设置charset），因为每个spider调用的</p>
+<pre><code>response.xpath(&apos;//xpath&apos;).extract()    
+</code></pre><p>选择器返回的是一个unicode编码的字符集，但是他是接受的是一个字符流，spider可能调用了<br><code>response.body.decode(response.encoding)</code>进行转码，但是这个response.encoding有时候会判断错误，比如将我一个gbk编码的文件判断成cp1253,这个时候假如我把他解码成encode成其他编码方式的话，我们就会得到乱码，那怎么纠正呢，我们可以这样干<br>先将得到的列表中每个<code>content</code>取出来，然后使用<code>content.encode(resonse.encoding)</code>转码成原始字符流，现在你可以将它用正确的编码转换成unicode了</p>
+<p>下面是我github上的关于这个scrapy的项目，在coding_pitch.py文件里面就是对于这个乱码的处理</p>
+<p><a href="https://github.com/MrZhangLoveLearning/ncuscrapy.git" target="_blank" rel="noopener">南昌大学教务处公告爬取</a></p>
 ]]></content>
       <categories>
         <category>Python</category>
@@ -1274,6 +1258,96 @@ where a.id = b.id;
       </categories>
   </entry>
   <entry>
+    <title>GitHub Education Pack</title>
+    <url>/2016/07/18/software/GitHubEducationPack/</url>
+    <content><![CDATA[<blockquote>
+<p>GitHub推出一个对学生和教师的福利包,对于学生来说这是一个不小<br>的福利,只要通过一个edu邮箱就可以领取,但奈何国内有些无良人买卖<br>邮箱,所以GitHub对于.cn的邮箱一律拒绝,但是可以通过上传学生证的方法<br>得到验证,题主刚开始用学校邮箱试了试,失败了,抱着试一试的心态,上传了<br>学生证,没想到第二天就给我回复,并给我这个豪华大礼包,接下来我就介绍介绍<br>如何用这个包来.</p>
+</blockquote>
+<h3 id="有些人在网上说-上传学生证没有用-可能是那个plan-GitHub会叫你写一点你想用GitHub做什么-用的是中文写的-最好用英文写-回复的会快一点"><a href="#有些人在网上说-上传学生证没有用-可能是那个plan-GitHub会叫你写一点你想用GitHub做什么-用的是中文写的-最好用英文写-回复的会快一点" class="headerlink" title="有些人在网上说,上传学生证没有用,可能是那个plan(GitHub会叫你写一点你想用GitHub做什么)用的是中文写的,最好用英文写-_-,回复的会快一点."></a>有些人在网上说,上传学生证没有用,可能是那个plan(GitHub会叫你写一点你想用GitHub做什么)用的是中文写的,最好用英文写-_-,回复的会快一点.</h3><h2 id="Digital-Ocean-—VPS-50刀"><a href="#Digital-Ocean-—VPS-50刀" class="headerlink" title="Digital Ocean —VPS 50刀"></a>Digital Ocean —VPS 50刀</h2><blockquote>
+<p>以前貌似是100刀,现在缩水一半了,不知道为什么.</p>
+</blockquote>
+<h4 id="DigitalOcean是一家以优质的VPS服务器著名-毕竟用SSD做存贮的服务器商没几家"><a href="#DigitalOcean是一家以优质的VPS服务器著名-毕竟用SSD做存贮的服务器商没几家" class="headerlink" title="DigitalOcean是一家以优质的VPS服务器著名,毕竟用SSD做存贮的服务器商没几家."></a>DigitalOcean是一家以优质的VPS服务器著名,毕竟用SSD做存贮的服务器商没几家.</h4><h6 id="这个是包小时的我们可以最便宜的5刀每月-提供20GSSD-1TB流量-我们可以用它来搭建服务器或者搭建一个shadowsocks服务器-安装shadowsocks很简单-但是怎么得到这50刀就要花点时间了"><a href="#这个是包小时的我们可以最便宜的5刀每月-提供20GSSD-1TB流量-我们可以用它来搭建服务器或者搭建一个shadowsocks服务器-安装shadowsocks很简单-但是怎么得到这50刀就要花点时间了" class="headerlink" title="这个是包小时的我们可以最便宜的5刀每月,提供20GSSD,1TB流量,我们可以用它来搭建服务器或者搭建一个shadowsocks服务器,安装shadowsocks很简单,但是怎么得到这50刀就要花点时间了."></a>这个是包小时的我们可以最便宜的5刀每月,提供20GSSD,1TB流量,我们可以用它来搭建服务器或者搭建一个shadowsocks服务器,安装shadowsocks很简单,但是怎么得到这50刀就要花点时间了.</h6><h4 id="你要是想得到这50刀必须先充值5刀-但是怎么给钱有是个问题-真是有钱也花出去啊-你可以选择绑卡-但是很复杂不一定能绑的上-最好的方式使用PayPal付这5刀-PayPal可以绑定银联卡付款-但是这个PayPal注册又是个问题-当时题主注册的时候一直提示服务器故障"><a href="#你要是想得到这50刀必须先充值5刀-但是怎么给钱有是个问题-真是有钱也花出去啊-你可以选择绑卡-但是很复杂不一定能绑的上-最好的方式使用PayPal付这5刀-PayPal可以绑定银联卡付款-但是这个PayPal注册又是个问题-当时题主注册的时候一直提示服务器故障" class="headerlink" title="你要是想得到这50刀必须先充值5刀,但是怎么给钱有是个问题,真是有钱也花出去啊.你可以选择绑卡,但是很复杂不一定能绑的上,最好的方式使用PayPal付这5刀,PayPal可以绑定银联卡付款,但是这个PayPal注册又是个问题,当时题主注册的时候一直提示服务器故障."></a>你要是想得到这50刀必须先充值5刀,但是怎么给钱有是个问题,真是有钱也花出去啊.你可以选择绑卡,但是很复杂不一定能绑的上,最好的方式使用PayPal付这5刀,PayPal可以绑定银联卡付款,但是这个PayPal注册又是个问题,当时题主注册的时候一直提示服务器故障.</h4><h3 id="当时去上网搜了搜-中国大陆是有这个情况-可以通过贝宝-PayPal在中国的分公司-来注册"><a href="#当时去上网搜了搜-中国大陆是有这个情况-可以通过贝宝-PayPal在中国的分公司-来注册" class="headerlink" title="当时去上网搜了搜,中国大陆是有这个情况,可以通过贝宝(PayPal在中国的分公司)来注册"></a>当时去上网搜了搜,中国大陆是有这个情况,可以通过贝宝(PayPal在中国的分公司)来注册</h3><h5 id="提醒一句-绑银联卡的时候最好用IE来绑定-别问我为什么谷歌浏览器不行—"><a href="#提醒一句-绑银联卡的时候最好用IE来绑定-别问我为什么谷歌浏览器不行—" class="headerlink" title="提醒一句,绑银联卡的时候最好用IE来绑定,别问我为什么谷歌浏览器不行—-"></a>提醒一句,绑银联卡的时候最好用IE来绑定,别问我为什么谷歌浏览器不行—-</h5><h4 id="选择VPS的时候推荐San-Francisco-延迟最低"><a href="#选择VPS的时候推荐San-Francisco-延迟最低" class="headerlink" title="选择VPS的时候推荐San Francisco,延迟最低."></a>选择VPS的时候推荐San Francisco,延迟最低.</h4><h4 id="搭建shadowsocks可以参考这篇博客"><a href="#搭建shadowsocks可以参考这篇博客" class="headerlink" title="搭建shadowsocks可以参考这篇博客"></a>搭建shadowsocks可以参考这篇<a href="https://segmentfault.com/a/1190000002511795" target="_blank" rel="noopener">博客</a></h4><h2 id="NameCheap"><a href="#NameCheap" class="headerlink" title="NameCheap"></a>NameCheap</h2><h3 id="ME域名一个（一年，价值8-99刀）PositiveSSL一个-（一年，价值9刀）"><a href="#ME域名一个（一年，价值8-99刀）PositiveSSL一个-（一年，价值9刀）" class="headerlink" title="ME域名一个（一年，价值8.99刀）PositiveSSL一个 （一年，价值9刀）"></a>ME域名一个（一年，价值8.99刀）PositiveSSL一个 （一年，价值9刀）</h3><blockquote>
+<p>这个要想得到域名必须通过邮箱验证还好NameCheape承认.edu.cn邮箱</p>
+</blockquote>
+<h5 id="提醒一下-通过DVC验证的时候选择邮箱验证就够了-虽然不是你的邮箱但是会把资料发到你提供的邮箱"><a href="#提醒一下-通过DVC验证的时候选择邮箱验证就够了-虽然不是你的邮箱但是会把资料发到你提供的邮箱" class="headerlink" title="提醒一下,通过DVC验证的时候选择邮箱验证就够了.虽然不是你的邮箱但是会把资料发到你提供的邮箱"></a>提醒一下,通过DVC验证的时候选择邮箱验证就够了.虽然不是你的邮箱但是会把资料发到你提供的邮箱</h5><h4 id="可以参考这篇博客搭建你的https网站-本站也是采用这种方法搭建的-但是有一点不同的时-现在NameCheap直接发给我一个-crt文件和-ca-bundle文件-用于Apache-所以把-key文件和-crt文件放到服务器上配置一下就好了"><a href="#可以参考这篇博客搭建你的https网站-本站也是采用这种方法搭建的-但是有一点不同的时-现在NameCheap直接发给我一个-crt文件和-ca-bundle文件-用于Apache-所以把-key文件和-crt文件放到服务器上配置一下就好了" class="headerlink" title="可以参考这篇博客搭建你的https网站,本站也是采用这种方法搭建的.但是有一点不同的时,现在NameCheap直接发给我一个.crt文件和.ca-bundle文件(用于Apache),所以把.key文件和.crt文件放到服务器上配置一下就好了."></a>可以参考这篇<a href="http://www.freehao123.com/namecheap-ssl/" target="_blank" rel="noopener">博客</a>搭建你的https网站,本站也是采用这种方法搭建的.但是有一点不同的时,现在NameCheap直接发给我一个.crt文件和.ca-bundle文件(用于Apache),所以把.key文件和.crt文件放到服务器上配置一下就好了.</h4><h2 id="GitHub-Micro-account-7刀-month"><a href="#GitHub-Micro-account-7刀-month" class="headerlink" title="GitHub Micro account 7刀/month"></a>GitHub Micro account 7刀/month</h2><blockquote>
+<p>这个不错我们可以有五个私有项目,一直可以用到你毕业.</p>
+</blockquote>
+<p>这个不错哦,妈妈再也不怕我写的stupid代码被人看到了 O(∩_∩)O哈哈~.</p>
+]]></content>
+      <categories>
+        <category>软件</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>PostgreSQL的自增键</title>
+    <url>/2017/10/08/software/PostgreSQL%E7%9A%84%E8%87%AA%E5%A2%9E%E9%94%AE/</url>
+    <content><![CDATA[<blockquote>
+<p>平常在Django项目中大量使用自增这个键，平常都是使用ORM，很少去了解这个东西在数据库中具体使用，最近遇到要备份和复原数据的事情，趁着这次好好探索一下这个自增键的使用</p>
+</blockquote>
+<p><code>Django</code>里面大部分都是将其作为<code>Int</code>自增主键来使用，第一个不需要维护一个唯一值，第二个使用<code>Int</code>作为主键的话，搜索和外键关联速度比较快。</p>
+<p>我们这次从原生<code>SQL</code>出发，探索一下这个自增主键在数据库中的具体使用</p>
+<h3 id="新建数据库"><a href="#新建数据库" class="headerlink" title="新建数据库"></a>新建数据库</h3><p>我们先新建一个数据库</p>
+<pre><code>create table inc(
+id serial not null,
+name text
+);
+</code></pre><p>在<code>PG</code>里面简单的使用<code>serial</code>关键字就会生成一个自增键，默认会在数据库新建一个索引表，例如上面就会新建一个<code>inc_id_seq</code>的索引表，这个字段类型为<code>int</code>，如果数据库很大，我们可以使用<code>BIGSERIAL</code>键申请一个<code>bigint</code>类型的字段</p>
+<p>我们可以看一下这个索引表里面有什么</p>
+<pre><code>         Sequence &quot;public.inc_id_seq&quot;
+    Column     |  Type   |        Value        
+---------------+---------+---------------------
+ sequence_name | name    | inc_id_seq
+ last_value    | bigint  | 1
+ start_value   | bigint  | 1
+ increment_by  | bigint  | 1
+ max_value     | bigint  | 9223372036854775807
+ min_value     | bigint  | 1
+ cache_value   | bigint  | 1
+ log_cnt       | bigint  | 30
+ is_cycled     | boolean | f
+ is_called     | boolean | t
+</code></pre><p>我们可以这个索引表其实就是维护了一个参数，通过字段我们可以知道，这是一个自增为1的键，下一个值为2，目前没有插入一个值</p>
+<h3 id="增删查减"><a href="#增删查减" class="headerlink" title="增删查减"></a>增删查减</h3><p>我们通过一些基本操作来看看这个自增键的作用</p>
+<ul>
+<li>首先是插入</li>
+</ul>
+<pre><code>insert into inc (name) values (&apos;1&apos;),(&apos;2&apos;), (&apos;3&apos;);
+</code></pre><p>我们插入三个值，我们再查看索引表，发现<code>last_value</code>变成了3</p>
+<p>这个是没有指定<code>id</code>的值插入，我们试试显式声明插入</p>
+<pre><code>insert into inc  values (1, &apos;1&apos;),(2, &apos;2&apos;), (3, &apos;3&apos;), (4, &apos;4&apos;);
+</code></pre><p>我们惊奇的发现，在我们显式声明自增键的值的时候，索引表并没有变化，<code>last_value</code>还是3,<strong>这说明只有在不声明自增键，让数据库自己新建的时候，索引表才会更新</strong></p>
+<p><strong>我们可以把自增键看做一个默认值，当没有给自增键赋值的时候，这个自增键会从这个键的索引表中得到下一次自增的值</strong></p>
+<p>所以我们再尝试使用不声明自增键值的方法插入一个新值</p>
+<pre><code>insert into inc (name) values (&apos;4&apos;)
+</code></pre><p>我们发现索引表中<code>last_value</code>变成了4</p>
+<h3 id="主键自增"><a href="#主键自增" class="headerlink" title="主键自增"></a>主键自增</h3><p>由于我们在<code>Django</code>里面使用自增，一般都是将其声明为主键，设为唯一值，所以如果我们将声明表的结构变成</p>
+<pre><code>    create table inc(
+id serial not null PRIMARY KEY,
+name text
+    );
+</code></pre><p>上面的情况就不可能发生了，因为我们把自增键声明为主键，不过有意思的事就是如果你像上面一样指定了一个自增主键值为4，然后不指定再插入4，你会发现第一次会报主键不允许重复的错误，第二次则会成功插入，而且索引表的<code>last_value</code>变成了5</p>
+<p>看来并不是每次成功的时候才会更新<code>last_value</code>值，只要让系统自己去申请自增值就会更新索引表，我尝试了对表的增删查改，发现只有<code>insert</code>并且申请自增值的时候才会更新索引表，而且这个索引表之后增加，不会减少，所以有时候你删掉最大的值，自增键默认又从最后一次开始更新</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>在对单个数据表备份还原的时候，由于简单的使用了<code>COPY</code>命令进行备份还原，通过上面的探索我们发现如果涉及到自增主键的导入导出，在新表导入旧数据是不会出错的，但是由于我们没有考虑自增键的影响（我们导入自增键是显示赋值），在后面插入数据的时候有可能会报主键重复的错误</p>
+<p>为了避免以后插入入数据出现这样的错误，我们有两种措施</p>
+<ol>
+<li>使用<code>COPY</code>命令导入导出时候不获取自增键值</li>
+<li>在<code>COPY</code>导入新表后自己更新索引表</li>
+</ol>
+<p>第一种的话<code>SQL</code>比较繁琐（必须写出表所有字段值），推荐使用第二种</p>
+<p>我们可以简单的使用</p>
+<pre><code>SELECT MAX(id) FROM your_table;
+</code></pre><p>先获取自增键最大值，然后更新索引值(999为上面你获取的最大值）</p>
+<pre><code>SELECT setval(&apos;your_table_id_seq&apos;, 999, false);
+</code></pre><p>当然我们可以将这条语句合正一句话</p>
+<pre><code>SELECT setval(&apos;your_table_id_seq&apos;, COALESCE((SELECT MAX(id)+1 FROM your_table), 1), false);
+</code></pre><p>这样我们就可以开心的完成单表导入导出了</p>
+<p>ps：<br>在使用<code>COPY</code>命令时必须是superuser才能从文件中读取和导入数据，最简单的方法是用superuser账号加权使用<code>alter user xxx superuser</code>，待倒完数据后再降权<code>alter user xxx nosuperuser</code></p>
+]]></content>
+      <categories>
+        <category>软件</category>
+      </categories>
+  </entry>
+  <entry>
     <title>Ubuntu16.04安装Tensorflow的CPU优化</title>
     <url>/2018/04/19/software/Ubuntu14%E5%AE%89%E8%A3%85Tensorflow%E7%9A%84CPU%E4%BC%98%E5%8C%96/</url>
     <content><![CDATA[<blockquote>
@@ -1469,6 +1543,92 @@ $ make
       </categories>
   </entry>
   <entry>
+    <title>有用的几个Shell命令</title>
+    <url>/2016/07/18/software/%E6%9C%89%E7%94%A8%E7%9A%84%E5%87%A0%E4%B8%AAShell%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h3 id="管线命令-pipe-："><a href="#管线命令-pipe-：" class="headerlink" title="管线命令 (pipe)："></a>管线命令 (pipe)：</h3><ol>
+<li>撷取命令： cut, grep</li>
+<li>排序命令： sort, wc, uniq</li>
+<li>双向重导向： tee</li>
+<li>字符转换命令： tr, col, join, paste, expand</li>
+<li>分割命令： split</li>
+<li>参数代换： xargs<h3 id="分割文档"><a href="#分割文档" class="headerlink" title="分割文档"></a>分割文档</h3></li>
+</ol>
+<blockquote>
+<p>长长的一大片文档有时我们并不愿意看到全部内容,我们只想关注<br>部分内容的时候了可以考虑使用分割文档命令</p>
+</blockquote>
+<p><code>cut</code>是一个很好的分割文档工具</p>
+<h3 id="vi常用命令"><a href="#vi常用命令" class="headerlink" title="vi常用命令"></a>vi常用命令</h3><ol>
+<li>[Ctrl] + [u] 屏幕『向上』移动半页</li>
+<li><ul>
+<li>光标移动到非空格符的下一列</li>
+</ul>
+</li>
+<li><ul>
+<li>光标移动到非空格符的上一列</li>
+</ul>
+</li>
+<li>n<space>那个 n 表示『数字』，例如 20 。按下数字后会向右移动这一行的n 个字符。例如 20&lt;spac移动 20 个字符距离。</space></li>
+<li>0 这是数字『0 』：移动到这一行的最前面字符</li>
+<li>$ 移动到这一行的最后面字符处(常用)</li>
+<li>H 光标移动到这个屏幕的最上方那一行</li>
+<li>M 光标移动到这个屏幕的中央那一行</li>
+<li>L 光标移动到这个屏幕的最下方那一行</li>
+<li>G 移动到这个档案的最后一行(常用)</li>
+<li>nG n 为数字。移动到这个档案的第 n 行。例如 2档案的第 20 行(可配合 :set nu)</li>
+<li>gg 移动到这个档案的第一行，相当于 1G 啊！ (<br>n<enter> n 为数字。光标向下移动 n 行(常用)</enter></li>
+</ol>
+]]></content>
+      <categories>
+        <category>软件</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>富文本编辑器CKEditor配置CKFinder</title>
+    <url>/2016/07/18/software/%E5%AF%8C%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8CKEditor%E9%85%8D%E7%BD%AECKFinder/</url>
+    <content><![CDATA[<blockquote>
+<p>由于网站要实现图片和文字的混排的上传<br>所以在网上找了富文本编辑器的插件，发现<a href="http://ckeditor.com/download" target="_blank" rel="noopener">CKEditor</a>这款还不错的插件</p>
+</blockquote>
+<h3 id="我用的是4-5-1这个版本，的确很好用，只是引用了一个js文件就可以实现。"><a href="#我用的是4-5-1这个版本，的确很好用，只是引用了一个js文件就可以实现。" class="headerlink" title="我用的是4.5.1这个版本，的确很好用，只是引用了一个js文件就可以实现。"></a>我用的是<strong>4.5.1</strong>这个版本，的确很好用，只是引用了一个<strong>js</strong>文件就可以实现。</h3><hr>
+<ol>
+<li>将网上下的CKEditor包解压放在根目录下</li>
+<li><p>在页面上引用CKEditor的核心包<strong>ckeditor.js</strong></p>
+<pre><code>&lt;script src=&quot;ckeditor/ckeditor.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;;
+</code></pre></li>
+<li><p>在页面添加一个输入框<strong>textarea</strong></p>
+<pre><code>&lt;textarea name=&quot;individual&quot; id=&quot;individual&quot; runat=&quot;server&quot;&gt;&lt;/textarea&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+ CKEDITOR.replace(&apos;individual&apos;);
+ &lt;/script&gt;
+</code></pre></li>
+</ol>
+<hr>
+<h3 id="只要通过上面上面几个步骤就能实现富文本编辑器，但是点开图片上传功能，发现只有上传url的功能，并不能本地上传图片，百度了一下发现由于安全性问题CKEditor没有上传功能，只有安上CKFinder才能实现上传功能，于是我在官网下了ckfinder-aspnet-2-5-0-1-同CKEditor一样引用JS文件（只要引用ckfinder-js"><a href="#只要通过上面上面几个步骤就能实现富文本编辑器，但是点开图片上传功能，发现只有上传url的功能，并不能本地上传图片，百度了一下发现由于安全性问题CKEditor没有上传功能，只有安上CKFinder才能实现上传功能，于是我在官网下了ckfinder-aspnet-2-5-0-1-同CKEditor一样引用JS文件（只要引用ckfinder-js" class="headerlink" title="只要通过上面上面几个步骤就能实现富文本编辑器，但是点开图片上传功能，发现只有上传url的功能，并不能本地上传图片，百度了一下发现由于安全性问题CKEditor没有上传功能，只有安上CKFinder才能实现上传功能，于是我在官网下了ckfinder__aspnet_2.5.0.1,同CKEditor一样引用JS文件（只要引用ckfinder.js)"></a>只要通过上面上面几个步骤就能实现富文本编辑器，但是点开图片上传功能，发现只有上传url的功能，并不能本地上传图片，百度了一下发现由于安全性问题<strong>CKEditor</strong>没有上传功能，只有安上<a href="http://ckfinder.com/download" title="CKFinder" target="_blank" rel="noopener">CKFinder</a>才能实现上传功能，于是我在官网下了<strong>ckfinder__aspnet_2.5.0.1</strong>,同CKEditor一样引用JS文件（只要引用ckfinder.js)</h3><pre><code>&lt;script src=&quot;ckfinder/ckfinder.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+</code></pre><ul>
+<li>由于我是MVC的网站基于.net4.5，在官方给的包里面有一个asp.net网站实例放在<strong>_source</strong>文件夹里面，里面有一个基于.net2的示例网站，一运行就报找不到 <strong>System.Web.UI.Design</strong>这个命名空间的错，所以我把它从项目中排除，把项目中bin中debug文件夹下的<strong>CKFinder.dll</strong>复制出来，引用到我自己的项目中。<h3 id="接下来要配置CKEditor来让CKFinder引用进来，在CKEditor文件夹下config-js在CKEDITOR-editorConfig-function-config-方法中添加如下代码："><a href="#接下来要配置CKEditor来让CKFinder引用进来，在CKEditor文件夹下config-js在CKEDITOR-editorConfig-function-config-方法中添加如下代码：" class="headerlink" title="接下来要配置CKEditor来让CKFinder引用进来，在CKEditor文件夹下config.js在CKEDITOR.editorConfig = function (config) {};方法中添加如下代码："></a>接下来要配置<strong>CKEditor</strong>来让CKFinder引用进来，在CKEditor文件夹下config.js在CKEDITOR.editorConfig = function (config) {};方法中添加如下代码：</h3>   config.filebrowserImageBrowseUrl = ‘ckfinder/ckfinder.html?Type=Images’;<br>   config.filebrowserFlashBrowseUrl = ‘ckfinder/ckfinder.html?Type=Flash’;<pre><code>config.filebrowserUploadUrl = &apos;ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&amp;type=Files&apos;;
+</code></pre>  config.filebrowserImageUploadUrl = ‘ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&amp;type=Images’;<br>  config.filebrowserFlashUploadUrl = ‘ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&amp;type=Flash’;<br>  config.filebrowserWindowWidth = ‘800’;  //“浏览服务器”弹出框的size设置<br>  config.filebrowserWindowHeight = ‘500’;</li>
+</ul>
+<hr>
+<h4 id="注意在配置Url的时候要修改成相对于网站本地网站磁盘文件路径，比如说，你的网址是http-example-com-cn-你把ckfinder文件夹放在Admin下的Editor文件夹，那么所有url要改成下面类似的格式"><a href="#注意在配置Url的时候要修改成相对于网站本地网站磁盘文件路径，比如说，你的网址是http-example-com-cn-你把ckfinder文件夹放在Admin下的Editor文件夹，那么所有url要改成下面类似的格式" class="headerlink" title="注意在配置Url的时候要修改成相对于网站本地网站磁盘文件路径，比如说，你的网址是http://example.com.cn ,你把ckfinder文件夹放在Admin下的Editor文件夹，那么所有url要改成下面类似的格式"></a>注意在配置Url的时候要修改成相对于网站本地网站磁盘文件路径，比如说，你的网址是<a href="http://example.com.cn" target="_blank" rel="noopener">http://example.com.cn</a> ,你把ckfinder文件夹放在Admin下的Editor文件夹，那么所有url要改成下面类似的格式</h4><pre><code>config.filebrowserImageBrowseUrl =&apos;/Admin/Editor/ckfinder/ckfinder.html?Type=Images&apos;;
+</code></pre><h4 id="否则会报404错误，"><a href="#否则会报404错误，" class="headerlink" title="否则会报404错误，"></a>否则会报404错误，</h4><h4 id="最后一步是修改一个函数让所有人能看到服务器上传文件夹里面的文件，在ckfinder文件夹下面的cofig-ascx文件，找到-CheckAuthentication函数将返回值改成true"><a href="#最后一步是修改一个函数让所有人能看到服务器上传文件夹里面的文件，在ckfinder文件夹下面的cofig-ascx文件，找到-CheckAuthentication函数将返回值改成true" class="headerlink" title="最后一步是修改一个函数让所有人能看到服务器上传文件夹里面的文件，在ckfinder文件夹下面的cofig.ascx文件，找到 CheckAuthentication函数将返回值改成true"></a>最后一步是修改一个函数让所有人能看到服务器上传文件夹里面的文件，在ckfinder文件夹下面的cofig.ascx文件，找到 CheckAuthentication函数将返回值改成true</h4><p>当然如果你想修改上传文件的地址，你可以在上面方法里面找到SetConfig()方法，找到BaseUrl，修改为你想上传的地址，</p>
+<hr>
+<hr>
+<h3 id="PS："><a href="#PS：" class="headerlink" title="PS："></a>PS：</h3><h4 id="我是在在VS里面进行调试的，由于VS的IIS在调试的时候不允许对磁盘文件的路由地址访问，就是CKFinder通过ckfinder-html这个html来实现上传图片的功能，但是这个在调试的时候VS无法访问这个文件，所以一直报404错误，可以修改IIS来允许IIS访问磁盘文件，步骤如下："><a href="#我是在在VS里面进行调试的，由于VS的IIS在调试的时候不允许对磁盘文件的路由地址访问，就是CKFinder通过ckfinder-html这个html来实现上传图片的功能，但是这个在调试的时候VS无法访问这个文件，所以一直报404错误，可以修改IIS来允许IIS访问磁盘文件，步骤如下：" class="headerlink" title="我是在在VS里面进行调试的，由于VS的IIS在调试的时候不允许对磁盘文件的路由地址访问，就是CKFinder通过ckfinder.html这个html来实现上传图片的功能，但是这个在调试的时候VS无法访问这个文件，所以一直报404错误，可以修改IIS来允许IIS访问磁盘文件，步骤如下："></a>我是在在VS里面进行调试的，由于VS的IIS在调试的时候不允许对磁盘文件的路由地址访问，就是CKFinder通过<strong>ckfinder.html</strong>这个html来实现上传图片的功能，但是这个在调试的时候VS无法访问这个文件，所以一直报404错误，可以修改IIS来允许IIS访问磁盘文件，步骤如下：</h4><ol>
+<li>右键点击IIS Express，选择显示所有应用程序</li>
+<li>找到运行网站的配置，进入applicationhost.config文件夹</li>
+<li>ctrl+f 寻找UrlRoutingModule</li>
+<li><p>将preCodition设置为空字符</p>
+<pre><code>&lt;add name=&quot;UrlRoutingModule-4.0&quot; type=&quot;System.Web.Routing.UrlRoutingModule&quot; preCondition=&quot;&quot; /&gt;
+</code></pre></li>
+</ol>
+<hr>
+<h3 id="如果你是用MVC进行表单传值的话，你必须在post方法上面添加-ValidateInput-false-属性，如果不这样的话就会报下面的错"><a href="#如果你是用MVC进行表单传值的话，你必须在post方法上面添加-ValidateInput-false-属性，如果不这样的话就会报下面的错" class="headerlink" title="如果你是用MVC进行表单传值的话，你必须在post方法上面添加 [ValidateInput(false)] 属性，如果不这样的话就会报下面的错"></a>如果你是用MVC进行表单传值的话，你必须在post方法上面添加 <strong>[ValidateInput(false)]</strong> 属性，如果不这样的话就会报下面的错</h3><pre><code>“/”应用程序中的服务器错误。
+从客户端(content=&quot;&lt;p&gt;sdfsdafwewo shdfh...&quot;)中检测到有潜在危险的 Request.Form 值。
+</code></pre>]]></content>
+      <categories>
+        <category>软件</category>
+      </categories>
+  </entry>
+  <entry>
     <title>巧用Git钩子</title>
     <url>/2017/11/25/software/%E5%B7%A7%E7%94%A8Git%E9%92%A9%E5%AD%90/</url>
     <content><![CDATA[<blockquote>
@@ -1542,44 +1702,20 @@ exec git-update-server-info
       </categories>
   </entry>
   <entry>
-    <title>有用的几个Shell命令</title>
-    <url>/2016/07/18/software/%E6%9C%89%E7%94%A8%E7%9A%84%E5%87%A0%E4%B8%AAShell%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<h3 id="管线命令-pipe-："><a href="#管线命令-pipe-：" class="headerlink" title="管线命令 (pipe)："></a>管线命令 (pipe)：</h3><ol>
-<li>撷取命令： cut, grep</li>
-<li>排序命令： sort, wc, uniq</li>
-<li>双向重导向： tee</li>
-<li>字符转换命令： tr, col, join, paste, expand</li>
-<li>分割命令： split</li>
-<li>参数代换： xargs<h3 id="分割文档"><a href="#分割文档" class="headerlink" title="分割文档"></a>分割文档</h3></li>
-</ol>
-<blockquote>
-<p>长长的一大片文档有时我们并不愿意看到全部内容,我们只想关注<br>部分内容的时候了可以考虑使用分割文档命令</p>
-</blockquote>
-<p><code>cut</code>是一个很好的分割文档工具</p>
-<h3 id="vi常用命令"><a href="#vi常用命令" class="headerlink" title="vi常用命令"></a>vi常用命令</h3><ol>
-<li>[Ctrl] + [u] 屏幕『向上』移动半页</li>
-<li><ul>
-<li>光标移动到非空格符的下一列</li>
-</ul>
-</li>
-<li><ul>
-<li>光标移动到非空格符的上一列</li>
-</ul>
-</li>
-<li>n<space>那个 n 表示『数字』，例如 20 。按下数字后会向右移动这一行的n 个字符。例如 20&lt;spac移动 20 个字符距离。</space></li>
-<li>0 这是数字『0 』：移动到这一行的最前面字符</li>
-<li>$ 移动到这一行的最后面字符处(常用)</li>
-<li>H 光标移动到这个屏幕的最上方那一行</li>
-<li>M 光标移动到这个屏幕的中央那一行</li>
-<li>L 光标移动到这个屏幕的最下方那一行</li>
-<li>G 移动到这个档案的最后一行(常用)</li>
-<li>nG n 为数字。移动到这个档案的第 n 行。例如 2档案的第 20 行(可配合 :set nu)</li>
-<li>gg 移动到这个档案的第一行，相当于 1G 啊！ (<br>n<enter> n 为数字。光标向下移动 n 行(常用)</enter></li>
-</ol>
+    <title>阿里云服务器初体验</title>
+    <url>/2016/07/18/software/%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%88%9D%E4%BD%93%E9%AA%8C/</url>
+    <content><![CDATA[<h3 id="申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。"><a href="#申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。" class="headerlink" title="申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。"></a>申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。</h3><h3 id="1-用户名和密码"><a href="#1-用户名和密码" class="headerlink" title="1.用户名和密码"></a>1.用户名和密码</h3><p>找了半天没有找到那个是用户名，试了实例的id，没有用，最后终于在登录帮助名里面找到了，用户名竟然是<code>root</code>！！！！,我用的是Ubuntu系统，说好的Ubuntu不提供root权限的呢，阿里还真会改造Linux系统<br>，但是我觉得用root登录还是不安全，我觉得新建一个用户吧</p>
+<p>在root权限下</p>
+<pre><code>useradd -s /bin/bash -r -m yourname
+</code></pre><p>解释一下，本来直接<code>useradd yourname</code> 就可以新建一个<code>yourname</code>账号，但是如果用你新建的用户登录的话，你无法使用Tab键和上下左右键 ，你键入 <code>echo $SHELL</code>，会发现是<code>/bin/sh</code>，因为Ubuntu默认创建账号使用<code>/bin/sh</code>，假如你没加这个可以删掉 用这个<code>userdel yourname</code>重新来一遍，搞完这个只是创建了一个普通用户，你使用不了sudo获取最高权限，这个怎么办，很简单在<code>/etc/sudoers</code>里面找到<br>        root ALL=(ALL:ALL) ALL</p>
+<p>模仿它加上自己的账号名就可以</p>
 ]]></content>
       <categories>
         <category>软件</category>
       </categories>
+      <tags>
+        <tag>HTTP</tag>
+      </tags>
   </entry>
   <entry>
     <title>新年展望</title>
@@ -1828,6 +1964,37 @@ exec git-update-server-info
       </categories>
   </entry>
   <entry>
+    <title>未来一年规划</title>
+    <url>/2021/03/09/summary/%E6%9C%AA%E6%9D%A5%E4%B8%80%E5%B9%B4%E8%A7%84%E5%88%92/</url>
+    <content><![CDATA[<blockquote>
+<p>在上一篇博客上我写了我关于未来规划的计划，接下来这篇博客就好好介绍一下怎么做规划</p>
+</blockquote>
+<h2 id="长期目标"><a href="#长期目标" class="headerlink" title="长期目标"></a>长期目标</h2><p>首先一个长期目标很好找到，比如成为某个方向技术专家，首先我想到的是要把我的英语能力提上去，那么很简单就是成为一个英语高手。</p>
+<p>这个长期目标有了，接下来我们要思考我们如何来做到这一点。我们中期目标很简单就是能流利的说，流利的写。因为我前面有经验，要想达到这个就是大量的背诵，大量的默写（当然我后面主要是敲代码为主，可以通过打字的方式默写）。所以我的短期目标就很简单，就是将新概念2、 3 、4给全部背诵并默写出来。这个方法虽然有的傻，但是很扎实，唯一的缺点就是我的读音可能不那么native。但是我的目标主要是阅读与写作能力，开口能力够用就行，其实大部分外国人能接受咖喱味的英语也能接受中国式英语</p>
+<p>我第二个长期目标就是成为某个技术领域专家，上面的英语阅读与写作能力也是为了这个服务的，因为英语比较重要，现在主流软件全部是英语写的。</p>
+<p>其实我这个东西很早就在我的目标当中，但是我太贪婪了，学东西的时候没有把力往一处使，导致学着学着就偏航了。人的精力是有限的，如果不专注，那么很难成为一个方向的专家。</p>
+<p>要想成为一个专家，首先你就得看看专家怎么做的。我的目标很简单就是成为后端领域专家，首先我去一下技术行业里面的专家的博客上去看，看人家博客怎么写的，最下面是我找到的三个技术博客</p>
+<h2 id="如何成为技术专家"><a href="#如何成为技术专家" class="headerlink" title="如何成为技术专家"></a>如何成为技术专家</h2><p>专家博客给我的第一印象是他们的体系非常的健全，而且非常重要的一个地方他们博客文章的最多一定是就是他们擅长的方向</p>
+<p>比如说Java方向或者Spring这些文章一定是写的最多的，而且你去看人家的主方向内的内容，体系非常健全，基本上把这个体系上所有的知识点都囊括了。我在看人家的知识罗列的时候发现，自己和专家的差距就在这一点上，很多知识点我都没有涉及过。当你点击其中详细的内容的时候，你会发现其实人家写的非常简单明了，其实你自己把知识点给掌握之后也能写的出来。</p>
+<p>所以成为一个技术专家也很简单，也是“背”，但是没有人给你背书的目录，你得自己写一本书。而且技术这个东西与时俱进，我发现这些十几年的技术专家还在更新他们主力技能的文章，所以成为一个技术专家必须有两点</p>
+<ul>
+<li>健全的知识架构</li>
+<li>不断学习的能力</li>
+</ul>
+<p>现在说回我吧，其实我以前对博客的态度，很多时候只是为了写而写。我只是为了“炫耀”我懂的一些知识点。我从来没想过要把这些点连成一条线。</p>
+<p>其实自己的博客要把他当做自己的一个浓缩知识树，你必须主动去维护他、更新它。之前我的博客就像一粒一粒种子，我把他们种下就不管了，如果你给他浇水，努力的把你的这些树苗养成一颗颗大树，总有一天你能看到一片茂密的森林</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>所以在写完博客之前，我干了一件事，就是重新把我的博客更新了一遍，首先做了几个改变的地方，第一个就是将hexo样式换成Next，第二个就是开放了评论以及阅读量，当然我也开通了打赏，大家如果觉得我写的东西能对你有帮助的话，那就请我喝杯奶茶。</p>
+<p>当然这次改版我觉得最重要的一个地方就是，我重新把我的博客文章体系重新分了类，而且我自己也开始使用IDE来管理我的文章，我其实推荐大家学会在目录上就把你的文章进行分类，这样你能很快速的找到你想要的文章，也能在目录上对你知识树进行分类，尤其是像我已经写了近百篇博客。</p>
+<p>前路漫漫，诸君加油！！！</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="http://www.ityouknow.com/java.html" target="_blank" rel="noopener">http://www.ityouknow.com/java.html</a></p>
+<p><a href="https://bugstack.cn/" target="_blank" rel="noopener">https://bugstack.cn/</a></p>
+<p><a href="https://www.javaboy.org/" target="_blank" rel="noopener">https://www.javaboy.org/</a></p>
+]]></content>
+      <categories>
+        <category>随想</category>
+      </categories>
+  </entry>
+  <entry>
     <title>毕业两月反思</title>
     <url>/2018/08/25/summary/%E6%AF%95%E4%B8%9A%E4%B8%A4%E6%9C%88%E5%8F%8D%E6%80%9D/</url>
     <content><![CDATA[<blockquote>
@@ -1956,6 +2123,21 @@ exec git-update-server-info
       </categories>
   </entry>
   <entry>
+    <title>Starting Using English In My Blog</title>
+    <url>/2018/10/13/useless/StartingUsingEnglishInMyBlog/</url>
+    <content><![CDATA[<blockquote>
+<p>Happily, I decide to using English for my blog</p>
+</blockquote>
+<p>The reasons why I want to use English to write blog :</p>
+<ul>
+<li>I want to pratice my English writing </li>
+<li>it’s convenient for some tec in IT</li>
+<li>It’s kind of difficult for me in (<code>en</code>and <code>eng</code>,<code>in</code> and <code>ing</code>) as a southern Chinese which is deeply delay my write speed.</li>
+</ul>
+<p>It’s may be kind of difficult for me writing English in my blog, but I will try my best to avoiding stupied mistake.</p>
+]]></content>
+  </entry>
+  <entry>
     <title>EF搭建可扩展菜单</title>
     <url>/2016/07/18/useless/EF%E6%90%AD%E5%BB%BA%E5%8F%AF%E6%89%A9%E5%B1%95%E8%8F%9C%E5%8D%95/</url>
     <content><![CDATA[<blockquote>
@@ -1997,9 +2179,111 @@ public int sonListMenusID{get;set;}
 </code></pre><p>通过这种创建方式当我们创建子集菜单时我们就可以成功利用EF特性帮我们自动添加上外键，以及建立好实体关系。</p>
 <p>关于更详细的外键知识可以点击<a href="http://www.cnblogs.com/Gyoung/archive/2013/01/22/2869782.html" target="_blank" rel="noopener">这里</a></p>
 ]]></content>
-      <tags>
-        <tag>programming</tag>
-      </tags>
+  </entry>
+  <entry>
+    <title>怎么成为数据科学家（翻译）</title>
+    <url>/2016/12/23/useless/how-to-be-data-scientist/</url>
+    <content><![CDATA[<blockquote>
+<p>这是我从<code>Quora</code>上看到的一篇非常简短但详细的数据科学家的‘技能点’<br>来自eBay的一个数据科学家的回答<br>翻译来自<a href="https://www.quora.com/How-do-I-become-Data-analyst-scientist-Do-I-need-to-have-good-programming-skills/answer/Paul-Jeon-3?srid=ue3s8" target="_blank" rel="noopener">Quora回答</a></p>
+</blockquote>
+<p>这是面试谷歌、英特尔、脸书等大的世界五百强公司的数据科学家相关岗位常见的技术要求，在我看来主要有七点</p>
+<ul>
+<li>基本的编程基础</li>
+</ul>
+<blockquote>
+<p>你应该了解一门统计学相关的编程语言，比如说<code>R</code>或<code>Python</code>（同时要了解<code>Numpy</code>和<code>Pandas</code>库），还要一门数据库查询语言比如<code>SQL</code></p>
+</blockquote>
+<ul>
+<li>统计学</li>
+</ul>
+<blockquote>
+<p>你应该要能解释零假设、P值、最大似然估计和置信空间这些短语，统计学在非常巨大的数据库里压缩数据和从挑选最重要的特征非常重要，在你得出结论和设计实验过程中也帮助巨大</p>
+</blockquote>
+<ul>
+<li>机器学习</li>
+</ul>
+<blockquote>
+<p>你必须能够搞懂K-近邻、随机森林和集合方法等机器学习算法，这些算法基本上都在<code>R</code>或<code>Python</code>中得到实现，这些算法能告诉你雇主你能够将计算机科学运用在实际的管理中。</p>
+</blockquote>
+<ul>
+<li>数据重组</li>
+</ul>
+<blockquote>
+<p>你应该要能够“清理”数据。比如数据库中”California” （加利福利亚）和“CA”是一样的，数据库里面可能出现用负值代表人口。这个总的来说就是识别坏（或者不正确）的数据然后校正（或删除)他们。</p>
+</blockquote>
+<ul>
+<li>数据可视化</li>
+</ul>
+<blockquote>
+<p>数据科学家不能就只是自己搞懂就行，他们需要把他们发现告诉你的产品经理，这样就能确保数据能很好的应用到程序里面去。所以，熟悉数据可视化工具比如说<code>ggplot</code>非常重要（这样你就能展示你的数据而不是仅仅谈谈而已）</p>
+</blockquote>
+<ul>
+<li>软件工程</li>
+</ul>
+<blockquote>
+<p>你应该了解算法和数据结构，因为这些东西在你写高效率的机器学习算法时非常重要，知道如何使用分支和使用高效的数据结构：队列、数组、列表、堆栈、树等等。</p>
+</blockquote>
+<ul>
+<li>产品管理</li>
+</ul>
+<blockquote>
+<p>这个绝对是有争议的，但是那些了解产品的人将会知道什么指标是最重要的。这里有很多数据可以用来做A/B测试，但是产品导向的数据科学家将会把最好的指标用来做测试。你要知道这些的意思：可用性测试、线框、保留和转换率、流量分析、客户反馈、内部日志、A/B测试。</p>
+</blockquote>
+]]></content>
+  </entry>
+  <entry>
+    <title>泛型继承的理解</title>
+    <url>/2016/07/18/useless/%E6%B3%9B%E5%9E%8B%E7%BB%A7%E6%89%BF%E7%9A%84%E7%90%86%E8%A7%A3/</url>
+    <content><![CDATA[<h3 id="泛型对于解决面对对象编程的算法设计可以提高其运算速度，但是对于引用类型来说还是没什么差别，因为引用类型只是指针的地址的调用，简单来说泛型还是挺好理解的，但是对于泛型、非泛型、继承和接口的融合就有些迷惑了。"><a href="#泛型对于解决面对对象编程的算法设计可以提高其运算速度，但是对于引用类型来说还是没什么差别，因为引用类型只是指针的地址的调用，简单来说泛型还是挺好理解的，但是对于泛型、非泛型、继承和接口的融合就有些迷惑了。" class="headerlink" title="泛型对于解决面对对象编程的算法设计可以提高其运算速度，但是对于引用类型来说还是没什么差别，因为引用类型只是指针的地址的调用，简单来说泛型还是挺好理解的，但是对于泛型、非泛型、继承和接口的融合就有些迷惑了。"></a>泛型对于解决面对对象编程的算法设计可以提高其运算速度，但是对于引用类型来说还是没什么差别，因为引用类型只是指针的地址的调用，简单来说泛型还是挺好理解的，但是对于泛型、非泛型、继承和接口的融合就有些迷惑了。</h3><h5 id="比如说这种接口"><a href="#比如说这种接口" class="headerlink" title="比如说这种接口"></a>比如说这种接口</h5><pre><code>public interface IEnumeratot&lt;T&gt;:IDisposable,IEnumerator,ICompare&lt;T&gt;
+</code></pre><h4 id="这个泛型接口继承了两个非泛型接口，和一个泛型接口。"><a href="#这个泛型接口继承了两个非泛型接口，和一个泛型接口。" class="headerlink" title="这个泛型接口继承了两个非泛型接口，和一个泛型接口。"></a>这个泛型接口继承了两个非泛型接口，和一个泛型接口。</h4><hr>
+<h3 id="我一开始理解泛型就是一个个模型，只要我们把类型一个参数赋给他，他就能生成一个标准的类型，他缺少的只是一个参数而已，我们引用的时候感觉就像我们引用一个“全体方法”，把参数赋给类型后就可以一直调用类中的方法了，但是对于接口的继承如何理解？"><a href="#我一开始理解泛型就是一个个模型，只要我们把类型一个参数赋给他，他就能生成一个标准的类型，他缺少的只是一个参数而已，我们引用的时候感觉就像我们引用一个“全体方法”，把参数赋给类型后就可以一直调用类中的方法了，但是对于接口的继承如何理解？" class="headerlink" title="我一开始理解泛型就是一个个模型，只要我们把类型一个参数赋给他，他就能生成一个标准的类型，他缺少的只是一个参数而已，我们引用的时候感觉就像我们引用一个“全体方法”，把参数赋给类型后就可以一直调用类中的方法了，但是对于接口的继承如何理解？"></a>我一开始理解泛型就是一个个模型，只要我们把类型一个参数赋给他，他就能生成一个标准的类型，他缺少的只是一个参数而已，我们引用的时候感觉就像我们引用一个“全体方法”，把参数赋给类型后就可以一直调用类中的方法了，但是对于接口的继承如何理解？</h3><p>对于泛型类的继承，继承的类必须实现泛型的参数或者保留泛型的参数，比如下面</p>
+<pre><code>  public class A&lt;T&gt;
+{
+    public T tt;
+}
+public class C&lt;T&gt; : A&lt;T&gt;
+{
+    public T tt;
+}
+</code></pre><p>或者是这样</p>
+<pre><code>  public class A&lt;T&gt;
+{
+    public T tt;
+}
+public class C : A&lt;string&gt;
+{
+    C cc;
+}
+</code></pre><p>对于泛型继承非泛型类，比如下面</p>
+<pre><code>public class A 
+{
+     A aa;
+ }
+
+ public class B&lt;T&gt;:A
+{
+    B&lt;T&gt; bb;
+}
+</code></pre><p>基类是非泛型，而继承的是泛型类，我感觉这种构造就是让泛型类多了一种<strong>包容性</strong>,比如下面的链表实现的代码，让基类是非泛型，而继承是泛型，就能让链表可以连起很多种类型的数据，而本身的类型安全没有丢失。</p>
+<pre><code>public class Node
+{
+        pretected Node next;
+          public Node(Node next){
+            this.next=next;
+            }
+}
+public class TypeNode&lt;T&gt;:Node
+{
+    public T data ;
+    public TypeNode(T data):this(data ,null){
+        }
+    public TypeNode(T data,Node next):base(next){
+        this.data=data;
+        }
+
+    }
+</code></pre><p>泛型的约束</p>
+]]></content>
   </entry>
   <entry>
     <title>js的this引发的思考</title>
@@ -2078,66 +2362,6 @@ var moveY = function(y) {
 </li>
 </ul>
 ]]></content>
-      <tags>
-        <tag>js</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>泛型继承的理解</title>
-    <url>/2016/07/18/useless/%E6%B3%9B%E5%9E%8B%E7%BB%A7%E6%89%BF%E7%9A%84%E7%90%86%E8%A7%A3/</url>
-    <content><![CDATA[<h3 id="泛型对于解决面对对象编程的算法设计可以提高其运算速度，但是对于引用类型来说还是没什么差别，因为引用类型只是指针的地址的调用，简单来说泛型还是挺好理解的，但是对于泛型、非泛型、继承和接口的融合就有些迷惑了。"><a href="#泛型对于解决面对对象编程的算法设计可以提高其运算速度，但是对于引用类型来说还是没什么差别，因为引用类型只是指针的地址的调用，简单来说泛型还是挺好理解的，但是对于泛型、非泛型、继承和接口的融合就有些迷惑了。" class="headerlink" title="泛型对于解决面对对象编程的算法设计可以提高其运算速度，但是对于引用类型来说还是没什么差别，因为引用类型只是指针的地址的调用，简单来说泛型还是挺好理解的，但是对于泛型、非泛型、继承和接口的融合就有些迷惑了。"></a>泛型对于解决面对对象编程的算法设计可以提高其运算速度，但是对于引用类型来说还是没什么差别，因为引用类型只是指针的地址的调用，简单来说泛型还是挺好理解的，但是对于泛型、非泛型、继承和接口的融合就有些迷惑了。</h3><h5 id="比如说这种接口"><a href="#比如说这种接口" class="headerlink" title="比如说这种接口"></a>比如说这种接口</h5><pre><code>public interface IEnumeratot&lt;T&gt;:IDisposable,IEnumerator,ICompare&lt;T&gt;
-</code></pre><h4 id="这个泛型接口继承了两个非泛型接口，和一个泛型接口。"><a href="#这个泛型接口继承了两个非泛型接口，和一个泛型接口。" class="headerlink" title="这个泛型接口继承了两个非泛型接口，和一个泛型接口。"></a>这个泛型接口继承了两个非泛型接口，和一个泛型接口。</h4><hr>
-<h3 id="我一开始理解泛型就是一个个模型，只要我们把类型一个参数赋给他，他就能生成一个标准的类型，他缺少的只是一个参数而已，我们引用的时候感觉就像我们引用一个“全体方法”，把参数赋给类型后就可以一直调用类中的方法了，但是对于接口的继承如何理解？"><a href="#我一开始理解泛型就是一个个模型，只要我们把类型一个参数赋给他，他就能生成一个标准的类型，他缺少的只是一个参数而已，我们引用的时候感觉就像我们引用一个“全体方法”，把参数赋给类型后就可以一直调用类中的方法了，但是对于接口的继承如何理解？" class="headerlink" title="我一开始理解泛型就是一个个模型，只要我们把类型一个参数赋给他，他就能生成一个标准的类型，他缺少的只是一个参数而已，我们引用的时候感觉就像我们引用一个“全体方法”，把参数赋给类型后就可以一直调用类中的方法了，但是对于接口的继承如何理解？"></a>我一开始理解泛型就是一个个模型，只要我们把类型一个参数赋给他，他就能生成一个标准的类型，他缺少的只是一个参数而已，我们引用的时候感觉就像我们引用一个“全体方法”，把参数赋给类型后就可以一直调用类中的方法了，但是对于接口的继承如何理解？</h3><p>对于泛型类的继承，继承的类必须实现泛型的参数或者保留泛型的参数，比如下面</p>
-<pre><code>  public class A&lt;T&gt;
-{
-    public T tt;
-}
-public class C&lt;T&gt; : A&lt;T&gt;
-{
-    public T tt;
-}
-</code></pre><p>或者是这样</p>
-<pre><code>  public class A&lt;T&gt;
-{
-    public T tt;
-}
-public class C : A&lt;string&gt;
-{
-    C cc;
-}
-</code></pre><p>对于泛型继承非泛型类，比如下面</p>
-<pre><code>public class A 
-{
-     A aa;
- }
-
- public class B&lt;T&gt;:A
-{
-    B&lt;T&gt; bb;
-}
-</code></pre><p>基类是非泛型，而继承的是泛型类，我感觉这种构造就是让泛型类多了一种<strong>包容性</strong>,比如下面的链表实现的代码，让基类是非泛型，而继承是泛型，就能让链表可以连起很多种类型的数据，而本身的类型安全没有丢失。</p>
-<pre><code>public class Node
-{
-        pretected Node next;
-          public Node(Node next){
-            this.next=next;
-            }
-}
-public class TypeNode&lt;T&gt;:Node
-{
-    public T data ;
-    public TypeNode(T data):this(data ,null){
-        }
-    public TypeNode(T data,Node next):base(next){
-        this.data=data;
-        }
-
-    }
-</code></pre><p>泛型的约束</p>
-]]></content>
-      <tags>
-        <tag>programming</tag>
-      </tags>
   </entry>
   <entry>
     <title>推荐系统微博数据实战</title>
@@ -3697,6 +3921,88 @@ sudo docker run -itd \
       </categories>
   </entry>
   <entry>
+    <title>EFCode First 导航属性</title>
+    <url>/2016/07/18/useless/EFCodeFirst%E5%AF%BC%E8%88%AA%E5%B1%9E%E6%80%A7/</url>
+    <content><![CDATA[<h4 id="首先谈谈自己对EF的接触的过程吧，最先接触EF只是因为EF支持从数据库把关系扒下来，可以省掉自己写Select、Update、Insert这些SQL语句，而且修改非常方便，后来在使用的过程中发现导航属性这个关系，然后才慢慢知道数据库的索引是什么，由于自己接管的是大学生社团的数据库，大多时候创建者并不会考虑表的联系，一般创个主键就完事了（顺便吐槽一句，握草，数据库的表名和列名是什么鬼全用拼音首字母，为了兼容前面的内容我们还得花一半时间猜你们的列名，简直醉了，除了ID这个英文他们会，你们的英语是体育老师教的吗？？？）言归正传，用EF的确学到了对数据库表的的建立的理解，毕竟自己刚学数据库的时候就是把所有的字段塞到一张表里面，刚开始自己使用EF从数据库拔下来的表然后修改实体的关系的数据（感觉其实就是使用EF的EMDX的Code-First），使用这个并没有出现很多问题，后来又接触完整的Code-First，就是直接用代码生成数据库，虽然中间遇到无数的BUG但是这些BUG让我对数据库和EF的关系有了更深的理解，话不多说，直接上BUG。"><a href="#首先谈谈自己对EF的接触的过程吧，最先接触EF只是因为EF支持从数据库把关系扒下来，可以省掉自己写Select、Update、Insert这些SQL语句，而且修改非常方便，后来在使用的过程中发现导航属性这个关系，然后才慢慢知道数据库的索引是什么，由于自己接管的是大学生社团的数据库，大多时候创建者并不会考虑表的联系，一般创个主键就完事了（顺便吐槽一句，握草，数据库的表名和列名是什么鬼全用拼音首字母，为了兼容前面的内容我们还得花一半时间猜你们的列名，简直醉了，除了ID这个英文他们会，你们的英语是体育老师教的吗？？？）言归正传，用EF的确学到了对数据库表的的建立的理解，毕竟自己刚学数据库的时候就是把所有的字段塞到一张表里面，刚开始自己使用EF从数据库拔下来的表然后修改实体的关系的数据（感觉其实就是使用EF的EMDX的Code-First），使用这个并没有出现很多问题，后来又接触完整的Code-First，就是直接用代码生成数据库，虽然中间遇到无数的BUG但是这些BUG让我对数据库和EF的关系有了更深的理解，话不多说，直接上BUG。" class="headerlink" title="首先谈谈自己对EF的接触的过程吧，最先接触EF只是因为EF支持从数据库把关系扒下来，可以省掉自己写Select、Update、Insert这些SQL语句，而且修改非常方便，后来在使用的过程中发现导航属性这个关系，然后才慢慢知道数据库的索引是什么，由于自己接管的是大学生社团的数据库，大多时候创建者并不会考虑表的联系，一般创个主键就完事了（顺便吐槽一句，握草，数据库的表名和列名是什么鬼全用拼音首字母，为了兼容前面的内容我们还得花一半时间猜你们的列名，简直醉了，除了ID这个英文他们会，你们的英语是体育老师教的吗？？？）言归正传，用EF的确学到了对数据库表的的建立的理解，毕竟自己刚学数据库的时候就是把所有的字段塞到一张表里面，刚开始自己使用EF从数据库拔下来的表然后修改实体的关系的数据（感觉其实就是使用EF的EMDX的Code First），使用这个并没有出现很多问题，后来又接触完整的Code First，就是直接用代码生成数据库，虽然中间遇到无数的BUG但是这些BUG让我对数据库和EF的关系有了更深的理解，话不多说，直接上BUG。"></a>首先谈谈自己对EF的接触的过程吧，最先接触EF只是因为EF支持从数据库把关系扒下来，可以省掉自己写Select、Update、Insert这些SQL语句，而且修改非常方便，后来在使用的过程中发现导航属性这个关系，然后才慢慢知道数据库的索引是什么，由于自己接管的是大学生社团的数据库，大多时候创建者并不会考虑表的联系，一般创个主键就完事了（顺便吐槽一句，握草，数据库的表名和列名是什么鬼全用拼音首字母，为了兼容前面的内容我们还得花一半时间猜你们的列名，简直醉了，除了ID这个英文他们会，你们的英语是体育老师教的吗？？？）言归正传，用EF的确学到了对数据库表的的建立的理解，毕竟自己刚学数据库的时候就是把所有的字段塞到一张表里面，刚开始自己使用EF从数据库拔下来的表然后修改实体的关系的数据（感觉其实就是使用EF的EMDX的Code First），使用这个并没有出现很多问题，后来又接触完整的<strong>Code First</strong>，就是直接用代码生成数据库，虽然中间遇到无数的BUG但是这些BUG让我对数据库和EF的关系有了更深的理解，话不多说，直接上BUG。</h4><hr>
+<h2 id="1-EF未能确定外键，请用注解属性或Fluent-API标记外键"><a href="#1-EF未能确定外键，请用注解属性或Fluent-API标记外键" class="headerlink" title="1.    EF未能确定外键，请用注解属性或Fluent API标记外键"></a>1.    EF未能确定外键，请用注解属性或Fluent API标记外键</h2><p>网上关于如何用代码的（<a href="http://www.cnblogs.com/Gyoung/archive/2013/01/22/2869782.html" target="_blank" rel="noopener">Fluent API或注解属性</a>）指定外键的文章有很多有很多。在这里我想谈谈对外键的理解，首先建立起一张主表</p>
+<table class="table table-bordered table-striped table-condensed"><br>主表<br><tr><br><th><br>列名<br></th><br><th><br>类型<br></th><br></tr><br><tr><br><br><td><br>ID<br></td><br><td><br>int<br></td><br></tr><br><tr><br><td><br>Name<br></td><br><td><br>nvarchar(50)<br></td><br></tr><br></table>
+
+
+<h4 id="首先ID是独一无二的，而Name不是（重名的有很多），当我们给ID套上主键的时候，这时候插入这张表的ID只能有一种（这是数据库的一种约束，当然你可以不选择这种约束），一个人除了姓名还有其他东西，假如这时我们还有帮他加入性别这个信息，我们可以修改上一张表添加一个字段，也可以新建一张表存贮性别这个信息（当然在实际生活中只用一张表存一个信息很少），我们新建的这张表是这样的，"><a href="#首先ID是独一无二的，而Name不是（重名的有很多），当我们给ID套上主键的时候，这时候插入这张表的ID只能有一种（这是数据库的一种约束，当然你可以不选择这种约束），一个人除了姓名还有其他东西，假如这时我们还有帮他加入性别这个信息，我们可以修改上一张表添加一个字段，也可以新建一张表存贮性别这个信息（当然在实际生活中只用一张表存一个信息很少），我们新建的这张表是这样的，" class="headerlink" title="首先ID是独一无二的，而Name不是（重名的有很多），当我们给ID套上主键的时候，这时候插入这张表的ID只能有一种（这是数据库的一种约束，当然你可以不选择这种约束），一个人除了姓名还有其他东西，假如这时我们还有帮他加入性别这个信息，我们可以修改上一张表添加一个字段，也可以新建一张表存贮性别这个信息（当然在实际生活中只用一张表存一个信息很少），我们新建的这张表是这样的，"></a>首先ID是独一无二的，而Name不是（重名的有很多），当我们给ID套上主键的时候，这时候插入这张表的ID只能有一种（这是数据库的一种约束，当然你可以不选择这种约束），一个人除了姓名还有其他东西，假如这时我们还有帮他加入性别这个信息，我们可以修改上一张表添加一个字段，也可以新建一张表存贮性别这个信息（当然在实际生活中只用一张表存一个信息很少），我们新建的这张表是这样的，</h4><table class="table table-bordered table-striped table-condensed"><br>附表<br><tr><br><th><br>列名<br></th><br><th><br>类型<br></th><br></tr><br><br><tr><br><td><br>Sex<br></td><br><td><br>bit<br></td><br></tr><br></table>
+
+
+<p>这张表存贮了性别这个信息，但是如何将他从主表联系起来呢，我们先提取主表中的ID作为联系（我们称为外键）表改为</p>
+<table class="table table-bordered table-striped table-condensed"><br>附表<br><tr><br><th><br>列名<br></th><br><th><br>类型<br></th><br></tr><br><tr><br><br><td><br>ID<br></td><br><td><br>int<br></td><br></tr><br><tr><br><td><br>Sex<br></td><br><td><br>bit<br></td><br></tr><br></table>
+
+<p>我们把列名ID设为主键，这样我们就建立了一对一的关系，这个附表的ID必须不为空，这种关系还有一种就是将外键存贮在主表里面，就是将主表里面添加一个外键SexID，主表和附表要改成下面这种</p>
+<table class="table table-bordered table-striped table-condensed"><br>主表<br><tr><br><th><br>列名<br></th><br><th><br>类型<br></th><br></tr><br><tr><br><br><td><br>ID<br></td><br><td><br>int<br></td><br></tr><br><tr><br><td><br>Name<br></td><br><td><br>nvarchar(50)<br></td><br></tr><br><tr><br><br><td><br>SexID<br></td><br><td><br>int<br></td><br></tr><br><tr><br></tr></table>
+
+<table class="table table-bordered table-striped table-condensed"><br>附表<br><tr><br><th><br>列名<br></th><br><th><br>类型<br></th><br></tr><br><br><tr><br><td><br>Sex<br></td><br><td><br>bit<br></td><br></tr><br></table>
+
+<p>现在这种结构就是外键SexID可以为空（注上面的外键不能为空），</p>
+<h6 id="ps：说到外键不能为空我插一句，有些教科书上说外键不能为空也是对的，外键只是一个列名，当这个列名不唯一（也就是不为主键的时候）这是外键可以为空，为空的含义是不确定对应主表的值。"><a href="#ps：说到外键不能为空我插一句，有些教科书上说外键不能为空也是对的，外键只是一个列名，当这个列名不唯一（也就是不为主键的时候）这是外键可以为空，为空的含义是不确定对应主表的值。" class="headerlink" title="ps：说到外键不能为空我插一句，有些教科书上说外键不能为空也是对的，外键只是一个列名，当这个列名不唯一（也就是不为主键的时候）这是外键可以为空，为空的含义是不确定对应主表的值。"></a>ps：说到外键不能为空我插一句，有些教科书上说外键不能为空也是对的，外键只是一个列名，当这个列名不唯一（也就是不为主键的时候）这是外键可以为空，为空的含义是不确定对应主表的值。</h6><p>现在开始谈谈这种情况在EF发生的原因，你吧主表设为Person表，附表为SexInfo表，对应的代码如下</p>
+<pre><code>public Person{
+    public int ID{get;set;}
+    public string name{get;set;}
+    public virtual SexInfo Sex{get;set;
+                                            }
+
+
+public SexInfo{
+    public int ID{get;set;
+    public bool Sex{get;set;
+    public Person person{get;set;}
+                            }
+</code></pre><p>这个时候EF无法判断哪个是主表那个是附表，就是无法将外键加在哪个表的ID上，或者像上面的表中在Person表中添加一个外键。也就是在这种情况里面有四种可能的情况</p>
+<ol>
+<li>在Person表里面添加一个外键（假设为Person_SexInfoID)</li>
+<li>将Person表中的ID设为主键和外键</li>
+<li>在SexInfo表中添加一个外键（假设为SexInfo_PersonID)</li>
+<li>将SexInfo表中的ID设为主键和外键。</li>
+</ol>
+<h6 id="注假设在EF中没有给属性添加-Key-注解属性或在Fluent-API中声明一个属性为主键的话，EF会自动将有ID后缀的属性设置为主键并让他为标志字段自增，还有表中没有主键无法导入到EF中。"><a href="#注假设在EF中没有给属性添加-Key-注解属性或在Fluent-API中声明一个属性为主键的话，EF会自动将有ID后缀的属性设置为主键并让他为标志字段自增，还有表中没有主键无法导入到EF中。" class="headerlink" title="注假设在EF中没有给属性添加[Key]注解属性或在Fluent API中声明一个属性为主键的话，EF会自动将有ID后缀的属性设置为主键并让他为标志字段自增，还有表中没有主键无法导入到EF中。"></a>注假设在EF中没有给属性添加[Key]注解属性或在Fluent API中声明一个属性为主键的话，EF会自动将有ID后缀的属性设置为主键并让他为标志字段自增，还有表中没有主键无法导入到EF中。</h6><p>虽然EF有自动检测代码生成关系，但是本人还是比较推崇自己在Code First时就想好外键，这样在用模型绑定的时候就不会发生一些很可能发生的错误。在这张表里面为了节约数据库空间最好在SexInfo里面添加一个外键，现在我就来谈谈分别在两个表里面添加外键可能会遇到的BUG。</p>
+<ol>
+<li>在SexInfo里面添加外键PersonID</li>
+</ol>
+<p>类修改成为</p>
+<pre><code>public Person{
+    public int ID{get;set;}
+    public string name{get;set;}
+    public virtual SexInfo Sex{get;set;
+                                            }
+
+
+public SexInfo{
+    public int ID{get;set;
+    public bool Sex{get;set;
+    public int PersonID{get;set;}
+    public Person person{get;set;}
+                            }
+</code></pre><p>然后我们可以选择在PersonID上加上<code>[ForeignKey(&quot;Person&quot;)]</code>和<code>[Requird]</code>,或者在重写的OnModelCreating方法中加入 这样一句代码 </p>
+<pre><code>modelBuilder.Entity&lt;SexInfo&gt;().HasRequired(x =&gt; x.Person)
+.WithRequiredPrincipal(x =&gt; x.BindingRole).HasForeignKey(x =&gt; x.MenusManageID)        
+</code></pre><p>其实我更推崇写Fluent API 来约束，因为将注解属性放在Model里面太乱而且容易错，比如说假如你在<strong>PersonID</strong>上面少注释了一个<code>[Required]</code> 你又会得到一个模型验证错误，这个BUG是隐藏的最深的，现在来重点提一提这个BUG</p>
+<h4 id="BUG：模型验证错误····多重性与关系“········”中-Role“··············”中的引用约束冲突。因为-Dependent-Role-中的所有属性都不可以为-null，Principal-Role-的多重性必须为“1”。"><a href="#BUG：模型验证错误····多重性与关系“········”中-Role“··············”中的引用约束冲突。因为-Dependent-Role-中的所有属性都不可以为-null，Principal-Role-的多重性必须为“1”。" class="headerlink" title="BUG：模型验证错误····多重性与关系“········”中 Role“··············”中的引用约束冲突。因为 Dependent Role 中的所有属性都不可以为 null，Principal Role 的多重性必须为“1”。"></a>BUG：模型验证错误····多重性与关系“········”中 Role“··············”中的引用约束冲突。因为 Dependent Role 中的所有属性都不可以为 null，Principal Role 的多重性必须为“1”。</h4><h1 id="里面值类型不能为空（如果没有初始化时为0），所以EF报错，你要么给外键加上Required标记指定它必须存在，要么给一个可为空的int型，像这个示例里面外键PersonID是必须的，然后有些对应是0-1-对-1，所以这时候就疑惑了我们怎么给外键赋值，我们有一种办法命名一种类型他的值可以int也可以为空，但是EF会认识我们这种独特的外键吗？还好EF早想到了这点，有一种泛型可以为空也可以为你想要的类型，这种就是Nullable-lt-T-gt-在这个方法中我们只要将外键PersonID的类型换成-这个"><a href="#里面值类型不能为空（如果没有初始化时为0），所以EF报错，你要么给外键加上Required标记指定它必须存在，要么给一个可为空的int型，像这个示例里面外键PersonID是必须的，然后有些对应是0-1-对-1，所以这时候就疑惑了我们怎么给外键赋值，我们有一种办法命名一种类型他的值可以int也可以为空，但是EF会认识我们这种独特的外键吗？还好EF早想到了这点，有一种泛型可以为空也可以为你想要的类型，这种就是Nullable-lt-T-gt-在这个方法中我们只要将外键PersonID的类型换成-这个" class="headerlink" title="里面值类型不能为空（如果没有初始化时为0），所以EF报错，你要么给外键加上Required标记指定它必须存在，要么给一个可为空的int型，像这个示例里面外键PersonID是必须的，然后有些对应是0-1 对 1，所以这时候就疑惑了我们怎么给外键赋值，我们有一种办法命名一种类型他的值可以int也可以为空，但是EF会认识我们这种独特的外键吗？还好EF早想到了这点，有一种泛型可以为空也可以为你想要的类型，这种就是Nullable&lt;T&gt; ,在这个方法中我们只要将外键PersonID的类型换成 这个"></a>里面值类型不能为空（如果没有初始化时为0），所以EF报错，你要么给外键加上<code>Required</code>标记指定它必须存在，要么给一个可为空的int型，像这个示例里面外键PersonID是必须的，然后有些对应是0-1 对 1，所以这时候就疑惑了我们怎么给外键赋值，我们有一种办法命名一种类型他的值可以int也可以为空，但是EF会认识我们这种独特的外键吗？还好EF早想到了这点，有一种泛型可以为空也可以为你想要的类型，这种就是<code>Nullable&lt;T&gt;</code> ,在这个方法中我们只要将外键PersonID的类型换成 这个</h1><pre><code>public Nullable&lt;int&gt; PersonID{get;set;}
+</code></pre><h1 id="自己本身与数据库类型的对应，C"><a href="#自己本身与数据库类型的对应，C" class="headerlink" title="自己本身与数据库类型的对应，C"></a>自己本身与数据库类型的对应，C</h1><p>还有一个比较常见的BUG吧，来提一提。</p>
+<h4 id="BUG：······-引用约束的-Dependent-Role-中所有属性的类型都必须与-Principal-Role-中相应的属性类型相同。引用约束“·····”中，实体“····”的属性“····”的类型与实体“·····”的属性“·····”的类型不匹配。"><a href="#BUG：······-引用约束的-Dependent-Role-中所有属性的类型都必须与-Principal-Role-中相应的属性类型相同。引用约束“·····”中，实体“····”的属性“····”的类型与实体“·····”的属性“·····”的类型不匹配。" class="headerlink" title="BUG：······: 引用约束的 Dependent Role 中所有属性的类型都必须与 Principal Role 中相应的属性类型相同。引用约束“·····”中，实体“····”的属性“····”的类型与实体“·····”的属性“·····”的类型不匹配。"></a>BUG：······: 引用约束的 Dependent Role 中所有属性的类型都必须与 Principal Role 中相应的属性类型相同。引用约束“·····”中，实体“····”的属性“····”的类型与实体“·····”的属性“·····”的类型不匹配。</h4><p>这个bug就是相对应主体和外键不匹配的情况，相对应的类如下</p>
+<pre><code>    public Person{
+    public long ID{get;set;}
+    public string name{get;set;}
+    public virtual SexInfo Sex{get;set;
+                                            }
+
+
+public SexInfo{
+    public int ID{get;set;
+    public bool Sex{get;set;
+    public int PersonID{get;set;}
+    public Person person{get;set;}
+                            }
+</code></pre><p>Person里面的主键我改成了long型，然而外键PersonID却是int型，出现这个错误是对外键的认识还不够，外键其实就是主键的“分身”,主键是long型，外键必须也是long型，同理主键是int型外键也必须是ing型，</p>
+<h4 id="ps：导航属性是指对象，比如说Person类实例person，而外键是指存贮在数据库里面的一个特殊的列名。"><a href="#ps：导航属性是指对象，比如说Person类实例person，而外键是指存贮在数据库里面的一个特殊的列名。" class="headerlink" title="ps：导航属性是指对象，比如说Person类实例person，而外键是指存贮在数据库里面的一个特殊的列名。"></a>ps：导航属性是指对象，比如说Person类实例person，而外键是指存贮在数据库里面的一个特殊的列名。</h4><hr>
+<h3 id="充分认识导航属性和外键是搭建一个扎实的数据库结构的基础，在学习和应用EF的过程中也是了解数据库的结构的学习过程，EF或许在运行速度方法上比一般的SQL语句要慢，但是用EF我们可以更加方便的搭建一个好的数据体系，搭建一个好的数据体系可以让你在完成项目的时候事半功倍。"><a href="#充分认识导航属性和外键是搭建一个扎实的数据库结构的基础，在学习和应用EF的过程中也是了解数据库的结构的学习过程，EF或许在运行速度方法上比一般的SQL语句要慢，但是用EF我们可以更加方便的搭建一个好的数据体系，搭建一个好的数据体系可以让你在完成项目的时候事半功倍。" class="headerlink" title="充分认识导航属性和外键是搭建一个扎实的数据库结构的基础，在学习和应用EF的过程中也是了解数据库的结构的学习过程，EF或许在运行速度方法上比一般的SQL语句要慢，但是用EF我们可以更加方便的搭建一个好的数据体系，搭建一个好的数据体系可以让你在完成项目的时候事半功倍。"></a>充分认识导航属性和外键是搭建一个扎实的数据库结构的基础，在学习和应用EF的过程中也是了解数据库的结构的学习过程，EF或许在运行速度方法上比一般的SQL语句要慢，但是用EF我们可以更加方便的搭建一个好的数据体系，搭建一个好的数据体系可以让你在完成项目的时候事半功倍。</h3>]]></content>
+  </entry>
+  <entry>
     <title>从MNIST了解卷积神经网络</title>
     <url>/2018/04/24/ai/%E4%BB%8EMNIST%E4%BA%86%E8%A7%A3%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</url>
     <content><![CDATA[<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
@@ -3870,6 +4176,28 @@ for i in range(18000):
       </categories>
   </entry>
   <entry>
+    <title>天池大赛-口碑预测参赛感想</title>
+    <url>/2017/02/17/ai/competition/%E5%A4%A9%E6%B1%A0%E5%A4%A7%E8%B5%9B-%E5%8F%A3%E7%A2%91%E9%A2%84%E6%B5%8B%E5%8F%82%E8%B5%9B%E6%84%9F%E6%83%B3/</url>
+    <content><![CDATA[<blockquote>
+<p>第一次听说这个比赛还是去年在知乎上，当时也不知道这个比赛具体是怎么回事，当时自己还是一个小白，忙着搞懂各种主流的机器学习模型算法。</p>
+</blockquote>
+<p>当时在我心中，模型算法是数据挖掘的最重要的组成部分，搞懂这些才能真正搞定数据挖掘。我当时对算法模型和数据的理解是：模型就是风车，数据就是流水。我要做的事就是撘一个强健的风车，让数据流过。</p>
+<p>当我还没接触实际的工作前，我还没有没有从编程工转向挖掘工。我太注重编程本身了，而忘记我自己真正要挖掘的宝藏。</p>
+<p>我以前在<code>Quora</code>上搜如何成为数据科学家，我发现很多有经验的数据科学家他们都把“对数据的敏感和兴趣”作为数据科学家最重要的特征，而“了解各种算法模型并能应用到数据上”才是第二重要的。我当时不是太理解，我觉得后者才是更重要的。</p>
+<h2 id="参赛感想"><a href="#参赛感想" class="headerlink" title="参赛感想"></a>参赛感想</h2><p>这次参赛算是我学习数据挖掘第一次实际的挖掘，以前学习各种算法模型都是准备的很好的数据，只要套上算法模型就能跑的很好。所以我一开始就拼命的去找类似的大赛，看看获胜者他们用的模型是什么。</p>
+<p>这几天我好像抱着一堆瓶子，拼命的想把巨大的石头（数据）塞进瓶口里，看起来工作量很大，流了很多汗，其实什么都没有干。今天在看一个类似的比赛选手答辩的时候的视频，突然明白自己好像走了一个死胡同。自己拼命的想这找一个合适的瓶子（模型），其实我更应该做的是把石头（数据）磨碎。</p>
+<h4 id="模型本身不重要，他只是一个载体，更重要的是数据。"><a href="#模型本身不重要，他只是一个载体，更重要的是数据。" class="headerlink" title="模型本身不重要，他只是一个载体，更重要的是数据。"></a>模型本身不重要，他只是一个载体，更重要的是数据。</h4><p>第一次参加这样大型比赛，有点激动也有点惶恐，如何将所学的应用到实际，还有在实际中提高自己还有待自己“挖掘”。虽然这个比赛奖金“丰富”，但是我觉得在这个比赛中得到的体会乐趣比奖金更诱人。</p>
+<hr>
+<p>比赛还有一个月，在这里立个小目标，争取跑到到前五页，我也会尽量抽时间把自己感想写出来。<br>未完待续。</p>
+]]></content>
+      <categories>
+        <category>人工智能</category>
+      </categories>
+      <tags>
+        <tag>比赛</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>TDD-隔离测试</title>
     <url>/2016/08/09/algorithm/TDD/TDD-Isolution-Test/</url>
     <content><![CDATA[<blockquote>
@@ -3928,6 +4256,50 @@ class ListForm(forms.models.ModelForm):
 </code></pre><p>ok测试通过了，我们就可以歇一口气了。</p>
 <h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>相对于整合测试，隔离测试运行速度更快，但是相对的隔离测试对接口要求非常严格，好的方面利用我们进行更好的代码设计，更好的分析代码的复杂程度，并且当接口变迁的时候，隔离测试能迅速发现变化而报警，然而隔离测试工作量比较大，而且没有整合测试那么好理解。在实际生产中对于复杂的接口我们尽量进行隔离测试，对于简单接口我们使用整合测试能根据减少程序的耦合性，而且能迅速发现集成问题。</p>
 <p>ps：对<code>patch</code>感兴趣的童鞋可以自行google，<code>patch</code>好玩的地方还有很多，这里为了篇幅我只介绍了最核心的使用方法，大家可以自行探索<code>patch</code>更多好玩的东西。s</p>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>TDD</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>TDD测试开发理解</title>
+    <url>/2016/07/26/algorithm/TDD/TDD%E6%B5%8B%E8%AF%95%E5%BC%80%E5%8F%91%E7%90%86%E8%A7%A3/</url>
+    <content><![CDATA[<blockquote>
+<p>看了 &lt;&lt; Python Web 开发 测试驱动方法&gt;&gt; 以后, 感觉自己找到自己的一些项目之所以不能够很好的 维护下去的原因.总结了一下自己的理解, 记录下来.</p>
+</blockquote>
+<h2 id="什么是-TDD"><a href="#什么是-TDD" class="headerlink" title="什么是 TDD"></a>什么是 TDD</h2><blockquote>
+<p>Test-Driven Development</p>
+</blockquote>
+<p> TDD 是一种以测试为驱动开发的方法, 自己以前也听到过这个名词, 但是平常只是稍微写一点测试,并没有让测试领导开发节奏.</p>
+<p>简单来说TDD是先写测试再写代码, 这于我们平时开发的时候有很大不同,比如我们写一个web页面, 我们一般是先写好代码,然后在浏览器上调试(相当于测试),然而测试驱动开发就不同了,我们一开始只写测试, 然后写代码让他通过我们的测试.</p>
+<p>TDD的主题基本上很多人都知道,但是具体步骤和诀窍很多人不明就里.下面来详细介绍怎么让<code>Test</code><br>引导你的开发.</p>
+<h2 id="怎么进行TDD"><a href="#怎么进行TDD" class="headerlink" title="怎么进行TDD"></a>怎么进行TDD</h2><blockquote>
+<p>首先让我来看一看<code>Test</code>是什么, Test 分两种</p>
+</blockquote>
+<ol>
+<li>功能测试</li>
+<li>单元测试</li>
+</ol>
+<h3 id="功能测试"><a href="#功能测试" class="headerlink" title="功能测试"></a>功能测试</h3><blockquote>
+<p>很多人知道单元测试却很少听到功能测试, 功能测试在开发过程中经常被人忽略,但是功能测试能很好的把握开发方向</p>
+</blockquote>
+<p>功能测试就是从用户角度出发, 从用户的角度测试代码.</p>
+<p>用web项目开发来打比方, 用户只能通过浏览器来浏览你的web, 所有的交互只能通过浏览器来实现,功能测试就是模拟用户进行浏览器上的操作,具体来说我们可用使用<code>selenium</code>来操控<strong>firefox</strong>或<strong>chrome</strong>,通过我们使用<code>selenium</code>提供的接口操作浏览器访问页面获取<code>html</code>, 来进行功能测试.</p>
+<p>功能测试就是测试一个项目成品的功能, 在平常的项目开发中,这个测试往往是提到项目完成之后人工进行, 然而在<strong>TDD</strong>中这个却被提到了最前面,他成了一个风向标,所有的代码目的都是为了实现这个功能测试.</p>
+<h3 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h3><blockquote>
+<p>单元测试这个很多人都很了解, python里面有<code>unittest</code> 这个单元测试框架.就是专门为单元测试而开发的.</p>
+</blockquote>
+<p>单元测试历史悠久,很多人都写过单元测试,不过大部分人写单元测试都是在函数或者类完成之后写的.</p>
+<p>在TDD中,单元测试进行最频繁的测试, 在功能测试完, 写每一个函数都提倡先写单元测试, 然后进行开发.</p>
+<p>单元测试关注点与功能测试不同, 单元测试注重的是每一个函数执行的结果, 给定一个输入就一定要得到一个确定的输出,比功能测试他更关注底层代码,毕竟功能测试只关注用户最后得到结果,单元测试将你的代码函数形成一个单元,逐个运行,逐个测试.</p>
+<blockquote>
+<p>前面介绍了一大堆概念,却没有落到实处, 功能测试很简单,我们评价一个项目,能很快的写出测试方法,但是对于单元测试来说,我到底该怎么进行,这同我平时的开发有什么不同,下面就详细的介绍单元测试的几个重要的要点.</p>
+</blockquote>
+<hr>
+<p>留个坑慢慢填.</p>
 ]]></content>
       <categories>
         <category>算法</category>
@@ -4011,47 +4383,27 @@ class ListForm(forms.models.ModelForm):
       </tags>
   </entry>
   <entry>
-    <title>TDD测试开发理解</title>
-    <url>/2016/07/26/algorithm/TDD/TDD%E6%B5%8B%E8%AF%95%E5%BC%80%E5%8F%91%E7%90%86%E8%A7%A3/</url>
-    <content><![CDATA[<blockquote>
-<p>看了 &lt;&lt; Python Web 开发 测试驱动方法&gt;&gt; 以后, 感觉自己找到自己的一些项目之所以不能够很好的 维护下去的原因.总结了一下自己的理解, 记录下来.</p>
+    <title>mit6.828课程总结</title>
+    <url>/2018/01/09/algorithm/mit6_828/mit6.828%E8%AF%BE%E7%A8%8B%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
+<p>一开始想直接做一个操作系统，但是万事开头难，学习操作系统需要太多基础知识了，所以就按照网上推荐先学习mit6.828的课程，先把xvf6操作系统搞懂，然后在来实现自己的操作系统，下面就是学习这个课程的体会，按照各个lab的顺序，介绍自己的心得体会</p>
 </blockquote>
-<h2 id="什么是-TDD"><a href="#什么是-TDD" class="headerlink" title="什么是 TDD"></a>什么是 TDD</h2><blockquote>
-<p>Test-Driven Development</p>
-</blockquote>
-<p> TDD 是一种以测试为驱动开发的方法, 自己以前也听到过这个名词, 但是平常只是稍微写一点测试,并没有让测试领导开发节奏.</p>
-<p>简单来说TDD是先写测试再写代码, 这于我们平时开发的时候有很大不同,比如我们写一个web页面, 我们一般是先写好代码,然后在浏览器上调试(相当于测试),然而测试驱动开发就不同了,我们一开始只写测试, 然后写代码让他通过我们的测试.</p>
-<p>TDD的主题基本上很多人都知道,但是具体步骤和诀窍很多人不明就里.下面来详细介绍怎么让<code>Test</code><br>引导你的开发.</p>
-<h2 id="怎么进行TDD"><a href="#怎么进行TDD" class="headerlink" title="怎么进行TDD"></a>怎么进行TDD</h2><blockquote>
-<p>首先让我来看一看<code>Test</code>是什么, Test 分两种</p>
-</blockquote>
-<ol>
-<li>功能测试</li>
-<li>单元测试</li>
-</ol>
-<h3 id="功能测试"><a href="#功能测试" class="headerlink" title="功能测试"></a>功能测试</h3><blockquote>
-<p>很多人知道单元测试却很少听到功能测试, 功能测试在开发过程中经常被人忽略,但是功能测试能很好的把握开发方向</p>
-</blockquote>
-<p>功能测试就是从用户角度出发, 从用户的角度测试代码.</p>
-<p>用web项目开发来打比方, 用户只能通过浏览器来浏览你的web, 所有的交互只能通过浏览器来实现,功能测试就是模拟用户进行浏览器上的操作,具体来说我们可用使用<code>selenium</code>来操控<strong>firefox</strong>或<strong>chrome</strong>,通过我们使用<code>selenium</code>提供的接口操作浏览器访问页面获取<code>html</code>, 来进行功能测试.</p>
-<p>功能测试就是测试一个项目成品的功能, 在平常的项目开发中,这个测试往往是提到项目完成之后人工进行, 然而在<strong>TDD</strong>中这个却被提到了最前面,他成了一个风向标,所有的代码目的都是为了实现这个功能测试.</p>
-<h3 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h3><blockquote>
-<p>单元测试这个很多人都很了解, python里面有<code>unittest</code> 这个单元测试框架.就是专门为单元测试而开发的.</p>
-</blockquote>
-<p>单元测试历史悠久,很多人都写过单元测试,不过大部分人写单元测试都是在函数或者类完成之后写的.</p>
-<p>在TDD中,单元测试进行最频繁的测试, 在功能测试完, 写每一个函数都提倡先写单元测试, 然后进行开发.</p>
-<p>单元测试关注点与功能测试不同, 单元测试注重的是每一个函数执行的结果, 给定一个输入就一定要得到一个确定的输出,比功能测试他更关注底层代码,毕竟功能测试只关注用户最后得到结果,单元测试将你的代码函数形成一个单元,逐个运行,逐个测试.</p>
-<blockquote>
-<p>前面介绍了一大堆概念,却没有落到实处, 功能测试很简单,我们评价一个项目,能很快的写出测试方法,但是对于单元测试来说,我到底该怎么进行,这同我平时的开发有什么不同,下面就详细的介绍单元测试的几个重要的要点.</p>
-</blockquote>
-<hr>
-<p>留个坑慢慢填.</p>
+<p>课程的地址是： <a href="https://pdos.csail.mit.edu/6.828/2016/schedule.html" target="_blank" rel="noopener">mit6.828</a><br>PS：由于<a href="https://pdos.csail.mit.edu/6.828/2016/schedule.html" target="_blank" rel="noopener">mit6.828</a>课程仓库需要翻墙，所以我把clone下来放到我的github仓库，我的<a href="https://github.com/mrzhangboss/mit6.828-2016" target="_blank" rel="noopener">仓库</a>里，大家可以clone下来（我会逐渐完成所以的实验）</p>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="/2018/01/29/什么是操作系统/">什么是操作系统</a> lab1</li>
+<li><a href="/2018/02/05/内存分页设计/">内存分页设计</a> lab2</li>
+<li><a href="/2018/02/20/用户空间隔离/">用户空间隔离</a> lab3</li>
+<li><a href="/2018/02/">并行多核设计</a> lab4</li>
+<li><a href="/2018/02/">文件系统设计</a> lab5</li>
+<li><a href="/2018/02/">网络设计</a> lab6</li>
+</ul>
+<h2 id="课程总结"><a href="#课程总结" class="headerlink" title="课程总结"></a>课程总结</h2><p>学到一半才发现这是一门研究生课程的学习，的确难度非常大，而且每一个实验都可以拿出来大做研究，但是课程给的资料非常详细，基本上每个硬件细节都给出了链接，但是对于最大的困难还是英语资料实在太多，有点“吸收”不过来。不过一路学习下来，感觉还是收获很大，基本上每个实验都环环相扣，每个实现细节都需要反复思考，为什么要这样做，还能怎么做，最终实现的xvf6还有些许跟不上时代的脚步，但是基本上框架已经有了，就是按照这个骨架完善更多细节，所以这个课程还远远没有结束，期待接下来对这个操作系统的进一步改进！！！</p>
 ]]></content>
       <categories>
         <category>算法</category>
       </categories>
       <tags>
-        <tag>TDD</tag>
+        <tag>MOOC</tag>
       </tags>
   </entry>
   <entry>
@@ -4107,30 +4459,6 @@ class ListForm(forms.models.ModelForm):
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过上面的分析，我们得到一个结论：</p>
 <p>由于xv6设计的局限性，增大<code>KERNBASE</code>并不能增大用户最大可用空间，反而会减少。但是如果修改xv6设计可以实现增大<code>KERNBASE</code>增大用户最大可用空间。</p>
 <h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2>]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>MOOC</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mit6.828课程总结</title>
-    <url>/2018/01/09/algorithm/mit6_828/mit6.828%E8%AF%BE%E7%A8%8B%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
-<p>一开始想直接做一个操作系统，但是万事开头难，学习操作系统需要太多基础知识了，所以就按照网上推荐先学习mit6.828的课程，先把xvf6操作系统搞懂，然后在来实现自己的操作系统，下面就是学习这个课程的体会，按照各个lab的顺序，介绍自己的心得体会</p>
-</blockquote>
-<p>课程的地址是： <a href="https://pdos.csail.mit.edu/6.828/2016/schedule.html" target="_blank" rel="noopener">mit6.828</a><br>PS：由于<a href="https://pdos.csail.mit.edu/6.828/2016/schedule.html" target="_blank" rel="noopener">mit6.828</a>课程仓库需要翻墙，所以我把clone下来放到我的github仓库，我的<a href="https://github.com/mrzhangboss/mit6.828-2016" target="_blank" rel="noopener">仓库</a>里，大家可以clone下来（我会逐渐完成所以的实验）</p>
-<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
-<li><a href="/2018/01/29/什么是操作系统/">什么是操作系统</a> lab1</li>
-<li><a href="/2018/02/05/内存分页设计/">内存分页设计</a> lab2</li>
-<li><a href="/2018/02/20/用户空间隔离/">用户空间隔离</a> lab3</li>
-<li><a href="/2018/02/">并行多核设计</a> lab4</li>
-<li><a href="/2018/02/">文件系统设计</a> lab5</li>
-<li><a href="/2018/02/">网络设计</a> lab6</li>
-</ul>
-<h2 id="课程总结"><a href="#课程总结" class="headerlink" title="课程总结"></a>课程总结</h2><p>学到一半才发现这是一门研究生课程的学习，的确难度非常大，而且每一个实验都可以拿出来大做研究，但是课程给的资料非常详细，基本上每个硬件细节都给出了链接，但是对于最大的困难还是英语资料实在太多，有点“吸收”不过来。不过一路学习下来，感觉还是收获很大，基本上每个实验都环环相扣，每个实现细节都需要反复思考，为什么要这样做，还能怎么做，最终实现的xvf6还有些许跟不上时代的脚步，但是基本上框架已经有了，就是按照这个骨架完善更多细节，所以这个课程还远远没有结束，期待接下来对这个操作系统的进一步改进！！！</p>
-]]></content>
       <categories>
         <category>算法</category>
       </categories>
@@ -4313,6 +4641,30 @@ ELF Header:
       </tags>
   </entry>
   <entry>
+    <title>浅析Spring</title>
+    <url>/2021/01/07/java/springboot/%E6%B5%85%E6%9E%90Spring/</url>
+    <content><![CDATA[<blockquote>
+<p>Spring核心就是IoC（依赖注入）AoP（面向切面）本篇就基于一个开源项目 tiny-spring 来分析Spring框架到底给我们提供了什么东西</p>
+</blockquote>
+<p>依赖注入是什么呢，说起来非常简单就是系统帮你把依赖组装好，我们来举个简单例子</p>
+<pre><code>class People { Hand hand;};
+</code></pre><p>上面是一个非常简单的类，Spring把这个类叫做Bean，这个People 的 Bean 依赖一个Hand的类，我们来看一下这个Hand类</p>
+<pre><code>class Hand { Finger finger; int num};
+</code></pre><p>  上面的Hand又依赖一个Finger类，而且提供了一个属性：手的num（数目），假如你要使用这个People类，你得新建3个类，而且得把代码写死，而Spring就是通过xml或者注解来帮你把这些类自动创建，所以才叫依赖注入，其实原理也非常简单</p>
+<p>为啥要提供这个功能呢，因为我们希望通过配置这些xml就能实现不同的xml来实现不同的功能类，而不用修改代码重新编译，你可以理解为就是代码是高度松耦合，我们可以提供很多相同接口的组件给用户用，用户用的时候只需要修改配置文件就能实现灵活组合不同模块的功能</p>
+<p>我们知道对于一个HTTP服务器，我们希望调用这个接口方法之前能对用户发的东西做一个核验，就像拦截器一样，但是Java里面怎么实现呢，就是调用一个方法之前调用一个特定方法，我们有两种方法，第一种就是定死类名，在调用所有方法之前就调用这个东西，第二张就是重新继承这个方法，在调用父方法之前或者之后在调用我们想调用的方法</p>
+<p>显然第一种太蠢了，我们得先判断这个方法不存在，第二种可以使用Java Proxy类来实现（当然有局限只能是接口，可以用动态生成的类比如Cglib来做），我们而且可以把那个想注入的方法也看作一个特殊的bean（默认在普通的bean之前就做好），这样最终我们把普通的bean使用IoC容器给初始化，然后在用代理类把这个bean继承出来</p>
+<p>这样我们就实现了一个高度控制的类方法，而Spring最主要就是要组装一个Servlet类来处理不同路径下面的请求，网络处理那些事情都交给Tomcat来处理了，所以其实Spring的职责也很简单，就是组装，最后根据组装模块来响应Tomcat发过来的request，返回一个response,因为Spring需要生成很多类，而且假如你使用为了支持注解，Spring还得使用反射来获取所有类的注解，反射速度也是非常慢的，所有Spring启动一般需要一点时间，甚至比其他框架比如Python还要慢，不过这些类的生成都是一次性的（不是单例除外），生成完之后就可以直接使用这些生成好的类的方法来响应Tomcat请求了</p>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><p><a href="https://github.com/code4craft/tiny-spring/blob/master/changelog.md" target="_blank" rel="noopener">https://github.com/code4craft/tiny-spring/blob/master/changelog.md</a></p>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>SpringBoot</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Select和epoll浅析</title>
     <url>/2020/12/30/software/http/Select%E5%92%8Cepoll%E6%B5%85%E6%9E%90/</url>
     <content><![CDATA[<blockquote>
@@ -4416,15 +4768,9 @@ print(resp.read())
       </tags>
   </entry>
   <entry>
-    <title>代码整洁之道-总结</title>
-    <url>/2019/03/13/summary/book/%E4%BB%A3%E7%A0%81%E6%95%B4%E6%B4%81%E4%B9%8B%E9%81%93-%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[<blockquote>
-<p>很早就听说过思维导图，但是怎么去画，怎么让它帮助你去学习，我以前不得其道，以为就像记老师讲的笔记一样，尝试几次后感觉无用就弃之高阁了，这次在知乎上看到一篇回答感觉很是在理，就实践了一番</p>
-</blockquote>
-<p>下面是原答案<a href="https://www.zhihu.com/question/20273625/answer/531743073" target="_blank" rel="noopener">思维导图真的有效吗？ - YJango的回答 - 知乎</a></p>
-<p>我按照这个方法重新把&lt;&lt;代码整洁之道&gt;&gt;读了一篇，受益匪浅，下面是我的思维导图</p>
-<p><img src="/images/代码整洁之道-思维导图.png" alt="思维导图"></p>
-<p>一千个人有一千个哈莫雷特，所以我就不写自己的看法了</p>
+    <title>重构-总结</title>
+    <url>/2019/03/17/summary/book/%E9%87%8D%E6%9E%84-%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[<p><img src="/images/重构-思维导图.png" alt="重构思维导图"></p>
 ]]></content>
       <categories>
         <category>随想</category>
@@ -4434,9 +4780,15 @@ print(resp.read())
       </tags>
   </entry>
   <entry>
-    <title>重构-总结</title>
-    <url>/2019/03/17/summary/book/%E9%87%8D%E6%9E%84-%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[<p><img src="/images/重构-思维导图.png" alt="重构思维导图"></p>
+    <title>代码整洁之道-总结</title>
+    <url>/2019/03/13/summary/book/%E4%BB%A3%E7%A0%81%E6%95%B4%E6%B4%81%E4%B9%8B%E9%81%93-%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[<blockquote>
+<p>很早就听说过思维导图，但是怎么去画，怎么让它帮助你去学习，我以前不得其道，以为就像记老师讲的笔记一样，尝试几次后感觉无用就弃之高阁了，这次在知乎上看到一篇回答感觉很是在理，就实践了一番</p>
+</blockquote>
+<p>下面是原答案<a href="https://www.zhihu.com/question/20273625/answer/531743073" target="_blank" rel="noopener">思维导图真的有效吗？ - YJango的回答 - 知乎</a></p>
+<p>我按照这个方法重新把&lt;&lt;代码整洁之道&gt;&gt;读了一篇，受益匪浅，下面是我的思维导图</p>
+<p><img src="/images/代码整洁之道-思维导图.png" alt="思维导图"></p>
+<p>一千个人有一千个哈莫雷特，所以我就不写自己的看法了</p>
 ]]></content>
       <categories>
         <category>随想</category>
@@ -4713,744 +5065,6 @@ for i in range(100):
       </categories>
   </entry>
   <entry>
-    <title>什么是操作系统</title>
-    <url>/2018/01/29/algorithm/mit6_828/%E4%BB%80%E4%B9%88%E6%98%AF%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</url>
-    <content><![CDATA[<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本文是基于mit6.828 的lab1对操作系统的思考，网上有不少关于lab1的博客，大部分都是介绍如何完成lab1的问题，介绍的比较详细的有这个<a href="http://www.cnblogs.com/fatsheep9146/category/769143.html" target="_blank" rel="noopener">博客</a>，在这里我就不从问题出发，建议大家看完上面的博客在看我这篇博文，我这篇博文就是从把我遇到的疑惑提炼出知识点，然后再把这些知识点串起来</p>
-<h2 id="实验目的"><a href="#实验目的" class="headerlink" title="实验目的"></a>实验目的</h2><p>作为操作系统的第一个实验，在完成lab1我们主要目的就是要了解什么是操作系统，后面的lab都是在这个基础上搭建完善好系统的各种功能，就好像你画一幅画，第一步你先把人物的轮廓外形画出来，接下来你在把人的鼻子耳朵眼睛等等慢慢画出来，所以第一个实验非常重要，如果不把骨架搭好，你的操作系统再怎么豪华强大也是空中楼阁，所以我们在这个lab上一定要花上很多时间，万事开头难，只要攻克了这个，操作系统也就离你不远了</p>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>谈操作系统之前必须得谈谈什么是计算机，因为我们的操作系统是运行在计算机上面的，操作系统与计算机关系密切，我们可以用一个很贴切的比方，假如你想了解手套为什么长成那么奇怪，那么你得先举起你的双手看看。</p>
-<p>闲话不多说，进入正题，计算机最核心部分就是CPU，记得电脑刚发明出来的时候，编程只能通过穿孔卡片，当然计算机发明这么久，CPU的核心功能基本上没有变，还是只能通过“穿孔卡片”，只不过我们编程语音将我们的使用的语音如C，Python等变成“穿孔卡片”，这里有个非常重要的概念：<strong>指令</strong>。也就是每个CPU的是每次只能执行一条指令。当然第二个重要的就是内存了，前面说了CPU是必须要通过”穿孔卡片“来编程的，但是随着程序愈来愈大，我们必须要使用一个东西来存贮“卡片”，所以内存孕育而生了，其实很多感叹电脑这个词实在是太贴切了，人脑可以处理问题，电脑也可以处理问题，人脑有短期记忆长期记录，电脑有寄存器（短期记忆）内存（长期记忆）。</p>
-<p>简单的谈了谈计算机，我们提出两个重要的前提</p>
-<ul>
-<li>计算机通过顺序读取一条一条指令来工作</li>
-<li>计算机从内存获取指令</li>
-</ul>
-<p>所以操作系统的就是在内存上面运行自己并帮助其他程序的一个大程序，总的来说它就是内存上面的一段程序，当然它的功能就是好好在它一亩三分地上面“分封诸侯”，维护自己的“王位”。</p>
-<p>由于一开始它只是待在软盘或者磁盘等存贮设备上的一段程序，接下来我们就看操作系统如何“上位”内存的“宫斗大戏”。</p>
-<h2 id="上位篇"><a href="#上位篇" class="headerlink" title="上位篇"></a>上位篇</h2><p>在操作系统“上位”之前，其实计算机还进行了一个小操作系统（BIOS）运行，具体的流程可以看这篇<a href="http://www.ruanyifeng.com/blog/2013/02/booting.html" title="操作系统启动" target="_blank" rel="noopener">文章</a>，如果把电脑看做人的话，BIOS就是我们的脊髓，它控制我们的身体四肢（硬件），但是却无法灵活的操作他们（比如非条件反射的膝跳反射），但是它却不可少，少了它就成植物人了。BIOS的作用总结起来就是感知硬件，调控硬件（比如CPU电压，内存频率）。</p>
-<p>BIOS与操作系统最密切的一个地方就是设置启动盘，大家可能大多时候都是听文件文件比较多，但是文件这个概念其实是操作系统的，在没有操作系统之前是没有文件这个概念的，只有盘这个概念，比如一块硬盘、一张软盘、一个U盘，所以BIOS的一个重要工作就是选定一个存储硬盘，然后读取上面的程序运行。</p>
-<p>所以我们从这时候可以得到一个结论，安装操作系统，只需要按照BIOS的规定把程序放到某一个存贮设备（磁盘、U盘、软盘）专门位置上（一般是头部开始），开机后然后就静等BIOS把程序加载到内存，就完成了“上位”过程。</p>
-<p>我们已经知道操作系统的外部条件，接下来分析一个操作系统到底该有啥</p>
-<h2 id="操作系统结构"><a href="#操作系统结构" class="headerlink" title="操作系统结构"></a>操作系统结构</h2><p>首先我们要回顾一下操作系统的发家史，刚开始是没有操作系统的这个概念的，随着在电脑上要运行的越来越多，每个程序都要写大量底层代码来操作硬件这样无疑每个程序越来越来臃肿，所以我们需要让操作系统管理来管理硬件，这样不但能够提供程序兼容性（一次编译、到处运行），而且能高效利用硬件（操作系统专供）。所以操作系统也就是程序的分工的产物</p>
-<p>接下来我们看看操作系统的发展历史，大家都知道汇编语言是除了机器语言最接近底层的一种语言，第一个Unix系统一开始也就是使用汇编编写的。但是汇编语言不易于维护，所以1973年汤普逊和里奇用C重构了Unix，但是部分与硬件接触太大的地方还是必须使用汇编（in、out端口，操纵指定寄存器等），所以现代操作系统还是用C与汇编混合编写的（C占大部分），当然最后都会编译成机器码，所以我们从机器码角度来看，最后的结果都是相同的，不同的是我们使用不同的工具来生成机器码</p>
-<p>前面我们介绍了启动盘，其实BIOS给我们只是从启动盘上面取了一小段数据（第一个扇形区）放到内存上面（512B），然后执行那小段上面的机器码，所以接下来就有一个问题，随着我们的操作系统功能越来越完善，取出来的代码肯定不是全部代码，代码只有放到内存上面才能跑，所以前人就把代码分成两部分，一部分称作引导，另一部分才是核心代码，引导作用就是把核心代码放到内存上面去</p>
-<p>所以操作系统被分成两部分</p>
-<ul>
-<li>引导</li>
-<li>核心</li>
-</ul>
-<p>这里比较有意思的地方就是引导和核心如何交换程序控制权，由于要讲解必须要牵扯代码，所以我把这部分分离出来，放到这篇<a href="/2018/01/31/引导和操作系统的交互/">博客</a>上面，要了解细节可以看这篇博客。</p>
-<p>现在我们假设你已经知道引导将核心代码加载在了内存上面，现在我们就从这里开始分析，堆栈作为程序的基础，首先我们要提一下堆栈</p>
-<h3 id="堆栈"><a href="#堆栈" class="headerlink" title="堆栈"></a>堆栈</h3><p>什么是堆栈呢？看下面这张图</p>
-<p><img src="/images/stack.png" alt="堆栈"></p>
-<p>堆顶为大地址，我们使用的时候只要不断把栈顶往下推，就能将线性内存变成一个数据结构。当然有个问题，我们必须要知道什么地方是栈顶，现在我们想想操作系统必须要放到内存的某一个地方，假如放到低位置，那么我必须要记住操作系统的最高位置，如果不这样做当堆栈顶到操作系统的存贮地址，那么操作系统就被破坏了。所以我们只能把操作系统放到高的内存地址，这样我们既能安全的使用堆栈，而且保证了操作系统的安全</p>
-<p>所以我们接下来就谈谈由于这个设定引发的一系列问题</p>
-<h2 id="操作系统的高地址"><a href="#操作系统的高地址" class="headerlink" title="操作系统的高地址"></a>操作系统的高地址</h2><p>在lab1中，操作系统的起始代码被设定为<code>0xF0100000</code>的高位</p>
-<p>从这个地址我们可以分析出来什么<code>0xF0100000</code>，因为我们知道32位操作系统最高只能有4G内存，也就是2的32次方内存，这个地址代表的是系统最后面的255M内存的空间，也就是操作系统给自己留了255M剩余内存，给前面保留了（4G-255M）空间</p>
-<p>操作系统这个设计是非常好的，不仅给自己留下扩展空间，也给其他代码带来便利，就是从0-(4G-255M）这部分内存随便用，怎么改都不会出问题</p>
-<p>从现在角度来看，个人电脑随便都是2G、4G内存，但是在70\80年代，几M内存都很很大的存在，如果我内存没有4G这么大，那么这个操作系统就无法使用了，而且你留下256M给操作系统，有的时候我整个电脑内存都没有这么大，留下那么多，就是浪费</p>
-<p>所以最后他们想出来一个办法，就是现实和理想之间放一个转换器（MMU），也就是动态内存管理。操作系统也不管你机主有多大内存了，我假设你有4G，当你用一块，无论是什么位置，我从空余的地方给你取出来，假如你没有4G，我就把一部分不常用内存值的放到磁盘上面，这样通过这样这样的操作的实现内存的高效利用。</p>
-<p>操作系统对内存这种骚操作就相当于在更高的维度上建立了一种抽象，不论底层硬件怎么变（内存大小不同），我高层都不需要变，只需要底层把根据实际情况依次映射，这样无论你换多大内存，我都不需要重装系统。</p>
-<p>这种映射不通过代码很难将清楚，所以我这里也不提太多，如果你想知道怎么映射，硬件如何配合，你可以看我这篇<a href="/2018/01/31/内存分页/">博客</a>，详细介绍了内存分页的骚操作。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>至处到这里我们的操作系统之旅就结束了，我们成功在引导帮助下上了内存，也使用了提高操作系统的地址保证了堆栈的正常使用，接下来就是操作系统的各种附加功能，我们也会在接下来的lab中继续讲解。</p>
-<p>lab1不止介绍了这两个地方，但是在lab1中我觉得最重要的地方就是要知道操作系统是什么，它从哪里来，它要到哪里去，操作系统毕竟牵涉到硬件，很多硬件知识我们不一定能搞懂，比如说要切换哪几个位到保护模式，怎么输出端口才能读取扇形区，但是我们必须要搞懂他这样做的原因，这也是我在这篇里面谈了很多操作系统历史的原因，希望在理解操作系统上面能给大家带来一点启发。</p>
-<p>在最后的话，我谈一谈我对入门这门课的感受吧，我算编程基础还算比较扎实，但是在一开始学习的过程中一脸懵逼，C语言的各种骚操作，汇编与C疯狂混合，看惯了脚本语言的我，对这种改一下就编译不过的“硬骨头”异常难受，一开始根本看不下去，有的时候看几行代码，查资料好几个小时，而且资料特别难找，你不知道这种骚操作有啥意思，在这里还得感谢学习过这门课的学长学姐们，在网上无私的把自己的感受分享出来，慢慢的根据他们的资料和自己的调试还有自己找资料，慢慢的把这个代码一行一行搞懂，搞懂之后特别感慨，其实也不是很难，难的是要把你知道的所以知识点串起来，然后你就能搞懂为什么要这么做，所以我推荐大家还是多看代码，多去思考为什么要这么做，必须要自己的思考在里面，如果单纯的知识为了完成实验其实很简单，但是难就难在把这门课琢磨透，搞懂他们为什么要这样考你，毕竟大家最后的目的都是自己做出自己的操作系统，只有了解的透彻，才能“破而后立”搞出自己的创新，而不是复制他们的壳子，所以加油把每一行代码都搞懂，多思考，不要骄傲，毕竟这只是教学类的操作系统，要想自己写出来还得不懈努力。</p>
-<p>接下来还有6个lab需要完成，终于迈出的第一步，希望在年前能够完成所有的实验吧！！！加油！！！</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://buweilv.github.io/2017/06/10/jos-bootstrap-3/" target="_blank" rel="noopener">“C语言虚拟内存表”</a></p>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>MOOC</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>用户空间隔离</title>
-    <url>/2018/02/20/algorithm/mit6_828/%E7%94%A8%E6%88%B7%E7%A9%BA%E9%97%B4%E9%9A%94%E7%A6%BB/</url>
-    <content><![CDATA[<blockquote>
-<p>通过前面的学习我们知道，在前两个实验中最主要的程序就是<code>kern/init.c</code>文件中<code>i386_init</code>函数，但是我们看到最后却是一个<code>while</code>循环结束。</p>
-</blockquote>
-<pre><code>while (1)
-    monitor(NULL);
-</code></pre><p>这个<code>monitor</code>就是简单读取用户输入然后通过字符串调用给定的几个函数。我们可以把这个函数看做<code>i386_init</code>的子函数，也就是程序一直在<code>i386_init</code>中运行，也就是一直以内核形式运行。实验三就开始完成一个正常的操作系统的用户模式的建立，以及两者直接转换。</p>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>什么是用户呢，我们把内核当做一个大程序，用户就是小程序，两者基本上没有差别，但是为了让众多用户和内核平稳运行，我们必须要区别对待用户和内核</p>
-<p>首先我们要相信内核，内核是我们精心设计的，相反用户我们不能相信它，任何人都可以犯错误，我们知道计算机程序其实非常精巧，当他们完整的时候，他们可以完成你无法想象的工作，但他们有时候少掉一行指令时，他们就会瞬间崩溃，所以我们必须要保证就算用户怎么折腾都不会把内核搞垮</p>
-<p>所以我们来考虑一下怎么来限制用户不影响整个系统，第一用户不能动内核在内存上的程序，甚至连查看的资格都没有，这就是为什么前面我们已经绞尽脑汁把内核放到高地址上确保其“高高在上”；第二个用户不能在CPU一直跑，假如它有权限一直在CPU上跑，那么内核就废了，没有CPU可以用相当于“断了胳膊”；第三用户必须要有一些内核的权限，比如说申请一些内存啥的。</p>
-<p>接下来我们就从这几个问题出发来探索一下xv6为什么要这样设计用户空间。</p>
-<h2 id="用户是个程序？"><a href="#用户是个程序？" class="headerlink" title="用户是个程序？"></a>用户是个程序？</h2><p>在完成用户设计之前，首先我们先做个实验，来验证一下用户是个程序。首先我们在<code>kern/init.c</code>文件中<code>i386_init</code> 的头部加上<code>#include &lt;inc/elf.h&gt;</code>然后在<code>#if defined(TEST)</code>代码前加入几行代码</p>
-<pre><code>extern uint8_t _binary_obj_user_hello_start[];
-struct Elf* header = ((struct Elf *) _binary_obj_user_hello_start);
-assert(header-&gt;e_magic == ELF_MAGIC);
-((void (*)(void)) (header-&gt;e_entry))();
-</code></pre><p>这段代码你如果仔细观察过前面操作系统载入的源码（<code>boot/main.c</code>中)你会发现基本上差不多。首先我们声明了<code>_binary_obj_user_hello_start</code>外部变量，这个变量是通过<code>ld</code>编译器将内核中用户程序<code>hello.c</code>的起始地址定义来的，由于我们现在没有文件系统，内核就把用户程序一股脑链接到自己身上，在以后有了文件系统就不需要了。但是它给了我们一个便利，我们现在可以直接在内存上运行它</p>
-<p>当然虽然它的确是个程序（assert那不会出错），但是它还是跑不起来，因为它的虚拟地址不在内核内存上，必须要像前面映射内存物理空间才能运行，但是他的确是一个程序，从这里我们得到一个结论，用户其实也就是一段程序，接下来我们就看看如何用软件与硬件的结合的设计解决上面的问题。</p>
-<h2 id="权限"><a href="#权限" class="headerlink" title="权限"></a>权限</h2><p>首先我们来看看权限问题，<code>x86</code>系统硬件给我们提供了一个分段式权限功能，在开启内存分页后，<code>CS</code>寄存器16位里面拿出两位来当做权限管理，分为四级（<code>0b00、0b01、0b10、0b11</code>），最小的权限最大，当然xv6只用了两级，如下图所示</p>
-<p><img src="/images/systemring.png" alt="系统环来源网络"></p>
-<p>PS：当然<code>CS</code>寄存器拿出来三位来当权限管理，但是xv6将第三位用户和内核都设置为1，所以我们也不介绍这一位</p>
-<p>我们在<code>CS</code>寄存器的这两位称为CPL，用来区分权限。在<a href="/2018/01/31/引导和操作系统的交互/">引导和操作系统的交互</a>这篇博客我们知道，在<code>x86</code>系统中，这个<code>CS</code>寄存器是标志段选择子，在<code>GDT</code>表中每个表项也有两位用来标志权限，我们称他们为<code>DPL</code>，他们的意义也就是<code>CS</code>寄存器选择这个段时他们最低拥有的权限。</p>
-<p>当然在<code>GDT</code>表中的段选择子也有一个表示权限的称作<code>RPL</code>，这三者的关系在这<a href="https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86" target="_blank" rel="noopener">里面</a>介绍的很详细，<code>RPL</code>是历史遗留问题但是操作系统基本上没有使用这个功能，所以这里我们也不解释，感兴趣可以看一下<a href="https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86" target="_blank" rel="noopener">前面</a>的介绍。</p>
-<p>在<code>kern/env.c</code>的<code>结构体gdt</code>我们声明了一个<code>GDT</code>表，并且声明了一个系统段和用户段。</p>
-<p>这两个段就是我们权限的基础我们接下来通过实验来验证权限位对操作系统的保护</p>
-<p>我们首先在<code>user/badsegment.c</code>中加入一句汇编</p>
-<pre><code>asm volatile(&quot;ljmp %0,$1f\n 1:\n&quot; :: &quot;i&quot; (0x08)); // 将CS设置为0x08
-</code></pre><p>我们尝试将<code>CS</code>设置为<code>0x08</code>（内核段）结果直接引发一个<code>General Protection</code>的异常，但是当我们尝试执行这句</p>
-<pre><code>asm volatile(&quot;ljmp %0,$1f\n 1:\n&quot; :: &quot;i&quot; (0x18));  // 将CS设置为0x18
-</code></pre><p>我们发现程序没有引发异常（这段的含义是跳转到用户段，由于已经在用户段，所以没有触发异常），这说明<code>x86</code>通过<code>CS</code>寄存器很好的实现了内核和用户的保护（用户不能直接跳到内核去执行代码）</p>
-<p>在<code>user/faultwritekernl.c</code>和<code>user/faultreadkernl</code>中我们发现尝试写入或者读取内核也失败了，这是通过前面章节的内存分页权限实现的，这里就不介绍了。</p>
-<p>现在我们知道，通过我们不懈努力内核和用户直接存在一个鸿沟，但是这时候摆在我们面前很大的问题，内核拥有一些非常重要的权限比如申请内存，如果用户没有这个权限那么功能非常受限，所以我们就要提到一个内核和用户交互的手段：Trap。</p>
-<h2 id="Trap"><a href="#Trap" class="headerlink" title="Trap"></a>Trap</h2><p>其实这个Trap包括内部中断、软中断、异常。但是xv6统一将他们叫做陷阱（Trap），这个Trap主要完成从用户到内核的一种跳转，我们就不介绍内部中断和异常，因为这些都是系统完成，我们来介绍了一下软中断，这个我们人为可以操作，而且我们可以把其他中断、异常当做系统去帮我们调用这个指令</p>
-<pre><code>int $n
-</code></pre><p>很简单x86共定义了256个中断向量，存在物理内存<code>0x000</code>-<code>0x3ff</code>之间，每个存贮一个<code>cs</code>值一个<code>eip</code>的值，这个n只要是在256直接就行，当调用这个的时候我们直接调到那里读取<code>cs</code>和<code>eip</code>的值。</p>
-<p>在正式介绍<code>Trap</code>之前我们要简单的介绍一下两个知识点</p>
-<h3 id="IRET"><a href="#IRET" class="headerlink" title="IRET"></a>IRET</h3><p>这是<code>iret</code>是一个机器码，我们前面介绍了无论是操作系统还是用户没有办法直接跳段（会引发<code>General Protection fault</code>），而且我们知道前面只是测试了跳代码段，我们知道两个不同的程序，不仅仅是代码段不同，堆栈段也要不同，才能保证各个程序的独立。所以系统为了解决这个问题，直接提供一个<code>iret</code>指令，这个全名应该叫<code>中断返回</code>，它的功能其实很简单，就是实现上面的跳代码段和堆栈段还有恢复<code>EFLAGS</code>寄存器值，这个主要应用在从系统跳转到用户上面。</p>
-<p>感兴趣的可以看看这个详细<a href="https://stackoverflow.com/questions/6892421/switching-to-user-mode-using-iret" target="_blank" rel="noopener">资料</a>，接下来我们看看在<code>xv6</code>里面如何使用<code>iret</code>来实现跳段</p>
-<p>在<code>kern/env.c</code>的<code>env_pop_tf</code>函数实现了切换程序段的功能</p>
-<pre><code>asm volatile(
-        &quot;\tmovl %0,%%esp\n&quot;
-        &quot;\tpopal\n&quot;
-        &quot;\tpopl %%es\n&quot;
-        &quot;\tpopl %%ds\n&quot;
-        &quot;\taddl $0x8,%%esp\n&quot; 
-        &quot;\tiret&quot;
-        : : &quot;g&quot; (tf) : &quot;memory&quot;);
-</code></pre><p>首先第一个就是把tf指针指向的值赋给<code>esp</code>寄存器，要想知道这个操作的意思就必须知道，一个结构体其实在程序里面就是一块连续的内存值，所以这里就是把<code>esp</code>的值指向<code>tf</code>代表的<code>Trapframe</code>结构体的开始位置，所以我们得看看这个<code>Trapframe</code>组成是什么</p>
-<pre><code>struct Trapframe {
-    struct PushRegs tf_regs;
-    uint16_t tf_es;
-    uint16_t tf_padding1;
-    uint16_t tf_ds;
-    uint16_t tf_padding2;
-    uint32_t tf_trapno;
-    /* below here defined by x86 hardware */
-    uint32_t tf_err;
-    uintptr_t tf_eip;
-    uint16_t tf_cs;
-    uint16_t tf_padding3;
-    uint32_t tf_eflags;
-    /* below here only when crossing rings, such as from user to kernel */
-    uintptr_t tf_esp;
-    uint16_t tf_ss;
-    uint16_t tf_padding4;
-} __attribute__((packed));
-</code></pre><p>第一个是<code>PushRegs</code>结构体，这个对应我们第一个操作<code>popal</code>，将<code>PushRegs</code>所有值全部从堆栈中取出，我们发现当到<code>iret</code>操作时，正好对应取出代码段还有堆栈段和<code>EFLAGS</code>寄存器，所以其实<code>iret</code>的操作非常简单，只是将三个取出指令和成了一个。</p>
-<h3 id="TSS"><a href="#TSS" class="headerlink" title="TSS"></a>TSS</h3><p>前面我们捋了捋从系统跳转到用户，因为我们给用户的都是刚新建的值，所以这个并没有什么问题，但是你要想一想，当用户想跳转到系统的时候，这个时候它也必须要切换堆栈，因为用户可以还没有准备好（有时候可以是因为堆栈内存不够，如果把寄存器值强行插值到用户堆栈会引发二次异常）。但是假如使用操作系统的堆栈，在我们切换之前系统必须要知道内核堆栈在哪</p>
-<p>所以x86提供了一个<code>tr</code>寄存器给我们使用，这个寄存器的位数为16位，专门存贮一个选择子（类似前面段选择子），这个选择子<code>base</code>地址必须指向一块空余空间。前面知道我们要想从用户跳操作系统，必须知道操作系统的堆栈（中断向量表提供了代码段cs：ip），所以x86干脆规定了这个空间名字为<code>TSS</code>，并声明了一大串寄存器的值备用，当然这些是硬件规定的，软件用不用无所谓，但是硬件会在跳转的时候，读取里面固定位置的值，也就是我们需要的堆栈段<code>ss：esp</code>，在<code>inc/mmu.h</code>的<code>Taskstate</code>结构体中声明了这段内存规定的字段</p>
-<p>所以我们在<code>kern/trap.c</code>中声明了（ss：esp）</p>
-<pre><code>   ts.ts_esp0 = KSTACKTOP;
-ts.ts_ss0 = GD_KD;
-</code></pre><p>这样我们在跳转的时候就能获取到内核的堆栈段，从而进入内核模式，当然硬件设定<code>TSS</code>的作用一开始为了考虑任务切换，它也提供了相应的指令，但是需要200左右时钟周期来完成，所以我们<code>xv6</code>嫌弃其速度太慢，只是使用了其保存内核堆栈地址的作用，所以在<code>xv6</code>中<code>TSS</code>只是一个“数据库”而已。</p>
-<hr>
-<p>介绍完前面的基础知识之后，接下来的就是这个<code>Trap</code>，前面我们知道在得到<code>int</code>这个指令时候这个时候就开始一个<code>Trap</code>开始。</p>
-<p>这个时候硬件接管程序控制，你也可以认为跳转到硬件代码去了。在给的<a href="https://pdos.csail.mit.edu/6.828/2016/xv6/book-rev9.pdf" target="_blank" rel="noopener">资料</a>第三章的<code>X86 Protection</code>里面介绍了这个过程，我们将前面几个步骤很我们前面给的资料联系起来</p>
-<blockquote>
-<p>后面推寄存器值就不解释了，同<code>Trapframe</code>的反向结构相同，之所以会这样，是因为堆栈地址是向下生长，而程序地址是向上生长的</p>
-</blockquote>
-<p>硬件这部分操作为</p>
-<ul>
-<li>获取中断向量表第n个的地址（n为<code>int</code>后面整数）</li>
-</ul>
-<p>然后开始权限检查，这个也是为什么程序不能随意调用系统资源的原因</p>
-<ul>
-<li>检测DPL与CPL的大小关系</li>
-</ul>
-<p>这个<code>DPL</code>不是前面<code>GDT</code>里面的，这个是存贮在中断向量表中<code>CS</code>里面的值，这个设置可以让我们给每个中断向量设置一个权限，看它允许是用户调用还是系统调用，如果只允许系统调用，那么用户调用直接引发<code>General Protection Fault</code>（13号中断），在我们的xv6中，我们只允许用户调用<code>Debug</code>和<code>System Call</code>中断，其他只能由系统调用</p>
-<ul>
-<li>判断保留<code>esp</code>和<code>ss</code>，检测目标的段与当前段</li>
-</ul>
-<p>当我们在操作系统中出现中断的时候，如果硬件还傻乎乎的将操作系统的堆栈归位那么就进入死循环了，所以这个目的就是避免同属一个段的时候不会切换堆栈</p>
-<ul>
-<li>当跳段的时候，从<code>TSS</code>中取到<code>esp</code>和<code>ss</code>切换堆栈段</li>
-</ul>
-<p>这个就是前面弹到的<code>TSS</code>的功能，接下来我们所以推出去的值全部存贮在要跳的段的堆栈上面了。</p>
-<p>推完<code>Trap</code>程序的寄存器值，保留好“犯罪现场”后，就可以进入内核进行处理这个异常了。</p>
-<p>至此我们介绍完了严格有序的处理从用户到内核的跳转，当我们处理完后就可以通过<code>iret</code>回到用户程序，这样就完成了用户拥有内核权限的设计。</p>
-<hr>
-<h2 id="用户时间控制"><a href="#用户时间控制" class="headerlink" title="用户时间控制"></a>用户时间控制</h2><p>接下来的用户使用CPU时间设置也是通过这个这个<code>Trap</code>的中断实现，你可以理解为硬件在每个CPU上在每隔个<code>10ms</code>的时候就触发一个中断。这样到内核的时候，内核发现是时间中断，就保留用户的寄存器值到用户自己空间（<code>Env</code>里面有一个<code>env_tf</code>变量可以存贮这些信息），然后调用其他或者这个程序，这样的话，我们就实现了一个时间控制。</p>
-<p>PS：这里我们提一下这个<code>Env</code>结构体，内核初始化了1024个这个结构体，这说明我们可以同时拥有1024个用户程序运行，这个结构体就是用户环境，也就是我们在<code>Unix</code>系统上输入<code>ps</code>中的<code>pid</code>（每个<code>pid</code>代表一个程序）</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>至今我们介绍了通过一个简简单单的<code>Trap</code>操作就实现了复杂的权限管理和空间隔离，虽然操作系统看起来非常复杂，但其实都是由简单干练的概念搭建起来的，因为<code>Unix</code>的哲学就是<code>简单至上</code>。</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://stackoverflow.com/questions/6892421/switching-to-user-mode-using-iret" target="_blank" rel="noopener">https://stackoverflow.com/questions/6892421/switching-to-user-mode-using-iret</a></p>
-<p><a href="https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86" target="_blank" rel="noopener">https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86</a></p>
-<p><a href="https://en.wikipedia.org/wiki/Task_state_segment" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Task_state_segment</a></p>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>MOOC</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>HTTP复用</title>
-    <url>/2017/10/10/software/http/HTTP%E5%A4%8D%E7%94%A8/</url>
-    <content><![CDATA[<blockquote>
-<p>曾经有人问过我一个问题什么是TCP复用，我当时没有回答上来，后面我又遇到一些并发性能问题的时候，我才开始慢慢明白为什么会有这个问题，以及这个问题背后的秘密</p>
-</blockquote>
-<p>其实当时应该他想考我的是爬虫的请求优化，准确来说是HTTP持久连接（HTTP persistent connection），并不是TCP复用，这才导致我当时查阅很多资料，并没有发现TCP复用能优化客户端，因为<a href="http://gaibianziji.blog.51cto.com/1082897/1211940" target="_blank" rel="noopener">TCP复用</a>是服务端的事，现在就让我从源头开始慢慢解读这个问题</p>
-<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>我们知道我们每次发的HTTP请求在底层都是一个套接字的通信，我们可以从底层开始做一个测试</p>
-<p>我们使用个for循环，申请1024个socket</p>
-<pre><code>import socket
-l = [ ]
-for  i in range(1024):
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    sock.bind((&apos;www.baidu.com&apos;),80))
-    print(i)
-    l.append(sock)
-</code></pre><p>这个过程有点慢，但是你会发现在申请到1000左右的时候，会直接报<code>Open too many file</code> 这个错误，但是我们并没有打开文件，为什么会报这个错误</p>
-<p>原来在Unix系统下，我们申请的套接字也就是<code>socket</code>在底层是以文件的形式存在的，<strong>客户端通过申请一个<code>socket</code>来写入和接受服务端的请求</strong>，这是一个非常重要的概念，对我们后面解析库函数有很大的帮助。</p>
-<p>由于系统资源有限而且打开很多文件系统响应会变慢，所以Unix系统或者Windows都对单个进程申请套接字有限制，在Unix系统下我们可以通过<code>ulimit -n</code>查看这个值，在笔者的<code>Ubuntu</code>上这个值为1024，基本没有修改过都是这个值，我们可以通过我们可以在命令行执行<code>ulimit -HSn 4096</code>临时增加至4096,</p>
-<p>所以我们一般来说单台机器单个进程最多只能并发1024个请求，在不修改配置的情况下这个值是固定的，所以我们提高并发数只有两种方法</p>
-<ol>
-<li>修改系统配置</li>
-<li>使用多进程</li>
-</ol>
-<p>在写这篇文章之前，我一直以为HTTP复用能在作用在并发上提高爬虫性能，但是其实并不是，它能提高性能但是却不是在并发上提高，接下来我们仔细介绍HTTP复用是怎么提高爬虫性能的</p>
-<h2 id="HTTP复用"><a href="#HTTP复用" class="headerlink" title="HTTP复用"></a>HTTP复用</h2><p>说道HTTP复用，我们不得不介绍一下HTTP和TCP协议，我们都知道Internet是由OSI七层协议构成的，但是OSI只是规定了框架，具体协议我们是通过TCP/IP来实现的</p>
-<p>我们先来说说这个TCP，我们都说互联网能够发展到现在这么稳定可靠多亏了这个TCP可靠协议，但是这个可靠是要付出代价的，建立一次连接的过程要经过三次握手，断开的过程也得四次分手，而且这个连接的过程完全不涉及我们要请求的内容，我们知道爬虫一般请求一个站点只有通过一两次请求就行，如果每次请求都得握三次手，还得分四次手，这样的代价也太大了</p>
-<p>所以HTTP的复用优化的方向就是减少TCP的连接，谈到如何减少TCP连接，我们就得说说HTTP长连接（HTTP persistent connection）</p>
-<h3 id="HTTP长连接"><a href="#HTTP长连接" class="headerlink" title="HTTP长连接"></a>HTTP长连接</h3><p><strong>在HTTP1.1规定了默认都是长连接，TCP不断开，并且在请求头添加一个<code>Connection</code>的header，如果是值为<code>keep-alive</code>则保留TCP连接，假如为<code>Close</code>请求完成之后就会关闭，在HTTP1.0的下默认为关闭状态</strong></p>
-<p>怎么来理解这个长连接呢，我们都听说过<strong>HTTP是无状态的</strong>这句话，从HTTP协议上来看，<strong>服务器客户端就是一个“Request”，“Response”组成，无论多复杂的页面都是由一个个“Request”组成</strong></p>
-<p>为了更好的理解上面的话，我们回到那个套接字，我们把HTTP请求比作打电话，对于每个电话，我们只需要先拨号，然后滴滴滴三下后确定我们同对面连上了（服务器“协商”好），然后我们把我们要说的话通过话筒传给对方，等我们说完之后，由于信号差，对面听完还要想怎么回，然后我们安安静静的在听筒那等，等他想好说什么，在慢慢的说给我们听。</p>
-<p>在HTTP1.0的时代，我们每次拨完一次好，说完一句话，听完对面的回应后，我们就会挂断电话，如果我们还想说就得再重复这个过程，在HTTP1.1下我们增加了长连接这个概念，就是如果你想这个电话里多聊几句，那么就在最后加上“你等下不要挂了，我还要说”（在header加上“Connection: Keep-alive”），那么对方就不会挂断电话，等它说完之后也想你一样在听筒那而等着，这样我们就省掉了一次拨号的时间</p>
-<p>我们现在了解为什么HTTP复用能够节省爬虫的性能了，接下来我们就从编程语言对HTTP复用的实现上了解如何实现HTTP复用</p>
-<h2 id="存贮单元—ConnectionPool"><a href="#存贮单元—ConnectionPool" class="headerlink" title="存贮单元—ConnectionPool"></a>存贮单元—ConnectionPool</h2><p>在介绍ConnectionPool之前我们先简单介绍一下HTTP复用的具体表现</p>
-<h3 id="TCP与URL的关系"><a href="#TCP与URL的关系" class="headerlink" title="TCP与URL的关系"></a>TCP与URL的关系</h3><p>我们知道HTTP复用的是TCP的连接，而TCP连接由四个部分组成</p>
-<ol>
-<li>本地ip</li>
-<li>本地port</li>
-<li>服务器ip</li>
-<li>服务器port</li>
-</ol>
-<p>简单来说就是两个二元组（local_ip, local_port), (server_ip, server_port)</p>
-<p>但是我们发一次的请求是一般是通过URL，也就是类似“<a href="http://www.baidu.com”，这样的url来请求的，这个同我们TCP有什么关系呢？" target="_blank" rel="noopener">http://www.baidu.com”，这样的url来请求的，这个同我们TCP有什么关系呢？</a></p>
-<p>首先介绍一下“http”代表通信协议，这里使用的是HTTP协议，“://”后面的就是请求的域名，域名后面如果有冒号就是我们请求的端口号这里没有，根据HTTP协议这里默认是80端口（HTTPS是443），域名后面的就是请求路径，这里也没有就默认问“/”，也就是我们通过这个“url”就知道我们这次请求的具体位置了，现在我们找到了端口，但是请求的IP在哪呢？</p>
-<p>这里就要介绍一下DNS了，我们为了让我们的站点更好记，我们使用域名代替ip地址，通过在DNS服务上注册我们域名，以及绑定我们域名对应的IP地址，我们就能让计算机通过域名来转换成IP地址，这里就不详细介绍了</p>
-<p>所以呢我们现在了解了，一个TCP连接只是涉及到URL的域名和端口号，我们请求站点的时候主要是通过不同的路径来获取内容，所以我们可以很清楚的知道，只要我们URL的域名和端口一样，那么我们所以的URL都能共用这个TCP接口</p>
-<h3 id="ConnectionPool的实现"><a href="#ConnectionPool的实现" class="headerlink" title="ConnectionPool的实现"></a>ConnectionPool的实现</h3><p>简单来说为了实现HTTP复用，我们只需要保存TCP连接就行了，但是通过前面我们知道，我们保留的TCP连接必须和你要请求的url要域名端口一样，有时候一个站点的服务可能由多个域名多个端口组成，所以原本我们只要用一个变量保留上一次请求的TCP连接，为了程序更加健壮，我们需要一个TCP连接池，存贮不同的TCP连接。</p>
-<p>每次新的URL来的时候我们就是先从TCP连接池中查看有没有相同的域名和端口，如果有就用它发请求，如果没有就新建一个TCP连接，这就是TCP连接的基本原理，当然还要一点编程的时候要注意，我们从池子里面取出一个用完必须放回，否则池子用完了又得新建，那就完全丢掉了复用这个概念了</p>
-<h2 id="HTTP复用在Requests的具体表现"><a href="#HTTP复用在Requests的具体表现" class="headerlink" title="HTTP复用在Requests的具体表现"></a>HTTP复用在Requests的具体表现</h2><p>前面介绍了一大堆概念，但是从头到尾如果让我们自己来做一个实在太难了，幸好我们有<code>Requests</code>这个库，它的<code>Session</code>对象在<a href="http://requests-docs-cn.readthedocs.io/zh_CN/latest/user/advanced.html" target="_blank" rel="noopener">文档</a>介绍了它就维护了一个TCP连接池并且能够复用TCP连接</p>
-<p>接下来我们就从代码入手来更好的理解这个进程池的高级用法，我们为了更好看到每一次请求底层的操作，我们这里自己先自己搭建一个本地服务器，我们使用<code>Flask</code>来搭建一个本地服务器<br>新建一个<code>web.py</code>文件，在运行</p>
-<pre><code>from flask import Flask, request
-from werkzeug.serving import WSGIRequestHandler
-
-app = Flask(__name__)
-WSGIRequestHandler.protocol_version = &quot;HTTP/1.1&quot;
-
-
-@app.route(&apos;/&apos;)
-def hello_world():
-    return &apos;%s %s&apos; % (request.remote_addr, request.environ.get(&apos;REMOTE_PORT&apos;))
-
-
-if __name__ == &apos;__main__&apos;:
-    app.run(host=&apos;0.0.0.0&apos;, port=8000)
-</code></pre><p>这里我们在8000端口开了一个服务器并且设置为HTTP/1.1协议，我们返回用户请求的ip和端口</p>
-<p>接下来我们开一个Python解释器来看看这个进程池的用法</p>
-<pre><code>&gt;&gt;&gt; import requests, logging
-&gt;&gt;&gt; logging.basicConfig(level=logging.DEBUG)
-&gt;&gt;&gt; session = requests.Session()
-&gt;&gt;&gt; session.get(&apos;https://baidu.com&apos;)
-DEBUG:requests.packages.urllib3.connectionpool:Starting new HTTP connection (1): www.baidu.com
-            DEBUG:requests.packages.urllib3.connectionpool:http://www.baidu.com:80 &quot;GET / HTTP/1.1&quot; 200 None
-&lt;Response [200]&gt;
-</code></pre><p>看我们可以从打印的logging日志看到我们在进程池中新建了一个TCP连接，我们在试着再请求一次</p>
-<pre><code>&gt;&gt;&gt; session.get(&apos;https://www.baidu.com&apos;)
-    DEBUG:requests.packages.urllib3.connectionpool:https://www.baidu.com:443 &quot;GET / HTTP/1.1&quot; 200 None
-&lt;Response [200]&gt;
-</code></pre><p>看我们的HTTP复用实现了，在同一个TCP连接中我们请求了两次</p>
-<h2 id="深入requests的ConnectionPool"><a href="#深入requests的ConnectionPool" class="headerlink" title="深入requests的ConnectionPool"></a>深入<code>requests</code>的ConnectionPool</h2><p>在上面我们验证了<code>requests</code>的<code>Session</code>对象的确实现连接池，但是似乎<code>requests</code>并没有给我们接口来操作这个值，通过分析代码和资料，我们发现在<code>Session</code>初始化的时候，绑定了一个    <code>HTTPAdapter</code>对象，这个对象就是<code>requests</code>封装了<code>urllib3.connectionpool.ConnectionPool</code>来实现TCP池</p>
-<p>我们查看这个<code>HTTPAdapter</code>文档发现它的用法是这个</p>
-<pre><code>&gt;&gt;&gt; import requests
-&gt;&gt;&gt; s = requests.Session()
-&gt;&gt;&gt; a = requests.adapters.HTTPAdapter(max_retries=3)
-&gt;&gt;&gt; s.mount(&apos;http://&apos;, a)
-</code></pre><p>我们可以通过创建将一个TCP池绑定到一个<code>session</code>对象上，我们可以看一下这个创建一个<code>HTTPAdapter</code>的参数</p>
-<pre><code>HTTPAdapter(self, pool_connections=10, pool_maxsize=10, max_retries=0, pool_block=False)
-</code></pre><p>我们主要看这两个参数<code>pool_connections</code>和<code>pool_maxsize</code>，通过一番测试（比较长就不演示了，可以参考引用来进行实验），我们发现这个<code>pool_connections</code>主要控制TCP池的种类数，我们知道在进程池中我们可以有很多相同的TCP连接（主要是并发新建的），这些连接有些是连接相同的域名和端口，这个<code>pool_connections</code>就是控制有多少种类的站点（域名和端口）同时能够存在池中，那么这个<code>pool_maxsize</code>代表的就是池中不管种类有多少总共的TCP连接数</p>
-<p>假如你只写单线程程序那么你只要考虑<code>pool_connections</code>这个参数，因为单线程你发出一个请求只会占用一个TCP连接，在你每次开始请求时，池中不同站点的连接只有一种，所以你可以把<code>pool_connections</code>当做池的大小，但是假如你写多线程程序，每个时间点需要的TCP连接同你多线程的个数有关，由于requests不会限制当池中无可用连接时新建TCP连接，所以你一个站点的TCP连接可能有多个，这时我们就要用<code>pool_maxsize</code>来限制池子的容纳量，为了避免无限制存贮TCP连接，TCP连接池会把超过总数的连接按照时间顺序踢出去，让池中保持不大于限制总数的TCP连接。</p>
-<p>当然这里有个非常重要的知识点，<strong>requests的TCP池并不会限制新建TCP连接</strong>,它只是限制存贮量和种类，这个知识点非常重要，这对后面我们理解<code>aiohttp</code>异步请求时候为什么要限制并发数有非常大的帮助（它只限制TCP连接总数）</p>
-<h2 id="TCP连接池的作用"><a href="#TCP连接池的作用" class="headerlink" title="TCP连接池的作用"></a>TCP连接池的作用</h2><p>经过上面的探索，我们知道TCP连接池一方面能够实现HTTP复用达到减少TCP连接时耗的作用，另一方面我们通过复用TCP连接可以节省套接字，避免经常碰到”Too many file“的错误，顺便提一下，由于TCP连接具有冷启动的特点，在刚连接上TCP时，速度会非常慢，只有系统发现负载不多才会恢复正常速度，所以这就是我们有时候用浏览器打开一个新页面要加载很久的原因。</p>
-<p>前面一直在介绍HTTP复用的理论基础，最后我们实战演练一下在异步框架<code>aiohttp</code>使用HTTP复用</p>
-<h2 id="异步框架下HTTP复用"><a href="#异步框架下HTTP复用" class="headerlink" title="异步框架下HTTP复用"></a>异步框架下HTTP复用</h2><p>在这里我们使用<code>Python</code>的<code>aiohttp</code>异步请求框架（在这里我们要求<code>Python</code>的版本必须大于等于3.5），<code>aiohttp</code>也提供了<code>TCP</code>连接池的功能，要想共享TCP连接池，我们先新建一个<code>Session</code>对象</p>
-<pre><code>connector = aiohttp.TCPConnector(limit=50)
-session = aiohttp.ClientSession(connector=connector)
-</code></pre><p>我们直接创建了一个最大容量为50的TCP池，并把它绑定到session对象上，接下来先试试跑个200个请求（要先在按照前面的代码搭建本地服务器）</p>
-<pre><code>async def fetch(url, session, semaphore):
-    async with semaphore:
-        async with session.get(url) as response:
-            print(await response.read())
-
-
-
-loop = asyncio.get_event_loop()
-</code></pre><p>接下来我们就可以直接使用aiohttp框架</p>
-<pre><code>semaphore = asyncio.Semaphore(20)
-tasks = [fetch(url, session, semaphore) for x in range(nums)]
-begin = time.time()
-try:
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(asyncio.wait(tasks))
-except:
-    pass
-finally:
-    end = time.time()
-    loop.close()
-    session.close()
-    print(&apos;cost&apos;, end - begin, &apos;speed&apos;, nums / (end - begin), &apos;req/s&apos;)
-</code></pre><p>在我的电脑测试测试下<code>421.73 req/s</code>,基本上达到异步的效率（可以调节limit至100左右达到最大）</p>
-<p>在这里解释一下为什么要使用<code>semaphore</code>（asyncio锁），由于当前版本（aiohttp==2.2.5）下<code>aiohttp</code>的HTTP连接池无法在没有锁的情况下复用TCP连接（具体可以看一下我提的这个<a href="https://github.com/aio-libs/aiohttp/issues/2323" target="_blank" rel="noopener">issue</a>,这里由于牵扯到太多异步框架的知识，我就详细不介绍异步库，如果想了解更多的话就看我上一片博文<a href="/2017/10/09/Python%E5%BC%82%E6%AD%A5%E7%9A%84%E7%90%86%E8%A7%A3/">Python异步的理解</a></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在如何提高请求效率和速度上，HTTP复用算是从协议出发上的一种优化，他主要利用方向是在单个站点多次请求上面，假如每个站点都只是一个请求的话，那他就无用武之地，不过现在站点不可能一次请求就完成交互，所以了解这个HTTP复用如何是非常有帮助的。</p>
-<p>引用：</p>
-<p><a href="https://laike9m.com/blog/requests-secret-pool_connections-and-pool_maxsize,89/" target="_blank" rel="noopener">Requests’ secret: pool_connections and pool_maxsize</a></p>
-<p><a href="https://pawelmhm.github.io/asyncio/python/aiohttp/2016/04/22/asyncio-aiohttp.html" target="_blank" rel="noopener">Making 1 million requests with python-aiohttp</a></p>
-]]></content>
-      <categories>
-        <category>软件</category>
-      </categories>
-      <tags>
-        <tag>HTTP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>从子网到“互联网”</title>
-    <url>/2017/12/14/software/http/%E6%BC%AB%E8%B0%88%E7%BD%91%E7%BB%9C/</url>
-    <content><![CDATA[<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>最近重温《TCP/IP协议簇》，读到子网这个部分，概念都能弄懂，但是不明白子网存在的目的，很多资料都说有两个好处，一是能够判断IP存在局域网还是远程网，另外一个将大的网段分成多个小子网。</p>
-<p>这样就搞得我一头雾水，原来我对互联网的认识是从TCP、HTTP高层协议理解的，我原来对互联网信息传递的理解就像<a href="https://www.zhihu.com/question/20717354/answer/15968282" target="_blank" rel="noopener">这篇回答</a>，网络就像一个神奇的大网，你只需要把电话线插到“网”中就能同别人连起来。原来我对这个解释并没有什么疑问，但是我越来越深入“互联网”，我就我对“互联网”越来越疑惑。</p>
-<p>举个例子，我们知道这个IPV4理论上总共有<code>4294967296（256*256*256*256）</code>个，按照当前的理论，过几年就要分配完了，那意味这至少有50%已经分配好了，也就是说至少有20亿根“网线”要连到一起，我们知道局域网只要交换机就能搭起来，假设我们一个交换机能插20根网线，那么要搭这个20亿“网线”，至少要用一个亿的交换机，你能想象一个亿的交换机堆在一起组成“互联网”吗？就算假如我们使用数字信号，作为一个程序员，我也很难想象原先的程序员是在有限的内存和硬盘，如何设计强大计算机有条不紊的处理20亿的并发。</p>
-<p>所以这篇文章就要从OSI底层协议出发让我们从底部掀一掀“互联网”的老底，将一个有血有肉的“互联网”展现在我们面前。</p>
-<h2 id="触摸“网”"><a href="#触摸“网”" class="headerlink" title="触摸“网”"></a>触摸“网”</h2><p>我们一直在说着互联网、互联网，由于无数在前人的不懈努力下，其实很多时候我们根本感受不到这张网的存在，比如打开浏览器，输入<code>www.baidu.com</code>，我们直接就能连上千里之外的服务器，其实在浏览器后面，我们发的“包”正沿着网跨越千山万水到达一个机房的服务器中。</p>
-<p>所以为了触摸到网这个东西，我们得用一些工具，我们就在打开的百度中输入<code>traceroute</code>，根据你的操作系统安装好，然后我们打开命令行输入<code>traceroute  -I www.baidu.com</code></p>
-<pre><code>traceroute to www.baidu.com (14.215.177.38), 30 hops max, 60 byte packets
- 1  192.168.1.1 (192.168.1.1)  
- 2  182.96.180.1 (182.96.180.1) 
- 3  68.248.177.220.broad.nc.jx.dynamic.163data.com.cn (220.177.248.68)  
- 4  53.251.177.220.broad.nc.jx.dynamic.163data.com.cn (220.177.251.53)  
- 5  182.98.159.73 (182.98.159.73)  
- 6  202.97.75.117 (202.97.75.117)  
- 7  113.108.208.194 (113.108.208.194) 
- 8  * * *
- 9  14.29.121.194 (14.29.121.194)  
-10  * * *
-11  * * *
-12  14.215.177.38 (14.215.177.38) 
-</code></pre><p>由于百度存在负载均衡，所以你们看到的最终IP地址可能不会同我一样（PS：我去掉了时间），虽然中间还有一些<code>***</code>的存在，但是不管怎么我们终于触摸到这个网的存在。</p>
-<p>我第一次看到这个非常震惊，原来在我的心中，“网”上最多有两个端，一个是我们的客户端，一个是服务器端，现在突然冒充这么多个“中间人”，这些东西是什么呢？</p>
-<p>接下来我们通过回答下面两个问题来慢慢了解互联网的构造。</p>
-<ol>
-<li>为什么第一个IP是局域网内的IP（内网）？</li>
-<li>为什么中间有那么多IP端，他们的作用是什么？</li>
-</ol>
-<h2 id="内网与外网的区别"><a href="#内网与外网的区别" class="headerlink" title="内网与外网的区别"></a>内网与外网的区别</h2><p>解答第一个问题前，我们必须要知道什么是内网什么是外网。</p>
-<p>从IP的角度上来看，刚开始创建以太网时，由于避免连在一起的电脑认错人，就用IP用来做每个电脑的“身份证”，一开始要连在电脑比较少，组织只需要拿个小本本记住哪台服务器对于的IP，但是随着想连在一起的电脑越来越多，这个小本本满满的一本快写满了，虽然可以在多买几本本子记住他们，但是本子越多每次要查他们的IP的时候消耗的时间越多，所以他们决定不再一个一个分IP了，于是他们把40亿IP分成A、B、C、D几类。</p>
-<p>这样组织成功用一个小本子记录了几十亿的IP分配，这里组织指的是因特网协会（ICANN），协会自己分好IP后开始发本子，找到下面的运营商，让他们自己搭网线光钎把他们自己负责的国家区域连起来，但由于地方太多，一个本子也记不下来，所以他们又把组织发给他们的本子分发到地区运营商，这样慢慢缩小，最终每个地区的局域网的本子都不会太大，这样查起来速度快而且网络的压力也平摊下去，但是摆在我们面前有一个问题</p>
-<blockquote>
-<p>假设小明和小华分别住在同一条大街的街头和街尾，小明想给小华写信，小明然后写了一封信信放到邮箱，然后邮递员过来把信取走，在邮局分配再让邮递员送到小华家，本来两个人住在同一条街，邮递员只需要把信从街头送到街尾这次传递就结束了，但是由于不知道小明和小华住在同一条街，这封信绕了一个很大的圈才到小华手中。</p>
-</blockquote>
-<p>从这个故事告诉我们，要解决不必要的传输，我们必须要提供一种机制让“邮递员”知道这封“信”是直接“送”还是发到总部发出去，这种机制就是确定是否是内网还是和外网。</p>
-<p>大家回头看一下IP，假如我们按照组织（ICANN）的本子来分内网还是外网，那会造成极大的浪费，比如说A类，从1.0.0.0 到126.255.255.255，共分了126个，每个分类下有1658万台电脑，可能现在最大的云服务商都没有几千万台机器，假如你就几十台电脑，你申请一个B类IP（子网可以容纳6万多台），那么子网的利用率约为为20/6000，这么大一个网段却只有几个IP有效，这是对IP的极大的浪费，所以我们需要再次切片，将一个IP段智能的切分成很多块。</p>
-<p>有没有什么好的方法能够切分IP呢，我们知道在TCP、HTTP这些高层协议栈中并没有子网这个概念，他们只负责连接和解析，所以我们得从数据链路层里面查看，在这层有一个非常重要的概念：<strong>子网掩码</strong></p>
-<h3 id="子网掩码"><a href="#子网掩码" class="headerlink" title="子网掩码"></a>子网掩码</h3><p>首先我们要了解一个概念：<strong>路由表</strong></p>
-<p>这个就是我们前面提到过的“小本本”，这个路由表就记载了我们主机上面有关子网划分的重要数据，我们可以通过在<code>Linux</code>上的<code>route -n</code>命令显示电脑上的路由表</p>
-<pre><code>Kernel IP routing table
-Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
-0.0.0.0         192.168.1.1     0.0.0.0         UG    0      0        0 wlan0
-192.168.1.0     0.0.0.0         255.255.255.0   U     9      0        0 wlan0
-</code></pre><p>在我的电脑的得到的结果是这样的，这里有两个很重要的参数，<code>Gateway（网关）</code>，<code>Genmask（掩码）</code>，网关和掩码是什么呢？网关就是我们连接上外网的关键，掩码就是区分内网外网的钥匙。</p>
-<p>子网是什么呢？你可以看做是IP与掩码的按位与运算得到新IP，比如说我们上面第一个<code>192.168.1.1</code>与<code>0.0.0.0</code>的运算结果是为<code>0.0.0.0</code>，而且你会发现所以的IP跟<code>0.0.0.0</code>得到结果都是一样的<code>0.0.0.0</code>，这说明对于网关来说，所有的外网IP都是属于同一子网，接下来我们看看第二行，这个网关为<code>0.0.0.0</code>说明这个是局域网，当我们的IP与这个局域网掩码运算后得到的地址与这个局域网IP相同时，说明这个IP属于局域网，我们可以看到我们子网大小为256，由于我用的是路由器，所以说明这个路由器最多可以允许254(.255为广播地址）台设备连接</p>
-<p>接下来我们看看在我的云服务器上的路由表</p>
-<pre><code>Kernel IP routing table
-Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
-0.0.0.0         10.10.6.1     0.0.0.0         UG    0      0        0 eth0
-10.15.6.0     0.0.0.0         255.255.192.0   U     0      0        0 eth0
-</code></pre><p>你可以清楚的看到在第二行我们的内网的大小约为<code>16128=256*(255-192)</code>，如果你感兴趣对子网计算，可以看看我下面引用，在这里我就不解释太多计算细节，你可以看到，通过改变内网掩码，我们可以轻轻松松的将局域网分成不同的大小。</p>
-<p>由于IPV4数量较少，所以在局域网内每个主机并不能都分到单独的独立IP，只有网关需要一个独立IP来访问互联网，在局域网内我们一般使用本地局域网IP（组织特地保留下来不分配给运营商，只在局域网内使用）。所以我们这就能解释第一个问题，<code>traceroute</code>第一个发送的地址不是我们单独IP（路由器IP），而是发送给局域网上的网关。</p>
-<h2 id="包的逐级转发"><a href="#包的逐级转发" class="headerlink" title="包的逐级转发"></a>包的逐级转发</h2><p>解决上面第一个问题之后，我们知道在一个局域网内我们能够通过子网掩码知道当前局域网的子网范围，接下来的包的“旅途”是什么呢，为什么在<code>traceroute</code>的路径中发现那么多IP地址呢。</p>
-<p>回答这个问题前，我们从物理角度上先了解互联网是怎么搭建起来的。</p>
-<blockquote>
-<p>当第一台计算机出现的时候，我们不需要互联网，但是随着计算机原来越多，我们想把计算机都用网线连接起来，一开始电脑都放在一起，只需要找一些长长的网线把他们连接起来，但是随着全球各地的人都有个人电脑，这时候只能靠网络运营商，也就是比如电信、移动、联通这些运营商，他们埋光钎搭网线，慢慢的将网络在各地连接起来，最后将子网络连接到骨干网，最后互联网就这么连接起来了</p>
-</blockquote>
-<p>但是就像送信举的例子一样，如果邮递员能够直接把信从街头送到街尾，那么直接节省了很长一段在路上的花的时间。所以运营商就在各个分支网络搭建大大小小的“局域网”，就一层层代理一样，当一个包请求过来，首先先查看这个IP是否属于当前地区的局域网，如果是就查表找到地址发送过去，如果没有就发送到它的更高一级代理（网关），最终这个IP包到达机房区域的局域网的主机上。</p>
-<p>所以我们能在<code>traceroute</code>查看到一个IP包要传递的那么多的IP地址，那些IP地址都是勤劳的网关，不过相比我们第一个网关，也就是我们在网上冲浪的IP地址，那些网关更像一个一个交通指挥员，指导着我们的发送的“信”一步一步走到指定地点。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>互联网就像一个乐高拼成的巨人，刚开始不了解它，远远的观察它，它就像文明遗迹一样让人赞不绝口，等到你慢慢走进它，你就会发现它的组成其实也很普通，也就是一个一个乐高模块组成，但就是这种无数普通搭建我们的“万里长城”，这或许就是互联网的伟大之处。</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="http://www.cnblogs.com/JuneWang/p/3917697.html" target="_blank" rel="noopener">子网</a></p>
-]]></content>
-      <categories>
-        <category>软件</category>
-      </categories>
-      <tags>
-        <tag>HTTP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>GitHub Education Pack</title>
-    <url>/2016/07/18/software/GitHubEducationPack/</url>
-    <content><![CDATA[<blockquote>
-<p>GitHub推出一个对学生和教师的福利包,对于学生来说这是一个不小<br>的福利,只要通过一个edu邮箱就可以领取,但奈何国内有些无良人买卖<br>邮箱,所以GitHub对于.cn的邮箱一律拒绝,但是可以通过上传学生证的方法<br>得到验证,题主刚开始用学校邮箱试了试,失败了,抱着试一试的心态,上传了<br>学生证,没想到第二天就给我回复,并给我这个豪华大礼包,接下来我就介绍介绍<br>如何用这个包来.</p>
-</blockquote>
-<h3 id="有些人在网上说-上传学生证没有用-可能是那个plan-GitHub会叫你写一点你想用GitHub做什么-用的是中文写的-最好用英文写-回复的会快一点"><a href="#有些人在网上说-上传学生证没有用-可能是那个plan-GitHub会叫你写一点你想用GitHub做什么-用的是中文写的-最好用英文写-回复的会快一点" class="headerlink" title="有些人在网上说,上传学生证没有用,可能是那个plan(GitHub会叫你写一点你想用GitHub做什么)用的是中文写的,最好用英文写-_-,回复的会快一点."></a>有些人在网上说,上传学生证没有用,可能是那个plan(GitHub会叫你写一点你想用GitHub做什么)用的是中文写的,最好用英文写-_-,回复的会快一点.</h3><h2 id="Digital-Ocean-—VPS-50刀"><a href="#Digital-Ocean-—VPS-50刀" class="headerlink" title="Digital Ocean —VPS 50刀"></a>Digital Ocean —VPS 50刀</h2><blockquote>
-<p>以前貌似是100刀,现在缩水一半了,不知道为什么.</p>
-</blockquote>
-<h4 id="DigitalOcean是一家以优质的VPS服务器著名-毕竟用SSD做存贮的服务器商没几家"><a href="#DigitalOcean是一家以优质的VPS服务器著名-毕竟用SSD做存贮的服务器商没几家" class="headerlink" title="DigitalOcean是一家以优质的VPS服务器著名,毕竟用SSD做存贮的服务器商没几家."></a>DigitalOcean是一家以优质的VPS服务器著名,毕竟用SSD做存贮的服务器商没几家.</h4><h6 id="这个是包小时的我们可以最便宜的5刀每月-提供20GSSD-1TB流量-我们可以用它来搭建服务器或者搭建一个shadowsocks服务器-安装shadowsocks很简单-但是怎么得到这50刀就要花点时间了"><a href="#这个是包小时的我们可以最便宜的5刀每月-提供20GSSD-1TB流量-我们可以用它来搭建服务器或者搭建一个shadowsocks服务器-安装shadowsocks很简单-但是怎么得到这50刀就要花点时间了" class="headerlink" title="这个是包小时的我们可以最便宜的5刀每月,提供20GSSD,1TB流量,我们可以用它来搭建服务器或者搭建一个shadowsocks服务器,安装shadowsocks很简单,但是怎么得到这50刀就要花点时间了."></a>这个是包小时的我们可以最便宜的5刀每月,提供20GSSD,1TB流量,我们可以用它来搭建服务器或者搭建一个shadowsocks服务器,安装shadowsocks很简单,但是怎么得到这50刀就要花点时间了.</h6><h4 id="你要是想得到这50刀必须先充值5刀-但是怎么给钱有是个问题-真是有钱也花出去啊-你可以选择绑卡-但是很复杂不一定能绑的上-最好的方式使用PayPal付这5刀-PayPal可以绑定银联卡付款-但是这个PayPal注册又是个问题-当时题主注册的时候一直提示服务器故障"><a href="#你要是想得到这50刀必须先充值5刀-但是怎么给钱有是个问题-真是有钱也花出去啊-你可以选择绑卡-但是很复杂不一定能绑的上-最好的方式使用PayPal付这5刀-PayPal可以绑定银联卡付款-但是这个PayPal注册又是个问题-当时题主注册的时候一直提示服务器故障" class="headerlink" title="你要是想得到这50刀必须先充值5刀,但是怎么给钱有是个问题,真是有钱也花出去啊.你可以选择绑卡,但是很复杂不一定能绑的上,最好的方式使用PayPal付这5刀,PayPal可以绑定银联卡付款,但是这个PayPal注册又是个问题,当时题主注册的时候一直提示服务器故障."></a>你要是想得到这50刀必须先充值5刀,但是怎么给钱有是个问题,真是有钱也花出去啊.你可以选择绑卡,但是很复杂不一定能绑的上,最好的方式使用PayPal付这5刀,PayPal可以绑定银联卡付款,但是这个PayPal注册又是个问题,当时题主注册的时候一直提示服务器故障.</h4><h3 id="当时去上网搜了搜-中国大陆是有这个情况-可以通过贝宝-PayPal在中国的分公司-来注册"><a href="#当时去上网搜了搜-中国大陆是有这个情况-可以通过贝宝-PayPal在中国的分公司-来注册" class="headerlink" title="当时去上网搜了搜,中国大陆是有这个情况,可以通过贝宝(PayPal在中国的分公司)来注册"></a>当时去上网搜了搜,中国大陆是有这个情况,可以通过贝宝(PayPal在中国的分公司)来注册</h3><h5 id="提醒一句-绑银联卡的时候最好用IE来绑定-别问我为什么谷歌浏览器不行—"><a href="#提醒一句-绑银联卡的时候最好用IE来绑定-别问我为什么谷歌浏览器不行—" class="headerlink" title="提醒一句,绑银联卡的时候最好用IE来绑定,别问我为什么谷歌浏览器不行—-"></a>提醒一句,绑银联卡的时候最好用IE来绑定,别问我为什么谷歌浏览器不行—-</h5><h4 id="选择VPS的时候推荐San-Francisco-延迟最低"><a href="#选择VPS的时候推荐San-Francisco-延迟最低" class="headerlink" title="选择VPS的时候推荐San Francisco,延迟最低."></a>选择VPS的时候推荐San Francisco,延迟最低.</h4><h4 id="搭建shadowsocks可以参考这篇博客"><a href="#搭建shadowsocks可以参考这篇博客" class="headerlink" title="搭建shadowsocks可以参考这篇博客"></a>搭建shadowsocks可以参考这篇<a href="https://segmentfault.com/a/1190000002511795" target="_blank" rel="noopener">博客</a></h4><h2 id="NameCheap"><a href="#NameCheap" class="headerlink" title="NameCheap"></a>NameCheap</h2><h3 id="ME域名一个（一年，价值8-99刀）PositiveSSL一个-（一年，价值9刀）"><a href="#ME域名一个（一年，价值8-99刀）PositiveSSL一个-（一年，价值9刀）" class="headerlink" title="ME域名一个（一年，价值8.99刀）PositiveSSL一个 （一年，价值9刀）"></a>ME域名一个（一年，价值8.99刀）PositiveSSL一个 （一年，价值9刀）</h3><blockquote>
-<p>这个要想得到域名必须通过邮箱验证还好NameCheape承认.edu.cn邮箱</p>
-</blockquote>
-<h5 id="提醒一下-通过DVC验证的时候选择邮箱验证就够了-虽然不是你的邮箱但是会把资料发到你提供的邮箱"><a href="#提醒一下-通过DVC验证的时候选择邮箱验证就够了-虽然不是你的邮箱但是会把资料发到你提供的邮箱" class="headerlink" title="提醒一下,通过DVC验证的时候选择邮箱验证就够了.虽然不是你的邮箱但是会把资料发到你提供的邮箱"></a>提醒一下,通过DVC验证的时候选择邮箱验证就够了.虽然不是你的邮箱但是会把资料发到你提供的邮箱</h5><h4 id="可以参考这篇博客搭建你的https网站-本站也是采用这种方法搭建的-但是有一点不同的时-现在NameCheap直接发给我一个-crt文件和-ca-bundle文件-用于Apache-所以把-key文件和-crt文件放到服务器上配置一下就好了"><a href="#可以参考这篇博客搭建你的https网站-本站也是采用这种方法搭建的-但是有一点不同的时-现在NameCheap直接发给我一个-crt文件和-ca-bundle文件-用于Apache-所以把-key文件和-crt文件放到服务器上配置一下就好了" class="headerlink" title="可以参考这篇博客搭建你的https网站,本站也是采用这种方法搭建的.但是有一点不同的时,现在NameCheap直接发给我一个.crt文件和.ca-bundle文件(用于Apache),所以把.key文件和.crt文件放到服务器上配置一下就好了."></a>可以参考这篇<a href="http://www.freehao123.com/namecheap-ssl/" target="_blank" rel="noopener">博客</a>搭建你的https网站,本站也是采用这种方法搭建的.但是有一点不同的时,现在NameCheap直接发给我一个.crt文件和.ca-bundle文件(用于Apache),所以把.key文件和.crt文件放到服务器上配置一下就好了.</h4><h2 id="GitHub-Micro-account-7刀-month"><a href="#GitHub-Micro-account-7刀-month" class="headerlink" title="GitHub Micro account 7刀/month"></a>GitHub Micro account 7刀/month</h2><blockquote>
-<p>这个不错我们可以有五个私有项目,一直可以用到你毕业.</p>
-</blockquote>
-<p>这个不错哦,妈妈再也不怕我写的stupid代码被人看到了 O(∩_∩)O哈哈~.</p>
-]]></content>
-      <categories>
-        <category>软件</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>PostgreSQL的自增键</title>
-    <url>/2017/10/08/software/PostgreSQL%E7%9A%84%E8%87%AA%E5%A2%9E%E9%94%AE/</url>
-    <content><![CDATA[<blockquote>
-<p>平常在Django项目中大量使用自增这个键，平常都是使用ORM，很少去了解这个东西在数据库中具体使用，最近遇到要备份和复原数据的事情，趁着这次好好探索一下这个自增键的使用</p>
-</blockquote>
-<p><code>Django</code>里面大部分都是将其作为<code>Int</code>自增主键来使用，第一个不需要维护一个唯一值，第二个使用<code>Int</code>作为主键的话，搜索和外键关联速度比较快。</p>
-<p>我们这次从原生<code>SQL</code>出发，探索一下这个自增主键在数据库中的具体使用</p>
-<h3 id="新建数据库"><a href="#新建数据库" class="headerlink" title="新建数据库"></a>新建数据库</h3><p>我们先新建一个数据库</p>
-<pre><code>create table inc(
-id serial not null,
-name text
-);
-</code></pre><p>在<code>PG</code>里面简单的使用<code>serial</code>关键字就会生成一个自增键，默认会在数据库新建一个索引表，例如上面就会新建一个<code>inc_id_seq</code>的索引表，这个字段类型为<code>int</code>，如果数据库很大，我们可以使用<code>BIGSERIAL</code>键申请一个<code>bigint</code>类型的字段</p>
-<p>我们可以看一下这个索引表里面有什么</p>
-<pre><code>         Sequence &quot;public.inc_id_seq&quot;
-    Column     |  Type   |        Value        
----------------+---------+---------------------
- sequence_name | name    | inc_id_seq
- last_value    | bigint  | 1
- start_value   | bigint  | 1
- increment_by  | bigint  | 1
- max_value     | bigint  | 9223372036854775807
- min_value     | bigint  | 1
- cache_value   | bigint  | 1
- log_cnt       | bigint  | 30
- is_cycled     | boolean | f
- is_called     | boolean | t
-</code></pre><p>我们可以这个索引表其实就是维护了一个参数，通过字段我们可以知道，这是一个自增为1的键，下一个值为2，目前没有插入一个值</p>
-<h3 id="增删查减"><a href="#增删查减" class="headerlink" title="增删查减"></a>增删查减</h3><p>我们通过一些基本操作来看看这个自增键的作用</p>
-<ul>
-<li>首先是插入</li>
-</ul>
-<pre><code>insert into inc (name) values (&apos;1&apos;),(&apos;2&apos;), (&apos;3&apos;);
-</code></pre><p>我们插入三个值，我们再查看索引表，发现<code>last_value</code>变成了3</p>
-<p>这个是没有指定<code>id</code>的值插入，我们试试显式声明插入</p>
-<pre><code>insert into inc  values (1, &apos;1&apos;),(2, &apos;2&apos;), (3, &apos;3&apos;), (4, &apos;4&apos;);
-</code></pre><p>我们惊奇的发现，在我们显式声明自增键的值的时候，索引表并没有变化，<code>last_value</code>还是3,<strong>这说明只有在不声明自增键，让数据库自己新建的时候，索引表才会更新</strong></p>
-<p><strong>我们可以把自增键看做一个默认值，当没有给自增键赋值的时候，这个自增键会从这个键的索引表中得到下一次自增的值</strong></p>
-<p>所以我们再尝试使用不声明自增键值的方法插入一个新值</p>
-<pre><code>insert into inc (name) values (&apos;4&apos;)
-</code></pre><p>我们发现索引表中<code>last_value</code>变成了4</p>
-<h3 id="主键自增"><a href="#主键自增" class="headerlink" title="主键自增"></a>主键自增</h3><p>由于我们在<code>Django</code>里面使用自增，一般都是将其声明为主键，设为唯一值，所以如果我们将声明表的结构变成</p>
-<pre><code>    create table inc(
-id serial not null PRIMARY KEY,
-name text
-    );
-</code></pre><p>上面的情况就不可能发生了，因为我们把自增键声明为主键，不过有意思的事就是如果你像上面一样指定了一个自增主键值为4，然后不指定再插入4，你会发现第一次会报主键不允许重复的错误，第二次则会成功插入，而且索引表的<code>last_value</code>变成了5</p>
-<p>看来并不是每次成功的时候才会更新<code>last_value</code>值，只要让系统自己去申请自增值就会更新索引表，我尝试了对表的增删查改，发现只有<code>insert</code>并且申请自增值的时候才会更新索引表，而且这个索引表之后增加，不会减少，所以有时候你删掉最大的值，自增键默认又从最后一次开始更新</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>在对单个数据表备份还原的时候，由于简单的使用了<code>COPY</code>命令进行备份还原，通过上面的探索我们发现如果涉及到自增主键的导入导出，在新表导入旧数据是不会出错的，但是由于我们没有考虑自增键的影响（我们导入自增键是显示赋值），在后面插入数据的时候有可能会报主键重复的错误</p>
-<p>为了避免以后插入入数据出现这样的错误，我们有两种措施</p>
-<ol>
-<li>使用<code>COPY</code>命令导入导出时候不获取自增键值</li>
-<li>在<code>COPY</code>导入新表后自己更新索引表</li>
-</ol>
-<p>第一种的话<code>SQL</code>比较繁琐（必须写出表所有字段值），推荐使用第二种</p>
-<p>我们可以简单的使用</p>
-<pre><code>SELECT MAX(id) FROM your_table;
-</code></pre><p>先获取自增键最大值，然后更新索引值(999为上面你获取的最大值）</p>
-<pre><code>SELECT setval(&apos;your_table_id_seq&apos;, 999, false);
-</code></pre><p>当然我们可以将这条语句合正一句话</p>
-<pre><code>SELECT setval(&apos;your_table_id_seq&apos;, COALESCE((SELECT MAX(id)+1 FROM your_table), 1), false);
-</code></pre><p>这样我们就可以开心的完成单表导入导出了</p>
-<p>ps：<br>在使用<code>COPY</code>命令时必须是superuser才能从文件中读取和导入数据，最简单的方法是用superuser账号加权使用<code>alter user xxx superuser</code>，待倒完数据后再降权<code>alter user xxx nosuperuser</code></p>
-]]></content>
-      <categories>
-        <category>软件</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>富文本编辑器CKEditor配置CKFinder</title>
-    <url>/2016/07/18/software/%E5%AF%8C%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8CKEditor%E9%85%8D%E7%BD%AECKFinder/</url>
-    <content><![CDATA[<blockquote>
-<p>由于网站要实现图片和文字的混排的上传<br>所以在网上找了富文本编辑器的插件，发现<a href="http://ckeditor.com/download" target="_blank" rel="noopener">CKEditor</a>这款还不错的插件</p>
-</blockquote>
-<h3 id="我用的是4-5-1这个版本，的确很好用，只是引用了一个js文件就可以实现。"><a href="#我用的是4-5-1这个版本，的确很好用，只是引用了一个js文件就可以实现。" class="headerlink" title="我用的是4.5.1这个版本，的确很好用，只是引用了一个js文件就可以实现。"></a>我用的是<strong>4.5.1</strong>这个版本，的确很好用，只是引用了一个<strong>js</strong>文件就可以实现。</h3><hr>
-<ol>
-<li>将网上下的CKEditor包解压放在根目录下</li>
-<li><p>在页面上引用CKEditor的核心包<strong>ckeditor.js</strong></p>
-<pre><code>&lt;script src=&quot;ckeditor/ckeditor.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;;
-</code></pre></li>
-<li><p>在页面添加一个输入框<strong>textarea</strong></p>
-<pre><code>&lt;textarea name=&quot;individual&quot; id=&quot;individual&quot; runat=&quot;server&quot;&gt;&lt;/textarea&gt;
-&lt;script type=&quot;text/javascript&quot;&gt;
- CKEDITOR.replace(&apos;individual&apos;);
- &lt;/script&gt;
-</code></pre></li>
-</ol>
-<hr>
-<h3 id="只要通过上面上面几个步骤就能实现富文本编辑器，但是点开图片上传功能，发现只有上传url的功能，并不能本地上传图片，百度了一下发现由于安全性问题CKEditor没有上传功能，只有安上CKFinder才能实现上传功能，于是我在官网下了ckfinder-aspnet-2-5-0-1-同CKEditor一样引用JS文件（只要引用ckfinder-js"><a href="#只要通过上面上面几个步骤就能实现富文本编辑器，但是点开图片上传功能，发现只有上传url的功能，并不能本地上传图片，百度了一下发现由于安全性问题CKEditor没有上传功能，只有安上CKFinder才能实现上传功能，于是我在官网下了ckfinder-aspnet-2-5-0-1-同CKEditor一样引用JS文件（只要引用ckfinder-js" class="headerlink" title="只要通过上面上面几个步骤就能实现富文本编辑器，但是点开图片上传功能，发现只有上传url的功能，并不能本地上传图片，百度了一下发现由于安全性问题CKEditor没有上传功能，只有安上CKFinder才能实现上传功能，于是我在官网下了ckfinder__aspnet_2.5.0.1,同CKEditor一样引用JS文件（只要引用ckfinder.js)"></a>只要通过上面上面几个步骤就能实现富文本编辑器，但是点开图片上传功能，发现只有上传url的功能，并不能本地上传图片，百度了一下发现由于安全性问题<strong>CKEditor</strong>没有上传功能，只有安上<a href="http://ckfinder.com/download" title="CKFinder" target="_blank" rel="noopener">CKFinder</a>才能实现上传功能，于是我在官网下了<strong>ckfinder__aspnet_2.5.0.1</strong>,同CKEditor一样引用JS文件（只要引用ckfinder.js)</h3><pre><code>&lt;script src=&quot;ckfinder/ckfinder.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
-</code></pre><ul>
-<li>由于我是MVC的网站基于.net4.5，在官方给的包里面有一个asp.net网站实例放在<strong>_source</strong>文件夹里面，里面有一个基于.net2的示例网站，一运行就报找不到 <strong>System.Web.UI.Design</strong>这个命名空间的错，所以我把它从项目中排除，把项目中bin中debug文件夹下的<strong>CKFinder.dll</strong>复制出来，引用到我自己的项目中。<h3 id="接下来要配置CKEditor来让CKFinder引用进来，在CKEditor文件夹下config-js在CKEDITOR-editorConfig-function-config-方法中添加如下代码："><a href="#接下来要配置CKEditor来让CKFinder引用进来，在CKEditor文件夹下config-js在CKEDITOR-editorConfig-function-config-方法中添加如下代码：" class="headerlink" title="接下来要配置CKEditor来让CKFinder引用进来，在CKEditor文件夹下config.js在CKEDITOR.editorConfig = function (config) {};方法中添加如下代码："></a>接下来要配置<strong>CKEditor</strong>来让CKFinder引用进来，在CKEditor文件夹下config.js在CKEDITOR.editorConfig = function (config) {};方法中添加如下代码：</h3>   config.filebrowserImageBrowseUrl = ‘ckfinder/ckfinder.html?Type=Images’;<br>   config.filebrowserFlashBrowseUrl = ‘ckfinder/ckfinder.html?Type=Flash’;<pre><code>config.filebrowserUploadUrl = &apos;ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&amp;type=Files&apos;;
-</code></pre>  config.filebrowserImageUploadUrl = ‘ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&amp;type=Images’;<br>  config.filebrowserFlashUploadUrl = ‘ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&amp;type=Flash’;<br>  config.filebrowserWindowWidth = ‘800’;  //“浏览服务器”弹出框的size设置<br>  config.filebrowserWindowHeight = ‘500’;</li>
-</ul>
-<hr>
-<h4 id="注意在配置Url的时候要修改成相对于网站本地网站磁盘文件路径，比如说，你的网址是http-example-com-cn-你把ckfinder文件夹放在Admin下的Editor文件夹，那么所有url要改成下面类似的格式"><a href="#注意在配置Url的时候要修改成相对于网站本地网站磁盘文件路径，比如说，你的网址是http-example-com-cn-你把ckfinder文件夹放在Admin下的Editor文件夹，那么所有url要改成下面类似的格式" class="headerlink" title="注意在配置Url的时候要修改成相对于网站本地网站磁盘文件路径，比如说，你的网址是http://example.com.cn ,你把ckfinder文件夹放在Admin下的Editor文件夹，那么所有url要改成下面类似的格式"></a>注意在配置Url的时候要修改成相对于网站本地网站磁盘文件路径，比如说，你的网址是<a href="http://example.com.cn" target="_blank" rel="noopener">http://example.com.cn</a> ,你把ckfinder文件夹放在Admin下的Editor文件夹，那么所有url要改成下面类似的格式</h4><pre><code>config.filebrowserImageBrowseUrl =&apos;/Admin/Editor/ckfinder/ckfinder.html?Type=Images&apos;;
-</code></pre><h4 id="否则会报404错误，"><a href="#否则会报404错误，" class="headerlink" title="否则会报404错误，"></a>否则会报404错误，</h4><h4 id="最后一步是修改一个函数让所有人能看到服务器上传文件夹里面的文件，在ckfinder文件夹下面的cofig-ascx文件，找到-CheckAuthentication函数将返回值改成true"><a href="#最后一步是修改一个函数让所有人能看到服务器上传文件夹里面的文件，在ckfinder文件夹下面的cofig-ascx文件，找到-CheckAuthentication函数将返回值改成true" class="headerlink" title="最后一步是修改一个函数让所有人能看到服务器上传文件夹里面的文件，在ckfinder文件夹下面的cofig.ascx文件，找到 CheckAuthentication函数将返回值改成true"></a>最后一步是修改一个函数让所有人能看到服务器上传文件夹里面的文件，在ckfinder文件夹下面的cofig.ascx文件，找到 CheckAuthentication函数将返回值改成true</h4><p>当然如果你想修改上传文件的地址，你可以在上面方法里面找到SetConfig()方法，找到BaseUrl，修改为你想上传的地址，</p>
-<hr>
-<hr>
-<h3 id="PS："><a href="#PS：" class="headerlink" title="PS："></a>PS：</h3><h4 id="我是在在VS里面进行调试的，由于VS的IIS在调试的时候不允许对磁盘文件的路由地址访问，就是CKFinder通过ckfinder-html这个html来实现上传图片的功能，但是这个在调试的时候VS无法访问这个文件，所以一直报404错误，可以修改IIS来允许IIS访问磁盘文件，步骤如下："><a href="#我是在在VS里面进行调试的，由于VS的IIS在调试的时候不允许对磁盘文件的路由地址访问，就是CKFinder通过ckfinder-html这个html来实现上传图片的功能，但是这个在调试的时候VS无法访问这个文件，所以一直报404错误，可以修改IIS来允许IIS访问磁盘文件，步骤如下：" class="headerlink" title="我是在在VS里面进行调试的，由于VS的IIS在调试的时候不允许对磁盘文件的路由地址访问，就是CKFinder通过ckfinder.html这个html来实现上传图片的功能，但是这个在调试的时候VS无法访问这个文件，所以一直报404错误，可以修改IIS来允许IIS访问磁盘文件，步骤如下："></a>我是在在VS里面进行调试的，由于VS的IIS在调试的时候不允许对磁盘文件的路由地址访问，就是CKFinder通过<strong>ckfinder.html</strong>这个html来实现上传图片的功能，但是这个在调试的时候VS无法访问这个文件，所以一直报404错误，可以修改IIS来允许IIS访问磁盘文件，步骤如下：</h4><ol>
-<li>右键点击IIS Express，选择显示所有应用程序</li>
-<li>找到运行网站的配置，进入applicationhost.config文件夹</li>
-<li>ctrl+f 寻找UrlRoutingModule</li>
-<li><p>将preCodition设置为空字符</p>
-<pre><code>&lt;add name=&quot;UrlRoutingModule-4.0&quot; type=&quot;System.Web.Routing.UrlRoutingModule&quot; preCondition=&quot;&quot; /&gt;
-</code></pre></li>
-</ol>
-<hr>
-<h3 id="如果你是用MVC进行表单传值的话，你必须在post方法上面添加-ValidateInput-false-属性，如果不这样的话就会报下面的错"><a href="#如果你是用MVC进行表单传值的话，你必须在post方法上面添加-ValidateInput-false-属性，如果不这样的话就会报下面的错" class="headerlink" title="如果你是用MVC进行表单传值的话，你必须在post方法上面添加 [ValidateInput(false)] 属性，如果不这样的话就会报下面的错"></a>如果你是用MVC进行表单传值的话，你必须在post方法上面添加 <strong>[ValidateInput(false)]</strong> 属性，如果不这样的话就会报下面的错</h3><pre><code>“/”应用程序中的服务器错误。
-从客户端(content=&quot;&lt;p&gt;sdfsdafwewo shdfh...&quot;)中检测到有潜在危险的 Request.Form 值。
-</code></pre>]]></content>
-      <categories>
-        <category>软件</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>未来一年规划</title>
-    <url>/2021/03/09/summary/%E6%9C%AA%E6%9D%A5%E4%B8%80%E5%B9%B4%E8%A7%84%E5%88%92/</url>
-    <content><![CDATA[<blockquote>
-<p>在上一篇博客上我写了我关于未来规划的计划，接下来这篇博客就好好介绍一下怎么做规划</p>
-</blockquote>
-<h2 id="长期目标"><a href="#长期目标" class="headerlink" title="长期目标"></a>长期目标</h2><p>首先一个长期目标很好找到，比如成为某个方向技术专家，首先我想到的是要把我的英语能力提上去，那么很简单就是成为一个英语高手。</p>
-<p>这个长期目标有了，接下来我们要思考我们如何来做到这一点。我们中期目标很简单就是能流利的说，流利的写。因为我前面有经验，要想达到这个就是大量的背诵，大量的默写（当然我后面主要是敲代码为主，可以通过打字的方式默写）。所以我的短期目标就很简单，就是将新概念2、 3 、4给全部背诵并默写出来。这个方法虽然有的傻，但是很扎实，唯一的缺点就是我的读音可能不那么native。但是我的目标主要是阅读与写作能力，开口能力够用就行，其实大部分外国人能接受咖喱味的英语也能接受中国式英语</p>
-<p>我第二个长期目标就是成为某个技术领域专家，上面的英语阅读与写作能力也是为了这个服务的，因为英语比较重要，现在主流软件全部是英语写的。</p>
-<p>其实我这个东西很早就在我的目标当中，但是我太贪婪了，学东西的时候没有把力往一处使，导致学着学着就偏航了。人的精力是有限的，如果不专注，那么很难成为一个方向的专家。</p>
-<p>要想成为一个专家，首先你就得看看专家怎么做的。我的目标很简单就是成为后端领域专家，首先我去一下技术行业里面的专家的博客上去看，看人家博客怎么写的，最下面是我找到的三个技术博客</p>
-<h2 id="如何成为技术专家"><a href="#如何成为技术专家" class="headerlink" title="如何成为技术专家"></a>如何成为技术专家</h2><p>专家博客给我的第一印象是他们的体系非常的健全，而且非常重要的一个地方他们博客文章的最多一定是就是他们擅长的方向</p>
-<p>比如说Java方向或者Spring这些文章一定是写的最多的，而且你去看人家的主方向内的内容，体系非常健全，基本上把这个体系上所有的知识点都囊括了。我在看人家的知识罗列的时候发现，自己和专家的差距就在这一点上，很多知识点我都没有涉及过。当你点击其中详细的内容的时候，你会发现其实人家写的非常简单明了，其实你自己把知识点给掌握之后也能写的出来。</p>
-<p>所以成为一个技术专家也很简单，也是“背”，但是没有人给你背书的目录，你得自己写一本书。而且技术这个东西与时俱进，我发现这些十几年的技术专家还在更新他们主力技能的文章，所以成为一个技术专家必须有两点</p>
-<ul>
-<li>健全的知识架构</li>
-<li>不断学习的能力</li>
-</ul>
-<p>现在说回我吧，其实我以前对博客的态度，很多时候只是为了写而写。我只是为了“炫耀”我懂的一些知识点。我从来没想过要把这些点连成一条线。</p>
-<p>其实自己的博客要把他当做自己的一个浓缩知识树，你必须主动去维护他、更新它。之前我的博客就像一粒一粒种子，我把他们种下就不管了，如果你给他浇水，努力的把你的这些树苗养成一颗颗大树，总有一天你能看到一片茂密的森林</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>所以在写完博客之前，我干了一件事，就是重新把我的博客更新了一遍，首先做了几个改变的地方，第一个就是将hexo样式换成Next，第二个就是开放了评论以及阅读量，当然我也开通了打赏，大家如果觉得我写的东西能对你有帮助的话，那就请我喝杯奶茶。</p>
-<p>当然这次改版我觉得最重要的一个地方就是，我重新把我的博客文章体系重新分了类，而且我自己也开始使用IDE来管理我的文章，我其实推荐大家学会在目录上就把你的文章进行分类，这样你能很快速的找到你想要的文章，也能在目录上对你知识树进行分类，尤其是像我已经写了近百篇博客。</p>
-<p>前路漫漫，诸君加油！！！</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="http://www.ityouknow.com/java.html" target="_blank" rel="noopener">http://www.ityouknow.com/java.html</a></p>
-<p><a href="https://bugstack.cn/" target="_blank" rel="noopener">https://bugstack.cn/</a></p>
-<p><a href="https://www.javaboy.org/" target="_blank" rel="noopener">https://www.javaboy.org/</a></p>
-]]></content>
-      <categories>
-        <category>随想</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>Starting Using English In My Blog</title>
-    <url>/2018/10/13/useless/StartingUsingEnglishInMyBlog/</url>
-    <content><![CDATA[<blockquote>
-<p>Happily, I decide to using English for my blog</p>
-</blockquote>
-<p>The reasons why I want to use English to write blog :</p>
-<ul>
-<li>I want to pratice my English writing </li>
-<li>it’s convenient for some tec in IT</li>
-<li>It’s kind of difficult for me in (<code>en</code>and <code>eng</code>,<code>in</code> and <code>ing</code>) as a southern Chinese which is deeply delay my write speed.</li>
-</ul>
-<p>It’s may be kind of difficult for me writing English in my blog, but I will try my best to avoiding stupied mistake.</p>
-]]></content>
-      <tags>
-        <tag>summary</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>怎么成为数据科学家（翻译）</title>
-    <url>/2016/12/23/useless/how-to-be-data-scientist/</url>
-    <content><![CDATA[<blockquote>
-<p>这是我从<code>Quora</code>上看到的一篇非常简短但详细的数据科学家的‘技能点’<br>来自eBay的一个数据科学家的回答<br>翻译来自<a href="https://www.quora.com/How-do-I-become-Data-analyst-scientist-Do-I-need-to-have-good-programming-skills/answer/Paul-Jeon-3?srid=ue3s8" target="_blank" rel="noopener">Quora回答</a></p>
-</blockquote>
-<p>这是面试谷歌、英特尔、脸书等大的世界五百强公司的数据科学家相关岗位常见的技术要求，在我看来主要有七点</p>
-<ul>
-<li>基本的编程基础</li>
-</ul>
-<blockquote>
-<p>你应该了解一门统计学相关的编程语言，比如说<code>R</code>或<code>Python</code>（同时要了解<code>Numpy</code>和<code>Pandas</code>库），还要一门数据库查询语言比如<code>SQL</code></p>
-</blockquote>
-<ul>
-<li>统计学</li>
-</ul>
-<blockquote>
-<p>你应该要能解释零假设、P值、最大似然估计和置信空间这些短语，统计学在非常巨大的数据库里压缩数据和从挑选最重要的特征非常重要，在你得出结论和设计实验过程中也帮助巨大</p>
-</blockquote>
-<ul>
-<li>机器学习</li>
-</ul>
-<blockquote>
-<p>你必须能够搞懂K-近邻、随机森林和集合方法等机器学习算法，这些算法基本上都在<code>R</code>或<code>Python</code>中得到实现，这些算法能告诉你雇主你能够将计算机科学运用在实际的管理中。</p>
-</blockquote>
-<ul>
-<li>数据重组</li>
-</ul>
-<blockquote>
-<p>你应该要能够“清理”数据。比如数据库中”California” （加利福利亚）和“CA”是一样的，数据库里面可能出现用负值代表人口。这个总的来说就是识别坏（或者不正确）的数据然后校正（或删除)他们。</p>
-</blockquote>
-<ul>
-<li>数据可视化</li>
-</ul>
-<blockquote>
-<p>数据科学家不能就只是自己搞懂就行，他们需要把他们发现告诉你的产品经理，这样就能确保数据能很好的应用到程序里面去。所以，熟悉数据可视化工具比如说<code>ggplot</code>非常重要（这样你就能展示你的数据而不是仅仅谈谈而已）</p>
-</blockquote>
-<ul>
-<li>软件工程</li>
-</ul>
-<blockquote>
-<p>你应该了解算法和数据结构，因为这些东西在你写高效率的机器学习算法时非常重要，知道如何使用分支和使用高效的数据结构：队列、数组、列表、堆栈、树等等。</p>
-</blockquote>
-<ul>
-<li>产品管理</li>
-</ul>
-<blockquote>
-<p>这个绝对是有争议的，但是那些了解产品的人将会知道什么指标是最重要的。这里有很多数据可以用来做A/B测试，但是产品导向的数据科学家将会把最好的指标用来做测试。你要知道这些的意思：可用性测试、线框、保留和转换率、流量分析、客户反馈、内部日志、A/B测试。</p>
-</blockquote>
-]]></content>
-      <tags>
-        <tag>transform</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>EFCode First 导航属性</title>
-    <url>/2016/07/18/useless/EFCodeFirst%E5%AF%BC%E8%88%AA%E5%B1%9E%E6%80%A7/</url>
-    <content><![CDATA[<h4 id="首先谈谈自己对EF的接触的过程吧，最先接触EF只是因为EF支持从数据库把关系扒下来，可以省掉自己写Select、Update、Insert这些SQL语句，而且修改非常方便，后来在使用的过程中发现导航属性这个关系，然后才慢慢知道数据库的索引是什么，由于自己接管的是大学生社团的数据库，大多时候创建者并不会考虑表的联系，一般创个主键就完事了（顺便吐槽一句，握草，数据库的表名和列名是什么鬼全用拼音首字母，为了兼容前面的内容我们还得花一半时间猜你们的列名，简直醉了，除了ID这个英文他们会，你们的英语是体育老师教的吗？？？）言归正传，用EF的确学到了对数据库表的的建立的理解，毕竟自己刚学数据库的时候就是把所有的字段塞到一张表里面，刚开始自己使用EF从数据库拔下来的表然后修改实体的关系的数据（感觉其实就是使用EF的EMDX的Code-First），使用这个并没有出现很多问题，后来又接触完整的Code-First，就是直接用代码生成数据库，虽然中间遇到无数的BUG但是这些BUG让我对数据库和EF的关系有了更深的理解，话不多说，直接上BUG。"><a href="#首先谈谈自己对EF的接触的过程吧，最先接触EF只是因为EF支持从数据库把关系扒下来，可以省掉自己写Select、Update、Insert这些SQL语句，而且修改非常方便，后来在使用的过程中发现导航属性这个关系，然后才慢慢知道数据库的索引是什么，由于自己接管的是大学生社团的数据库，大多时候创建者并不会考虑表的联系，一般创个主键就完事了（顺便吐槽一句，握草，数据库的表名和列名是什么鬼全用拼音首字母，为了兼容前面的内容我们还得花一半时间猜你们的列名，简直醉了，除了ID这个英文他们会，你们的英语是体育老师教的吗？？？）言归正传，用EF的确学到了对数据库表的的建立的理解，毕竟自己刚学数据库的时候就是把所有的字段塞到一张表里面，刚开始自己使用EF从数据库拔下来的表然后修改实体的关系的数据（感觉其实就是使用EF的EMDX的Code-First），使用这个并没有出现很多问题，后来又接触完整的Code-First，就是直接用代码生成数据库，虽然中间遇到无数的BUG但是这些BUG让我对数据库和EF的关系有了更深的理解，话不多说，直接上BUG。" class="headerlink" title="首先谈谈自己对EF的接触的过程吧，最先接触EF只是因为EF支持从数据库把关系扒下来，可以省掉自己写Select、Update、Insert这些SQL语句，而且修改非常方便，后来在使用的过程中发现导航属性这个关系，然后才慢慢知道数据库的索引是什么，由于自己接管的是大学生社团的数据库，大多时候创建者并不会考虑表的联系，一般创个主键就完事了（顺便吐槽一句，握草，数据库的表名和列名是什么鬼全用拼音首字母，为了兼容前面的内容我们还得花一半时间猜你们的列名，简直醉了，除了ID这个英文他们会，你们的英语是体育老师教的吗？？？）言归正传，用EF的确学到了对数据库表的的建立的理解，毕竟自己刚学数据库的时候就是把所有的字段塞到一张表里面，刚开始自己使用EF从数据库拔下来的表然后修改实体的关系的数据（感觉其实就是使用EF的EMDX的Code First），使用这个并没有出现很多问题，后来又接触完整的Code First，就是直接用代码生成数据库，虽然中间遇到无数的BUG但是这些BUG让我对数据库和EF的关系有了更深的理解，话不多说，直接上BUG。"></a>首先谈谈自己对EF的接触的过程吧，最先接触EF只是因为EF支持从数据库把关系扒下来，可以省掉自己写Select、Update、Insert这些SQL语句，而且修改非常方便，后来在使用的过程中发现导航属性这个关系，然后才慢慢知道数据库的索引是什么，由于自己接管的是大学生社团的数据库，大多时候创建者并不会考虑表的联系，一般创个主键就完事了（顺便吐槽一句，握草，数据库的表名和列名是什么鬼全用拼音首字母，为了兼容前面的内容我们还得花一半时间猜你们的列名，简直醉了，除了ID这个英文他们会，你们的英语是体育老师教的吗？？？）言归正传，用EF的确学到了对数据库表的的建立的理解，毕竟自己刚学数据库的时候就是把所有的字段塞到一张表里面，刚开始自己使用EF从数据库拔下来的表然后修改实体的关系的数据（感觉其实就是使用EF的EMDX的Code First），使用这个并没有出现很多问题，后来又接触完整的<strong>Code First</strong>，就是直接用代码生成数据库，虽然中间遇到无数的BUG但是这些BUG让我对数据库和EF的关系有了更深的理解，话不多说，直接上BUG。</h4><hr>
-<h2 id="1-EF未能确定外键，请用注解属性或Fluent-API标记外键"><a href="#1-EF未能确定外键，请用注解属性或Fluent-API标记外键" class="headerlink" title="1.    EF未能确定外键，请用注解属性或Fluent API标记外键"></a>1.    EF未能确定外键，请用注解属性或Fluent API标记外键</h2><p>网上关于如何用代码的（<a href="http://www.cnblogs.com/Gyoung/archive/2013/01/22/2869782.html" target="_blank" rel="noopener">Fluent API或注解属性</a>）指定外键的文章有很多有很多。在这里我想谈谈对外键的理解，首先建立起一张主表</p>
-<table class="table table-bordered table-striped table-condensed"><br>主表<br><tr><br><th><br>列名<br></th><br><th><br>类型<br></th><br></tr><br><tr><br><br><td><br>ID<br></td><br><td><br>int<br></td><br></tr><br><tr><br><td><br>Name<br></td><br><td><br>nvarchar(50)<br></td><br></tr><br></table>
-
-
-<h4 id="首先ID是独一无二的，而Name不是（重名的有很多），当我们给ID套上主键的时候，这时候插入这张表的ID只能有一种（这是数据库的一种约束，当然你可以不选择这种约束），一个人除了姓名还有其他东西，假如这时我们还有帮他加入性别这个信息，我们可以修改上一张表添加一个字段，也可以新建一张表存贮性别这个信息（当然在实际生活中只用一张表存一个信息很少），我们新建的这张表是这样的，"><a href="#首先ID是独一无二的，而Name不是（重名的有很多），当我们给ID套上主键的时候，这时候插入这张表的ID只能有一种（这是数据库的一种约束，当然你可以不选择这种约束），一个人除了姓名还有其他东西，假如这时我们还有帮他加入性别这个信息，我们可以修改上一张表添加一个字段，也可以新建一张表存贮性别这个信息（当然在实际生活中只用一张表存一个信息很少），我们新建的这张表是这样的，" class="headerlink" title="首先ID是独一无二的，而Name不是（重名的有很多），当我们给ID套上主键的时候，这时候插入这张表的ID只能有一种（这是数据库的一种约束，当然你可以不选择这种约束），一个人除了姓名还有其他东西，假如这时我们还有帮他加入性别这个信息，我们可以修改上一张表添加一个字段，也可以新建一张表存贮性别这个信息（当然在实际生活中只用一张表存一个信息很少），我们新建的这张表是这样的，"></a>首先ID是独一无二的，而Name不是（重名的有很多），当我们给ID套上主键的时候，这时候插入这张表的ID只能有一种（这是数据库的一种约束，当然你可以不选择这种约束），一个人除了姓名还有其他东西，假如这时我们还有帮他加入性别这个信息，我们可以修改上一张表添加一个字段，也可以新建一张表存贮性别这个信息（当然在实际生活中只用一张表存一个信息很少），我们新建的这张表是这样的，</h4><table class="table table-bordered table-striped table-condensed"><br>附表<br><tr><br><th><br>列名<br></th><br><th><br>类型<br></th><br></tr><br><br><tr><br><td><br>Sex<br></td><br><td><br>bit<br></td><br></tr><br></table>
-
-
-<p>这张表存贮了性别这个信息，但是如何将他从主表联系起来呢，我们先提取主表中的ID作为联系（我们称为外键）表改为</p>
-<table class="table table-bordered table-striped table-condensed"><br>附表<br><tr><br><th><br>列名<br></th><br><th><br>类型<br></th><br></tr><br><tr><br><br><td><br>ID<br></td><br><td><br>int<br></td><br></tr><br><tr><br><td><br>Sex<br></td><br><td><br>bit<br></td><br></tr><br></table>
-
-<p>我们把列名ID设为主键，这样我们就建立了一对一的关系，这个附表的ID必须不为空，这种关系还有一种就是将外键存贮在主表里面，就是将主表里面添加一个外键SexID，主表和附表要改成下面这种</p>
-<table class="table table-bordered table-striped table-condensed"><br>主表<br><tr><br><th><br>列名<br></th><br><th><br>类型<br></th><br></tr><br><tr><br><br><td><br>ID<br></td><br><td><br>int<br></td><br></tr><br><tr><br><td><br>Name<br></td><br><td><br>nvarchar(50)<br></td><br></tr><br><tr><br><br><td><br>SexID<br></td><br><td><br>int<br></td><br></tr><br><tr><br></tr></table>
-
-<table class="table table-bordered table-striped table-condensed"><br>附表<br><tr><br><th><br>列名<br></th><br><th><br>类型<br></th><br></tr><br><br><tr><br><td><br>Sex<br></td><br><td><br>bit<br></td><br></tr><br></table>
-
-<p>现在这种结构就是外键SexID可以为空（注上面的外键不能为空），</p>
-<h6 id="ps：说到外键不能为空我插一句，有些教科书上说外键不能为空也是对的，外键只是一个列名，当这个列名不唯一（也就是不为主键的时候）这是外键可以为空，为空的含义是不确定对应主表的值。"><a href="#ps：说到外键不能为空我插一句，有些教科书上说外键不能为空也是对的，外键只是一个列名，当这个列名不唯一（也就是不为主键的时候）这是外键可以为空，为空的含义是不确定对应主表的值。" class="headerlink" title="ps：说到外键不能为空我插一句，有些教科书上说外键不能为空也是对的，外键只是一个列名，当这个列名不唯一（也就是不为主键的时候）这是外键可以为空，为空的含义是不确定对应主表的值。"></a>ps：说到外键不能为空我插一句，有些教科书上说外键不能为空也是对的，外键只是一个列名，当这个列名不唯一（也就是不为主键的时候）这是外键可以为空，为空的含义是不确定对应主表的值。</h6><p>现在开始谈谈这种情况在EF发生的原因，你吧主表设为Person表，附表为SexInfo表，对应的代码如下</p>
-<pre><code>public Person{
-    public int ID{get;set;}
-    public string name{get;set;}
-    public virtual SexInfo Sex{get;set;
-                                            }
-
-
-public SexInfo{
-    public int ID{get;set;
-    public bool Sex{get;set;
-    public Person person{get;set;}
-                            }
-</code></pre><p>这个时候EF无法判断哪个是主表那个是附表，就是无法将外键加在哪个表的ID上，或者像上面的表中在Person表中添加一个外键。也就是在这种情况里面有四种可能的情况</p>
-<ol>
-<li>在Person表里面添加一个外键（假设为Person_SexInfoID)</li>
-<li>将Person表中的ID设为主键和外键</li>
-<li>在SexInfo表中添加一个外键（假设为SexInfo_PersonID)</li>
-<li>将SexInfo表中的ID设为主键和外键。</li>
-</ol>
-<h6 id="注假设在EF中没有给属性添加-Key-注解属性或在Fluent-API中声明一个属性为主键的话，EF会自动将有ID后缀的属性设置为主键并让他为标志字段自增，还有表中没有主键无法导入到EF中。"><a href="#注假设在EF中没有给属性添加-Key-注解属性或在Fluent-API中声明一个属性为主键的话，EF会自动将有ID后缀的属性设置为主键并让他为标志字段自增，还有表中没有主键无法导入到EF中。" class="headerlink" title="注假设在EF中没有给属性添加[Key]注解属性或在Fluent API中声明一个属性为主键的话，EF会自动将有ID后缀的属性设置为主键并让他为标志字段自增，还有表中没有主键无法导入到EF中。"></a>注假设在EF中没有给属性添加[Key]注解属性或在Fluent API中声明一个属性为主键的话，EF会自动将有ID后缀的属性设置为主键并让他为标志字段自增，还有表中没有主键无法导入到EF中。</h6><p>虽然EF有自动检测代码生成关系，但是本人还是比较推崇自己在Code First时就想好外键，这样在用模型绑定的时候就不会发生一些很可能发生的错误。在这张表里面为了节约数据库空间最好在SexInfo里面添加一个外键，现在我就来谈谈分别在两个表里面添加外键可能会遇到的BUG。</p>
-<ol>
-<li>在SexInfo里面添加外键PersonID</li>
-</ol>
-<p>类修改成为</p>
-<pre><code>public Person{
-    public int ID{get;set;}
-    public string name{get;set;}
-    public virtual SexInfo Sex{get;set;
-                                            }
-
-
-public SexInfo{
-    public int ID{get;set;
-    public bool Sex{get;set;
-    public int PersonID{get;set;}
-    public Person person{get;set;}
-                            }
-</code></pre><p>然后我们可以选择在PersonID上加上<code>[ForeignKey(&quot;Person&quot;)]</code>和<code>[Requird]</code>,或者在重写的OnModelCreating方法中加入 这样一句代码 </p>
-<pre><code>modelBuilder.Entity&lt;SexInfo&gt;().HasRequired(x =&gt; x.Person)
-.WithRequiredPrincipal(x =&gt; x.BindingRole).HasForeignKey(x =&gt; x.MenusManageID)        
-</code></pre><p>其实我更推崇写Fluent API 来约束，因为将注解属性放在Model里面太乱而且容易错，比如说假如你在<strong>PersonID</strong>上面少注释了一个<code>[Required]</code> 你又会得到一个模型验证错误，这个BUG是隐藏的最深的，现在来重点提一提这个BUG</p>
-<h4 id="BUG：模型验证错误····多重性与关系“········”中-Role“··············”中的引用约束冲突。因为-Dependent-Role-中的所有属性都不可以为-null，Principal-Role-的多重性必须为“1”。"><a href="#BUG：模型验证错误····多重性与关系“········”中-Role“··············”中的引用约束冲突。因为-Dependent-Role-中的所有属性都不可以为-null，Principal-Role-的多重性必须为“1”。" class="headerlink" title="BUG：模型验证错误····多重性与关系“········”中 Role“··············”中的引用约束冲突。因为 Dependent Role 中的所有属性都不可以为 null，Principal Role 的多重性必须为“1”。"></a>BUG：模型验证错误····多重性与关系“········”中 Role“··············”中的引用约束冲突。因为 Dependent Role 中的所有属性都不可以为 null，Principal Role 的多重性必须为“1”。</h4><h1 id="里面值类型不能为空（如果没有初始化时为0），所以EF报错，你要么给外键加上Required标记指定它必须存在，要么给一个可为空的int型，像这个示例里面外键PersonID是必须的，然后有些对应是0-1-对-1，所以这时候就疑惑了我们怎么给外键赋值，我们有一种办法命名一种类型他的值可以int也可以为空，但是EF会认识我们这种独特的外键吗？还好EF早想到了这点，有一种泛型可以为空也可以为你想要的类型，这种就是Nullable-lt-T-gt-在这个方法中我们只要将外键PersonID的类型换成-这个"><a href="#里面值类型不能为空（如果没有初始化时为0），所以EF报错，你要么给外键加上Required标记指定它必须存在，要么给一个可为空的int型，像这个示例里面外键PersonID是必须的，然后有些对应是0-1-对-1，所以这时候就疑惑了我们怎么给外键赋值，我们有一种办法命名一种类型他的值可以int也可以为空，但是EF会认识我们这种独特的外键吗？还好EF早想到了这点，有一种泛型可以为空也可以为你想要的类型，这种就是Nullable-lt-T-gt-在这个方法中我们只要将外键PersonID的类型换成-这个" class="headerlink" title="里面值类型不能为空（如果没有初始化时为0），所以EF报错，你要么给外键加上Required标记指定它必须存在，要么给一个可为空的int型，像这个示例里面外键PersonID是必须的，然后有些对应是0-1 对 1，所以这时候就疑惑了我们怎么给外键赋值，我们有一种办法命名一种类型他的值可以int也可以为空，但是EF会认识我们这种独特的外键吗？还好EF早想到了这点，有一种泛型可以为空也可以为你想要的类型，这种就是Nullable&lt;T&gt; ,在这个方法中我们只要将外键PersonID的类型换成 这个"></a>里面值类型不能为空（如果没有初始化时为0），所以EF报错，你要么给外键加上<code>Required</code>标记指定它必须存在，要么给一个可为空的int型，像这个示例里面外键PersonID是必须的，然后有些对应是0-1 对 1，所以这时候就疑惑了我们怎么给外键赋值，我们有一种办法命名一种类型他的值可以int也可以为空，但是EF会认识我们这种独特的外键吗？还好EF早想到了这点，有一种泛型可以为空也可以为你想要的类型，这种就是<code>Nullable&lt;T&gt;</code> ,在这个方法中我们只要将外键PersonID的类型换成 这个</h1><pre><code>public Nullable&lt;int&gt; PersonID{get;set;}
-</code></pre><h1 id="自己本身与数据库类型的对应，C"><a href="#自己本身与数据库类型的对应，C" class="headerlink" title="自己本身与数据库类型的对应，C"></a>自己本身与数据库类型的对应，C</h1><p>还有一个比较常见的BUG吧，来提一提。</p>
-<h4 id="BUG：······-引用约束的-Dependent-Role-中所有属性的类型都必须与-Principal-Role-中相应的属性类型相同。引用约束“·····”中，实体“····”的属性“····”的类型与实体“·····”的属性“·····”的类型不匹配。"><a href="#BUG：······-引用约束的-Dependent-Role-中所有属性的类型都必须与-Principal-Role-中相应的属性类型相同。引用约束“·····”中，实体“····”的属性“····”的类型与实体“·····”的属性“·····”的类型不匹配。" class="headerlink" title="BUG：······: 引用约束的 Dependent Role 中所有属性的类型都必须与 Principal Role 中相应的属性类型相同。引用约束“·····”中，实体“····”的属性“····”的类型与实体“·····”的属性“·····”的类型不匹配。"></a>BUG：······: 引用约束的 Dependent Role 中所有属性的类型都必须与 Principal Role 中相应的属性类型相同。引用约束“·····”中，实体“····”的属性“····”的类型与实体“·····”的属性“·····”的类型不匹配。</h4><p>这个bug就是相对应主体和外键不匹配的情况，相对应的类如下</p>
-<pre><code>    public Person{
-    public long ID{get;set;}
-    public string name{get;set;}
-    public virtual SexInfo Sex{get;set;
-                                            }
-
-
-public SexInfo{
-    public int ID{get;set;
-    public bool Sex{get;set;
-    public int PersonID{get;set;}
-    public Person person{get;set;}
-                            }
-</code></pre><p>Person里面的主键我改成了long型，然而外键PersonID却是int型，出现这个错误是对外键的认识还不够，外键其实就是主键的“分身”,主键是long型，外键必须也是long型，同理主键是int型外键也必须是ing型，</p>
-<h4 id="ps：导航属性是指对象，比如说Person类实例person，而外键是指存贮在数据库里面的一个特殊的列名。"><a href="#ps：导航属性是指对象，比如说Person类实例person，而外键是指存贮在数据库里面的一个特殊的列名。" class="headerlink" title="ps：导航属性是指对象，比如说Person类实例person，而外键是指存贮在数据库里面的一个特殊的列名。"></a>ps：导航属性是指对象，比如说Person类实例person，而外键是指存贮在数据库里面的一个特殊的列名。</h4><hr>
-<h3 id="充分认识导航属性和外键是搭建一个扎实的数据库结构的基础，在学习和应用EF的过程中也是了解数据库的结构的学习过程，EF或许在运行速度方法上比一般的SQL语句要慢，但是用EF我们可以更加方便的搭建一个好的数据体系，搭建一个好的数据体系可以让你在完成项目的时候事半功倍。"><a href="#充分认识导航属性和外键是搭建一个扎实的数据库结构的基础，在学习和应用EF的过程中也是了解数据库的结构的学习过程，EF或许在运行速度方法上比一般的SQL语句要慢，但是用EF我们可以更加方便的搭建一个好的数据体系，搭建一个好的数据体系可以让你在完成项目的时候事半功倍。" class="headerlink" title="充分认识导航属性和外键是搭建一个扎实的数据库结构的基础，在学习和应用EF的过程中也是了解数据库的结构的学习过程，EF或许在运行速度方法上比一般的SQL语句要慢，但是用EF我们可以更加方便的搭建一个好的数据体系，搭建一个好的数据体系可以让你在完成项目的时候事半功倍。"></a>充分认识导航属性和外键是搭建一个扎实的数据库结构的基础，在学习和应用EF的过程中也是了解数据库的结构的学习过程，EF或许在运行速度方法上比一般的SQL语句要慢，但是用EF我们可以更加方便的搭建一个好的数据体系，搭建一个好的数据体系可以让你在完成项目的时候事半功倍。</h3>]]></content>
-      <tags>
-        <tag>programming</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>天池大赛-口碑预测参赛感想</title>
-    <url>/2017/02/17/ai/competition/%E5%A4%A9%E6%B1%A0%E5%A4%A7%E8%B5%9B-%E5%8F%A3%E7%A2%91%E9%A2%84%E6%B5%8B%E5%8F%82%E8%B5%9B%E6%84%9F%E6%83%B3/</url>
-    <content><![CDATA[<blockquote>
-<p>第一次听说这个比赛还是去年在知乎上，当时也不知道这个比赛具体是怎么回事，当时自己还是一个小白，忙着搞懂各种主流的机器学习模型算法。</p>
-</blockquote>
-<p>当时在我心中，模型算法是数据挖掘的最重要的组成部分，搞懂这些才能真正搞定数据挖掘。我当时对算法模型和数据的理解是：模型就是风车，数据就是流水。我要做的事就是撘一个强健的风车，让数据流过。</p>
-<p>当我还没接触实际的工作前，我还没有没有从编程工转向挖掘工。我太注重编程本身了，而忘记我自己真正要挖掘的宝藏。</p>
-<p>我以前在<code>Quora</code>上搜如何成为数据科学家，我发现很多有经验的数据科学家他们都把“对数据的敏感和兴趣”作为数据科学家最重要的特征，而“了解各种算法模型并能应用到数据上”才是第二重要的。我当时不是太理解，我觉得后者才是更重要的。</p>
-<h2 id="参赛感想"><a href="#参赛感想" class="headerlink" title="参赛感想"></a>参赛感想</h2><p>这次参赛算是我学习数据挖掘第一次实际的挖掘，以前学习各种算法模型都是准备的很好的数据，只要套上算法模型就能跑的很好。所以我一开始就拼命的去找类似的大赛，看看获胜者他们用的模型是什么。</p>
-<p>这几天我好像抱着一堆瓶子，拼命的想把巨大的石头（数据）塞进瓶口里，看起来工作量很大，流了很多汗，其实什么都没有干。今天在看一个类似的比赛选手答辩的时候的视频，突然明白自己好像走了一个死胡同。自己拼命的想这找一个合适的瓶子（模型），其实我更应该做的是把石头（数据）磨碎。</p>
-<h4 id="模型本身不重要，他只是一个载体，更重要的是数据。"><a href="#模型本身不重要，他只是一个载体，更重要的是数据。" class="headerlink" title="模型本身不重要，他只是一个载体，更重要的是数据。"></a>模型本身不重要，他只是一个载体，更重要的是数据。</h4><p>第一次参加这样大型比赛，有点激动也有点惶恐，如何将所学的应用到实际，还有在实际中提高自己还有待自己“挖掘”。虽然这个比赛奖金“丰富”，但是我觉得在这个比赛中得到的体会乐趣比奖金更诱人。</p>
-<hr>
-<p>比赛还有一个月，在这里立个小目标，争取跑到到前五页，我也会尽量抽时间把自己感想写出来。<br>未完待续。</p>
-]]></content>
-      <categories>
-        <category>人工智能</category>
-      </categories>
-      <tags>
-        <tag>比赛</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>浅析Spring</title>
-    <url>/2021/01/07/java/springboot/%E6%B5%85%E6%9E%90Spring/</url>
-    <content><![CDATA[<blockquote>
-<p>Spring核心就是IoC（依赖注入）AoP（面向切面）本篇就基于一个开源项目 tiny-spring 来分析Spring框架到底给我们提供了什么东西</p>
-</blockquote>
-<p>依赖注入是什么呢，说起来非常简单就是系统帮你把依赖组装好，我们来举个简单例子</p>
-<pre><code>class People { Hand hand;};
-</code></pre><p>上面是一个非常简单的类，Spring把这个类叫做Bean，这个People 的 Bean 依赖一个Hand的类，我们来看一下这个Hand类</p>
-<pre><code>class Hand { Finger finger; int num};
-</code></pre><p>  上面的Hand又依赖一个Finger类，而且提供了一个属性：手的num（数目），假如你要使用这个People类，你得新建3个类，而且得把代码写死，而Spring就是通过xml或者注解来帮你把这些类自动创建，所以才叫依赖注入，其实原理也非常简单</p>
-<p>为啥要提供这个功能呢，因为我们希望通过配置这些xml就能实现不同的xml来实现不同的功能类，而不用修改代码重新编译，你可以理解为就是代码是高度松耦合，我们可以提供很多相同接口的组件给用户用，用户用的时候只需要修改配置文件就能实现灵活组合不同模块的功能</p>
-<p>我们知道对于一个HTTP服务器，我们希望调用这个接口方法之前能对用户发的东西做一个核验，就像拦截器一样，但是Java里面怎么实现呢，就是调用一个方法之前调用一个特定方法，我们有两种方法，第一种就是定死类名，在调用所有方法之前就调用这个东西，第二张就是重新继承这个方法，在调用父方法之前或者之后在调用我们想调用的方法</p>
-<p>显然第一种太蠢了，我们得先判断这个方法不存在，第二种可以使用Java Proxy类来实现（当然有局限只能是接口，可以用动态生成的类比如Cglib来做），我们而且可以把那个想注入的方法也看作一个特殊的bean（默认在普通的bean之前就做好），这样最终我们把普通的bean使用IoC容器给初始化，然后在用代理类把这个bean继承出来</p>
-<p>这样我们就实现了一个高度控制的类方法，而Spring最主要就是要组装一个Servlet类来处理不同路径下面的请求，网络处理那些事情都交给Tomcat来处理了，所以其实Spring的职责也很简单，就是组装，最后根据组装模块来响应Tomcat发过来的request，返回一个response,因为Spring需要生成很多类，而且假如你使用为了支持注解，Spring还得使用反射来获取所有类的注解，反射速度也是非常慢的，所有Spring启动一般需要一点时间，甚至比其他框架比如Python还要慢，不过这些类的生成都是一次性的（不是单例除外），生成完之后就可以直接使用这些生成好的类的方法来响应Tomcat请求了</p>
-<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><p><a href="https://github.com/code4craft/tiny-spring/blob/master/changelog.md" target="_blank" rel="noopener">https://github.com/code4craft/tiny-spring/blob/master/changelog.md</a></p>
-]]></content>
-      <categories>
-        <category>Java</category>
-      </categories>
-      <tags>
-        <tag>SpringBoot</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>唯品会预测和携程房屋预测总结</title>
     <url>/2017/08/09/ai/competition/vip_ctrip_competitions_summary/</url>
     <content><![CDATA[<blockquote>
@@ -5625,6 +5239,173 @@ public SexInfo{
       </categories>
       <tags>
         <tag>比赛</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>什么是操作系统</title>
+    <url>/2018/01/29/algorithm/mit6_828/%E4%BB%80%E4%B9%88%E6%98%AF%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</url>
+    <content><![CDATA[<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本文是基于mit6.828 的lab1对操作系统的思考，网上有不少关于lab1的博客，大部分都是介绍如何完成lab1的问题，介绍的比较详细的有这个<a href="http://www.cnblogs.com/fatsheep9146/category/769143.html" target="_blank" rel="noopener">博客</a>，在这里我就不从问题出发，建议大家看完上面的博客在看我这篇博文，我这篇博文就是从把我遇到的疑惑提炼出知识点，然后再把这些知识点串起来</p>
+<h2 id="实验目的"><a href="#实验目的" class="headerlink" title="实验目的"></a>实验目的</h2><p>作为操作系统的第一个实验，在完成lab1我们主要目的就是要了解什么是操作系统，后面的lab都是在这个基础上搭建完善好系统的各种功能，就好像你画一幅画，第一步你先把人物的轮廓外形画出来，接下来你在把人的鼻子耳朵眼睛等等慢慢画出来，所以第一个实验非常重要，如果不把骨架搭好，你的操作系统再怎么豪华强大也是空中楼阁，所以我们在这个lab上一定要花上很多时间，万事开头难，只要攻克了这个，操作系统也就离你不远了</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>谈操作系统之前必须得谈谈什么是计算机，因为我们的操作系统是运行在计算机上面的，操作系统与计算机关系密切，我们可以用一个很贴切的比方，假如你想了解手套为什么长成那么奇怪，那么你得先举起你的双手看看。</p>
+<p>闲话不多说，进入正题，计算机最核心部分就是CPU，记得电脑刚发明出来的时候，编程只能通过穿孔卡片，当然计算机发明这么久，CPU的核心功能基本上没有变，还是只能通过“穿孔卡片”，只不过我们编程语音将我们的使用的语音如C，Python等变成“穿孔卡片”，这里有个非常重要的概念：<strong>指令</strong>。也就是每个CPU的是每次只能执行一条指令。当然第二个重要的就是内存了，前面说了CPU是必须要通过”穿孔卡片“来编程的，但是随着程序愈来愈大，我们必须要使用一个东西来存贮“卡片”，所以内存孕育而生了，其实很多感叹电脑这个词实在是太贴切了，人脑可以处理问题，电脑也可以处理问题，人脑有短期记忆长期记录，电脑有寄存器（短期记忆）内存（长期记忆）。</p>
+<p>简单的谈了谈计算机，我们提出两个重要的前提</p>
+<ul>
+<li>计算机通过顺序读取一条一条指令来工作</li>
+<li>计算机从内存获取指令</li>
+</ul>
+<p>所以操作系统的就是在内存上面运行自己并帮助其他程序的一个大程序，总的来说它就是内存上面的一段程序，当然它的功能就是好好在它一亩三分地上面“分封诸侯”，维护自己的“王位”。</p>
+<p>由于一开始它只是待在软盘或者磁盘等存贮设备上的一段程序，接下来我们就看操作系统如何“上位”内存的“宫斗大戏”。</p>
+<h2 id="上位篇"><a href="#上位篇" class="headerlink" title="上位篇"></a>上位篇</h2><p>在操作系统“上位”之前，其实计算机还进行了一个小操作系统（BIOS）运行，具体的流程可以看这篇<a href="http://www.ruanyifeng.com/blog/2013/02/booting.html" title="操作系统启动" target="_blank" rel="noopener">文章</a>，如果把电脑看做人的话，BIOS就是我们的脊髓，它控制我们的身体四肢（硬件），但是却无法灵活的操作他们（比如非条件反射的膝跳反射），但是它却不可少，少了它就成植物人了。BIOS的作用总结起来就是感知硬件，调控硬件（比如CPU电压，内存频率）。</p>
+<p>BIOS与操作系统最密切的一个地方就是设置启动盘，大家可能大多时候都是听文件文件比较多，但是文件这个概念其实是操作系统的，在没有操作系统之前是没有文件这个概念的，只有盘这个概念，比如一块硬盘、一张软盘、一个U盘，所以BIOS的一个重要工作就是选定一个存储硬盘，然后读取上面的程序运行。</p>
+<p>所以我们从这时候可以得到一个结论，安装操作系统，只需要按照BIOS的规定把程序放到某一个存贮设备（磁盘、U盘、软盘）专门位置上（一般是头部开始），开机后然后就静等BIOS把程序加载到内存，就完成了“上位”过程。</p>
+<p>我们已经知道操作系统的外部条件，接下来分析一个操作系统到底该有啥</p>
+<h2 id="操作系统结构"><a href="#操作系统结构" class="headerlink" title="操作系统结构"></a>操作系统结构</h2><p>首先我们要回顾一下操作系统的发家史，刚开始是没有操作系统的这个概念的，随着在电脑上要运行的越来越多，每个程序都要写大量底层代码来操作硬件这样无疑每个程序越来越来臃肿，所以我们需要让操作系统管理来管理硬件，这样不但能够提供程序兼容性（一次编译、到处运行），而且能高效利用硬件（操作系统专供）。所以操作系统也就是程序的分工的产物</p>
+<p>接下来我们看看操作系统的发展历史，大家都知道汇编语言是除了机器语言最接近底层的一种语言，第一个Unix系统一开始也就是使用汇编编写的。但是汇编语言不易于维护，所以1973年汤普逊和里奇用C重构了Unix，但是部分与硬件接触太大的地方还是必须使用汇编（in、out端口，操纵指定寄存器等），所以现代操作系统还是用C与汇编混合编写的（C占大部分），当然最后都会编译成机器码，所以我们从机器码角度来看，最后的结果都是相同的，不同的是我们使用不同的工具来生成机器码</p>
+<p>前面我们介绍了启动盘，其实BIOS给我们只是从启动盘上面取了一小段数据（第一个扇形区）放到内存上面（512B），然后执行那小段上面的机器码，所以接下来就有一个问题，随着我们的操作系统功能越来越完善，取出来的代码肯定不是全部代码，代码只有放到内存上面才能跑，所以前人就把代码分成两部分，一部分称作引导，另一部分才是核心代码，引导作用就是把核心代码放到内存上面去</p>
+<p>所以操作系统被分成两部分</p>
+<ul>
+<li>引导</li>
+<li>核心</li>
+</ul>
+<p>这里比较有意思的地方就是引导和核心如何交换程序控制权，由于要讲解必须要牵扯代码，所以我把这部分分离出来，放到这篇<a href="/2018/01/31/引导和操作系统的交互/">博客</a>上面，要了解细节可以看这篇博客。</p>
+<p>现在我们假设你已经知道引导将核心代码加载在了内存上面，现在我们就从这里开始分析，堆栈作为程序的基础，首先我们要提一下堆栈</p>
+<h3 id="堆栈"><a href="#堆栈" class="headerlink" title="堆栈"></a>堆栈</h3><p>什么是堆栈呢？看下面这张图</p>
+<p><img src="/images/stack.png" alt="堆栈"></p>
+<p>堆顶为大地址，我们使用的时候只要不断把栈顶往下推，就能将线性内存变成一个数据结构。当然有个问题，我们必须要知道什么地方是栈顶，现在我们想想操作系统必须要放到内存的某一个地方，假如放到低位置，那么我必须要记住操作系统的最高位置，如果不这样做当堆栈顶到操作系统的存贮地址，那么操作系统就被破坏了。所以我们只能把操作系统放到高的内存地址，这样我们既能安全的使用堆栈，而且保证了操作系统的安全</p>
+<p>所以我们接下来就谈谈由于这个设定引发的一系列问题</p>
+<h2 id="操作系统的高地址"><a href="#操作系统的高地址" class="headerlink" title="操作系统的高地址"></a>操作系统的高地址</h2><p>在lab1中，操作系统的起始代码被设定为<code>0xF0100000</code>的高位</p>
+<p>从这个地址我们可以分析出来什么<code>0xF0100000</code>，因为我们知道32位操作系统最高只能有4G内存，也就是2的32次方内存，这个地址代表的是系统最后面的255M内存的空间，也就是操作系统给自己留了255M剩余内存，给前面保留了（4G-255M）空间</p>
+<p>操作系统这个设计是非常好的，不仅给自己留下扩展空间，也给其他代码带来便利，就是从0-(4G-255M）这部分内存随便用，怎么改都不会出问题</p>
+<p>从现在角度来看，个人电脑随便都是2G、4G内存，但是在70\80年代，几M内存都很很大的存在，如果我内存没有4G这么大，那么这个操作系统就无法使用了，而且你留下256M给操作系统，有的时候我整个电脑内存都没有这么大，留下那么多，就是浪费</p>
+<p>所以最后他们想出来一个办法，就是现实和理想之间放一个转换器（MMU），也就是动态内存管理。操作系统也不管你机主有多大内存了，我假设你有4G，当你用一块，无论是什么位置，我从空余的地方给你取出来，假如你没有4G，我就把一部分不常用内存值的放到磁盘上面，这样通过这样这样的操作的实现内存的高效利用。</p>
+<p>操作系统对内存这种骚操作就相当于在更高的维度上建立了一种抽象，不论底层硬件怎么变（内存大小不同），我高层都不需要变，只需要底层把根据实际情况依次映射，这样无论你换多大内存，我都不需要重装系统。</p>
+<p>这种映射不通过代码很难将清楚，所以我这里也不提太多，如果你想知道怎么映射，硬件如何配合，你可以看我这篇<a href="/2018/01/31/内存分页/">博客</a>，详细介绍了内存分页的骚操作。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>至处到这里我们的操作系统之旅就结束了，我们成功在引导帮助下上了内存，也使用了提高操作系统的地址保证了堆栈的正常使用，接下来就是操作系统的各种附加功能，我们也会在接下来的lab中继续讲解。</p>
+<p>lab1不止介绍了这两个地方，但是在lab1中我觉得最重要的地方就是要知道操作系统是什么，它从哪里来，它要到哪里去，操作系统毕竟牵涉到硬件，很多硬件知识我们不一定能搞懂，比如说要切换哪几个位到保护模式，怎么输出端口才能读取扇形区，但是我们必须要搞懂他这样做的原因，这也是我在这篇里面谈了很多操作系统历史的原因，希望在理解操作系统上面能给大家带来一点启发。</p>
+<p>在最后的话，我谈一谈我对入门这门课的感受吧，我算编程基础还算比较扎实，但是在一开始学习的过程中一脸懵逼，C语言的各种骚操作，汇编与C疯狂混合，看惯了脚本语言的我，对这种改一下就编译不过的“硬骨头”异常难受，一开始根本看不下去，有的时候看几行代码，查资料好几个小时，而且资料特别难找，你不知道这种骚操作有啥意思，在这里还得感谢学习过这门课的学长学姐们，在网上无私的把自己的感受分享出来，慢慢的根据他们的资料和自己的调试还有自己找资料，慢慢的把这个代码一行一行搞懂，搞懂之后特别感慨，其实也不是很难，难的是要把你知道的所以知识点串起来，然后你就能搞懂为什么要这么做，所以我推荐大家还是多看代码，多去思考为什么要这么做，必须要自己的思考在里面，如果单纯的知识为了完成实验其实很简单，但是难就难在把这门课琢磨透，搞懂他们为什么要这样考你，毕竟大家最后的目的都是自己做出自己的操作系统，只有了解的透彻，才能“破而后立”搞出自己的创新，而不是复制他们的壳子，所以加油把每一行代码都搞懂，多思考，不要骄傲，毕竟这只是教学类的操作系统，要想自己写出来还得不懈努力。</p>
+<p>接下来还有6个lab需要完成，终于迈出的第一步，希望在年前能够完成所有的实验吧！！！加油！！！</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://buweilv.github.io/2017/06/10/jos-bootstrap-3/" target="_blank" rel="noopener">“C语言虚拟内存表”</a></p>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>MOOC</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>用户空间隔离</title>
+    <url>/2018/02/20/algorithm/mit6_828/%E7%94%A8%E6%88%B7%E7%A9%BA%E9%97%B4%E9%9A%94%E7%A6%BB/</url>
+    <content><![CDATA[<blockquote>
+<p>通过前面的学习我们知道，在前两个实验中最主要的程序就是<code>kern/init.c</code>文件中<code>i386_init</code>函数，但是我们看到最后却是一个<code>while</code>循环结束。</p>
+</blockquote>
+<pre><code>while (1)
+    monitor(NULL);
+</code></pre><p>这个<code>monitor</code>就是简单读取用户输入然后通过字符串调用给定的几个函数。我们可以把这个函数看做<code>i386_init</code>的子函数，也就是程序一直在<code>i386_init</code>中运行，也就是一直以内核形式运行。实验三就开始完成一个正常的操作系统的用户模式的建立，以及两者直接转换。</p>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>什么是用户呢，我们把内核当做一个大程序，用户就是小程序，两者基本上没有差别，但是为了让众多用户和内核平稳运行，我们必须要区别对待用户和内核</p>
+<p>首先我们要相信内核，内核是我们精心设计的，相反用户我们不能相信它，任何人都可以犯错误，我们知道计算机程序其实非常精巧，当他们完整的时候，他们可以完成你无法想象的工作，但他们有时候少掉一行指令时，他们就会瞬间崩溃，所以我们必须要保证就算用户怎么折腾都不会把内核搞垮</p>
+<p>所以我们来考虑一下怎么来限制用户不影响整个系统，第一用户不能动内核在内存上的程序，甚至连查看的资格都没有，这就是为什么前面我们已经绞尽脑汁把内核放到高地址上确保其“高高在上”；第二个用户不能在CPU一直跑，假如它有权限一直在CPU上跑，那么内核就废了，没有CPU可以用相当于“断了胳膊”；第三用户必须要有一些内核的权限，比如说申请一些内存啥的。</p>
+<p>接下来我们就从这几个问题出发来探索一下xv6为什么要这样设计用户空间。</p>
+<h2 id="用户是个程序？"><a href="#用户是个程序？" class="headerlink" title="用户是个程序？"></a>用户是个程序？</h2><p>在完成用户设计之前，首先我们先做个实验，来验证一下用户是个程序。首先我们在<code>kern/init.c</code>文件中<code>i386_init</code> 的头部加上<code>#include &lt;inc/elf.h&gt;</code>然后在<code>#if defined(TEST)</code>代码前加入几行代码</p>
+<pre><code>extern uint8_t _binary_obj_user_hello_start[];
+struct Elf* header = ((struct Elf *) _binary_obj_user_hello_start);
+assert(header-&gt;e_magic == ELF_MAGIC);
+((void (*)(void)) (header-&gt;e_entry))();
+</code></pre><p>这段代码你如果仔细观察过前面操作系统载入的源码（<code>boot/main.c</code>中)你会发现基本上差不多。首先我们声明了<code>_binary_obj_user_hello_start</code>外部变量，这个变量是通过<code>ld</code>编译器将内核中用户程序<code>hello.c</code>的起始地址定义来的，由于我们现在没有文件系统，内核就把用户程序一股脑链接到自己身上，在以后有了文件系统就不需要了。但是它给了我们一个便利，我们现在可以直接在内存上运行它</p>
+<p>当然虽然它的确是个程序（assert那不会出错），但是它还是跑不起来，因为它的虚拟地址不在内核内存上，必须要像前面映射内存物理空间才能运行，但是他的确是一个程序，从这里我们得到一个结论，用户其实也就是一段程序，接下来我们就看看如何用软件与硬件的结合的设计解决上面的问题。</p>
+<h2 id="权限"><a href="#权限" class="headerlink" title="权限"></a>权限</h2><p>首先我们来看看权限问题，<code>x86</code>系统硬件给我们提供了一个分段式权限功能，在开启内存分页后，<code>CS</code>寄存器16位里面拿出两位来当做权限管理，分为四级（<code>0b00、0b01、0b10、0b11</code>），最小的权限最大，当然xv6只用了两级，如下图所示</p>
+<p><img src="/images/systemring.png" alt="系统环来源网络"></p>
+<p>PS：当然<code>CS</code>寄存器拿出来三位来当权限管理，但是xv6将第三位用户和内核都设置为1，所以我们也不介绍这一位</p>
+<p>我们在<code>CS</code>寄存器的这两位称为CPL，用来区分权限。在<a href="/2018/01/31/引导和操作系统的交互/">引导和操作系统的交互</a>这篇博客我们知道，在<code>x86</code>系统中，这个<code>CS</code>寄存器是标志段选择子，在<code>GDT</code>表中每个表项也有两位用来标志权限，我们称他们为<code>DPL</code>，他们的意义也就是<code>CS</code>寄存器选择这个段时他们最低拥有的权限。</p>
+<p>当然在<code>GDT</code>表中的段选择子也有一个表示权限的称作<code>RPL</code>，这三者的关系在这<a href="https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86" target="_blank" rel="noopener">里面</a>介绍的很详细，<code>RPL</code>是历史遗留问题但是操作系统基本上没有使用这个功能，所以这里我们也不解释，感兴趣可以看一下<a href="https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86" target="_blank" rel="noopener">前面</a>的介绍。</p>
+<p>在<code>kern/env.c</code>的<code>结构体gdt</code>我们声明了一个<code>GDT</code>表，并且声明了一个系统段和用户段。</p>
+<p>这两个段就是我们权限的基础我们接下来通过实验来验证权限位对操作系统的保护</p>
+<p>我们首先在<code>user/badsegment.c</code>中加入一句汇编</p>
+<pre><code>asm volatile(&quot;ljmp %0,$1f\n 1:\n&quot; :: &quot;i&quot; (0x08)); // 将CS设置为0x08
+</code></pre><p>我们尝试将<code>CS</code>设置为<code>0x08</code>（内核段）结果直接引发一个<code>General Protection</code>的异常，但是当我们尝试执行这句</p>
+<pre><code>asm volatile(&quot;ljmp %0,$1f\n 1:\n&quot; :: &quot;i&quot; (0x18));  // 将CS设置为0x18
+</code></pre><p>我们发现程序没有引发异常（这段的含义是跳转到用户段，由于已经在用户段，所以没有触发异常），这说明<code>x86</code>通过<code>CS</code>寄存器很好的实现了内核和用户的保护（用户不能直接跳到内核去执行代码）</p>
+<p>在<code>user/faultwritekernl.c</code>和<code>user/faultreadkernl</code>中我们发现尝试写入或者读取内核也失败了，这是通过前面章节的内存分页权限实现的，这里就不介绍了。</p>
+<p>现在我们知道，通过我们不懈努力内核和用户直接存在一个鸿沟，但是这时候摆在我们面前很大的问题，内核拥有一些非常重要的权限比如申请内存，如果用户没有这个权限那么功能非常受限，所以我们就要提到一个内核和用户交互的手段：Trap。</p>
+<h2 id="Trap"><a href="#Trap" class="headerlink" title="Trap"></a>Trap</h2><p>其实这个Trap包括内部中断、软中断、异常。但是xv6统一将他们叫做陷阱（Trap），这个Trap主要完成从用户到内核的一种跳转，我们就不介绍内部中断和异常，因为这些都是系统完成，我们来介绍了一下软中断，这个我们人为可以操作，而且我们可以把其他中断、异常当做系统去帮我们调用这个指令</p>
+<pre><code>int $n
+</code></pre><p>很简单x86共定义了256个中断向量，存在物理内存<code>0x000</code>-<code>0x3ff</code>之间，每个存贮一个<code>cs</code>值一个<code>eip</code>的值，这个n只要是在256直接就行，当调用这个的时候我们直接调到那里读取<code>cs</code>和<code>eip</code>的值。</p>
+<p>在正式介绍<code>Trap</code>之前我们要简单的介绍一下两个知识点</p>
+<h3 id="IRET"><a href="#IRET" class="headerlink" title="IRET"></a>IRET</h3><p>这是<code>iret</code>是一个机器码，我们前面介绍了无论是操作系统还是用户没有办法直接跳段（会引发<code>General Protection fault</code>），而且我们知道前面只是测试了跳代码段，我们知道两个不同的程序，不仅仅是代码段不同，堆栈段也要不同，才能保证各个程序的独立。所以系统为了解决这个问题，直接提供一个<code>iret</code>指令，这个全名应该叫<code>中断返回</code>，它的功能其实很简单，就是实现上面的跳代码段和堆栈段还有恢复<code>EFLAGS</code>寄存器值，这个主要应用在从系统跳转到用户上面。</p>
+<p>感兴趣的可以看看这个详细<a href="https://stackoverflow.com/questions/6892421/switching-to-user-mode-using-iret" target="_blank" rel="noopener">资料</a>，接下来我们看看在<code>xv6</code>里面如何使用<code>iret</code>来实现跳段</p>
+<p>在<code>kern/env.c</code>的<code>env_pop_tf</code>函数实现了切换程序段的功能</p>
+<pre><code>asm volatile(
+        &quot;\tmovl %0,%%esp\n&quot;
+        &quot;\tpopal\n&quot;
+        &quot;\tpopl %%es\n&quot;
+        &quot;\tpopl %%ds\n&quot;
+        &quot;\taddl $0x8,%%esp\n&quot; 
+        &quot;\tiret&quot;
+        : : &quot;g&quot; (tf) : &quot;memory&quot;);
+</code></pre><p>首先第一个就是把tf指针指向的值赋给<code>esp</code>寄存器，要想知道这个操作的意思就必须知道，一个结构体其实在程序里面就是一块连续的内存值，所以这里就是把<code>esp</code>的值指向<code>tf</code>代表的<code>Trapframe</code>结构体的开始位置，所以我们得看看这个<code>Trapframe</code>组成是什么</p>
+<pre><code>struct Trapframe {
+    struct PushRegs tf_regs;
+    uint16_t tf_es;
+    uint16_t tf_padding1;
+    uint16_t tf_ds;
+    uint16_t tf_padding2;
+    uint32_t tf_trapno;
+    /* below here defined by x86 hardware */
+    uint32_t tf_err;
+    uintptr_t tf_eip;
+    uint16_t tf_cs;
+    uint16_t tf_padding3;
+    uint32_t tf_eflags;
+    /* below here only when crossing rings, such as from user to kernel */
+    uintptr_t tf_esp;
+    uint16_t tf_ss;
+    uint16_t tf_padding4;
+} __attribute__((packed));
+</code></pre><p>第一个是<code>PushRegs</code>结构体，这个对应我们第一个操作<code>popal</code>，将<code>PushRegs</code>所有值全部从堆栈中取出，我们发现当到<code>iret</code>操作时，正好对应取出代码段还有堆栈段和<code>EFLAGS</code>寄存器，所以其实<code>iret</code>的操作非常简单，只是将三个取出指令和成了一个。</p>
+<h3 id="TSS"><a href="#TSS" class="headerlink" title="TSS"></a>TSS</h3><p>前面我们捋了捋从系统跳转到用户，因为我们给用户的都是刚新建的值，所以这个并没有什么问题，但是你要想一想，当用户想跳转到系统的时候，这个时候它也必须要切换堆栈，因为用户可以还没有准备好（有时候可以是因为堆栈内存不够，如果把寄存器值强行插值到用户堆栈会引发二次异常）。但是假如使用操作系统的堆栈，在我们切换之前系统必须要知道内核堆栈在哪</p>
+<p>所以x86提供了一个<code>tr</code>寄存器给我们使用，这个寄存器的位数为16位，专门存贮一个选择子（类似前面段选择子），这个选择子<code>base</code>地址必须指向一块空余空间。前面知道我们要想从用户跳操作系统，必须知道操作系统的堆栈（中断向量表提供了代码段cs：ip），所以x86干脆规定了这个空间名字为<code>TSS</code>，并声明了一大串寄存器的值备用，当然这些是硬件规定的，软件用不用无所谓，但是硬件会在跳转的时候，读取里面固定位置的值，也就是我们需要的堆栈段<code>ss：esp</code>，在<code>inc/mmu.h</code>的<code>Taskstate</code>结构体中声明了这段内存规定的字段</p>
+<p>所以我们在<code>kern/trap.c</code>中声明了（ss：esp）</p>
+<pre><code>   ts.ts_esp0 = KSTACKTOP;
+ts.ts_ss0 = GD_KD;
+</code></pre><p>这样我们在跳转的时候就能获取到内核的堆栈段，从而进入内核模式，当然硬件设定<code>TSS</code>的作用一开始为了考虑任务切换，它也提供了相应的指令，但是需要200左右时钟周期来完成，所以我们<code>xv6</code>嫌弃其速度太慢，只是使用了其保存内核堆栈地址的作用，所以在<code>xv6</code>中<code>TSS</code>只是一个“数据库”而已。</p>
+<hr>
+<p>介绍完前面的基础知识之后，接下来的就是这个<code>Trap</code>，前面我们知道在得到<code>int</code>这个指令时候这个时候就开始一个<code>Trap</code>开始。</p>
+<p>这个时候硬件接管程序控制，你也可以认为跳转到硬件代码去了。在给的<a href="https://pdos.csail.mit.edu/6.828/2016/xv6/book-rev9.pdf" target="_blank" rel="noopener">资料</a>第三章的<code>X86 Protection</code>里面介绍了这个过程，我们将前面几个步骤很我们前面给的资料联系起来</p>
+<blockquote>
+<p>后面推寄存器值就不解释了，同<code>Trapframe</code>的反向结构相同，之所以会这样，是因为堆栈地址是向下生长，而程序地址是向上生长的</p>
+</blockquote>
+<p>硬件这部分操作为</p>
+<ul>
+<li>获取中断向量表第n个的地址（n为<code>int</code>后面整数）</li>
+</ul>
+<p>然后开始权限检查，这个也是为什么程序不能随意调用系统资源的原因</p>
+<ul>
+<li>检测DPL与CPL的大小关系</li>
+</ul>
+<p>这个<code>DPL</code>不是前面<code>GDT</code>里面的，这个是存贮在中断向量表中<code>CS</code>里面的值，这个设置可以让我们给每个中断向量设置一个权限，看它允许是用户调用还是系统调用，如果只允许系统调用，那么用户调用直接引发<code>General Protection Fault</code>（13号中断），在我们的xv6中，我们只允许用户调用<code>Debug</code>和<code>System Call</code>中断，其他只能由系统调用</p>
+<ul>
+<li>判断保留<code>esp</code>和<code>ss</code>，检测目标的段与当前段</li>
+</ul>
+<p>当我们在操作系统中出现中断的时候，如果硬件还傻乎乎的将操作系统的堆栈归位那么就进入死循环了，所以这个目的就是避免同属一个段的时候不会切换堆栈</p>
+<ul>
+<li>当跳段的时候，从<code>TSS</code>中取到<code>esp</code>和<code>ss</code>切换堆栈段</li>
+</ul>
+<p>这个就是前面弹到的<code>TSS</code>的功能，接下来我们所以推出去的值全部存贮在要跳的段的堆栈上面了。</p>
+<p>推完<code>Trap</code>程序的寄存器值，保留好“犯罪现场”后，就可以进入内核进行处理这个异常了。</p>
+<p>至此我们介绍完了严格有序的处理从用户到内核的跳转，当我们处理完后就可以通过<code>iret</code>回到用户程序，这样就完成了用户拥有内核权限的设计。</p>
+<hr>
+<h2 id="用户时间控制"><a href="#用户时间控制" class="headerlink" title="用户时间控制"></a>用户时间控制</h2><p>接下来的用户使用CPU时间设置也是通过这个这个<code>Trap</code>的中断实现，你可以理解为硬件在每个CPU上在每隔个<code>10ms</code>的时候就触发一个中断。这样到内核的时候，内核发现是时间中断，就保留用户的寄存器值到用户自己空间（<code>Env</code>里面有一个<code>env_tf</code>变量可以存贮这些信息），然后调用其他或者这个程序，这样的话，我们就实现了一个时间控制。</p>
+<p>PS：这里我们提一下这个<code>Env</code>结构体，内核初始化了1024个这个结构体，这说明我们可以同时拥有1024个用户程序运行，这个结构体就是用户环境，也就是我们在<code>Unix</code>系统上输入<code>ps</code>中的<code>pid</code>（每个<code>pid</code>代表一个程序）</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>至今我们介绍了通过一个简简单单的<code>Trap</code>操作就实现了复杂的权限管理和空间隔离，虽然操作系统看起来非常复杂，但其实都是由简单干练的概念搭建起来的，因为<code>Unix</code>的哲学就是<code>简单至上</code>。</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://stackoverflow.com/questions/6892421/switching-to-user-mode-using-iret" target="_blank" rel="noopener">https://stackoverflow.com/questions/6892421/switching-to-user-mode-using-iret</a></p>
+<p><a href="https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86" target="_blank" rel="noopener">https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86</a></p>
+<p><a href="https://en.wikipedia.org/wiki/Task_state_segment" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Task_state_segment</a></p>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>MOOC</tag>
       </tags>
   </entry>
   <entry>
@@ -5836,6 +5617,207 @@ Car running...
       </categories>
       <tags>
         <tag>SpringBoot</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>HTTP复用</title>
+    <url>/2017/10/10/software/http/HTTP%E5%A4%8D%E7%94%A8/</url>
+    <content><![CDATA[<blockquote>
+<p>曾经有人问过我一个问题什么是TCP复用，我当时没有回答上来，后面我又遇到一些并发性能问题的时候，我才开始慢慢明白为什么会有这个问题，以及这个问题背后的秘密</p>
+</blockquote>
+<p>其实当时应该他想考我的是爬虫的请求优化，准确来说是HTTP持久连接（HTTP persistent connection），并不是TCP复用，这才导致我当时查阅很多资料，并没有发现TCP复用能优化客户端，因为<a href="http://gaibianziji.blog.51cto.com/1082897/1211940" target="_blank" rel="noopener">TCP复用</a>是服务端的事，现在就让我从源头开始慢慢解读这个问题</p>
+<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>我们知道我们每次发的HTTP请求在底层都是一个套接字的通信，我们可以从底层开始做一个测试</p>
+<p>我们使用个for循环，申请1024个socket</p>
+<pre><code>import socket
+l = [ ]
+for  i in range(1024):
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.bind((&apos;www.baidu.com&apos;),80))
+    print(i)
+    l.append(sock)
+</code></pre><p>这个过程有点慢，但是你会发现在申请到1000左右的时候，会直接报<code>Open too many file</code> 这个错误，但是我们并没有打开文件，为什么会报这个错误</p>
+<p>原来在Unix系统下，我们申请的套接字也就是<code>socket</code>在底层是以文件的形式存在的，<strong>客户端通过申请一个<code>socket</code>来写入和接受服务端的请求</strong>，这是一个非常重要的概念，对我们后面解析库函数有很大的帮助。</p>
+<p>由于系统资源有限而且打开很多文件系统响应会变慢，所以Unix系统或者Windows都对单个进程申请套接字有限制，在Unix系统下我们可以通过<code>ulimit -n</code>查看这个值，在笔者的<code>Ubuntu</code>上这个值为1024，基本没有修改过都是这个值，我们可以通过我们可以在命令行执行<code>ulimit -HSn 4096</code>临时增加至4096,</p>
+<p>所以我们一般来说单台机器单个进程最多只能并发1024个请求，在不修改配置的情况下这个值是固定的，所以我们提高并发数只有两种方法</p>
+<ol>
+<li>修改系统配置</li>
+<li>使用多进程</li>
+</ol>
+<p>在写这篇文章之前，我一直以为HTTP复用能在作用在并发上提高爬虫性能，但是其实并不是，它能提高性能但是却不是在并发上提高，接下来我们仔细介绍HTTP复用是怎么提高爬虫性能的</p>
+<h2 id="HTTP复用"><a href="#HTTP复用" class="headerlink" title="HTTP复用"></a>HTTP复用</h2><p>说道HTTP复用，我们不得不介绍一下HTTP和TCP协议，我们都知道Internet是由OSI七层协议构成的，但是OSI只是规定了框架，具体协议我们是通过TCP/IP来实现的</p>
+<p>我们先来说说这个TCP，我们都说互联网能够发展到现在这么稳定可靠多亏了这个TCP可靠协议，但是这个可靠是要付出代价的，建立一次连接的过程要经过三次握手，断开的过程也得四次分手，而且这个连接的过程完全不涉及我们要请求的内容，我们知道爬虫一般请求一个站点只有通过一两次请求就行，如果每次请求都得握三次手，还得分四次手，这样的代价也太大了</p>
+<p>所以HTTP的复用优化的方向就是减少TCP的连接，谈到如何减少TCP连接，我们就得说说HTTP长连接（HTTP persistent connection）</p>
+<h3 id="HTTP长连接"><a href="#HTTP长连接" class="headerlink" title="HTTP长连接"></a>HTTP长连接</h3><p><strong>在HTTP1.1规定了默认都是长连接，TCP不断开，并且在请求头添加一个<code>Connection</code>的header，如果是值为<code>keep-alive</code>则保留TCP连接，假如为<code>Close</code>请求完成之后就会关闭，在HTTP1.0的下默认为关闭状态</strong></p>
+<p>怎么来理解这个长连接呢，我们都听说过<strong>HTTP是无状态的</strong>这句话，从HTTP协议上来看，<strong>服务器客户端就是一个“Request”，“Response”组成，无论多复杂的页面都是由一个个“Request”组成</strong></p>
+<p>为了更好的理解上面的话，我们回到那个套接字，我们把HTTP请求比作打电话，对于每个电话，我们只需要先拨号，然后滴滴滴三下后确定我们同对面连上了（服务器“协商”好），然后我们把我们要说的话通过话筒传给对方，等我们说完之后，由于信号差，对面听完还要想怎么回，然后我们安安静静的在听筒那等，等他想好说什么，在慢慢的说给我们听。</p>
+<p>在HTTP1.0的时代，我们每次拨完一次好，说完一句话，听完对面的回应后，我们就会挂断电话，如果我们还想说就得再重复这个过程，在HTTP1.1下我们增加了长连接这个概念，就是如果你想这个电话里多聊几句，那么就在最后加上“你等下不要挂了，我还要说”（在header加上“Connection: Keep-alive”），那么对方就不会挂断电话，等它说完之后也想你一样在听筒那而等着，这样我们就省掉了一次拨号的时间</p>
+<p>我们现在了解为什么HTTP复用能够节省爬虫的性能了，接下来我们就从编程语言对HTTP复用的实现上了解如何实现HTTP复用</p>
+<h2 id="存贮单元—ConnectionPool"><a href="#存贮单元—ConnectionPool" class="headerlink" title="存贮单元—ConnectionPool"></a>存贮单元—ConnectionPool</h2><p>在介绍ConnectionPool之前我们先简单介绍一下HTTP复用的具体表现</p>
+<h3 id="TCP与URL的关系"><a href="#TCP与URL的关系" class="headerlink" title="TCP与URL的关系"></a>TCP与URL的关系</h3><p>我们知道HTTP复用的是TCP的连接，而TCP连接由四个部分组成</p>
+<ol>
+<li>本地ip</li>
+<li>本地port</li>
+<li>服务器ip</li>
+<li>服务器port</li>
+</ol>
+<p>简单来说就是两个二元组（local_ip, local_port), (server_ip, server_port)</p>
+<p>但是我们发一次的请求是一般是通过URL，也就是类似“<a href="http://www.baidu.com”，这样的url来请求的，这个同我们TCP有什么关系呢？" target="_blank" rel="noopener">http://www.baidu.com”，这样的url来请求的，这个同我们TCP有什么关系呢？</a></p>
+<p>首先介绍一下“http”代表通信协议，这里使用的是HTTP协议，“://”后面的就是请求的域名，域名后面如果有冒号就是我们请求的端口号这里没有，根据HTTP协议这里默认是80端口（HTTPS是443），域名后面的就是请求路径，这里也没有就默认问“/”，也就是我们通过这个“url”就知道我们这次请求的具体位置了，现在我们找到了端口，但是请求的IP在哪呢？</p>
+<p>这里就要介绍一下DNS了，我们为了让我们的站点更好记，我们使用域名代替ip地址，通过在DNS服务上注册我们域名，以及绑定我们域名对应的IP地址，我们就能让计算机通过域名来转换成IP地址，这里就不详细介绍了</p>
+<p>所以呢我们现在了解了，一个TCP连接只是涉及到URL的域名和端口号，我们请求站点的时候主要是通过不同的路径来获取内容，所以我们可以很清楚的知道，只要我们URL的域名和端口一样，那么我们所以的URL都能共用这个TCP接口</p>
+<h3 id="ConnectionPool的实现"><a href="#ConnectionPool的实现" class="headerlink" title="ConnectionPool的实现"></a>ConnectionPool的实现</h3><p>简单来说为了实现HTTP复用，我们只需要保存TCP连接就行了，但是通过前面我们知道，我们保留的TCP连接必须和你要请求的url要域名端口一样，有时候一个站点的服务可能由多个域名多个端口组成，所以原本我们只要用一个变量保留上一次请求的TCP连接，为了程序更加健壮，我们需要一个TCP连接池，存贮不同的TCP连接。</p>
+<p>每次新的URL来的时候我们就是先从TCP连接池中查看有没有相同的域名和端口，如果有就用它发请求，如果没有就新建一个TCP连接，这就是TCP连接的基本原理，当然还要一点编程的时候要注意，我们从池子里面取出一个用完必须放回，否则池子用完了又得新建，那就完全丢掉了复用这个概念了</p>
+<h2 id="HTTP复用在Requests的具体表现"><a href="#HTTP复用在Requests的具体表现" class="headerlink" title="HTTP复用在Requests的具体表现"></a>HTTP复用在Requests的具体表现</h2><p>前面介绍了一大堆概念，但是从头到尾如果让我们自己来做一个实在太难了，幸好我们有<code>Requests</code>这个库，它的<code>Session</code>对象在<a href="http://requests-docs-cn.readthedocs.io/zh_CN/latest/user/advanced.html" target="_blank" rel="noopener">文档</a>介绍了它就维护了一个TCP连接池并且能够复用TCP连接</p>
+<p>接下来我们就从代码入手来更好的理解这个进程池的高级用法，我们为了更好看到每一次请求底层的操作，我们这里自己先自己搭建一个本地服务器，我们使用<code>Flask</code>来搭建一个本地服务器<br>新建一个<code>web.py</code>文件，在运行</p>
+<pre><code>from flask import Flask, request
+from werkzeug.serving import WSGIRequestHandler
+
+app = Flask(__name__)
+WSGIRequestHandler.protocol_version = &quot;HTTP/1.1&quot;
+
+
+@app.route(&apos;/&apos;)
+def hello_world():
+    return &apos;%s %s&apos; % (request.remote_addr, request.environ.get(&apos;REMOTE_PORT&apos;))
+
+
+if __name__ == &apos;__main__&apos;:
+    app.run(host=&apos;0.0.0.0&apos;, port=8000)
+</code></pre><p>这里我们在8000端口开了一个服务器并且设置为HTTP/1.1协议，我们返回用户请求的ip和端口</p>
+<p>接下来我们开一个Python解释器来看看这个进程池的用法</p>
+<pre><code>&gt;&gt;&gt; import requests, logging
+&gt;&gt;&gt; logging.basicConfig(level=logging.DEBUG)
+&gt;&gt;&gt; session = requests.Session()
+&gt;&gt;&gt; session.get(&apos;https://baidu.com&apos;)
+DEBUG:requests.packages.urllib3.connectionpool:Starting new HTTP connection (1): www.baidu.com
+            DEBUG:requests.packages.urllib3.connectionpool:http://www.baidu.com:80 &quot;GET / HTTP/1.1&quot; 200 None
+&lt;Response [200]&gt;
+</code></pre><p>看我们可以从打印的logging日志看到我们在进程池中新建了一个TCP连接，我们在试着再请求一次</p>
+<pre><code>&gt;&gt;&gt; session.get(&apos;https://www.baidu.com&apos;)
+    DEBUG:requests.packages.urllib3.connectionpool:https://www.baidu.com:443 &quot;GET / HTTP/1.1&quot; 200 None
+&lt;Response [200]&gt;
+</code></pre><p>看我们的HTTP复用实现了，在同一个TCP连接中我们请求了两次</p>
+<h2 id="深入requests的ConnectionPool"><a href="#深入requests的ConnectionPool" class="headerlink" title="深入requests的ConnectionPool"></a>深入<code>requests</code>的ConnectionPool</h2><p>在上面我们验证了<code>requests</code>的<code>Session</code>对象的确实现连接池，但是似乎<code>requests</code>并没有给我们接口来操作这个值，通过分析代码和资料，我们发现在<code>Session</code>初始化的时候，绑定了一个    <code>HTTPAdapter</code>对象，这个对象就是<code>requests</code>封装了<code>urllib3.connectionpool.ConnectionPool</code>来实现TCP池</p>
+<p>我们查看这个<code>HTTPAdapter</code>文档发现它的用法是这个</p>
+<pre><code>&gt;&gt;&gt; import requests
+&gt;&gt;&gt; s = requests.Session()
+&gt;&gt;&gt; a = requests.adapters.HTTPAdapter(max_retries=3)
+&gt;&gt;&gt; s.mount(&apos;http://&apos;, a)
+</code></pre><p>我们可以通过创建将一个TCP池绑定到一个<code>session</code>对象上，我们可以看一下这个创建一个<code>HTTPAdapter</code>的参数</p>
+<pre><code>HTTPAdapter(self, pool_connections=10, pool_maxsize=10, max_retries=0, pool_block=False)
+</code></pre><p>我们主要看这两个参数<code>pool_connections</code>和<code>pool_maxsize</code>，通过一番测试（比较长就不演示了，可以参考引用来进行实验），我们发现这个<code>pool_connections</code>主要控制TCP池的种类数，我们知道在进程池中我们可以有很多相同的TCP连接（主要是并发新建的），这些连接有些是连接相同的域名和端口，这个<code>pool_connections</code>就是控制有多少种类的站点（域名和端口）同时能够存在池中，那么这个<code>pool_maxsize</code>代表的就是池中不管种类有多少总共的TCP连接数</p>
+<p>假如你只写单线程程序那么你只要考虑<code>pool_connections</code>这个参数，因为单线程你发出一个请求只会占用一个TCP连接，在你每次开始请求时，池中不同站点的连接只有一种，所以你可以把<code>pool_connections</code>当做池的大小，但是假如你写多线程程序，每个时间点需要的TCP连接同你多线程的个数有关，由于requests不会限制当池中无可用连接时新建TCP连接，所以你一个站点的TCP连接可能有多个，这时我们就要用<code>pool_maxsize</code>来限制池子的容纳量，为了避免无限制存贮TCP连接，TCP连接池会把超过总数的连接按照时间顺序踢出去，让池中保持不大于限制总数的TCP连接。</p>
+<p>当然这里有个非常重要的知识点，<strong>requests的TCP池并不会限制新建TCP连接</strong>,它只是限制存贮量和种类，这个知识点非常重要，这对后面我们理解<code>aiohttp</code>异步请求时候为什么要限制并发数有非常大的帮助（它只限制TCP连接总数）</p>
+<h2 id="TCP连接池的作用"><a href="#TCP连接池的作用" class="headerlink" title="TCP连接池的作用"></a>TCP连接池的作用</h2><p>经过上面的探索，我们知道TCP连接池一方面能够实现HTTP复用达到减少TCP连接时耗的作用，另一方面我们通过复用TCP连接可以节省套接字，避免经常碰到”Too many file“的错误，顺便提一下，由于TCP连接具有冷启动的特点，在刚连接上TCP时，速度会非常慢，只有系统发现负载不多才会恢复正常速度，所以这就是我们有时候用浏览器打开一个新页面要加载很久的原因。</p>
+<p>前面一直在介绍HTTP复用的理论基础，最后我们实战演练一下在异步框架<code>aiohttp</code>使用HTTP复用</p>
+<h2 id="异步框架下HTTP复用"><a href="#异步框架下HTTP复用" class="headerlink" title="异步框架下HTTP复用"></a>异步框架下HTTP复用</h2><p>在这里我们使用<code>Python</code>的<code>aiohttp</code>异步请求框架（在这里我们要求<code>Python</code>的版本必须大于等于3.5），<code>aiohttp</code>也提供了<code>TCP</code>连接池的功能，要想共享TCP连接池，我们先新建一个<code>Session</code>对象</p>
+<pre><code>connector = aiohttp.TCPConnector(limit=50)
+session = aiohttp.ClientSession(connector=connector)
+</code></pre><p>我们直接创建了一个最大容量为50的TCP池，并把它绑定到session对象上，接下来先试试跑个200个请求（要先在按照前面的代码搭建本地服务器）</p>
+<pre><code>async def fetch(url, session, semaphore):
+    async with semaphore:
+        async with session.get(url) as response:
+            print(await response.read())
+
+
+
+loop = asyncio.get_event_loop()
+</code></pre><p>接下来我们就可以直接使用aiohttp框架</p>
+<pre><code>semaphore = asyncio.Semaphore(20)
+tasks = [fetch(url, session, semaphore) for x in range(nums)]
+begin = time.time()
+try:
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(asyncio.wait(tasks))
+except:
+    pass
+finally:
+    end = time.time()
+    loop.close()
+    session.close()
+    print(&apos;cost&apos;, end - begin, &apos;speed&apos;, nums / (end - begin), &apos;req/s&apos;)
+</code></pre><p>在我的电脑测试测试下<code>421.73 req/s</code>,基本上达到异步的效率（可以调节limit至100左右达到最大）</p>
+<p>在这里解释一下为什么要使用<code>semaphore</code>（asyncio锁），由于当前版本（aiohttp==2.2.5）下<code>aiohttp</code>的HTTP连接池无法在没有锁的情况下复用TCP连接（具体可以看一下我提的这个<a href="https://github.com/aio-libs/aiohttp/issues/2323" target="_blank" rel="noopener">issue</a>,这里由于牵扯到太多异步框架的知识，我就详细不介绍异步库，如果想了解更多的话就看我上一片博文<a href="/2017/10/09/Python%E5%BC%82%E6%AD%A5%E7%9A%84%E7%90%86%E8%A7%A3/">Python异步的理解</a></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在如何提高请求效率和速度上，HTTP复用算是从协议出发上的一种优化，他主要利用方向是在单个站点多次请求上面，假如每个站点都只是一个请求的话，那他就无用武之地，不过现在站点不可能一次请求就完成交互，所以了解这个HTTP复用如何是非常有帮助的。</p>
+<p>引用：</p>
+<p><a href="https://laike9m.com/blog/requests-secret-pool_connections-and-pool_maxsize,89/" target="_blank" rel="noopener">Requests’ secret: pool_connections and pool_maxsize</a></p>
+<p><a href="https://pawelmhm.github.io/asyncio/python/aiohttp/2016/04/22/asyncio-aiohttp.html" target="_blank" rel="noopener">Making 1 million requests with python-aiohttp</a></p>
+]]></content>
+      <categories>
+        <category>软件</category>
+      </categories>
+      <tags>
+        <tag>HTTP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>从子网到“互联网”</title>
+    <url>/2017/12/14/software/http/%E6%BC%AB%E8%B0%88%E7%BD%91%E7%BB%9C/</url>
+    <content><![CDATA[<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>最近重温《TCP/IP协议簇》，读到子网这个部分，概念都能弄懂，但是不明白子网存在的目的，很多资料都说有两个好处，一是能够判断IP存在局域网还是远程网，另外一个将大的网段分成多个小子网。</p>
+<p>这样就搞得我一头雾水，原来我对互联网的认识是从TCP、HTTP高层协议理解的，我原来对互联网信息传递的理解就像<a href="https://www.zhihu.com/question/20717354/answer/15968282" target="_blank" rel="noopener">这篇回答</a>，网络就像一个神奇的大网，你只需要把电话线插到“网”中就能同别人连起来。原来我对这个解释并没有什么疑问，但是我越来越深入“互联网”，我就我对“互联网”越来越疑惑。</p>
+<p>举个例子，我们知道这个IPV4理论上总共有<code>4294967296（256*256*256*256）</code>个，按照当前的理论，过几年就要分配完了，那意味这至少有50%已经分配好了，也就是说至少有20亿根“网线”要连到一起，我们知道局域网只要交换机就能搭起来，假设我们一个交换机能插20根网线，那么要搭这个20亿“网线”，至少要用一个亿的交换机，你能想象一个亿的交换机堆在一起组成“互联网”吗？就算假如我们使用数字信号，作为一个程序员，我也很难想象原先的程序员是在有限的内存和硬盘，如何设计强大计算机有条不紊的处理20亿的并发。</p>
+<p>所以这篇文章就要从OSI底层协议出发让我们从底部掀一掀“互联网”的老底，将一个有血有肉的“互联网”展现在我们面前。</p>
+<h2 id="触摸“网”"><a href="#触摸“网”" class="headerlink" title="触摸“网”"></a>触摸“网”</h2><p>我们一直在说着互联网、互联网，由于无数在前人的不懈努力下，其实很多时候我们根本感受不到这张网的存在，比如打开浏览器，输入<code>www.baidu.com</code>，我们直接就能连上千里之外的服务器，其实在浏览器后面，我们发的“包”正沿着网跨越千山万水到达一个机房的服务器中。</p>
+<p>所以为了触摸到网这个东西，我们得用一些工具，我们就在打开的百度中输入<code>traceroute</code>，根据你的操作系统安装好，然后我们打开命令行输入<code>traceroute  -I www.baidu.com</code></p>
+<pre><code>traceroute to www.baidu.com (14.215.177.38), 30 hops max, 60 byte packets
+ 1  192.168.1.1 (192.168.1.1)  
+ 2  182.96.180.1 (182.96.180.1) 
+ 3  68.248.177.220.broad.nc.jx.dynamic.163data.com.cn (220.177.248.68)  
+ 4  53.251.177.220.broad.nc.jx.dynamic.163data.com.cn (220.177.251.53)  
+ 5  182.98.159.73 (182.98.159.73)  
+ 6  202.97.75.117 (202.97.75.117)  
+ 7  113.108.208.194 (113.108.208.194) 
+ 8  * * *
+ 9  14.29.121.194 (14.29.121.194)  
+10  * * *
+11  * * *
+12  14.215.177.38 (14.215.177.38) 
+</code></pre><p>由于百度存在负载均衡，所以你们看到的最终IP地址可能不会同我一样（PS：我去掉了时间），虽然中间还有一些<code>***</code>的存在，但是不管怎么我们终于触摸到这个网的存在。</p>
+<p>我第一次看到这个非常震惊，原来在我的心中，“网”上最多有两个端，一个是我们的客户端，一个是服务器端，现在突然冒充这么多个“中间人”，这些东西是什么呢？</p>
+<p>接下来我们通过回答下面两个问题来慢慢了解互联网的构造。</p>
+<ol>
+<li>为什么第一个IP是局域网内的IP（内网）？</li>
+<li>为什么中间有那么多IP端，他们的作用是什么？</li>
+</ol>
+<h2 id="内网与外网的区别"><a href="#内网与外网的区别" class="headerlink" title="内网与外网的区别"></a>内网与外网的区别</h2><p>解答第一个问题前，我们必须要知道什么是内网什么是外网。</p>
+<p>从IP的角度上来看，刚开始创建以太网时，由于避免连在一起的电脑认错人，就用IP用来做每个电脑的“身份证”，一开始要连在电脑比较少，组织只需要拿个小本本记住哪台服务器对于的IP，但是随着想连在一起的电脑越来越多，这个小本本满满的一本快写满了，虽然可以在多买几本本子记住他们，但是本子越多每次要查他们的IP的时候消耗的时间越多，所以他们决定不再一个一个分IP了，于是他们把40亿IP分成A、B、C、D几类。</p>
+<p>这样组织成功用一个小本子记录了几十亿的IP分配，这里组织指的是因特网协会（ICANN），协会自己分好IP后开始发本子，找到下面的运营商，让他们自己搭网线光钎把他们自己负责的国家区域连起来，但由于地方太多，一个本子也记不下来，所以他们又把组织发给他们的本子分发到地区运营商，这样慢慢缩小，最终每个地区的局域网的本子都不会太大，这样查起来速度快而且网络的压力也平摊下去，但是摆在我们面前有一个问题</p>
+<blockquote>
+<p>假设小明和小华分别住在同一条大街的街头和街尾，小明想给小华写信，小明然后写了一封信信放到邮箱，然后邮递员过来把信取走，在邮局分配再让邮递员送到小华家，本来两个人住在同一条街，邮递员只需要把信从街头送到街尾这次传递就结束了，但是由于不知道小明和小华住在同一条街，这封信绕了一个很大的圈才到小华手中。</p>
+</blockquote>
+<p>从这个故事告诉我们，要解决不必要的传输，我们必须要提供一种机制让“邮递员”知道这封“信”是直接“送”还是发到总部发出去，这种机制就是确定是否是内网还是和外网。</p>
+<p>大家回头看一下IP，假如我们按照组织（ICANN）的本子来分内网还是外网，那会造成极大的浪费，比如说A类，从1.0.0.0 到126.255.255.255，共分了126个，每个分类下有1658万台电脑，可能现在最大的云服务商都没有几千万台机器，假如你就几十台电脑，你申请一个B类IP（子网可以容纳6万多台），那么子网的利用率约为为20/6000，这么大一个网段却只有几个IP有效，这是对IP的极大的浪费，所以我们需要再次切片，将一个IP段智能的切分成很多块。</p>
+<p>有没有什么好的方法能够切分IP呢，我们知道在TCP、HTTP这些高层协议栈中并没有子网这个概念，他们只负责连接和解析，所以我们得从数据链路层里面查看，在这层有一个非常重要的概念：<strong>子网掩码</strong></p>
+<h3 id="子网掩码"><a href="#子网掩码" class="headerlink" title="子网掩码"></a>子网掩码</h3><p>首先我们要了解一个概念：<strong>路由表</strong></p>
+<p>这个就是我们前面提到过的“小本本”，这个路由表就记载了我们主机上面有关子网划分的重要数据，我们可以通过在<code>Linux</code>上的<code>route -n</code>命令显示电脑上的路由表</p>
+<pre><code>Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+0.0.0.0         192.168.1.1     0.0.0.0         UG    0      0        0 wlan0
+192.168.1.0     0.0.0.0         255.255.255.0   U     9      0        0 wlan0
+</code></pre><p>在我的电脑的得到的结果是这样的，这里有两个很重要的参数，<code>Gateway（网关）</code>，<code>Genmask（掩码）</code>，网关和掩码是什么呢？网关就是我们连接上外网的关键，掩码就是区分内网外网的钥匙。</p>
+<p>子网是什么呢？你可以看做是IP与掩码的按位与运算得到新IP，比如说我们上面第一个<code>192.168.1.1</code>与<code>0.0.0.0</code>的运算结果是为<code>0.0.0.0</code>，而且你会发现所以的IP跟<code>0.0.0.0</code>得到结果都是一样的<code>0.0.0.0</code>，这说明对于网关来说，所有的外网IP都是属于同一子网，接下来我们看看第二行，这个网关为<code>0.0.0.0</code>说明这个是局域网，当我们的IP与这个局域网掩码运算后得到的地址与这个局域网IP相同时，说明这个IP属于局域网，我们可以看到我们子网大小为256，由于我用的是路由器，所以说明这个路由器最多可以允许254(.255为广播地址）台设备连接</p>
+<p>接下来我们看看在我的云服务器上的路由表</p>
+<pre><code>Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+0.0.0.0         10.10.6.1     0.0.0.0         UG    0      0        0 eth0
+10.15.6.0     0.0.0.0         255.255.192.0   U     0      0        0 eth0
+</code></pre><p>你可以清楚的看到在第二行我们的内网的大小约为<code>16128=256*(255-192)</code>，如果你感兴趣对子网计算，可以看看我下面引用，在这里我就不解释太多计算细节，你可以看到，通过改变内网掩码，我们可以轻轻松松的将局域网分成不同的大小。</p>
+<p>由于IPV4数量较少，所以在局域网内每个主机并不能都分到单独的独立IP，只有网关需要一个独立IP来访问互联网，在局域网内我们一般使用本地局域网IP（组织特地保留下来不分配给运营商，只在局域网内使用）。所以我们这就能解释第一个问题，<code>traceroute</code>第一个发送的地址不是我们单独IP（路由器IP），而是发送给局域网上的网关。</p>
+<h2 id="包的逐级转发"><a href="#包的逐级转发" class="headerlink" title="包的逐级转发"></a>包的逐级转发</h2><p>解决上面第一个问题之后，我们知道在一个局域网内我们能够通过子网掩码知道当前局域网的子网范围，接下来的包的“旅途”是什么呢，为什么在<code>traceroute</code>的路径中发现那么多IP地址呢。</p>
+<p>回答这个问题前，我们从物理角度上先了解互联网是怎么搭建起来的。</p>
+<blockquote>
+<p>当第一台计算机出现的时候，我们不需要互联网，但是随着计算机原来越多，我们想把计算机都用网线连接起来，一开始电脑都放在一起，只需要找一些长长的网线把他们连接起来，但是随着全球各地的人都有个人电脑，这时候只能靠网络运营商，也就是比如电信、移动、联通这些运营商，他们埋光钎搭网线，慢慢的将网络在各地连接起来，最后将子网络连接到骨干网，最后互联网就这么连接起来了</p>
+</blockquote>
+<p>但是就像送信举的例子一样，如果邮递员能够直接把信从街头送到街尾，那么直接节省了很长一段在路上的花的时间。所以运营商就在各个分支网络搭建大大小小的“局域网”，就一层层代理一样，当一个包请求过来，首先先查看这个IP是否属于当前地区的局域网，如果是就查表找到地址发送过去，如果没有就发送到它的更高一级代理（网关），最终这个IP包到达机房区域的局域网的主机上。</p>
+<p>所以我们能在<code>traceroute</code>查看到一个IP包要传递的那么多的IP地址，那些IP地址都是勤劳的网关，不过相比我们第一个网关，也就是我们在网上冲浪的IP地址，那些网关更像一个一个交通指挥员，指导着我们的发送的“信”一步一步走到指定地点。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>互联网就像一个乐高拼成的巨人，刚开始不了解它，远远的观察它，它就像文明遗迹一样让人赞不绝口，等到你慢慢走进它，你就会发现它的组成其实也很普通，也就是一个一个乐高模块组成，但就是这种无数普通搭建我们的“万里长城”，这或许就是互联网的伟大之处。</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="http://www.cnblogs.com/JuneWang/p/3917697.html" target="_blank" rel="noopener">子网</a></p>
+]]></content>
+      <categories>
+        <category>软件</category>
+      </categories>
+      <tags>
+        <tag>HTTP</tag>
       </tags>
   </entry>
 </search>
