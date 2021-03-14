@@ -209,6 +209,141 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/03/14/java/springcloud/springcloud浅析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/03/14/java/springcloud/springcloud浅析/" class="post-title-link" itemprop="url">SpringCloud浅析</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-03-14 08:38:19 / 修改时间：10:16:12" itemprop="dateCreated datePublished" datetime="2021-03-14T08:38:19+08:00">2021-03-14</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>2.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>最近在学SpringCloud，之前一直对用视频学嗤之以鼻，觉得只有弱者才会这样，但是其实对于一些已经非常常见的技术<br>比如SpringCloud这种，已经出来很长一段时间了，而且其实非常杂，用视频学起来其实非常快，当然前提是你要三倍速播放，而且<br>你得把视频配套的代码找到，这样你就能很快的掌握这个。</p>
+</blockquote>
+<p>我把SpringCloud视频过了一遍，代码也运行了一遍花的时间可能不超过<br>5个小时吧，假如自己按照原来的做法去看别人博客然后自己慢慢搭建可能入门花的时间远远不止</p>
+<p>下面是我学习SpringCloud用到的视频已经代码，推荐你视频三倍速播放，把视频看懂之后去实际运行一下相应代码，这样你能很轻松知道这个东西是什么</p>
+<ul>
+<li><a href="https://github.com/zzyybs/atguigu_spirngcloud2020" target="_blank" rel="noopener">代码</a></li>
+<li><a href="https://www.bilibili.com/video/BV18E411x7eT?p=1" target="_blank" rel="noopener">B站视频</a></li>
+</ul>
+<p>目前我就总结一下我入门Spring Cloud的一些心得</p>
+<h2 id="什么是微服务"><a href="#什么是微服务" class="headerlink" title="什么是微服务"></a>什么是微服务</h2><p>其实微服务这个东西是模块化的一种体现，在企业开发中你会发现，好多时候我们要做一个网站如果要暴露在外网地址，<br>其实最基础就得要有一个登录，每个网站写一个登录其实非常没有必要</p>
+<p>第一个是安全，第二个是耦合，假如你想完全独立于其他系统，你必须重新使用数据库存储，这样用户在同一家公司可能得注册两个不同的账号</p>
+<p>所以微服务的理念就是模块化，把登录和其他业务给组装成不同模块，这样你就专注于你自己的业务而不用去担心其他的问题了</p>
+<h2 id="怎么做"><a href="#怎么做" class="headerlink" title="怎么做"></a>怎么做</h2><p>微服务一开始也很简单，就是单独起不同的网站，比如我们把登录单独部署在一个网站上面去，<br>登录完了就给一个<code>token</code>， 然后其他系统使用<code>token</code>来验证用户权限</p>
+<p>刚开始这样很简单，但是对于系统来说，出现了一个问题，首先是用户登录次数很少（如果他不退出登录），然而其他业务<br>使用的很多，这时候我们就想多起个实例来跑其他微服务，但是我们之前写死了，所有的业务调用都只是跳转到一个<br>网址上去了</p>
+<h2 id="服务注册"><a href="#服务注册" class="headerlink" title="服务注册"></a>服务注册</h2><p>所以我们就想到做一个调度中心来把所有的服务都注册在这里，这样你想要的时候过来查就好了，这个服务中心就是我们所说的<br>服务注册，就是他来监控所有服务实例的，每个实例都得定时发送心跳，如果一段时间没有发送就会默认认为服务下线了</p>
+<p>对于服务注册中心来说，其实就是一个登记的作用，就是记录一个服务名，以及他们的实际IP地址</p>
+<h2 id="服务调用"><a href="#服务调用" class="headerlink" title="服务调用"></a>服务调用</h2><p>服务注册核心在于注册，对于真正的调用方来说，他只能从注册中心拿到最新存活的实例的IP，实际上他还得去通过这个IP来远程调用实际服务</p>
+<p>所以Spring Cloud就创建了两个调用框架，第一个用来选择选择哪个实例，比如随机选择一个实例，还是说按照实例响应速度等等来选择</p>
+<p>这个其实是一个拦截器，他只是帮你在远程调用之前选择哪个服务</p>
+<p>第二个就是<code>OpenFeign</code>，其实这个相当于把远程调用伪装成为一个<code>Service</code>，你只要把这个<code>Service</code>名字以及相关配置给配置好就可以像普通<br><code>Service</code>一样调用了</p>
+<p>服务调用，这个本质上是给调用方写的HTTP请求库，对于被调用者来说其实什么没有影响</p>
+<h2 id="服务降级"><a href="#服务降级" class="headerlink" title="服务降级"></a>服务降级</h2><p>其实服务降级，我认为说成异常处理更好，对于微服务来说，最大的区别就是原来一个网站，现在好多网站，我以前实现一个功能</p>
+<p>一个接口就好了，目前可能需调用很多很多接口，这个调用一多就会出问题，第一个时间变长了，<code>HTTP</code>请求其实很有冷启动的缺点的，随着你的调用越来越多<br>其实花在建立链接的时间也越来越多了，而且<code>HTTP</code>其实非常啰嗦，有很多不需要的头部信息，会重复的发来发去</p>
+<p>回到刚才的问题，就是我们调用方最终要实现一个功能的时候，可能得需要很多步骤，假如正常来写，我们得写很多<code>try catch</code><br>我们得考虑这个接口调用失败怎么办，我们得返回什么东西</p>
+<p><code>Hystrix</code>就是一套异常处理框架，他能帮你把接口给管理起来，在调用前他会检查这个接口是否已经熔断，在调用的时候他会检查是否<br>会抛异常，如果抛异常就调用其他兜底的方法</p>
+<h2 id="辅助"><a href="#辅助" class="headerlink" title="辅助"></a>辅助</h2><blockquote>
+<p>网关</p>
+</blockquote>
+<p>Spring Cloud还给了我们一些其他可以选择使用的辅助功能，比如假如你想自己做一层网关，那可以使用<code>gateway</code>做一个网关，<br>网关能帮我们做一下杂碎但是非常重要的，比如说权限认证，异常流量过滤啊，日志记录啊</p>
+<p>你可以用<code>Nginx</code>来做这些，但是<code>gateway</code>这些网关是用<code>Java</code>写的，你很容易就可以进行扩展实现你自己想要的功能</p>
+<blockquote>
+<p>配置中心</p>
+</blockquote>
+<p>对于一个大的公司来说，代码运行的环境非常多，所以<code>Spring Cloud</code>提出配置中心的概念，你可以让所有的应用接入配置中心<br>这样当你想临时关闭某些东西的时候，只要修改配置中心，所有的实例都能立刻得到响应，而不需要重启</p>
+<blockquote>
+<p>调用链监控</p>
+</blockquote>
+<p>这个有点调试工具了，就是在调用方和被调用方都安上这个就能很轻松的把整个调用的线给记录下来，第一个方便你监控异常，<br>第二就是运维也能根据这个及时添加更多实例来面对突发流量</p>
+<blockquote>
+<p>Spring Cloud Stream</p>
+</blockquote>
+<p>其实我感觉这个东西设计的挺失败的，本来想法是把所有的消息队列框架都能用一个框架去调用，但是目前其实只支持两个，那其实我用原生的也没有什么太大的影响，原生的Spring Boot就支持<code>RabbitMQ</code>等这些所有的消息队列分发和消费</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>微服务架构其实就是将大web系统给模块话，其实本质上每个小的服务还是一个<code>Spring Boot</code>网站</p>
+<p>这个给系统解耦合的同时也带来一个问题，如果去保证一个复杂多模块的安全稳定的运行以及更新，这个也是后面需要去解决的问题</p>
+<p>其实<code>Spring Cloud</code>引进了微服务架构，也引进了一些其他问题，比如说发起服务调用的消耗，以及多系统日志收集等等一系列问题<br>接下来就是对<code>Spring Cloud Alibaba</code>的学习，看看<code>Spring Cloud Alibaba</code>在Spring Cloud的基础上做了什么优化</p>
+<blockquote>
+<p>当然在快速过了一遍实验代码和视频之后我也有一些疑惑，等我把<code>Spring Cloud Alibaba</code>过了之后就得解决下面问题</p>
+</blockquote>
+<h2 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h2><ol>
+<li>服务注册中心能否添加报警功能，假如服务实例低于某个值</li>
+<li>批量启动所有服务的最佳实践是什么，一般企业是怎么做的</li>
+<li>Spring Boot如何实现只添加一个依赖来插入自己想要的插件</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/03/09/summary/未来一年规划/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -436,7 +571,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/01/07/summary/技术如何深入/">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/01/07/java/浅析微服务/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/myself.jpg">
@@ -450,7 +585,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2021/01/07/summary/技术如何深入/" class="post-title-link" itemprop="url">技术如何深入</a>
+            <a href="/2021/01/07/java/浅析微服务/" class="post-title-link" itemprop="url">浅析微服务</a>
         </h1>
 
         <div class="post-meta">
@@ -467,7 +602,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:15:01" itemprop="dateModified" datetime="2021-03-09T20:15:01+08:00">2021-03-09</time>
+                <time title="修改时间：2021-03-09 20:02:26" itemprop="dateModified" datetime="2021-03-09T20:02:26+08:00">2021-03-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -475,8 +610,8 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/随想/" itemprop="url" rel="index">
-                    <span itemprop="name">随想</span>
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
                   </a>
                 </span>
             </span>
@@ -486,13 +621,13 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span>993</span>
+              <span>2.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>1 分钟</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -505,30 +640,25 @@
 
       
           <blockquote>
-<p>为什么会有这篇博客呢，因为随着你阅历的增长，以及各种你即将面临的问题，比如婚姻、跳槽这种，你会有一种焦虑感，你一直在原地踏步，你怎么面对你的未来呢</p>
+<p>这篇博客主要是从web技术发展来探索微服务的起源</p>
 </blockquote>
-<p>所以这篇博客其实很大程度是一种反思</p>
-<p>首先要明确一点就是你是一个什么样的人，自我反思，其实我算一个矛盾的人，做事情急着做完，但是要实现一些我自己的想法的时候又很拖延</p>
-<p>所以其实阻止我继续前进的一个东西就是拖延，其实毫不自夸的来讲我是一个解决问题能力很强的人，但是我不是一个行动力很强的人。</p>
-<p>有的时候我在想，我就像一只牛，假如给我一个红旗，我会卯足了劲往那个地方去，吃饭想，睡觉想，无时无刻不在思考这个。但假如不给我目标，我就像一只猫，只想安静的躺着</p>
-<p>就是这种性格，导致我现在什么都懂，但是什么都不精</p>
-<p>所以技术深入也非常简单，就是找到几个目标，一直钻，但是钻完了你还得思考，下一步往哪里钻，钻这个收获了什么，必须抛弃以前那种，完成了就结束了</p>
-<p>说完了怎么深入，现在来谈谈最主要的这么找目标。我也很迷茫，查找了很多资料，看看前人怎么做的，但是他们只是给了很多知识给你，让你去了解，当然在新手阶段，这个挺实用，但是对于那些懂了的来说，这些知识点都知道，只是不精</p>
-<p>怎么才能精呢？这个问题我想了很久，一直没有答案。后来我回顾我技术生涯，我有了一个比较简单的解决方法</p>
-<p>其实这个好多前辈也说过，就是想深一点</p>
-<p>其实技术这个东西基本功能大家都会，hello world，谁都会写。</p>
-<p>用做网站来打比方，你做一个网站，其实新手也可以做，你设计的时候可能就想着照顾好你自己这个用户就好了，各种框架一把嗦。但是假如你想深一点，假设你的1万个用户用你的网站怎么办，或者假如我们要新增一些东西怎么办</p>
-<p>就带着这些想法，去大胆的写你的代码，去验证你的想法，在实现你的目的去看看大家怎么解决的，然后继续学习你能不能用他们的想法做</p>
-<p>所以概括起来也很简单：</p>
-<ul>
-<li>要“多虑”，想事情想深一点</li>
-<li>要“大胆”，想到就大胆的去做</li>
-<li>要“虚心”，做完不能沾沾自喜，去看看别人怎么做的</li>
-<li>要“总结”，要把你做的这方面形成一个系统</li>
-</ul>
-<p>其实仔细回头看，自己其实也有大部分都有的拖延症，其实很早就知道该怎么做，但是总是拖着，被历史的惯性拖着</p>
-<p>这里分享一个 中国比特币第一人 李笑来的一个技巧，就是他以前背单词也是，知道背单词对自己有好处，但是总是拖延，后面他就给自己暗示，背一个单词10块钱，就是这种激励让他打败拖延症，成为新东方的一名非常强的英语老师。</p>
-<p>⛽️</p>
+<p>要想了解微服务是什么得从web框架出来之后开始讲起，大部分可能不知道微服务，一定知道写web服务的框架，懂Java的可以用Spring Boot一把梭，懂Python的Flask、Django、Tornado也写的飞起</p>
+<p>微服务也就是在这些框架出来后才慢慢出现的，首先我们就不谈MVC模式的兴起（主要就是把前端和后端解耦合），我们谈谈在MVC后要面临的问题</p>
+<p>第一个就是接口越来越多，用户也越来越多，面临的第一个问题就是某些接口请求非常频繁，面临第二个问题就是某些接口我想升级怎么办，我们知道使用上面那些框架你要是想修改接口得把代码重新发布一下，然而线上就得暂停服务一会等服务升级</p>
+<p>针对上面的问题，就开启了微服务的热潮，解决方法和MVC一样，我们把后端和后端进行解耦合，一个后端系统专门负责认证，一个后端系统专门负责订单，两者之间使用token来确认同一个用户，登录的请求接口不是很频繁，就用2台机子，订单非常频繁双十一的时候还会爆炸，就用10台机子，实现上非常简单，就是把在每台机子上面启动单独后端程序，再使用nginx作为负载均衡这样流量就均匀的打到每台机子上面去了，这样不管你是用Java还是Python都OK</p>
+<p>这种解决方案能扛起很高的并发，但是还是有个问题，升级起来非常麻烦，要是想升级系统，得把每台机子的后端程序单独升级，管理起来非常麻烦</p>
+<p>然后大家开始研究，大家把接口抽象起来，其实作为用户来说，他只是想调这个接口，能不能使用一个中间层把用户想调的接口和后端真正的提供的服务连接起来，这个就是中间件兴起的源头</p>
+<p>让我们想想中间件的职责是什么，其实想想也很简单就是一个后端接口管理系统，能够实现注册接口的功能，并且打通接口和后端的接口，当然说起来简单，但是要实现一个高可用的中间件也是不容易的，具体可以去看看Spring Cloud、Dubbo这些中间件框架</p>
+<p>我们想想这些中间件框架优缺点，优点也很明确，就是性能非常强，每个小模块只负责自己的接口，当业务量大起来的时候能迅速启动上万个进程来分流大流量，但是缺点也有就是只限定了自己的编程语言（Spring Cloud和Dobbo这些只能用Java写），而且随着接口越来越多，管理也越来越麻烦，调用链也越来越长了，有的时候你想加一个接口得涉及很多道调用链，先去请求用户信息，再去查询用户银行卡信息，再去查询商品信息，虽然分模块很爽，但是有些东西越分越累，模块越来越多，实现功能也越来越散</p>
+<p>模块越来越多带来的一个副作用是测试调试越来越难了，而且随着摩尔定律，我们现在的内存越来越大了、CPU也越来越多了，以前写微服务为的就是省点内存，现在大家发现其实他也没有那么省内存，为了保证服务高可用，我们得用上百台机器来搭一个集群，但是大部分时间，业务量没有那么大，其实大部分时间那么大内存都放在那里浪费了，而且当业务量万一突然起来了，然而固定集群却没法承受这么大流量</p>
+<p>后面随着Docker、K8S的兴起，大家慢慢的发现容器化能够解决上面的问题，当业务量小的时候启动少量容器，业务量大的时候启动多一点容器，而且可以实现动态扩容，所以这时候提出了一个Service Mesh模式</p>
+<p>什么是Service Mesh，其实就是我们前面提到的nginx的负载均衡方案类似，就是使用一个nginx来把请求打在后端上面，但是不同点在于，原来nginx是写死在配置里面的，现在k8s里面的nginx（目前主流的方案是Istio）把接过来的请求打到容器网络上面去，而且当流量大的时候会自动新建新的实例来负载新的请求</p>
+<p>兜兜转转我们又回到了最初的样子，你也不用学习什么后端中间件使用，你只要会写一个提供web接口的服务，打包成个容器，在k8s配置一下，轻轻松松就能扛着上千万并发，扛不住加实例就够了</p>
+<p>现在我们来谈谈Service Mesh的原理，其实很简单，就是蚁群的思想，每一个容器都是一只小蚂蚁，功能齐全啥都能干，一只蚂蚁搬不动一座大山，但是上亿只蚂蚁可以搬的起，Service Mesh的思想有点像大数据分而治之的理论，当你的容器能服务1千人，那你1万个容器就能服务1亿个人，所以对于开发者来说，你只需要写好一个能服务1千个人的小web，你不需要去考虑当你要服务1万个人的时候，代码需要怎么改动，对于开发者来说，测试和开发都变得异常轻松，自己也不用去写原来的Dubbo那种大体量代码，你所有的接口都在一个项目中，测试开发都变得异常轻松，而且你也不用思考怎么使用Java调用Python的机器学习框架等等，你可以用Python写，用Go写，甚至可以用C来写，容器不在拘束于语言，你只要能对外提供服务就好了</p>
+<p>总之在K8S容器化兴起之后，我们也不用再怎么思考如何解耦合代码，套上各种中间件把我们各个接口都打散，实现一套高并发系统，我们只需要写一个网站，能服务上千的用户，当我们业务量大起来的时候交给K8S，让它帮我们启动上万个相同网站，把流量给消化掉，所以在一定的程度上，在现在技术发展下，高并发的门槛越来越低，原来一个高并发专家得学会好多框架，dubbo各种组件，现在随便叫来一个小白随便把它从网上复制的代码拷拷，搭起来一个小网站，放到K8S上面，马上就可以服务上千万甚至上亿用户</p>
+<p>所以说技术发展真的是快啊，记得以前一个架构师的道路是慢慢从学习各种nginx负载均衡Redis集群搭建，搭建起一套复杂的系统，你得去学习各种组件使用，现在呢，一个小白，网上拷拷代码，使用上内存作为缓存，使用MySQL当数据库，并发也就上个千，然后数据库配置一下把内存换成redis，MySQL换成Kudu，放进K8S里面并发就能上千万，高并发问题就解决了，原来一个百万年薪才能做的高并发技术专家在新的技术降纬打击下一个月薪1万的菜鸟也能搞定了</p>
+<p>总而言之，高并发随着技术发展会越来越简单，微服务的提出有人说就是干掉架构师，所以有时候也会想，随着技术的发展，是不是不会有工程师这个职位了，的确技术在不断发展，但是只要抱着一个不断学习的心也就不怕了，技术不断推成出新，但是本质是不变的，所以也不用害怕。</p>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><p><a href="https://philcalcado.com/2017/08/03/pattern_service_mesh.html" target="_blank" rel="noopener">https://philcalcado.com/2017/08/03/pattern_service_mesh.html</a></p>
 
       
     </div>
@@ -648,7 +778,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/01/07/java/浅析微服务/">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/01/07/summary/技术如何深入/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/myself.jpg">
@@ -662,7 +792,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2021/01/07/java/浅析微服务/" class="post-title-link" itemprop="url">浅析微服务</a>
+            <a href="/2021/01/07/summary/技术如何深入/" class="post-title-link" itemprop="url">技术如何深入</a>
         </h1>
 
         <div class="post-meta">
@@ -679,7 +809,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:02:26" itemprop="dateModified" datetime="2021-03-09T20:02:26+08:00">2021-03-09</time>
+                <time title="修改时间：2021-03-09 20:15:01" itemprop="dateModified" datetime="2021-03-09T20:15:01+08:00">2021-03-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -687,8 +817,8 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index">
-                    <span itemprop="name">Java</span>
+                  <a href="/categories/随想/" itemprop="url" rel="index">
+                    <span itemprop="name">随想</span>
                   </a>
                 </span>
             </span>
@@ -698,13 +828,13 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span>2.6k</span>
+              <span>993</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>2 分钟</span>
+              <span>1 分钟</span>
             </span>
 
         </div>
@@ -717,25 +847,30 @@
 
       
           <blockquote>
-<p>这篇博客主要是从web技术发展来探索微服务的起源</p>
+<p>为什么会有这篇博客呢，因为随着你阅历的增长，以及各种你即将面临的问题，比如婚姻、跳槽这种，你会有一种焦虑感，你一直在原地踏步，你怎么面对你的未来呢</p>
 </blockquote>
-<p>要想了解微服务是什么得从web框架出来之后开始讲起，大部分可能不知道微服务，一定知道写web服务的框架，懂Java的可以用Spring Boot一把梭，懂Python的Flask、Django、Tornado也写的飞起</p>
-<p>微服务也就是在这些框架出来后才慢慢出现的，首先我们就不谈MVC模式的兴起（主要就是把前端和后端解耦合），我们谈谈在MVC后要面临的问题</p>
-<p>第一个就是接口越来越多，用户也越来越多，面临的第一个问题就是某些接口请求非常频繁，面临第二个问题就是某些接口我想升级怎么办，我们知道使用上面那些框架你要是想修改接口得把代码重新发布一下，然而线上就得暂停服务一会等服务升级</p>
-<p>针对上面的问题，就开启了微服务的热潮，解决方法和MVC一样，我们把后端和后端进行解耦合，一个后端系统专门负责认证，一个后端系统专门负责订单，两者之间使用token来确认同一个用户，登录的请求接口不是很频繁，就用2台机子，订单非常频繁双十一的时候还会爆炸，就用10台机子，实现上非常简单，就是把在每台机子上面启动单独后端程序，再使用nginx作为负载均衡这样流量就均匀的打到每台机子上面去了，这样不管你是用Java还是Python都OK</p>
-<p>这种解决方案能扛起很高的并发，但是还是有个问题，升级起来非常麻烦，要是想升级系统，得把每台机子的后端程序单独升级，管理起来非常麻烦</p>
-<p>然后大家开始研究，大家把接口抽象起来，其实作为用户来说，他只是想调这个接口，能不能使用一个中间层把用户想调的接口和后端真正的提供的服务连接起来，这个就是中间件兴起的源头</p>
-<p>让我们想想中间件的职责是什么，其实想想也很简单就是一个后端接口管理系统，能够实现注册接口的功能，并且打通接口和后端的接口，当然说起来简单，但是要实现一个高可用的中间件也是不容易的，具体可以去看看Spring Cloud、Dubbo这些中间件框架</p>
-<p>我们想想这些中间件框架优缺点，优点也很明确，就是性能非常强，每个小模块只负责自己的接口，当业务量大起来的时候能迅速启动上万个进程来分流大流量，但是缺点也有就是只限定了自己的编程语言（Spring Cloud和Dobbo这些只能用Java写），而且随着接口越来越多，管理也越来越麻烦，调用链也越来越长了，有的时候你想加一个接口得涉及很多道调用链，先去请求用户信息，再去查询用户银行卡信息，再去查询商品信息，虽然分模块很爽，但是有些东西越分越累，模块越来越多，实现功能也越来越散</p>
-<p>模块越来越多带来的一个副作用是测试调试越来越难了，而且随着摩尔定律，我们现在的内存越来越大了、CPU也越来越多了，以前写微服务为的就是省点内存，现在大家发现其实他也没有那么省内存，为了保证服务高可用，我们得用上百台机器来搭一个集群，但是大部分时间，业务量没有那么大，其实大部分时间那么大内存都放在那里浪费了，而且当业务量万一突然起来了，然而固定集群却没法承受这么大流量</p>
-<p>后面随着Docker、K8S的兴起，大家慢慢的发现容器化能够解决上面的问题，当业务量小的时候启动少量容器，业务量大的时候启动多一点容器，而且可以实现动态扩容，所以这时候提出了一个Service Mesh模式</p>
-<p>什么是Service Mesh，其实就是我们前面提到的nginx的负载均衡方案类似，就是使用一个nginx来把请求打在后端上面，但是不同点在于，原来nginx是写死在配置里面的，现在k8s里面的nginx（目前主流的方案是Istio）把接过来的请求打到容器网络上面去，而且当流量大的时候会自动新建新的实例来负载新的请求</p>
-<p>兜兜转转我们又回到了最初的样子，你也不用学习什么后端中间件使用，你只要会写一个提供web接口的服务，打包成个容器，在k8s配置一下，轻轻松松就能扛着上千万并发，扛不住加实例就够了</p>
-<p>现在我们来谈谈Service Mesh的原理，其实很简单，就是蚁群的思想，每一个容器都是一只小蚂蚁，功能齐全啥都能干，一只蚂蚁搬不动一座大山，但是上亿只蚂蚁可以搬的起，Service Mesh的思想有点像大数据分而治之的理论，当你的容器能服务1千人，那你1万个容器就能服务1亿个人，所以对于开发者来说，你只需要写好一个能服务1千个人的小web，你不需要去考虑当你要服务1万个人的时候，代码需要怎么改动，对于开发者来说，测试和开发都变得异常轻松，自己也不用去写原来的Dubbo那种大体量代码，你所有的接口都在一个项目中，测试开发都变得异常轻松，而且你也不用思考怎么使用Java调用Python的机器学习框架等等，你可以用Python写，用Go写，甚至可以用C来写，容器不在拘束于语言，你只要能对外提供服务就好了</p>
-<p>总之在K8S容器化兴起之后，我们也不用再怎么思考如何解耦合代码，套上各种中间件把我们各个接口都打散，实现一套高并发系统，我们只需要写一个网站，能服务上千的用户，当我们业务量大起来的时候交给K8S，让它帮我们启动上万个相同网站，把流量给消化掉，所以在一定的程度上，在现在技术发展下，高并发的门槛越来越低，原来一个高并发专家得学会好多框架，dubbo各种组件，现在随便叫来一个小白随便把它从网上复制的代码拷拷，搭起来一个小网站，放到K8S上面，马上就可以服务上千万甚至上亿用户</p>
-<p>所以说技术发展真的是快啊，记得以前一个架构师的道路是慢慢从学习各种nginx负载均衡Redis集群搭建，搭建起一套复杂的系统，你得去学习各种组件使用，现在呢，一个小白，网上拷拷代码，使用上内存作为缓存，使用MySQL当数据库，并发也就上个千，然后数据库配置一下把内存换成redis，MySQL换成Kudu，放进K8S里面并发就能上千万，高并发问题就解决了，原来一个百万年薪才能做的高并发技术专家在新的技术降纬打击下一个月薪1万的菜鸟也能搞定了</p>
-<p>总而言之，高并发随着技术发展会越来越简单，微服务的提出有人说就是干掉架构师，所以有时候也会想，随着技术的发展，是不是不会有工程师这个职位了，的确技术在不断发展，但是只要抱着一个不断学习的心也就不怕了，技术不断推成出新，但是本质是不变的，所以也不用害怕。</p>
-<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><p><a href="https://philcalcado.com/2017/08/03/pattern_service_mesh.html" target="_blank" rel="noopener">https://philcalcado.com/2017/08/03/pattern_service_mesh.html</a></p>
+<p>所以这篇博客其实很大程度是一种反思</p>
+<p>首先要明确一点就是你是一个什么样的人，自我反思，其实我算一个矛盾的人，做事情急着做完，但是要实现一些我自己的想法的时候又很拖延</p>
+<p>所以其实阻止我继续前进的一个东西就是拖延，其实毫不自夸的来讲我是一个解决问题能力很强的人，但是我不是一个行动力很强的人。</p>
+<p>有的时候我在想，我就像一只牛，假如给我一个红旗，我会卯足了劲往那个地方去，吃饭想，睡觉想，无时无刻不在思考这个。但假如不给我目标，我就像一只猫，只想安静的躺着</p>
+<p>就是这种性格，导致我现在什么都懂，但是什么都不精</p>
+<p>所以技术深入也非常简单，就是找到几个目标，一直钻，但是钻完了你还得思考，下一步往哪里钻，钻这个收获了什么，必须抛弃以前那种，完成了就结束了</p>
+<p>说完了怎么深入，现在来谈谈最主要的这么找目标。我也很迷茫，查找了很多资料，看看前人怎么做的，但是他们只是给了很多知识给你，让你去了解，当然在新手阶段，这个挺实用，但是对于那些懂了的来说，这些知识点都知道，只是不精</p>
+<p>怎么才能精呢？这个问题我想了很久，一直没有答案。后来我回顾我技术生涯，我有了一个比较简单的解决方法</p>
+<p>其实这个好多前辈也说过，就是想深一点</p>
+<p>其实技术这个东西基本功能大家都会，hello world，谁都会写。</p>
+<p>用做网站来打比方，你做一个网站，其实新手也可以做，你设计的时候可能就想着照顾好你自己这个用户就好了，各种框架一把嗦。但是假如你想深一点，假设你的1万个用户用你的网站怎么办，或者假如我们要新增一些东西怎么办</p>
+<p>就带着这些想法，去大胆的写你的代码，去验证你的想法，在实现你的目的去看看大家怎么解决的，然后继续学习你能不能用他们的想法做</p>
+<p>所以概括起来也很简单：</p>
+<ul>
+<li>要“多虑”，想事情想深一点</li>
+<li>要“大胆”，想到就大胆的去做</li>
+<li>要“虚心”，做完不能沾沾自喜，去看看别人怎么做的</li>
+<li>要“总结”，要把你做的这方面形成一个系统</li>
+</ul>
+<p>其实仔细回头看，自己其实也有大部分都有的拖延症，其实很早就知道该怎么做，但是总是拖着，被历史的惯性拖着</p>
+<p>这里分享一个 中国比特币第一人 李笑来的一个技巧，就是他以前背单词也是，知道背单词对自己有好处，但是总是拖延，后面他就给自己暗示，背一个单词10块钱，就是这种激励让他打败拖延症，成为新东方的一名非常强的英语老师。</p>
+<p>⛽️</p>
 
       
     </div>
@@ -1174,100 +1309,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2020/08/22/summary/八月杂感/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/08/22/summary/八月杂感/" class="post-title-link" itemprop="url">八月杂感</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-08-22 21:20:14" itemprop="dateCreated datePublished" datetime="2020-08-22T21:20:14+08:00">2020-08-22</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:15:01" itemprop="dateModified" datetime="2021-03-09T20:15:01+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/随想/" itemprop="url" rel="index">
-                    <span itemprop="name">随想</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>421</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>一眨眼暑假就要过完了，这段博客又停下来了，倒不是因为我停下来学东西，而是我又忘了去归纳总结自己学的东西，总是一个鲁莽的心态去学，总感觉停下来会阻挡自己学习的脚步，但是其实写博客也是学习，把自己的学到的知识转换成自己的东西，写出来的过程就是帮自己的过程，其实这个方法也是一个非常牛逼的学习的方法叫做费尔曼学习法</p>
-</blockquote>
-<p>但是我这个人有点啰嗦，写的东西总是东一句西一句，没有一针见血，这个在接下来的博客里面也要改掉，尽量不要写废话</p>
-<p>接下来说一下我最近的学习方向，其实主要就是金融方向，主要设计到金融、股票、量化等等。牵涉到很多金融知识</p>
-<p>这里我再谈一下为什么我会去想精通业务，其实我一开始接触编程，我一直把自己往框架、底层方向搞（俗称造轮子），忽视了业务，一直觉得业务就是增删查改。但是其实本末倒置。</p>
-<p>所以去年到今年，我一直在犯错误，我一直想造一个轮子出来，但是没有灵魂，再好看的轮子也没有用，所以现在我从头开始，把金融知识掌握透，这个过程会很难，但是应该会很有趣</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1340,7 +1381,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">97</span>
+          <span class="site-state-item-count">98</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1353,7 +1394,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1415,12 +1456,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">233k</span>
+    <span title="站点总字数">236k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:32</span>
+    <span title="站点阅读时长">3:34</span>
 </div>
 
         
