@@ -209,6 +209,165 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2017/12/27/algorithm/浅谈树这种数据结构/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/12/27/algorithm/浅谈树这种数据结构/" class="post-title-link" itemprop="url">浅谈"树"这种数据结构</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-12-27 00:00:00" itemprop="dateCreated datePublished" datetime="2017-12-27T00:00:00+08:00">2017-12-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>4.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>一直以来我对树这种数据结构就比较头疼，随便找一个红黑树的博客，大部分都是在谈怎么旋转怎么插入怎么删除，将算法讲的头头是道，但是就算你看懂了也不懂为什么要这样做，所以我们这篇博文就从可视化的角度，慢慢的介绍这些树的来世今生。</p>
+</blockquote>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>首先给大家推荐一个神奇的网站，我们这篇博文很大程度上都是依托这个网站从可视化的角度分析各种树</p>
+<p>网站的网址是<a href="http://www.cs.usfca.edu/~galles/visualization/Algorithms.html" target="_blank" rel="noopener">http://www.cs.usfca.edu/~galles/visualization/Algorithms.html</a></p>
+<p>接下来我们从易到难分别谈谈下面这些树结构</p>
+<ul>
+<li>二叉搜索树</li>
+<li>AVL树</li>
+<li>红黑树</li>
+<li>Splay树</li>
+<li>Trie树</li>
+<li>B树</li>
+<li>B+树</li>
+</ul>
+<p>你可以点击下面高亮的标题尝试这种树结构的可视化操作，当然我在谈的过程中默认你已经打开可视化界面网站。</p>
+<p>在开始介绍各种树结构之前，我们先谈谈为什么我们需要树这种结构。</p>
+<p>假设我们一开始都有一个“柜子”存放东西，当我们东西很少的时候，我找东西的时候只要在柜子里面翻一翻就能找到，当我东西越来越多，在柜子里面找东西消耗的时间越来越多，这时候我就把柜子分类，让每一个柜子的东西都是固定的，这样我们查找时候不会在一个柜子里面寻找很久，这样无论你有多少东西进来，我查找的时间基本不会太长。</p>
+<p>所以树这种数据结构就是为了解决当数据量越来越大的时候相比与线性查找时间基本不会太长。对树查找和线性的区别我们可以看一下这个可视化界面</p>
+<p><a href="http://www.cs.usfca.edu/~galles/visualization/Search.html" target="_blank" rel="noopener">线性搜索与二分查找</a></p>
+<p>通过输入查找344，我们发现线性搜索花了15步才搜索到，而二分查找只需要2步，而且随着数据越来越大，线性搜索花的步数直线上升，而二分查找只会维持用Log(N)的步伐增长。</p>
+<p>树的结构基本上都是基于二分查找，但是在维护这个查找树的方法上各种树有各种优化方法，接下来我们就从可视化角度来依次介绍各种树的原理和优缺点。</p>
+<h2 id="二叉搜索树"><a href="#二叉搜索树" class="headerlink" title="二叉搜索树"></a><a href="http://www.cs.usfca.edu/~galles/visualization/BST.html" target="_blank" rel="noopener">二叉搜索树</a></h2><p>这个树可以称作所以后面变种树的鼻祖，基本上所以后面的树都是基于这个树的不足之处进行改良达到其各自的目的。</p>
+<p>我们现在尝试构造一棵二叉树，我们依次插入<code>3,2,4</code>。然后一棵标准的二叉树就出现在我们面前，在我们插入的过程中，我们可以清晰的看到，第一个插入的变成了母节点，而且插入程序实现的非常简单，首先跟母节点进行比较，如果比母节点大，从母节点右边下滑，然后依次找到最后一个为空的节点把自己插入进去。</p>
+<p> <img src="/images/bst-7.png" alt="单调递增二叉搜索树"></p>
+<p>我们接下来尝试一下如果输入一个连续递增的数组进去，比如<code>1， 2， 3， 4， 5</code>，我们发现这个二叉搜索树会逐渐把所以的值放到右节点上。这时候我们我们尝试搜索一下<code>5</code>，我们发送这个二叉搜索树需要5次查询才能得到最终结果，这个基本上等同与线性搜索。</p>
+<p>这里我们就发现二叉搜索树一个致命缺点，它容易造成一种空间的浪费，虽然这个树看起来很“高”，有5层，但是利用率极低，每层只有一个树，这样不但查找的时候效率不高，而且插入的时候效率也不高（很可能需要“爬”很多层）。</p>
+<p>二叉树搜索树实现起来非常简单，只要用一个<code>while</code>循环就能完成插入查找等功能，但是由于它结构控制太低，它对数据要求要很高，它时候依次插入那些无序数字，而对那些有序数据来说，二叉搜索树等同与一个数组。</p>
+<p>所以我们接下来介绍下面改良树，看看其他树是如何提高的空间利用率的，由于这篇主要是简单的谈一下这些树的优缺点，如果你想了解如何实现这样可以看一下我写的这篇<a href="/2018/01/04/二叉搜索树实现原理/" title="二叉搜索树Go实现">博文</a>，详细介绍了如何使用Go语言实现一个高效的二叉搜索树，如果你想彻底了解下面高级的树的实现，强烈建议一下了解一下二叉搜索树实现的方法，因为后面所以的树实现的前提<strong>必须满足是一个二叉搜索树</strong>，这点非常重要。</p>
+<p><a href="/2018/01/04/二叉搜索树实现原理/" title="二叉搜索树Go实现">二叉搜索树Go实现</a></p>
+<h2 id="AVL树"><a href="#AVL树" class="headerlink" title="AVL树"></a><a href="http://www.cs.usfca.edu/~galles/visualization/AVLtree.html" target="_blank" rel="noopener">AVL树</a></h2><p>1962发明的AVL树现在还生龙活虎的活跃在Windows进程地址空间管理，虽然作为最早的平衡二叉树现在有点干不过后面的年轻的小伙，但是作为前辈，后面小伙很多地方都是借鉴前辈的，所以我们有必要隆重介绍一下这个老前辈。</p>
+<p>首先要说明一下什么是平衡二叉树，前面我们也看到了，二叉搜索树有个弊端，它有可能子树高度不一样，比如说<code>1,2,3,4,5</code>那个母节点<code>1</code>的左子树高度为0，右字数高度为5，平衡二叉树就没有这个问题，它规定所以节点子树高度差不能超过1，这样规定的话我们的树空间利用率就能基本上达到100%了。</p>
+<p>AVL树就是一颗高度平衡二叉树，它的要求也非常简单，就两个</p>
+<ul>
+<li>必须是二叉搜索树</li>
+<li>必须是平衡二叉树</li>
+</ul>
+<p>成为一个二叉查找树非常容易，但是为了必须满足平衡二叉树条件，这里我们给每颗树定义一个高度，默认空为0，这样就可以计算左右子树的高度差是否在-1和1之间判断是否是平衡树。</p>
+<p>了解了这个之后，我们回到web页面，我们输入<code>1,2,3</code>看看AVL树如何避免像二叉搜索树一样过度生长</p>
+<p><img src="/images/avl-1.png" alt="插入前"></p>
+<p><img src="/images/avl-2.png" alt="插入后"></p>
+<p>我们从这两幅图可以看到，插入前AVL树高度为3，经过单旋转后，将2旋转到1的位置，然后让树又满足平衡二叉树的条件和二叉搜索树的条件。让我们思考一下旋转的意义。</p>
+<h3 id="旋转的意义"><a href="#旋转的意义" class="headerlink" title="旋转的意义"></a>旋转的意义</h3><p><strong>第一旋转并没有改变二叉搜索树的特性，我们将二叉树看做一个一个小区间组成的区域，旋转将区间整体移动了，所以我们保持住了区间的稳定，而且我们把旋转的支点看做中心，我们发现通过一次旋转后，支点左右之间的数量发生的变化，其中一方增加一个，其中一个减少一方，通过这种方式，把高度差由<code>2</code>转成<code>0</code></strong></p>
+<p>所以我们在插入和删除的时候造成的高度不平衡可以通过正确的旋转达到一个高度差的减少。而且我们可以很轻松的推断出在插入和删除的时候只需要通过有限的旋转就能实现树的平衡，但是我们也会发现这个平衡是非常严格的，每次插入删除的时候，删除或者增加的那条“路径”（从根节点到修改的节点）的各个节点的高度都会发生变化，所以我们需要检查和更新整条路径上高度差（也称平衡因子）是否满足平衡条件。</p>
+<p>直接纪录每个树的高度并且约束高度差的方法能够很好的规避像上面二叉搜索树造成的空间利用率低问题，但是对于增添和删除操作频繁的数据来说，AVL树并不是一个很好的解决方法，因为每次删除和增加都必须检测路径上的高度差，虽然旋转比较高效，但是每次检测和修改高度会让这个算法花费太多时间在这个严格的条件上面。</p>
+<p>总的来说，AVL树是比较好理解的一种平衡树算法，通过这个树的各种旋转操作，我们能很清晰的发现二叉树是一种很神奇的数据结构，一方面它可能是混乱的（分支混乱），一方面它又是整齐的，通过“扭动”它的身躯，将数据平均的分摊在根节点上面。我非常推荐你在这个<a href="http://www.cs.usfca.edu/~galles/visualization/AVLtree.html" target="_blank" rel="noopener">可视化界面</a>上通过一步一步将单独递增或者递减的数据插入AVL树中，你会发现AVL通过一次一次的“扭动”，将数据向根节点另一个方向传输过去。</p>
+<p>这里我也不详细介绍AVL树实现的具体原理，如果你想了解更底层的实现，可以看我下面这篇<a href="/2018/01/04/AVL树实现原理/" title="AVL树的实现原理">博客</a></p>
+<p><a href="/2018/01/04/AVL树实现原理/" title="AVL树的实现原理">AVL树的实现原理</a></p>
+<h2 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a><a href="http://www.cs.usfca.edu/~galles/visualization/RedBlack.html" target="_blank" rel="noopener">红黑树</a></h2><p>在AVL树发明10年后鲁道夫 贝尔发明了红黑树，直到现在红黑树还依旧在C++的STL、Java的HashMap中发挥着重要作用，只所以要先介绍AVL树再介绍红黑树，因为从我的理解上来看，其实红黑树和AVL树原理都是类似的，只不过红黑树修改了AVL树的缺点并且将AVL的平衡原理进行了抽象话。</p>
+<p>从数据结构上来看，红黑树相比于AVL树来说，只是将存贮高度的值换成了存贮颜色的值，从空间的角度上看，红黑树用一个二进制bool值（1Bit）换掉一个存贮int值（4Bit），节省了3Bit的空间，从增删所需要的操做来看，AVL树旋转可能需要lnN 步操作，而红黑树增不超过2次旋转，删不超高3次旋转，在增删效率上远远优于AVL树。所以我们有一个疑问为什么红黑树能用更少的空间实现更高的效率呢？</p>
+<p>回答这个问题之前，我们再捋捋AVL它的实现原理，前面介绍了AVL实现平衡的原理的就是使的左右子树高度差维持在[-1,1]之间，高度差这个东西，你想想高度这个东西其实它就是母节点到叶子节点的路径，所以高度差我们翻译一下就是左右子树路径差，现在我们把平衡后的AVL树条件更加严格一点，我们规定左右子树路径差为0，也就是左右子树高度一样。</p>
+<p><img src="/images/bst-2.png" alt="满二叉树"></p>
+<p>在上面那个严格的条件下，假如我们要新增一个到树末端，假如它加在像上面这样满二叉树上面，那么左右子树高度就立刻不相同了，但是对于一个AVL树来说，在这颗树上末端插一颗树并不会影响树的平衡，所以我们要想一个办法让插入这个值“不算高度”，这时候我们一想，如果我们把树节点分成两种颜色，一种红色一种黑色，红色不算高度，黑色才算高度，那样虽然我现在条件很苛刻“左右子树高度必须一样”，但是如果插入的是红色，那么就能很轻松的实现上面的条件。</p>
+<p>好了我们通过上面的操作成功的将高度变成了黑高（黑色节点的高度），而且满足了一种更加严格的条件“左右子树黑高必须相同），假如说前面AVL树的高度差为[-1,1]之间都能实现高空间利用率的，那么在这种更加严格的条件下也能满足，但是现在又出现一个问题，我们看下面这棵树</p>
+<p><img src="/images/rbt-1.png" alt="不平衡树"></p>
+<p>当我们插入节点3的时候，由于插入一颗红色你把红色节点不算高度，所以在前面的约束条件下，插入3满足条件，但是实际上这棵树并不是一个平衡AVL树，为了避免这种情况的发生我们必须要做一个约束，我们要约束红色节点不能太多，所以我们就约束红色节点后面只能是黑色节点，这样路径上最少都会有一半都是黑色（红色黑色相同）。</p>
+<p>我们现在得到两个约束，现在我们来说思考一下这两个条件的约束到底给我们带来了什么</p>
+<ul>
+<li>黑高相同</li>
+<li>红后面必须为黑</li>
+</ul>
+<p>首先对于黑色节点来说，这棵树是高度平衡的（假设它只能看到黑色节点），高度差为0，但是对于红色节点来说，这棵树有可能是不平衡的（假设有N个黑节点，红色高度差可能有N-1），所以从整体上来看，红黑树牺牲了一定的平衡性换来了插入删除的高效性</p>
+<p>这个高效性表现在哪呢？第一它不在需要更新所有的高度差，它只需要对受影响的路径上的有限节点进行染色就能实现再次的平衡，其次由于它不在需要高度的平衡，所以它能容忍树上的红色的不平衡现象，来减少旋转变化的次数。</p>
+<p>前面我们分析了AVL树旋转的意义那么对于红黑树来说，旋转的意义是什么呢？</p>
+<h3 id="红黑树的旋转意义"><a href="#红黑树的旋转意义" class="headerlink" title="红黑树的旋转意义"></a>红黑树的旋转意义</h3><p>前面我们知道了在AVL树中每一棵树都是独立的个体，所以每次旋转都是一次运输，将树按照节点扭动，但是对于红黑树来说，它要处理的情况是黑树高度的不同，当需要搬到的也是黑树，它的目的就是将黑树的高度平衡，对于红色的树来说，它更像一种胶水，它能保证当数据不平衡的时候（所以的树不可能全部变成黑树）还能使黑树保持一种平衡，从而使一棵树变得相对平衡。</p>
+<p>所以红黑树的旋转的意义同AVL树是类似的，只不过红黑树在旋转的时候要更加注意，它不但要考虑我们要如何在不平衡的节点上平衡黑高，而且要考虑我们平衡了这个节点的黑高有没有对其父亲的黑高造成影响。</p>
+<p>对于红黑树来说，由于颜色是可变的，所以着色（改变颜色）也是一种手段，而对于AVL树来说高度是固定的，只能通过旋转来改变，所以单独讲红黑树的旋转是没有意义的，或许有的时候只需要通过旋转就能实现黑高的统一，或许通过简单着色也能实现黑高的统一，但是只使用一种手段是不能高效的完成所以的条件。所以在我看来<em>着色和旋转是相辅相成的</em></p>
+<p>也正因为我们多了一个着色的手段，所以红黑树比AVL树在某些方面更加高效，随着而来也是更加复杂难懂，但是总体来说AVL和红黑还是类似的，在这里我就不深谈如何实现红黑树，如果你想了解如何实现红黑树，可以看我这篇<a href="/2018/01/05/红黑树实现原理/">博客</a></p>
+<p><a href="/2018/01/05/红黑树实现原理/">红黑树的实现原理</a></p>
+<h4 id="剩余的四种树的简析会待代码实现后陆续更新"><a href="#剩余的四种树的简析会待代码实现后陆续更新" class="headerlink" title="剩余的四种树的简析会待代码实现后陆续更新"></a>剩余的四种树的简析会待代码实现后陆续更新</h4><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://en.wikipedia.org/wiki/Binary_search_tree" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Binary_search_tree</a></p>
+<p><a href="https://en.wikipedia.org/wiki/AVL_tree" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/AVL_tree</a></p>
+<p><a href="https://www.cnblogs.com/vamei/archive/2013/03/21/2964092.html" target="_blank" rel="noopener">https://www.cnblogs.com/vamei/archive/2013/03/21/2964092.html</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2017/12/26/algorithm/几个有趣的动态规划/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1698,199 +1857,6 @@ finally:
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2017/10/09/python/Python异步的理解/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/10/09/python/Python异步的理解/" class="post-title-link" itemprop="url">Python异步的理解</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-10-09 00:00:00" itemprop="dateCreated datePublished" datetime="2017-10-09T00:00:00+08:00">2017-10-09</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:05:18" itemprop="dateModified" datetime="2021-03-09T20:05:18+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>3.8k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>3 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><blockquote>
-<p>异步的出现主要是单线程的io等待，由于任务大部分是io处于等待，假如让一个线程工作，所有任务按照流水线形式执行，假如一个请求需要1秒，五个请求需要五秒，那么如果能让他们同时运行的话，那么速度就能增加五倍</p>
-</blockquote>
-<p>如何让五个任务同时进行有两种方法</p>
-<ol>
-<li>多线程</li>
-<li>异步</li>
-</ol>
-<p>调试过过多线程的人都知道，线程就是从头到复制主线程一遍，开多个线程不仅成本高，而且调试成本高，异步就不一样呢，你可以把它当做一个单线程来进行编程，而且比多线程更加高效</p>
-<h2 id="Python异步的多种实现"><a href="#Python异步的多种实现" class="headerlink" title="Python异步的多种实现"></a>Python异步的多种实现</h2><p>Python实现异步的框架有很多，但是核心思想大概是基于下面两种方式</p>
-<ul>
-<li>twister</li>
-<li>gevent</li>
-</ul>
-<p>twister思想是将异步操作封装起来，通过回调的方式来操作，我们看<code>scrapy</code>里面中间请求的实现就是<code>twister</code>方式</p>
-<pre><code>scrapy.Request(url=&apos;xxx&apos;, callback=func)
-</code></pre><p>通过传递封装的<code>request</code>，当框架帮我们请求完后，会通过callback进行回调，如果你的请求很简单那还好，只需要回调一次就可以，假如你的请求较复杂，那么你就会进入<code>回调地狱（callback hell）</code></p>
-<p>而且你还要写处理各种回调产生的异常，你可以看看<code>scrapy</code>中间件的实现就知道<code>scrapy</code>的异常处理有多繁琐了。但是中间间的存在的确让我们代码模块话更加容易，这里暂且不谈。</p>
-<p><code>twister</code>这种回调比较反人类，它必须依赖背后的核心进行调度，离开了背后核心的支持，这个根本跑不起来，而且由于它依赖回调来进行后续步骤处理，所以我们的代码必须被切分为不同的部分，假如我们不知道背后的核心如何回调函数或者约束，我们根本不知道这两个函数是有关联的</p>
-<p>这种编程方式比较有利于模块话开发，但是对于我们熟悉顺序编程来看，这种回调方式显然是一场噩梦，相比于<code>twister</code>这种回调方式，<code>gevent</code>采用的是绿色协程的方式进行回调。</p>
-<p>PEP-380定义了<code>yield from</code>的语句，Python3.3开始使用，为了区别协程和生成器，Python3.5开始使用<code>await</code>代替<code>yield from</code>，这样协程就有了一个专门的方法来声明（<code>await</code>和<code>async</code>），后者用来标记异步函数</p>
-<p>协程之所以能够在异步中大方光彩，其中很大一部分就是协程天生就是异步的，理解协程我们可以从一个简单的生成器与普通函数来对比</p>
-<pre><code>a = (x for x in range(10))
-b = [x for x in range(10))
-</code></pre><p>我们来看这样一个生成器a，一般我们来用这个生成器必须加    <code>for</code>循环才能得到里面的值，假如我们尝试使用<code>a.send(None)</code>，我们会发现，我们依次从返回值得到了b里面的序列</p>
-<p>就是这么一个send与接受的功能让我们实现了一种”绿色“回调，就是协程这个性质让他写异步变得更加顺理成章了，而且相比<code>twister</code>回调，协程的回调更为彻底，它把”自己”包装起来全部回调回去了。</p>
-<h2 id="了解异步基础"><a href="#了解异步基础" class="headerlink" title="了解异步基础"></a>了解异步基础</h2><p>前面简单的聊了协程的性质，现在谈谈异步存在的基础，异步的存在最关键的在于等待，为了了解这个等待意思和后面解读<code>asycio</code>库，我们先使用<code>selectors</code> （Python3对<code>select</code>的封装）来做个演示</p>
-<pre><code>import selectors
-sel = selectors.DefaultSelector()
-</code></pre><p>声明一个<code>select</code>对象sel，现在我们要调用这个核心函数</p>
-<pre><code>sel.select(10)
-</code></pre><p>这个10是代表<code>timeout</code>的时长，也就是最长等待时间，10秒之后我们发现，这个结果返回了一个空列表，这是显而易见的，我们并没有指明让它等待什么</p>
-<p><code>selectors</code>这个库的功能非常好理解，类比寄信，你如果想等别人回信，假如你没有寄出去你自己的信，你一直在邮箱那等，除了等到你不想等，否则你是收不到你的回信的，所以这个库的核心在于，“寄信”（register）和等信（select），然后自己选择处理信件</p>
-<pre><code>import selectors
-import socket
-
-sel = selectors.DefaultSelector()
-
-def accept(sock, mask):
-    conn, addr = sock.accept() 
-    print(&apos;accepted&apos;, conn, &apos;from&apos;, addr)
-
-sock = socket.socket()
-sock.bind((&apos;localhost&apos;, 8000))
-sock.listen(100)
-sock.setblocking(False)
-sel.register(sock, selectors.EVENT_READ, accept)
-
-while True:
-    events = sel.select()
-    for key, mask in events:
-        callback = key.data
-        callback(key.fileobj, mask)
-</code></pre><p>这个程序最关键的地方在于<code>sel.register</code>、<code>sel.select</code>和<code>callback</code>那里，前者是注册函数，后面是等待，最后就是回调</p>
-<p>上面就是<code>twister</code>式最简单的回调，你可以看到，为了得到连接<code>sock</code>的连接，我们必须把处理注册到等待中去，但是这只是得到<code>sock</code>连接，为了成功建立一个<code>TCP</code>连接，我们还得进行三次握手，还得处理每次回调时的错误</p>
-<p>而且你可以看到回调函数与核心驱动<code>select.select()</code>耦合度非常高，我们必须完全了解系统如何回调，处理一件事被回调分割成一段一段</p>
-<p>接下来我们来看看基于<code>gevent</code>的<code>asyncio</code>实现</p>
-<pre><code>async def wget(host):
-    connect = asyncio.open_connection(host, 80)
-    reader, writer = await connect
-    header = &apos;GET / HTTP/1.0\r\nHost: %s\r\n\r\n&apos; % host
-    writer.write(header.encode(&apos;utf-8&apos;))
-    await writer.drain()
-    while True:
-        line = await reader.readline()
-        if line == b&apos;\r\n&apos;:
-            break
-    writer.close()
-</code></pre><p>我们成功的用一个函数描绘了建立一次连接并且进行通信的过程，假如你懂一点<code>asyncio</code>，你就会发现它与<code>twister</code>回调的不同，使用<code>await</code>关键字把函数挂起，然后等待回调，根据回调接着进行下面的操作，我们成功的用同步的语句把异步写出来，而且是使用Python的原生实现，所以当<code>asyncio</code>出来的时候Guido（Python之父）是多么自豪，你可以看下面引用 <a href="https://www.youtube.com/watch?v=1coLC-MUCJc" target="_blank" rel="noopener">Tulip: Async I/O for Python 3</a>演讲的视频</p>
-<h2 id="浅析Python异步实现"><a href="#浅析Python异步实现" class="headerlink" title="浅析Python异步实现"></a>浅析Python异步实现</h2><p>前面我们知道了异步的基础就是等待，那么Guido是如何在协程的帮助下将异步实现出来的呢，接下来我们就简单的谈一下这个实现基础</p>
-<p>我们先将上面<code>twister</code>改成<code>gevent</code>方式的</p>
-<pre><code>sel = selectors.DefaultSelector()
-
-
-@asyncio.coroutine
-def get_connection(sock):
-    sel.register(sock, selectors.EVENT_READ)
-    yield True
-
-
-async def create_connection():
-    sock = socket.socket()
-    sock.bind((&apos;localhost&apos;, 8000))
-    sock.listen(100)
-    sock.setblocking(False)
-    await get_connection(sock)
-    conn, addr = sock.accept()
-    print(&apos;accepted&apos;, conn, &apos;from&apos;, addr)
-
-
-event = create_connection()
-event.send(None)
-events = sel.select(100)
-for key, mask in events:
-    try:
-        event.send(None)
-    except StopIteration:
-        pass
-</code></pre><p>我们稍稍修改一下上面的<code>twister</code>函数，我们创建一个<code>get_connection</code>函数把<code>sock</code>绑定到我们的<code>sel</code>上面，然后回调一个<code>True</code>，当然这个回调没有处理异常什么的，然后我们将得到的协程向其发送一个<code>None</code>让它启动，这时候你在在另外一个<code>ipython</code>客户端执行</p>
-<pre><code>import socket
-socket.socket()..connect((&apos;localhost&apos;, 8000))
-</code></pre><p>然后你就会发现在主线程里面打印出来客户端的连接信息</p>
-<p>通过这个小例子我们知道，实现异步要解决的问题就是一个公用注册器（能够注册所以的io等待），一个容器（能够存贮所以的协程），一个核心能够一直执行等待回调和处理回调（多个协程）</p>
-<h2 id="深入asyncio了解Python异步"><a href="#深入asyncio了解Python异步" class="headerlink" title="深入asyncio了解Python异步"></a>深入asyncio了解Python异步</h2><p>通过上面我们简单的知道了，如何通过协程与<code>select</code>合作完成异步操作，然而我们上面写的只是最最最基本的实现，接下来我们来深入<code>asyncio</code>源码了解如何让异步变得更加简单</p>
-<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><p><a href="http://blog.csdn.net/screaming/article/details/51377870" target="_blank" rel="noopener">Python异步并发框架</a></p>
-<p><a href="http://python.jobbole.com/87988/" target="_blank" rel="noopener">Python 中的异步编程：Asyncio</a><br><a href="https://www.youtube.com/watch?v=1coLC-MUCJc" target="_blank" rel="noopener">Tulip: Async I/O for Python 3</a><br><a href="https://xidui.github.io/2015/10/29/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3python3-4-Asyncio%E5%BA%93%E4%B8%8ENode-js%E7%9A%84%E5%BC%82%E6%AD%A5IO%E6%9C%BA%E5%88%B6/" target="_blank" rel="noopener">【译】深入理解python3.4中Asyncio库与Node.js的异步IO机制</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1963,7 +1929,7 @@ socket.socket()..connect((&apos;localhost&apos;, 8000))
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">99</span>
+          <span class="site-state-item-count">100</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -2038,12 +2004,12 @@ socket.socket()..connect((&apos;localhost&apos;, 8000))
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">237k</span>
+    <span title="站点总字数">238k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:35</span>
+    <span title="站点阅读时长">3:36</span>
 </div>
 
         
