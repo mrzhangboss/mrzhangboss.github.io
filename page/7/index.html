@@ -209,6 +209,154 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2017/10/08/software/PostgreSQL的自增键/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/10/08/software/PostgreSQL的自增键/" class="post-title-link" itemprop="url">PostgreSQL的自增键</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-10-08 00:00:00" itemprop="dateCreated datePublished" datetime="2017-10-08T00:00:00+08:00">2017-10-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:08:28" itemprop="dateModified" datetime="2021-03-09T20:08:28+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/软件/" itemprop="url" rel="index">
+                    <span itemprop="name">软件</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>2.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>平常在Django项目中大量使用自增这个键，平常都是使用ORM，很少去了解这个东西在数据库中具体使用，最近遇到要备份和复原数据的事情，趁着这次好好探索一下这个自增键的使用</p>
+</blockquote>
+<p><code>Django</code>里面大部分都是将其作为<code>Int</code>自增主键来使用，第一个不需要维护一个唯一值，第二个使用<code>Int</code>作为主键的话，搜索和外键关联速度比较快。</p>
+<p>我们这次从原生<code>SQL</code>出发，探索一下这个自增主键在数据库中的具体使用</p>
+<h3 id="新建数据库"><a href="#新建数据库" class="headerlink" title="新建数据库"></a>新建数据库</h3><p>我们先新建一个数据库</p>
+<pre><code>create table inc(
+id serial not null,
+name text
+);
+</code></pre><p>在<code>PG</code>里面简单的使用<code>serial</code>关键字就会生成一个自增键，默认会在数据库新建一个索引表，例如上面就会新建一个<code>inc_id_seq</code>的索引表，这个字段类型为<code>int</code>，如果数据库很大，我们可以使用<code>BIGSERIAL</code>键申请一个<code>bigint</code>类型的字段</p>
+<p>我们可以看一下这个索引表里面有什么</p>
+<pre><code>         Sequence &quot;public.inc_id_seq&quot;
+    Column     |  Type   |        Value        
+---------------+---------+---------------------
+ sequence_name | name    | inc_id_seq
+ last_value    | bigint  | 1
+ start_value   | bigint  | 1
+ increment_by  | bigint  | 1
+ max_value     | bigint  | 9223372036854775807
+ min_value     | bigint  | 1
+ cache_value   | bigint  | 1
+ log_cnt       | bigint  | 30
+ is_cycled     | boolean | f
+ is_called     | boolean | t
+</code></pre><p>我们可以这个索引表其实就是维护了一个参数，通过字段我们可以知道，这是一个自增为1的键，下一个值为2，目前没有插入一个值</p>
+<h3 id="增删查减"><a href="#增删查减" class="headerlink" title="增删查减"></a>增删查减</h3><p>我们通过一些基本操作来看看这个自增键的作用</p>
+<ul>
+<li>首先是插入</li>
+</ul>
+<pre><code>insert into inc (name) values (&apos;1&apos;),(&apos;2&apos;), (&apos;3&apos;);
+</code></pre><p>我们插入三个值，我们再查看索引表，发现<code>last_value</code>变成了3</p>
+<p>这个是没有指定<code>id</code>的值插入，我们试试显式声明插入</p>
+<pre><code>insert into inc  values (1, &apos;1&apos;),(2, &apos;2&apos;), (3, &apos;3&apos;), (4, &apos;4&apos;);
+</code></pre><p>我们惊奇的发现，在我们显式声明自增键的值的时候，索引表并没有变化，<code>last_value</code>还是3,<strong>这说明只有在不声明自增键，让数据库自己新建的时候，索引表才会更新</strong></p>
+<p><strong>我们可以把自增键看做一个默认值，当没有给自增键赋值的时候，这个自增键会从这个键的索引表中得到下一次自增的值</strong></p>
+<p>所以我们再尝试使用不声明自增键值的方法插入一个新值</p>
+<pre><code>insert into inc (name) values (&apos;4&apos;)
+</code></pre><p>我们发现索引表中<code>last_value</code>变成了4</p>
+<h3 id="主键自增"><a href="#主键自增" class="headerlink" title="主键自增"></a>主键自增</h3><p>由于我们在<code>Django</code>里面使用自增，一般都是将其声明为主键，设为唯一值，所以如果我们将声明表的结构变成</p>
+<pre><code>    create table inc(
+id serial not null PRIMARY KEY,
+name text
+    );
+</code></pre><p>上面的情况就不可能发生了，因为我们把自增键声明为主键，不过有意思的事就是如果你像上面一样指定了一个自增主键值为4，然后不指定再插入4，你会发现第一次会报主键不允许重复的错误，第二次则会成功插入，而且索引表的<code>last_value</code>变成了5</p>
+<p>看来并不是每次成功的时候才会更新<code>last_value</code>值，只要让系统自己去申请自增值就会更新索引表，我尝试了对表的增删查改，发现只有<code>insert</code>并且申请自增值的时候才会更新索引表，而且这个索引表之后增加，不会减少，所以有时候你删掉最大的值，自增键默认又从最后一次开始更新</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>在对单个数据表备份还原的时候，由于简单的使用了<code>COPY</code>命令进行备份还原，通过上面的探索我们发现如果涉及到自增主键的导入导出，在新表导入旧数据是不会出错的，但是由于我们没有考虑自增键的影响（我们导入自增键是显示赋值），在后面插入数据的时候有可能会报主键重复的错误</p>
+<p>为了避免以后插入入数据出现这样的错误，我们有两种措施</p>
+<ol>
+<li>使用<code>COPY</code>命令导入导出时候不获取自增键值</li>
+<li>在<code>COPY</code>导入新表后自己更新索引表</li>
+</ol>
+<p>第一种的话<code>SQL</code>比较繁琐（必须写出表所有字段值），推荐使用第二种</p>
+<p>我们可以简单的使用</p>
+<pre><code>SELECT MAX(id) FROM your_table;
+</code></pre><p>先获取自增键最大值，然后更新索引值(999为上面你获取的最大值）</p>
+<pre><code>SELECT setval(&apos;your_table_id_seq&apos;, 999, false);
+</code></pre><p>当然我们可以将这条语句合正一句话</p>
+<pre><code>SELECT setval(&apos;your_table_id_seq&apos;, COALESCE((SELECT MAX(id)+1 FROM your_table), 1), false);
+</code></pre><p>这样我们就可以开心的完成单表导入导出了</p>
+<p>ps：<br>在使用<code>COPY</code>命令时必须是superuser才能从文件中读取和导入数据，最简单的方法是用superuser账号加权使用<code>alter user xxx superuser</code>，待倒完数据后再降权<code>alter user xxx nosuperuser</code></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2017/10/07/summary/my_college_mistakes/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1520,122 +1668,6 @@ google ansible_ssh_host=1.1.1.3 ansible_ssh_user=root
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/10/01/summary/about-diving-force/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/10/01/summary/about-diving-force/" class="post-title-link" itemprop="url">关于驱动力</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-10-01 08:59:11" itemprop="dateCreated datePublished" datetime="2016-10-01T08:59:11+08:00">2016-10-01</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:15:01" itemprop="dateModified" datetime="2021-03-09T20:15:01+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/随想/" itemprop="url" rel="index">
-                    <span itemprop="name">随想</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>980</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="驱动力是什么"><a href="#驱动力是什么" class="headerlink" title="驱动力是什么"></a>驱动力是什么</h2><blockquote>
-<p>驱动力就鞭子，小的时候我们被父母教育考的好就是棒棒糖,考的差就是鞭子，等我们走进社会,工资就是我们是驱动力。</p>
-</blockquote>
-<p>我们看到过那些年薪百万的程序员，也看到过一些碌碌无为的码农,每个人都想成为那群大牛，工作得心应手、万人敬仰，工资难以”望其项背”.</p>
-<p>但是我们同大牛和码农(差点打成马蓉…..)有什么区别呢，有些人说是人家那些大牛早早就积累了十万个小时，我们同大牛只是差了十万个小时.</p>
-<p>这从某一方面上来看是对的，从某一方面来说又是不对的，君不看那些在公司辛辛苦苦工作几十年的码农早就积累了几十万小时，但是他们依旧是码农，除了业务逻辑比新手强。</p>
-<p>那是什么原因让几十万个小时造不了一个大神呢？</p>
-<p>很简单，就是<strong>驱动力</strong>。</p>
-<p>码农是以工资作为驱动力的，而大神是以兴趣为驱动力的，很多码农一开始都同大神一样被编程的乐趣而吸引，然而大神坚持下来了，而码农呢，慢慢的像小孩子玩厌了新玩具，在慢慢的走入社会被工资左右，在慢慢的就开始盼望早点下班……</p>
-<h2 id="怎么改变"><a href="#怎么改变" class="headerlink" title="怎么改变"></a>怎么改变</h2><blockquote>
-<p>环境对我们的影响是潜移默化的，我们处在这个环境里面可能不知不觉就慢慢改变我们自己了</p>
-</blockquote>
-<p>那我们如何改变自己</p>
-<h3 id="工作环境"><a href="#工作环境" class="headerlink" title="工作环境"></a>工作环境</h3><p> 假如你是一个工作党，找一个好的开发团队对你的影响是巨大的，假如你的小组死气沉沉，最好换一个即使工资很低</p>
-<p> 假如你是一个学生党，比如我，尽量参加学生社团，那种偏技术的部门，在同一个部门里面一起奋斗的感觉非常好。</p>
-<h3 id="学习环境"><a href="#学习环境" class="headerlink" title="学习环境"></a>学习环境</h3><ul>
-<li>在搜索引擎上面多走几步</li>
-</ul>
-<p>很多时候我们遇到问题，google一下解决了就完了，我们要多问几个自己几个问题，这个问题为什么产生，如何避免，下一次还会遇到吗，还有及时收集自己的问题多总结，你要知道圣斗士之所以那么牛是因为人家从不在跌倒的地方跌倒第二次，你要知道bug不是我们的试卷，bug是我们的成神的<code>补丁</code></p>
-<ul>
-<li>培养开源精神</li>
-</ul>
-<p>github没事都上去溜达溜达，看到好的项目可以跟进，看看人家的代码同你的有什么不同，开源不代表抄袭，任何创新都是从模仿开始，不要老想着搞个大新闻大项目，其实很多项目都是从小项目开始的</p>
-<ul>
-<li>多输出</li>
-</ul>
-<p>其实很多人不知道，写东西也是学习的一种方法，因为很多时候我们学的东西有时候学的模拟两可，写出来有助你理清脉络，而且帮助后来者少走弯路，何乐而不为呢。</p>
-<p>有些人说我没什么想写的，你找一些外国博客翻译也是可以的，通过翻译学习，一方面锻炼自己，一方面让更多人了解国外文化。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>成神是很难的，但是只要你在路上，不要回头就不难了。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1708,7 +1740,7 @@ google ansible_ssh_host=1.1.1.3 ansible_ssh_user=root
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">98</span>
+          <span class="site-state-item-count">99</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1721,7 +1753,7 @@ google ansible_ssh_host=1.1.1.3 ansible_ssh_user=root
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1783,12 +1815,12 @@ google ansible_ssh_host=1.1.1.3 ansible_ssh_user=root
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">236k</span>
+    <span title="站点总字数">237k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:34</span>
+    <span title="站点阅读时长">3:35</span>
 </div>
 
         

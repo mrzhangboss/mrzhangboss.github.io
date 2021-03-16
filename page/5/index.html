@@ -209,6 +209,100 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/01/31/algorithm/mit6_828/内存分页/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/01/31/algorithm/mit6_828/内存分页/" class="post-title-link" itemprop="url">内存分页</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-01-31 00:00:00" itemprop="dateCreated datePublished" datetime="2018-01-31T00:00:00+08:00">2018-01-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>731</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本来自己查了很多资料，想自己写出来，结果下笔的时候发现别人已经把我想写的部分全部写出来了，而且比我想的还要具体，所以我就不写了，把链接放出了，顺便我补充一些</p>
+<p><a href="http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan/" target="_blank" rel="noopener">http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan/</a></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>由于内存分页在后面的lab2中也会设计，而且给出的资料写的非常详细，所以我就不多提了。这里提一下为了更好的理解什么内存分页的段选择子与CS的关系，我写了一篇<a href="/2018/01/30/从CS寄存器看段的前世今生/">关于CS寄存器的发展史</a></p>
+<p>最后我提一下<code>kern/entrypgdir.c</code>手写的内存分页表</p>
+<p>第一个<code>entry_pgdir</code>是页目录，第二个<code>entry_pgtable</code>页表，而且注意<code>entry_pgtable</code>是代表0-4M物理内存可写可读的真实内存地址</p>
+<p>前面知道了目录和页表的作用，在现实系统中，一个目录下有1024个页表，但是这只有一个页表，而且它代表从0-4M连续的内存空间</p>
+<p>PS：后面12位是权限位，只看前三位，可以知道是从（000-3ff）的高20位物理地址，由于我们声明了<code>__attribute__((__aligned__(PGSIZE)))</code>（地址4K对齐，其实意思是它真实物理地址后12位一定全部为0），所以直接取<code>(uintptr_t)entry_pgtable</code>地址就是页表地址，虽然后面加上权限位<code>PTE_P + PTE_W</code>，但是在寻找真实地址时都会屏蔽（只取前20位如），当初想了很久感觉取不到页表的真实地址，还以为有什么神奇的编译设定，后面查了很久资料才明白，所以这里提个醒后面我们会在lab2中正式接触内存分页技术，这里只是相当于设定了一个“常数”，后面会将器扩展变成“函数”。</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/01/31/algorithm/mit6_828/引导和操作系统的交互/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -882,104 +976,6 @@ ELF Header:
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/01/04/algorithm/AVL树实现原理/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/01/04/algorithm/AVL树实现原理/" class="post-title-link" itemprop="url">AVL树实现原理</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-01-04 00:00:00" itemprop="dateCreated datePublished" datetime="2018-01-04T00:00:00+08:00">2018-01-04</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>709</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>本篇博客主要基于这篇<a href="/2017/12/27/浅谈树这种数据结构/">博客</a>的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍AVL树的实现原理，完整代码在<a href="https://github.com/mrzhangboss/trees" target="_blank" rel="noopener">github</a>的<code>avl.go</code>文件中</p>
-</blockquote>
-<p><a href="/2017/12/27/浅谈树这种数据结构/">浅谈”树”这种数据结构</a><br><a href="https://github.com/mrzhangboss/trees" title="github" target="_blank" rel="noopener">Github</a><br><a href="http://www.cs.usfca.edu/~galles/visualization/AVLtree.html" target="_blank" rel="noopener">可视化页面</a></p>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>AVL树是在对二叉搜索树的一种优化，通过构造一棵高度平衡的二叉搜索树从而实现提高空间利用率，所以在了解如何实现之前，必须了解如何构造一棵二叉搜索树，你可以阅读我的这篇<a href="/2018/01/04/二叉搜索树实现原理/">博客</a>了解如何构建一棵二叉搜索树，虽然我是用Go来实现的，但是不必了解太多Go方面的知识，我在博客中尽量使用图片的方式来介绍实现原理</p>
-<p><a href="/2018/01/04/二叉搜索树实现原理/">二叉搜索树实现原理</a></p>
-<p>由于AVL树本质上也是一棵二叉搜索树，查找并不会改变树的性质，所以AVL的查找也是同二叉搜索树的查询相同，所以这里就重点介绍如何实现“增”和“删”</p>
-<h3 id="树的字段"><a href="#树的字段" class="headerlink" title="树的字段"></a>树的字段</h3><p>在开始介绍如何实现“增”、“删”之前，我想提一下AVL树的存贮字段，在wiki上面的AVL和很多资料上面，AVL的树结构分别由下面四个组成： Val、 Left*、Right*、Parent*。</p>
-<p>Val代表树存贮的值，Left、Right、Parent代表三个指针，分别指向左子树，右子树，父亲，而在我的实现中，我去掉了父亲指针，对于讲解来说，使用一个父指针能很好的解决从子遍历到父亲的经过，但在实际的应用中，我们完全可以使用一个列表存贮从父亲到儿子之间的值，这样的话，能实现一样的功能，而且能节省存贮空间（每个子树都少了一个父指针），但是相应的程序也变得比较复杂起来。</p>
-<p>虽然我在讲解的过程中会直接获取节点的父节点，但是在实际的代码实现中，是通过获取从列表中获取该节点的父节点。</p>
-<h2 id="AVL树的“增”"><a href="#AVL树的“增”" class="headerlink" title="AVL树的“增”"></a>AVL树的“增”</h2><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://en.wikipedia.org/wiki/AVL_tree" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/AVL_tree</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/01/04/algorithm/二叉搜索树实现原理/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1088,6 +1084,104 @@ ELF Header:
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>总的来说，二叉搜索树的插入是最容易理解的，但是删除的话要考虑不同四种的情况所以还是稍微需要点时间理解一下的，小小的一个二叉搜索树也花了近200行代码实现，但是相比后面的AVL树、红黑树的近千行代码来说，二叉搜索树还是比较简单的，而且后面实现的高级树结构基本上都是依赖二叉搜索树的实现（必须要按照二叉树的增删满足二叉搜索树的原则），所以我们对二叉搜索树的增删必须理解透彻。</p>
 <p>引用：</p>
 <p><a href="https://en.wikipedia.org/wiki/Binary_search_tree" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Binary_search_tree</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/01/04/algorithm/AVL树实现原理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/01/04/algorithm/AVL树实现原理/" class="post-title-link" itemprop="url">AVL树实现原理</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-01-04 00:00:00" itemprop="dateCreated datePublished" datetime="2018-01-04T00:00:00+08:00">2018-01-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>709</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>本篇博客主要基于这篇<a href="/2017/12/27/浅谈树这种数据结构/">博客</a>的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍AVL树的实现原理，完整代码在<a href="https://github.com/mrzhangboss/trees" target="_blank" rel="noopener">github</a>的<code>avl.go</code>文件中</p>
+</blockquote>
+<p><a href="/2017/12/27/浅谈树这种数据结构/">浅谈”树”这种数据结构</a><br><a href="https://github.com/mrzhangboss/trees" title="github" target="_blank" rel="noopener">Github</a><br><a href="http://www.cs.usfca.edu/~galles/visualization/AVLtree.html" target="_blank" rel="noopener">可视化页面</a></p>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>AVL树是在对二叉搜索树的一种优化，通过构造一棵高度平衡的二叉搜索树从而实现提高空间利用率，所以在了解如何实现之前，必须了解如何构造一棵二叉搜索树，你可以阅读我的这篇<a href="/2018/01/04/二叉搜索树实现原理/">博客</a>了解如何构建一棵二叉搜索树，虽然我是用Go来实现的，但是不必了解太多Go方面的知识，我在博客中尽量使用图片的方式来介绍实现原理</p>
+<p><a href="/2018/01/04/二叉搜索树实现原理/">二叉搜索树实现原理</a></p>
+<p>由于AVL树本质上也是一棵二叉搜索树，查找并不会改变树的性质，所以AVL的查找也是同二叉搜索树的查询相同，所以这里就重点介绍如何实现“增”和“删”</p>
+<h3 id="树的字段"><a href="#树的字段" class="headerlink" title="树的字段"></a>树的字段</h3><p>在开始介绍如何实现“增”、“删”之前，我想提一下AVL树的存贮字段，在wiki上面的AVL和很多资料上面，AVL的树结构分别由下面四个组成： Val、 Left*、Right*、Parent*。</p>
+<p>Val代表树存贮的值，Left、Right、Parent代表三个指针，分别指向左子树，右子树，父亲，而在我的实现中，我去掉了父亲指针，对于讲解来说，使用一个父指针能很好的解决从子遍历到父亲的经过，但在实际的应用中，我们完全可以使用一个列表存贮从父亲到儿子之间的值，这样的话，能实现一样的功能，而且能节省存贮空间（每个子树都少了一个父指针），但是相应的程序也变得比较复杂起来。</p>
+<p>虽然我在讲解的过程中会直接获取节点的父节点，但是在实际的代码实现中，是通过获取从列表中获取该节点的父节点。</p>
+<h2 id="AVL树的“增”"><a href="#AVL树的“增”" class="headerlink" title="AVL树的“增”"></a>AVL树的“增”</h2><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://en.wikipedia.org/wiki/AVL_tree" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/AVL_tree</a></p>
 
       
     </div>
@@ -1262,315 +1356,6 @@ ELF Header:
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2017/12/26/algorithm/几个有趣的动态规划/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/12/26/algorithm/几个有趣的动态规划/" class="post-title-link" itemprop="url">几个有趣的动态规划</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-12-26 00:00:00" itemprop="dateCreated datePublished" datetime="2017-12-26T00:00:00+08:00">2017-12-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>3.6k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>3 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>这篇博文是<a href="/2017/12/25/从问题理解动态规划/">从问题理解动态规划</a>的练习篇，通过几个动态规划的问题剖析进一步理解动态规划</p>
-</blockquote>
-<h2 id="找零钱练习题"><a href="#找零钱练习题" class="headerlink" title="找零钱练习题"></a>找零钱练习题</h2><ul>
-<li>给定一个零钱数组比如[1, 2, 5],每个值代表一个面额的纸币，给定一个总数(aim)，求换钱有多少种方法（每种面额纸币不限量）</li>
-</ul>
-<blockquote>
-<p>这个问题非常经典，所以我就从最先容易想到的算法出发慢慢推导出动态规划</p>
-</blockquote>
-<h3 id="正向暴力搜索"><a href="#正向暴力搜索" class="headerlink" title="正向暴力搜索"></a>正向暴力搜索</h3><p>面前一大堆钱，分成三堆，我们必须要从这三堆中抽取出来所以可能的方案，看看能够凑到总数。</p>
-<p>我们第一个想到的就是正向暴力搜索，先从第一堆取出0张、1张、2张….，然后递归下去，让取出0张、1张、2张凑剩下的总数，等到取到最后一个钱堆或者总数正好相同的时候递归停止。</p>
-<p>我们可以很轻松的写出下面的代码（Java）</p>
-<pre><code>int violenceSearch(int[] level, int index, int aim) {
-        if (aim &lt;= 0) {
-            return aim == 0 ? 1 : 0;
-        }
-        if (index &gt;= level.length) {
-            return 0;
-        }
-        int sum = 0;
-        for (int i = 0; i &lt;= aim / level[index]; i++) {
-            sum = sum + violenceSearch(level, index + 1, aim - i * level[index]);
-        }
-        return sum;
-    }
-</code></pre><p>这个函数接受三个参数，第一个是钱堆的面额数组，第二个是当前是拿第几个钱堆的序号，第三个是剩余要凑的总数</p>
-<p>这个算法的核心就是<code>sum = sum + violenceSearch(level, index + 1, aim - i * level[index]);</code>，我们分别从钱堆里面取出想0张、1张…，然后计算剩下的总数和剩下的堆数方法总数和。</p>
-<p>这个算法也可以优化成记忆搜索，总共有多少种方法拼钱，主要与<code>index</code>和<code>aim</code>有关，我们只要用<code>map</code>记录一下这个值就可以优化成为记忆搜索。</p>
-<h3 id="反向暴力搜索"><a href="#反向暴力搜索" class="headerlink" title="反向暴力搜索"></a>反向暴力搜索</h3><p>反向的话比较难想到，但是正向暴力搜索没有办法分解成子函数，也就无法实现动态规划，所以我们必须要反向思考</p>
-<p>首先我们假设纸币面额为1， 2， 5， 我们要凑10块钱，我们假设已经得到了所以的次数F(x, y)(x为由多少种纸币组成，y为凑多少钱），所以我们得到这个我们想要的结果F(3, 10) （也就是由3种面额组成10块）</p>
-<p>假设我们得到了F(3, 10)所以可能的组成结果结合如下面10种</p>
-<ul>
-<li>10张1块</li>
-<li>8张1块、1张2块</li>
-<li>6张1块、2张2块</li>
-<li>5张1块、1张5块</li>
-<li>4张1块、3张2块</li>
-<li>3张1块、1张2块、1张5块</li>
-<li>2张1块、4张2块</li>
-<li>1张1块、2张2块、1张5块</li>
-<li>2张5块</li>
-<li>5张2块</li>
-</ul>
-<p>现在我们把这10种可能按照5块的张数分成3份</p>
-<ul>
-<li>0张5块</li>
-<li><ul>
-<li>10张1块</li>
-</ul>
-</li>
-<li><ul>
-<li>8张1块、1张2块</li>
-</ul>
-</li>
-<li><ul>
-<li>6张1块、2张2块</li>
-</ul>
-</li>
-<li><ul>
-<li>4张1块、3张2块</li>
-</ul>
-</li>
-<li><ul>
-<li>2张1块、4张2块</li>
-</ul>
-</li>
-<li><ul>
-<li>5张2块</li>
-</ul>
-</li>
-<li>1张5块</li>
-<li><ul>
-<li>5张1块、1张5块</li>
-</ul>
-</li>
-<li><ul>
-<li>3张1块、1张2块、1张5块</li>
-</ul>
-</li>
-<li><ul>
-<li>1张1块、2张2块、1张5块</li>
-</ul>
-</li>
-<li>2张5块</li>
-<li><ul>
-<li>2张5块</li>
-</ul>
-</li>
-</ul>
-<p>分别为0张5块（6种），1张5块（3种），2张5块（1种），也就是我们成功将F(3, 10)分解成 F(2, 10), F(2, 5), F(2, 0)</p>
-<p>通过这种方式我们成功构造出子函数，我们很容易就能写出递归函数</p>
-<pre><code>int lowBackVS(int[] level, int index, int aim) {
-    if (index == 0)
-        return aim % level[index] == 0 ? 1 : 0;
-
-    if (aim &lt; level[index]) return lowBackVS(level, index - 1, aim);
-    else {
-        int count = 0;
-        for (int i = 0; i * level[index] &lt;= aim; i++) {
-            count += lowBackVS(level, index - 1, aim - i * level[index]);
-        }
-        return count;
-    }
-}
-</code></pre><p>这里我们要看到第二个<code>if</code>，我们判断剩下的余额是否够当前的一张，如果不够，那直接就是前n-1种纸币能够组成的次数。（也就是假如你剩下4块钱要用一张5块来组成，肯定不可能，直接返回前面的n-1种货币能够凑出4块的种数）</p>
-<p>这种时间复杂度为O(n) = n X aim X aim， 假如aim比较大还是比较耗时间的，我们看看是否能够优化一下</p>
-<h3 id="反向暴力搜索优化"><a href="#反向暴力搜索优化" class="headerlink" title="反向暴力搜索优化"></a>反向暴力搜索优化</h3><p>我们还是回到上面那个例子，我们这次按照能够减去一张5块的进行分类，这样我们就分成了两类</p>
-<ul>
-<li>无法抽掉一张5块</li>
-<li><ul>
-<li>10张1块</li>
-</ul>
-</li>
-<li><ul>
-<li>8张1块、1张2块</li>
-</ul>
-</li>
-<li><ul>
-<li>6张1块、2张2块</li>
-</ul>
-</li>
-<li><ul>
-<li>4张1块、3张2块</li>
-</ul>
-</li>
-<li><ul>
-<li>2张1块、4张2块</li>
-</ul>
-</li>
-<li><ul>
-<li>5张2块</li>
-</ul>
-</li>
-<li>能够抽掉一张5块</li>
-<li><ul>
-<li>5张1块、1张5块</li>
-</ul>
-</li>
-<li><ul>
-<li>3张1块、1张2块、1张5块</li>
-</ul>
-</li>
-<li><ul>
-<li>1张1块、2张2块、1张5块</li>
-</ul>
-</li>
-<li><ul>
-<li>2张5块</li>
-</ul>
-</li>
-</ul>
-<p>一张是无法抽掉一张5块（6种），能够抽到一张5块（4）种<br>我们回到函数定义，这样我们成功将函数F(n, aim)分解成两个F(n-1, aim) 和F(n, aim - level[index])</p>
-<p>我们成功的将子函数进行化简成两项</p>
-<pre><code>int backVS(int[] level, int index, int aim) {
-    if (index == 0)
-        return aim % level[index] == 0 ? 1 : 0;
-
-    if (aim &gt;= level[index])
-        return backVS(level, index - 1, aim) + backVS(level, index, aim - level[index]);
-    else return backVS(level, index - 1, aim);
-
-}
-</code></pre><p>我们可以看到我们成功将时间复杂度降到了O(n) = n X aim，至此我们写出了比较完美的反向暴力搜索方法，当然我们也能够像正向暴力搜索优化成记忆搜索</p>
-<h3 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h3><p>前面我一直没有怎么提记忆搜索法，因为这个方法基本上等同与动态规划，只不过动态规划使用数组存贮，记忆搜索法用字典存贮。</p>
-<p>前面我们知道我们能通过分解函数将问题划分成前面的子问题，所以我们只需要构建一个二维数组，x，y分别代表由几种货币组成（index），组成的总数（aim），这样就能通过慢慢“填”写动态规划表，最后求出由N种货币组成钱数（aim）总数</p>
-<pre><code>int dynamic(int[] level, int index, int aim) {
-    int n = level.length;
-    int[][] dp = new int[n][aim + 1];
-    for (int i = 0; i &lt; n; i++) dp[i][0] = 1;
-    for (int i = 1; i &lt;= aim; i++) dp[0][i] = i % level[0] == 0 ? 1 : 0;
-    for (int i = 1; i &lt; n; i++) {
-        for (int j = 1; j &lt;= aim; j++) {
-            if (j &lt; level[i]) dp[i][j] = dp[i - 1][j];
-            else dp[i][j] = dp[i - 1][j] + dp[i][j - level[i]];
-        }
-    }
-    return dp[n - 1][aim];
-
-}
-</code></pre><p>这里要注意的是初值的初始化，默认当钱数为0的时候值为1（比如说前面的2张5块的方法F(2, 0) = 1），当只由一种钱币组成时，只要总数能够整除第一种钱币面额就为1（全部由这种货币组成）</p>
-<h3 id="动态规划的优化"><a href="#动态规划的优化" class="headerlink" title="动态规划的优化"></a>动态规划的优化</h3><p>当然这个优化可有可无，因为我们观察上面的函数，我们发现其实N层只与前面N-1层一个有关，这样的话，我们如果覆盖掉上一层的值对后面的计算结果也没有影响。所以我们就不使用多维数组，直接使用一维数组，节省了（N-1）* (aim + 1)的空间</p>
-<pre><code>int advanceDynamic(int[] level, int index, int aim) {
-    int[] f = new int[aim + 1];
-    f[0] = 1;
-    int n = level.length;
-    for (int i = 0; i &lt; n; ++i)
-        for (int j = level[i]; j &lt;= aim; ++j)
-            f[j] += f[j - level[i]];
-    return f[aim];
-}
-</code></pre><p>所以我们成功的将代码改的更短，而且更省空间</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>一开始本来想多讲几道动态规划的问题，但是写着写着发现其实大部分都是大同小异，找到子函数，构建表存贮计算过程，其中最大的挑战就是找到分解子函数，所以我就不介绍其他的问题了，我就把这些问题留在下面，你可以试试挑战一下自己</p>
-<ul>
-<li><a href="https://zh.wikipedia.org/wiki/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98" target="_blank" rel="noopener">背包问题</a></li>
-</ul>
-<blockquote>
-<p>一个背包有一定的承重cap，有N件物品，每件都有自己的价值，记录在数组v中，也都有自己的重量，记录在数组w中，每件物品只能选择要装入背包还是不装入背包，要求在不超过背包承重的前提下，选出物品的总价值最大。</p>
-</blockquote>
-<ul>
-<li><p>最优编辑</p>
-<blockquote>
-<p>对于两个字符串A和B，我们需要进行插入、删除和修改操作将A串变为B串，定义c0，c1，c2分别为三种操作的代价，请设计一个高效算法，求出将A串变为B串所需要的最少代价。</p>
-</blockquote>
-</li>
-<li><p>LIS</p>
-</li>
-</ul>
-<blockquote>
-<p>求出序列的最长上升子序列的长度</p>
-</blockquote>
-<ul>
-<li>LCS</li>
-</ul>
-<blockquote>
-<p>给定两个字符串A和B，返回两个字符串的最长公共子序列的长度。例如，A=”1A2C3D4B56”，B=”B1D23CA45B6A”，”123456”或者”12C4B6”都是最长公共子序列。</p>
-</blockquote>
-<ul>
-<li>走迷宫问题</li>
-</ul>
-<blockquote>
-<p>有一个矩阵map，它每个格子有一个权值。从左上角的格子开始每次只能向右或者向下走，最后到达右下角的位置，路径上所有的数字累加起来就是路径和，返回所有的路径中最小的路径和。</p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1643,7 +1428,7 @@ ELF Header:
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">98</span>
+          <span class="site-state-item-count">99</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1656,7 +1441,7 @@ ELF Header:
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1718,12 +1503,12 @@ ELF Header:
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">236k</span>
+    <span title="站点总字数">237k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:34</span>
+    <span title="站点阅读时长">3:35</span>
 </div>
 
         

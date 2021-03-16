@@ -209,6 +209,112 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2020/12/21/bigdata/大数据架构小结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/12/21/bigdata/大数据架构小结/" class="post-title-link" itemprop="url">大数据架构小结</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-12-21 00:00:00" itemprop="dateCreated datePublished" datetime="2020-12-21T00:00:00+08:00">2020-12-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:01:40" itemprop="dateModified" datetime="2021-03-09T20:01:40+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/大数据/" itemprop="url" rel="index">
+                    <span itemprop="name">大数据</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>1.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>首先说说什么是大数据，最简单用数据量为单位，大于1亿就算大的，因为小于1亿就在数据库做就可以了，所以大数据是公司数据大到数据库处理不了的时候才要考虑的事情，小公司MySQL优化一下索引就可以了</p>
+</blockquote>
+<p>那怎么解决了，Google给了我们三篇论文作为解决方法，这个也是大数据的基石，所有后面才有Hadoop的横空出世，我们也知道了解决这个问题的方法，就是对症下药，你是大数据，我就是“大”机器，以前在一台服务器就可以处理，现在上十台、一百台</p>
+<p>但是又出来一个问题，怎么管理，搭建过简单的4节点的机器就知道，那些大数据组件配置虽然不负责，但是很繁琐，关键最坑的事，你一开始并不知道怎么配置最好，你大部分时间都浪费在修改配置，更新所有组件配置，重启，最坑的是依赖关，比如Hbase依赖Zookeeper，你更新了Zookeeper，HBase你也得重启。而且最麻烦的是你用的那些开源大数据组件更新频繁，你很多时候要踩很多坑才能搭一个简单的大数据架构</p>
+<p>所有就有了Cloudera和Hortonworks（被Cloudera合并了）这些提供一整套解决方法的公司，他们能提供什么了，就是管理这个大数据架构的一套系统，通过这个系统，你很容易就搭建起来一个可用的大数据集群</p>
+<p>但是一个悲伤的消息就是Cloudera也要恰饭了，6.3.3之后不会提供免费的版本供小公司使用，对于大公司自己可能会考虑做一个类似的系统（其实也不难，就是一套web管理系统以及专业的解决方案）。但是对于小公司来说，做一个这样的系统成本太高了，但是目前来看6.3.2还算良心，支持到2022年，虽然节点最多只能100个，但是超过100个，说明你公司应该负的起钱买新版了</p>
+<p>CDH是Cloudera提供给大公司的大数据一套架构，接下来我们就剖析一下Cloudera为什么能凭这一套解决方案支撑起百亿美元的市值</p>
+<p>这里我就不介绍这些基本组件了，网上都有，我就谈谈这些组件是怎么解决大数据这个问题的</p>
+<p>首先我们得知道我们要搞大数据的原因，很简单我们想从大数据中得到我们想要的结果，比如淘宝双十一大屏，我们就想知道淘宝双十一卖了多少钱，最后只要一个数字就好了。</p>
+<p>接下来我们就以最简单的求和举例子来思考Cloudera提供的CDH来处理这个问题，第一步是存第二步是算</p>
+<p>首先是存，假如你数据是具有唯一性的，你就存到HBase，用Row-key来区分，假如你不具有唯一性那你就存到Hadoop里面去，这是最基本的，也是Google三篇论文中的两个</p>
+<p>接下来就是算，MR也就是Google三篇论文中的Map-Reduce理论。由于MR写起来非常复杂，所以就有Hive把SQL转换成MR程序</p>
+<p>这三板斧下来连Google那样的大体量都能解决，但是这个方法有个弊端就是慢，很多不必要的东西比如数据落盘这些耗时间的东西拖慢了整体的速度，而且大数据是这样万一，必须要等所有的步骤都走完才能得到最终结果，所以就是最慢的那一个步骤拖慢了整体速度</p>
+<p>MR的产生是因为内存放不了所有数据才把中间数据落盘，所以假如你内存比磁盘还要大，那在内存里面跑就可以了，Spark就是这样产生的，用内存来加速计算，Spark就像一个万能工具箱一样，你可以直接用它读取各种数据源，来各种折腾，它提供了一整套的框架来帮你做这些，但是对于企业来说懂Spark的人少，懂SQL的多</p>
+<p>所以Cloudera自己开发了一个框架impala来方便那些懂SQL的人直接来进行数据计算，这个方案好是好，但是有个问题，impala一开始只能读取Hive表上的数据，由于Hive存在一个问题就是它由于存贮在Hadoop上所以她只能新增不能删除</p>
+<p>所以impala只能在离线大数据上做分析，你要全量的数据得把最新的数据覆盖掉后才能开始计算，所以他们又做了一个类似HBase的数据库Kudu，基本上融合了HBase 快速新增更新删除和Hive的SQL优好的两个，这样我们就可以用impala读取最新Kudu数据做实时大数据分析了，而且速度要比Spark还快</p>
+<p>当然也不是说impala一定是一个万能手术刀，能解决所有大数据问题，大数据这个东西吧特别有意思，我们永远也找不到一个完美的解决方法，只能找到一个相对好的解决方案。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>以前我刚开始了解大数据的时候，我一直觉得哪个强就用那个，其实恰恰相反，每个大数据组件都有其存在的意义，面对大数据，我们不需要一套方案跑通所有，而是找一个最优雅的方法来解决特定问题，其实大数据有很多开源的框架，这些开源组件都有其特定的能力去解决他们遇到的问题，等真正有一天一套解决方案能解决所有问题，那应该大部分软件工程师都应该要失业了</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2020/08/22/summary/八月杂感/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1437,94 +1543,6 @@ println(s&quot;Mean Squared Error = $MSE&quot;)
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2019/03/17/summary/book/重构-总结/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/03/17/summary/book/重构-总结/" class="post-title-link" itemprop="url">重构-总结</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-03-17 00:00:00" itemprop="dateCreated datePublished" datetime="2019-03-17T00:00:00+08:00">2019-03-17</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:15:01" itemprop="dateModified" datetime="2021-03-09T20:15:01+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/随想/" itemprop="url" rel="index">
-                    <span itemprop="name">随想</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>0</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><img src="/images/重构-思维导图.png" alt="重构思维导图"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1597,7 +1615,7 @@ println(s&quot;Mean Squared Error = $MSE&quot;)
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">98</span>
+          <span class="site-state-item-count">99</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1610,7 +1628,7 @@ println(s&quot;Mean Squared Error = $MSE&quot;)
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1672,12 +1690,12 @@ println(s&quot;Mean Squared Error = $MSE&quot;)
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">236k</span>
+    <span title="站点总字数">237k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:34</span>
+    <span title="站点阅读时长">3:35</span>
 </div>
 
         
