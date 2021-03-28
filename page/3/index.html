@@ -48,6 +48,8 @@
   };
 </script>
 
+
+
   <meta property="og:type" content="website">
 <meta property="og:title" content="小伦子的笔记">
 <meta property="og:url" content="https://mrzhangboss.github.io/page/3/index.html">
@@ -205,6 +207,321 @@
             
 
   <div class="posts-expand">
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2019/10/05/summary/如何真正精通/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/10/05/summary/如何真正精通/" class="post-title-link" itemprop="url">如何真正精通</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-10-05 00:00:00" itemprop="dateCreated datePublished" datetime="2019-10-05T00:00:00+08:00">2019-10-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:15:01" itemprop="dateModified" datetime="2021-03-09T20:15:01+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/随想/" itemprop="url" rel="index">
+                    <span itemprop="name">随想</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>3.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
+<p>写这篇博客是因为自己从去年就开始学习大数据，但是当自己入了门之后，虽然懂得一点皮毛，但是总觉得自己没有真正掌握这个，尝试了很多方法（做了不少项目，读了几个月源代码），但是总感觉不得要领，或者来说进步缓慢，下面是自己的一些思考</p>
+</blockquote>
+<p>进步最快的是做项目，但是做项目其实也有下面的问题：</p>
+<ul>
+<li>项目参杂业务</li>
+<li>项目只涉及到大数据某个部分</li>
+</ul>
+<p>比如以我前面数据转存HBase的项目为例，我遇到的问题是Spark内存不足，以及优化HBase存贮，在解决问题的过程中我的确查了不少资料，学了不少东西，但是通过这个项目之后我只能说我对上面的问题有一定的经验，谈不上精通</p>
+<p>从理论上讲你想真正精通就是不停的使用它，但是对于每个人来说，并不是都有机会去在每个项目中应用它，比如我上个项目Flink SQL管理系统，虽然它是跟Flink有关，但是它大部分都是和前端以及动态编译有关，随着项目越来越多你会发现你越来越熟练某个东西，但是不是精通</p>
+<p>那怎么才能真正的精通某个东西呢，接下来我就下面几点谈谈我的体会</p>
+<h2 id="心态"><a href="#心态" class="headerlink" title="心态"></a>心态</h2><p>心态这个东西非常的重要，一开始我接触大数据，我飞快的过了一遍大数据的各个软件，把tutorial都运行了一遍，整个人是一种完成任务的心态把所以大数据组件给过了一遍，做完之后感觉大数据也就那么回事，但是其实你只是会运行几个软件而已，就好比一个会用遥控器的猴子，你会看电视不是你有多聪明，而是发明遥控器的人的聪明才让你能那么轻松的看电视</p>
+<p>所以我们要想深入精通某个东西第一个就是摆正自己的心态，心态这个东西怎么端正呢，其实我觉得第一件事就是让自己变成一个“演员”</p>
+<p>这里我插一句，其实我们这一代虽然压力很大，但是有很大一部分年轻人比如我会有一种“佛系”心态，无欲无求，这种心态可能会让你心态变得更加平静，你不会思考那么多问题（为什么我工资没有他高、为什么我买不起房），但是这种心态也会让你丧失变得更加优秀的可能，比如前面我们提到我们要想精通必须端正心态，把这件事放在你心上，作为一个“佛系”看到这可能会想，为什么要把它放到心上，不就是精通嘛多花点时间就可以了</p>
+<p>这种心态就像在一间教室了，你和你同学都在认真听课，你同学被叫起来回答问题，你的心态非常平静，老师提出的问题你根本不会用心去想，你内心只有这个起来讲的傻蛋会怎么出丑，而对于站起来回答问题的那个同学他会精神高度紧张，他会用100%的精力会放在这个“问题”上</p>
+<p>我们回到前面，前面我们提了“演员”这个概念，我们端正心态的具体方法就是把自己变成一个“演员”，或许学这个东西对于你来说只是一个给自己充一下电，在你心中，玩一把LOL、刷一会抖音和充一下电的地位是一样。</p>
+<p><em>所以第一步就是“假装”你非常热爱这个东西</em></p>
+<p>为什么要说是假装呢，就以我们自己举例，我们从小到大爱过学习吗？我敢说一万个里面只有一个会说我好爱学习，那个人很有可能是如果他不学习他爸就叫他下地干活，其实我们从小到大一直在被强迫着学习，如果没有老师布置作业我们很有可能一下课就把书包丢到看不到的地方，打开电视机，假如没有考试要求我们背诵课文，我们可能不会把一段又丑又长的文章读了一遍又一遍，等我们到了社会，我们又被领导用工资压着我们做一些内心厌据的工作</p>
+<p>我还好毕业之后从事的是我喜欢做的，所以我经常下班之后会呆在电脑旁，与之相反我有一个建筑朋友，他也是做电脑设计这方面的，他很好奇我每天下班都待在电脑旁边不打游戏就坐在那编程，对于他来说，他下班之后再也不想打开电脑，因为他觉得平常在公司已经非常辛苦了，为什么还要折磨自己。对于他来说工作只是一个维持生活的手段</p>
+<p>其实对于我来说，编程也没有上升到热爱那一个层次，只是比游戏稍微高那么一点而已，这也可以解释有的时候我敲着敲着代码敲累了又打开了虎牙看起直播来了，热爱这个东西就好比打游戏，你越打越开心，而不会越来越累</p>
+<p><em>所以其实对于我们大部分年轻人来说，第一件事就是把“佛系”心态收起来，变成一个“演员”，假装我们热爱这个东西</em></p>
+<p>其实李笑来也提到过类似观点，他提过他是学习英语的窍门，他“假装”他背一个单词可以挣5块钱，所以他单词越背越多，最后英语也越来越好，对于我们每个人来说如果你真的想精通某个东西，找到一种能够刺激你的方法去“热爱”它</p>
+<p>插一句，为什么我在这个心态这里用了很多“演员”、“假装”这些词汇，因为从小到大我没有看到一个人真正的热爱某个东西，无论是工作还是学习大家似乎都是一种“妥协”的态度，因为钱而工作，因为击杀的快感而打游戏，很少能看到一个人因为热爱而沉浸在一件事上一辈子，这也可以解释为什么大师那么少，大部分太“博爱”，无法选择出自己最喜爱的</p>
+<p>把人生当做登山，我们面前有很多座山，大部分人登了一会就觉得这座山不是自己的菜，厌倦了，从头开始换另一座山登，而对于我们来说，最好的方法是登了一会虽然觉得厌倦了，“假装”热爱，拼命往上登，到了山顶，视野广阔才能真正的看到自己想要的，这个时候不是随便换个山登，而是“跳”到那座山去。</p>
+<p>大道理我们也不多说了，现在我们面前只有一个朱丽叶，接下来我们谈谈一些我觉得很重要的“术”来帮助我们维持这个心态</p>
+<h2 id="精通的手段"><a href="#精通的手段" class="headerlink" title="精通的手段"></a>精通的手段</h2><h3 id="问自己问题"><a href="#问自己问题" class="headerlink" title="问自己问题"></a>问自己问题</h3><p>帮住我们精通某个东西的最重要的方法的是问问题，比如你想精通Hadoop，这个时候你就问自己，什么是Hadoop，为什么叫Hadoop，它有啥用….</p>
+<p>这些问题你可以记录下来，在回答过程中你必须要像对待孩子一样对待这些问题，你要充分激发你的求知欲，其实这个同打游戏是一个道理，假如你喜欢打LOL，你会去尝试各种符文天赋，尝试各种英雄各种套路，你拿到一个盲僧你总会问自己，盲僧装备啥符文最强，R闪会不会撞墙。</p>
+<p>问自己问题还有一个关键就是：打破砂锅问到底。接着Hadoop那个问题，当你回答到Hadoop的组成的时候，提到了Namenode，然后在问自己Namenode是什么，如果文件过多会怎么样，高可用和Namenode有什么关系，如果Namenode挂掉会怎么样….</p>
+<p>问问题的过程不但是是一个不断了解的过程，也是一个学习的工程，你在学习的过程中遇到的问题越多说明你的短板也越多，我们就像一个修补匠不断对一艘船修修补补，最终它能坚固的如军舰一般</p>
+<h3 id="系统总结"><a href="#系统总结" class="headerlink" title="系统总结"></a>系统总结</h3><p>不断的提出新的问题就像不断的在一个树枝上分叉，但是假如你一直问下去，你有可能会在寻找问题的过程中迷失自己，或者偏离主航道，比如问大数据最后深入到硬件最后深入到化学方向去了，所以一个系统的归纳总结也非常有帮助</p>
+<p>方法有很多，你可以像我一样写博客，画画思维导图，甚至手写都可以，一切能够帮助你总结归纳都可以</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这篇博客简单的介绍了一下我对于怎么精通的个人体会，我个人也还在路上，之所以写这篇也是自己在摸索的过程中磕磕碰碰走了很多弯路，这里谈一下对以前学习过程中的反思吧，我一开始心态就不对，飞快的过了大数据的组件，然后开始做了些项目，但是做完之后也只是熟练的编程而已，接着开始研究源代码，虽然代码都能看懂，但是不知道怎么去看，好像是为了看源代码而看源代码而已，自己对整个系统一窍不通</p>
+<p>后面突然看到一下大数据的面试题，我尝试回答但是好像都模模糊糊，这个时候我才意识到我的问题的关键：“心态”。我自己一直没有摆正自己的心态，我只是把他当做一个工具来用了，就好比电视遥控器，我只是一只会按遥控器的monkey而已。摆正心态说难也难说容易也容易，假如明天马云跟我说你把Hadoop搞精通我给你1000万，那我心态不需要“假装”，我们需要一种手段帮助我们端正心态，每个人可以采取不同的手段来帮助自己，对于我这个佛系青年来说，上面的方法是最好的。</p>
+<p>其实我记得好像小学的时候我就有过这种思考，当初我妈和我姐聊天说为什么同一个妈生的，一个成绩好一个成绩差，我当时直接就说了假如你想成绩好那必须要热爱它，后面我也用这个办法帮我自己学习一些东西，但是苦于没有想到怎么精通的“术”，所以虽然一开始保持100分的热情但是坚持坚持着就放弃了，所以心态不但重要，后面的精通的“术”也非常重要，就像太极，一阴一阳，光有热情没有行动没有用，只有行动没有热情，你也领悟不到精髓。</p>
+<p>PS：其实回头想想这篇博客也非常简单，很多前辈或者先人已经提出来过，不外乎是：端正心态、多问问题、多总结。我自己一开始也想过别人都写过，自己何必多此一举，但是想想虽然这些问题都是老生常谈，但是我们来说，我们都是第一次做人，每个人都是不一样，对于我来说，端正心态怎么端，为什么要端正，端正后干什么这些都是不一样。其实我这篇博客最主要的想谈一下心态，就以我们健身房为例，一遍健身一遍玩手机的都是没有什么肌肉的，那些肌肉大的都是训练的时候拼尽全力，假如你抱着来健身房玩一玩的心态，你永远没法把你的肌肉练出来，而那些为每次动作拼尽全力的人他们的肌肉是最强壮的。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2019/05/05/ai/推荐系统微博数据实战/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/05/05/ai/推荐系统微博数据实战/" class="post-title-link" itemprop="url">推荐系统微博数据实战</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-05-05 00:00:00" itemprop="dateCreated datePublished" datetime="2019-05-05T00:00:00+08:00">2019-05-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 19:57:07" itemprop="dateModified" datetime="2021-03-09T19:57:07+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/" itemprop="url" rel="index">
+                    <span itemprop="name">人工智能</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>7.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>虽然自己刚解决掉一个TB级数据导入“大项目”，但是感觉自己对大数据流程还是缺乏一定对认识，所以想通过一个完整对项目体会一下大数据如何落地再实际产出对，正好@志斌 提供了一个硬盘给我，里面有12年微博对数据，数据量在3TB左右，微博量为65亿，所以就借助这个数据来捣鼓一下推荐系统，我把自己捣鼓的过程写下来，希望能够给其他想了解推荐系统的人一点帮助。</p>
+</blockquote>
+<h2 id="什么是推荐系统"><a href="#什么是推荐系统" class="headerlink" title="什么是推荐系统"></a>什么是推荐系统</h2><p>其实从名字上面我们就知道，我们其实就是要做一件事，“推荐”，并把这个东西做成一个系统，推荐很好理解，但是怎么来做呢，我们拿买东西作为例子，我很喜欢吃苹果，所以我经常去超市买苹果，售货员大妈知道我喜欢吃苹果，所以经常推荐我一些好吃苹果，这个就是推荐，他是根据我们历史的消费记录来给我们推荐的</p>
+<p>这算一种非常简单的推荐系统，你喜欢啥我就给你推荐啥，但是有一个问题，假如你喜欢Apple，你买了一个IPhone X，但是如果我再给你推荐IPhone X其实你不会买的（当然也有可能，但是可能性非常低），那一个“高级”的推荐系统应该怎么做呢，你买了IPhone X，你就很有可能会买AirPod、会买IPod、IMac这些，你脑子里面可能会这样想，做一个归类把一类商品都归到一起，比如IPhone，Mac这些，然后只要他买了其中一个，我们就推荐其他，当然这是最容易想到的一个方法，但是这个方法成本太高而且只适用了Apple产品，假如你买小米，你的手机可能是小米的，但是你的贴膜可能不是小米的。</p>
+<p>得亏于大数据时代的到来，我们记录了很多用户的购买记录，这就相当于我们知道这些商品存在一些联系，假如我们能把这种联系找出来，再用一些算法搅拌一下数据，我们就能产生香喷喷的“推荐数据”</p>
+<h2 id="推荐系统原理"><a href="#推荐系统原理" class="headerlink" title="推荐系统原理"></a>推荐系统原理</h2><p>首先我们来看一下我们有什么数据，最主要的就三张表，第一张用户表（User表），第二张商品表（Item表），第三张用户和商品交互记录表，这个交互记录可能是评分可能是浏览记录可能是购买记录，我们简称为Rank表</p>
+<p>我们把这三个维度组合起来就是一个二维数组，我们可以用一个矩阵来代表这个，如下面所示</p>
+<p>$$\begin{bmatrix} 5 &amp; 4 &amp; 2 &amp; 1 &amp; 0 \\ 4 &amp; 3 &amp; 1 &amp; 2 &amp; 5 \\ 1 &amp; 1 &amp; 5 &amp; 0 &amp; 2 \end{bmatrix}$$</p>
+<p>有三个用户，5件商品，我们从上面伪造的数据可以看出，用户1、2品味很近，而用户三品味与他们完全不同，所以对于最后一件商品，虽然用户1没有评价或者没有购买，我们可以预测他的评价和用户2 差不多，所以我们可以把东西给推荐给用户1，这个是从我们直觉上来感受的，但是计算机可是没有知觉的，我们必须把这些东西量化才能实现智能推荐</p>
+<p>我们用一个欧几里德距离或者皮尔逊相关度来衡量这种品味，其实你可以把它想象为一个N维空间的上每个点的距离，这里我们就不谈公式，我们直接给结果，对于每个用户来说，自己跟自己的品味是100%相近，其他人则有的相同，有的不相同，所以对于用户1，我们可以算出一个“品味值”（我们其实可以不跟自己算因为绝对是1，但是在大型矩阵运算的过程中，其实少算一个比多算一个要划得来）</p>
+<p>$$\begin{bmatrix} 1 &amp; 0.8 &amp; 0.1 \end{bmatrix}$$</p>
+<p>我们得到上面的品味值（加权值），所以对于最后一个商品，我们把其他用户评价与他们与用户一的值相乘，我们就把他们对数据的评价可靠性给量化下来了，所以就可以下一步排序输出我们的推荐。</p>
+<p>我们知道现在的大数据强大在于能给所有用户都推荐他们想要的数据，但是从我们上面的描述来看，我们为了获取一个用户的品味值就得对数据进行大量运算，如果一个用户要1s的，一亿个用户就得要3年才能算完，所以我们得将我们的for循环改成矩阵运算，才能通过大数据将所以用户的推荐给算出来</p>
+<p>现在我们来谈谈怎么用矩阵运算来加速这个过程，我们用$$R_{UI}$$ 来代替上面的评价矩阵，我们首先要把$$R_{UI}$$ 给倒置，然后让两个做矩阵乘法，得到”品味矩阵“ $$W_{UU}$$</p>
+<p>$$R_{UI}$$ * $$R_{UI}^T $$ = $$W_{UU}$$</p>
+<p>这个$$W_{UU}$$ 是什么呢，他是一个行数为用户总数，列数也为用户总数的方阵，每一行代表，第i个用户，他与其他用户的品味差距，有了这个我们可以将$$W_{UU}$$ 与 $$R_{UI}$$ 做一个矩阵乘法，这样我们就得到一个$$V_{UI}$$矩阵，这个矩阵就是我们对$$R_{UI}$$的一个预测值，我们就把一些用户没有评价的值给预测出现，接下来就对每一行先做一个过滤，取出用户没有购买的，然后把没有购买的按照大小排序输出</p>
+<p>PS：也可以用点乘一下矩阵进行过滤，就是将没有将用户与商品购买记录生产一个UI矩阵，购买过置0，每购买过置1，这样点乘后购买过无论分多高都变成0了，把0过滤就ok了</p>
+<p>我们来总结一下上面用到的矩阵公式</p>
+<ol>
+<li>$$R_{UI}$$ * $$R_{UI}^T $$ = $$W_{UU}$$</li>
+<li>$$W_{UU}$$ * $$R_{UI}$$ = $$V_{UI}$$</li>
+</ol>
+<p> 初略一看没有啥问题，但是你要想一下假如用户数非常大，有一千万（很容易达到，QQ微信都10几亿了），那个$$W_{UU}$$ 矩阵的大小有 1千万 * 一千万 = 1e+14 ，我们根本没有足够的内存来存放这个矩阵，而且有一个问题，就是其实假如我们有一千万件商品，但是一个用户一辈子可能就买了几十件，这是一个巨大的稀疏矩阵</p>
+<p>所以虽然我们这个矩阵算法很高效，能通过两次运算就把用户推荐给全部输出，但是假如用户量多或者商品多第一内存不够，第二个矩阵太稀疏了，在没有大数据之前或者计算机还没有现在这么强的时候，大家的解决方法是对数据进行抽样，把大数据分解成为小数据，但是大数据的魅力就是使用全部数据而不是部分，所以我们要使用一些抽象的算法来帮助我们把这个问题给解决了</p>
+<p>首先我们还是要用所以的用户数据，所以的商品数据，但是现在我们做一个抽象，我们假设用户身上有几十种特征来决定他们的品味（比如年龄，性别，性格等），我们直接跳过前面两个计算步骤，我们假设用户特征矩阵$$U_{UP}$$ (每个用户有P个特征，决定他们品味)，对于商品，我们假设就是因为这些特征导致的一个商品特征矩阵$$I_{PI}$$</p>
+<p>最后我们假设，我们这个$$U_{UP}$$ 矩阵乘法$$I_{PI}$$就是 我们上面得到的$$V_{UI}$$ ，也就是公式为</p>
+<p>$$U_{UP}$$ *$$I_{PI}$$ = $$V_{UI}$$ </p>
+<p>假如我们能计算出来这个 $$U_{UP}$$和 $$I_{PI}$$，那么我们就基本上算出所以用户的评价了，这个就是ALS的原理，我们利用这个抽象能将原来的亿亿相乘的计算，改成亿与常数P的相乘的计算</p>
+<p>当然具体的原理没有这么简单，涉及到很多矩阵运算的知识，我这里就不多说了，具体可以看下面给的论文《Collaborative Filtering for Implicit Feedback Datasets》，Spark的Mlib中的ALS实现就是基于这篇论文的，也可以参考一下Python的实现，公式推导比较复杂，但是实现还是非常好理解的</p>
+<h2 id="Python实战"><a href="#Python实战" class="headerlink" title="Python实战"></a>Python实战</h2><p>首先我们来先试试使用Python来快速搭建我们的模型出来</p>
+<pre><code>{&apos;account&apos;: &apos;1920286160&apos;, &apos;content&apos;: &apos;你的笑容灿烂了一整个夏天!&apos;, &apos;source&apos;: &apos;http://wp1.sina.cn/wap240/5d738637jw1dpmonay1thj.jpg&apos;, &apos;time&apos;: &apos;2012-02-01 13:48:39&apos;, &apos;from&apos;: &apos;网页版&apos;, &apos;comment&apos;: 0, &apos;forward&apos;: 0, &apos;forward_account&apos;: &apos;1567852087&apos;, &apos;forward_content&apos;: &apos;民浩君！！ &apos;,&apos;forward_id&apos;: &apos;xdasfd21x-s&apos;， &apos;forword_nickname&apos;: &apos;全球流行风尚&apos;, &apos;is_forward_followed&apos;: &apos;0&apos;}
+</code></pre><p>我们原始数据全部都是这种字符串，我们没有用户点赞、浏览数据，我们只有用户所发的所以微博数据，而且假如后面有<code>forward_account</code>的值的话，说明这条微博是用户转发的，所以这里我们把用户转发当做一个用户“喜欢”这篇微博，我们系统就是要推荐更多微博给用户“转发”，所以我们把用户账号，和转发ID提取出来当做一次“记录”</p>
+<p>我们把数据全部变成，<code>user-id：forward_id</code>，字符对，然后我们导入到一个<code>pandas</code> 的<code>DataFrame</code>里面去</p>
+<p>我们这里使用一个Python 实现的ALS包<code>implicit</code>，只需要把我们生成的<code>DataFrame</code>转换成为一个压缩矩阵OK了，但是这里要注意的一点是我们所以的用户id和转发id都得变成Int型整数，最好的做法使用</p>
+<pre><code>df.user.astype(&apos;category&apos;).cat.codes
+</code></pre><p>比如上面，我们把<code>user</code>这个字符型数字转换成一个整数序号，这样我们得到的就是每个<code>user</code>id的序号</p>
+<p>完整的代码为下面</p>
+<pre><code>origin_data = [(x[&apos;forward_id&apos;], x[&apos;account&apos;], 1) for x in data if x.get(&apos;forward_id&apos;)] # data  为json数组
+df = pd.DataFrame(origin_data, columns=[&apos;item&apos;, &apos;user&apos;, &apos;num&apos;])
+df[&apos;item&apos;] =  df.item.astype(&apos;category&apos;).cat.codes.astype(&apos;int64&apos;)
+df[&apos;user&apos;] = df.user.astype(&apos;category&apos;).cat.codes.astype(&apos;int64&apos;)
+
+from scipy import sparse
+
+# convert df to martrix
+item_user_data = sparse.csr_matrix(df.values)
+# train
+import implicit
+
+model = implicit.als.AlternatingLeastSquares(factors=50)
+
+model.fit(item_user_data)
+
+# recommend items for a user
+user_items = item_user_data.T.tocsr()
+
+# recommend user
+model.recommend(1, user_items=user_items, N = 5)
+</code></pre><p>只要简单的几行代码我们就实现了一个协同过滤的算法实现，从Python代码我们可以知道，最关键的地方就是生成训练数据，然后其他都交给算法了，接下来我们来尝试实现一个使用Spark加载全部数据，来实现对几十亿微博数据的推荐</p>
+<h2 id="Spark实战"><a href="#Spark实战" class="headerlink" title="Spark实战"></a>Spark实战</h2><p>在前面我们把3个T的微博数据的用户转发数据抽取出来，最后数据量在35亿左右，数据量在100G左右，这个数据量还是有的大的，首先内存肯定放不下，假如我们使用前面Python的方式来实现的话，我们的内存至少要200个G，所以我们得使用Spark的内存加磁盘运算来实现这个推荐系统</p>
+<h3 id="生成用户和转发ID的序列值"><a href="#生成用户和转发ID的序列值" class="headerlink" title="生成用户和转发ID的序列值"></a>生成用户和转发ID的序列值</h3><p>前面Python的实现100个G的数据排序，基本的原理就是Hash表进行排序，然而我们内存不足以放下这100G的数据，所以我们要使用MapReduce来“消化”这个数据，所以我们要借助Hive来进行一个排序，一方面我们可以生成用户和物品的唯一ID，等我们产生推荐结果后也可以通过HIVE来生成对应的数据</p>
+<p>第一步我们将数据导入到HIVE中</p>
+<blockquote>
+<p>首先创表</p>
+</blockquote>
+<pre><code>create table record(item string, account int, time int) row format delimited fields terminated by &apos;,&apos;   LINES TERMINATED BY &apos;\n&apos;  stored as textfile;
+</code></pre><p>这里我还额外导入了一个时间进去，为的是方便以后做线上预测</p>
+<p>然后我们把文件导入进去（文件存贮在<code>/weibo/all_data.txt</code>中）</p>
+<pre><code>load data  local inpath &apos;/weibo/all_data.txt&apos; into table record;
+</code></pre><p>接下来我们生成用户表和物品表</p>
+<pre><code>create table items as select row_number() over (order by a.item) as id ,a.item from (select distinct item from record) a ;
+
+  create table users as select row_number() over (order by a.account) as id ,a.account from (select distinct account from record) a ;
+</code></pre><p>我们使用HIVE的<code>row_number</code>函数来生成一个唯一序列自增值，每一个值对应一个用户，最后我们生成我们训练表，最好使用<code>HIVE2</code>来进行导入，因为HIVE1的<code>row_number</code>会存贮所以的id值，由于我们数据量有35个亿，内存会爆炸，<code>HIVE2</code>优化了使用一个流来存贮</p>
+<pre><code>  create table train as 
+select account_id, item_id, count(*) as num from (select a.id as item_id, b.id as account_id from  record 
+left join items a on record.item = a.item 
+left join users b on record.account = b.account) a group by item_id, account_id ;
+</code></pre><p>接下来我们在Spark里面调用我们Mlib的<code>ALS</code>模型，首先我们从HIVE中获取数据</p>
+<pre><code>val df = sql(&quot;select * from train&quot;)
+</code></pre><p>然后我们从将数据导入ALS模型进行训练，同Python比较类似，我就直接给出代码</p>
+<pre><code>val ratings = df.map(row =&gt; Rating(row.getAs[Int](&quot;item_id&quot;).toInt, row.getAs[Int](&quot;account_id&quot;).toInt, row.getAs[Long](&quot;num&quot;).toDouble)).rdd
+val rank = 10
+val numIterations = 50
+val model = ALS.train(ratings, rank, numIterations, 0.01)
+val usersProducts = ratings.map { case Rating(user, product, rate) =&gt;
+  (user, product)
+}
+val predictions =
+  model.predict(usersProducts).map { case Rating(user, product, rate) =&gt;
+    ((user, product), rate)
+  }
+val ratesAndPreds = ratings.map { case Rating(user, product, rate) =&gt;
+  ((user, product), rate)
+}.join(predictions)
+val MSE = ratesAndPreds.map { case ((user, product), (r1, r2)) =&gt;
+  val err = (r1 - r2)
+  err * err
+}.mean()
+println(s&quot;Mean Squared Error = $MSE&quot;)
+</code></pre><p>最终我们这35亿数据用时4个半小时跑完模型并计算出MSE （均方误差），当然由于我的核心比较小，假如在一个大集群上面的话速度会快很多，值得注意的是，在Spark运行这35亿数据的时候，物理磁盘占用达到800多个G，所以在哪里省下来（内存）的就得从哪里还回来（磁盘）O(∩_∩)O哈哈~</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我们这次只是完成了一个非常简陋的推荐系统，只是具备简单的推荐功能，我们还没有考虑到一些“冷启动”问题，一个“智能”的推荐系统需要考虑到很多方面，我的推荐系统还有很多地方需要完善，但是从我的这个Demo里面也可以看到其实大数据也是非常“简单”的，由于数据量太大，你只能使用最简洁的代码来训练你的模型，你的算法要最大可能性满足分布式要求，推荐系统最核心的地方还是如何将你的推荐算法变成一个优秀的分布式算法，我们这篇博客只是走马观花的谈了一下它的原理，看看有空好好研究一下Spark分布式算法是怎么实现的。</p>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><p><a href="https://blog.csdn.net/antkillerfarm/article/details/53734658" target="_blank" rel="noopener">ALS原理介绍</a></p>
+<p><a href="https://yq.aliyun.com/articles/684195" target="_blank" rel="noopener">Python实现ALS</a></p>
+<p><a href="http://yifanhu.net/PUB/cf.pdf" target="_blank" rel="noopener">Spark Mlib ALS 论文</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
         
   
   
@@ -1422,482 +1739,11 @@ sudo docker run -itd \
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/09/15/python/触摸Python的GIL/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/09/15/python/触摸Python的GIL/" class="post-title-link" itemprop="url">触摸Python的GIL</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-09-15 00:00:00" itemprop="dateCreated datePublished" datetime="2018-09-15T00:00:00+08:00">2018-09-15</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:05:18" itemprop="dateModified" datetime="2021-03-09T20:05:18+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>11k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>10 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>Python的<code>GIL</code>一直是被大家攻击其语言的一个弊端，每次在讨论语言特性的时候这点总是会被人们提起，但是这个东西好像就一个“污点”，大家都知道，但是大家都不了解为什么。本片博客就是好好的探索一下GIL，让我们不再畏惧它</p>
-</blockquote>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
-<p>其实一开始并没有想到研究GIL，但是在研究<a href="/2018/09/12/如何让你的Python像C++一样快/">如何让你的Python更快</a>的过程中发现我们可以通过这种方式解决掉GIL，让我们的代码不被<code>Python</code>拖累</p>
-</blockquote>
-<p>这篇博客相比于上面的博客更注重于代码的讲解，我们通过使用<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pybind11</a>从一个<code>Python</code>调用<code>C++</code>的demo出发介绍如何让<code>Python</code>调用<code>C++</code>并且丢弃GIL</p>
-<h2 id="GIL简介"><a href="#GIL简介" class="headerlink" title="GIL简介"></a>GIL简介</h2><p>首先我们要知道什么是<code>GIL</code>，为什么它会拖累<code>Python</code>，首先我们看一下<code>Python</code>历史，<code>Python</code>是Guido van Rossum 在1989年发布的，那个时候计算机的主频还没有达到1G，程序全部都是运行在单核计算机上面，直到2005年多核处理器才被Intel开发出来</p>
-<p>多核处理器意味着什么呢，就好比一个工厂，你原来只有一个工人干活，现在有很多个了，一开始设计出来只是为了能在每个核心上跑不同的应用，但是随着大家对多核计算机的使用，大家发现有的时候计算器其实很空闲，大部分CPU都在休息，假如只在一个核上跑一个应用的话，那么其他CPU就浪费了，所以大家就开始设计怎么并行在多个CPU上跑同样的任务</p>
-<p>现在我们来考虑一下怎么能让CPU力往一处使，我们用数据库来做比方，假设我们计算机上安装一个银行数据库，为了让这个“银行”能够服务更多的人，我们把对钱的操作（增删查改）放到每个CPU上运行。假如我们的顾客一个一个排着队来取钱存钱，我们每个CPU查询都是唯一的，存取也是唯一的，那么我们的“银行”就能正常工作</p>
-<p>但是现实的环境往往不是这样的，顾客它可能会因为网络原因个人原因同时进行多个操作，假如它同时取1千万的两次操作（它账号只有1千万），每个CPU上的程序查询时候正好都是账号有一千万，然后依次进行数据的更新，最后我们发现用户的账号变成了0，但是用户却取了两千万出来，你的银行损失了一千万，所以并行任务最重要的就是数据共享</p>
-<p>怎么解决这个共享问题呢，很简单加“锁”，我们给需要共享的东西上个锁，每次你想用的时候你就把锁锁上，然后对共享的东西进行操作，当有别人想动这个东西的时候，他一看哎呀有人在用，那我等会。这样就不会造成上面的冲突了，但是这个也造成了一个问题由于我上了一把锁，每次我们想操作的时候，必须去看一下这个锁有没有被人锁上，假如没有我就锁上，有就等待，这一来一去就会造成一个效率问题（感觉这个也是国企的通病，权利依次掌握在领导上，要想完成工作得不断的进行开“锁”、关“锁”，有时候还会造成“死锁”），所以并行的4个任务运行速度不一定是一个任务的四倍，所以我们经常看到一些库在运行说明里面双核速度会比单核加速一点几倍，之说以达不到双倍就是因为这些“锁”的存在</p>
-<p>“锁”帮我们能让单任务拆分成子任务并行化加速，但是在一定程度上拖累了运行速度，我们回到<code>Python</code>，因为多核是在2005年才出现的，但是在并行化上面，一个比多核更早出现的概率就是：<code>线程</code>和<code>进程</code></p>
-<p>在还没有多核处理器的时候，操作系统为了让程序并行化跑，就创造了进程和线程的概率。用通俗的话来讲，进程就是一家大工厂，而线程就是工人，为了提高生产力，我们可以开很多家工厂，当然我们也可以开一家工厂，招很多工人。但是线程这个东西相比于进程要消耗的少的多，因为它“原材料”都是从“工厂”里面拿的，假如说工厂少了几个工人还可以生产，但是上万个工人没有工厂他们也办法工作。</p>
-<p>所以对于<code>Python</code>来说首先得支持线程和进程的概率，对于进程来说很简单，就是多开几家工厂(多开几个<code>Python</code>程序)罢了，但是对于线程来说，由于<code>Python</code>是一门脚本语言，它需要一个<code>解释器</code>来执行代码，我们知道这个解释器它可以当做大一个共享变量，假如在不同的线程里面用“锁”来限制一下的话，环境变量就会乱了套</p>
-<p>所以<code>Python</code>对于线程的支持就是给他加一个锁，也就是我们俗称的<code>GIL</code>，由于在操作系统在运行单核的时候就支持线程，一个工人加一个锁其实也没有什么，无非就是多了一点开锁关锁的时间，所以<code>Python</code>在2005前一直没有<code>GIL</code>这个概率，到了2005大家发现<code>Python</code>使用多线程竟然只能使用一个核，完全浪费了其他核，因为虽然<code>Python</code>的线程可以分配到不同的核上运行，但是当他们运行的时候发现这个锁没有被释放，所以每个核上的线程都傻乎乎的在等待，结果最后查看效果多线程比单线程速度还慢（要等<code>GIL</code>释放）</p>
-<p><code>Python</code>社区逐渐发现这个问题，他们也做了很多挽救工作，比如在线程睡觉（sleep）、等待连接的时候让线程主动释放<code>GIL</code>，这样就能让其他线程继续执行，但是对于纯粹的运算代码而不是IO密集代码总也避不开这个锁的存在，如果允许<code>GIL</code>释放，由于历史遗留问题很多代码都会乱了套（理论上其实就是需要重新修改锁的设计，可以参考MySQL的代码去掉<a href="https://dev.mysql.com/worklog/task/?id=8423" target="_blank" rel="noopener">“锁”</a>花了5年时间），考虑到<code>Python</code>本来就运行的慢，<code>Python</code>开发者觉得假如你觉得代码很慢，你可以放到<code>C/C++</code>里面执行，所以对于这个<code>GIL</code>就没有继续啃下去，而是把中心放在<code>Python</code>调用<code>C/C++</code>中，提供了一些很方便的方式让我们在<code>C/C++</code>中控制<code>GIL</code>的释放以及获取</p>
-<p>所以我们接下来通过一个来学习<code>Python</code>调用<code>C++</code>代码，来了解<code>Python</code>如何调用<code>C++</code>，并且通过一些实验来验证线程、进程和<code>GIL</code></p>
-<h2 id="测试GIL的存在"><a href="#测试GIL的存在" class="headerlink" title="测试GIL的存在"></a>测试GIL的存在</h2><p>首先我们要做的第一件事就是测试GIL的存在，现在基本上主流电脑都是多核CPU，所以我们这个实验可以很轻松的在多核下进行</p>
-<p>首先我们得安装一些环境：<code>Python3</code>，<code>gcc</code>，<code>htop</code>（在Windows可以用下任务管理器代替）</p>
-<p>首先我得提一下我的一个认识误区，在以前我不太清楚线程、进程与多核直接的关系的时候我有一个误区，我以为<code>C</code>能在单线程里面使用多核（我也不清楚为什么我会这么想，可能是因为了解很少），而<code>Python</code>却不能，后面通过我实验我才发现，无论是<code>C</code>和<code>Python</code>只要你的代码不使用线程、进程那么你的代码只能同时运行在同一个核上</p>
-<p>怎么来测试呢，我们可以在<code>Python</code>的解释器里面输入</p>
-<pre><code>while True:
-  pass
-</code></pre><p>然后我们打开<code>htop</code>，我们可以发现某一个<code>CPU</code>始终保持在100%（这个CPU可能会变化，因为操作系统控制每个进程切换CPU时间），假如你没有其他任务过多使用<code>CPU</code>的话，你其他的核心一直保持在很低的利用率，当你<code>ctrl-c</code>你的代码后，那个100%的CUP会立马降下来</p>
-<p>然后你在编译一个<code>C</code>程序，使用<code>gcc a.c &amp;&amp; ./a.out</code>命令编译下面代码然后运行</p>
-<pre><code>// a.c
-int main(){while(1){};}
-</code></pre><p>你会发现<code>C</code>也只能消耗一个CPU，这就印证了我们前面说过得，如果我们不主动使用线程或进程来，同时只能有一个在运行</p>
-<p>接下来我们看看在多进程的基础上，使用<code>Python</code>来使用多核</p>
-<pre><code>from concurrent.futures import ProcessPoolExecutor
-
-def f(a):
-    while 1:
-        pass
-if __name__ == &apos;__main__&apos;:
-    pool = ProcessPoolExecutor()
-    pool.map(f, range(100))
-</code></pre><p>当我们运行上面代码的时候，我们会发现所有<code>CPU</code>会运行到100%，我们只要简单声明一个进程池（<code>ProcessPoolExecutor</code>），<code>Python</code>自动帮我们生成你CPU核数相同的进程，然后我们只要把任务分配到池中就能重复的并行化任务，把所有的核心都用起来。</p>
-<p>然后我们来测试一下线程池，要使用<code>Python</code>线程池只需要初始化<code>ThreadPoolExecutor</code>就行</p>
-<pre><code>from concurrent.futures import ThreadPoolExecutor
-
-def f(a):
-    while 1:
-        pass
-if __name__ == &apos;__main__&apos;:
-    pool = ThreadPoolExecutor()
-    pool.map(f, range(100))
-</code></pre><p>我们从<code>htop</code>可以看到在<code>Python</code>线程中，只有一个能达到100%，这就是<code>GIL</code>的“威力”，它让我们多线程没有发挥多线程的力量，重复使用到多核CPU</p>
-<p>接下来我们看看在<code>C++</code>里面使用多线程是否能够发挥多核的威力</p>
-<pre><code>// run.cpp
-#include &lt;thread&gt;
-using namespace std;
-
-#define NUM_THREADS 50
-
-void f(){
-    while(1){};
-}
-void run_dead(){
-
-    std::thread threads[NUM_THREADS];
-    for(int i = 0; i &lt; NUM_THREADS; ++i)
-    {
-        threads[i] = std::thread(f);
-    }
-
-
-    for (int i = 0; i &lt; NUM_THREADS; ++i) {
-        threads[i].join();
-
-    }
-};
-int main(void){
-    run_dead();
-}
-</code></pre><p>我们使用<code>g++ -pthread -std=c++11 run.cpp &amp;&amp; ./a.out</code>运行上面的<code>C++</code>程序，我们在htop里面能够发现，<code>C++</code>的多线程能够完全发挥多核的威力</p>
-<p>上面的程序都很简单，但是具备一个多线程运行的基本构造，我们可以修改我们的调用的子任务来完成实际的任务，当然你程序越复杂也涉及到了各种锁的使用，这里我们就不谈了</p>
-<p>从上面的程序我们可以知道<code>C++</code>的多线程能够充分使用多核，而<code>Python</code>的不行，接下来我们就开始探索<code>Python</code>调用<code>C++</code></p>
-<h2 id="Python调用C"><a href="#Python调用C" class="headerlink" title="Python调用C++"></a>Python调用C++</h2><p>在上面的<a href="/2018/09/12/如何让你的Python像C++一样快/">博客</a>我总结了<code>Python</code>调用<code>C++</code>的方式，总的来说<code>Cython</code>是控制能力最好的，效率也是最高的，但是由于存在一个学习新语言的难度，所以我这里就不提了，改天再写一篇关于<code>Cython</code>的博客，我们这里使用<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pybind11</a>这个库作为介绍</p>
-<p>安装非常简单<code>pip install pybind11</code>就行，接下来我们使用github上这个<a href="https://github.com/pybind/python_example" target="_blank" rel="noopener">官方例子</a>做介绍，最后我们以一个实际的<code>C++</code>项目为例子，看看如何在实际的项目使用</p>
-<p>首先我们先把项目下载下来</p>
-<pre><code>git clone https://github.com/pybind/python_example.git
-</code></pre><p>然后我们新建一个环境（避免安装到我们系统的环境，方便删除）</p>
-<pre><code>python -m venv venv
-</code></pre><p>PS: 当前<code>Python</code>版本默认为py3.5以上（你可以使用pyenv安装Python多个版本，目前我在自己使用Python版本，但主要使用3.6以上）</p>
-<pre><code>source venv/bin/activate
-</code></pre><p>然后我们激活我们的环境，我们顺便安装一下我们接下来要安装的<code>Python</code>包</p>
-<pre><code>pip install ipython
-</code></pre><p>然后我们进入项目<code>cd python_example</code>，假如你用<code>Pycharm</code>的话，你可以在项目目录下生成<code>venv</code>环境，然后在<code>Pycharm</code>里面打开会自动设定为默认环境</p>
-<p>然后我们先测试一下代码可以不可以用</p>
-<pre><code>pip install .
-</code></pre><p>假如我们安装成功了，恭喜你，我们的环境已经准备好了，打开<code>ipython</code>，我们先测试一下这个<code>C++</code>代码的速度</p>
-<pre><code>In [1]: import python_example
-
-In [2]: python_example.add(1, 1)
-Out[2]: 2
-</code></pre><p>很好，代码运行正常，就是一个简单的加法运算，我们测试一下平均时间</p>
-<pre><code>In [3]: %timeit python_example.add(1, 1)
-313 ns ± 3.03 ns per loop (mean ± std. dev. of 7 runs, 1000000 loops each)
-</code></pre><p>很好，我们的<code>C</code>代码还是跑到很快，313纳秒就跑完了，接下来我们看看纯粹的<code>Python</code>代码速度</p>
-<pre><code>In [4]: def add(a, b):
-   ...:     return a + b
-   ...: 
-   ...: 
-
-In [5]: %timeit add(1, 1)
-113 ns ± 9.04 ns per loop (mean ± std. dev. of 7 runs, 10000000 loops each)
-</code></pre><p>什么竟然比<code>C++</code>还要快，快了近3倍，记得我当时第一次运行出来的这个结果的时候的震惊，说好的快呢，你骗我。</p>
-<p>接下来我们就来分析一下出现这个的原因，会不会是因为类型转换出现问题呢，因为<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pyblind11</a>使用了很多自动转换的技术来帮我们转换，我们看看原函数（在src/main.cpp)</p>
-<pre><code>int add(int i, int j) {
-    return i + j;
-}
-</code></pre><p>首先<code>Python</code>调用它，要把第一个参数由<code>Python</code>的<code>int</code>对象转换成<code>C++</code>的<code>int</code>基本类型，<code>C++</code>运行完之后，又得转换将<code>C++</code>基本<code>int</code>类型转换成<code>Python</code>的<code>int</code>对象，这一来一回就得多花三个操作，为了验证我们猜想，我们插入一个<code>nothing</code>函数在<code>add</code>函数后面</p>
-<pre><code>void nothing(){
-}
-</code></pre><p>然后模仿<code>m.def</code>仿照写一行插入<code>nothing</code>函数（你会发现语法特别简单，这也是我喜欢<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pyblind11</a>的原因）</p>
-<pre><code>m.def(&quot;nothing&quot;, &amp;nothing, R&quot;pbdoc(
-        do nothing
-    )pbdoc&quot;);
-</code></pre><p>接下来我们安装一下我们的新库<code>pip install .</code></p>
-<p>然后我们再开一个新的<code>ipython</code>（你可以用<code>importlib</code>来重新加载库）</p>
-<pre><code>In [1]: import python_example
-
-In [2]: %timeit python_example.nothing()
-125 ns ± 0.6 ns per loop (mean ± std. dev. of 7 runs, 10000000 loops each)
-</code></pre><p>125ns，我们的猜想成功了，类型转换的确拖累了<code>C++</code>运行的速度，我们再看看原生的速度如何</p>
-<pre><code>In [4]: def nothing():
-   ...:     pass
-   ...: 
-   ...: 
-
-In [5]: %timeit nothing()
-85.1 ns ± 0.262 ns per loop (mean ± std. dev. of 7 runs, 10000000 loops each)
-</code></pre><p>竟然还是比<code>C++</code>快，虽然没有上面那么夸张，但是快了25%，我们再来分析原因，首先现在没有类型转换所以理论上那只能是代码运行问题，我们知道<code>Python</code>优化里面提过一句，少用<code>.</code>，因为<code>Python</code>要搜寻很多东西才能获得到对象的属性、方法等，所以我们这边使用了<code>python_example.nothing</code>来调用<code>nothing</code>函数，假如我们去掉<code>.</code>速度会不会提高呢</p>
-<p>怎么去掉呢，用局部变量</p>
-<pre><code>In [6]: pn = python_example.nothing
-
-In [7]: %timeit pn()
-90 ns ± 0.761 ns per loop (mean ± std. dev. of 7 runs, 10000000 loops each)
-</code></pre><p>从上面可以看到的确，<code>.</code>“害人不浅”，我们的速度又快了一大截，基本上同原生没有太多差距了，一开始我以为是概率问题，运行了多次但是结果都是一样，原生就是比<code>C++</code>快了5ns，可能是<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pyblind11</a>“偷偷”的在哪个地方偷跑了一条语句吧，或者有可能是<code>C++</code>比<code>C</code>（<code>Python</code>是<code>C</code>写的）稍微慢了一点</p>
-<p>一开始我以为<code>C++</code>一定会比<code>Python</code>快，但是我们从上面测试可以看出来，在“起跑”阶段，<code>C++</code>甚至比<code>Python</code>要慢，我们使用<code>C++</code>主要是为了加速大段<code>Python</code>代码，只要在这场“长征”中<code>C++</code>能够胜出，那么我们的努力就没白费，那好我们继续测试，看看在长征过程中<code>C++</code>表现如何</p>
-<p>首先我们把<code>add</code>函数魔改一下，我们让他进行100次运算</p>
-<pre><code>int add(int i, int j) {
-    int s = 0, x = 0;
-    for(;x&lt;100;x++){
-        s = s + i + j;
-    }
-    return s;
-}
-</code></pre><p>我们再把模块给安装一下<code>pip install .</code>，重新打开新的<code>ipython</code></p>
-<pre><code>In [1]: import python_example
-
-In [2]: python_example.add(1,2)
-Out[2]: 300
-
-In [3]: padd = python_example.add
-
-In [4]: %timeit padd(1,1)
-282 ns ± 3.9 ns per loop (mean ± std. dev. of 7 runs, 1000000 loops each)
-
-In [5]: %timeit python_example.add(1,1)
-316 ns ± 3.78 ns per loop (mean ± std. dev. of 7 runs, 1000000 loops each)
-</code></pre><p>我们这次重要见到了<code>C++</code>的威力，我们进行100次运算，相比于上面一次运算，我们只增加了<code>4ns</code>的平均时间，我们来看看原生<code>Python</code>的表现如何</p>
-<pre><code>In [6]: def add(a, b):
-   ...:     s = 0
-   ...:     for i in range(100):
-   ...:         s += a + b
-   ...:     return s
-   ...: 
-   ...: 
-
-In [7]: add(1, 2)
-Out[7]: 300
-
-In [8]: %timeit add(1, 1)
-4.74 µs ± 40.5 ns per loop (mean ± std. dev. of 7 runs, 100000 loops each)
-</code></pre><p><code>C++</code>完爆<code>Python</code>，<code>4.74us = 4750ns</code>，<code>Python</code>用时是<code>C++</code>的10倍多，只还只是100次运算，假如我们上万次运算，那结果更加夸张，<code>C++</code>在长征的过程中胜利了，但是我们也不能说<code>Python</code>是慢毕竟<code>us</code>的单位其实非常小，<code>1us=1000ms=1000000s</code>，在1s内可以执行上面函数几十万次，只能说<code>C++</code>速度太可怕了</p>
-<h3 id="调用总结"><a href="#调用总结" class="headerlink" title="调用总结"></a>调用总结</h3><p>我们从上面可以看到，虽然<code>Python</code>调用<code>C++</code>在类型转换上会有速度损失，但是在进入到函数提内运行过程中的速度是不影响的，假如我们的运算量够大，完全可以弥补那一点点性能影响，所以要想重复利用<code>C++</code>的速度，尽量少调用<code>C++</code>，把计算结果竟然一次性返回，而不是我们多次进行交互，这样就能最大化利用<code>C++</code></p>
-<h2 id="在C-线程中测试GIL"><a href="#在C-线程中测试GIL" class="headerlink" title="在C++线程中测试GIL"></a>在<code>C++</code>线程中测试GIL</h2><p>接下来我们来考虑这么一个问题，前面我们测试了<code>C++</code>的线程能使用多核，我们假如在让<code>Python</code>在调用<code>C++</code>的代码中中使用线程，那么我们的<code>C++</code>的线程能不能使用多核呢进而解除GIL的作用</p>
-<p>我们把<code>nothing</code>函数改成多线程</p>
-<pre><code>#include &lt;thread&gt;
-#define NUM_THREADS 50
-using namespace std;
-
-void f(){
-    while(1){};
-}
-
-void nothing(){
-    std::thread threads[NUM_THREADS];
-    for(int i = 0; i &lt; NUM_THREADS; ++i)
-    {
-        threads[i] = std::thread(f);
-    }
-
-
-    for (int i = 0; i &lt; NUM_THREADS; ++i) {
-        threads[i].join();
-
-    }
-}
-</code></pre><p>然后我们再重新编译一下<code>pip install .</code>，我们来跑一下我们这个多线程的<code>nothing</code>函数</p>
-<pre><code>In [1]: import python_example
-
-In [2]: python_example.nothing()
-</code></pre><p>我们在<code>htop</code>里面可以看到在单线程的<code>Python</code>程序中，成功的将所有核心都利用上了，也就是是说假如我们在<code>C++</code>扩展中使用线程的话，是不会被<code>GIL</code>影响的</p>
-<p>说实话当我第一次运行的时候我直觉是还是会被<code>GIL</code>影响，结果最后跑出来的结果大吃我一惊，现在我们分析为什么不会被受影响，因为<code>GIL</code>锁的是<code>Python</code>解释器，当我们的代码进入到<code>C++</code>中的时候，我们已经不在<code>Python</code>解释器中了，这样即使我在<code>C++</code>中声明线程，那也是<code>C++</code>的线程，所以就不会造成无法使用多核的情况</p>
-<p>这里我们学到一点，如果我们想摆脱<code>GIL</code>可以把线程放到<code>C++</code>中，这样线程的不再依赖<code>Python</code>解释器，前面我们知道其实<code>Python</code>底层是用<code>C</code>写的，所以基本上所以的语法都是基于<code>C</code>代码实现加上语法糖来完成的，<code>Python</code>线程也就是<code>C</code>线程，我们能不能模拟一下<code>Python</code>来构建这个<code>GIL</code></p>
-<p>首先我们知道<code>GIL</code>是一把锁，所以我们第一件事就是查看这把锁，在这里我们通过<code>Python</code>的<code>C</code>头文件来引入一个函数<code>PyGILState_Check</code>这个函数会返回一个<code>1</code>和<code>0</code>值，假如是<code>1</code>那么意思该线程拿着<code>GIL</code>锁，反之。</p>
-<p>所以我们先在头部加上<code>#include &quot;Python.h&quot;</code>，在Linux系统上要安装<code>python-dev</code>或者<code>python-devel</code>开发包才有这个头文件，接下来我们在<code>nothing</code>函数加上这个检测状态</p>
-<pre><code>cout &lt;&lt; &quot;GIL is &quot; &lt;&lt;  ((PyGILState_Check() == 1) ? &quot;hold&quot; : &quot;not hold&quot;)&lt;&lt;endl;
-</code></pre><p>提一句为了使用<code>cout</code>，我们得在头部加上<code>C++</code>输出库<code>#include &lt;iostream&gt;</code></p>
-<p>先在我们重新安装一下并运行<code>nothing</code>函数，程序会输出<code>GIL is hold</code>，为什么会出现这个情况呢，因为<code>Python</code>默认会锁住<code>GIL</code>当运行<code>C++</code>或者<code>C</code>代码的时候，但是为什么我们虽然锁住了<code>GIL</code>但是我们还是能够使用<code>C++</code>的线程来运行多核呢，其实很简单因为我们的线程没有像<code>Python</code>一样每次运行的时候去获取这个<code>GIL</code>锁，为了证明这一点，我们来做个实验</p>
-<p>首先我们得在<code>nothing</code>函数里面释放<code>GIL</code>，然后让线程去获取<code>GIL</code>（如果<code>nothing</code>主函数不释放<code>GIL</code>，会造成死锁，线程无法运行，一直获取不了<code>GIL</code>锁），我们可以用<code>Python</code>的<code>C</code>头文件的函数来释放<code>GIL</code>锁，但是<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pybind11</a>提供了一个更加方便的函数让我们来释放<code>GIL</code>锁，我们把<code>nothing</code>函数定义修改一下，在后面添加一条语句<code>py::call_guard&lt;py::gil_scoped_release&gt;()</code></p>
-<pre><code>//    m.def(&quot;nothing&quot;, &amp;nothing);
-    m.def(&quot;nothing&quot;, &amp;nothing, py::call_guard&lt;py::gil_scoped_release&gt;());
-</code></pre><p>然后我们在重新编译安装运行一下代码，我们的结果就会是<code>GIL is not hold</code>，我们通过简单的一条语句就释放<code>GIL</code>锁，接下来我们来测试在线程中获取<code>GIL</code>锁来模拟<code>Python</code>的情况</p>
-<p>要想获取<code>GIL</code>锁，<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pybind11</a>也提供了一个非常简单的方法来实现这个：<code>py::gil_scoped_acquire acquire;</code></p>
-<p>我们接下来把<code>f</code>函数改成下面的</p>
-<pre><code>void f(){
-    cout &lt;&lt; &quot;entner F: GIL is &quot; &lt;&lt;  ((PyGILState_Check() == 1) ? &quot;hold&quot; : &quot;not hold&quot;)&lt;&lt;endl;
-    py::gil_scoped_acquire acquire;
-    cout &lt;&lt; &quot;GIL is &quot; &lt;&lt;  ((PyGILState_Check() == 1) ? &quot;hold&quot; : &quot;not hold&quot;) &lt;&lt; &quot; now is runing &quot;&lt;&lt;endl;
-    while(1) {
-    };
-
-}
-</code></pre><p>我们在获取<code>GIL</code>前后，添加了一些输出，方便我们调试，接下来我们再运行我们的代码，我们发现程序输出50个进入<code>entner F: GIL is not hold</code>（在我的电脑上，因为线程同时运行，获取<code>GIL</code>锁需要时间，所以在我电脑上每次运行<code>f</code>函数时锁都打开着），但是只有一行<code>GIL is hold now is runing</code>，因为当一个线程获取到<code>GIL</code>后，其他线程就没法获取到了，而且看<code>htop</code>我们也能发现只有一个核到了<code>100</code>，在我们强行模拟下<code>C++</code>也没能使用多核</p>
-<p>其实从这里我们可以看出来，<code>GIL</code>问题其实就是一个死锁的问题，线程获取后不释放锁，导致所有线程相互竞争，用一个谚语来说就是：一个和尚挑水喝、两个和尚抬水喝、三个和尚没水喝。</p>
-<p>那么我们怎么来解决这个问题呢，很简单就是在你不需要的锁的时候去释放它，接下来我们来模拟一下怎么释放这个锁达到多线程“和平共处”，首先我们引入<code>C++</code>时间库来使用<code>sleep</code>函数(<code>#include &lt;unistd.h&gt;</code>)，接下来我们引入<code>Python</code>的<code>C</code>头文件中的宏来释放<code>GIL</code>，我们把<code>f</code>函数改成下面的形式</p>
-<pre><code>void f(){
-    cout &lt;&lt; &quot;entner F: GIL is &quot; &lt;&lt;  ((PyGILState_Check() == 1) ? &quot;hold&quot; : &quot;not hold&quot;)&lt;&lt;endl;
-    py::gil_scoped_acquire acquire;
-    cout &lt;&lt; &quot;GIL is &quot; &lt;&lt;  ((PyGILState_Check() == 1) ? &quot;hold&quot; : &quot;not hold&quot;) &lt;&lt; &quot; now is runing &quot;&lt;&lt;endl;
-    Py_BEGIN_ALLOW_THREADS
-
-    while(1){
-    };
-    Py_END_ALLOW_THREADS
-}
-</code></pre><p>我们使用<code>Py_BEGIN_ALLOW_THREADS</code>和<code>Py_END_ALLOW_THREADS</code>这一对宏来释放<code>GIL</code>，这样我们重新编译运行<code>nothing</code>函数我们就能看到50个<code>enter</code>和50个<code>runing</code>，而且在<code>htop</code>中我们也能发现<code>C++</code>的线程再次使用所有的核心了（利用率达到不了100%，不知道是因为宏的“副作用”还是其他原因，但是每个核还是能够到70%作用），这种在一个函数中获取和释放<code>GIL</code>锁还是不推荐的，最好在函数一开始的时候释放<code>GIL</code>，在函数结束的时候获取<code>GIL</code>返回到<code>Python</code>解释器中（假如你需要与<code>Python</code>进行交互的话），毕竟获取一次锁的成本还是挺大的，而且一不小心就会造成死锁</p>
-<h2 id="在Python线程中测试GIL"><a href="#在Python线程中测试GIL" class="headerlink" title="在Python线程中测试GIL"></a>在<code>Python</code>线程中测试GIL</h2><p>接下来我们来看看一个已经存在的问题，就是如何解决掉使用<code>Python</code>线程时遇到的<code>GIL</code>问题，其实我们在上面的<code>C++</code>线程已经模拟出来了，解决这个问题的关键就是释放<code>GIL</code>锁，我们先测试一下在<code>GIL</code>锁下，线程调用<code>C++</code>代码的速度</p>
-<p>我们首先添加一个新死循环函数</p>
-<pre><code>void run_dead(){
-    while(1){};
-}
-</code></pre><p>然后在后面加上<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pybind11</a>的定义</p>
-<pre><code>m.def(&quot;run_dead&quot;, &amp;run_dead);
-</code></pre><p>接着我们运行下面函数</p>
-<pre><code>from concurrent.futures import ThreadPoolExecutor
-import python_example
-
-pool = ThreadPoolExecutor()
-
-for i in range(100):
-    pool.submit(python_example.run_dead)
-</code></pre><p>在这个函数里面我们声明了一个线程池，并且向池蕾加入了100函数，接着我们在<code>htop</code>里面查看CPU利用率，我们可以看到只有1个CPU能够跑满100%，其实从前面的实验我们就能猜到这个结果，解决方案其实前面也给了，有两种方法，第一种就是使用<code>Python</code>的C的头文件函数宏<br>：<code>Py_BEGIN_ALLOW_THREADS</code>和<code>Py_END_ALLOW_THREADS</code>，第二种就是在函数声明的地方使用<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pybind11</a>提供的<code>py::call_guard&lt;py::gil_scoped_release&gt;()</code>来释放<code>GIL</code>，两种方法都可以，但是第二种更加简单一点，在这里我就不测试释放<code>GIL</code>之后的性能了，前面已经做过了</p>
-<h2 id="GIL总结"><a href="#GIL总结" class="headerlink" title="GIL总结"></a><code>GIL</code>总结</h2><p>通过前面我们的测试，<code>GIL</code>这个东西其实只是一把锁，我们经常能听到很多人抨击<code>Python</code>关于<code>GIL</code>问题，这就给人一种错觉<code>Python</code>这种语言在设计上有弊端，在前面测试我们也发现了就算是<code>C++</code>或者<code>C</code>假如不正确的使用锁其实也会有这个<code>GIL</code>问题，<code>GIL</code>的问题的并不是“编程语言”的锅，主要是我们自己的代码造成的死锁，所以面对<code>GIL</code>的时候，不需要困惑，它就是一把“锁”，把它打开，而不是碰到它就跑，你会发现它也就是一把“锁”而已。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/09/12/python/如何让你的Python像C一样快/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/09/12/python/如何让你的Python像C一样快/" class="post-title-link" itemprop="url">如何让你的Python更快</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-09-12 00:00:00" itemprop="dateCreated datePublished" datetime="2018-09-12T00:00:00+08:00">2018-09-12</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:05:18" itemprop="dateModified" datetime="2021-03-09T20:05:18+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>5.3k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>5 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
-<p>其实一开始没有想到写关于<code>Python</code>的加速，一开始只想好好了解一下<code>C++</code>这门语言，没想到最后研究来研究去，基本上把所以加速框架都试验了一下，这篇博客就谈谈我对<code>Python</code>加速的看法</p>
-</blockquote>
-<p> 首先我先谈谈<code>C++</code>，虽然我上大学之前就自学过<code>C</code>，但是对于这个<code>C</code>的升级版还是没有过多的了解，花了几天时间学习，发现<code>C++</code>这门语言还是不错的，至少在兼容性上，它能兼容<code>C</code>还有以前的版本。</p>
-<p>然而作为一个用惯了了脚本语言的人来说，<code>C++</code>最麻烦的就是他的第三方库管理，当然对于类<code>Unix</code>系统有自己带的包管理器（如ubuntu上的<code>apt</code>，CentOS上的<code>yum</code>）可以来安装第三方库（就是我们平常为了安装一些软件，比如要先<code>apt install xxx-dev</code>那些库），由于这些都绑定了平台的，所以你经常能看到有些软件自己编译会列出各个平台下依赖的包，然而对于一些比较新的库（比如<code>googletest</code>，就得去<code>Github</code>上掏下来自己编译安装了。</p>
-<p>吐槽完了<code>C++</code>的缺点之后，我们不得不说<code>C++</code>的优点了，虽然比较难装（相比于脚本语言）但是那个速度真是贼快，用腾讯开源的协程库，单台机器就能开启千万协程而且内存不超过2个G，想我大<code>Python</code>开个一万都很嘚瑟了。<code>C++</code>在性能上真的的碾压的。就是因为<code>C++</code>性能上要求到极致，所以它才会有那么多的前面安装的缺点，因为<code>C++</code>是面对硬件的，对于不同的硬件，<code>C++</code>想做到最快，那么通用的代码就不可能的，通用就代表损失性能。然而让我全用<code>C++</code>写代码是不可能的，脚本语言用的多爽呀。所以了解完了<code>C++</code>的强大之后，我就越发的想了解怎么结合两者的方式来提升｀Python｀速度，最后把所有加速手段都测试了一遍，所以就有了这篇博文。</p>
-<p>PS: 之所以花这么多时间介绍<code>C++</code>是因为<code>LLVM</code>就是使用<code>C++</code>写的，而<code>numba</code>依赖<code>LLVM</code>来动态编译出比<code>C</code>更快的机器码，这个也就<code>Python</code>最后能比<code>C</code>还快的主要原因</p>
-<h2 id="（Python）-（C-）难在哪里"><a href="#（Python）-（C-）难在哪里" class="headerlink" title="（Python）+（C++）难在哪里"></a>（Python）+（C++）难在哪里</h2><p>大家都知道<code>Python</code>有很多实现，我们这里说的<code>Python</code>是<code>CPython</code>也是最常见的实现，它是由<code>C语言</code>编译出来的，我们的目标就是把两种语言给混合起来，<code>C+C++</code>。</p>
-<p>我们看看其他语言，比如<code>Java</code>其实也可以混合<code>C++</code>代码，它是采用<code>JNI</code>的方式来进行交互的，如果你了解这种方式，你会发现也非常麻烦，得先写<code>Java</code>的类，然后再生成<code>C/C++</code>头文件。然后你再写<code>C/C++</code>代码，其实我很讨厌这种方式，我希望能把<code>C/C++</code>和你的语言这两种分离开来，我们能简单通过某种方式桥接一下让两个项目能够连贯起来。</p>
-<p>我们现在来看看<code>Python</code>是如何调用<code>C++</code>的代码。在这之前我先提一下<code>Python</code>与<code>C</code>的关系。</p>
-<p>其实<code>Python</code>和<code>C</code>一直非常友好，相比于其他语言，<code>Python</code>在支持上一直尽最大努力，因为<code>Python</code>开发者也知道<code>Python</code>非常慢（相比于C，C++，而且还有GIL的存在无法使用多线程密集CPU计算），所以<code>Python</code>开发者直接在内库上提供支持：<code>ctypes</code>，一个专为调用<code>C</code>代码的库。你只有编写少量代码就能让<code>Python</code>运行你的<code>C</code>代码。理论上你碰到性能问题直接写<code>C</code>就行了，但是我们为什么还要让<code>Python</code>运行<code>C++</code>来加速呢</p>
-<p>四个字：比<code>C</code>更好，<code>C++</code>由于在性能上与<code>C</code>不相上下，而且比C要高级的多（面对对象等），编写速度与维护上比<code>C</code>更加好，而且要知道现在最流行的Java编辑器都是<code>C++</code>写的，还有很多高性能数据库以及机器学习库都是<code>C++</code>写的，虽然在<code>Python</code>中写<code>C</code>更加简单，但是我们还是希望能够用面对对象的方式来编写代码，毕竟我们主要使用的高级语言也是面对对象的</p>
-<p>也正是因为<code>C++</code>提供了一些<code>C</code>没有的面对对象，以及高级特性，这就让我们融合<code>C</code>和<code>C++</code>带来了一些困难。</p>
-<h2 id="Python为什么能够调用C-代码"><a href="#Python为什么能够调用C-代码" class="headerlink" title="Python为什么能够调用C++代码"></a>Python为什么能够调用C++代码</h2><p>我们从调用顺序来看，我们其实想用<code>C</code>代码（<code>Python</code>本质其实是<code>C</code>代码）调用<code>C++</code>，<code>C++</code>比<code>C</code>要高级，出生的也更晚，所以<code>C</code>其实是不知道<code>C++</code>这门语言的，所以<code>C</code>能调用<code>C++</code>，其实是<code>C++</code>对<code>C</code>的一种兼容，这种兼容是<code>C++</code>提供的</p>
-<p><code>C++</code>作为一门偏底层语言，它最终的目的是生成二进制码，<code>C</code>最终也生成二进制码，这个二进制码能直接在CPU里面运行，大家都知道一个代码复用的概念，在二进制层次上，就有这个<code>链接库</code>概率，反正无论谁是最终调用主体，被调用方只需要提供一个规定好的<code>函数库</code>，那么就能实现跨语言的一种交互。</p>
-<p>但是这个交互存在一个问题，<code>C++</code>比<code>C</code>有着更加特性，比如说类，<code>C</code>没有这个概念，假如<code>C++</code>在动态库里面想让<code>C</code>能够调用一个<code>类</code>方法，<code>C</code>根本不知道怎么用，一个类要使用必须牵扯到类初始化，类析构等等。所以<code>C++</code>提供一个关键字<code>extern &quot;C&quot;</code></p>
-<p>这个关键字就是告诉<code>C++</code>编译器把这个块域里面的东西编译成<code>C</code>可以接受的，当然有个前提条件里面代码声明必须是<code>C</code>式的，也就是只能使用<code>C</code>关键字来声明函数结构体什么的，但是在函数内部你可以调用<code>C++</code>代码，声明一个类什么的，最后返回结果。</p>
-<p>用一句话来总结这个关键词的作用就是：告诉编辑器和用户，里面的函数东西，不管中间过程，只需要在“开头”（函数声明），结尾（结果返回）是<code>C</code>模式的，那么这个函数就能在<code>C</code>里面用</p>
-<p>最后我们总结一下<code>Python</code>能够调用<code>C++</code>的代码的原因：只要<code>C++</code>能够”写”成<code>C</code>代码，我们就能调用。这时候你可能有疑惑了，如果把<code>C++</code>写成<code>C</code>那么我们还不如直接写<code>C</code>代码，何必如此复杂的研究这么久了。但是你有没有想过为什么<code>Python</code>是用<code>C</code>写的，最后却能拥有<code>C++</code>、<code>Java</code>这些语言的一样的类特征这个概念。</p>
-<p>这里我们必须要了解一个名词“语法糖”，在我们看来我们能在<code>Python</code>、<code>Java</code>、<code>Ｃ++</code>中使用一些面对对象的特性，比如类、继承、接口。其实这些都只是一些语法糖而已，在这些实现的底层，比如说<code>Python</code>它就是用<code>C</code>的函数来帮助我们构建这些语法糖，我们看到的一个对象的系统函数，其实它是<code>Python</code>帮助我们把一连串函数绑定在一个<code>module</code>上面，虽然表面上我们新建了一个对象，调用了一个对象函数，其实在<code>C</code>层我们就是调用了一连串的函数来完成一个对象的分配</p>
-<p>我们可以在官方文档中找到这部分<a href="https://docs.python.org/3.8/extending/extending.html#the-module-s-method-table-and-initialization-function" target="_blank" rel="noopener">介绍</a>，官方文档告诉我们只要将列表的函数赋给一个模块（<code>module</code>）我们就让你的<code>C/C++</code>代码给<code>Python</code>一个模块可以使用，从官方文档我们就可以很清楚看到<code>语法糖</code></p>
-<p><code>Python</code>的文档非常丰富，理论上我们能够根据文档完成复杂的<code>C++</code>代码与<code>Python</code>交互，但是我们从文档上可以看到，这个过程是非常繁琐的，相比于调用<code>C</code>的简单，为了实现调用<code>C++</code>的类和数据类型，我们得写很多中间代码进行转换，差不多就重新写了一遍<code>C++</code>的实现</p>
-<p>当然作为以简单为美的<code>Pythoner</code>早就发现这个问题，也就这个问题开发了<code>ctypes</code>、<code>cffi</code>、<code>numba</code>等框架帮助，就连在<code>C++</code>大名鼎鼎的<code>boost</code>库中也提供了<code>boost/python</code>来帮助<code>Python</code>更加简单的调用<code>C++</code>，接下来我就根据我对下面这些库来谈一谈我的看法</p>
-<h2 id="框架简析"><a href="#框架简析" class="headerlink" title="框架简析"></a>框架简析</h2><p>单纯的介绍这些库的功能太枯燥了，我就按照我对这些的库的理解将他们编成历史故事（真实出现的原因可能不是这样的）</p>
-<p>话说在<code>Python</code>作者设计<code>Python</code>之后，它发现<code>Python</code>实在是有点慢，为了能加速它就把<code>Python</code>的<code>C</code>API告诉社区的人让他们自己编写<code>C</code>代码然后让<code>Python</code>去调用它</p>
-<p>但是这个API实在是太繁琐了，要写太多附件的<code>C</code>代码了，有些人就发现这个问题，他们设计了一种脚本程序，你只要把你想调用的<code>C</code>函数包在<code>%{</code>里面就能帮你生成<code>Python</code>API的C代码，这样减少了不少代码量，这个框架叫做<code>Swig</code>。</p>
-<p>大家在使用<code>Swig</code>的时候发现一个问题，这个<code>Swig</code>要生成的一个很大的<code>C</code>函数，<code>C++</code>开发者发现了这个问题，他们跟<code>Python</code>开发者说你们是不是瞧不起<code>C++</code>，这个函数这么不优雅，竟然想跟我们代码混起来，想用<code>C++</code>我们帮你，你要生成什么函数告诉我，我帮你生成你引用一下我这个库就行，这样大名鼎鼎的<code>boost::python</code>就开发出来了</p>
-<p>你开心的用起来<code>boost::python</code>来包装一下代码，这样写完<code>C++</code>代码再引入<code>boost::python</code>把<code>Python</code>需要的函数定义一下，编译，OK，但是<code>Windows</code>用户不开心了，这个<code>boost::python</code>是在<code>boost</code>项目下的一个子项目，为了在<code>Windows</code>安装，还得下几百兆的软件包，要是碰到网络不好得下一天。这个时候<code>Python</code>大牛出来了，啥，这么麻烦，我来开发一个包，把<code>boost::python</code>从<code>boost</code>的掏出来，你只需要<code>pip</code>一下就行</p>
-<p>经过几个”小时”开发，<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pybind11</a>开发出来了，还是原来的配方还是原来的味道，管他<code>Windows</code>还是<code>Unix</code>，直接<code>pip</code>一下就能使用<code>boost::python</code> 一样的语法来用了</p>
-<p>就这样安安稳稳的过了一段时间，大家很开心用<code>Python</code>包轻轻松松解决生成<code>Python</code>C API代码的功能。但是随着大家用的越来越多，大家发现怎么我用<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pybind11</a>调用<code>C++</code>跑的有点慢，<code>Python</code>大牛开始研究，重要他们发现由于<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pybind11</a>由于秉承<code>Python</code>的简单至上，很多东西它都做了”通用性“，比如它帮你自动把<code>C++</code>的<code>Vector</code>的类型转成<code>Python</code>的<code>list</code>，这样程序在编译时候不会报错，但是由于这种类型转换太多了，严重的拖累了<code>C++</code>的速度，所以<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pybind11</a>虽然用的很开心，但是速度却比原生的<code>Python</code> C API要慢</p>
-<p>这个时候精通编译原理、<code>Python</code>、<code>C++</code>的大牛出现了，它发现解决这个问题的办法很简单，创造一门中间语言，这么语言可以详细的定义怎么从<code>C++</code>到<code>Python</code>的中间过程，在<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pybind11</a> 中这个完全是一个黑箱子，只有把这个黑箱子拿出来，这样我们就知道你想怎么调用<code>C++</code>，这样就能设计更加优秀的<code>Python</code>C API的代码。最后<code>Cython</code>出现了，它的出现让那些苛求性能的人闭上了嘴，它自动出来的生成<code>Python</code>C API代码近乎人工编写，在这样强的性能加持下，它的速度近乎原生</p>
-<p>至此在生成代码<code>Python</code>C API的中间代码的三方库尘埃落定，没有人想到有更好的办法来优化这一个方向。但是苛刻的人无处不在，他们攻击不了它的性能，只能攻击它的生成方式</p>
-<p>为了使用<code>Cython</code>必须编译它，要么借用<code>setuptools</code>来简单这个步骤，要么自己手动编译，一些开发者叫嚣着，都说<code>Python</code>是个动态语言，怎么还要编译呀，麻烦死了，这个时候一些开发者就站出来了，他们觉得这是个挑战，他们想解决掉它，于是<code>cffi</code>被开发出来了，你不需要用专门的文件存贮<code>C/C++</code>代码，你可以像调用函数一样把<code>C/C++</code>函数原文作为参数传进去，实现动态加载，但是这种动态性还是付出了代价，速度有了一定影响，虽然还是比<code>Python</code>快，但是远远比不上<code>Cython</code>，有得必有失</p>
-<p>这个时候精通汇编的大佬出现了，他们觉得动态加载这个地方还可以加强，他们觉得不需要我们在<code>Python</code>里面写<code>C</code>或者<code>C++</code>，你写一个<code>Python</code>函数，用一个装饰器包装一下，他们直接从底层出发，反正<code>Python</code>最终会编译成机器码，把<code>Python</code>函数的机器码加上类型（Python函数的参数可以是“鸭子”类型，不是强类型），省掉<code>Python</code>冗余的类型推断，直接从机器码层次上进行优化，最后编译成二进制接口给<code>Python</code>调用（背后使用了LLVM进行编译，这里就不详细介绍了），最终它的运行速度小胜<code>Cython</code>，并且比<code>C</code>还略胜一筹，这个就非常恐怖了，因为<code>C</code>基本上是除了汇编以外的速度标杆，所以懂汇编的大佬不要惹，太恐怖了，这个库的名字叫做<a href="https://numba.pydata.org/" target="_blank" rel="noopener">numba</a>，现在这个库已经开发6年多了，由于涉及到从<code>Python</code>源代码到了机器码实在太复杂了，所以仍然在开发中（主要适应各种硬件以及平台），目前处于<code>0.40.0</code>版本，基本上在主流平台使用是没有问题的。</p>
-<p>对于各个库速度的测试可以看看这篇<a href="https://jakevdp.github.io/blog/2013/06/15/numba-vs-cython-take-2/" target="_blank" rel="noopener">博客</a>，可以看到<code>numba</code>完胜<code>C</code>和<code>Cython</code></p>
-<p>PS: 在这里我没有提<code>ctypes</code>因为它是原生的，而且它对<code>C++</code>支持并不很好</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在速度方面<code>numba</code>加持的<code>Python</code>无疑是No.1，但是它也有几个缺点，一个就是目前还处在开发阶段(目前是0.40版本，还没有1.0版本，而且issue有500个open状态，我在试验的时候也发现存在一些在issue的bug），第二个就是它目前支持能在函数内部运行的库只有<code>numpy</code>（当然这个也是它的设计的一个初衷，就是加速numpy与<code>Python</code>的混合代码）</p>
-<p>当然它的优点完全可以盖过它的缺点，优点有很多，首先第一个它的速度，在<code>LLVM</code>加持下比<code>C</code>更快简直让人震惊，第二个是它调试和维护非常方便，都是由<code>Python</code>编写的，去掉装饰器就是<code>Python</code>代码，直接在IDE里面调试不知道多爽，上线的时候加上注释器跑的飞快（还能丢掉<code>GIL</code>）。目前<code>numba</code>还处于开发过程中，现阶段仍然有很多<code>bug</code>（500个Open的<code>issue</code>），不过正是由于大家都对他非常期望，所以它的<code>issue</code>才那么多，也希望<code>numba</code>能够越来越好，让<code>Python</code>真的起飞。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1965,7 +1811,7 @@ for i in range(100):
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">100</span>
+          <span class="site-state-item-count">102</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1978,7 +1824,7 @@ for i in range(100):
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -2040,12 +1886,12 @@ for i in range(100):
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">238k</span>
+    <span title="站点总字数">239k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:36</span>
+    <span title="站点阅读时长">3:37</span>
 </div>
 
         

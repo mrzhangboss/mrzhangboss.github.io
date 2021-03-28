@@ -228,6 +228,63 @@
       </categories>
   </entry>
   <entry>
+    <title>刷题笔记</title>
+    <url>/2016/08/21/algorithm/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<blockquote>
+<p>在牛客网刷了16道题了,在这做个总结</p>
+</blockquote>
+<h2 id="概况"><a href="#概况" class="headerlink" title="概况"></a>概况</h2><p>编程题无非两种一种考算法,一种考数据结构</p>
+<p>算法的话,考验你对事情的分析程度和脑袋的灵光,用好的算法还是又大又重的算法,用算法复杂度来看,一般能到 <code>o(n)</code>就算勉强可以,当到了<code>o(n * n)</code>你就要考虑是不是你算法有问题了.</p>
+<p>数据结构的话,队列和链表和二叉树是比较常见的,当然有些奇怪的一般算法反倒很简单.</p>
+<h3 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h3><p>谈算法的话不得不谈递归了,递归其实我感觉更想一种思想</p>
+<p>话不多说请看题,斐波那契数列一直是递归的代表</p>
+<pre><code>                      0                 n= 1    
+f(n) ={           1                   n= 2
+            f(n-1) + f(n-2)     n&gt;2
+</code></pre><p>  虽然</p>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>漫谈排序算法</title>
+    <url>/2017/11/12/algorithm/%E6%BC%AB%E8%B0%88%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="0x00-引子"><a href="#0x00-引子" class="headerlink" title="0x00 引子"></a>0x00 引子</h1><blockquote>
+<p>排序是很多算法的基础，简简单单的排序前人就归纳出很多种算法，但是这些算法多多少少都有着相同的原理</p>
+</blockquote>
+<p>排序算法有很多，这里我们就简单的谈谈下面7种排序的特点</p>
+<ul>
+<li>冒泡排序</li>
+<li>选择排序</li>
+<li>插入排序</li>
+<li>希尔排序</li>
+<li>堆排序</li>
+<li>归并排序</li>
+<li>快速排序</li>
+</ul>
+<h1 id="0x01-Summary"><a href="#0x01-Summary" class="headerlink" title="0x01 Summary"></a>0x01 Summary</h1><p>从算法的抽象程度上来看，冒泡、选择和插入是比较好理解，我们能用我们生活中的常见事物来理解，后面四种比较抽象，而且相对于前三种平均时间复杂度O（n） = n ^ 2 的来说，后面四种的平均复杂度都比前面的小，尤其是面对大量数据排序来说，后面四种能比前三种跑的更快</p>
+<h1 id="0x02-冒泡、选择和插入的特点"><a href="#0x02-冒泡、选择和插入的特点" class="headerlink" title="0x02 冒泡、选择和插入的特点"></a>0x02 冒泡、选择和插入的特点</h1><p>这三种算法空间复杂度都为O（n） = 1，也就是说在给定一个列表的前提下，无论列表数有多大，额外的排序所需的空间都为常量。但是这三种算法的平均时间复杂度为O（n） = n ^ 2， 也就是说在给定一个长度为n的数组，必须要经历 k × n × n 次操作才能排序，当我们的n比较小的时候，我们无法察觉这个算法与更高效的算法的差别，当n很大的时候，比如一个亿，这时候的要进行的操作就瞬间爆炸了。</p>
+<p>这三种算法很大程度上是牺牲了运行时间换取运行空间，我们可以从桶排序上面得到相反的例子，桶排序的时间复杂度为O（n） = 1，空间复杂度为O（n） = n，也就是说在排序上面他的速度是最快的，但是它所花费的空间也是巨大的，<strong>有时候时间空间就是两个双刃剑，你如果想节省空间必须浪费时间，你如果想节省时间必须浪费空间</strong></p>
+<p>这三种算法原理很简单，而且有一个相同的地方，就是他们每一节排序就会“删掉”一个数字，接下来就是对剩下的排序。当然我这里的删掉就是代表已经排好，然而接下来的过程中不会再涉及到这个数字</p>
+<p>这个非常好理解，随便给我们一副牌让一个小朋友把他排出来，小朋友一般就是先找出最大的牌放到最前面，然后在剩下里面找到最大的，依次排下去，最后手里就剩一张牌了，这个牌组就排好了</p>
+<p>这三种算法都是基于这个核心，但是具体的算法细节不同。冒泡排序就是先从头到尾依次把最大的交换到最后面；插入排序的话就是我们从第一个数字开始从后面把小的数字插入到前面去；选择的话同冒泡有点相似，不过它并不会把数字传递过去，它直接将未排序的最大值与未排序的末尾值交换。</p>
+<p>这三种排序我们都非常好理解，但是他们有一个缺点，就是未排序前必须遍历全部数组，我们都知道现在大数据时代，对于上亿数据执行一次遍历就已经非常耗时间了，为了排一个数字要几乎就遍历一遍（排到后期遍历的越来越少），所以这三种算法在面对巨量数据的时候，花在遍历上面的时间比排序时间要更多。</p>
+<h1 id="0x03-希尔和插入排序"><a href="#0x03-希尔和插入排序" class="headerlink" title="0x03 希尔和插入排序"></a>0x03 希尔和插入排序</h1><p>希尔排序是插入排序的更高效改进方法，说到改进我们就要谈谈插入排序的优缺点</p>
+<ul>
+<li>优点</li>
+</ul>
+<p>我们给定 <code>[ 1, 3, 2, 5, 8 ]</code> 数组，这个数组基本上已经排好序了，如果使用插入排序，我们只要在插入2的时候，将2和3交换就可以，设我们挪动的距离就为1</p>
+<p>我们在看这个数组 <code>[ 1, 3, 5, 8, 2 ]</code>，我们可以看到这里如果使用插入排序，我们会在插入2的时候，要将2依次与8、5、3交换，这样移动的距离就为3</p>
+<p>希尔排序改进的地方就是步长，如果它的步长选择的好，它的排序效果越好。这个步长是什么呢，插入排序的步长一直为1，也就是每次遍历的时候步子迈一步，假如步长为2，也就是迈两步。在<code>[ 1, 3, 5, 8, 2 ]</code>数组中，比如说我们数字2，它在步长为1的时候，它下一步要比较的是8，假如步长为3，那它下一步就直接与3比较了。</p>
+<p>所以希尔排序改进就在于他能直接移动多位，在上面的例子里面，步长为3，我们能直接将数组从3的位置移动到2，如果直接使用插入排序，必须移动3次才能达到希尔排序的效果。</p>
+<p>希尔排序原理同插入是一样的，不同在于，插入的步长希尔是可变的，这样就为一些“调皮”的数字的移动加快了速度，一步一步的移动他们太累了，直接把步子迈大，一步到位。</p>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+  </entry>
+  <entry>
     <title>从问题理解动态规划</title>
     <url>/2017/12/25/algorithm/%E4%BB%8E%E9%97%AE%E9%A2%98%E7%90%86%E8%A7%A3%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</url>
     <content><![CDATA[<blockquote>
@@ -293,26 +350,6 @@ def f(n, map):
       </categories>
   </entry>
   <entry>
-    <title>刷题笔记</title>
-    <url>/2016/08/21/algorithm/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<blockquote>
-<p>在牛客网刷了16道题了,在这做个总结</p>
-</blockquote>
-<h2 id="概况"><a href="#概况" class="headerlink" title="概况"></a>概况</h2><p>编程题无非两种一种考算法,一种考数据结构</p>
-<p>算法的话,考验你对事情的分析程度和脑袋的灵光,用好的算法还是又大又重的算法,用算法复杂度来看,一般能到 <code>o(n)</code>就算勉强可以,当到了<code>o(n * n)</code>你就要考虑是不是你算法有问题了.</p>
-<p>数据结构的话,队列和链表和二叉树是比较常见的,当然有些奇怪的一般算法反倒很简单.</p>
-<h3 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h3><p>谈算法的话不得不谈递归了,递归其实我感觉更想一种思想</p>
-<p>话不多说请看题,斐波那契数列一直是递归的代表</p>
-<pre><code>                      0                 n= 1    
-f(n) ={           1                   n= 2
-            f(n-1) + f(n-2)     n&gt;2
-</code></pre><p>  虽然</p>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-  </entry>
-  <entry>
     <title>红黑树实现原理</title>
     <url>/2018/01/05/algorithm/%E7%BA%A2%E9%BB%91%E6%A0%91%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/</url>
     <content><![CDATA[<blockquote>
@@ -341,43 +378,6 @@ f(n) ={           1                   n= 2
 ]]></content>
       <categories>
         <category>大数据</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>漫谈排序算法</title>
-    <url>/2017/11/12/algorithm/%E6%BC%AB%E8%B0%88%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/</url>
-    <content><![CDATA[<h1 id="0x00-引子"><a href="#0x00-引子" class="headerlink" title="0x00 引子"></a>0x00 引子</h1><blockquote>
-<p>排序是很多算法的基础，简简单单的排序前人就归纳出很多种算法，但是这些算法多多少少都有着相同的原理</p>
-</blockquote>
-<p>排序算法有很多，这里我们就简单的谈谈下面7种排序的特点</p>
-<ul>
-<li>冒泡排序</li>
-<li>选择排序</li>
-<li>插入排序</li>
-<li>希尔排序</li>
-<li>堆排序</li>
-<li>归并排序</li>
-<li>快速排序</li>
-</ul>
-<h1 id="0x01-Summary"><a href="#0x01-Summary" class="headerlink" title="0x01 Summary"></a>0x01 Summary</h1><p>从算法的抽象程度上来看，冒泡、选择和插入是比较好理解，我们能用我们生活中的常见事物来理解，后面四种比较抽象，而且相对于前三种平均时间复杂度O（n） = n ^ 2 的来说，后面四种的平均复杂度都比前面的小，尤其是面对大量数据排序来说，后面四种能比前三种跑的更快</p>
-<h1 id="0x02-冒泡、选择和插入的特点"><a href="#0x02-冒泡、选择和插入的特点" class="headerlink" title="0x02 冒泡、选择和插入的特点"></a>0x02 冒泡、选择和插入的特点</h1><p>这三种算法空间复杂度都为O（n） = 1，也就是说在给定一个列表的前提下，无论列表数有多大，额外的排序所需的空间都为常量。但是这三种算法的平均时间复杂度为O（n） = n ^ 2， 也就是说在给定一个长度为n的数组，必须要经历 k × n × n 次操作才能排序，当我们的n比较小的时候，我们无法察觉这个算法与更高效的算法的差别，当n很大的时候，比如一个亿，这时候的要进行的操作就瞬间爆炸了。</p>
-<p>这三种算法很大程度上是牺牲了运行时间换取运行空间，我们可以从桶排序上面得到相反的例子，桶排序的时间复杂度为O（n） = 1，空间复杂度为O（n） = n，也就是说在排序上面他的速度是最快的，但是它所花费的空间也是巨大的，<strong>有时候时间空间就是两个双刃剑，你如果想节省空间必须浪费时间，你如果想节省时间必须浪费空间</strong></p>
-<p>这三种算法原理很简单，而且有一个相同的地方，就是他们每一节排序就会“删掉”一个数字，接下来就是对剩下的排序。当然我这里的删掉就是代表已经排好，然而接下来的过程中不会再涉及到这个数字</p>
-<p>这个非常好理解，随便给我们一副牌让一个小朋友把他排出来，小朋友一般就是先找出最大的牌放到最前面，然后在剩下里面找到最大的，依次排下去，最后手里就剩一张牌了，这个牌组就排好了</p>
-<p>这三种算法都是基于这个核心，但是具体的算法细节不同。冒泡排序就是先从头到尾依次把最大的交换到最后面；插入排序的话就是我们从第一个数字开始从后面把小的数字插入到前面去；选择的话同冒泡有点相似，不过它并不会把数字传递过去，它直接将未排序的最大值与未排序的末尾值交换。</p>
-<p>这三种排序我们都非常好理解，但是他们有一个缺点，就是未排序前必须遍历全部数组，我们都知道现在大数据时代，对于上亿数据执行一次遍历就已经非常耗时间了，为了排一个数字要几乎就遍历一遍（排到后期遍历的越来越少），所以这三种算法在面对巨量数据的时候，花在遍历上面的时间比排序时间要更多。</p>
-<h1 id="0x03-希尔和插入排序"><a href="#0x03-希尔和插入排序" class="headerlink" title="0x03 希尔和插入排序"></a>0x03 希尔和插入排序</h1><p>希尔排序是插入排序的更高效改进方法，说到改进我们就要谈谈插入排序的优缺点</p>
-<ul>
-<li>优点</li>
-</ul>
-<p>我们给定 <code>[ 1, 3, 2, 5, 8 ]</code> 数组，这个数组基本上已经排好序了，如果使用插入排序，我们只要在插入2的时候，将2和3交换就可以，设我们挪动的距离就为1</p>
-<p>我们在看这个数组 <code>[ 1, 3, 5, 8, 2 ]</code>，我们可以看到这里如果使用插入排序，我们会在插入2的时候，要将2依次与8、5、3交换，这样移动的距离就为3</p>
-<p>希尔排序改进的地方就是步长，如果它的步长选择的好，它的排序效果越好。这个步长是什么呢，插入排序的步长一直为1，也就是每次遍历的时候步子迈一步，假如步长为2，也就是迈两步。在<code>[ 1, 3, 5, 8, 2 ]</code>数组中，比如说我们数字2，它在步长为1的时候，它下一步要比较的是8，假如步长为3，那它下一步就直接与3比较了。</p>
-<p>所以希尔排序改进就在于他能直接移动多位，在上面的例子里面，步长为3，我们能直接将数组从3的位置移动到2，如果直接使用插入排序，必须移动3次才能达到希尔排序的效果。</p>
-<p>希尔排序原理同插入是一样的，不同在于，插入的步长希尔是可变的，这样就为一些“调皮”的数字的移动加快了速度，一步一步的移动他们太累了，直接把步子迈大，一步到位。</p>
-]]></content>
-      <categories>
-        <category>算法</category>
       </categories>
   </entry>
   <entry>
@@ -541,34 +541,6 @@ def say = &quot;Scala&quot; king
       </categories>
   </entry>
   <entry>
-    <title>浅析微服务</title>
-    <url>/2021/01/07/java/%E6%B5%85%E6%9E%90%E5%BE%AE%E6%9C%8D%E5%8A%A1/</url>
-    <content><![CDATA[<blockquote>
-<p>这篇博客主要是从web技术发展来探索微服务的起源</p>
-</blockquote>
-<p>要想了解微服务是什么得从web框架出来之后开始讲起，大部分可能不知道微服务，一定知道写web服务的框架，懂Java的可以用Spring Boot一把梭，懂Python的Flask、Django、Tornado也写的飞起</p>
-<p>微服务也就是在这些框架出来后才慢慢出现的，首先我们就不谈MVC模式的兴起（主要就是把前端和后端解耦合），我们谈谈在MVC后要面临的问题</p>
-<p>第一个就是接口越来越多，用户也越来越多，面临的第一个问题就是某些接口请求非常频繁，面临第二个问题就是某些接口我想升级怎么办，我们知道使用上面那些框架你要是想修改接口得把代码重新发布一下，然而线上就得暂停服务一会等服务升级</p>
-<p>针对上面的问题，就开启了微服务的热潮，解决方法和MVC一样，我们把后端和后端进行解耦合，一个后端系统专门负责认证，一个后端系统专门负责订单，两者之间使用token来确认同一个用户，登录的请求接口不是很频繁，就用2台机子，订单非常频繁双十一的时候还会爆炸，就用10台机子，实现上非常简单，就是把在每台机子上面启动单独后端程序，再使用nginx作为负载均衡这样流量就均匀的打到每台机子上面去了，这样不管你是用Java还是Python都OK</p>
-<p>这种解决方案能扛起很高的并发，但是还是有个问题，升级起来非常麻烦，要是想升级系统，得把每台机子的后端程序单独升级，管理起来非常麻烦</p>
-<p>然后大家开始研究，大家把接口抽象起来，其实作为用户来说，他只是想调这个接口，能不能使用一个中间层把用户想调的接口和后端真正的提供的服务连接起来，这个就是中间件兴起的源头</p>
-<p>让我们想想中间件的职责是什么，其实想想也很简单就是一个后端接口管理系统，能够实现注册接口的功能，并且打通接口和后端的接口，当然说起来简单，但是要实现一个高可用的中间件也是不容易的，具体可以去看看Spring Cloud、Dubbo这些中间件框架</p>
-<p>我们想想这些中间件框架优缺点，优点也很明确，就是性能非常强，每个小模块只负责自己的接口，当业务量大起来的时候能迅速启动上万个进程来分流大流量，但是缺点也有就是只限定了自己的编程语言（Spring Cloud和Dobbo这些只能用Java写），而且随着接口越来越多，管理也越来越麻烦，调用链也越来越长了，有的时候你想加一个接口得涉及很多道调用链，先去请求用户信息，再去查询用户银行卡信息，再去查询商品信息，虽然分模块很爽，但是有些东西越分越累，模块越来越多，实现功能也越来越散</p>
-<p>模块越来越多带来的一个副作用是测试调试越来越难了，而且随着摩尔定律，我们现在的内存越来越大了、CPU也越来越多了，以前写微服务为的就是省点内存，现在大家发现其实他也没有那么省内存，为了保证服务高可用，我们得用上百台机器来搭一个集群，但是大部分时间，业务量没有那么大，其实大部分时间那么大内存都放在那里浪费了，而且当业务量万一突然起来了，然而固定集群却没法承受这么大流量</p>
-<p>后面随着Docker、K8S的兴起，大家慢慢的发现容器化能够解决上面的问题，当业务量小的时候启动少量容器，业务量大的时候启动多一点容器，而且可以实现动态扩容，所以这时候提出了一个Service Mesh模式</p>
-<p>什么是Service Mesh，其实就是我们前面提到的nginx的负载均衡方案类似，就是使用一个nginx来把请求打在后端上面，但是不同点在于，原来nginx是写死在配置里面的，现在k8s里面的nginx（目前主流的方案是Istio）把接过来的请求打到容器网络上面去，而且当流量大的时候会自动新建新的实例来负载新的请求</p>
-<p>兜兜转转我们又回到了最初的样子，你也不用学习什么后端中间件使用，你只要会写一个提供web接口的服务，打包成个容器，在k8s配置一下，轻轻松松就能扛着上千万并发，扛不住加实例就够了</p>
-<p>现在我们来谈谈Service Mesh的原理，其实很简单，就是蚁群的思想，每一个容器都是一只小蚂蚁，功能齐全啥都能干，一只蚂蚁搬不动一座大山，但是上亿只蚂蚁可以搬的起，Service Mesh的思想有点像大数据分而治之的理论，当你的容器能服务1千人，那你1万个容器就能服务1亿个人，所以对于开发者来说，你只需要写好一个能服务1千个人的小web，你不需要去考虑当你要服务1万个人的时候，代码需要怎么改动，对于开发者来说，测试和开发都变得异常轻松，自己也不用去写原来的Dubbo那种大体量代码，你所有的接口都在一个项目中，测试开发都变得异常轻松，而且你也不用思考怎么使用Java调用Python的机器学习框架等等，你可以用Python写，用Go写，甚至可以用C来写，容器不在拘束于语言，你只要能对外提供服务就好了</p>
-<p>总之在K8S容器化兴起之后，我们也不用再怎么思考如何解耦合代码，套上各种中间件把我们各个接口都打散，实现一套高并发系统，我们只需要写一个网站，能服务上千的用户，当我们业务量大起来的时候交给K8S，让它帮我们启动上万个相同网站，把流量给消化掉，所以在一定的程度上，在现在技术发展下，高并发的门槛越来越低，原来一个高并发专家得学会好多框架，dubbo各种组件，现在随便叫来一个小白随便把它从网上复制的代码拷拷，搭起来一个小网站，放到K8S上面，马上就可以服务上千万甚至上亿用户</p>
-<p>所以说技术发展真的是快啊，记得以前一个架构师的道路是慢慢从学习各种nginx负载均衡Redis集群搭建，搭建起一套复杂的系统，你得去学习各种组件使用，现在呢，一个小白，网上拷拷代码，使用上内存作为缓存，使用MySQL当数据库，并发也就上个千，然后数据库配置一下把内存换成redis，MySQL换成Kudu，放进K8S里面并发就能上千万，高并发问题就解决了，原来一个百万年薪才能做的高并发技术专家在新的技术降纬打击下一个月薪1万的菜鸟也能搞定了</p>
-<p>总而言之，高并发随着技术发展会越来越简单，微服务的提出有人说就是干掉架构师，所以有时候也会想，随着技术的发展，是不是不会有工程师这个职位了，的确技术在不断发展，但是只要抱着一个不断学习的心也就不怕了，技术不断推成出新，但是本质是不变的，所以也不用害怕。</p>
-<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><p><a href="https://philcalcado.com/2017/08/03/pattern_service_mesh.html" target="_blank" rel="noopener">https://philcalcado.com/2017/08/03/pattern_service_mesh.html</a></p>
-]]></content>
-      <categories>
-        <category>Java</category>
-      </categories>
-  </entry>
-  <entry>
     <title>FastProxyScan项目介绍</title>
     <url>/2017/11/23/opensource/FastProxyScan-Introduction/</url>
     <content><![CDATA[<blockquote>
@@ -655,6 +627,58 @@ sudo python3.5 manage.py scan --vps
       </categories>
   </entry>
   <entry>
+    <title>hookman development notebook</title>
+    <url>/2016/08/18/opensource/hookman-development-notebook/</url>
+    <content><![CDATA[<blockquote>
+<p><code>hookman</code>  是基于<code>github</code>上的<code>webhooks</code>开发的一个用Python写的小程序<br>,基于TDD开发.<br>如果你想向项目贡献代码,请看<a href="http://blog.zhanglun.work/2016/08/18/hookman-development-blog/" target="_blank" rel="noopener">hookman 开发blog</a></p>
+</blockquote>
+<h2 id="简单用法"><a href="#简单用法" class="headerlink" title="简单用法"></a>简单用法</h2><ol>
+<li>安装 <code>pip install hookman</code></li>
+<li>配置<a href="https://developer.github.com/webhooks/" target="_blank" rel="noopener">github的webhooks</a>,设置监听服务器ip和端口3610(默认)</li>
+<li>使用<br>3.1 进入github项目目录<code>cd /my/github/projectdir</code><br>3.2   运行 <code>hookman --run -d</code> </li>
+<li>关闭<br>3.1 <code>hookman --stop</code></li>
+</ol>
+<h1 id="版本差异"><a href="#版本差异" class="headerlink" title="版本差异"></a>版本差异</h1><h2 id="v0-1-0"><a href="#v0-1-0" class="headerlink" title="v0.1.0"></a>v0.1.0</h2><ol>
+<li>基本实现监听端口</li>
+<li>添加 <code>run</code>,<code>stop</code>,<code>daemon</code>,<code>pidfile</code>,<code>logfile</code>,<code>projectdir</code>选项</li>
+</ol>
+<h2 id="v0-1-1"><a href="#v0-1-1" class="headerlink" title="v0.1.1"></a>v0.1.1</h2><ul>
+<li>修复了在前台shell模式下的bug</li>
+</ul>
+]]></content>
+      <categories>
+        <category>开源</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>浅析微服务</title>
+    <url>/2021/01/07/java/%E6%B5%85%E6%9E%90%E5%BE%AE%E6%9C%8D%E5%8A%A1/</url>
+    <content><![CDATA[<blockquote>
+<p>这篇博客主要是从web技术发展来探索微服务的起源</p>
+</blockquote>
+<p>要想了解微服务是什么得从web框架出来之后开始讲起，大部分可能不知道微服务，一定知道写web服务的框架，懂Java的可以用Spring Boot一把梭，懂Python的Flask、Django、Tornado也写的飞起</p>
+<p>微服务也就是在这些框架出来后才慢慢出现的，首先我们就不谈MVC模式的兴起（主要就是把前端和后端解耦合），我们谈谈在MVC后要面临的问题</p>
+<p>第一个就是接口越来越多，用户也越来越多，面临的第一个问题就是某些接口请求非常频繁，面临第二个问题就是某些接口我想升级怎么办，我们知道使用上面那些框架你要是想修改接口得把代码重新发布一下，然而线上就得暂停服务一会等服务升级</p>
+<p>针对上面的问题，就开启了微服务的热潮，解决方法和MVC一样，我们把后端和后端进行解耦合，一个后端系统专门负责认证，一个后端系统专门负责订单，两者之间使用token来确认同一个用户，登录的请求接口不是很频繁，就用2台机子，订单非常频繁双十一的时候还会爆炸，就用10台机子，实现上非常简单，就是把在每台机子上面启动单独后端程序，再使用nginx作为负载均衡这样流量就均匀的打到每台机子上面去了，这样不管你是用Java还是Python都OK</p>
+<p>这种解决方案能扛起很高的并发，但是还是有个问题，升级起来非常麻烦，要是想升级系统，得把每台机子的后端程序单独升级，管理起来非常麻烦</p>
+<p>然后大家开始研究，大家把接口抽象起来，其实作为用户来说，他只是想调这个接口，能不能使用一个中间层把用户想调的接口和后端真正的提供的服务连接起来，这个就是中间件兴起的源头</p>
+<p>让我们想想中间件的职责是什么，其实想想也很简单就是一个后端接口管理系统，能够实现注册接口的功能，并且打通接口和后端的接口，当然说起来简单，但是要实现一个高可用的中间件也是不容易的，具体可以去看看Spring Cloud、Dubbo这些中间件框架</p>
+<p>我们想想这些中间件框架优缺点，优点也很明确，就是性能非常强，每个小模块只负责自己的接口，当业务量大起来的时候能迅速启动上万个进程来分流大流量，但是缺点也有就是只限定了自己的编程语言（Spring Cloud和Dobbo这些只能用Java写），而且随着接口越来越多，管理也越来越麻烦，调用链也越来越长了，有的时候你想加一个接口得涉及很多道调用链，先去请求用户信息，再去查询用户银行卡信息，再去查询商品信息，虽然分模块很爽，但是有些东西越分越累，模块越来越多，实现功能也越来越散</p>
+<p>模块越来越多带来的一个副作用是测试调试越来越难了，而且随着摩尔定律，我们现在的内存越来越大了、CPU也越来越多了，以前写微服务为的就是省点内存，现在大家发现其实他也没有那么省内存，为了保证服务高可用，我们得用上百台机器来搭一个集群，但是大部分时间，业务量没有那么大，其实大部分时间那么大内存都放在那里浪费了，而且当业务量万一突然起来了，然而固定集群却没法承受这么大流量</p>
+<p>后面随着Docker、K8S的兴起，大家慢慢的发现容器化能够解决上面的问题，当业务量小的时候启动少量容器，业务量大的时候启动多一点容器，而且可以实现动态扩容，所以这时候提出了一个Service Mesh模式</p>
+<p>什么是Service Mesh，其实就是我们前面提到的nginx的负载均衡方案类似，就是使用一个nginx来把请求打在后端上面，但是不同点在于，原来nginx是写死在配置里面的，现在k8s里面的nginx（目前主流的方案是Istio）把接过来的请求打到容器网络上面去，而且当流量大的时候会自动新建新的实例来负载新的请求</p>
+<p>兜兜转转我们又回到了最初的样子，你也不用学习什么后端中间件使用，你只要会写一个提供web接口的服务，打包成个容器，在k8s配置一下，轻轻松松就能扛着上千万并发，扛不住加实例就够了</p>
+<p>现在我们来谈谈Service Mesh的原理，其实很简单，就是蚁群的思想，每一个容器都是一只小蚂蚁，功能齐全啥都能干，一只蚂蚁搬不动一座大山，但是上亿只蚂蚁可以搬的起，Service Mesh的思想有点像大数据分而治之的理论，当你的容器能服务1千人，那你1万个容器就能服务1亿个人，所以对于开发者来说，你只需要写好一个能服务1千个人的小web，你不需要去考虑当你要服务1万个人的时候，代码需要怎么改动，对于开发者来说，测试和开发都变得异常轻松，自己也不用去写原来的Dubbo那种大体量代码，你所有的接口都在一个项目中，测试开发都变得异常轻松，而且你也不用思考怎么使用Java调用Python的机器学习框架等等，你可以用Python写，用Go写，甚至可以用C来写，容器不在拘束于语言，你只要能对外提供服务就好了</p>
+<p>总之在K8S容器化兴起之后，我们也不用再怎么思考如何解耦合代码，套上各种中间件把我们各个接口都打散，实现一套高并发系统，我们只需要写一个网站，能服务上千的用户，当我们业务量大起来的时候交给K8S，让它帮我们启动上万个相同网站，把流量给消化掉，所以在一定的程度上，在现在技术发展下，高并发的门槛越来越低，原来一个高并发专家得学会好多框架，dubbo各种组件，现在随便叫来一个小白随便把它从网上复制的代码拷拷，搭起来一个小网站，放到K8S上面，马上就可以服务上千万甚至上亿用户</p>
+<p>所以说技术发展真的是快啊，记得以前一个架构师的道路是慢慢从学习各种nginx负载均衡Redis集群搭建，搭建起一套复杂的系统，你得去学习各种组件使用，现在呢，一个小白，网上拷拷代码，使用上内存作为缓存，使用MySQL当数据库，并发也就上个千，然后数据库配置一下把内存换成redis，MySQL换成Kudu，放进K8S里面并发就能上千万，高并发问题就解决了，原来一个百万年薪才能做的高并发技术专家在新的技术降纬打击下一个月薪1万的菜鸟也能搞定了</p>
+<p>总而言之，高并发随着技术发展会越来越简单，微服务的提出有人说就是干掉架构师，所以有时候也会想，随着技术的发展，是不是不会有工程师这个职位了，的确技术在不断发展，但是只要抱着一个不断学习的心也就不怕了，技术不断推成出新，但是本质是不变的，所以也不用害怕。</p>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><p><a href="https://philcalcado.com/2017/08/03/pattern_service_mesh.html" target="_blank" rel="noopener">https://philcalcado.com/2017/08/03/pattern_service_mesh.html</a></p>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+  </entry>
+  <entry>
     <title>hookman develpment blog</title>
     <url>/2016/08/18/opensource/hookman-development-blog/</url>
     <content><![CDATA[<blockquote>
@@ -699,27 +723,43 @@ sudo python3.5 manage.py scan --vps
       </categories>
   </entry>
   <entry>
-    <title>hookman development notebook</title>
-    <url>/2016/08/18/opensource/hookman-development-notebook/</url>
-    <content><![CDATA[<blockquote>
-<p><code>hookman</code>  是基于<code>github</code>上的<code>webhooks</code>开发的一个用Python写的小程序<br>,基于TDD开发.<br>如果你想向项目贡献代码,请看<a href="http://blog.zhanglun.work/2016/08/18/hookman-development-blog/" target="_blank" rel="noopener">hookman 开发blog</a></p>
-</blockquote>
-<h2 id="简单用法"><a href="#简单用法" class="headerlink" title="简单用法"></a>简单用法</h2><ol>
-<li>安装 <code>pip install hookman</code></li>
-<li>配置<a href="https://developer.github.com/webhooks/" target="_blank" rel="noopener">github的webhooks</a>,设置监听服务器ip和端口3610(默认)</li>
-<li>使用<br>3.1 进入github项目目录<code>cd /my/github/projectdir</code><br>3.2   运行 <code>hookman --run -d</code> </li>
-<li>关闭<br>3.1 <code>hookman --stop</code></li>
+    <title>PIL （Pillow）</title>
+    <url>/2016/07/18/python/PIL/</url>
+    <content><![CDATA[<p>Pillow 是 PIL的对Python3支持的另外一个分支，当然他对Python2也兼容，由于PIL安装起来比较烦，而使用pip可以很轻松的安装Pillow，所以我选择Pillow使用，但是其核心还是PIL库的。</p>
+<hr>
+<p>Python的图形处理库如PIL一直很强大，但是要想使用好它必须对图片有一定的知识储备。<br>使用起来很简单</p>
+<pre><code>from PIL import Image
+</code></pre><p>引用Image包</p>
+<pre><code>im = Image.open(&apos;1.png&apos;)
+</code></pre><p>打开图片，得到一个im对象，我们接下来就可以对这个对象进行操作（前提有这个1.png图片）</p>
+<p>我们先看一下他的一些属性</p>
+<pre><code>&gt;&gt;&gt; print im.format, im.size, im.mode
+PNG (83, 81) RGB
+</code></pre><p>第一个我们输出图片的格式，图片有很多种格式，常用的有jpg、png还有gif动图啊，PIL支持很多种格式，我们可以使用PIL轻松的将格式转换，<code>im.save(&#39;1.jpg&#39;)</code>,当然你可以选择格式假如你没选好后缀名的话，im.size就是图片大小，他返回的是一个元组第一个长度第二个是宽度，单位是像素。<br>现在就谈谈 这三个属性对应的关系吧<br> 首先我们使用一张像素图来说吧</p>
+<p><img src="http://img1.imgtn.bdimg.com/it/u=214288124,4080808149&amp;fm=21&amp;gp=0.jpg" alt></p>
+<p>我们存贮图片的时候是将整个图像分成很多个相同的小方块，每个小方块我们称为像素，当然一张图片分的越小，像素越多，那么图片就越接近真实图片，上面的<code>im.size</code>属性就告诉我们，这张图片分成了，长为83px，宽为81px的图片，那么一共有83*81=6723个像素点，每个像素点里面存什么呢，这就是<code>im.mode</code>属性告诉我们的，贴一下属性有什么吧</p>
+<ol>
+<li>1 (1-bit pixels, black and white, stored with one pixel per byte)</li>
+<li>L (8-bit pixels, black and white)</li>
+<li>P (8-bit pixels, mapped to any other mode using a color palette)</li>
+<li>RGB (3x8-bit pixels, true color)</li>
+<li>RGBA (4x8-bit pixels, true color with transparency mask)</li>
+<li>CMYK (4x8-bit pixels, color separation)</li>
+<li>YCbCr (3x8-bit pixels, color video format)</li>
+<li>I (32-bit signed integer pixels)</li>
+<li>F (32-bit floating point pixels)</li>
 </ol>
-<h1 id="版本差异"><a href="#版本差异" class="headerlink" title="版本差异"></a>版本差异</h1><h2 id="v0-1-0"><a href="#v0-1-0" class="headerlink" title="v0.1.0"></a>v0.1.0</h2><ol>
-<li>基本实现监听端口</li>
-<li>添加 <code>run</code>,<code>stop</code>,<code>daemon</code>,<code>pidfile</code>,<code>logfile</code>,<code>projectdir</code>选项</li>
-</ol>
-<h2 id="v0-1-1"><a href="#v0-1-1" class="headerlink" title="v0.1.1"></a>v0.1.1</h2><ul>
-<li>修复了在前台shell模式下的bug</li>
-</ul>
+<p>像素存贮就是涉及到颜色的存贮，在早期的黑白游戏机，只有黑和白两种，那么每个像素点就只有1位颜色来存贮，1位只能存贮两种颜色，八位色就能存256种颜色，像八位我们能用256个油漆桶/256色调色板来形容，像上面我们使用的RGB是由三种三原色红绿蓝混合而成，我们知道大自然所有的颜色都可以用红绿蓝三种颜色调配出来，所以RGB又被称为真彩（true color），每种颜色我们都分成256种，所以我们一共有256<em>256</em>256=16777216种颜色可以调配，像素的其他模式我们不介绍太多，有兴趣的可以自己钻研。<br>那么我们知道每个像素占多少字节，又知道共有多少个像素，那我们是不是就可以直接计算出来图片大小，来验证一下</p>
+<p>以第一张图片为例，共有83<em>81=6723个像素点，用RGB模式，每个像素三个字节，共有6723</em>3=20667b=20kb，但是我这张图片只有11.6kb，误差太大了吧，这时候我们就要介绍一下上面那个<code>im.format</code>属性了，这张图片采用png格式，我们先尝试一下把他转成JPG格式吧</p>
+<pre><code>im.save(&apos;1.jpg&apos;)
+</code></pre><p>我们再查看一下这个<code>1.jpg</code>的大小，只有2.24kb了，我们用PIL打开这张图片</p>
+<pre><code>&gt;&gt;&gt; im2 = Image.open(&apos;1.jpg&apos;)
+&gt;&gt;&gt; print im2.format, im2.size, im2.mode 
+JPEG (83, 81) RGB
+</code></pre><p>图片大小没有改变，但是format变成了JPEG，而且文件大小变成原来的1/5,<br>JPEG和GIF和PNG是三种图片压缩技术，他们使用压缩算法把图片压缩成很小，当我们打开图片时，解密算法把他还原出来，所以我们算出来的大小与压缩后的大小是不一样的。<br>有了这些概念我们就能更好的使用PIL提供给我们的magic方法，下次在谈我对PIL的高级应用吧。</p>
 ]]></content>
       <categories>
-        <category>开源</category>
+        <category>Python</category>
       </categories>
   </entry>
   <entry>
@@ -775,46 +815,6 @@ array([ 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
 </code></pre><p>生成二维数组,这样我们使用</p>
 <pre><code>arr[np.ix_([0, 3, 4], [1, 2, 3])]
 </code></pre><p>就可以取出矩形块了.</p>
-]]></content>
-      <categories>
-        <category>Python</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>PIL （Pillow）</title>
-    <url>/2016/07/18/python/PIL/</url>
-    <content><![CDATA[<p>Pillow 是 PIL的对Python3支持的另外一个分支，当然他对Python2也兼容，由于PIL安装起来比较烦，而使用pip可以很轻松的安装Pillow，所以我选择Pillow使用，但是其核心还是PIL库的。</p>
-<hr>
-<p>Python的图形处理库如PIL一直很强大，但是要想使用好它必须对图片有一定的知识储备。<br>使用起来很简单</p>
-<pre><code>from PIL import Image
-</code></pre><p>引用Image包</p>
-<pre><code>im = Image.open(&apos;1.png&apos;)
-</code></pre><p>打开图片，得到一个im对象，我们接下来就可以对这个对象进行操作（前提有这个1.png图片）</p>
-<p>我们先看一下他的一些属性</p>
-<pre><code>&gt;&gt;&gt; print im.format, im.size, im.mode
-PNG (83, 81) RGB
-</code></pre><p>第一个我们输出图片的格式，图片有很多种格式，常用的有jpg、png还有gif动图啊，PIL支持很多种格式，我们可以使用PIL轻松的将格式转换，<code>im.save(&#39;1.jpg&#39;)</code>,当然你可以选择格式假如你没选好后缀名的话，im.size就是图片大小，他返回的是一个元组第一个长度第二个是宽度，单位是像素。<br>现在就谈谈 这三个属性对应的关系吧<br> 首先我们使用一张像素图来说吧</p>
-<p><img src="http://img1.imgtn.bdimg.com/it/u=214288124,4080808149&amp;fm=21&amp;gp=0.jpg" alt></p>
-<p>我们存贮图片的时候是将整个图像分成很多个相同的小方块，每个小方块我们称为像素，当然一张图片分的越小，像素越多，那么图片就越接近真实图片，上面的<code>im.size</code>属性就告诉我们，这张图片分成了，长为83px，宽为81px的图片，那么一共有83*81=6723个像素点，每个像素点里面存什么呢，这就是<code>im.mode</code>属性告诉我们的，贴一下属性有什么吧</p>
-<ol>
-<li>1 (1-bit pixels, black and white, stored with one pixel per byte)</li>
-<li>L (8-bit pixels, black and white)</li>
-<li>P (8-bit pixels, mapped to any other mode using a color palette)</li>
-<li>RGB (3x8-bit pixels, true color)</li>
-<li>RGBA (4x8-bit pixels, true color with transparency mask)</li>
-<li>CMYK (4x8-bit pixels, color separation)</li>
-<li>YCbCr (3x8-bit pixels, color video format)</li>
-<li>I (32-bit signed integer pixels)</li>
-<li>F (32-bit floating point pixels)</li>
-</ol>
-<p>像素存贮就是涉及到颜色的存贮，在早期的黑白游戏机，只有黑和白两种，那么每个像素点就只有1位颜色来存贮，1位只能存贮两种颜色，八位色就能存256种颜色，像八位我们能用256个油漆桶/256色调色板来形容，像上面我们使用的RGB是由三种三原色红绿蓝混合而成，我们知道大自然所有的颜色都可以用红绿蓝三种颜色调配出来，所以RGB又被称为真彩（true color），每种颜色我们都分成256种，所以我们一共有256<em>256</em>256=16777216种颜色可以调配，像素的其他模式我们不介绍太多，有兴趣的可以自己钻研。<br>那么我们知道每个像素占多少字节，又知道共有多少个像素，那我们是不是就可以直接计算出来图片大小，来验证一下</p>
-<p>以第一张图片为例，共有83<em>81=6723个像素点，用RGB模式，每个像素三个字节，共有6723</em>3=20667b=20kb，但是我这张图片只有11.6kb，误差太大了吧，这时候我们就要介绍一下上面那个<code>im.format</code>属性了，这张图片采用png格式，我们先尝试一下把他转成JPG格式吧</p>
-<pre><code>im.save(&apos;1.jpg&apos;)
-</code></pre><p>我们再查看一下这个<code>1.jpg</code>的大小，只有2.24kb了，我们用PIL打开这张图片</p>
-<pre><code>&gt;&gt;&gt; im2 = Image.open(&apos;1.jpg&apos;)
-&gt;&gt;&gt; print im2.format, im2.size, im2.mode 
-JPEG (83, 81) RGB
-</code></pre><p>图片大小没有改变，但是format变成了JPEG，而且文件大小变成原来的1/5,<br>JPEG和GIF和PNG是三种图片压缩技术，他们使用压缩算法把图片压缩成很小，当我们打开图片时，解密算法把他还原出来，所以我们算出来的大小与压缩后的大小是不一样的。<br>有了这些概念我们就能更好的使用PIL提供给我们的magic方法，下次在谈我对PIL的高级应用吧。</p>
 ]]></content>
       <categories>
         <category>Python</category>
@@ -913,73 +913,6 @@ for t in threading.enumerate():
       </categories>
   </entry>
   <entry>
-    <title>从关系角度来看XPath</title>
-    <url>/2018/08/09/python/%E4%BB%8E%E5%85%B3%E7%B3%BB%E8%A7%92%E5%BA%A6%E6%9D%A5%E7%9C%8BXPath/</url>
-    <content><![CDATA[<blockquote>
-<p>这段时间没有写博客，一个原因是由于刚毕业没了学校的学习动力反而下降，另外一个方面由于花了很长时间研究编译原理，然而自己却对它没有太多理解，所以也就没有整理自己的知识，现在慢慢稳定下来，会继续像以前一样更新博客</p>
-</blockquote>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>为什么要介绍<code>XPath</code>呢，我一直以为我对<code>XPath</code>还是比较了解的，但是随着我对<code>XPath</code>的了解越来越深，我就对它的越来越敬佩，</p>
-<p>简单来说，我以前认为<code>XPath</code>对结构性文档只能是一把“枪”，指哪打哪，没想到它是一个“巡航导弹”，自动追踪目标。</p>
-<p>接下来我们就慢慢从<code>XPath</code>的基础来谈谈其威力</p>
-<h2 id="什么是XPath"><a href="#什么是XPath" class="headerlink" title="什么是XPath"></a>什么是<code>XPath</code></h2><p>首先我们要知道<code>XPath</code>是一种语言，你可以理解它是正则、也可以理解它是<code>SQL</code>，他们的目的都是从数据中找到我们想要的东西。相比于<code>SQL</code>从数据库中获取数据，<code>XPath</code>是从一个<code>XML</code>文件中获取数据。</p>
-<p>好的，我们知道<code>XPath</code>要操作的对象，什么是<code>XML</code>，它是一种结构式文档，我们也可以把它看做一种树结构。</p>
-<pre><code>&lt;root&gt;
-    &lt;son&gt; I&apos; m son &lt;/son&gt;
-&lt;/root&gt;
-</code></pre><p>如上面就是一个简单的<code>XML</code>文档，首先从一个父节点点出发，到最后的一个父节点结束，中间可以有很多子节点，也可以有孙节点，但对于每个节点来说，其父亲只能有一个。</p>
-<p>这种文档的出现是由于我们编码程序中<code>树结构</code>出现而出现的一种数据。相比于正则直接操作文本，<code>XPath</code>要面对的是是一堆有规律的文本，虽然我们也能使用正则来操作<code>XML</code>文档，但是正则无法捕获这种<code>XML</code>的关系，而这个也是<code>XPath</code>最有力的地方。</p>
-<p>在这种关系中，我们最常使用也是最核心的就是父子关系，这个关系简单的通过一个<code>/</code>就能体现，比如现在我们把上面的<code>XML</code>复杂化给他添加一个儿子</p>
-<pre><code>&lt;root&gt;
-        &lt;son id=&quot;1&quot;&gt; I&apos; m son1 &lt;/son&gt;
-        &lt;son id=&quot;2&quot;&gt; I&apos;m son2&lt;/son&gt;
-    &lt;/root&gt;
-</code></pre><p>为了获取第二个儿子我们简单的使用这个<code>XPath</code>语句就能获取到</p>
-<pre><code>/root/son[@id=&apos;1&apos;]
-</code></pre><p>PS: 当然在<code>XPath</code>中我们可以使用<code>//</code>来代表一个泛指，通过<code>//son[@id=&#39;1&#39;]</code>我们可以把儿子找出来而不关心他的父亲，甚至更进一步，我不关心它是谁，只要它的<code>id</code>为<code>1</code>就行，我们用<code>node()</code>函数来替代一个节点，这样只要<code>//node()[@id=&#39;1&#39;]</code>就能拿到<code>id</code>为1的节点了</p>
-<p>我们来看看这个<code>XPath</code>，我们定义了一种关系<code>root</code>和<code>son</code>的父子关系，<code>XPath</code>的威力就是能用很简单的语句来定义一个节点的关系，在这句中，<code>root</code>和<code>son</code>都是节点，我们使用<code>/</code>来约定节点父子关系，使用<code>[]</code>来定义节点与自己内部节点或者属性的直接的关系（<code>@</code>是获取属性）</p>
-<p>要掌握<code>XPath</code>必须要明白，<code>XPath</code>重要的就是“面”和“点”的关系，“面”代表节点，“点”代表属性，对于面来说，它可以包含很多个点，对于点来说，它有可以看做由很多个更小的面组成（微观上）</p>
-<p>就以上面的例子，对于<code>root</code>和<code>son</code>这两个节点，其中<code>root</code>是父节点，我们可以用很多个属性来定义它，比如<code>root[count(son, 2)]</code>（意思是选择有两个<code>son</code>的<code>root</code>），其中对于父节点关系的中<code>son</code>节点来说（有点绕），他又可以用属性来约束比如<code>root[count(son[@id], 2)]</code>(意思是选择有两个<code>son</code>的<code>root</code>,并且每个<code>son</code>都有<code>id</code>这个属性）。从这里我们可以看其实节点和属性是可以相互嵌套的。</p>
-<p>从上面这个小例子我们可以看到，<code>XPath</code>的威力就是它可以用来非常详细的约束节点与其他节点或属性的关系，这种关系可以是绝对的，也可以是相对的，一切取决你的取舍，绝对代表严格，相对代表宽松。</p>
-<p>PS：当然我们这里的<code>属性</code>是一种宽泛的理解，在<code>XPath</code>中节点还包括<code>text</code>值，我们可以把它看做节点的一种<code>text</code>属性。</p>
-<h2 id="XPath的其他关系"><a href="#XPath的其他关系" class="headerlink" title="XPath的其他关系"></a><code>XPath</code>的其他关系</h2><p>前面我们介绍了<code>XPath</code>中最重要的一种关系：父子关系。这个也是我们使用<code>XPath</code>使用的最主要的一种关系，现在基本上网络上的教程都是基于这种关系的，我们这篇博客主要不详细介绍这种关系，你可以在<a href="https://www.w3schools.com/xml/xpath_syntax.asp" target="_blank" rel="noopener">w3cshool</a>上了解更多内容。</p>
-<p>我们先用问题来引入其他的关系，我们再把上面的简单<code>XML</code>进行修改</p>
-<pre><code>&lt;root&gt;
-    &lt;son id=&quot;1&quot;&gt; I&apos; m son1 &lt;/son&gt;
-    &lt;target&gt; son1 target&lt;/target&gt;
-    &lt;son id=&quot;2&quot;&gt; I&apos;m son2&lt;/son&gt;
-    &lt;target&gt; son2 target &lt;/target&gt;
-&lt;/root&gt;
-</code></pre><p> 我们引入两个目标，现在我们想拿到<code>son</code>（id为1）的旁边<code>target</code>，假如我们使用父子关系，使用<code>/root/target[1]</code>(<code>XPath</code>索引从1开始）也可以获取到，但是这里引入了一个约束，必须是<code>root</code>下第一个<code>target</code>节点，假如这个<code>XML</code>它是随机的，<code>son</code>和<code>target</code>是一个集合，但是他们的位置不定，这个时候我们不能仅仅依赖父子关系来确定节点位置。</p>
-<p> 这里我们引入<code>兄弟</code>（sibling）这个概率，<code>son</code>和<code>target</code>是一队兄弟，我们能通过知道<code>son</code>的位置从而定位到<code>target</code>的位置，那个这个<code>XPath</code>该怎么写呢，首先我们要确定<code>son</code>的位置</p>
-<pre><code>/root/son[@id=&apos;1&apos;]
-</code></pre><p>接下来我们通过定位的<code>son</code>来拿到它后面的兄弟（也有前面的兄弟语法）</p>
-<pre><code>/root/son[@id=&apos;1&apos;]/following-sibling::target[1]
-</code></pre><p>在这里<code>/following-sibling</code>代表它要找到接下来的兄弟，后面<code>::target[1]</code>是进一步限定我是要拿到兄弟里面第一个<code>target</code>，我们可以通过这个<a href="https://www.freeformatter.com/xpath-tester.html#ad-output" target="_blank" rel="noopener">网站</a>在线测试一下我们的<code>XPath</code></p>
-<p>当然我们可以通过第二个<code>son</code>来找到它前面的兄弟，对应语法是下面的</p>
-<pre><code>/root/son[@id=&apos;2&apos;]/preceding-sibling::target[1]
-</code></pre><p>在前面我们可以看到这个<code>following-sibling</code>和<code>preceding-sibling</code>他们都是一种寻找兄弟关系的，其实假如我们把<code>-sibling</code>去掉，他们能更加宽泛。</p>
-<p>我们把<code>son</code>和<code>target</code>包起来，这个在现实中可能更常见</p>
-<pre><code>&lt;root&gt;
-&lt;group&gt;
-    &lt;son id=&quot;1&quot;&gt; I&apos; m son1 &lt;/son&gt;
-    &lt;target&gt; son1 target&lt;/target&gt;
-&lt;/group&gt;
-&lt;group&gt;
-    &lt;son id=&quot;2&quot;&gt; I&apos;m son2&lt;/son&gt;
-    &lt;target&gt; son2 target &lt;/target&gt;
-&lt;/group&gt;
-&lt;/root&gt;
-</code></pre><p>假如我们还使用上面的语句，我们会发现，我们没法找到语句，这个时候你把兄弟这个约束去掉</p>
-<pre><code>/root/group/son[@id=&apos;2&apos;]/preceding::target[1]
-</code></pre><p>你会惊奇的发现<code>XPath</code>准确的找到我们的目标，这个令人震惊的是它能实现一种“翻山越岭”的查找。</p>
-<p>假如你使用正则或者普通的父子关系，你必须先找到它的<code>group</code>然后再使用<code>for</code>循环来遍历所以的<code>group</code>找到<code>son</code>….</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我们使用简单一个前后关系就能轻松实现上百行代码，当我以前不了解这个<code>XPath</code>的关系约束前，为了寻找这个约束写过几十行代码才能定位，而现在简简单单一行就搞定，我们不得不佩服前人的智慧，我只想说一句“真香～～～”。</p>
-]]></content>
-      <categories>
-        <category>Python</category>
-      </categories>
-  </entry>
-  <entry>
     <title>python的编码问题研究------使用scrapy体验</title>
     <url>/2016/07/18/python/python%E7%9A%84%E7%BC%96%E7%A0%81%E9%97%AE%E9%A2%98%E7%A0%94%E7%A9%B6/</url>
     <content><![CDATA[<blockquote>
@@ -1053,6 +986,73 @@ for t in threading.enumerate():
       </categories>
   </entry>
   <entry>
+    <title>从关系角度来看XPath</title>
+    <url>/2018/08/09/python/%E4%BB%8E%E5%85%B3%E7%B3%BB%E8%A7%92%E5%BA%A6%E6%9D%A5%E7%9C%8BXPath/</url>
+    <content><![CDATA[<blockquote>
+<p>这段时间没有写博客，一个原因是由于刚毕业没了学校的学习动力反而下降，另外一个方面由于花了很长时间研究编译原理，然而自己却对它没有太多理解，所以也就没有整理自己的知识，现在慢慢稳定下来，会继续像以前一样更新博客</p>
+</blockquote>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>为什么要介绍<code>XPath</code>呢，我一直以为我对<code>XPath</code>还是比较了解的，但是随着我对<code>XPath</code>的了解越来越深，我就对它的越来越敬佩，</p>
+<p>简单来说，我以前认为<code>XPath</code>对结构性文档只能是一把“枪”，指哪打哪，没想到它是一个“巡航导弹”，自动追踪目标。</p>
+<p>接下来我们就慢慢从<code>XPath</code>的基础来谈谈其威力</p>
+<h2 id="什么是XPath"><a href="#什么是XPath" class="headerlink" title="什么是XPath"></a>什么是<code>XPath</code></h2><p>首先我们要知道<code>XPath</code>是一种语言，你可以理解它是正则、也可以理解它是<code>SQL</code>，他们的目的都是从数据中找到我们想要的东西。相比于<code>SQL</code>从数据库中获取数据，<code>XPath</code>是从一个<code>XML</code>文件中获取数据。</p>
+<p>好的，我们知道<code>XPath</code>要操作的对象，什么是<code>XML</code>，它是一种结构式文档，我们也可以把它看做一种树结构。</p>
+<pre><code>&lt;root&gt;
+    &lt;son&gt; I&apos; m son &lt;/son&gt;
+&lt;/root&gt;
+</code></pre><p>如上面就是一个简单的<code>XML</code>文档，首先从一个父节点点出发，到最后的一个父节点结束，中间可以有很多子节点，也可以有孙节点，但对于每个节点来说，其父亲只能有一个。</p>
+<p>这种文档的出现是由于我们编码程序中<code>树结构</code>出现而出现的一种数据。相比于正则直接操作文本，<code>XPath</code>要面对的是是一堆有规律的文本，虽然我们也能使用正则来操作<code>XML</code>文档，但是正则无法捕获这种<code>XML</code>的关系，而这个也是<code>XPath</code>最有力的地方。</p>
+<p>在这种关系中，我们最常使用也是最核心的就是父子关系，这个关系简单的通过一个<code>/</code>就能体现，比如现在我们把上面的<code>XML</code>复杂化给他添加一个儿子</p>
+<pre><code>&lt;root&gt;
+        &lt;son id=&quot;1&quot;&gt; I&apos; m son1 &lt;/son&gt;
+        &lt;son id=&quot;2&quot;&gt; I&apos;m son2&lt;/son&gt;
+    &lt;/root&gt;
+</code></pre><p>为了获取第二个儿子我们简单的使用这个<code>XPath</code>语句就能获取到</p>
+<pre><code>/root/son[@id=&apos;1&apos;]
+</code></pre><p>PS: 当然在<code>XPath</code>中我们可以使用<code>//</code>来代表一个泛指，通过<code>//son[@id=&#39;1&#39;]</code>我们可以把儿子找出来而不关心他的父亲，甚至更进一步，我不关心它是谁，只要它的<code>id</code>为<code>1</code>就行，我们用<code>node()</code>函数来替代一个节点，这样只要<code>//node()[@id=&#39;1&#39;]</code>就能拿到<code>id</code>为1的节点了</p>
+<p>我们来看看这个<code>XPath</code>，我们定义了一种关系<code>root</code>和<code>son</code>的父子关系，<code>XPath</code>的威力就是能用很简单的语句来定义一个节点的关系，在这句中，<code>root</code>和<code>son</code>都是节点，我们使用<code>/</code>来约定节点父子关系，使用<code>[]</code>来定义节点与自己内部节点或者属性的直接的关系（<code>@</code>是获取属性）</p>
+<p>要掌握<code>XPath</code>必须要明白，<code>XPath</code>重要的就是“面”和“点”的关系，“面”代表节点，“点”代表属性，对于面来说，它可以包含很多个点，对于点来说，它有可以看做由很多个更小的面组成（微观上）</p>
+<p>就以上面的例子，对于<code>root</code>和<code>son</code>这两个节点，其中<code>root</code>是父节点，我们可以用很多个属性来定义它，比如<code>root[count(son, 2)]</code>（意思是选择有两个<code>son</code>的<code>root</code>），其中对于父节点关系的中<code>son</code>节点来说（有点绕），他又可以用属性来约束比如<code>root[count(son[@id], 2)]</code>(意思是选择有两个<code>son</code>的<code>root</code>,并且每个<code>son</code>都有<code>id</code>这个属性）。从这里我们可以看其实节点和属性是可以相互嵌套的。</p>
+<p>从上面这个小例子我们可以看到，<code>XPath</code>的威力就是它可以用来非常详细的约束节点与其他节点或属性的关系，这种关系可以是绝对的，也可以是相对的，一切取决你的取舍，绝对代表严格，相对代表宽松。</p>
+<p>PS：当然我们这里的<code>属性</code>是一种宽泛的理解，在<code>XPath</code>中节点还包括<code>text</code>值，我们可以把它看做节点的一种<code>text</code>属性。</p>
+<h2 id="XPath的其他关系"><a href="#XPath的其他关系" class="headerlink" title="XPath的其他关系"></a><code>XPath</code>的其他关系</h2><p>前面我们介绍了<code>XPath</code>中最重要的一种关系：父子关系。这个也是我们使用<code>XPath</code>使用的最主要的一种关系，现在基本上网络上的教程都是基于这种关系的，我们这篇博客主要不详细介绍这种关系，你可以在<a href="https://www.w3schools.com/xml/xpath_syntax.asp" target="_blank" rel="noopener">w3cshool</a>上了解更多内容。</p>
+<p>我们先用问题来引入其他的关系，我们再把上面的简单<code>XML</code>进行修改</p>
+<pre><code>&lt;root&gt;
+    &lt;son id=&quot;1&quot;&gt; I&apos; m son1 &lt;/son&gt;
+    &lt;target&gt; son1 target&lt;/target&gt;
+    &lt;son id=&quot;2&quot;&gt; I&apos;m son2&lt;/son&gt;
+    &lt;target&gt; son2 target &lt;/target&gt;
+&lt;/root&gt;
+</code></pre><p> 我们引入两个目标，现在我们想拿到<code>son</code>（id为1）的旁边<code>target</code>，假如我们使用父子关系，使用<code>/root/target[1]</code>(<code>XPath</code>索引从1开始）也可以获取到，但是这里引入了一个约束，必须是<code>root</code>下第一个<code>target</code>节点，假如这个<code>XML</code>它是随机的，<code>son</code>和<code>target</code>是一个集合，但是他们的位置不定，这个时候我们不能仅仅依赖父子关系来确定节点位置。</p>
+<p> 这里我们引入<code>兄弟</code>（sibling）这个概率，<code>son</code>和<code>target</code>是一队兄弟，我们能通过知道<code>son</code>的位置从而定位到<code>target</code>的位置，那个这个<code>XPath</code>该怎么写呢，首先我们要确定<code>son</code>的位置</p>
+<pre><code>/root/son[@id=&apos;1&apos;]
+</code></pre><p>接下来我们通过定位的<code>son</code>来拿到它后面的兄弟（也有前面的兄弟语法）</p>
+<pre><code>/root/son[@id=&apos;1&apos;]/following-sibling::target[1]
+</code></pre><p>在这里<code>/following-sibling</code>代表它要找到接下来的兄弟，后面<code>::target[1]</code>是进一步限定我是要拿到兄弟里面第一个<code>target</code>，我们可以通过这个<a href="https://www.freeformatter.com/xpath-tester.html#ad-output" target="_blank" rel="noopener">网站</a>在线测试一下我们的<code>XPath</code></p>
+<p>当然我们可以通过第二个<code>son</code>来找到它前面的兄弟，对应语法是下面的</p>
+<pre><code>/root/son[@id=&apos;2&apos;]/preceding-sibling::target[1]
+</code></pre><p>在前面我们可以看到这个<code>following-sibling</code>和<code>preceding-sibling</code>他们都是一种寻找兄弟关系的，其实假如我们把<code>-sibling</code>去掉，他们能更加宽泛。</p>
+<p>我们把<code>son</code>和<code>target</code>包起来，这个在现实中可能更常见</p>
+<pre><code>&lt;root&gt;
+&lt;group&gt;
+    &lt;son id=&quot;1&quot;&gt; I&apos; m son1 &lt;/son&gt;
+    &lt;target&gt; son1 target&lt;/target&gt;
+&lt;/group&gt;
+&lt;group&gt;
+    &lt;son id=&quot;2&quot;&gt; I&apos;m son2&lt;/son&gt;
+    &lt;target&gt; son2 target &lt;/target&gt;
+&lt;/group&gt;
+&lt;/root&gt;
+</code></pre><p>假如我们还使用上面的语句，我们会发现，我们没法找到语句，这个时候你把兄弟这个约束去掉</p>
+<pre><code>/root/group/son[@id=&apos;2&apos;]/preceding::target[1]
+</code></pre><p>你会惊奇的发现<code>XPath</code>准确的找到我们的目标，这个令人震惊的是它能实现一种“翻山越岭”的查找。</p>
+<p>假如你使用正则或者普通的父子关系，你必须先找到它的<code>group</code>然后再使用<code>for</code>循环来遍历所以的<code>group</code>找到<code>son</code>….</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我们使用简单一个前后关系就能轻松实现上百行代码，当我以前不了解这个<code>XPath</code>的关系约束前，为了寻找这个约束写过几十行代码才能定位，而现在简简单单一行就搞定，我们不得不佩服前人的智慧，我只想说一句“真香～～～”。</p>
+]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
+  </entry>
+  <entry>
     <title>字符串处理</title>
     <url>/2016/07/18/python/%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%A4%84%E7%90%86/</url>
     <content><![CDATA[<hr>
@@ -1084,6 +1084,49 @@ print &apos;abc123&apos;.translate(table)
 <pre><code>dedented_text = textwrap.dedent(&apos;...a long word...&apos;)
 print textwrap.fill(dedented_text, width=50)
 </code></pre>]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>爬虫分布式总结</title>
+    <url>/2017/04/04/python/%E7%88%AC%E8%99%AB%E5%88%86%E5%B8%83%E5%BC%8F%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[<blockquote>
+<p>由于最近在一家数据服务公司实习，项目需要了解分布式，所以在这里基于<code>scrapy</code>的分布式总结一下爬虫的分布式实习</p>
+</blockquote>
+<h1 id="分布式起因"><a href="#分布式起因" class="headerlink" title="分布式起因"></a>分布式起因</h1><blockquote>
+<p>单机无法完成全部工作任务所以要使用集群加速完成工作任务</p>
+</blockquote>
+<p>分布式有点像蚁群，一只蚂蚁举不起一只卡壳虫，但是几百只就能轻松的把他运回家</p>
+<p>但是分布式设计必须科学，否则就像下面一样，一个和尚挑水，其他和尚围观</p>
+<p><img src="/images/timg.jpg" alt="分工不合理，来源网络"></p>
+<h1 id="分布式设计"><a href="#分布式设计" class="headerlink" title="分布式设计"></a>分布式设计</h1><p>分布式设计原理在于<strong>分工</strong></p>
+<p>首先我们来看看爬虫怎么进行分工，单个爬虫运行根据<code>url</code>获取响应报文，然后通过解析报文返回结果或者下一次爬取目标，如果单个爬虫我们只要在内存维持一个<code>set</code>变量记住爬取过的<code>url</code>，这就是<code>scrapy</code>默认的方法。</p>
+<p>但是我们无数个爬虫由于不在同一个进程，无法共享变量，所以我们只要让一个“<code>variable</code>（变量）”能够被被所以爬虫共享到就完成了主要功能</p>
+<p>现在我们来完善具体细节<br>要求：</p>
+<ul>
+<li>爬虫能够轻松读取所以已爬取变量</li>
+<li>爬虫能够加入已读取变量</li>
+<li>爬虫能够获取下一次请求具体参数</li>
+</ul>
+<p>原则上我们可以使用内存映射来构建这个变量，但是读取，修改都不便利，所以可以先使用<code>redis</code>作为存贮变量的地方，使用<code>redis</code>提供的<code>set</code>我们替代<code>scrapy</code>框架的<code>set</code>变量。</p>
+<p>现在我们已经决定我们要使用什么容器来存贮变量，接下来我们要考虑存什么变量。</p>
+<p>我们先看<code>scrapy-redis</code>存贮了什么，分析源代码可知，<code>scrapy-redis</code>将返回的<code>Request</code>pickle话存入数据库，并且计算这个<code>Request</code>的32位hash值存入<code>redis</code>的<code>set</code>中过滤列表。</p>
+<p><code>scrapy-redis</code>通过修改<code>scrapy</code>的调度器（scheduler）让其当爬虫没有<code>Request</code>需要处理时在<code>redis</code>中提取<code>Request</code>，实现分布式。</p>
+<p>我们来分析一下这种方法，爬虫在爬取的过程中从<code>master</code>端获取<code>Request</code>，并不断生成<code>Request</code>到<code>master</code>端，<code>master</code>只是一个<code>redis</code>数据库，负责对<code>url</code>去重，分发任务。</p>
+<p>我们来比较一下直接存取<code>url</code>这种方法，这种方法好处在于，<code>slaver</code>能够从上一个<code>Request</code>中获取全部信息，假如上一个<code>Request</code>需要存取获取的表单提取地址，我们下一次爬虫发起<code>Request</code>就能从上一个<code>Request</code>中获取参数。</p>
+<p>当然由于我们存贮的是<code>Request</code>，一个<code>Request</code> <code>pickle</code>化之后的字符串比较长，当我们的任务列表里面有很多<code>Request</code>的时候，<code>redis</code>占用的内存会非常巨大。</p>
+<p>当然如果爬虫启动的够多，生成一个就能把任务被调度下去，那么这个任务列表就能稳定在一个可控的范围。</p>
+<p> <strong>总结</strong></p>
+<p>每个爬虫即负责爬取数据，又负责生成下一个任务，即无主次之分，我们可以一次性在<code>docker</code>中启动上百个实例，我们只是用<code>redis</code>充当一个存放<code>变量</code>的地方。</p>
+<p>但是这种方法也有一个缺点，我们不能自由的添加初始<code>url</code>，要想添加新的爬取任务，必须新建一个爬虫更新初始<code>url</code>，我们如果是想搭建一个自由添加<code>url</code>的爬虫，这种实现方式不大优雅。</p>
+<h1 id="分布式改良"><a href="#分布式改良" class="headerlink" title="分布式改良"></a>分布式改良</h1><p>我们要修改程序框架，达到随时可以添加要爬取新任务，然而不影响爬虫集群</p>
+<p><img src="/images/distribute_crawl.png" alt="爬虫框架"></p>
+<p>我们独立出来<code>master</code>，<code>master</code>负责生成<code>Request</code>去重以及任务调度，而<code>slaver</code>只负责从<code>master</code>获取任务爬取。</p>
+<p>这种方法我们可以很轻松对<code>master</code>改良而不影响<code>slaver</code>，通过让<code>master</code>定时从<code>数据库</code>中获取新的任务生成到任务列表，我们可以轻松添加新的任务到<code>slaver</code>集群中去。</p>
+<p>下一步我们就介绍如何修改<code>scrapy-redis</code>达到我们新框架需要</p>
+<h1 id="重构scrapy-redis"><a href="#重构scrapy-redis" class="headerlink" title="重构scrapy-redis"></a>重构<code>scrapy-redis</code></h1><p>参考：<br><a href="http://blog.csdn.net/bone_ace/article/details/50989104" target="_blank" rel="noopener">基于Redis的三种分布式爬虫策略</a></p>
+]]></content>
       <categories>
         <category>Python</category>
       </categories>
@@ -1158,47 +1201,23 @@ VERBOSE  [简X]  --------------神器,会无视代码中的注释空格和换行
       </categories>
   </entry>
   <entry>
-    <title>爬虫分布式总结</title>
-    <url>/2017/04/04/python/%E7%88%AC%E8%99%AB%E5%88%86%E5%B8%83%E5%BC%8F%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[<blockquote>
-<p>由于最近在一家数据服务公司实习，项目需要了解分布式，所以在这里基于<code>scrapy</code>的分布式总结一下爬虫的分布式实习</p>
-</blockquote>
-<h1 id="分布式起因"><a href="#分布式起因" class="headerlink" title="分布式起因"></a>分布式起因</h1><blockquote>
-<p>单机无法完成全部工作任务所以要使用集群加速完成工作任务</p>
-</blockquote>
-<p>分布式有点像蚁群，一只蚂蚁举不起一只卡壳虫，但是几百只就能轻松的把他运回家</p>
-<p>但是分布式设计必须科学，否则就像下面一样，一个和尚挑水，其他和尚围观</p>
-<p><img src="/images/timg.jpg" alt="分工不合理，来源网络"></p>
-<h1 id="分布式设计"><a href="#分布式设计" class="headerlink" title="分布式设计"></a>分布式设计</h1><p>分布式设计原理在于<strong>分工</strong></p>
-<p>首先我们来看看爬虫怎么进行分工，单个爬虫运行根据<code>url</code>获取响应报文，然后通过解析报文返回结果或者下一次爬取目标，如果单个爬虫我们只要在内存维持一个<code>set</code>变量记住爬取过的<code>url</code>，这就是<code>scrapy</code>默认的方法。</p>
-<p>但是我们无数个爬虫由于不在同一个进程，无法共享变量，所以我们只要让一个“<code>variable</code>（变量）”能够被被所以爬虫共享到就完成了主要功能</p>
-<p>现在我们来完善具体细节<br>要求：</p>
-<ul>
-<li>爬虫能够轻松读取所以已爬取变量</li>
-<li>爬虫能够加入已读取变量</li>
-<li>爬虫能够获取下一次请求具体参数</li>
-</ul>
-<p>原则上我们可以使用内存映射来构建这个变量，但是读取，修改都不便利，所以可以先使用<code>redis</code>作为存贮变量的地方，使用<code>redis</code>提供的<code>set</code>我们替代<code>scrapy</code>框架的<code>set</code>变量。</p>
-<p>现在我们已经决定我们要使用什么容器来存贮变量，接下来我们要考虑存什么变量。</p>
-<p>我们先看<code>scrapy-redis</code>存贮了什么，分析源代码可知，<code>scrapy-redis</code>将返回的<code>Request</code>pickle话存入数据库，并且计算这个<code>Request</code>的32位hash值存入<code>redis</code>的<code>set</code>中过滤列表。</p>
-<p><code>scrapy-redis</code>通过修改<code>scrapy</code>的调度器（scheduler）让其当爬虫没有<code>Request</code>需要处理时在<code>redis</code>中提取<code>Request</code>，实现分布式。</p>
-<p>我们来分析一下这种方法，爬虫在爬取的过程中从<code>master</code>端获取<code>Request</code>，并不断生成<code>Request</code>到<code>master</code>端，<code>master</code>只是一个<code>redis</code>数据库，负责对<code>url</code>去重，分发任务。</p>
-<p>我们来比较一下直接存取<code>url</code>这种方法，这种方法好处在于，<code>slaver</code>能够从上一个<code>Request</code>中获取全部信息，假如上一个<code>Request</code>需要存取获取的表单提取地址，我们下一次爬虫发起<code>Request</code>就能从上一个<code>Request</code>中获取参数。</p>
-<p>当然由于我们存贮的是<code>Request</code>，一个<code>Request</code> <code>pickle</code>化之后的字符串比较长，当我们的任务列表里面有很多<code>Request</code>的时候，<code>redis</code>占用的内存会非常巨大。</p>
-<p>当然如果爬虫启动的够多，生成一个就能把任务被调度下去，那么这个任务列表就能稳定在一个可控的范围。</p>
-<p> <strong>总结</strong></p>
-<p>每个爬虫即负责爬取数据，又负责生成下一个任务，即无主次之分，我们可以一次性在<code>docker</code>中启动上百个实例，我们只是用<code>redis</code>充当一个存放<code>变量</code>的地方。</p>
-<p>但是这种方法也有一个缺点，我们不能自由的添加初始<code>url</code>，要想添加新的爬取任务，必须新建一个爬虫更新初始<code>url</code>，我们如果是想搭建一个自由添加<code>url</code>的爬虫，这种实现方式不大优雅。</p>
-<h1 id="分布式改良"><a href="#分布式改良" class="headerlink" title="分布式改良"></a>分布式改良</h1><p>我们要修改程序框架，达到随时可以添加要爬取新任务，然而不影响爬虫集群</p>
-<p><img src="/images/distribute_crawl.png" alt="爬虫框架"></p>
-<p>我们独立出来<code>master</code>，<code>master</code>负责生成<code>Request</code>去重以及任务调度，而<code>slaver</code>只负责从<code>master</code>获取任务爬取。</p>
-<p>这种方法我们可以很轻松对<code>master</code>改良而不影响<code>slaver</code>，通过让<code>master</code>定时从<code>数据库</code>中获取新的任务生成到任务列表，我们可以轻松添加新的任务到<code>slaver</code>集群中去。</p>
-<p>下一步我们就介绍如何修改<code>scrapy-redis</code>达到我们新框架需要</p>
-<h1 id="重构scrapy-redis"><a href="#重构scrapy-redis" class="headerlink" title="重构scrapy-redis"></a>重构<code>scrapy-redis</code></h1><p>参考：<br><a href="http://blog.csdn.net/bone_ace/article/details/50989104" target="_blank" rel="noopener">基于Redis的三种分布式爬虫策略</a></p>
-]]></content>
-      <categories>
-        <category>Python</category>
-      </categories>
+    <title>人生浅思</title>
+    <url>/2021/03/27/secret/%E4%BA%BA%E7%94%9F%E6%B5%85%E6%80%9D/</url>
+    <content><![CDATA[<div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="抱歉, 这个密码看着不太对, 请再试试." data-whm="抱歉, 这个文章不能被校验, 不过您还是能看看解密后的内容.">
+  <script id="hbeData" type="hbeData" data-hmacdigest="72e89f2c84578a62f7f4d0614eda425cb6057f9285508b5a84f1060f8dbc4c89">4f2ee425f9beb83069b565b3c5ad5cc44f766a90c472399a0616d746a9b183d0467c4f2cdeba5e270614a1527105157260efe7ad69161c35cf1dd1817cf437b2d28801d94005eca39ada0b32c97d37ae3c68b1e9d4c0c5aff2ddf8835314231296ee092f38e57383265a362ed1f652a92f9c935f1b9aec0f69ec5bd044661a163094ae81cccf0528e715ea110bee71a19ac8ed0a1840a78a7d513bcc1cbd8a10c21db1895d15086c918ae92d97171dc5c1a76f8915447d8ba95263bc4135012627a9e1a2e597e94757342ef2b363bb7b4802e03739fb6a86aa1e988e62198adcccb9474c08dd230071e4f665c88a87426d807453c21c5562edee6d8237d65d10bc869aa242dd0275e986c289fb4b53720c9412d79e81ae63cd28a313ffdfc314c11c21d419da1c756422995d0c87bc74991ee474f5115cb8920095b8b74aab0c1ef1b1dabf869859c9be8b1b368c7421e94a9fdc96dcd1e2bb208f57f3b873053e968998c4b6b74363f41a7b0146afb0c96a67425e3554a5f6c3a4872ad77672fc41dfa3c1e9a2f796618d087c09611389ac6c8ac50a220acd14b932d347d8c9e66f724e7a6208f902423d0d553f07546c922716eb012999e1dd6246ba1f34bb9ed455ff4e431ea82ffcd644f65fbc3f3b80991181067e101660b137641c86c5c45fc52b7a1c34eb8ba825b5a215c2583ce64a8c597390baf27233b41beb2afc0f1249a8b422079a7cb55e1ec24fa713044a15ef7ae856e11fda7335fd46d10796c87509058cd32be074fbc70a8e7ca6c86507a0b331df7470be0246316245d9bcb88472d36131545a050c389c3c2330028ff72f791b6b61ebd09b3e166827896c0b977b033300f191e253b616a9f6e0f81fe076472f040f1dfbb7a79381d7ffcd7c2b9d6844e045a63cf4b64586597bf0c85e2fc1346dd4b4c598c4ac864ea11b2289c323a915565e55873d46f1e6d887a338e55a631db25c6e129678e30aa7953cc9d8a976cda50fac47e988b03267143fa1e4073832a71f4ef2aaf0d2f9428fea3a59a23e3bf5c9b95f28e397d062009b89db254fb12dd6285651b1a0468d1ead0925e8df756a0b417f3b3142475a8cbd53831dd81a9ddaa61b8c4d9b223566813e54514a5cc3525d24a9870f5641e2c8e31fab6c009f24417864bb2bc6a998f1db9ca98cd063dd64728e479da077be45e0d609a948657503851f1d93125d37978381c6ebc5cba8e0f154831b44d43a49ef313ce2653b3a308ec4fa7c22ae4dc175c87d5d35a52395c0aade8a4557048bfd4454ff44ffc8240d32f2ec57217f55d076693f3995dded656427f692ec77383288592de394e18ee4c1839658172188f155c5b00a292318fc1be37b83c9cae08d9c01a8ec330ab37f8bf77f558af5d593672d960f7bcf0b0be7b2d6788ada6fb22d6c908e56013dab63436ab35b61bea40726e9c9548a3586c11a340f9d9d6d3fdfae786fb0a1b0bb2c7e45219eb2f5ef43c1f0273dba61750c6be480989ee8a22d1e35ffc1aeea888b43069393e37f688a5cda246d623680b33bac0a10406ece1e14a215b2ff76a6166b6423ed89db3e6fc893ded03b37758c672da8774075af129c4c90621f629f8446ba76d6744adaad6cbc31be7040f9bfca6bde8d8c73b97275e77071640457151ac6faf3</script>
+  <div class="hbe hbe-content">
+    <div class="hbe hbe-input hbe-input-default">
+      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
+      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">
+        <span class="hbe hbe-input-label-content hbe-input-label-content-default">您好, 这里需要密码.</span>
+      </label>
+    </div>
+  </div>
+</div>
+<script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">]]></content>
+      <tags>
+        <tag>secret</tag>
+      </tags>
   </entry>
   <entry>
     <title>FlinkSQL Client实战</title>
@@ -1279,6 +1298,52 @@ where a.id = b.id;
       </categories>
   </entry>
   <entry>
+    <title>Ubuntu16.04安装Tensorflow的CPU优化</title>
+    <url>/2018/04/19/software/Ubuntu14%E5%AE%89%E8%A3%85Tensorflow%E7%9A%84CPU%E4%BC%98%E5%8C%96/</url>
+    <content><![CDATA[<blockquote>
+<p>由于我的笔记本是农卡，没法安装CUDA加速，而且我的显卡只有2G显存，安装OpenCL费力不讨好，而且由于我有一个Google云的300美元的体验，所以可以在Google云上使用TPU来进行加速，所以我就干脆不安装显卡加速，但是Tensorflow提供了指令集优化，由于默认使用pip安装没有提供这个功能，所以只能手动编译安装</p>
+</blockquote>
+<p>假如你是用<code>pip</code>安装的Tensorflow你可以会得到下面警告</p>
+<pre><code>the tensorflow library wasn&apos;t compiled to use sse4.1 instructions
+</code></pre><h2 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h2><p><del>1. 首先你得先看看你CPU支持什么指令集</del></p>
+<p> <del>cat /proc/cpuinfo|grep flags</del></p>
+<p><del>执行这个指令就能看到你所支持的指令集</del></p>
+<p>最新的<code>tensorflow</code>1.12不需要这步，可以根据你的CPU进行推测</p>
+<p>~~2. 然后安装<code>bazel</code></p>
+<p><del>由于直接从源代码安装比较简单，所以直接从<a href="https://github.com/bazelbuild/bazel/releases" target="_blank" rel="noopener">github</a>上面下载<code>0.18.1</code>相对应的版本就行（最好不要使用最新版，最新版没法编译）</del></p>
+<p><del>3. 安装完之后下载<code>tensorflow</code>源码</del></p>
+<pre><code>mkdir github &amp;&amp; cd github
+git clone --recurse-submodules https://github.com/tensorflow/tensorflow
+cd tensorflow
+./configure  
+</code></pre><p><del>接下来一路选择<code>N</code>就行</del></p>
+<p><del>4. 生成<code>whl</code>文件</del></p>
+<p><del>bazel build -c opt –copt=-msse3 –copt=-msse4.1 –copt=-msse4.2 –copt=-mavx –copt=-mavx2 –copt=-mfma //tensorflow/tools/pip_package:build_pip_package</del></p>
+<p><del>在源码处开始编译，注意<code>copt</code>命令主要是添加指令集支持，这里你要看看上面的指令集（去掉m就是你的指令集，如-msse3指令集为sse3）你的CPU是否支持（一般都支持我的I5 4200U都支持），如果不支持删掉那个就行</del></p>
+<p><del>这里你安装的时间比较长，要看你的CPU了</del></p>
+<p><del>最新版不需要这么复杂了，直接</del></p>
+<pre><code>bazel build --config=opt //tensorflow/tools/pip_package:build_pip_package
+</code></pre><p><del>当然如果你想开启<code>MKL</code>也可以在<code>opt</code>加上改成<code>--config mkl</code></del></p>
+<p>最新版使用<code>bazel</code>编译由于依赖网络下载，而我大天朝的网络一直报check-sum错误，官方说是我们网络的问题，我在我香港服务器尝试了一下，相同的环境下使用<code>bazel</code>是能安装的，但是由于安装到后面<code>bazel</code>需要太多内存了，所以直接爆照，而我本地内存大然而尝试了N多方法（尝试使用<code>proxychain</code>由于安装时需要连接本地<code>bazel</code>服务器，而设置过滤本地网络又没有用，也尝试使用全局代理也绕不过去），最终没有办法只能安装一个别人已经编译好的CPU的加速的。现在放出地址</p>
+<p><a href="https://github.com/mind/wheels/releases" target="_blank" rel="noopener">github tensorflow 编译好的版本下载</a></p>
+<p>你找一个你操作系统对应以及和你Python版本对应的下载下来用<code>pip</code>安装一下就可以了。</p>
+<ol start="5">
+<li>验证</li>
+</ol>
+<p>退出安装目录运行<code>python</code></p>
+<p>执行下面两句</p>
+<pre><code>    import tensorflow as tf;sess = tf.Session(config=tf.ConfigProto(log_device_placement=True))
+
+
+bazel --host_jvm_args=&quot;-Dhttp.proxyHost=localhost -Dhttp.proxyPort=8123 -Dhttps.proxyHost=localhost -Dhttps.proxyPort=8123&quot;    build --config=mkl //tensorflow/tools/pip_package:build_pip_package
+</code></pre><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><del>如果没有报上面的不支持指令集的warning，那么你的CPU指令集优化版就安装好了，当然这个加速效果因CPU而异，对于Xeon SP系列（100核心以上）已经能加速到50倍，同GPU差距也就2倍了（原来可是100倍），但是对于我的笔记本来说，加速效果可能就在30%左右（核心少），所以当前加速性价比最高的还是GPU加速，骚年还是买个好一点的GPU吧，没事还可以吃吃鸡。</del></p>
+<p>经过我测试在<code>I7 9700K</code>下相同的<code>mnist</code>数据下运行，不使用CPU指令优化比使用CPU指令优化下速度还要更快，所以在高版本下的Tensorflow CPU版其实优不优化都无所谓，推荐还是使用GPU加速</p>
+]]></content>
+      <categories>
+        <category>软件</category>
+      </categories>
+  </entry>
+  <entry>
     <title>PostgreSQL的自增键</title>
     <url>/2017/10/08/software/PostgreSQL%E7%9A%84%E8%87%AA%E5%A2%9E%E9%94%AE/</url>
     <content><![CDATA[<blockquote>
@@ -1348,46 +1413,62 @@ name text
       </categories>
   </entry>
   <entry>
-    <title>Ubuntu16.04安装Tensorflow的CPU优化</title>
-    <url>/2018/04/19/software/Ubuntu14%E5%AE%89%E8%A3%85Tensorflow%E7%9A%84CPU%E4%BC%98%E5%8C%96/</url>
+    <title>git 工作流程</title>
+    <url>/2016/09/07/software/git-working-streamline/</url>
     <content><![CDATA[<blockquote>
-<p>由于我的笔记本是农卡，没法安装CUDA加速，而且我的显卡只有2G显存，安装OpenCL费力不讨好，而且由于我有一个Google云的300美元的体验，所以可以在Google云上使用TPU来进行加速，所以我就干脆不安装显卡加速，但是Tensorflow提供了指令集优化，由于默认使用pip安装没有提供这个功能，所以只能手动编译安装</p>
+<p><code>git</code>是当今流行的版本控制工具,一般我们可能只要会<code>push</code>, <code>pull</code>就可以了,<br>但是当我们同别人共同工作的时候,我们必须要了解<code>git</code>协同开发的一些重要流程.</p>
 </blockquote>
-<p>假如你是用<code>pip</code>安装的Tensorflow你可以会得到下面警告</p>
-<pre><code>the tensorflow library wasn&apos;t compiled to use sse4.1 instructions
-</code></pre><h2 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h2><p><del>1. 首先你得先看看你CPU支持什么指令集</del></p>
-<p> <del>cat /proc/cpuinfo|grep flags</del></p>
-<p><del>执行这个指令就能看到你所支持的指令集</del></p>
-<p>最新的<code>tensorflow</code>1.12不需要这步，可以根据你的CPU进行推测</p>
-<p>~~2. 然后安装<code>bazel</code></p>
-<p><del>由于直接从源代码安装比较简单，所以直接从<a href="https://github.com/bazelbuild/bazel/releases" target="_blank" rel="noopener">github</a>上面下载<code>0.18.1</code>相对应的版本就行（最好不要使用最新版，最新版没法编译）</del></p>
-<p><del>3. 安装完之后下载<code>tensorflow</code>源码</del></p>
-<pre><code>mkdir github &amp;&amp; cd github
-git clone --recurse-submodules https://github.com/tensorflow/tensorflow
-cd tensorflow
-./configure  
-</code></pre><p><del>接下来一路选择<code>N</code>就行</del></p>
-<p><del>4. 生成<code>whl</code>文件</del></p>
-<p><del>bazel build -c opt –copt=-msse3 –copt=-msse4.1 –copt=-msse4.2 –copt=-mavx –copt=-mavx2 –copt=-mfma //tensorflow/tools/pip_package:build_pip_package</del></p>
-<p><del>在源码处开始编译，注意<code>copt</code>命令主要是添加指令集支持，这里你要看看上面的指令集（去掉m就是你的指令集，如-msse3指令集为sse3）你的CPU是否支持（一般都支持我的I5 4200U都支持），如果不支持删掉那个就行</del></p>
-<p><del>这里你安装的时间比较长，要看你的CPU了</del></p>
-<p><del>最新版不需要这么复杂了，直接</del></p>
-<pre><code>bazel build --config=opt //tensorflow/tools/pip_package:build_pip_package
-</code></pre><p><del>当然如果你想开启<code>MKL</code>也可以在<code>opt</code>加上改成<code>--config mkl</code></del></p>
-<p>最新版使用<code>bazel</code>编译由于依赖网络下载，而我大天朝的网络一直报check-sum错误，官方说是我们网络的问题，我在我香港服务器尝试了一下，相同的环境下使用<code>bazel</code>是能安装的，但是由于安装到后面<code>bazel</code>需要太多内存了，所以直接爆照，而我本地内存大然而尝试了N多方法（尝试使用<code>proxychain</code>由于安装时需要连接本地<code>bazel</code>服务器，而设置过滤本地网络又没有用，也尝试使用全局代理也绕不过去），最终没有办法只能安装一个别人已经编译好的CPU的加速的。现在放出地址</p>
-<p><a href="https://github.com/mind/wheels/releases" target="_blank" rel="noopener">github tensorflow 编译好的版本下载</a></p>
-<p>你找一个你操作系统对应以及和你Python版本对应的下载下来用<code>pip</code>安装一下就可以了。</p>
-<ol start="5">
-<li>验证</li>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p><code>git</code>作为当今最流行的版本控制工具之一,当时开发出来就是为了管理<code>Linux</code>庞大源代码的分布式版本控制工具.<br>由于<code>Linux</code>源代码过于巨大,仅靠一个人的力量是完成不了的,那就必须把工作分配下去,然后将代码合并,所以<code>git</code>一开始设计的时候就是一种分布式的、多分支的</p>
+</blockquote>
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>所以<code>git</code>最重要的就是<strong>分支</strong>这个性质,分支是什么呢.</p>
+<p>要了解<strong>分支</strong>必须要了解<code>git</code>工作原理.</p>
+<p><code>git</code>工作原理很简单就是<code>add</code>、<code>commit</code>，<code>add</code>、<code>commit</code>….,简单来说就是添加记录,添加记录,保存快照,添加记录,添加记录,保存快照</p>
+<p><img src="/images/git-workflow-release-cycle-4maintenance.png" alt="git工作分支流程-来源网上"></p>
+<p>  如上图,随着master分支快照的一个一个建立,软件就慢慢的迭代下去了</p>
+<h2 id="分支工作流程"><a href="#分支工作流程" class="headerlink" title="分支工作流程"></a>分支工作流程</h2><p>  接下来我们要着重讲一下分支,我们看到<code>master</code>分支的<code>v0.1</code>版本,我们已经开发出稳定的<code>v0.1</code>版,这时候我们决定开发一个新功能.</p>
+<p> 在这里我们分了一个<code>Develop</code>分支,我们在<code>Develop</code>分支开发新代码.</p>
+<p> 这时候我们发现<code>v0,1</code>的一个<code>bug</code>,假如是没有使用版本控制的话,一般人会停下手中的活,然后从当前的新代码处来修复这个<code>bug</code>,当这个<code>bug</code>很简单的时候,我们不会遇到很大困难,但是当<code>bug</code>藏的很深,而且新代码隐藏了这个<code>bug</code>,或者被这个<code>bug</code>影响,这时修复工作就变得很困难.</p>
+<p> 还好我们有<code>git</code>,我们从<code>v0.1</code>直接分一个<code>Hotfix</code>分支,这两个分支的父都是<code>v0.1</code>,我们直接从稳定版本修复,不牵涉到新代码,这样修改好后我们就能很快从<code>Develop</code>分支继续工作了</p>
+<p> 而且这样有一个好处我们将<code>master</code>和<code>Develop</code>分支合并的时候很大可能不会产生冲突.</p>
+<p> <em>冲突(coflic)是什么了,怎么能避免呢?</em></p>
+<p> 从两个分支的父亲<code>v0.1</code>看起,我们每次改动一个保存文件就会产生一个<code>modify</code>(修改)的动作,我们假如分支里面都对同一个文件产生了<code>modify</code>(修改)动作,当我们合并的时候这就是一个冲突,<code>git</code>无法理解采用哪个分支的<code>modify</code>动作,这时候就要你人工来修改采用哪个分支.</p>
+<p> 假如没有相同的文件有<code>modify</code>(修改)动作,<code>git</code>就会聪明的知道采用每个分支的最新的<code>modify</code>(修改)修改出一份所以文件的最新版.</p>
+<p> 那我们怎么来避免这个冲突呢,这就要求我们分支要分的合理,分支只要完成特定的工作,不要越俎代庖,那有些人会说我这个分支一定要改父的耦合地方否则我的代码工作不了,这时我们要好好思考自己的分支的功能,把合并耦合的代码放在主分支里面,次分支只要完成特定功能就可以了,这样合并分支时候不但可以安全的<code>merge</code>(合并)了, 而且修改<code>bug</code>的时候也可以对症下药,直接在问题开始的地方修改.</p>
+]]></content>
+      <categories>
+        <category>软件</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>UML最佳实践</title>
+    <url>/2021/03/15/software/UML%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/</url>
+    <content><![CDATA[<blockquote>
+<p>最近面试的时候一个面试官指出了我对系统架构没有固定的认知，推荐我去好好学习一下UML这个语言，我花了几个小时在B站上看了<a href="https://www.bilibili.com/video/BV1LE411T75W" target="_blank" rel="noopener">UML</a>这门课，下面是我对UML最佳实践的一点心得</p>
+</blockquote>
+<h2 id="UML是什么"><a href="#UML是什么" class="headerlink" title="UML是什么"></a>UML是什么</h2><p>首先它是一门语言，全名叫 Unified Modeling Language，翻译过来就是统一建模语言，首先为什么我们思考一下为什么我们需要这么一门语言。</p>
+<p>最开始的C语言是面对过程的，我们想做一个什么东西，直接去写就好了，等我们到了比如Java这些面对对象的语言的时候，我们就要思考怎么去建模，所以UML就是在这种情况被创建出来的</p>
+<h2 id="怎么用"><a href="#怎么用" class="headerlink" title="怎么用"></a>怎么用</h2><p>首先UML主要帮助我们设计一个系统，那一般的流程是什么呢</p>
+<ol>
+<li>确定用例 -&gt; 用例图</li>
+<li>确定类模型 -&gt; 类图</li>
+<li>确定流程 -&gt; 时序图</li>
+<li>确定细节 -&gt; 状态图</li>
 </ol>
-<p>退出安装目录运行<code>python</code></p>
-<p>执行下面两句</p>
-<pre><code>    import tensorflow as tf;sess = tf.Session(config=tf.ConfigProto(log_device_placement=True))
-
-
-bazel --host_jvm_args=&quot;-Dhttp.proxyHost=localhost -Dhttp.proxyPort=8123 -Dhttps.proxyHost=localhost -Dhttps.proxyPort=8123&quot;    build --config=mkl //tensorflow/tools/pip_package:build_pip_package
-</code></pre><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><del>如果没有报上面的不支持指令集的warning，那么你的CPU指令集优化版就安装好了，当然这个加速效果因CPU而异，对于Xeon SP系列（100核心以上）已经能加速到50倍，同GPU差距也就2倍了（原来可是100倍），但是对于我的笔记本来说，加速效果可能就在30%左右（核心少），所以当前加速性价比最高的还是GPU加速，骚年还是买个好一点的GPU吧，没事还可以吃吃鸡。</del></p>
-<p>经过我测试在<code>I7 9700K</code>下相同的<code>mnist</code>数据下运行，不使用CPU指令优化比使用CPU指令优化下速度还要更快，所以在高版本下的Tensorflow CPU版其实优不优化都无所谓，推荐还是使用GPU加速</p>
+<h2 id="软件选择"><a href="#软件选择" class="headerlink" title="软件选择"></a>软件选择</h2><p>其实UML很核心的一个地方就是用可视化的图表展示出你的系统架构，视频里面使用的<strong>IBM Rational Rose</strong>这个软件，的确拖拽非常方便，但是有个问题就是只支持<code>window</code>，目前我主要操作系统是Ubuntu和Mac，所以我需要一个跨平台的软件</p>
+<p>我尝试了跨平台的<code>dia</code>，或者目前一些主流的在网页上拖拽的软件来完成UML图，但是这些都有一个痛点，不方便管理，而且修改起来也比较麻烦，然后有人推荐使用<a href="https://plantuml.com/zh/state-diagram" target="_blank" rel="noopener">plantuml</a>，不但跨平台，而且UML图是根据代码自动生成</p>
+<p>也就是说你不需要拖拽，你可以像写代码一样画UML图，更主要的是这个IDEA上面都有插件集成，你只要安装好插件就可以在IDE里面写UML代码生成你想要的图了</p>
+<h2 id="安装流程"><a href="#安装流程" class="headerlink" title="安装流程"></a>安装流程</h2><p>首先在插件库查找<code>plantuml intergration</code>，然后点击安装，接下面安装绘图课</p>
+<p>Mac</p>
+<p>brew install graphviz</p>
+<p>Ubuntu</p>
+<p>sudo apt-get install -y graphviz</p>
+<p>接下来你重启IDEA然后随便新建一个文件，输入下面代码</p>
+<p>@startuml<br>Alice -&gt; Bob: test<br>@enduml</p>
+<p>点开侧边栏PlantUML就能看到生成的UML图了</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>以前我只知道IDEA能写代码，后面我知道IDEA能执行SQL，我就把他当成SQL管理工具，后面我发现他也能写Markdown，我就放弃的专业markdown软件，如今我发现他也能写UML，IDEA真的太全能了</p>
+<p>PS：这篇博客简单的介绍了我对UML最佳实践的配合，没有涉及到<code>PlantUML</code>的具体使用方法，可以看我的使用<a href="https://github.com/mrzhangboss/plantuml-introduction" target="_blank" rel="noopener">UML实现</a></p>
+<p><a href="https://github.com/mrzhangboss/plantuml-introduction" target="_blank" rel="noopener">UML实现Github链接</a></p>
 ]]></content>
       <categories>
         <category>软件</category>
@@ -1494,34 +1575,6 @@ google ansible_ssh_host=1.1.1.3 ansible_ssh_user=root
       </categories>
   </entry>
   <entry>
-    <title>git 工作流程</title>
-    <url>/2016/09/07/software/git-working-streamline/</url>
-    <content><![CDATA[<blockquote>
-<p><code>git</code>是当今流行的版本控制工具,一般我们可能只要会<code>push</code>, <code>pull</code>就可以了,<br>但是当我们同别人共同工作的时候,我们必须要了解<code>git</code>协同开发的一些重要流程.</p>
-</blockquote>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
-<p><code>git</code>作为当今最流行的版本控制工具之一,当时开发出来就是为了管理<code>Linux</code>庞大源代码的分布式版本控制工具.<br>由于<code>Linux</code>源代码过于巨大,仅靠一个人的力量是完成不了的,那就必须把工作分配下去,然后将代码合并,所以<code>git</code>一开始设计的时候就是一种分布式的、多分支的</p>
-</blockquote>
-<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>所以<code>git</code>最重要的就是<strong>分支</strong>这个性质,分支是什么呢.</p>
-<p>要了解<strong>分支</strong>必须要了解<code>git</code>工作原理.</p>
-<p><code>git</code>工作原理很简单就是<code>add</code>、<code>commit</code>，<code>add</code>、<code>commit</code>….,简单来说就是添加记录,添加记录,保存快照,添加记录,添加记录,保存快照</p>
-<p><img src="/images/git-workflow-release-cycle-4maintenance.png" alt="git工作分支流程-来源网上"></p>
-<p>  如上图,随着master分支快照的一个一个建立,软件就慢慢的迭代下去了</p>
-<h2 id="分支工作流程"><a href="#分支工作流程" class="headerlink" title="分支工作流程"></a>分支工作流程</h2><p>  接下来我们要着重讲一下分支,我们看到<code>master</code>分支的<code>v0.1</code>版本,我们已经开发出稳定的<code>v0.1</code>版,这时候我们决定开发一个新功能.</p>
-<p> 在这里我们分了一个<code>Develop</code>分支,我们在<code>Develop</code>分支开发新代码.</p>
-<p> 这时候我们发现<code>v0,1</code>的一个<code>bug</code>,假如是没有使用版本控制的话,一般人会停下手中的活,然后从当前的新代码处来修复这个<code>bug</code>,当这个<code>bug</code>很简单的时候,我们不会遇到很大困难,但是当<code>bug</code>藏的很深,而且新代码隐藏了这个<code>bug</code>,或者被这个<code>bug</code>影响,这时修复工作就变得很困难.</p>
-<p> 还好我们有<code>git</code>,我们从<code>v0.1</code>直接分一个<code>Hotfix</code>分支,这两个分支的父都是<code>v0.1</code>,我们直接从稳定版本修复,不牵涉到新代码,这样修改好后我们就能很快从<code>Develop</code>分支继续工作了</p>
-<p> 而且这样有一个好处我们将<code>master</code>和<code>Develop</code>分支合并的时候很大可能不会产生冲突.</p>
-<p> <em>冲突(coflic)是什么了,怎么能避免呢?</em></p>
-<p> 从两个分支的父亲<code>v0.1</code>看起,我们每次改动一个保存文件就会产生一个<code>modify</code>(修改)的动作,我们假如分支里面都对同一个文件产生了<code>modify</code>(修改)动作,当我们合并的时候这就是一个冲突,<code>git</code>无法理解采用哪个分支的<code>modify</code>动作,这时候就要你人工来修改采用哪个分支.</p>
-<p> 假如没有相同的文件有<code>modify</code>(修改)动作,<code>git</code>就会聪明的知道采用每个分支的最新的<code>modify</code>(修改)修改出一份所以文件的最新版.</p>
-<p> 那我们怎么来避免这个冲突呢,这就要求我们分支要分的合理,分支只要完成特定的工作,不要越俎代庖,那有些人会说我这个分支一定要改父的耦合地方否则我的代码工作不了,这时我们要好好思考自己的分支的功能,把合并耦合的代码放在主分支里面,次分支只要完成特定功能就可以了,这样合并分支时候不但可以安全的<code>merge</code>(合并)了, 而且修改<code>bug</code>的时候也可以对症下药,直接在问题开始的地方修改.</p>
-]]></content>
-      <categories>
-        <category>软件</category>
-      </categories>
-  </entry>
-  <entry>
     <title>在Linux下玩转Vim</title>
     <url>/2016/07/18/software/%E5%9C%A8Linux%E4%B8%8B%E7%8E%A9%E8%BD%ACVim/</url>
     <content><![CDATA[<h4 id="学了鸟哥的书前面基础后，突然想在Linux下用gcc玩C语言，然后了解到了Vim这个神一样的编译器，接下来经过超长时间虐心的安装无数插件无数依赖包，突然有种打自己一顿的感觉，还好终于把Vim装的和VS差不多了，接下来我介绍我安装Vim的经验吧。"><a href="#学了鸟哥的书前面基础后，突然想在Linux下用gcc玩C语言，然后了解到了Vim这个神一样的编译器，接下来经过超长时间虐心的安装无数插件无数依赖包，突然有种打自己一顿的感觉，还好终于把Vim装的和VS差不多了，接下来我介绍我安装Vim的经验吧。" class="headerlink" title="学了鸟哥的书前面基础后，突然想在Linux下用gcc玩C语言，然后了解到了Vim这个神一样的编译器，接下来经过超长时间虐心的安装无数插件无数依赖包，突然有种打自己一顿的感觉，还好终于把Vim装的和VS差不多了，接下来我介绍我安装Vim的经验吧。"></a>学了鸟哥的书前面基础后，突然想在Linux下用gcc玩C语言，然后了解到了Vim这个神一样的编译器，接下来经过超长时间虐心的安装无数插件无数依赖包，突然有种打自己一顿的感觉，还好终于把Vim装的和VS差不多了，接下来我介绍我安装Vim的经验吧。</h4><h3 id="我虚拟机下的Linux原来是红旗6的，但是我改了一下yum的包源成CentOS的并且全部update一下后就神奇的变成了CentOS6，虽然他们两个是同一家公司，但是总给我一种由盗版成了正版的感觉。。"><a href="#我虚拟机下的Linux原来是红旗6的，但是我改了一下yum的包源成CentOS的并且全部update一下后就神奇的变成了CentOS6，虽然他们两个是同一家公司，但是总给我一种由盗版成了正版的感觉。。" class="headerlink" title="我虚拟机下的Linux原来是红旗6的，但是我改了一下yum的包源成CentOS的并且全部update一下后就神奇的变成了CentOS6，虽然他们两个是同一家公司，但是总给我一种由盗版成了正版的感觉。。"></a>我虚拟机下的Linux原来是红旗6的，但是我改了一下yum的包源成CentOS的并且全部update一下后就神奇的变成了CentOS6，虽然他们两个是同一家公司，但是总给我一种由盗版成了正版的感觉。。</h3><h2 id="闲话不多说，刚开始装第一个插件是Ctags"><a href="#闲话不多说，刚开始装第一个插件是Ctags" class="headerlink" title="闲话不多说，刚开始装第一个插件是Ctags"></a>闲话不多说，刚开始装第一个插件是Ctags</h2><p>刚开始装的时候我是在X-Windows里面的<a href="http://ctags.sourceforge.net" target="_blank" rel="noopener">这里</a>下载再转回shell敲</p>
@@ -1537,46 +1590,6 @@ $ make
 <h2 id="安上一些实用的插件后，最后安装调试神器gdb，有三种方式使vim可以调试程序（与gdb一起工作），"><a href="#安上一些实用的插件后，最后安装调试神器gdb，有三种方式使vim可以调试程序（与gdb一起工作），" class="headerlink" title="安上一些实用的插件后，最后安装调试神器gdb，有三种方式使vim可以调试程序（与gdb一起工作），"></a>安上一些实用的插件后，最后安装调试神器gdb，有三种方式使vim可以调试程序（与gdb一起工作），</h2><p>vimgdb，pyclewn，clewn，三个我都试了，第一个要编译一下vim，我失败了，第二个要用python2.4+支持，我python2.6然并卵，每次都说不支持python2，第三个是用c写的，终于成功，安装非常简单，<br><a href="http://blog.csdn.net/linlianghui2004/article/details/7676792" target="_blank" rel="noopener">点击这里</a>了解详情.<br>装完了，我终于可以使用clewn打开gdb和gvim，然并卵，我写的程序并不能在gdb里面运行，一直说无法识别。。。。。。搜了一下原来是编译的时候的问题，用gcc编译的程序要带上<code>-g</code>参数才能在gdb里面用（我还以为我clewn没装好）<br>例如</p>
 <pre><code>gcc -g test.c -o test
 </code></pre><p>加上<code>-g</code>参数就行了。终于我的vim可以用了。。。。。。</p>
-]]></content>
-      <categories>
-        <category>软件</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>有用的几个Shell命令</title>
-    <url>/2016/07/18/software/%E6%9C%89%E7%94%A8%E7%9A%84%E5%87%A0%E4%B8%AAShell%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<h3 id="管线命令-pipe-："><a href="#管线命令-pipe-：" class="headerlink" title="管线命令 (pipe)："></a>管线命令 (pipe)：</h3><ol>
-<li>撷取命令： cut, grep</li>
-<li>排序命令： sort, wc, uniq</li>
-<li>双向重导向： tee</li>
-<li>字符转换命令： tr, col, join, paste, expand</li>
-<li>分割命令： split</li>
-<li>参数代换： xargs<h3 id="分割文档"><a href="#分割文档" class="headerlink" title="分割文档"></a>分割文档</h3></li>
-</ol>
-<blockquote>
-<p>长长的一大片文档有时我们并不愿意看到全部内容,我们只想关注<br>部分内容的时候了可以考虑使用分割文档命令</p>
-</blockquote>
-<p><code>cut</code>是一个很好的分割文档工具</p>
-<h3 id="vi常用命令"><a href="#vi常用命令" class="headerlink" title="vi常用命令"></a>vi常用命令</h3><ol>
-<li>[Ctrl] + [u] 屏幕『向上』移动半页</li>
-<li><ul>
-<li>光标移动到非空格符的下一列</li>
-</ul>
-</li>
-<li><ul>
-<li>光标移动到非空格符的上一列</li>
-</ul>
-</li>
-<li>n<space>那个 n 表示『数字』，例如 20 。按下数字后会向右移动这一行的n 个字符。例如 20&lt;spac移动 20 个字符距离。</space></li>
-<li>0 这是数字『0 』：移动到这一行的最前面字符</li>
-<li>$ 移动到这一行的最后面字符处(常用)</li>
-<li>H 光标移动到这个屏幕的最上方那一行</li>
-<li>M 光标移动到这个屏幕的中央那一行</li>
-<li>L 光标移动到这个屏幕的最下方那一行</li>
-<li>G 移动到这个档案的最后一行(常用)</li>
-<li>nG n 为数字。移动到这个档案的第 n 行。例如 2档案的第 20 行(可配合 :set nu)</li>
-<li>gg 移动到这个档案的第一行，相当于 1G 啊！ (<br>n<enter> n 为数字。光标向下移动 n 行(常用)</enter></li>
-</ol>
 ]]></content>
       <categories>
         <category>软件</category>
@@ -1718,6 +1731,46 @@ exec git-update-server-info
       </tags>
   </entry>
   <entry>
+    <title>有用的几个Shell命令</title>
+    <url>/2016/07/18/software/%E6%9C%89%E7%94%A8%E7%9A%84%E5%87%A0%E4%B8%AAShell%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h3 id="管线命令-pipe-："><a href="#管线命令-pipe-：" class="headerlink" title="管线命令 (pipe)："></a>管线命令 (pipe)：</h3><ol>
+<li>撷取命令： cut, grep</li>
+<li>排序命令： sort, wc, uniq</li>
+<li>双向重导向： tee</li>
+<li>字符转换命令： tr, col, join, paste, expand</li>
+<li>分割命令： split</li>
+<li>参数代换： xargs<h3 id="分割文档"><a href="#分割文档" class="headerlink" title="分割文档"></a>分割文档</h3></li>
+</ol>
+<blockquote>
+<p>长长的一大片文档有时我们并不愿意看到全部内容,我们只想关注<br>部分内容的时候了可以考虑使用分割文档命令</p>
+</blockquote>
+<p><code>cut</code>是一个很好的分割文档工具</p>
+<h3 id="vi常用命令"><a href="#vi常用命令" class="headerlink" title="vi常用命令"></a>vi常用命令</h3><ol>
+<li>[Ctrl] + [u] 屏幕『向上』移动半页</li>
+<li><ul>
+<li>光标移动到非空格符的下一列</li>
+</ul>
+</li>
+<li><ul>
+<li>光标移动到非空格符的上一列</li>
+</ul>
+</li>
+<li>n<space>那个 n 表示『数字』，例如 20 。按下数字后会向右移动这一行的n 个字符。例如 20&lt;spac移动 20 个字符距离。</space></li>
+<li>0 这是数字『0 』：移动到这一行的最前面字符</li>
+<li>$ 移动到这一行的最后面字符处(常用)</li>
+<li>H 光标移动到这个屏幕的最上方那一行</li>
+<li>M 光标移动到这个屏幕的中央那一行</li>
+<li>L 光标移动到这个屏幕的最下方那一行</li>
+<li>G 移动到这个档案的最后一行(常用)</li>
+<li>nG n 为数字。移动到这个档案的第 n 行。例如 2档案的第 20 行(可配合 :set nu)</li>
+<li>gg 移动到这个档案的第一行，相当于 1G 啊！ (<br>n<enter> n 为数字。光标向下移动 n 行(常用)</enter></li>
+</ol>
+]]></content>
+      <categories>
+        <category>软件</category>
+      </categories>
+  </entry>
+  <entry>
     <title>新年展望</title>
     <url>/2018/01/06/summary/2018%E6%96%B0%E5%B9%B4%E5%B1%95%E6%9C%9B/</url>
     <content><![CDATA[<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
@@ -1748,30 +1801,6 @@ exec git-update-server-info
 <p>所以了解数据库也可以尝试了解编译原理，了解如何实现解析SQL，所以接下来我就不提编译原理了</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>其实想想自己的这种把复杂问题简单话就是华罗庚先生曾说的一句话：“把书由薄变厚，再把书由厚变薄”，首先我们得把这些看起来很简单的问题复杂话，最后慢慢的把这个复杂的问题简单话，这样你才能真正的把这个问题给搞懂。</p>
 <p>对于我来说，从小或许受应试教育的影响，自己只学会了复杂问题给解决，但是不懂得解决后再把复杂问题简单话，所以看起来我懂很多复杂问题，但是其实换一个场景，换一个问题就一知半解了。所以自己慢慢的开始改变自己的方法，不满足于解决问题，而着重于简化问题，希望自己的一点经验也能给后来人一点启发。</p>
-]]></content>
-      <categories>
-        <category>随想</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>5月杂感</title>
-    <url>/2020/05/14/summary/5%E6%9C%88%E6%9D%82%E6%84%9F/</url>
-    <content><![CDATA[<blockquote>
-<p>不知不觉2020已经过了快一半了，2020的确是个魔幻的一年，两年都没生过病的我却在疫情开始的时候发了个烧，幸好一天就退了，但是也是魔幻</p>
-</blockquote>
-<p>这次疫情的确影响颇深，我也花了一段时间才慢慢从担心确诊人数到开始安之若素，现在回头看看专心做事能消除很多恐惧和不安</p>
-<p>现在回头看看，自己毕业也快两年了，加上我在大学的四年，我在编程这行已经呆了六年了。回头看看我这六年经历</p>
-<p>在大学四年是入门区，开始接触编程，像一块海绵拼命的汲取知识，慢慢的扩展了自己的广度，但是当我到第三年的时候我就发现自己陷入了一个迷茫区，自己越来越“膨胀”，学了很多东西，感觉编程也不是很难，只要自己想花时间就能学会，这个时候自己就像一个稚童编程就像玩具，每次拿到一个新的玩具（框架、软件），玩一会会基本操作之后就丢了</p>
-<p>接着到了工作时候变成了一个熟练工，在业务的驱动下做了很多很多项目，但是都是新瓶装旧酒，看起来自己编程技术过硬什么问题都能解决，但是其实这个时候只是会一些基本操作而已</p>
-<p>其实在熟练工这个阶段是最难熬的，自己能清楚自己其实只是会编程，但是不是精通，这个时候段我也看了很多编程书，在实际工作中也开始运用大师们的智慧，但是自己对编程越来越迷惑了</p>
-<p>在看了很多书之后，知道了各种编程模式，各种编码规范，自己实际编程的时候越来来畏手畏脚了，总感觉自己写的代码就是shit，越来越怕写垃圾代码，每次编程都在考虑自己的编码是否符合规范是否优美，虽然想了很多，但是最后回头看还是写的一地鸡毛，最后在逐渐自责中慢慢的淡忘编程的条条框框，开始野蛮生长模式</p>
-<p>这种情况直到自己开始在自己项目开发近一年才开始改变，项目从设计原型到所以的设计稿出来全部都是自己的主意，项目从v0.1开始开发，慢慢升级到v1、v2、v3，每个版本升级都是几乎全部重写，这个项目特别有趣，基本上都是自己一直在催促自己，把所有功能都加紧上线，测试能不写就不写，代码能跑就行，终于重要所有的功能都开发完成了，在这过程中由于各种不规范编程，花了无数时间debug，由于是自己的项目，感觉写的这么烂都对不起自己，所有所有的代码又开始重构，在重构的过程发现干脆重写一个算了，基本上每一行代码都被千锤百炼，直到目前还是有很多问题</p>
-<p>但是这个过程中，自己似乎领悟到了一点别的东西，好像编程大师说的那些东西都可以用，当把那些东西稍微的应用到自己的项目中的时候，突然感悟到了点什么</p>
-<p>其实在做项目的时候我们都是为了完成功能而写的代码，从结构上他们完全围绕这业务，以素描来打比方，我们想画一幅人，我们为了快速完成一个功能，我们可能会先把一个脚画出来，一般业务不明朗的情况下我们都会把这个脚画在图片最中心，这样最快，但是当我们开始画头的时候，完了图片不够大，假如不想搽掉重来的话，你只能把一个人设计成一个矮子了</p>
-<p>这就是我们大部分也包括我在平常工作中遇到的情况，这样的情况会造成一个很恶劣的影响，随着项目越来越大，你就越难纠正，所以我领悟到第一个就是”勇气“，敢于把你代码给重构掉</p>
-<p>当然还有重要的一点就是快速的勇气，其实重构多了你自己会开始畏手畏脚，每次你添加新功能的时候你害怕写垃圾代码或者害怕自己考虑的不够全面为了未来不可能的事写了很多代码，其实我们必须要有写脏代码的勇气，而且我们对这些代码写的越快越好，这样你把他全删了你才不会伤心。</p>
-<p>只有开始习惯重构你才发现，把代码写好是一个多么艰难的事情也是多么有趣的事情，终于明白大师为什么是大师，大师能用的工具框架我能懂都能用，但是大师通过这些工具搭建起来的项目我们却只能望其项背。其实越重构你就会越钦佩大师们总结的经验，他们是如此准确如此实用，虽然我很早之前就看过了解过，但只有踩了无数的bug之后才能发现并理解这些。</p>
-<p>虽然目前我只是一个熟练工，但是我似乎发现了前进的突破的方向。以前一直觉得编程很简单，现在才知道编程没那么简单，但是有那么有趣了。</p>
 ]]></content>
       <categories>
         <category>随想</category>
@@ -1850,6 +1879,30 @@ exec git-update-server-info
       </categories>
   </entry>
   <entry>
+    <title>5月杂感</title>
+    <url>/2020/05/14/summary/5%E6%9C%88%E6%9D%82%E6%84%9F/</url>
+    <content><![CDATA[<blockquote>
+<p>不知不觉2020已经过了快一半了，2020的确是个魔幻的一年，两年都没生过病的我却在疫情开始的时候发了个烧，幸好一天就退了，但是也是魔幻</p>
+</blockquote>
+<p>这次疫情的确影响颇深，我也花了一段时间才慢慢从担心确诊人数到开始安之若素，现在回头看看专心做事能消除很多恐惧和不安</p>
+<p>现在回头看看，自己毕业也快两年了，加上我在大学的四年，我在编程这行已经呆了六年了。回头看看我这六年经历</p>
+<p>在大学四年是入门区，开始接触编程，像一块海绵拼命的汲取知识，慢慢的扩展了自己的广度，但是当我到第三年的时候我就发现自己陷入了一个迷茫区，自己越来越“膨胀”，学了很多东西，感觉编程也不是很难，只要自己想花时间就能学会，这个时候自己就像一个稚童编程就像玩具，每次拿到一个新的玩具（框架、软件），玩一会会基本操作之后就丢了</p>
+<p>接着到了工作时候变成了一个熟练工，在业务的驱动下做了很多很多项目，但是都是新瓶装旧酒，看起来自己编程技术过硬什么问题都能解决，但是其实这个时候只是会一些基本操作而已</p>
+<p>其实在熟练工这个阶段是最难熬的，自己能清楚自己其实只是会编程，但是不是精通，这个时候段我也看了很多编程书，在实际工作中也开始运用大师们的智慧，但是自己对编程越来越迷惑了</p>
+<p>在看了很多书之后，知道了各种编程模式，各种编码规范，自己实际编程的时候越来来畏手畏脚了，总感觉自己写的代码就是shit，越来越怕写垃圾代码，每次编程都在考虑自己的编码是否符合规范是否优美，虽然想了很多，但是最后回头看还是写的一地鸡毛，最后在逐渐自责中慢慢的淡忘编程的条条框框，开始野蛮生长模式</p>
+<p>这种情况直到自己开始在自己项目开发近一年才开始改变，项目从设计原型到所以的设计稿出来全部都是自己的主意，项目从v0.1开始开发，慢慢升级到v1、v2、v3，每个版本升级都是几乎全部重写，这个项目特别有趣，基本上都是自己一直在催促自己，把所有功能都加紧上线，测试能不写就不写，代码能跑就行，终于重要所有的功能都开发完成了，在这过程中由于各种不规范编程，花了无数时间debug，由于是自己的项目，感觉写的这么烂都对不起自己，所有所有的代码又开始重构，在重构的过程发现干脆重写一个算了，基本上每一行代码都被千锤百炼，直到目前还是有很多问题</p>
+<p>但是这个过程中，自己似乎领悟到了一点别的东西，好像编程大师说的那些东西都可以用，当把那些东西稍微的应用到自己的项目中的时候，突然感悟到了点什么</p>
+<p>其实在做项目的时候我们都是为了完成功能而写的代码，从结构上他们完全围绕这业务，以素描来打比方，我们想画一幅人，我们为了快速完成一个功能，我们可能会先把一个脚画出来，一般业务不明朗的情况下我们都会把这个脚画在图片最中心，这样最快，但是当我们开始画头的时候，完了图片不够大，假如不想搽掉重来的话，你只能把一个人设计成一个矮子了</p>
+<p>这就是我们大部分也包括我在平常工作中遇到的情况，这样的情况会造成一个很恶劣的影响，随着项目越来越大，你就越难纠正，所以我领悟到第一个就是”勇气“，敢于把你代码给重构掉</p>
+<p>当然还有重要的一点就是快速的勇气，其实重构多了你自己会开始畏手畏脚，每次你添加新功能的时候你害怕写垃圾代码或者害怕自己考虑的不够全面为了未来不可能的事写了很多代码，其实我们必须要有写脏代码的勇气，而且我们对这些代码写的越快越好，这样你把他全删了你才不会伤心。</p>
+<p>只有开始习惯重构你才发现，把代码写好是一个多么艰难的事情也是多么有趣的事情，终于明白大师为什么是大师，大师能用的工具框架我能懂都能用，但是大师通过这些工具搭建起来的项目我们却只能望其项背。其实越重构你就会越钦佩大师们总结的经验，他们是如此准确如此实用，虽然我很早之前就看过了解过，但只有踩了无数的bug之后才能发现并理解这些。</p>
+<p>虽然目前我只是一个熟练工，但是我似乎发现了前进的突破的方向。以前一直觉得编程很简单，现在才知道编程没那么简单，但是有那么有趣了。</p>
+]]></content>
+      <categories>
+        <category>随想</category>
+      </categories>
+  </entry>
+  <entry>
     <title>大学的错觉</title>
     <url>/2017/10/07/summary/my_college_mistakes/</url>
     <content><![CDATA[<blockquote>
@@ -1875,21 +1928,6 @@ exec git-update-server-info
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>好像我的大学一直全部都是由错误组成的，但是这些错误真的对我来说毫无作用吗。其实未必，当我学完第一门编程语言C的时候，所以的“错误”都在默默的发挥的作用，我用静态语言的辩证思想学Python，我用动态语言的思想反过来学习Java，好像全部的“错误”全部融合成为一个圈，</p>
 <p><strong>我们好像一直在害怕自己出错，其实慢慢的发现那些没有错误的人生不是完整的。</strong></p>
 <p>小时候很羡慕那些一直走在正确的道路上的人，也有时候会幻想成为他们一样的人。没错那样的人生固然完美，但是我更喜欢一直跌跌撞撞的我，或许我经常走在错误的道路上，但是我享受了沿途的风景，不论最终结果如何，人生的意义还是沿途的风景吧!</p>
-]]></content>
-      <categories>
-        <category>随想</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>八月杂感</title>
-    <url>/2020/08/22/summary/%E5%85%AB%E6%9C%88%E6%9D%82%E6%84%9F/</url>
-    <content><![CDATA[<blockquote>
-<p>一眨眼暑假就要过完了，这段博客又停下来了，倒不是因为我停下来学东西，而是我又忘了去归纳总结自己学的东西，总是一个鲁莽的心态去学，总感觉停下来会阻挡自己学习的脚步，但是其实写博客也是学习，把自己的学到的知识转换成自己的东西，写出来的过程就是帮自己的过程，其实这个方法也是一个非常牛逼的学习的方法叫做费尔曼学习法</p>
-</blockquote>
-<p>但是我这个人有点啰嗦，写的东西总是东一句西一句，没有一针见血，这个在接下来的博客里面也要改掉，尽量不要写废话</p>
-<p>接下来说一下我最近的学习方向，其实主要就是金融方向，主要设计到金融、股票、量化等等。牵涉到很多金融知识</p>
-<p>这里我再谈一下为什么我会去想精通业务，其实我一开始接触编程，我一直把自己往框架、底层方向搞（俗称造轮子），忽视了业务，一直觉得业务就是增删查改。但是其实本末倒置。</p>
-<p>所以去年到今年，我一直在犯错误，我一直想造一个轮子出来，但是没有灵魂，再好看的轮子也没有用，所以现在我从头开始，把金融知识掌握透，这个过程会很难，但是应该会很有趣</p>
 ]]></content>
       <categories>
         <category>随想</category>
@@ -1995,6 +2033,21 @@ exec git-update-server-info
       </categories>
   </entry>
   <entry>
+    <title>八月杂感</title>
+    <url>/2020/08/22/summary/%E5%85%AB%E6%9C%88%E6%9D%82%E6%84%9F/</url>
+    <content><![CDATA[<blockquote>
+<p>一眨眼暑假就要过完了，这段博客又停下来了，倒不是因为我停下来学东西，而是我又忘了去归纳总结自己学的东西，总是一个鲁莽的心态去学，总感觉停下来会阻挡自己学习的脚步，但是其实写博客也是学习，把自己的学到的知识转换成自己的东西，写出来的过程就是帮自己的过程，其实这个方法也是一个非常牛逼的学习的方法叫做费尔曼学习法</p>
+</blockquote>
+<p>但是我这个人有点啰嗦，写的东西总是东一句西一句，没有一针见血，这个在接下来的博客里面也要改掉，尽量不要写废话</p>
+<p>接下来说一下我最近的学习方向，其实主要就是金融方向，主要设计到金融、股票、量化等等。牵涉到很多金融知识</p>
+<p>这里我再谈一下为什么我会去想精通业务，其实我一开始接触编程，我一直把自己往框架、底层方向搞（俗称造轮子），忽视了业务，一直觉得业务就是增删查改。但是其实本末倒置。</p>
+<p>所以去年到今年，我一直在犯错误，我一直想造一个轮子出来，但是没有灵魂，再好看的轮子也没有用，所以现在我从头开始，把金融知识掌握透，这个过程会很难，但是应该会很有趣</p>
+]]></content>
+      <categories>
+        <category>随想</category>
+      </categories>
+  </entry>
+  <entry>
     <title>毕业两月反思</title>
     <url>/2018/08/25/summary/%E6%AF%95%E4%B8%9A%E4%B8%A4%E6%9C%88%E5%8F%8D%E6%80%9D/</url>
     <content><![CDATA[<blockquote>
@@ -2028,6 +2081,50 @@ exec git-update-server-info
 <p>也是很巧，过马路的时候绿灯亮了，在我这边只有我一个人要过去，对面马路却一群人要过来，当时瞬间感受到了一种孤独的东西</p>
 <p>在这条人生的斑马线上我可以选择和大部分人一样走上一条康庄大道，路上非常平坦，而且在这条道路上我不会感受到孤独，或者我选择一个人孤独倔强的走下去，虽然路的终点迎接我的不一定是鲜花和掌声，但是当我回过头看看过去的自己的回忆，会感叹这辈子还是很能折腾的哈哈，没白过。</p>
 <p>其实现在有的时候回头看看自己写的博客，还是有一点点自豪的，有的时候甚至会问自己是不是请人代笔的，怎么会写出这么有深度的文章（不要脸哈哈）。过去的2019年自己折腾了很多，可能有些看起来是毫无意义的任性，但是我相信自己每一次的折腾都没有白费，可能现在看来没有价值，但是未来能掀起多大浪花还不知道呢。加油吧，2020！！！</p>
+]]></content>
+      <categories>
+        <category>随想</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>面试杂思</title>
+    <url>/2021/03/07/summary/%E9%9D%A2%E8%AF%95%E6%9D%82%E6%80%9D/</url>
+    <content><![CDATA[<blockquote>
+<p>最近在面试，面试之前总觉得有一丝焦虑</p>
+</blockquote>
+<p>我不知道这丝焦虑是不是学生时代带给我的，对于我来说，这种焦虑是害怕自己不知道这个知识点而很囧。或者对于我来说，我自己一直对自己不够自信。为什么呢，因为对于我来说，我自己一直在干的很杂，相比于其他人来说，我算是一个真“全干”工程师</p>
+<h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p>我在思考为什么会这样，我觉得第一点很重要的是我缺乏一个明确的<strong>职业规划</strong></p>
+<p>之所以我会变成“全干”工程师，是因为我一直在“瞎”折腾。为什么会这样，主要是因为好奇心，每个人都有好奇心，区别在于有些人好奇心强非得把这个东西搞懂然后再放手，有些人好奇心弱一会就结束了。相比而来，我是一个好奇心非常重的人</p>
+<p>我觉得这种好奇心可能是在我上小学的时候就养成了。为什么这么说，你能想到一个十二岁左右小屁孩捧着一本右脑记忆的书，把圆周率后面五百位完整的记下来，还能完整的记忆一副扑克吗。</p>
+<p>现在这种右脑记忆培训班在中国现在也挺流行的，但是在十几年前，图书馆里面只有几本这样的书。我觉得这是我第一次开始折腾吧，虽然最终我没能应用在我的学习上（因为我读的理科）。但是这段经历现在回头看还是得给自己竖个大拇指，现在十几岁的小孩只知道玩手机，看电视，玩游戏。当年的我在没人教导的情况下，自己去钻研学习记忆方法，而且直到我上高三，六年时间内我都没有放弃。我高三的时候用它来背古诗，读一遍就背出来，可惜背诵高考只占8分，最终也没能派上啥用场。</p>
+<p>我人生中第二个折腾就是在高一的时候，我不记得我是听老师推荐还是自己在网上搜怎么学好英语，反正那个时候是新概念英语比较火，那个时候不知道是李阳还是谁鼓吹着学好英语就是听和背，大量重复的听和读，等你读到几百遍的时候你就自然而然的背下来了，我那个时候在睡觉的时候都听着新概念的英语文章，就是重复的听一篇文章还是每天重复的读，当你自然而然的背下来的时候就换下一篇文章背。我记得我当初买的新概念英语三，用这个方法背了大概20篇，有点后悔当初没有继续背下去，如果把新概念3和4全本背完，现在英语应该流利到丝滑境界吧。</p>
+<p>当然现在捡起来其实也可以，其实自己毕业后也一直在背单词，但是其实效果也不是很明显。现在看来，自己现在会不满意自己的现状也是有原因的，自己会放弃一些好的习惯。</p>
+<p>其实写之前自己也没意识到自己放弃了什么，因为人无时无刻不在做选择，当初放弃的原因是没有看到效果，相比于虎头虎脑的背，还不如多刷几道题（最终我高考英语考了130分），从分数上看我是挣了的，但是从长远的角度上来看，我是亏了的，我只是拿到了分数，然而那种方法能给我带来一种更长远的回报，好比短期投资和长期投资。长期投资最让人恐慌的是很难在短期内看到效果，必须要有一种信念让你坚持下去。</p>
+<p>所以其实对于我来说，目前我就需要的是一种坚定的信念，首先我得明确自己的规划，然后把这些规划慢慢给他落实掉。</p>
+<h2 id="反思"><a href="#反思" class="headerlink" title="反思"></a>反思</h2><p>其实回头看看，从大学开始到现在七年时间自己一共尝试了五个方向，按照时间排序</p>
+<ul>
+<li>后端</li>
+<li>机器学习</li>
+<li>爬虫</li>
+<li>数据分析</li>
+<li>大数据</li>
+</ul>
+<p>每个方向其实自己都钻研成中级和高级之间的实力，等我走完这一个圈后，我发现我更喜欢做后端，我突然发现我好像走了一个圈，最后又回到了原点。有时候在想，好像自己真的在浪费时间，假如自己一直在自己喜欢的圈子里努力，那么自己的实力目前也不会之停留在中级和高级之间了。</p>
+<p>但是回头一想，其实自己也不去尝试怎么知道自己最后喜欢的是什么，没有谁天生就喜欢某一行，放牛郎的孩子没办法一辈子只能放牛，作为新一代的人，我很幸运的生活在这个互联网时代，我可以选择自己喜欢做的事，其实我也很感激毕业后呆的这家公司，虽然待遇上比不上大部分互联网人。但是在这里我没有压力没有开会，每天都在思考怎么学，怎么用。</p>
+<p>这几年就像交了5个朋友，每个朋友关系都不是很亲密，所以我会感到“孤独”，感到焦虑。</p>
+<p>要打破这个也很简单，选择自己真正想交的朋友做真心朋友，这样能解决你的焦虑和孤独</p>
+<p>其实有时候觉得做技术必须学点心理学和经济学。为什么呢。因为做到最后你会发现，99.99%的问题都能通过时间来解决，我们每天都在做选择，这个选择是有代价的，其中最大的代价就是时间，所以如何把人生价值最大化，最重要的就是规划好你的时间</p>
+<p>从大的层次上来讲，你要给自己做一个长期规划，这个一般是以年来做计划，第二个就是中期规划，这个一般以月来做单位，还有一个就是短期的，一般是以天来。</p>
+<h2 id="术和道"><a href="#术和道" class="headerlink" title="术和道"></a>术和道</h2><p>其实上面讲的做规划很早之前自己就了解过，但是之前没有意识到这个重要性，年轻的时候不珍惜时间，对于任何问题不管是三七二十一搞定再说，所以以前会通宵解决一下很小的bug。虽然成就感很高，但是其实从后面角度上来看，得不偿失。</p>
+<p>我不是说你碰到bug就放弃，而是你要去想自己为什么会碰到通宵才能解决的bug。自己的规划是不是出了问题，是自己哪个地方能力有欠缺。是debug能力，还是编程能力不足，或者没有熟悉某些工具帮助自己快速定位等等。</p>
+<p>其实我自己也在开始尝试实践这种方法，我第一次了解是在知乎上看到一个硬件工程师在分享自己在家办公如何让自己有效的工作12个小时，然后我自己开始用Microsoft的TODO来帮助我自己实践这个。</p>
+<p>下面是我这些天实践的心得：</p>
+<ol>
+<li>规划是非常严肃，你不能抱着一个完成任务的心态去制定它，你要首先把自己想做的事列出来，然后你得给他排序，对于很重要的事是必须要完成的</li>
+<li>规划完成之后会有一种成就感，对于你历史规划，你也可以定时复盘，看看自己哪些地方可以做到更好</li>
+<li>长期规划非常有必要，你可以每天开始规划之前，或者完成了当天规划之后再思考是否长期规划得做适当的调整，比如加快某项，或者你觉得某项还有更多细节需要深追</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我觉得最重要一点就是复盘吧，你把每天自己完成的TODO，以及这个TODO对你长期规划的影响在脑海里面思考计量，这样你才能以最快速度的接近你的目标。</p>
 ]]></content>
       <categories>
         <category>随想</category>
@@ -2079,50 +2176,6 @@ exec git-update-server-info
       </categories>
   </entry>
   <entry>
-    <title>面试杂思</title>
-    <url>/2021/03/07/summary/%E9%9D%A2%E8%AF%95%E6%9D%82%E6%80%9D/</url>
-    <content><![CDATA[<blockquote>
-<p>最近在面试，面试之前总觉得有一丝焦虑</p>
-</blockquote>
-<p>我不知道这丝焦虑是不是学生时代带给我的，对于我来说，这种焦虑是害怕自己不知道这个知识点而很囧。或者对于我来说，我自己一直对自己不够自信。为什么呢，因为对于我来说，我自己一直在干的很杂，相比于其他人来说，我算是一个真“全干”工程师</p>
-<h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p>我在思考为什么会这样，我觉得第一点很重要的是我缺乏一个明确的<strong>职业规划</strong></p>
-<p>之所以我会变成“全干”工程师，是因为我一直在“瞎”折腾。为什么会这样，主要是因为好奇心，每个人都有好奇心，区别在于有些人好奇心强非得把这个东西搞懂然后再放手，有些人好奇心弱一会就结束了。相比而来，我是一个好奇心非常重的人</p>
-<p>我觉得这种好奇心可能是在我上小学的时候就养成了。为什么这么说，你能想到一个十二岁左右小屁孩捧着一本右脑记忆的书，把圆周率后面五百位完整的记下来，还能完整的记忆一副扑克吗。</p>
-<p>现在这种右脑记忆培训班在中国现在也挺流行的，但是在十几年前，图书馆里面只有几本这样的书。我觉得这是我第一次开始折腾吧，虽然最终我没能应用在我的学习上（因为我读的理科）。但是这段经历现在回头看还是得给自己竖个大拇指，现在十几岁的小孩只知道玩手机，看电视，玩游戏。当年的我在没人教导的情况下，自己去钻研学习记忆方法，而且直到我上高三，六年时间内我都没有放弃。我高三的时候用它来背古诗，读一遍就背出来，可惜背诵高考只占8分，最终也没能派上啥用场。</p>
-<p>我人生中第二个折腾就是在高一的时候，我不记得我是听老师推荐还是自己在网上搜怎么学好英语，反正那个时候是新概念英语比较火，那个时候不知道是李阳还是谁鼓吹着学好英语就是听和背，大量重复的听和读，等你读到几百遍的时候你就自然而然的背下来了，我那个时候在睡觉的时候都听着新概念的英语文章，就是重复的听一篇文章还是每天重复的读，当你自然而然的背下来的时候就换下一篇文章背。我记得我当初买的新概念英语三，用这个方法背了大概20篇，有点后悔当初没有继续背下去，如果把新概念3和4全本背完，现在英语应该流利到丝滑境界吧。</p>
-<p>当然现在捡起来其实也可以，其实自己毕业后也一直在背单词，但是其实效果也不是很明显。现在看来，自己现在会不满意自己的现状也是有原因的，自己会放弃一些好的习惯。</p>
-<p>其实写之前自己也没意识到自己放弃了什么，因为人无时无刻不在做选择，当初放弃的原因是没有看到效果，相比于虎头虎脑的背，还不如多刷几道题（最终我高考英语考了130分），从分数上看我是挣了的，但是从长远的角度上来看，我是亏了的，我只是拿到了分数，然而那种方法能给我带来一种更长远的回报，好比短期投资和长期投资。长期投资最让人恐慌的是很难在短期内看到效果，必须要有一种信念让你坚持下去。</p>
-<p>所以其实对于我来说，目前我就需要的是一种坚定的信念，首先我得明确自己的规划，然后把这些规划慢慢给他落实掉。</p>
-<h2 id="反思"><a href="#反思" class="headerlink" title="反思"></a>反思</h2><p>其实回头看看，从大学开始到现在七年时间自己一共尝试了五个方向，按照时间排序</p>
-<ul>
-<li>后端</li>
-<li>机器学习</li>
-<li>爬虫</li>
-<li>数据分析</li>
-<li>大数据</li>
-</ul>
-<p>每个方向其实自己都钻研成中级和高级之间的实力，等我走完这一个圈后，我发现我更喜欢做后端，我突然发现我好像走了一个圈，最后又回到了原点。有时候在想，好像自己真的在浪费时间，假如自己一直在自己喜欢的圈子里努力，那么自己的实力目前也不会之停留在中级和高级之间了。</p>
-<p>但是回头一想，其实自己也不去尝试怎么知道自己最后喜欢的是什么，没有谁天生就喜欢某一行，放牛郎的孩子没办法一辈子只能放牛，作为新一代的人，我很幸运的生活在这个互联网时代，我可以选择自己喜欢做的事，其实我也很感激毕业后呆的这家公司，虽然待遇上比不上大部分互联网人。但是在这里我没有压力没有开会，每天都在思考怎么学，怎么用。</p>
-<p>这几年就像交了5个朋友，每个朋友关系都不是很亲密，所以我会感到“孤独”，感到焦虑。</p>
-<p>要打破这个也很简单，选择自己真正想交的朋友做真心朋友，这样能解决你的焦虑和孤独</p>
-<p>其实有时候觉得做技术必须学点心理学和经济学。为什么呢。因为做到最后你会发现，99.99%的问题都能通过时间来解决，我们每天都在做选择，这个选择是有代价的，其中最大的代价就是时间，所以如何把人生价值最大化，最重要的就是规划好你的时间</p>
-<p>从大的层次上来讲，你要给自己做一个长期规划，这个一般是以年来做计划，第二个就是中期规划，这个一般以月来做单位，还有一个就是短期的，一般是以天来。</p>
-<h2 id="术和道"><a href="#术和道" class="headerlink" title="术和道"></a>术和道</h2><p>其实上面讲的做规划很早之前自己就了解过，但是之前没有意识到这个重要性，年轻的时候不珍惜时间，对于任何问题不管是三七二十一搞定再说，所以以前会通宵解决一下很小的bug。虽然成就感很高，但是其实从后面角度上来看，得不偿失。</p>
-<p>我不是说你碰到bug就放弃，而是你要去想自己为什么会碰到通宵才能解决的bug。自己的规划是不是出了问题，是自己哪个地方能力有欠缺。是debug能力，还是编程能力不足，或者没有熟悉某些工具帮助自己快速定位等等。</p>
-<p>其实我自己也在开始尝试实践这种方法，我第一次了解是在知乎上看到一个硬件工程师在分享自己在家办公如何让自己有效的工作12个小时，然后我自己开始用Microsoft的TODO来帮助我自己实践这个。</p>
-<p>下面是我这些天实践的心得：</p>
-<ol>
-<li>规划是非常严肃，你不能抱着一个完成任务的心态去制定它，你要首先把自己想做的事列出来，然后你得给他排序，对于很重要的事是必须要完成的</li>
-<li>规划完成之后会有一种成就感，对于你历史规划，你也可以定时复盘，看看自己哪些地方可以做到更好</li>
-<li>长期规划非常有必要，你可以每天开始规划之前，或者完成了当天规划之后再思考是否长期规划得做适当的调整，比如加快某项，或者你觉得某项还有更多细节需要深追</li>
-</ol>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我觉得最重要一点就是复盘吧，你把每天自己完成的TODO，以及这个TODO对你长期规划的影响在脑海里面思考计量，这样你才能以最快速度的接近你的目标。</p>
-]]></content>
-      <categories>
-        <category>随想</category>
-      </categories>
-  </entry>
-  <entry>
     <title>Starting Using English In My Blog</title>
     <url>/2018/10/13/useless/StartingUsingEnglishInMyBlog/</url>
     <content><![CDATA[<blockquote>
@@ -2135,49 +2188,6 @@ exec git-update-server-info
 <li>It’s kind of difficult for me in (<code>en</code>and <code>eng</code>,<code>in</code> and <code>ing</code>) as a southern Chinese which is deeply delay my write speed.</li>
 </ul>
 <p>It’s may be kind of difficult for me writing English in my blog, but I will try my best to avoiding stupied mistake.</p>
-]]></content>
-  </entry>
-  <entry>
-    <title>EF搭建可扩展菜单</title>
-    <url>/2016/07/18/useless/EF%E6%90%AD%E5%BB%BA%E5%8F%AF%E6%89%A9%E5%B1%95%E8%8F%9C%E5%8D%95/</url>
-    <content><![CDATA[<blockquote>
-</blockquote>
-<h3 id="由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。"><a href="#由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。" class="headerlink" title="由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。"></a>由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。</h3><h4 id="由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF-Code-First更是坑了我一把，我想把我碰到坑给大家分享一下。"><a href="#由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF-Code-First更是坑了我一把，我想把我碰到坑给大家分享一下。" class="headerlink" title="由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF Code First更是坑了我一把，我想把我碰到坑给大家分享一下。"></a>由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF Code First更是坑了我一把，我想把我碰到坑给大家分享一下。</h4><h2 id="1-类库的实现"><a href="#1-类库的实现" class="headerlink" title="1.类库的实现"></a>1.类库的实现</h2><h3 id="首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个bool类型IsFoot来定义是否为根菜单，每个Menus有一个父级菜单Menus，有一群子菜单，下面是我定义的Menu库。"><a href="#首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个bool类型IsFoot来定义是否为根菜单，每个Menus有一个父级菜单Menus，有一群子菜单，下面是我定义的Menu库。" class="headerlink" title="首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个bool类型IsFoot来定义是否为根菜单，每个Menus有一个父级菜单Menus，有一群子菜单，下面是我定义的Menu库。"></a>首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个<code>bool</code>类型<strong>IsFoot</strong>来定义是否为根菜单，每个Menus有一个父级菜单Menus，有一群子菜单，下面是我定义的Menu库。</h3><pre><code>  [Description(&quot;菜单&quot;)]
-public class Menus
-{
-    [Key]
-    [Display(Name=&quot;菜单ID&quot;)]
-    public int MenusID { get; set; }
-    [Required]
-    [Display(Name=&quot;是否为根节点&quot;)]
-    public bool IsFoot { get; set; }
-    [Required]
-    [StringLength(25)]
-    [Display(Name=&quot;目录名字&quot;)]
-    public string Name { get; set; }
-    [Display(Name=&quot;是否删除&quot;)]
-    public bool IsDelete { get; set; }
-    [Display(Name=&quot;包含的文章&quot;)]
-    public virtual List&lt;Article&gt; articles { get; set; }
-    [Display(Name = &quot;父级菜单&quot;)]
-    public virtual Menus fatherMenus { get; set; }
-    [Display(Name = &quot;子菜单&quot;)]
-    public virtual List&lt;Menus&gt; sonList { get; set; }
-
-
-}
-</code></pre><h3 id="每个Menus都包含了一个文章集合-虽然有些菜单不一定有文章但是EF可以允许我们0对多，或1对多。"><a href="#每个Menus都包含了一个文章集合-虽然有些菜单不一定有文章但是EF可以允许我们0对多，或1对多。" class="headerlink" title="每个Menus都包含了一个文章集合,虽然有些菜单不一定有文章但是EF可以允许我们0对多，或1对多。"></a>每个Menus都包含了一个文章集合,虽然有些菜单不一定有文章但是EF可以允许我们0对多，或1对多。</h3><h2 id="2-生成数据库"><a href="#2-生成数据库" class="headerlink" title="2.  生成数据库"></a>2.  生成数据库</h2><hr>
-<p>EF比较人性化的是，当我们数据库里面没有我们想要生成的表时，我们不需要多余的代码，只要当成数据库有表，像平时一样添加数据然后EF会帮我们自动在数据库里面建好表，当然你如果有相同名字的表话它报错，会提醒你数据库里面有如果想保存数据要做好数据迁移工作，数据迁移不是我们的重点，如果想了解的话，<a href="http://www.cnblogs.com/guomingfeng/archive/2013/06/15/mvc-ef-configuration-migration.html" target="_blank" rel="noopener">点击这里</a></p>
-<h3 id="生成的数据库包含两个表，一个Menus表，一个是Article表（PS：上面没有给出Article的类型定义，想要的可以自己写），对于这个来说，我们并没有在表里面定义外键属性，只是用来一个引用属性，引用属性是一种“虚属性”，我们通过这个属性来建立起两个对象的虚拟联系，比如说父与子，这种关系是虚拟的对于两者之间的联系是通过血缘来联系的，这个血缘是存在的，相对应就是数据库里面的外键联系，外键也可以看做是表中的一个字段，它记录了一种关系。"><a href="#生成的数据库包含两个表，一个Menus表，一个是Article表（PS：上面没有给出Article的类型定义，想要的可以自己写），对于这个来说，我们并没有在表里面定义外键属性，只是用来一个引用属性，引用属性是一种“虚属性”，我们通过这个属性来建立起两个对象的虚拟联系，比如说父与子，这种关系是虚拟的对于两者之间的联系是通过血缘来联系的，这个血缘是存在的，相对应就是数据库里面的外键联系，外键也可以看做是表中的一个字段，它记录了一种关系。" class="headerlink" title="生成的数据库包含两个表，一个Menus表，一个是Article表（PS：上面没有给出Article的类型定义，想要的可以自己写），对于这个来说，我们并没有在表里面定义外键属性，只是用来一个引用属性，引用属性是一种“虚属性”，我们通过这个属性来建立起两个对象的虚拟联系，比如说父与子，这种关系是虚拟的对于两者之间的联系是通过血缘来联系的，这个血缘是存在的，相对应就是数据库里面的外键联系，外键也可以看做是表中的一个字段，它记录了一种关系。"></a>生成的数据库包含两个表，一个Menus表，一个是Article表（PS：上面没有给出Article的类型定义，想要的可以自己写），对于这个来说，我们并没有在表里面定义外键属性，只是用来一个引用属性，引用属性是一种“虚属性”，我们通过这个属性来建立起两个对象的虚拟联系，比如说父与子，这种关系是虚拟的对于两者之间的联系是通过血缘来联系的，这个血缘是存在的，相对应就是数据库里面的外键联系，外键也可以看做是表中的一个字段，它记录了一种关系。</h3><h4 id="由于EF的智能关系，当我们Code-First时，他会帮我们自动建好外键如果我们不定义的话，当我们使用EF的时候是不需要考虑外键的值的初始化，如果我们没有给他赋值EF会自动给他赋值。"><a href="#由于EF的智能关系，当我们Code-First时，他会帮我们自动建好外键如果我们不定义的话，当我们使用EF的时候是不需要考虑外键的值的初始化，如果我们没有给他赋值EF会自动给他赋值。" class="headerlink" title="由于EF的智能关系，当我们Code First时，他会帮我们自动建好外键如果我们不定义的话，当我们使用EF的时候是不需要考虑外键的值的初始化，如果我们没有给他赋值EF会自动给他赋值。"></a>由于EF的智能关系，当我们Code First时，他会帮我们自动建好外键如果我们不定义的话，当我们使用EF的时候是不需要考虑外键的值的初始化，如果我们没有给他赋值EF会自动给他赋值。</h4><hr>
-<p>讲完了EF的建立，现在就谈谈使用Code First在项目中遇到的问题。</p>
-<hr>
-<p>这个问题主要出在给创建子菜单上，当我们创建子菜单时，我们用的是我们自己的类库代码进行初始化数据库，我们先得到菜单的ID然后在EF里面查询这个菜单，我们查询到这个实体，然后在菜单实体里面添加子菜单，在SaveChange()时候就报错了，EF称检测到有循环赋值的可能，让我们添加外键以避免冲突，我不记得看到的那篇博客看到有人也遇到相同的问题，如果只是普通的一对多（假如是A对1，2，3，4···），当我们给A那个新建一个5时，这个外键的位置是知道的，我们只要在5的外键位置存贮A的主键，然而当我们建立这种父级菜单时，每个菜单里面的外键可以是存贮父级的主键，也可以是子集的主键，所以EF并不能解决冲突，解决这个问题的方法有两种一种是在表中添加外键<br>如：</p>
-<pre><code>       [ForeignKey(&quot;sonList&quot;)]
-public int sonListMenusID{get;set;}
-</code></pre><p>或者用Fluent API 在继承的方法 onModelCreate中添加</p>
-<pre><code>modelBuilder.Entity&lt;Menus&gt;().HasRequired(p=&gt;p.sonList).WithMany(l=&gt;l.Menus).HasForeignKey(p=&gt;p.sonListMenusID)
-</code></pre><p>通过这种创建方式当我们创建子集菜单时我们就可以成功利用EF特性帮我们自动添加上外键，以及建立好实体关系。</p>
-<p>关于更详细的外键知识可以点击<a href="http://www.cnblogs.com/Gyoung/archive/2013/01/22/2869782.html" target="_blank" rel="noopener">这里</a></p>
 ]]></content>
   </entry>
   <entry>
@@ -2229,60 +2239,6 @@ public int sonListMenusID{get;set;}
 <blockquote>
 <p>这个绝对是有争议的，但是那些了解产品的人将会知道什么指标是最重要的。这里有很多数据可以用来做A/B测试，但是产品导向的数据科学家将会把最好的指标用来做测试。你要知道这些的意思：可用性测试、线框、保留和转换率、流量分析、客户反馈、内部日志、A/B测试。</p>
 </blockquote>
-]]></content>
-  </entry>
-  <entry>
-    <title>泛型继承的理解</title>
-    <url>/2016/07/18/useless/%E6%B3%9B%E5%9E%8B%E7%BB%A7%E6%89%BF%E7%9A%84%E7%90%86%E8%A7%A3/</url>
-    <content><![CDATA[<h3 id="泛型对于解决面对对象编程的算法设计可以提高其运算速度，但是对于引用类型来说还是没什么差别，因为引用类型只是指针的地址的调用，简单来说泛型还是挺好理解的，但是对于泛型、非泛型、继承和接口的融合就有些迷惑了。"><a href="#泛型对于解决面对对象编程的算法设计可以提高其运算速度，但是对于引用类型来说还是没什么差别，因为引用类型只是指针的地址的调用，简单来说泛型还是挺好理解的，但是对于泛型、非泛型、继承和接口的融合就有些迷惑了。" class="headerlink" title="泛型对于解决面对对象编程的算法设计可以提高其运算速度，但是对于引用类型来说还是没什么差别，因为引用类型只是指针的地址的调用，简单来说泛型还是挺好理解的，但是对于泛型、非泛型、继承和接口的融合就有些迷惑了。"></a>泛型对于解决面对对象编程的算法设计可以提高其运算速度，但是对于引用类型来说还是没什么差别，因为引用类型只是指针的地址的调用，简单来说泛型还是挺好理解的，但是对于泛型、非泛型、继承和接口的融合就有些迷惑了。</h3><h5 id="比如说这种接口"><a href="#比如说这种接口" class="headerlink" title="比如说这种接口"></a>比如说这种接口</h5><pre><code>public interface IEnumeratot&lt;T&gt;:IDisposable,IEnumerator,ICompare&lt;T&gt;
-</code></pre><h4 id="这个泛型接口继承了两个非泛型接口，和一个泛型接口。"><a href="#这个泛型接口继承了两个非泛型接口，和一个泛型接口。" class="headerlink" title="这个泛型接口继承了两个非泛型接口，和一个泛型接口。"></a>这个泛型接口继承了两个非泛型接口，和一个泛型接口。</h4><hr>
-<h3 id="我一开始理解泛型就是一个个模型，只要我们把类型一个参数赋给他，他就能生成一个标准的类型，他缺少的只是一个参数而已，我们引用的时候感觉就像我们引用一个“全体方法”，把参数赋给类型后就可以一直调用类中的方法了，但是对于接口的继承如何理解？"><a href="#我一开始理解泛型就是一个个模型，只要我们把类型一个参数赋给他，他就能生成一个标准的类型，他缺少的只是一个参数而已，我们引用的时候感觉就像我们引用一个“全体方法”，把参数赋给类型后就可以一直调用类中的方法了，但是对于接口的继承如何理解？" class="headerlink" title="我一开始理解泛型就是一个个模型，只要我们把类型一个参数赋给他，他就能生成一个标准的类型，他缺少的只是一个参数而已，我们引用的时候感觉就像我们引用一个“全体方法”，把参数赋给类型后就可以一直调用类中的方法了，但是对于接口的继承如何理解？"></a>我一开始理解泛型就是一个个模型，只要我们把类型一个参数赋给他，他就能生成一个标准的类型，他缺少的只是一个参数而已，我们引用的时候感觉就像我们引用一个“全体方法”，把参数赋给类型后就可以一直调用类中的方法了，但是对于接口的继承如何理解？</h3><p>对于泛型类的继承，继承的类必须实现泛型的参数或者保留泛型的参数，比如下面</p>
-<pre><code>  public class A&lt;T&gt;
-{
-    public T tt;
-}
-public class C&lt;T&gt; : A&lt;T&gt;
-{
-    public T tt;
-}
-</code></pre><p>或者是这样</p>
-<pre><code>  public class A&lt;T&gt;
-{
-    public T tt;
-}
-public class C : A&lt;string&gt;
-{
-    C cc;
-}
-</code></pre><p>对于泛型继承非泛型类，比如下面</p>
-<pre><code>public class A 
-{
-     A aa;
- }
-
- public class B&lt;T&gt;:A
-{
-    B&lt;T&gt; bb;
-}
-</code></pre><p>基类是非泛型，而继承的是泛型类，我感觉这种构造就是让泛型类多了一种<strong>包容性</strong>,比如下面的链表实现的代码，让基类是非泛型，而继承是泛型，就能让链表可以连起很多种类型的数据，而本身的类型安全没有丢失。</p>
-<pre><code>public class Node
-{
-        pretected Node next;
-          public Node(Node next){
-            this.next=next;
-            }
-}
-public class TypeNode&lt;T&gt;:Node
-{
-    public T data ;
-    public TypeNode(T data):this(data ,null){
-        }
-    public TypeNode(T data,Node next):base(next){
-        this.data=data;
-        }
-
-    }
-</code></pre><p>泛型的约束</p>
 ]]></content>
   </entry>
   <entry>
@@ -2361,6 +2317,103 @@ var moveY = function(y) {
 <li><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Strict_mode" target="_blank" rel="noopener">严格模式</a></p>
 </li>
 </ul>
+]]></content>
+  </entry>
+  <entry>
+    <title>EF搭建可扩展菜单</title>
+    <url>/2016/07/18/useless/EF%E6%90%AD%E5%BB%BA%E5%8F%AF%E6%89%A9%E5%B1%95%E8%8F%9C%E5%8D%95/</url>
+    <content><![CDATA[<blockquote>
+</blockquote>
+<h3 id="由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。"><a href="#由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。" class="headerlink" title="由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。"></a>由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。</h3><h4 id="由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF-Code-First更是坑了我一把，我想把我碰到坑给大家分享一下。"><a href="#由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF-Code-First更是坑了我一把，我想把我碰到坑给大家分享一下。" class="headerlink" title="由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF Code First更是坑了我一把，我想把我碰到坑给大家分享一下。"></a>由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF Code First更是坑了我一把，我想把我碰到坑给大家分享一下。</h4><h2 id="1-类库的实现"><a href="#1-类库的实现" class="headerlink" title="1.类库的实现"></a>1.类库的实现</h2><h3 id="首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个bool类型IsFoot来定义是否为根菜单，每个Menus有一个父级菜单Menus，有一群子菜单，下面是我定义的Menu库。"><a href="#首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个bool类型IsFoot来定义是否为根菜单，每个Menus有一个父级菜单Menus，有一群子菜单，下面是我定义的Menu库。" class="headerlink" title="首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个bool类型IsFoot来定义是否为根菜单，每个Menus有一个父级菜单Menus，有一群子菜单，下面是我定义的Menu库。"></a>首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个<code>bool</code>类型<strong>IsFoot</strong>来定义是否为根菜单，每个Menus有一个父级菜单Menus，有一群子菜单，下面是我定义的Menu库。</h3><pre><code>  [Description(&quot;菜单&quot;)]
+public class Menus
+{
+    [Key]
+    [Display(Name=&quot;菜单ID&quot;)]
+    public int MenusID { get; set; }
+    [Required]
+    [Display(Name=&quot;是否为根节点&quot;)]
+    public bool IsFoot { get; set; }
+    [Required]
+    [StringLength(25)]
+    [Display(Name=&quot;目录名字&quot;)]
+    public string Name { get; set; }
+    [Display(Name=&quot;是否删除&quot;)]
+    public bool IsDelete { get; set; }
+    [Display(Name=&quot;包含的文章&quot;)]
+    public virtual List&lt;Article&gt; articles { get; set; }
+    [Display(Name = &quot;父级菜单&quot;)]
+    public virtual Menus fatherMenus { get; set; }
+    [Display(Name = &quot;子菜单&quot;)]
+    public virtual List&lt;Menus&gt; sonList { get; set; }
+
+
+}
+</code></pre><h3 id="每个Menus都包含了一个文章集合-虽然有些菜单不一定有文章但是EF可以允许我们0对多，或1对多。"><a href="#每个Menus都包含了一个文章集合-虽然有些菜单不一定有文章但是EF可以允许我们0对多，或1对多。" class="headerlink" title="每个Menus都包含了一个文章集合,虽然有些菜单不一定有文章但是EF可以允许我们0对多，或1对多。"></a>每个Menus都包含了一个文章集合,虽然有些菜单不一定有文章但是EF可以允许我们0对多，或1对多。</h3><h2 id="2-生成数据库"><a href="#2-生成数据库" class="headerlink" title="2.  生成数据库"></a>2.  生成数据库</h2><hr>
+<p>EF比较人性化的是，当我们数据库里面没有我们想要生成的表时，我们不需要多余的代码，只要当成数据库有表，像平时一样添加数据然后EF会帮我们自动在数据库里面建好表，当然你如果有相同名字的表话它报错，会提醒你数据库里面有如果想保存数据要做好数据迁移工作，数据迁移不是我们的重点，如果想了解的话，<a href="http://www.cnblogs.com/guomingfeng/archive/2013/06/15/mvc-ef-configuration-migration.html" target="_blank" rel="noopener">点击这里</a></p>
+<h3 id="生成的数据库包含两个表，一个Menus表，一个是Article表（PS：上面没有给出Article的类型定义，想要的可以自己写），对于这个来说，我们并没有在表里面定义外键属性，只是用来一个引用属性，引用属性是一种“虚属性”，我们通过这个属性来建立起两个对象的虚拟联系，比如说父与子，这种关系是虚拟的对于两者之间的联系是通过血缘来联系的，这个血缘是存在的，相对应就是数据库里面的外键联系，外键也可以看做是表中的一个字段，它记录了一种关系。"><a href="#生成的数据库包含两个表，一个Menus表，一个是Article表（PS：上面没有给出Article的类型定义，想要的可以自己写），对于这个来说，我们并没有在表里面定义外键属性，只是用来一个引用属性，引用属性是一种“虚属性”，我们通过这个属性来建立起两个对象的虚拟联系，比如说父与子，这种关系是虚拟的对于两者之间的联系是通过血缘来联系的，这个血缘是存在的，相对应就是数据库里面的外键联系，外键也可以看做是表中的一个字段，它记录了一种关系。" class="headerlink" title="生成的数据库包含两个表，一个Menus表，一个是Article表（PS：上面没有给出Article的类型定义，想要的可以自己写），对于这个来说，我们并没有在表里面定义外键属性，只是用来一个引用属性，引用属性是一种“虚属性”，我们通过这个属性来建立起两个对象的虚拟联系，比如说父与子，这种关系是虚拟的对于两者之间的联系是通过血缘来联系的，这个血缘是存在的，相对应就是数据库里面的外键联系，外键也可以看做是表中的一个字段，它记录了一种关系。"></a>生成的数据库包含两个表，一个Menus表，一个是Article表（PS：上面没有给出Article的类型定义，想要的可以自己写），对于这个来说，我们并没有在表里面定义外键属性，只是用来一个引用属性，引用属性是一种“虚属性”，我们通过这个属性来建立起两个对象的虚拟联系，比如说父与子，这种关系是虚拟的对于两者之间的联系是通过血缘来联系的，这个血缘是存在的，相对应就是数据库里面的外键联系，外键也可以看做是表中的一个字段，它记录了一种关系。</h3><h4 id="由于EF的智能关系，当我们Code-First时，他会帮我们自动建好外键如果我们不定义的话，当我们使用EF的时候是不需要考虑外键的值的初始化，如果我们没有给他赋值EF会自动给他赋值。"><a href="#由于EF的智能关系，当我们Code-First时，他会帮我们自动建好外键如果我们不定义的话，当我们使用EF的时候是不需要考虑外键的值的初始化，如果我们没有给他赋值EF会自动给他赋值。" class="headerlink" title="由于EF的智能关系，当我们Code First时，他会帮我们自动建好外键如果我们不定义的话，当我们使用EF的时候是不需要考虑外键的值的初始化，如果我们没有给他赋值EF会自动给他赋值。"></a>由于EF的智能关系，当我们Code First时，他会帮我们自动建好外键如果我们不定义的话，当我们使用EF的时候是不需要考虑外键的值的初始化，如果我们没有给他赋值EF会自动给他赋值。</h4><hr>
+<p>讲完了EF的建立，现在就谈谈使用Code First在项目中遇到的问题。</p>
+<hr>
+<p>这个问题主要出在给创建子菜单上，当我们创建子菜单时，我们用的是我们自己的类库代码进行初始化数据库，我们先得到菜单的ID然后在EF里面查询这个菜单，我们查询到这个实体，然后在菜单实体里面添加子菜单，在SaveChange()时候就报错了，EF称检测到有循环赋值的可能，让我们添加外键以避免冲突，我不记得看到的那篇博客看到有人也遇到相同的问题，如果只是普通的一对多（假如是A对1，2，3，4···），当我们给A那个新建一个5时，这个外键的位置是知道的，我们只要在5的外键位置存贮A的主键，然而当我们建立这种父级菜单时，每个菜单里面的外键可以是存贮父级的主键，也可以是子集的主键，所以EF并不能解决冲突，解决这个问题的方法有两种一种是在表中添加外键<br>如：</p>
+<pre><code>       [ForeignKey(&quot;sonList&quot;)]
+public int sonListMenusID{get;set;}
+</code></pre><p>或者用Fluent API 在继承的方法 onModelCreate中添加</p>
+<pre><code>modelBuilder.Entity&lt;Menus&gt;().HasRequired(p=&gt;p.sonList).WithMany(l=&gt;l.Menus).HasForeignKey(p=&gt;p.sonListMenusID)
+</code></pre><p>通过这种创建方式当我们创建子集菜单时我们就可以成功利用EF特性帮我们自动添加上外键，以及建立好实体关系。</p>
+<p>关于更详细的外键知识可以点击<a href="http://www.cnblogs.com/Gyoung/archive/2013/01/22/2869782.html" target="_blank" rel="noopener">这里</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>泛型继承的理解</title>
+    <url>/2016/07/18/useless/%E6%B3%9B%E5%9E%8B%E7%BB%A7%E6%89%BF%E7%9A%84%E7%90%86%E8%A7%A3/</url>
+    <content><![CDATA[<h3 id="泛型对于解决面对对象编程的算法设计可以提高其运算速度，但是对于引用类型来说还是没什么差别，因为引用类型只是指针的地址的调用，简单来说泛型还是挺好理解的，但是对于泛型、非泛型、继承和接口的融合就有些迷惑了。"><a href="#泛型对于解决面对对象编程的算法设计可以提高其运算速度，但是对于引用类型来说还是没什么差别，因为引用类型只是指针的地址的调用，简单来说泛型还是挺好理解的，但是对于泛型、非泛型、继承和接口的融合就有些迷惑了。" class="headerlink" title="泛型对于解决面对对象编程的算法设计可以提高其运算速度，但是对于引用类型来说还是没什么差别，因为引用类型只是指针的地址的调用，简单来说泛型还是挺好理解的，但是对于泛型、非泛型、继承和接口的融合就有些迷惑了。"></a>泛型对于解决面对对象编程的算法设计可以提高其运算速度，但是对于引用类型来说还是没什么差别，因为引用类型只是指针的地址的调用，简单来说泛型还是挺好理解的，但是对于泛型、非泛型、继承和接口的融合就有些迷惑了。</h3><h5 id="比如说这种接口"><a href="#比如说这种接口" class="headerlink" title="比如说这种接口"></a>比如说这种接口</h5><pre><code>public interface IEnumeratot&lt;T&gt;:IDisposable,IEnumerator,ICompare&lt;T&gt;
+</code></pre><h4 id="这个泛型接口继承了两个非泛型接口，和一个泛型接口。"><a href="#这个泛型接口继承了两个非泛型接口，和一个泛型接口。" class="headerlink" title="这个泛型接口继承了两个非泛型接口，和一个泛型接口。"></a>这个泛型接口继承了两个非泛型接口，和一个泛型接口。</h4><hr>
+<h3 id="我一开始理解泛型就是一个个模型，只要我们把类型一个参数赋给他，他就能生成一个标准的类型，他缺少的只是一个参数而已，我们引用的时候感觉就像我们引用一个“全体方法”，把参数赋给类型后就可以一直调用类中的方法了，但是对于接口的继承如何理解？"><a href="#我一开始理解泛型就是一个个模型，只要我们把类型一个参数赋给他，他就能生成一个标准的类型，他缺少的只是一个参数而已，我们引用的时候感觉就像我们引用一个“全体方法”，把参数赋给类型后就可以一直调用类中的方法了，但是对于接口的继承如何理解？" class="headerlink" title="我一开始理解泛型就是一个个模型，只要我们把类型一个参数赋给他，他就能生成一个标准的类型，他缺少的只是一个参数而已，我们引用的时候感觉就像我们引用一个“全体方法”，把参数赋给类型后就可以一直调用类中的方法了，但是对于接口的继承如何理解？"></a>我一开始理解泛型就是一个个模型，只要我们把类型一个参数赋给他，他就能生成一个标准的类型，他缺少的只是一个参数而已，我们引用的时候感觉就像我们引用一个“全体方法”，把参数赋给类型后就可以一直调用类中的方法了，但是对于接口的继承如何理解？</h3><p>对于泛型类的继承，继承的类必须实现泛型的参数或者保留泛型的参数，比如下面</p>
+<pre><code>  public class A&lt;T&gt;
+{
+    public T tt;
+}
+public class C&lt;T&gt; : A&lt;T&gt;
+{
+    public T tt;
+}
+</code></pre><p>或者是这样</p>
+<pre><code>  public class A&lt;T&gt;
+{
+    public T tt;
+}
+public class C : A&lt;string&gt;
+{
+    C cc;
+}
+</code></pre><p>对于泛型继承非泛型类，比如下面</p>
+<pre><code>public class A 
+{
+     A aa;
+ }
+
+ public class B&lt;T&gt;:A
+{
+    B&lt;T&gt; bb;
+}
+</code></pre><p>基类是非泛型，而继承的是泛型类，我感觉这种构造就是让泛型类多了一种<strong>包容性</strong>,比如下面的链表实现的代码，让基类是非泛型，而继承是泛型，就能让链表可以连起很多种类型的数据，而本身的类型安全没有丢失。</p>
+<pre><code>public class Node
+{
+        pretected Node next;
+          public Node(Node next){
+            this.next=next;
+            }
+}
+public class TypeNode&lt;T&gt;:Node
+{
+    public T data ;
+    public TypeNode(T data):this(data ,null){
+        }
+    public TypeNode(T data,Node next):base(next){
+        this.data=data;
+        }
+
+    }
+</code></pre><p>泛型的约束</p>
 ]]></content>
   </entry>
   <entry>
@@ -4198,117 +4251,6 @@ for i in range(18000):
       </tags>
   </entry>
   <entry>
-    <title>TDD-隔离测试</title>
-    <url>/2016/08/09/algorithm/TDD/TDD-Isolution-Test/</url>
-    <content><![CDATA[<blockquote>
-<p> 隔离测试是相对与于整合测试来说的，现代软件架构流行分层式、模块化，而隔离测试就是相当于在每层上进行测试，整合测试就是跨越多个层进行测试</p>
-</blockquote>
-<h2 id="introduction"><a href="#introduction" class="headerlink" title="introduction"></a>introduction</h2><p>举个简单例子来说，在django系列中，我们把表单提交分成两个层，一个<code>form</code>层，一个式<code>model</code>层</p>
-<p><code>form</code>层相当于接近用户交互层，而<code>model</code>层与数据库联系更大， <code>form</code>层负责获取用户数据并验证，而<code>model</code>层根据<code>form</code>层数据将数据存入数据库。</p>
-<p>隔离测试就是隔离<code>form</code>层向<code>model</code>层提交，而整合测试就是直接测试<code>form</code>层和<code>model</code>层。</p>
-<p>判断一个测试是整合测试还是隔离测试就是看测试的边界，整合测试相当于我们更加熟悉，我们测试时通过伪造form提交，然后通过数据库获取存入数据来得到验证，而隔离测试就比较复杂，因为我们很难在一个耦合度高代码找到怎么隔离两个层的方法。</p>
-<p>接下来我就介绍python里一个神器：mock</p>
-<p><em>自己用过其他语言框架中的mock，但是python里面mock里面最神奇的的是里面的<code>patch</code>，就像一个超级补丁一样。</em></p>
-<h2 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h2><blockquote>
-<p>接下来我用一个例子来介绍一下如何写隔离测试</p>
-</blockquote>
-<p>首先我们在 <code>lists.forms.py</code>中一个表单model</p>
-<pre><code>class ListForm(forms.models.ModelForm):
-    def save(self):
-        pass
-</code></pre><p>我们在<code>lists.models.py</code>有个model</p>
-<pre><code>class List(models.Model):
-    def create_now():
-        pass
-</code></pre><p>现在来分析一下这个隔离测试，我们要测试<code>ListForm</code>中<code>save</code>方法</p>
-<p>首先<code>ListForm</code>和<code>List</code>两个类是耦合的，一个整合测试，我们只要调用<code>save</code>方法，然后查询数据库就可以完成这个测试，然而隔离测试不同，我们只能测试在调用<code>save</code>方法时，他“干”了什么。他可能调用了<code>List</code>的<code>create_now</code>方法，将得到表单数据传了过去。</p>
-<p>意味着我们只能测试到<code>save</code>方法调用了<code>List</code>方法。</p>
-<p>那这个隔离单元测试该怎么写？</p>
-<p><em>接下来我们隆重介绍mock里面的最强补丁<strong>patch</strong></em></p>
-<p>根据TDD原则，我们先新建一个单元测试<code>IsolutionFormTest</code></p>
-<pre><code>import unittest
-from unittest.mock import patch, Mock      ##load super patch 
-from lists.models import List
-from lists.forms import ListForm
-
-
-class IsolutionFormTest(unitest.TestCase):
-
-       @patch(&apos;lists.forms.List.create_new&apos;)
-       def test_save_creates_new_list(self, mock_list_create_new):
-            form = ListForm(data={&apos;text&apos;: &quot;example text&quot;})
-            form.is_valid()    # get clean data
-            form.save()
-
-            mock_list_create_new.assert_called_once_with(
-                text= &quot;example text&quot;
-            )   # the major test
-</code></pre><p>我来介绍一下这个<code>patch</code>，就像名字一样补丁，通过我们使用字符串将要替换的函数写出来，当<code>test</code>运行时，会自动将函数替换成一个<code>mock</code>对象，通过参数（上面的<code>mock_list_create_new</code>）赋给函数。</p>
-<p>你可以这样想象，当<code>form.save()</code>调用时，在<code>save</code>函数里面，我们如果使用了<code>lists.forms.List.create_new</code>这个函数，这个函数就会被直接被补丁替换掉，你如果使用了<code>lists.forms.List.create_new(text=&quot;xxx&quot;)</code>就会变成<code>mock_list_create_new(text=&quot;xxx&quot;)</code>,当你调用了<code>mock_list_create_new(text=&quot;xxx&quot;)</code>时，<code>mock_list_create_new</code>这个<code>mock</code>对象就会记录下来。</p>
-<p>这样我们就通过<code>mock_list_create_new</code>测试了函数是否执行了没有，因为隔离开<code>form</code>层和<code>model</code>层的就是通过两者之间的接口。我们只用测试接口是否执行了没有就可以了。</p>
-<p>这样我们就完成了隔离单元测试，运行一下肯定失败，我们接下来就把<code>save</code>方法完善一下通过测试。</p>
-<pre><code>from django import form
-form list.models import List
-
-class ListForm(forms.models.ModelForm):
-    def save(self):
-        List.create_new(text=self.cleaned_data[&apos;text&apos;])
-</code></pre><p>ok测试通过了，我们就可以歇一口气了。</p>
-<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>相对于整合测试，隔离测试运行速度更快，但是相对的隔离测试对接口要求非常严格，好的方面利用我们进行更好的代码设计，更好的分析代码的复杂程度，并且当接口变迁的时候，隔离测试能迅速发现变化而报警，然而隔离测试工作量比较大，而且没有整合测试那么好理解。在实际生产中对于复杂的接口我们尽量进行隔离测试，对于简单接口我们使用整合测试能根据减少程序的耦合性，而且能迅速发现集成问题。</p>
-<p>ps：对<code>patch</code>感兴趣的童鞋可以自行google，<code>patch</code>好玩的地方还有很多，这里为了篇幅我只介绍了最核心的使用方法，大家可以自行探索<code>patch</code>更多好玩的东西。s</p>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>TDD</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>TDD测试开发理解</title>
-    <url>/2016/07/26/algorithm/TDD/TDD%E6%B5%8B%E8%AF%95%E5%BC%80%E5%8F%91%E7%90%86%E8%A7%A3/</url>
-    <content><![CDATA[<blockquote>
-<p>看了 &lt;&lt; Python Web 开发 测试驱动方法&gt;&gt; 以后, 感觉自己找到自己的一些项目之所以不能够很好的 维护下去的原因.总结了一下自己的理解, 记录下来.</p>
-</blockquote>
-<h2 id="什么是-TDD"><a href="#什么是-TDD" class="headerlink" title="什么是 TDD"></a>什么是 TDD</h2><blockquote>
-<p>Test-Driven Development</p>
-</blockquote>
-<p> TDD 是一种以测试为驱动开发的方法, 自己以前也听到过这个名词, 但是平常只是稍微写一点测试,并没有让测试领导开发节奏.</p>
-<p>简单来说TDD是先写测试再写代码, 这于我们平时开发的时候有很大不同,比如我们写一个web页面, 我们一般是先写好代码,然后在浏览器上调试(相当于测试),然而测试驱动开发就不同了,我们一开始只写测试, 然后写代码让他通过我们的测试.</p>
-<p>TDD的主题基本上很多人都知道,但是具体步骤和诀窍很多人不明就里.下面来详细介绍怎么让<code>Test</code><br>引导你的开发.</p>
-<h2 id="怎么进行TDD"><a href="#怎么进行TDD" class="headerlink" title="怎么进行TDD"></a>怎么进行TDD</h2><blockquote>
-<p>首先让我来看一看<code>Test</code>是什么, Test 分两种</p>
-</blockquote>
-<ol>
-<li>功能测试</li>
-<li>单元测试</li>
-</ol>
-<h3 id="功能测试"><a href="#功能测试" class="headerlink" title="功能测试"></a>功能测试</h3><blockquote>
-<p>很多人知道单元测试却很少听到功能测试, 功能测试在开发过程中经常被人忽略,但是功能测试能很好的把握开发方向</p>
-</blockquote>
-<p>功能测试就是从用户角度出发, 从用户的角度测试代码.</p>
-<p>用web项目开发来打比方, 用户只能通过浏览器来浏览你的web, 所有的交互只能通过浏览器来实现,功能测试就是模拟用户进行浏览器上的操作,具体来说我们可用使用<code>selenium</code>来操控<strong>firefox</strong>或<strong>chrome</strong>,通过我们使用<code>selenium</code>提供的接口操作浏览器访问页面获取<code>html</code>, 来进行功能测试.</p>
-<p>功能测试就是测试一个项目成品的功能, 在平常的项目开发中,这个测试往往是提到项目完成之后人工进行, 然而在<strong>TDD</strong>中这个却被提到了最前面,他成了一个风向标,所有的代码目的都是为了实现这个功能测试.</p>
-<h3 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h3><blockquote>
-<p>单元测试这个很多人都很了解, python里面有<code>unittest</code> 这个单元测试框架.就是专门为单元测试而开发的.</p>
-</blockquote>
-<p>单元测试历史悠久,很多人都写过单元测试,不过大部分人写单元测试都是在函数或者类完成之后写的.</p>
-<p>在TDD中,单元测试进行最频繁的测试, 在功能测试完, 写每一个函数都提倡先写单元测试, 然后进行开发.</p>
-<p>单元测试关注点与功能测试不同, 单元测试注重的是每一个函数执行的结果, 给定一个输入就一定要得到一个确定的输出,比功能测试他更关注底层代码,毕竟功能测试只关注用户最后得到结果,单元测试将你的代码函数形成一个单元,逐个运行,逐个测试.</p>
-<blockquote>
-<p>前面介绍了一大堆概念,却没有落到实处, 功能测试很简单,我们评价一个项目,能很快的写出测试方法,但是对于单元测试来说,我到底该怎么进行,这同我平时的开发有什么不同,下面就详细的介绍单元测试的几个重要的要点.</p>
-</blockquote>
-<hr>
-<p>留个坑慢慢填.</p>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>TDD</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>用例子学TDD</title>
     <url>/2016/08/21/algorithm/TDD/TDD-byexample-transform/</url>
     <content><![CDATA[<blockquote>
@@ -4383,27 +4325,114 @@ class ListForm(forms.models.ModelForm):
       </tags>
   </entry>
   <entry>
-    <title>mit6.828课程总结</title>
-    <url>/2018/01/09/algorithm/mit6_828/mit6.828%E8%AF%BE%E7%A8%8B%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
-<p>一开始想直接做一个操作系统，但是万事开头难，学习操作系统需要太多基础知识了，所以就按照网上推荐先学习mit6.828的课程，先把xvf6操作系统搞懂，然后在来实现自己的操作系统，下面就是学习这个课程的体会，按照各个lab的顺序，介绍自己的心得体会</p>
+    <title>TDD测试开发理解</title>
+    <url>/2016/07/26/algorithm/TDD/TDD%E6%B5%8B%E8%AF%95%E5%BC%80%E5%8F%91%E7%90%86%E8%A7%A3/</url>
+    <content><![CDATA[<blockquote>
+<p>看了 &lt;&lt; Python Web 开发 测试驱动方法&gt;&gt; 以后, 感觉自己找到自己的一些项目之所以不能够很好的 维护下去的原因.总结了一下自己的理解, 记录下来.</p>
 </blockquote>
-<p>课程的地址是： <a href="https://pdos.csail.mit.edu/6.828/2016/schedule.html" target="_blank" rel="noopener">mit6.828</a><br>PS：由于<a href="https://pdos.csail.mit.edu/6.828/2016/schedule.html" target="_blank" rel="noopener">mit6.828</a>课程仓库需要翻墙，所以我把clone下来放到我的github仓库，我的<a href="https://github.com/mrzhangboss/mit6.828-2016" target="_blank" rel="noopener">仓库</a>里，大家可以clone下来（我会逐渐完成所以的实验）</p>
-<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
-<li><a href="/2018/01/29/什么是操作系统/">什么是操作系统</a> lab1</li>
-<li><a href="/2018/02/05/内存分页设计/">内存分页设计</a> lab2</li>
-<li><a href="/2018/02/20/用户空间隔离/">用户空间隔离</a> lab3</li>
-<li><a href="/2018/02/">并行多核设计</a> lab4</li>
-<li><a href="/2018/02/">文件系统设计</a> lab5</li>
-<li><a href="/2018/02/">网络设计</a> lab6</li>
-</ul>
-<h2 id="课程总结"><a href="#课程总结" class="headerlink" title="课程总结"></a>课程总结</h2><p>学到一半才发现这是一门研究生课程的学习，的确难度非常大，而且每一个实验都可以拿出来大做研究，但是课程给的资料非常详细，基本上每个硬件细节都给出了链接，但是对于最大的困难还是英语资料实在太多，有点“吸收”不过来。不过一路学习下来，感觉还是收获很大，基本上每个实验都环环相扣，每个实现细节都需要反复思考，为什么要这样做，还能怎么做，最终实现的xvf6还有些许跟不上时代的脚步，但是基本上框架已经有了，就是按照这个骨架完善更多细节，所以这个课程还远远没有结束，期待接下来对这个操作系统的进一步改进！！！</p>
+<h2 id="什么是-TDD"><a href="#什么是-TDD" class="headerlink" title="什么是 TDD"></a>什么是 TDD</h2><blockquote>
+<p>Test-Driven Development</p>
+</blockquote>
+<p> TDD 是一种以测试为驱动开发的方法, 自己以前也听到过这个名词, 但是平常只是稍微写一点测试,并没有让测试领导开发节奏.</p>
+<p>简单来说TDD是先写测试再写代码, 这于我们平时开发的时候有很大不同,比如我们写一个web页面, 我们一般是先写好代码,然后在浏览器上调试(相当于测试),然而测试驱动开发就不同了,我们一开始只写测试, 然后写代码让他通过我们的测试.</p>
+<p>TDD的主题基本上很多人都知道,但是具体步骤和诀窍很多人不明就里.下面来详细介绍怎么让<code>Test</code><br>引导你的开发.</p>
+<h2 id="怎么进行TDD"><a href="#怎么进行TDD" class="headerlink" title="怎么进行TDD"></a>怎么进行TDD</h2><blockquote>
+<p>首先让我来看一看<code>Test</code>是什么, Test 分两种</p>
+</blockquote>
+<ol>
+<li>功能测试</li>
+<li>单元测试</li>
+</ol>
+<h3 id="功能测试"><a href="#功能测试" class="headerlink" title="功能测试"></a>功能测试</h3><blockquote>
+<p>很多人知道单元测试却很少听到功能测试, 功能测试在开发过程中经常被人忽略,但是功能测试能很好的把握开发方向</p>
+</blockquote>
+<p>功能测试就是从用户角度出发, 从用户的角度测试代码.</p>
+<p>用web项目开发来打比方, 用户只能通过浏览器来浏览你的web, 所有的交互只能通过浏览器来实现,功能测试就是模拟用户进行浏览器上的操作,具体来说我们可用使用<code>selenium</code>来操控<strong>firefox</strong>或<strong>chrome</strong>,通过我们使用<code>selenium</code>提供的接口操作浏览器访问页面获取<code>html</code>, 来进行功能测试.</p>
+<p>功能测试就是测试一个项目成品的功能, 在平常的项目开发中,这个测试往往是提到项目完成之后人工进行, 然而在<strong>TDD</strong>中这个却被提到了最前面,他成了一个风向标,所有的代码目的都是为了实现这个功能测试.</p>
+<h3 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h3><blockquote>
+<p>单元测试这个很多人都很了解, python里面有<code>unittest</code> 这个单元测试框架.就是专门为单元测试而开发的.</p>
+</blockquote>
+<p>单元测试历史悠久,很多人都写过单元测试,不过大部分人写单元测试都是在函数或者类完成之后写的.</p>
+<p>在TDD中,单元测试进行最频繁的测试, 在功能测试完, 写每一个函数都提倡先写单元测试, 然后进行开发.</p>
+<p>单元测试关注点与功能测试不同, 单元测试注重的是每一个函数执行的结果, 给定一个输入就一定要得到一个确定的输出,比功能测试他更关注底层代码,毕竟功能测试只关注用户最后得到结果,单元测试将你的代码函数形成一个单元,逐个运行,逐个测试.</p>
+<blockquote>
+<p>前面介绍了一大堆概念,却没有落到实处, 功能测试很简单,我们评价一个项目,能很快的写出测试方法,但是对于单元测试来说,我到底该怎么进行,这同我平时的开发有什么不同,下面就详细的介绍单元测试的几个重要的要点.</p>
+</blockquote>
+<hr>
+<p>留个坑慢慢填.</p>
 ]]></content>
       <categories>
         <category>算法</category>
       </categories>
       <tags>
-        <tag>MOOC</tag>
+        <tag>TDD</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>TDD-隔离测试</title>
+    <url>/2016/08/09/algorithm/TDD/TDD-Isolution-Test/</url>
+    <content><![CDATA[<blockquote>
+<p> 隔离测试是相对与于整合测试来说的，现代软件架构流行分层式、模块化，而隔离测试就是相当于在每层上进行测试，整合测试就是跨越多个层进行测试</p>
+</blockquote>
+<h2 id="introduction"><a href="#introduction" class="headerlink" title="introduction"></a>introduction</h2><p>举个简单例子来说，在django系列中，我们把表单提交分成两个层，一个<code>form</code>层，一个式<code>model</code>层</p>
+<p><code>form</code>层相当于接近用户交互层，而<code>model</code>层与数据库联系更大， <code>form</code>层负责获取用户数据并验证，而<code>model</code>层根据<code>form</code>层数据将数据存入数据库。</p>
+<p>隔离测试就是隔离<code>form</code>层向<code>model</code>层提交，而整合测试就是直接测试<code>form</code>层和<code>model</code>层。</p>
+<p>判断一个测试是整合测试还是隔离测试就是看测试的边界，整合测试相当于我们更加熟悉，我们测试时通过伪造form提交，然后通过数据库获取存入数据来得到验证，而隔离测试就比较复杂，因为我们很难在一个耦合度高代码找到怎么隔离两个层的方法。</p>
+<p>接下来我就介绍python里一个神器：mock</p>
+<p><em>自己用过其他语言框架中的mock，但是python里面mock里面最神奇的的是里面的<code>patch</code>，就像一个超级补丁一样。</em></p>
+<h2 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h2><blockquote>
+<p>接下来我用一个例子来介绍一下如何写隔离测试</p>
+</blockquote>
+<p>首先我们在 <code>lists.forms.py</code>中一个表单model</p>
+<pre><code>class ListForm(forms.models.ModelForm):
+    def save(self):
+        pass
+</code></pre><p>我们在<code>lists.models.py</code>有个model</p>
+<pre><code>class List(models.Model):
+    def create_now():
+        pass
+</code></pre><p>现在来分析一下这个隔离测试，我们要测试<code>ListForm</code>中<code>save</code>方法</p>
+<p>首先<code>ListForm</code>和<code>List</code>两个类是耦合的，一个整合测试，我们只要调用<code>save</code>方法，然后查询数据库就可以完成这个测试，然而隔离测试不同，我们只能测试在调用<code>save</code>方法时，他“干”了什么。他可能调用了<code>List</code>的<code>create_now</code>方法，将得到表单数据传了过去。</p>
+<p>意味着我们只能测试到<code>save</code>方法调用了<code>List</code>方法。</p>
+<p>那这个隔离单元测试该怎么写？</p>
+<p><em>接下来我们隆重介绍mock里面的最强补丁<strong>patch</strong></em></p>
+<p>根据TDD原则，我们先新建一个单元测试<code>IsolutionFormTest</code></p>
+<pre><code>import unittest
+from unittest.mock import patch, Mock      ##load super patch 
+from lists.models import List
+from lists.forms import ListForm
+
+
+class IsolutionFormTest(unitest.TestCase):
+
+       @patch(&apos;lists.forms.List.create_new&apos;)
+       def test_save_creates_new_list(self, mock_list_create_new):
+            form = ListForm(data={&apos;text&apos;: &quot;example text&quot;})
+            form.is_valid()    # get clean data
+            form.save()
+
+            mock_list_create_new.assert_called_once_with(
+                text= &quot;example text&quot;
+            )   # the major test
+</code></pre><p>我来介绍一下这个<code>patch</code>，就像名字一样补丁，通过我们使用字符串将要替换的函数写出来，当<code>test</code>运行时，会自动将函数替换成一个<code>mock</code>对象，通过参数（上面的<code>mock_list_create_new</code>）赋给函数。</p>
+<p>你可以这样想象，当<code>form.save()</code>调用时，在<code>save</code>函数里面，我们如果使用了<code>lists.forms.List.create_new</code>这个函数，这个函数就会被直接被补丁替换掉，你如果使用了<code>lists.forms.List.create_new(text=&quot;xxx&quot;)</code>就会变成<code>mock_list_create_new(text=&quot;xxx&quot;)</code>,当你调用了<code>mock_list_create_new(text=&quot;xxx&quot;)</code>时，<code>mock_list_create_new</code>这个<code>mock</code>对象就会记录下来。</p>
+<p>这样我们就通过<code>mock_list_create_new</code>测试了函数是否执行了没有，因为隔离开<code>form</code>层和<code>model</code>层的就是通过两者之间的接口。我们只用测试接口是否执行了没有就可以了。</p>
+<p>这样我们就完成了隔离单元测试，运行一下肯定失败，我们接下来就把<code>save</code>方法完善一下通过测试。</p>
+<pre><code>from django import form
+form list.models import List
+
+class ListForm(forms.models.ModelForm):
+    def save(self):
+        List.create_new(text=self.cleaned_data[&apos;text&apos;])
+</code></pre><p>ok测试通过了，我们就可以歇一口气了。</p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>相对于整合测试，隔离测试运行速度更快，但是相对的隔离测试对接口要求非常严格，好的方面利用我们进行更好的代码设计，更好的分析代码的复杂程度，并且当接口变迁的时候，隔离测试能迅速发现变化而报警，然而隔离测试工作量比较大，而且没有整合测试那么好理解。在实际生产中对于复杂的接口我们尽量进行隔离测试，对于简单接口我们使用整合测试能根据减少程序的耦合性，而且能迅速发现集成问题。</p>
+<p>ps：对<code>patch</code>感兴趣的童鞋可以自行google，<code>patch</code>好玩的地方还有很多，这里为了篇幅我只介绍了最核心的使用方法，大家可以自行探索<code>patch</code>更多好玩的东西。s</p>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>TDD</tag>
       </tags>
   </entry>
   <entry>
@@ -4459,6 +4488,30 @@ class ListForm(forms.models.ModelForm):
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过上面的分析，我们得到一个结论：</p>
 <p>由于xv6设计的局限性，增大<code>KERNBASE</code>并不能增大用户最大可用空间，反而会减少。但是如果修改xv6设计可以实现增大<code>KERNBASE</code>增大用户最大可用空间。</p>
 <h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>MOOC</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mit6.828课程总结</title>
+    <url>/2018/01/09/algorithm/mit6_828/mit6.828%E8%AF%BE%E7%A8%8B%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
+<p>一开始想直接做一个操作系统，但是万事开头难，学习操作系统需要太多基础知识了，所以就按照网上推荐先学习mit6.828的课程，先把xvf6操作系统搞懂，然后在来实现自己的操作系统，下面就是学习这个课程的体会，按照各个lab的顺序，介绍自己的心得体会</p>
+</blockquote>
+<p>课程的地址是： <a href="https://pdos.csail.mit.edu/6.828/2016/schedule.html" target="_blank" rel="noopener">mit6.828</a><br>PS：由于<a href="https://pdos.csail.mit.edu/6.828/2016/schedule.html" target="_blank" rel="noopener">mit6.828</a>课程仓库需要翻墙，所以我把clone下来放到我的github仓库，我的<a href="https://github.com/mrzhangboss/mit6.828-2016" target="_blank" rel="noopener">仓库</a>里，大家可以clone下来（我会逐渐完成所以的实验）</p>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="/2018/01/29/什么是操作系统/">什么是操作系统</a> lab1</li>
+<li><a href="/2018/02/05/内存分页设计/">内存分页设计</a> lab2</li>
+<li><a href="/2018/02/20/用户空间隔离/">用户空间隔离</a> lab3</li>
+<li><a href="/2018/02/">并行多核设计</a> lab4</li>
+<li><a href="/2018/02/">文件系统设计</a> lab5</li>
+<li><a href="/2018/02/">网络设计</a> lab6</li>
+</ul>
+<h2 id="课程总结"><a href="#课程总结" class="headerlink" title="课程总结"></a>课程总结</h2><p>学到一半才发现这是一门研究生课程的学习，的确难度非常大，而且每一个实验都可以拿出来大做研究，但是课程给的资料非常详细，基本上每个硬件细节都给出了链接，但是对于最大的困难还是英语资料实在太多，有点“吸收”不过来。不过一路学习下来，感觉还是收获很大，基本上每个实验都环环相扣，每个实现细节都需要反复思考，为什么要这样做，还能怎么做，最终实现的xvf6还有些许跟不上时代的脚步，但是基本上框架已经有了，就是按照这个骨架完善更多细节，所以这个课程还远远没有结束，期待接下来对这个操作系统的进一步改进！！！</p>
+]]></content>
       <categories>
         <category>算法</category>
       </categories>
@@ -4576,68 +4629,33 @@ class ListForm(forms.models.ModelForm):
       </tags>
   </entry>
   <entry>
-    <title>引导和操作系统的交互</title>
-    <url>/2018/01/31/algorithm/mit6_828/%E5%BC%95%E5%AF%BC%E5%92%8C%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E4%BA%A4%E4%BA%92/</url>
-    <content><![CDATA[<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本来自己查了很多资料，想自己写出来，结果下笔的时候发现别人已经把我想写的部分全部写出来了，而且比我想的还要具体，所以我就不写了，把链接放出了，顺便我补充一些</p>
-<p><a href="http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/" target="_blank" rel="noopener">http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/</a></p>
-<p><a href="http://leenjewel.github.io/blog/2015/05/26/%5B%28xue-xi-xv6%29%5D-jia-zai-bing-yun-xing-nei-he/" target="_blank" rel="noopener">http://leenjewel.github.io/blog/2015/05/26/%5B%28xue-xi-xv6%29%5D-jia-zai-bing-yun-xing-nei-he/</a></p>
-<h2 id="ELF文件"><a href="#ELF文件" class="headerlink" title="ELF文件"></a>ELF文件</h2><p>首先你要知道什么是ELF，可以看一下这篇<a href="https://my.oschina.net/u/864891/blog/87965" target="_blank" rel="noopener">博客</a>，简单来说就是编译完C后的机器码，前面加了一些数据表记录程序的分布情况</p>
-<p>为了帮助我们逆向分析这些代码有什么，我们必须要借助两个工具</p>
-<ul>
-<li>objdump</li>
-<li>readelf</li>
-</ul>
-<p>我们接下来就用实际例子解读mit6.828里面的引导和核心</p>
-<h2 id="引导"><a href="#引导" class="headerlink" title="引导"></a>引导</h2><p>首先我们查看一下引导文件，在<code>boot/</code>目录下有两个文件</p>
-<ul>
-<li>boot.S</li>
-<li>main.c</li>
-</ul>
-<p>两者是通过gcc编译器将汇编和C编译成为一个<code>elf</code>文件，具体在<code>Makefile</code>文件中（<code>boot/Makefrag</code>)，我将它简单翻译一下</p>
-<pre><code>gcc -N -e start -Ttext 0x7C00 -o boot.out boot.o main.o
-</code></pre><p><code>boot.o</code>和<code>main.o</code>就是<code>boot.S</code>和<code>main.c</code>编译后的文件，<code>-e start</code>意思程序从<code>boot.S</code>的<code>start</code>中开始运行（这样就能从汇编开始执行），<code>-Ttext</code>中<code>text</code>代表代码段，也就是说直接指定代码入口地址为<code>0x7C00</code>，我们可以用<code>readelf</code>验证一下</p>
-<pre><code>mit-6.828-2014 ➤ readelf -h obj/boot/boot.out                         git:lab1*
-ELF Header:
-  Magic:   7f 45 4c 46 01 01 01 00 00 00 00 00 00 00 00 00 
-  Class:                             ELF32
-  Data:                              2&apos;s complement, little endian
-  Version:                           1 (current)
-  OS/ABI:                            UNIX - System V
-  ABI Version:                       0
-  Type:                              EXEC (Executable file)
-  Machine:                           Intel 80386
-  Version:                           0x1
-  Entry point address:               0x7c00
-  Start of program headers:          52 (bytes into file)
-  Start of section headers:          4868 (bytes into file)
-  Flags:                             0x0
-  Size of this header:               52 (bytes)
-  Size of program headers:           32 (bytes)
-  Number of program headers:         2
-  Size of section headers:           40 (bytes)
-  Number of section headers:         9
-  Section header string table index: 6
-</code></pre><p>我们读取了一下生成的<code>elf</code>文件头部，我们可以看到<code>Entry point address</code>这个字段，就是我们设定的<code>0x7c00</code>，要了解这个地址的含义我们必须知道虚拟地址和物理地址的区别，可以看一下这篇<a href="http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/" target="_blank" rel="noopener">博客</a>，接着我们看一下反汇编的汇编代码<code>obj/boot/boot.asm</code>中，我们知道现在<code>0x7c00</code>代表程序把自己当做在内存上的真实内存上面，但是不一定会真的存在这块上，所以我们称它为虚拟的</p>
-<p>首先我们了解一个系统知识，因为电脑启动后会按照启动盘顺序，把每个盘第一个扇形区512B取出来，如果最后两个字节为<code>0xAA55</code>的话就把它放到内存上面的<code>0x7c00</code>上去，我们看一下我们生成的<code>obj/boot/boot</code></p>
-<p>使用<code>hexdump obj/boot/boo</code>可以看到（我把最后一行复制出来）</p>
-<pre><code>00001f0 0000 0000 0000 0000 0000 0000 0000 aa55
-</code></pre><p>最后连个字节为<code>0xaa55</code>，且文件大小刚刚好512B，这时候你可以有一个疑惑了，我们知道<code>gcc</code>我们生成的<code>boot.out</code>的elf文件，但是这个文件还有头部存贮数据，我们如果把整个文件放到磁盘上，当程序在内存<code>0x7c00</code>处执行时，那么文件头部碰到的就是elf头了，所以<br>为了把机器码提取出来并生成合适文件（512B尾部为<code>0xaa55</code>），程序干了两件事</p>
-<ul>
-<li>用objcopy将elf文件中执行代码提取出来（相当于去掉elf头部）</li>
-<li>用脚本修改尾部两字节（在<code>boot/sign.pl</code>用了perl程序来将生成512B且尾部为<code>0xaa55</code>的<code>boot</code>文件）</li>
-</ul>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>后面将核心加载到内存，上面的给出资料写的很详细，我就不多说，只不过由于当前<code>2014</code>的版本同资料有点不同，这里我提一下</p>
-<p>当前版本是将内核头加载在<code>0x10000</code>上，然后在把内核代码加载到<code>0x100000</code>上（前面4个0，后面5个0，我当初看错了，百思不得其解），并将内核地址映射到<code>f0100000</code>上。</p>
-<p>由于资料给的操作系统与2016的操作系统实现细节有点不同，其中最主要的就是一个很重要的<code>KERNBASE</code>常量值由<code>0x80000000</code>变成<code>0xf0000000</code>，这个变量牵扯到了在给出的<code>book-rev8.pdf</code>资料中第一章的最后一个问题，我就把我对这个问题的思考放到这篇<a href="/2018/02/19/KERNBASE对操作系统的影响/">文章</a>中。</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/" target="_blank" rel="noopener">http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/</a></p>
-<p><a href="https://my.oschina.net/u/864891/blog/87965" target="_blank" rel="noopener">https://my.oschina.net/u/864891/blog/87965</a></p>
-<p><a href="http://bochs.sourceforge.net/techspec/PORTS.LST" target="_blank" rel="noopener">端口信息</a></p>
+    <title>Dubbo浅探</title>
+    <url>/2021/03/27/java/dubbo/dubbo%E6%B5%85%E6%8E%A2/</url>
+    <content><![CDATA[<blockquote>
+<p>繁忙的一周终于过去了，加入小影第一周主要是熟悉后端架构，同事们都挺好，自己的基础还是有点弱，前段时间简单的把Spring<br>Cloud 和 Dubbo学习了一下，但是其实对于工作来说，之前学的都是最新的版本，但是其实公司用的版本很老了，所以需要时间去学习老版本</p>
+</blockquote>
+<h2 id="历史"><a href="#历史" class="headerlink" title="历史"></a>历史</h2><p>首先我们来看看Dubbo的历史，看Dubbo的历史的时候我们得先看看<a href="https://www.jianshu.com/p/cad51a09d0c2" title="Dubbo发展史" target="_blank" rel="noopener">Spring的历史</a>,2004年就出来了Spring1.0，随着<br>一些网站越做越大，例如淘宝，随着用户量越来越大，单一Spring无法支持他们的体量，<br>所以淘宝基于Spring开发了Dubbo这个架构</p>
+<p>Dubbo和Spring有什么不同，Dubbo其实是基于Spring开发的，只不过他和普通的Spring程序不一样，它提供的是<br>分布式服务框架</p>
+<p>原来的Spring程序放进Tomcat里面就可以跑了，但是Dubbo是将一堆Spring程序组合起来做一个分布式系统，<br>他提供了什么呢，总结起来就是Spring程序的互识和通信</p>
+<p><img src="/images/dubbo-struct.png" alt="Dubbo架构图"></p>
+<p>Dubbo使用起来非常简单，复杂的注册和监控已经帮你写了，你只要启动提供者（Provider）和消费者（Consumer）实例就好了</p>
+<h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><p>其实仔细看看整个架构，什么是提供者和消费者，之前我们写web，很简单一个url对应一个接口</p>
+<p>但是想想随着公司越来越大，小公司用户量不大直接发布新代码上线就好了，大公司需要24小时提供服务，所以Dubbo首先<br>做的就是将后端分层，逻辑需要经常变动的给独立开来，我们把原来的接口分成两个一个是提供者和一个是消费者</p>
+<p>提供者负责承担真正的代码逻辑，消费者只是提供调用的接口，这样每次代码上线的时候，只需要把新提供者注册进注册中心，<br>然后把老提供者下线，这样就无感知的将新版本替换成老版本了</p>
+<h2 id="微服务区别"><a href="#微服务区别" class="headerlink" title="微服务区别"></a>微服务区别</h2><p>随着Spring Cloud从2016年的兴起，微服务的风潮开始兴起，那么Dubbo和Spring Cloud有什么不同呢，首先<br>Dubbo和Spring Cloud的设计理念是不一样的</p>
+<p>首先Dubbo它想做的是一个Rpc框架，它提供Spring 消费者和提供者之间的通信，借此打造分布式集群，而<br>Spring Cloud做的是一种切分，它将系统切分成每个小的服务，每个服务负责的部分都不一样</p>
+<p>简单来说就是，Spring Cloud提供的积木，你可以自己组装一个系统，它也不关心你用不用什么组件，单独来看，<br>每个Spring Cloud服务都是一个网站，他们之间用HTTP进行通信</p>
+<p>Dubbo呢，考虑的更多是各个服务之间高效的通信，你可以理解为Dubbo是做一层网络中间件，这给他自己带来了一定的限制<br>而Spring Cloud本质上还是一个个网站，所以你可以很容易在里面搭建配置中心，网关，服务跟踪等等</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Dubbo出生在2011年，那个时候云服务还没有兴起，网络流量还很贵，Spring Cloud出生在2016年，正是云、Docker、K8S这些组件的大热的时候，<br>大家发现在一个系统中流量是最不值钱的，反而一个系统更加灵活更加好调试才更符合</p>
+<p>但是很多老系统都在使用Dubbo作为系统架构， 所以阿里推出了Spring Cloud Alibaba，即可以兼容原来的Dubbo系统，也可以很轻松将原来的Dubbo架构<br>迁移到Spring Cloud的架构</p>
+<p>##　资料</p>
+<p><a href="https://www.jianshu.com/p/cad51a09d0c2" title="Dubbo发展史" target="_blank" rel="noopener">Spring的历史</a></p>
 ]]></content>
       <categories>
-        <category>算法</category>
+        <category>Java</category>
       </categories>
       <tags>
-        <tag>MOOC</tag>
+        <tag>SpringCloud  Dobbo</tag>
       </tags>
   </entry>
   <entry>
@@ -4662,6 +4680,95 @@ ELF Header:
       </categories>
       <tags>
         <tag>SpringBoot</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Spring Cloud Alibaba浅探</title>
+    <url>/2021/03/16/java/springcloud/springcloudalibaba%E6%B5%85%E6%8E%A2/</url>
+    <content><![CDATA[<blockquote>
+<p>花了半天时间把Spring Cloud Alibaba 的<code>Nacos</code> 、 <code>Sentinel</code> 和 <code>Seata</code>简单的使用了一下，下面是我的一些看法</p>
+</blockquote>
+<h2 id="Nacos"><a href="#Nacos" class="headerlink" title="Nacos"></a>Nacos</h2><p>Nacos 干了三件事，第一个就是把服务注册的活给揽过来了，第二个就是把配置中心的活给揽过来了，而且由于他是要监控各个服务的心跳的，<br>所以他顺便把配置同步这个活也给抢过来了</p>
+<p>Nacos做了很多事，美中不足的地方是，Nacos更希望你在网页上进行配置（当然可以通过url），比如说Spring Cloud Config 是希望你更新源代码然后再来将配置给更新 掉</p>
+<h2 id="Sentinel"><a href="#Sentinel" class="headerlink" title="Sentinel"></a>Sentinel</h2><p>Sentinel是一个流量控制的中间件，作用和Hystrix差不多，不过，相比于Hystrix，Sentinel提供了一个web界面来<br>帮助你定制限流规则，主要是保护后端</p>
+<p>这些规则其实也很简单，多尝试一下就好了，我其实很好奇，Sentinel在其中做的工作是什么，他是如何保证异常流量不<br>把自己给打爆的，当然负载均衡可以一定量的缓解这些</p>
+<h2 id="Seata"><a href="#Seata" class="headerlink" title="Seata"></a>Seata</h2><p>这个号称实现了分布式事务的软件，我没搭起来，尝试几个小时无果后，而且网上的资料也异常的少，甚至他们官方写的demo我也跑不起来<br>我看他们的start虽然多，但是issue也多，每个版本都有坑</p>
+<p>我也尝试去搜索有没有大公司尝试使用这个分布式事务，很遗憾没找到，首先限死了用MySQL，而且非常恶心的事每个数据库上面都得创建一个<code>undo</code>表</p>
+<p>我可以理解你在一个数据库上记录这些东西，但是我没法理解你要所有的数据库都建这么个表</p>
+<p>而且非常坑的事，官网SSL证书当天正好到期，在我看了引用了这么个分布式事务，第一肯定涉及到了很多锁，我看原理介绍上<br>也说了开始事务前会上锁，对于现在通用解决方案都是消息队列来处理这个东西的,引入分布式锁并发不高，而且万一锁表凉凉了</p>
+<p>所以我就去找有没有什么大公司实践过了，可是很遗憾好像没有，也没没看到有什么性能测试，而且部署半天报各种问题，每个版本都不一样，怕是个PPT项目<br>还是改天有空的时候在研究研究</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>其实Spring Cloud Alibaba比较重要的一个部分就是将Dubbo集合到了Spring Cloud，所以我接下来的时间得好好看看Dubbo了，目前Spring Cloud这些组件只能说都上手摸了一会<br>要想真正的成长还得去实际项目考验</p>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>SpringCloud SpringCloudAlibaba</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SpringCloud浅析</title>
+    <url>/2021/03/14/java/springcloud/springcloud%E6%B5%85%E6%9E%90/</url>
+    <content><![CDATA[<blockquote>
+<p>最近在学SpringCloud，之前一直对用视频学嗤之以鼻，觉得只有弱者才会这样，但是其实对于一些已经非常常见的技术<br>比如SpringCloud这种，已经出来很长一段时间了，而且其实非常杂，用视频学起来其实非常快，当然前提是你要三倍速播放，而且<br>你得把视频配套的代码找到，这样你就能很快的掌握这个。</p>
+</blockquote>
+<p>我把SpringCloud视频过了一遍，代码也运行了一遍花的时间可能不超过<br>5个小时吧，假如自己按照原来的做法去看别人博客然后自己慢慢搭建可能入门花的时间远远不止</p>
+<p>下面是我学习SpringCloud用到的视频已经代码，推荐你视频三倍速播放，把视频看懂之后去实际运行一下相应代码，这样你能很轻松知道这个东西是什么</p>
+<ul>
+<li><a href="https://github.com/zzyybs/atguigu_spirngcloud2020" target="_blank" rel="noopener">代码</a></li>
+<li><a href="https://www.bilibili.com/video/BV18E411x7eT?p=1" target="_blank" rel="noopener">B站视频</a></li>
+</ul>
+<p>目前我就总结一下我入门Spring Cloud的一些心得</p>
+<h2 id="什么是微服务"><a href="#什么是微服务" class="headerlink" title="什么是微服务"></a>什么是微服务</h2><p>其实微服务这个东西是模块化的一种体现，在企业开发中你会发现，好多时候我们要做一个网站如果要暴露在外网地址，<br>其实最基础就得要有一个登录，每个网站写一个登录其实非常没有必要</p>
+<p>第一个是安全，第二个是耦合，假如你想完全独立于其他系统，你必须重新使用数据库存储，这样用户在同一家公司可能得注册两个不同的账号</p>
+<p>所以微服务的理念就是模块化，把登录和其他业务给组装成不同模块，这样你就专注于你自己的业务而不用去担心其他的问题了</p>
+<h2 id="怎么做"><a href="#怎么做" class="headerlink" title="怎么做"></a>怎么做</h2><p>微服务一开始也很简单，就是单独起不同的网站，比如我们把登录单独部署在一个网站上面去，<br>登录完了就给一个<code>token</code>， 然后其他系统使用<code>token</code>来验证用户权限</p>
+<p>刚开始这样很简单，但是对于系统来说，出现了一个问题，首先是用户登录次数很少（如果他不退出登录），然而其他业务<br>使用的很多，这时候我们就想多起个实例来跑其他微服务，但是我们之前写死了，所有的业务调用都只是跳转到一个<br>网址上去了</p>
+<h2 id="服务注册"><a href="#服务注册" class="headerlink" title="服务注册"></a>服务注册</h2><p>所以我们就想到做一个调度中心来把所有的服务都注册在这里，这样你想要的时候过来查就好了，这个服务中心就是我们所说的<br>服务注册，就是他来监控所有服务实例的，每个实例都得定时发送心跳，如果一段时间没有发送就会默认认为服务下线了</p>
+<p>对于服务注册中心来说，其实就是一个登记的作用，就是记录一个服务名，以及他们的实际IP地址</p>
+<h2 id="服务调用"><a href="#服务调用" class="headerlink" title="服务调用"></a>服务调用</h2><p>服务注册核心在于注册，对于真正的调用方来说，他只能从注册中心拿到最新存活的实例的IP，实际上他还得去通过这个IP来远程调用实际服务</p>
+<p>所以Spring Cloud就创建了两个调用框架，第一个用来选择选择哪个实例，比如随机选择一个实例，还是说按照实例响应速度等等来选择</p>
+<p>这个其实是一个拦截器，他只是帮你在远程调用之前选择哪个服务</p>
+<p>第二个就是<code>OpenFeign</code>，其实这个相当于把远程调用伪装成为一个<code>Service</code>，你只要把这个<code>Service</code>名字以及相关配置给配置好就可以像普通<br><code>Service</code>一样调用了</p>
+<p>服务调用，这个本质上是给调用方写的HTTP请求库，对于被调用者来说其实什么没有影响</p>
+<h2 id="服务降级"><a href="#服务降级" class="headerlink" title="服务降级"></a>服务降级</h2><p>其实服务降级，我认为说成异常处理更好，对于微服务来说，最大的区别就是原来一个网站，现在好多网站，我以前实现一个功能</p>
+<p>一个接口就好了，目前可能需调用很多很多接口，这个调用一多就会出问题，第一个时间变长了，<code>HTTP</code>请求其实很有冷启动的缺点的，随着你的调用越来越多<br>其实花在建立链接的时间也越来越多了，而且<code>HTTP</code>其实非常啰嗦，有很多不需要的头部信息，会重复的发来发去</p>
+<p>回到刚才的问题，就是我们调用方最终要实现一个功能的时候，可能得需要很多步骤，假如正常来写，我们得写很多<code>try catch</code><br>我们得考虑这个接口调用失败怎么办，我们得返回什么东西</p>
+<p><code>Hystrix</code>就是一套异常处理框架，他能帮你把接口给管理起来，在调用前他会检查这个接口是否已经熔断，在调用的时候他会检查是否<br>会抛异常，如果抛异常就调用其他兜底的方法</p>
+<h2 id="辅助"><a href="#辅助" class="headerlink" title="辅助"></a>辅助</h2><blockquote>
+<p>网关</p>
+</blockquote>
+<p>Spring Cloud还给了我们一些其他可以选择使用的辅助功能，比如假如你想自己做一层网关，那可以使用<code>gateway</code>做一个网关，<br>网关能帮我们做一下杂碎但是非常重要的，比如说权限认证，异常流量过滤啊，日志记录啊</p>
+<p>你可以用<code>Nginx</code>来做这些，但是<code>gateway</code>这些网关是用<code>Java</code>写的，你很容易就可以进行扩展实现你自己想要的功能</p>
+<blockquote>
+<p>配置中心</p>
+</blockquote>
+<p>对于一个大的公司来说，代码运行的环境非常多，所以<code>Spring Cloud</code>提出配置中心的概念，你可以让所有的应用接入配置中心<br>这样当你想临时关闭某些东西的时候，只要修改配置中心，所有的实例都能立刻得到响应，而不需要重启</p>
+<blockquote>
+<p>调用链监控</p>
+</blockquote>
+<p>这个有点调试工具了，就是在调用方和被调用方都安上这个就能很轻松的把整个调用的线给记录下来，第一个方便你监控异常，<br>第二就是运维也能根据这个及时添加更多实例来面对突发流量</p>
+<blockquote>
+<p>Spring Cloud Stream</p>
+</blockquote>
+<p>其实我感觉这个东西设计的挺失败的，本来想法是把所有的消息队列框架都能用一个框架去调用，但是目前其实只支持两个，那其实我用原生的也没有什么太大的影响，原生的Spring Boot就支持<code>RabbitMQ</code>等这些所有的消息队列分发和消费</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>微服务架构其实就是将大web系统给模块话，其实本质上每个小的服务还是一个<code>Spring Boot</code>网站</p>
+<p>这个给系统解耦合的同时也带来一个问题，如果去保证一个复杂多模块的安全稳定的运行以及更新，这个也是后面需要去解决的问题</p>
+<p>其实<code>Spring Cloud</code>引进了微服务架构，也引进了一些其他问题，比如说发起服务调用的消耗，以及多系统日志收集等等一系列问题<br>接下来就是对<code>Spring Cloud Alibaba</code>的学习，看看<code>Spring Cloud Alibaba</code>在Spring Cloud的基础上做了什么优化</p>
+<blockquote>
+<p>当然在快速过了一遍实验代码和视频之后我也有一些疑惑，等我把<code>Spring Cloud Alibaba</code>过了之后就得解决下面问题</p>
+</blockquote>
+<h2 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h2><ol>
+<li>服务注册中心能否添加报警功能，假如服务实例低于某个值</li>
+<li>批量启动所有服务的最佳实践是什么，一般企业是怎么做的</li>
+<li>Spring Boot如何实现只添加一个依赖来插入自己想要的插件</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>SpringCloud</tag>
       </tags>
   </entry>
   <entry>
@@ -4768,18 +4875,6 @@ print(resp.read())
       </tags>
   </entry>
   <entry>
-    <title>重构-总结</title>
-    <url>/2019/03/17/summary/book/%E9%87%8D%E6%9E%84-%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[<p><img src="/images/重构-思维导图.png" alt="重构思维导图"></p>
-]]></content>
-      <categories>
-        <category>随想</category>
-      </categories>
-      <tags>
-        <tag>读后感</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>代码整洁之道-总结</title>
     <url>/2019/03/13/summary/book/%E4%BB%A3%E7%A0%81%E6%95%B4%E6%B4%81%E4%B9%8B%E9%81%93-%E6%80%BB%E7%BB%93/</url>
     <content><![CDATA[<blockquote>
@@ -4789,6 +4884,18 @@ print(resp.read())
 <p>我按照这个方法重新把&lt;&lt;代码整洁之道&gt;&gt;读了一篇，受益匪浅，下面是我的思维导图</p>
 <p><img src="/images/代码整洁之道-思维导图.png" alt="思维导图"></p>
 <p>一千个人有一千个哈莫雷特，所以我就不写自己的看法了</p>
+]]></content>
+      <categories>
+        <category>随想</category>
+      </categories>
+      <tags>
+        <tag>读后感</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>重构-总结</title>
+    <url>/2019/03/17/summary/book/%E9%87%8D%E6%9E%84-%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[<p><img src="/images/重构-思维导图.png" alt="重构思维导图"></p>
 ]]></content>
       <categories>
         <category>随想</category>
@@ -5821,126 +5928,68 @@ Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
       </tags>
   </entry>
   <entry>
-    <title>SpringCloud浅析</title>
-    <url>/2021/03/14/java/springcloud/springcloud%E6%B5%85%E6%9E%90/</url>
-    <content><![CDATA[<blockquote>
-<p>最近在学SpringCloud，之前一直对用视频学嗤之以鼻，觉得只有弱者才会这样，但是其实对于一些已经非常常见的技术<br>比如SpringCloud这种，已经出来很长一段时间了，而且其实非常杂，用视频学起来其实非常快，当然前提是你要三倍速播放，而且<br>你得把视频配套的代码找到，这样你就能很快的掌握这个。</p>
-</blockquote>
-<p>我把SpringCloud视频过了一遍，代码也运行了一遍花的时间可能不超过<br>5个小时吧，假如自己按照原来的做法去看别人博客然后自己慢慢搭建可能入门花的时间远远不止</p>
-<p>下面是我学习SpringCloud用到的视频已经代码，推荐你视频三倍速播放，把视频看懂之后去实际运行一下相应代码，这样你能很轻松知道这个东西是什么</p>
+    <title>引导和操作系统的交互</title>
+    <url>/2018/01/31/algorithm/mit6_828/%E5%BC%95%E5%AF%BC%E5%92%8C%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E4%BA%A4%E4%BA%92/</url>
+    <content><![CDATA[<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本来自己查了很多资料，想自己写出来，结果下笔的时候发现别人已经把我想写的部分全部写出来了，而且比我想的还要具体，所以我就不写了，把链接放出了，顺便我补充一些</p>
+<p><a href="http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/" target="_blank" rel="noopener">http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/</a></p>
+<p><a href="http://leenjewel.github.io/blog/2015/05/26/%5B%28xue-xi-xv6%29%5D-jia-zai-bing-yun-xing-nei-he/" target="_blank" rel="noopener">http://leenjewel.github.io/blog/2015/05/26/%5B%28xue-xi-xv6%29%5D-jia-zai-bing-yun-xing-nei-he/</a></p>
+<h2 id="ELF文件"><a href="#ELF文件" class="headerlink" title="ELF文件"></a>ELF文件</h2><p>首先你要知道什么是ELF，可以看一下这篇<a href="https://my.oschina.net/u/864891/blog/87965" target="_blank" rel="noopener">博客</a>，简单来说就是编译完C后的机器码，前面加了一些数据表记录程序的分布情况</p>
+<p>为了帮助我们逆向分析这些代码有什么，我们必须要借助两个工具</p>
 <ul>
-<li><a href="https://github.com/zzyybs/atguigu_spirngcloud2020" target="_blank" rel="noopener">代码</a></li>
-<li><a href="https://www.bilibili.com/video/BV18E411x7eT?p=1" target="_blank" rel="noopener">B站视频</a></li>
+<li>objdump</li>
+<li>readelf</li>
 </ul>
-<p>目前我就总结一下我入门Spring Cloud的一些心得</p>
-<h2 id="什么是微服务"><a href="#什么是微服务" class="headerlink" title="什么是微服务"></a>什么是微服务</h2><p>其实微服务这个东西是模块化的一种体现，在企业开发中你会发现，好多时候我们要做一个网站如果要暴露在外网地址，<br>其实最基础就得要有一个登录，每个网站写一个登录其实非常没有必要</p>
-<p>第一个是安全，第二个是耦合，假如你想完全独立于其他系统，你必须重新使用数据库存储，这样用户在同一家公司可能得注册两个不同的账号</p>
-<p>所以微服务的理念就是模块化，把登录和其他业务给组装成不同模块，这样你就专注于你自己的业务而不用去担心其他的问题了</p>
-<h2 id="怎么做"><a href="#怎么做" class="headerlink" title="怎么做"></a>怎么做</h2><p>微服务一开始也很简单，就是单独起不同的网站，比如我们把登录单独部署在一个网站上面去，<br>登录完了就给一个<code>token</code>， 然后其他系统使用<code>token</code>来验证用户权限</p>
-<p>刚开始这样很简单，但是对于系统来说，出现了一个问题，首先是用户登录次数很少（如果他不退出登录），然而其他业务<br>使用的很多，这时候我们就想多起个实例来跑其他微服务，但是我们之前写死了，所有的业务调用都只是跳转到一个<br>网址上去了</p>
-<h2 id="服务注册"><a href="#服务注册" class="headerlink" title="服务注册"></a>服务注册</h2><p>所以我们就想到做一个调度中心来把所有的服务都注册在这里，这样你想要的时候过来查就好了，这个服务中心就是我们所说的<br>服务注册，就是他来监控所有服务实例的，每个实例都得定时发送心跳，如果一段时间没有发送就会默认认为服务下线了</p>
-<p>对于服务注册中心来说，其实就是一个登记的作用，就是记录一个服务名，以及他们的实际IP地址</p>
-<h2 id="服务调用"><a href="#服务调用" class="headerlink" title="服务调用"></a>服务调用</h2><p>服务注册核心在于注册，对于真正的调用方来说，他只能从注册中心拿到最新存活的实例的IP，实际上他还得去通过这个IP来远程调用实际服务</p>
-<p>所以Spring Cloud就创建了两个调用框架，第一个用来选择选择哪个实例，比如随机选择一个实例，还是说按照实例响应速度等等来选择</p>
-<p>这个其实是一个拦截器，他只是帮你在远程调用之前选择哪个服务</p>
-<p>第二个就是<code>OpenFeign</code>，其实这个相当于把远程调用伪装成为一个<code>Service</code>，你只要把这个<code>Service</code>名字以及相关配置给配置好就可以像普通<br><code>Service</code>一样调用了</p>
-<p>服务调用，这个本质上是给调用方写的HTTP请求库，对于被调用者来说其实什么没有影响</p>
-<h2 id="服务降级"><a href="#服务降级" class="headerlink" title="服务降级"></a>服务降级</h2><p>其实服务降级，我认为说成异常处理更好，对于微服务来说，最大的区别就是原来一个网站，现在好多网站，我以前实现一个功能</p>
-<p>一个接口就好了，目前可能需调用很多很多接口，这个调用一多就会出问题，第一个时间变长了，<code>HTTP</code>请求其实很有冷启动的缺点的，随着你的调用越来越多<br>其实花在建立链接的时间也越来越多了，而且<code>HTTP</code>其实非常啰嗦，有很多不需要的头部信息，会重复的发来发去</p>
-<p>回到刚才的问题，就是我们调用方最终要实现一个功能的时候，可能得需要很多步骤，假如正常来写，我们得写很多<code>try catch</code><br>我们得考虑这个接口调用失败怎么办，我们得返回什么东西</p>
-<p><code>Hystrix</code>就是一套异常处理框架，他能帮你把接口给管理起来，在调用前他会检查这个接口是否已经熔断，在调用的时候他会检查是否<br>会抛异常，如果抛异常就调用其他兜底的方法</p>
-<h2 id="辅助"><a href="#辅助" class="headerlink" title="辅助"></a>辅助</h2><blockquote>
-<p>网关</p>
-</blockquote>
-<p>Spring Cloud还给了我们一些其他可以选择使用的辅助功能，比如假如你想自己做一层网关，那可以使用<code>gateway</code>做一个网关，<br>网关能帮我们做一下杂碎但是非常重要的，比如说权限认证，异常流量过滤啊，日志记录啊</p>
-<p>你可以用<code>Nginx</code>来做这些，但是<code>gateway</code>这些网关是用<code>Java</code>写的，你很容易就可以进行扩展实现你自己想要的功能</p>
-<blockquote>
-<p>配置中心</p>
-</blockquote>
-<p>对于一个大的公司来说，代码运行的环境非常多，所以<code>Spring Cloud</code>提出配置中心的概念，你可以让所有的应用接入配置中心<br>这样当你想临时关闭某些东西的时候，只要修改配置中心，所有的实例都能立刻得到响应，而不需要重启</p>
-<blockquote>
-<p>调用链监控</p>
-</blockquote>
-<p>这个有点调试工具了，就是在调用方和被调用方都安上这个就能很轻松的把整个调用的线给记录下来，第一个方便你监控异常，<br>第二就是运维也能根据这个及时添加更多实例来面对突发流量</p>
-<blockquote>
-<p>Spring Cloud Stream</p>
-</blockquote>
-<p>其实我感觉这个东西设计的挺失败的，本来想法是把所有的消息队列框架都能用一个框架去调用，但是目前其实只支持两个，那其实我用原生的也没有什么太大的影响，原生的Spring Boot就支持<code>RabbitMQ</code>等这些所有的消息队列分发和消费</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>微服务架构其实就是将大web系统给模块话，其实本质上每个小的服务还是一个<code>Spring Boot</code>网站</p>
-<p>这个给系统解耦合的同时也带来一个问题，如果去保证一个复杂多模块的安全稳定的运行以及更新，这个也是后面需要去解决的问题</p>
-<p>其实<code>Spring Cloud</code>引进了微服务架构，也引进了一些其他问题，比如说发起服务调用的消耗，以及多系统日志收集等等一系列问题<br>接下来就是对<code>Spring Cloud Alibaba</code>的学习，看看<code>Spring Cloud Alibaba</code>在Spring Cloud的基础上做了什么优化</p>
-<blockquote>
-<p>当然在快速过了一遍实验代码和视频之后我也有一些疑惑，等我把<code>Spring Cloud Alibaba</code>过了之后就得解决下面问题</p>
-</blockquote>
-<h2 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h2><ol>
-<li>服务注册中心能否添加报警功能，假如服务实例低于某个值</li>
-<li>批量启动所有服务的最佳实践是什么，一般企业是怎么做的</li>
-<li>Spring Boot如何实现只添加一个依赖来插入自己想要的插件</li>
-</ol>
+<p>我们接下来就用实际例子解读mit6.828里面的引导和核心</p>
+<h2 id="引导"><a href="#引导" class="headerlink" title="引导"></a>引导</h2><p>首先我们查看一下引导文件，在<code>boot/</code>目录下有两个文件</p>
+<ul>
+<li>boot.S</li>
+<li>main.c</li>
+</ul>
+<p>两者是通过gcc编译器将汇编和C编译成为一个<code>elf</code>文件，具体在<code>Makefile</code>文件中（<code>boot/Makefrag</code>)，我将它简单翻译一下</p>
+<pre><code>gcc -N -e start -Ttext 0x7C00 -o boot.out boot.o main.o
+</code></pre><p><code>boot.o</code>和<code>main.o</code>就是<code>boot.S</code>和<code>main.c</code>编译后的文件，<code>-e start</code>意思程序从<code>boot.S</code>的<code>start</code>中开始运行（这样就能从汇编开始执行），<code>-Ttext</code>中<code>text</code>代表代码段，也就是说直接指定代码入口地址为<code>0x7C00</code>，我们可以用<code>readelf</code>验证一下</p>
+<pre><code>mit-6.828-2014 ➤ readelf -h obj/boot/boot.out                         git:lab1*
+ELF Header:
+  Magic:   7f 45 4c 46 01 01 01 00 00 00 00 00 00 00 00 00 
+  Class:                             ELF32
+  Data:                              2&apos;s complement, little endian
+  Version:                           1 (current)
+  OS/ABI:                            UNIX - System V
+  ABI Version:                       0
+  Type:                              EXEC (Executable file)
+  Machine:                           Intel 80386
+  Version:                           0x1
+  Entry point address:               0x7c00
+  Start of program headers:          52 (bytes into file)
+  Start of section headers:          4868 (bytes into file)
+  Flags:                             0x0
+  Size of this header:               52 (bytes)
+  Size of program headers:           32 (bytes)
+  Number of program headers:         2
+  Size of section headers:           40 (bytes)
+  Number of section headers:         9
+  Section header string table index: 6
+</code></pre><p>我们读取了一下生成的<code>elf</code>文件头部，我们可以看到<code>Entry point address</code>这个字段，就是我们设定的<code>0x7c00</code>，要了解这个地址的含义我们必须知道虚拟地址和物理地址的区别，可以看一下这篇<a href="http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/" target="_blank" rel="noopener">博客</a>，接着我们看一下反汇编的汇编代码<code>obj/boot/boot.asm</code>中，我们知道现在<code>0x7c00</code>代表程序把自己当做在内存上的真实内存上面，但是不一定会真的存在这块上，所以我们称它为虚拟的</p>
+<p>首先我们了解一个系统知识，因为电脑启动后会按照启动盘顺序，把每个盘第一个扇形区512B取出来，如果最后两个字节为<code>0xAA55</code>的话就把它放到内存上面的<code>0x7c00</code>上去，我们看一下我们生成的<code>obj/boot/boot</code></p>
+<p>使用<code>hexdump obj/boot/boo</code>可以看到（我把最后一行复制出来）</p>
+<pre><code>00001f0 0000 0000 0000 0000 0000 0000 0000 aa55
+</code></pre><p>最后连个字节为<code>0xaa55</code>，且文件大小刚刚好512B，这时候你可以有一个疑惑了，我们知道<code>gcc</code>我们生成的<code>boot.out</code>的elf文件，但是这个文件还有头部存贮数据，我们如果把整个文件放到磁盘上，当程序在内存<code>0x7c00</code>处执行时，那么文件头部碰到的就是elf头了，所以<br>为了把机器码提取出来并生成合适文件（512B尾部为<code>0xaa55</code>），程序干了两件事</p>
+<ul>
+<li>用objcopy将elf文件中执行代码提取出来（相当于去掉elf头部）</li>
+<li>用脚本修改尾部两字节（在<code>boot/sign.pl</code>用了perl程序来将生成512B且尾部为<code>0xaa55</code>的<code>boot</code>文件）</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>后面将核心加载到内存，上面的给出资料写的很详细，我就不多说，只不过由于当前<code>2014</code>的版本同资料有点不同，这里我提一下</p>
+<p>当前版本是将内核头加载在<code>0x10000</code>上，然后在把内核代码加载到<code>0x100000</code>上（前面4个0，后面5个0，我当初看错了，百思不得其解），并将内核地址映射到<code>f0100000</code>上。</p>
+<p>由于资料给的操作系统与2016的操作系统实现细节有点不同，其中最主要的就是一个很重要的<code>KERNBASE</code>常量值由<code>0x80000000</code>变成<code>0xf0000000</code>，这个变量牵扯到了在给出的<code>book-rev8.pdf</code>资料中第一章的最后一个问题，我就把我对这个问题的思考放到这篇<a href="/2018/02/19/KERNBASE对操作系统的影响/">文章</a>中。</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/" target="_blank" rel="noopener">http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/</a></p>
+<p><a href="https://my.oschina.net/u/864891/blog/87965" target="_blank" rel="noopener">https://my.oschina.net/u/864891/blog/87965</a></p>
+<p><a href="http://bochs.sourceforge.net/techspec/PORTS.LST" target="_blank" rel="noopener">端口信息</a></p>
 ]]></content>
       <categories>
-        <category>Java</category>
+        <category>算法</category>
       </categories>
       <tags>
-        <tag>SpringCloud</tag>
+        <tag>MOOC</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>Spring Cloud Alibaba浅探</title>
-    <url>/2021/03/16/java/springcloud/springcloudalibaba%E6%B5%85%E6%8E%A2/</url>
-    <content><![CDATA[<blockquote>
-<p>花了半天时间把Spring Cloud Alibaba 的<code>Nacos</code> 、 <code>Sentinel</code> 和 <code>Seata</code>简单的使用了一下，下面是我的一些看法</p>
-</blockquote>
-<h2 id="Nacos"><a href="#Nacos" class="headerlink" title="Nacos"></a>Nacos</h2><p>Nacos 干了三件事，第一个就是把服务注册的活给揽过来了，第二个就是把配置中心的活给揽过来了，而且由于他是要监控各个服务的心跳的，<br>所以他顺便把配置同步这个活也给抢过来了</p>
-<p>Nacos做了很多事，美中不足的地方是，Nacos更希望你在网页上进行配置（当然可以通过url），比如说Spring Cloud Config 是希望你更新源代码然后再来将配置给更新 掉</p>
-<h2 id="Sentinel"><a href="#Sentinel" class="headerlink" title="Sentinel"></a>Sentinel</h2><p>Sentinel是一个流量控制的中间件，作用和Hystrix差不多，不过，相比于Hystrix，Sentinel提供了一个web界面来<br>帮助你定制限流规则，主要是保护后端</p>
-<p>这些规则其实也很简单，多尝试一下就好了，我其实很好奇，Sentinel在其中做的工作是什么，他是如何保证异常流量不<br>把自己给打爆的，当然负载均衡可以一定量的缓解这些</p>
-<h2 id="Seata"><a href="#Seata" class="headerlink" title="Seata"></a>Seata</h2><p>这个号称实现了分布式事务的软件，我没搭起来，尝试几个小时无果后，而且网上的资料也异常的少，甚至他们官方写的demo我也跑不起来<br>我看他们的start虽然多，但是issue也多，每个版本都有坑</p>
-<p>我也尝试去搜索有没有大公司尝试使用这个分布式事务，很遗憾没找到，首先限死了用MySQL，而且非常恶心的事每个数据库上面都得创建一个<code>undo</code>表</p>
-<p>我可以理解你在一个数据库上记录这些东西，但是我没法理解你要所有的数据库都建这么个表</p>
-<p>而且非常坑的事，官网SSL证书当天正好到期，在我看了引用了这么个分布式事务，第一肯定涉及到了很多锁，我看原理介绍上<br>也说了开始事务前会上锁，对于现在通用解决方案都是消息队列来处理这个东西的,引入分布式锁并发不高，而且万一锁表凉凉了</p>
-<p>所以我就去找有没有什么大公司实践过了，可是很遗憾好像没有，也没没看到有什么性能测试，而且部署半天报各种问题，每个版本都不一样，怕是个PPT项目<br>还是改天有空的时候在研究研究</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>其实Spring Cloud Alibaba比较重要的一个部分就是将Dubbo集合到了Spring Cloud，所以我接下来的时间得好好看看Dubbo了，目前Spring Cloud这些组件只能说都上手摸了一会<br>要想真正的成长还得去实际项目考验</p>
-]]></content>
-      <categories>
-        <category>Java</category>
-      </categories>
-      <tags>
-        <tag>SpringCloud SpringCloudAlibaba</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>UML最佳实践</title>
-    <url>/2021/03/15/software/UML%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/</url>
-    <content><![CDATA[<blockquote>
-<p>最近面试的时候一个面试官指出了我对系统架构没有固定的认知，推荐我去好好学习一下UML这个语言，我花了几个小时在B站上看了<a href="https://www.bilibili.com/video/BV1LE411T75W" target="_blank" rel="noopener">UML</a>这门课，下面是我对UML最佳实践的一点心得</p>
-</blockquote>
-<h2 id="UML是什么"><a href="#UML是什么" class="headerlink" title="UML是什么"></a>UML是什么</h2><p>首先它是一门语言，全名叫 Unified Modeling Language，翻译过来就是统一建模语言，首先为什么我们思考一下为什么我们需要这么一门语言。</p>
-<p>最开始的C语言是面对过程的，我们想做一个什么东西，直接去写就好了，等我们到了比如Java这些面对对象的语言的时候，我们就要思考怎么去建模，所以UML就是在这种情况被创建出来的</p>
-<h2 id="怎么用"><a href="#怎么用" class="headerlink" title="怎么用"></a>怎么用</h2><p>首先UML主要帮助我们设计一个系统，那一般的流程是什么呢</p>
-<ol>
-<li>确定用例 -&gt; 用例图</li>
-<li>确定类模型 -&gt; 类图</li>
-<li>确定流程 -&gt; 时序图</li>
-<li>确定细节 -&gt; 状态图</li>
-</ol>
-<h2 id="软件选择"><a href="#软件选择" class="headerlink" title="软件选择"></a>软件选择</h2><p>其实UML很核心的一个地方就是用可视化的图表展示出你的系统架构，视频里面使用的<strong>IBM Rational Rose</strong>这个软件，的确拖拽非常方便，但是有个问题就是只支持<code>window</code>，目前我主要操作系统是Ubuntu和Mac，所以我需要一个跨平台的软件</p>
-<p>我尝试了跨平台的<code>dia</code>，或者目前一些主流的在网页上拖拽的软件来完成UML图，但是这些都有一个痛点，不方便管理，而且修改起来也比较麻烦，然后有人推荐使用<a href="https://plantuml.com/zh/state-diagram" target="_blank" rel="noopener">plantuml</a>，不但跨平台，而且UML图是根据代码自动生成</p>
-<p>也就是说你不需要拖拽，你可以像写代码一样画UML图，更主要的是这个IDEA上面都有插件集成，你只要安装好插件就可以在IDE里面写UML代码生成你想要的图了</p>
-<h2 id="安装流程"><a href="#安装流程" class="headerlink" title="安装流程"></a>安装流程</h2><p>首先在插件库查找<code>plantuml intergration</code>，然后点击安装，接下面安装绘图课</p>
-<p>Mac</p>
-<p>brew install graphviz</p>
-<p>Ubuntu</p>
-<p>sudo apt-get install -y graphviz</p>
-<p>接下来你重启IDEA然后随便新建一个文件，输入下面代码</p>
-<p>@startuml<br>Alice -&gt; Bob: test<br>@enduml</p>
-<p>点开侧边栏PlantUML就能看到生成的UML图了</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>以前我只知道IDEA能写代码，后面我知道IDEA能执行SQL，我就把他当成SQL管理工具，后面我发现他也能写Markdown，我就放弃的专业markdown软件，如今我发现他也能写UML，IDEA真的太全能了</p>
-<p>PS：这篇博客简单的介绍了我对UML最佳实践的配合，没有涉及到<code>PlantUML</code>的具体使用方法，可以看我的使用<a href="https://github.com/mrzhangboss/plantuml-introduction" target="_blank" rel="noopener">UML实现</a></p>
-<p><a href="https://github.com/mrzhangboss/plantuml-introduction" target="_blank" rel="noopener">UML实现Github链接</a></p>
-]]></content>
-      <categories>
-        <category>软件</category>
-      </categories>
   </entry>
 </search>

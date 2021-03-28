@@ -48,6 +48,8 @@
   };
 </script>
 
+
+
   <meta name="description" content="这篇文章是【Tomcat高并发浅析】的姊妹篇，专门通过分析Select和epoll两个框架来介绍如何实现高并发  起因我们知道建立TCP连接之后，就是创建了Socket链接，服务器得监控用户所有的Socket，以防用户发送请求过来 首先最简单就是用个for循环，遍历每个Socket链接看看有没有数据，如果没有就进程休眠一会再来，这个就非常低效，得一直检查一直检查，所以操作系统就开发了一个接口，因">
 <meta name="keywords" content="HTTP">
 <meta property="og:type" content="article">
@@ -437,7 +439,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">100</span>
+          <span class="site-state-item-count">102</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -450,7 +452,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -512,12 +514,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">238k</span>
+    <span title="站点总字数">239k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:36</span>
+    <span title="站点阅读时长">3:37</span>
 </div>
 
         

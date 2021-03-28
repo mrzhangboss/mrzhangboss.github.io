@@ -48,6 +48,8 @@
   };
 </script>
 
+
+
   <meta name="description" content="引言前面已经通过lab1的这篇博文了解了内存分页的实现细节，接下来就谈谈如何具体实现内存分页 物理载体通过了解KERNBASE对操作系统的影响这篇博文我们知道，其实内存分页就是完成对物理存在的一种分割和隔离，所以我们在完成内存分页系统设计之前必须要构建一个载体，完成对物理存在的一种表示。 在xv6中声明一个动态数组来代表物理内存，每一个值代表一块4k的内存页。我们主要通过offset - base">
 <meta name="keywords" content="MOOC">
 <meta property="og:type" content="article">
@@ -403,8 +405,8 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2018/01/31/algorithm/mit6_828/引导和操作系统的交互/" rel="prev" title="引导和操作系统的交互">
-      <i class="fa fa-chevron-left"></i> 引导和操作系统的交互
+    <a href="/2018/01/31/algorithm/mit6_828/内存分页/" rel="prev" title="内存分页">
+      <i class="fa fa-chevron-left"></i> 内存分页
     </a></div>
       <div class="post-nav-item">
     <a href="/2018/02/19/algorithm/mit6_828/KERNBASE对操作系统的影响/" rel="next" title="KERNBASE对操作系统的影响">
@@ -486,7 +488,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">100</span>
+          <span class="site-state-item-count">102</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -499,7 +501,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -561,12 +563,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">238k</span>
+    <span title="站点总字数">239k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:36</span>
+    <span title="站点阅读时长">3:37</span>
 </div>
 
         
