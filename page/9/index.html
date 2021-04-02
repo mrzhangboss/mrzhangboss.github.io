@@ -211,6 +211,129 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/08/18/opensource/hookman-development-blog/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/08/18/opensource/hookman-development-blog/" class="post-title-link" itemprop="url">hookman develpment blog</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-08-18 14:04:43" itemprop="dateCreated datePublished" datetime="2016-08-18T14:04:43+08:00">2016-08-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:03:15" itemprop="dateModified" datetime="2021-03-09T20:03:15+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/开源/" itemprop="url" rel="index">
+                    <span itemprop="name">开源</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>1.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>其实写这个项目的初衷是想实践一下<code>TDD</code>开发,因为自己刚看完一本<code>&lt;&lt;Test-Driven Development with Python&gt;&gt;</code>,以前只是了解一点开发测试,看完这本书感觉这种敏捷开发方式非常适合我,自己完整写过一些小项目,但是大项目经常由于各种代码框架,代码规模搞得最后成了烂项目,而且关于<code>TTD</code>一些建议比如<code>YAGNI(You ain&#39;t gonna need it)</code>(你不需要这个)对于你对项目的规模有一定的控制.写这篇博客一方面将我开发<code>hookman</code> 的<code>TDD</code>开发经历告诉大家,一方面希望更多人了解<code>TDD</code>开发,换一种开发方式,或许能让你找回编程的乐趣.</p>
+</blockquote>
+<p>##引言</p>
+<p>当然网上有些人对<code>TDD</code>测试开发嗤之以鼻,认为开发过程中不应该由测试驱动,应该先把所有的核心都先完善,最后在来完成项目.</p>
+<p>在这里我想说一点我的看法,测试驱动是一种从<strong>核心到细节</strong>的开发方式.</p>
+<p>用画一个人来打比方,给你一张白纸,<code>TDD</code>要求你先画一个躯干,这个<code>人</code>是<code>人</code>首先要有个<code>人样</code>,当我们想画一个奔跑的人时,<code>TDD</code>要求你得给他再画两条裸腿,然后这两条腿怎么摆才能控制平衡,这两条腿穿什么鞋才比较生动,要接下来你慢慢测试考虑.</p>
+<p>而我们传统的开发方式,是先从局部到整体,这种开发方式适合于小项目,而且像一个流水线出来的产物,比如说<code>web开发</code>,我们知道下一个要做的是视图层,然后模型层.但是这种开发方式不适合开发比如说一个新的软件,假如我们用传统开发方式,除非<code>leader</code>的掌控力非常好,一个越来越臃肿的项目很难坚持到最后,因为我们在项目完成的时候才能让项目真正的运行起来,在完成的过程中我们很容易迷失最后将项目烂掉.</p>
+<p>而且我比较欣赏<code>TDD</code>开发的一个主要原因就是他同linux推崇的那种<strong>简单</strong>的软件开发文化很默契,我们在让我们测试通过时候,我们感觉在:欺骗自己”.</p>
+<p>举个例子:</p>
+<p>比如我有一个比较两个值谁大谁小的函数</p>
+<pre><code>def my_max(a, b):
+    pass
+</code></pre><p> 我们写一个单元测试</p>
+<pre><code>Mytest(unittest.TestCase):
+       test_my_max(self):
+           m = my_max(1,2)
+           self.aseertEqual(m, 2)
+</code></pre><p>我们运行这个测试肯定失败,然后我们开始”欺骗自己”让测试通过,修改<code>my_max</code></p>
+<pre><code>def my_max(a, b):
+    return b
+</code></pre><p>再运行测试,通过了,ok,”欺骗成功”,但我们用脑袋一想就知道,不行这个代码不对,但是咋办”测试通过了”,修改测试.</p>
+<pre><code>Mytest(unittest.TestCase):
+        test_my_max(self):
+            m = my_max(1,2)
+            self.assertEqual(m, 2)
+            n = my_max(2, 1)
+            self.assertEqual(n, 2)
+</code></pre><p>这下测试又通不过了,我们想要的功能就在一步一步测试拖动中慢慢实现,我们尽量用最简单的代码通过我们的测试.</p>
+<p>看到这里有些人会认为我很傻,明明可以用两行代码(不能用系统函数<code>max</code>)</p>
+<pre><code>def my_max(a, b):
+    if a &gt; b: return a
+    return b
+</code></pre><p>轻轻松松通过测试,但是这反倒是<code>TDD</code>非常不推崇的,你一次走了太多步,你让你的代码跑到<code>Test</code>前面去了,其实很多程序员都会写测试,但是他们的测试很多都是基于代码的,当一个大功能实现的时候才开始测试,这个时候你会发现很多你的隐藏<code>bug</code>就藏在你一大堆代码里面,所以有些人为了排<code>bug</code>一行一行删代码来<code>debug</code>.</p>
+<p>诚然很多时候我们感觉我们能毫无<code>bug</code>的完成一大段的代码,但是我们不能保证100%正确,而且或许今天能行明天就不行了,<code>TDD</code>推崇测试山羊精神,想象一只山羊行走在陡崖峭壁上,他只能走一步停一步,我们写代码也一样,我们前面是陡崖峭壁,我们不能保证我们下一步就不掉坑里,所以我们要学习山羊精神一步一步.</p>
+<p>接下来关于<code>TDD</code>开发一些详细经历,我会每天抽出一点时候写.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/08/18/opensource/hookman-development-notebook/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -840,7 +963,7 @@ var moveY = function(y) {
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/software/GitHubEducationPack/">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/python/Python线程和进程/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/myself.jpg">
@@ -854,107 +977,7 @@ var moveY = function(y) {
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2016/07/18/software/GitHubEducationPack/" class="post-title-link" itemprop="url">GitHub Education Pack</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-07-18 16:07:36" itemprop="dateCreated datePublished" datetime="2016-07-18T16:07:36+08:00">2016-07-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:08:06" itemprop="dateModified" datetime="2021-03-09T20:08:06+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/软件/" itemprop="url" rel="index">
-                    <span itemprop="name">软件</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>1.1k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>GitHub推出一个对学生和教师的福利包,对于学生来说这是一个不小<br>的福利,只要通过一个edu邮箱就可以领取,但奈何国内有些无良人买卖<br>邮箱,所以GitHub对于.cn的邮箱一律拒绝,但是可以通过上传学生证的方法<br>得到验证,题主刚开始用学校邮箱试了试,失败了,抱着试一试的心态,上传了<br>学生证,没想到第二天就给我回复,并给我这个豪华大礼包,接下来我就介绍介绍<br>如何用这个包来.</p>
-</blockquote>
-<h3 id="有些人在网上说-上传学生证没有用-可能是那个plan-GitHub会叫你写一点你想用GitHub做什么-用的是中文写的-最好用英文写-回复的会快一点"><a href="#有些人在网上说-上传学生证没有用-可能是那个plan-GitHub会叫你写一点你想用GitHub做什么-用的是中文写的-最好用英文写-回复的会快一点" class="headerlink" title="有些人在网上说,上传学生证没有用,可能是那个plan(GitHub会叫你写一点你想用GitHub做什么)用的是中文写的,最好用英文写-_-,回复的会快一点."></a>有些人在网上说,上传学生证没有用,可能是那个plan(GitHub会叫你写一点你想用GitHub做什么)用的是中文写的,最好用英文写-_-,回复的会快一点.</h3><h2 id="Digital-Ocean-—VPS-50刀"><a href="#Digital-Ocean-—VPS-50刀" class="headerlink" title="Digital Ocean —VPS 50刀"></a>Digital Ocean —VPS 50刀</h2><blockquote>
-<p>以前貌似是100刀,现在缩水一半了,不知道为什么.</p>
-</blockquote>
-<h4 id="DigitalOcean是一家以优质的VPS服务器著名-毕竟用SSD做存贮的服务器商没几家"><a href="#DigitalOcean是一家以优质的VPS服务器著名-毕竟用SSD做存贮的服务器商没几家" class="headerlink" title="DigitalOcean是一家以优质的VPS服务器著名,毕竟用SSD做存贮的服务器商没几家."></a>DigitalOcean是一家以优质的VPS服务器著名,毕竟用SSD做存贮的服务器商没几家.</h4><h6 id="这个是包小时的我们可以最便宜的5刀每月-提供20GSSD-1TB流量-我们可以用它来搭建服务器或者搭建一个shadowsocks服务器-安装shadowsocks很简单-但是怎么得到这50刀就要花点时间了"><a href="#这个是包小时的我们可以最便宜的5刀每月-提供20GSSD-1TB流量-我们可以用它来搭建服务器或者搭建一个shadowsocks服务器-安装shadowsocks很简单-但是怎么得到这50刀就要花点时间了" class="headerlink" title="这个是包小时的我们可以最便宜的5刀每月,提供20GSSD,1TB流量,我们可以用它来搭建服务器或者搭建一个shadowsocks服务器,安装shadowsocks很简单,但是怎么得到这50刀就要花点时间了."></a>这个是包小时的我们可以最便宜的5刀每月,提供20GSSD,1TB流量,我们可以用它来搭建服务器或者搭建一个shadowsocks服务器,安装shadowsocks很简单,但是怎么得到这50刀就要花点时间了.</h6><h4 id="你要是想得到这50刀必须先充值5刀-但是怎么给钱有是个问题-真是有钱也花出去啊-你可以选择绑卡-但是很复杂不一定能绑的上-最好的方式使用PayPal付这5刀-PayPal可以绑定银联卡付款-但是这个PayPal注册又是个问题-当时题主注册的时候一直提示服务器故障"><a href="#你要是想得到这50刀必须先充值5刀-但是怎么给钱有是个问题-真是有钱也花出去啊-你可以选择绑卡-但是很复杂不一定能绑的上-最好的方式使用PayPal付这5刀-PayPal可以绑定银联卡付款-但是这个PayPal注册又是个问题-当时题主注册的时候一直提示服务器故障" class="headerlink" title="你要是想得到这50刀必须先充值5刀,但是怎么给钱有是个问题,真是有钱也花出去啊.你可以选择绑卡,但是很复杂不一定能绑的上,最好的方式使用PayPal付这5刀,PayPal可以绑定银联卡付款,但是这个PayPal注册又是个问题,当时题主注册的时候一直提示服务器故障."></a>你要是想得到这50刀必须先充值5刀,但是怎么给钱有是个问题,真是有钱也花出去啊.你可以选择绑卡,但是很复杂不一定能绑的上,最好的方式使用PayPal付这5刀,PayPal可以绑定银联卡付款,但是这个PayPal注册又是个问题,当时题主注册的时候一直提示服务器故障.</h4><h3 id="当时去上网搜了搜-中国大陆是有这个情况-可以通过贝宝-PayPal在中国的分公司-来注册"><a href="#当时去上网搜了搜-中国大陆是有这个情况-可以通过贝宝-PayPal在中国的分公司-来注册" class="headerlink" title="当时去上网搜了搜,中国大陆是有这个情况,可以通过贝宝(PayPal在中国的分公司)来注册"></a>当时去上网搜了搜,中国大陆是有这个情况,可以通过贝宝(PayPal在中国的分公司)来注册</h3><h5 id="提醒一句-绑银联卡的时候最好用IE来绑定-别问我为什么谷歌浏览器不行—"><a href="#提醒一句-绑银联卡的时候最好用IE来绑定-别问我为什么谷歌浏览器不行—" class="headerlink" title="提醒一句,绑银联卡的时候最好用IE来绑定,别问我为什么谷歌浏览器不行—-"></a>提醒一句,绑银联卡的时候最好用IE来绑定,别问我为什么谷歌浏览器不行—-</h5><h4 id="选择VPS的时候推荐San-Francisco-延迟最低"><a href="#选择VPS的时候推荐San-Francisco-延迟最低" class="headerlink" title="选择VPS的时候推荐San Francisco,延迟最低."></a>选择VPS的时候推荐San Francisco,延迟最低.</h4><h4 id="搭建shadowsocks可以参考这篇博客"><a href="#搭建shadowsocks可以参考这篇博客" class="headerlink" title="搭建shadowsocks可以参考这篇博客"></a>搭建shadowsocks可以参考这篇<a href="https://segmentfault.com/a/1190000002511795" target="_blank" rel="noopener">博客</a></h4><h2 id="NameCheap"><a href="#NameCheap" class="headerlink" title="NameCheap"></a>NameCheap</h2><h3 id="ME域名一个（一年，价值8-99刀）PositiveSSL一个-（一年，价值9刀）"><a href="#ME域名一个（一年，价值8-99刀）PositiveSSL一个-（一年，价值9刀）" class="headerlink" title="ME域名一个（一年，价值8.99刀）PositiveSSL一个 （一年，价值9刀）"></a>ME域名一个（一年，价值8.99刀）PositiveSSL一个 （一年，价值9刀）</h3><blockquote>
-<p>这个要想得到域名必须通过邮箱验证还好NameCheape承认.edu.cn邮箱</p>
-</blockquote>
-<h5 id="提醒一下-通过DVC验证的时候选择邮箱验证就够了-虽然不是你的邮箱但是会把资料发到你提供的邮箱"><a href="#提醒一下-通过DVC验证的时候选择邮箱验证就够了-虽然不是你的邮箱但是会把资料发到你提供的邮箱" class="headerlink" title="提醒一下,通过DVC验证的时候选择邮箱验证就够了.虽然不是你的邮箱但是会把资料发到你提供的邮箱"></a>提醒一下,通过DVC验证的时候选择邮箱验证就够了.虽然不是你的邮箱但是会把资料发到你提供的邮箱</h5><h4 id="可以参考这篇博客搭建你的https网站-本站也是采用这种方法搭建的-但是有一点不同的时-现在NameCheap直接发给我一个-crt文件和-ca-bundle文件-用于Apache-所以把-key文件和-crt文件放到服务器上配置一下就好了"><a href="#可以参考这篇博客搭建你的https网站-本站也是采用这种方法搭建的-但是有一点不同的时-现在NameCheap直接发给我一个-crt文件和-ca-bundle文件-用于Apache-所以把-key文件和-crt文件放到服务器上配置一下就好了" class="headerlink" title="可以参考这篇博客搭建你的https网站,本站也是采用这种方法搭建的.但是有一点不同的时,现在NameCheap直接发给我一个.crt文件和.ca-bundle文件(用于Apache),所以把.key文件和.crt文件放到服务器上配置一下就好了."></a>可以参考这篇<a href="http://www.freehao123.com/namecheap-ssl/" target="_blank" rel="noopener">博客</a>搭建你的https网站,本站也是采用这种方法搭建的.但是有一点不同的时,现在NameCheap直接发给我一个.crt文件和.ca-bundle文件(用于Apache),所以把.key文件和.crt文件放到服务器上配置一下就好了.</h4><h2 id="GitHub-Micro-account-7刀-month"><a href="#GitHub-Micro-account-7刀-month" class="headerlink" title="GitHub Micro account 7刀/month"></a>GitHub Micro account 7刀/month</h2><blockquote>
-<p>这个不错我们可以有五个私有项目,一直可以用到你毕业.</p>
-</blockquote>
-<p>这个不错哦,妈妈再也不怕我写的stupid代码被人看到了 O(∩_∩)O哈哈~.</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/python/字符串处理/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/07/18/python/字符串处理/" class="post-title-link" itemprop="url">字符串处理</a>
+            <a href="/2016/07/18/python/Python线程和进程/" class="post-title-link" itemprop="url">Python 线程(threading) 进程(multiprocessing)</a>
         </h1>
 
         <div class="post-meta">
@@ -990,13 +1013,13 @@ var moveY = function(y) {
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span>605</span>
+              <span>3.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>1 分钟</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -1008,128 +1031,81 @@ var moveY = function(y) {
     <div class="post-body" itemprop="articleBody">
 
       
-          <hr>
-<h1 id="string"><a href="#string" class="headerlink" title="string"></a>string</h1><blockquote>
-<p>原来的很多函数都逐渐迁移到<code>str</code>和<code>unicode</code>对象上去了,<br>不过有两个函数没有迁移出去</p>
-</blockquote>
-<hr>
-<p>第一个是<code>capwords</code></p>
+          <p>### </p>
 <blockquote>
-<p>个人觉得没什么卵用<br>就是将英文单词首字母大写</p>
+<p>最近学了两个python库，一个负责管理线程，一个负责管理进程，原来一直写的都<br>是些单线程的程序，虽然web也关于并发和多涉及到线程，但都是框架管理的，学习&gt;过后发现了解线程和进程对python的web开发也有一定帮助。下面先谈谈这对python对线程和进程的支持再谈谈对这两个库的应用。</p>
 </blockquote>
-<p>比如</p>
-<pre><code>string.capwords(&apos;this are some words&apos;)
-</code></pre><p>输出为 <code>This Are Some Words</code></p>
-<hr>
-<p>第二个我觉得挺有趣,他可以帮你把对应的文字换成你设定的</p>
-<p>我们可以用它来设计出莫斯密码’=’.</p>
-<pre><code>&quot;&quot;&quot;create a table&quot;&quot;&quot;
-table = string.maketrans(&apos;abc&apos;,&apos;123&apos;)
-print &apos;abc123&apos;.translate(table)
-</code></pre><p>输出为<code>123123</code>成功把abc转成了123</p>
-<hr>
-<p>string还有一个模板类型<code>Template</code><br>这个类型同我们转义差不多(%),不过能够实现的<br>更加自主化<br>我们可以继承这个类来修改模板类的具体实现<br>而且这个模板类有一个</p>
-<hr>
-<h1 id="textwrap"><a href="#textwrap" class="headerlink" title="textwrap"></a>textwrap</h1><blockquote>
-<p>由于sublime输出一个很长的字符串很卡,这个格式化字符串的类能够帮我们<br>解决很多问题</p>
+<p><strong>python</strong>对线程的支持并不是非常好，所以你可以在很多文章上批评python的多线程的弊端，但是为什么<strong>python</strong>对多线程支持不好呢，为什么其他语言比如</p>
+<h1 id="静态语言没有这个弊端呢。"><a href="#静态语言没有这个弊端呢。" class="headerlink" title="静态语言没有这个弊端呢。"></a>静态语言没有这个弊端呢。</h1><blockquote>
+<p>首先我们要知道python是一种解释性语言，每段代码都需要解释器编译运行，解释器有很多种最主要的是<strong>CPython</strong>，其他还有<strong>IronPython</strong>和<strong>Jython</strong>，官方的是CPython解释器，我们一般说对多线程支持不好的就是说的CPython解释器（用的人最多就省略成python解释器),python解释器为什么对多线程支持不好呢，是因为GIL的存在，当然这个存在就是因为这门语言的的特性产生的。</p>
 </blockquote>
-<p>我一般去除整体缩进然后去填充字符串</p>
-<pre><code>dedented_text = textwrap.dedent(&apos;...a long word...&apos;)
-print textwrap.fill(dedented_text, width=50)
-</code></pre>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/bigdata/大数据学习小总结/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/07/18/bigdata/大数据学习小总结/" class="post-title-link" itemprop="url">大数据学习小总结</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-07-18 16:07:36" itemprop="dateCreated datePublished" datetime="2016-07-18T16:07:36+08:00">2016-07-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:01:40" itemprop="dateModified" datetime="2021-03-09T20:01:40+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/大数据/" itemprop="url" rel="index">
-                    <span itemprop="name">大数据</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>453</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>最近在学习大数据,书看了不少,但是总是觉得很迷茫,不知道怎么学下去,今天<br>突然想写点什么来<br>总结一下这些天.</p>
+<p>GIL是什么呢，下面是官方的解释</p>
+<blockquote>
+<p>In CPython, the global interpreter lock, or GIL, is a mutex that prevents multiple native threads from executing Python bytecodes at once. This lock is necessary mainly because CPython’s memory management is not thread-safe. (However, since the GIL exists, other features have grown to depend on the guarantees that it enforces.)</p>
 </blockquote>
-<h3 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h3><p>逛博客的时候看到一篇分享<a href="http://www.36dsj.com/archives/8094" target="_blank" rel="noopener">如何修炼成大数据高手</a>感觉很有趣</p>
-<h4 id="买了两本书"><a href="#买了两本书" class="headerlink" title="买了两本书"></a>买了两本书</h4><p><img src="http://www.36dsj.com/wp-content/uploads/2014/05/15.png" alt="大数据时代"></p>
-<p><img src="http://www.36dsj.com/wp-content/uploads/2014/05/23.png" alt="失控"></p>
-<h3 id="这两本书都是很多年前写的-但是最近这几年随着”大数据”被大家越炒越热-随即被大家所看重"><a href="#这两本书都是很多年前写的-但是最近这几年随着”大数据”被大家越炒越热-随即被大家所看重" class="headerlink" title="这两本书都是很多年前写的,但是最近这几年随着”大数据”被大家越炒越热,随即被大家所看重."></a>这两本书都是很多年前写的,但是最近这几年随着”大数据”被大家越炒越热,随即被大家所看重.</h3><h3 id="这两个作者很牛-在30年前大数据还只是萌芽的时候就提出未来大数据的重要性和价值"><a href="#这两个作者很牛-在30年前大数据还只是萌芽的时候就提出未来大数据的重要性和价值" class="headerlink" title="这两个作者很牛,在30年前大数据还只是萌芽的时候就提出未来大数据的重要性和价值."></a>这两个作者很牛,在30年前大数据还只是萌芽的时候就提出未来大数据的重要性和价值.</h3><h2 id="大数据是什么了-现在为什么这么火-以前没有大数据吗"><a href="#大数据是什么了-现在为什么这么火-以前没有大数据吗" class="headerlink" title="大数据是什么了,现在为什么这么火,以前没有大数据吗?"></a>大数据是什么了,现在为什么这么火,以前没有大数据吗?</h2><h3 id="大数据的产生就像是科技带来的附带品一样-原来我们把信息存贮在图书馆里面-因为人类的活动产生的信息越来越多-图书馆也越来越大-但是由于管理和存贮的成本越来越多-我们被迫要缩减浓缩我们的信息-我们想出了很多很方法来对付这种情况-比如抽样-只要抽取一部分的代表信息存在图书馆里面然后记录主要特征和平均分量-我们就可以把信息降低几个数量级"><a href="#大数据的产生就像是科技带来的附带品一样-原来我们把信息存贮在图书馆里面-因为人类的活动产生的信息越来越多-图书馆也越来越大-但是由于管理和存贮的成本越来越多-我们被迫要缩减浓缩我们的信息-我们想出了很多很方法来对付这种情况-比如抽样-只要抽取一部分的代表信息存在图书馆里面然后记录主要特征和平均分量-我们就可以把信息降低几个数量级" class="headerlink" title="大数据的产生就像是科技带来的附带品一样,原来我们把信息存贮在图书馆里面,因为人类的活动产生的信息越来越多,图书馆也越来越大,但是由于管理和存贮的成本越来越多,我们被迫要缩减浓缩我们的信息,我们想出了很多很方法来对付这种情况,比如抽样,只要抽取一部分的代表信息存在图书馆里面然后记录主要特征和平均分量,我们就可以把信息降低几个数量级."></a>大数据的产生就像是科技带来的附带品一样,原来我们把信息存贮在图书馆里面,因为人类的活动产生的信息越来越多,图书馆也越来越大,但是由于管理和存贮的成本越来越多,我们被迫要缩减浓缩我们的信息,我们想出了很多很方法来对付这种情况,比如抽样,只要抽取一部分的代表信息存在图书馆里面然后记录主要特征和平均分量,我们就可以把信息降低几个数量级.</h3><h3 id="但是现在不同"><a href="#但是现在不同" class="headerlink" title="但是现在不同."></a>但是现在不同.</h3><h3 id="芯片做的越来越小-容量做的越来越大-我们有能力存贮所以的信息-一些先驱发现我们用另一种思维去对待信息"><a href="#芯片做的越来越小-容量做的越来越大-我们有能力存贮所以的信息-一些先驱发现我们用另一种思维去对待信息" class="headerlink" title="芯片做的越来越小,容量做的越来越大,我们有能力存贮所以的信息,一些先驱发现我们用另一种思维去对待信息."></a>芯片做的越来越小,容量做的越来越大,我们有能力存贮所以的信息,一些先驱发现我们用另一种思维去对待信息.</h3><h2 id="用全体数据而不是随机样本"><a href="#用全体数据而不是随机样本" class="headerlink" title="用全体数据而不是随机样本"></a>用全体数据而不是随机样本</h2><h2 id="用混杂性而不是精确性"><a href="#用混杂性而不是精确性" class="headerlink" title="用混杂性而不是精确性"></a>用混杂性而不是精确性</h2><h2 id="用相关关系而不是因果性"><a href="#用相关关系而不是因果性" class="headerlink" title="用相关关系而不是因果性"></a>用相关关系而不是因果性</h2>
+<p>就是GIL是python的互斥锁，简单的理解就是代码会锁住python解释器。理解代码的锁定是什么必须要先了解什么是多线程</p>
+<blockquote>
+<p>多线程表示一个主线程，多个子线程，主线程是程序执行时系统自动给你申请的一个线程，而子线程我们可以理解为一个代码块，我们可以充分利用硬件的支持比如说多核，让一个CPU执行主线程，其他CPU执行子线程，通过操作系统的虚拟内存技术让所有线程共享相同代码空间达到提高代码效率的作用，我们可以通俗的把一个进程比作一辆火车，车厢头为主线程，每节车厢为子线程，只要你车厢(子线程)越多，你运的货物也越多，但是也要考虑硬件的方面，</p>
+</blockquote>
+<p>了解完多线程是什么我们就可以解释GIL对多核CPU工作性能的影响了，在单核CPU里面，主线程在释放GIL的时候，把CPU让给子线程，子线程代码块得到GIL，然后执行，这样就能充分利用CPU，这个GIL对单核性能的发挥没有影响，能得到100%的利用，但是在多核的的时候就有问题了，假如主线程的代码一直需要解释器来执行，<br>比如说下面</p>
+<pre><code>GIL.acquire()
+try:
+    while True:
+        do_something()
+finally:
+    GIL.release()
+</code></pre><p>主线程代码对GIL的锁定和解开只间隔很小的一个系统时间，子线程在其他CPU核心得到GIL解开后CPU的调度命令后才能被唤醒，但是当唤醒后，主线程的代码又锁了GIL，然后只能等待主线程下次调度命令，但是到了切换时间又切换回去到待调整状态，一直处于唤醒，等待的恶性循环，多核的功能完全没有发挥出来而且还比单核更加差，所以python因为GIL的存在对密集型的线程支持不佳，但是假如主线程是在执行想web这样等待用户输入，而不是每分每秒都在使用解释器执行代码，多线程的优势就能发挥出来。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><blockquote>
+<p>GIL作为解释器的一个Bug一样的存在，我们也有一定的解决方法，开线程，和用Ctype绕过解释器是我们一般的解决方法，你想了解更多可以看<a href="http://zhuoqiang.me/python-thread-gil-and-ctypes.html" target="_blank" rel="noopener">这个</a><br>接下来主要解绍用multiprocessing来绕过多线程的瓶颈</p>
+</blockquote>
+<h3 id="线程锁和进程锁"><a href="#线程锁和进程锁" class="headerlink" title="线程锁和进程锁"></a>线程锁和进程锁</h3><h5 id="为了实现线程安全，我们也要借助锁的存在，我们先用下面的代码来验证一下多线程对于线程安全的问题。我们声明一个线程锁-threading-Lock"><a href="#为了实现线程安全，我们也要借助锁的存在，我们先用下面的代码来验证一下多线程对于线程安全的问题。我们声明一个线程锁-threading-Lock" class="headerlink" title="为了实现线程安全，我们也要借助锁的存在，我们先用下面的代码来验证一下多线程对于线程安全的问题。我们声明一个线程锁 threading.Lock(),"></a>为了实现线程安全，我们也要借助锁的存在，我们先用下面的代码来验证一下多线程对于线程安全的问题。我们声明一个线程锁 <code>threading.Lock()</code>,</h5><pre><code>class Counter(object):
+    def __init__(self, start=0):
+    self.lock = threading.Lock()
+    self.value = start
+
+def increment(self):
+    logging.debug(&apos;Waiting for lock&apos;)
+
+    self.lock.acquire()
+    try:
+        if self.value &lt; 8:
+</code></pre><h1 id="模拟负载"><a href="#模拟负载" class="headerlink" title="模拟负载"></a>模拟负载</h1><pre><code>            logging.debug(&apos;Acquired lock&apos;)
+            self.value = self.value + 1
+
+    finally:
+        self.lock.release()
+def worker(c):
+    for i in range(2):
+        pause = random.random()
+        logging.debug(&apos;Sleeping %0.02f&apos;, pause)
+        time.sleep(pause)
+        c.increment()
+    logging.debug(&apos;Done&apos;)
+counter = Counter()
+for i in range(20):
+    t = threading.Thread(target=worker,args=(counter,))
+    t.start()
+main_thread = threading.currentThread()
+for t in threading.enumerate():
+    if t is not main_thread:
+</code></pre><h1 id="保护线程"><a href="#保护线程" class="headerlink" title="保护线程"></a>保护线程</h1><h1 id="得到value值"><a href="#得到value值" class="headerlink" title="得到value值"></a>得到value值</h1><p>我们运行之后得到<code>counter.value</code>值为8，这很好理解因为我们限制了它的大小小于8时才自增1，但是如果我们把锁去掉呢，我们把<code>self.lock.acquire()`</code>self.lock.release()<code>都注释掉，得到的结果却是一个21，而且每次运行的结果都可能不一样，由于线程在实现自增的时候有一定的时间(</code>time.sleep(2)<code>),所以当多个进程执行的时候当他们从堆栈上取到</code>counter.value<code>值都为7时，这时候他们都满足</code>counter.value<code>小于8，所以都执行了自增，在系统负载2秒之间（</code>time.sleep(2)`）有多少个线程执行就会逃过我们给他的限制，这样就造成了线程的不安全，但是我们给他加上锁之后，无论开多少个线程，最终结果都是8。在python里面我们线程锁和进程锁我们可以看做是同一种东西。</p>
+<h4 id="ps：当同一线程相互争夺锁时，失败的会进出线程队列等待锁解开。"><a href="#ps：当同一线程相互争夺锁时，失败的会进出线程队列等待锁解开。" class="headerlink" title="ps：当同一线程相互争夺锁时，失败的会进出线程队列等待锁解开。"></a>ps：当同一线程相互争夺锁时，失败的会进出线程队列等待锁解开。</h4><h1 id="线程进程工作方式"><a href="#线程进程工作方式" class="headerlink" title="线程进程工作方式"></a>线程进程工作方式</h1><h3 id="单行"><a href="#单行" class="headerlink" title="单行"></a>单行</h3><blockquote>
+<p>单行主要通过锁来实现，线程通过锁<code>threading.Lock()</code>对象创造锁，进程通过<code>multiprocessing.Lock()</code>对象创建进程锁，单行操作一般都是对共享数据修改的一种保护。</p>
+</blockquote>
+<h3 id="并行"><a href="#并行" class="headerlink" title="并行"></a>并行</h3><blockquote>
+<p>并行操作是一般是对数据的一种共享，一般不对公共数据涉及修改，我们可以创造很多线程和进程一起并行操作，也可以限制线程和进程的并行数量，两种方式选择主要是判断代码类型是I/O密集还是线程密集型的。如何限制并行数量我们可以通过<code>threading.Semaphore（sizenum）</code>(进程为<code>multiprocessing.Semaphore(sizenum)</code>)我们可以控制对共享的线程数量。进程提供了一个进程池的类型(<code>multiprocessing.Pool</code>)，我们可以创建一个维护了一定程的进程池，但是他同时并行的数量并没有控制，只是帮我们创建了这个进程池，每个进程并不是只执行一个任务，可能执行多个方法通过一个进程.</p>
+</blockquote>
+<h3 id="单行混合并行"><a href="#单行混合并行" class="headerlink" title="单行混合并行"></a>单行混合并行</h3><blockquote>
+<p>单行和并行混合我们可以通过在代码中设置锁来实现，当然python给我们提供了两种对象来实现单行和并行的控制，线程的是<code>threading.Event()</code>和<code>threading.Condition()</code>,进程的是<code>multiprocessing.Event()</code>和<code>multiprocessing.Condition()</code> 两种对象都是提供了一种命令指令，但是Event对象可以用来判断命令是否下达而做出相应的反应，而Condition对象更倾向于当命令下达后才执行并行的操作。</p>
+</blockquote>
+<h2 id="线程和进程通信方式"><a href="#线程和进程通信方式" class="headerlink" title="线程和进程通信方式"></a>线程和进程通信方式</h2><blockquote>
+<p>当我们想让线程和进程共同执行一些固定的任务，我们就需要线程和进程之间能够通信，线程和进程通信我们使用队列(<code>Queue</code>),进程和线程的<code>Queue</code>有点差异，就是进程<code>Queue</code>传递的对象必须pickle化，而且为了能够使用<code>join()</code>（保护进程)<code>task_done</code>(通知任务完成),我们一般使用<code>JoinableQueue</code><br>代替<code>Queue</code>在进程中。</p>
+</blockquote>
+<p>Queue对象之间通过<code>put</code>和<code>get</code>通信，我们把任务put上去，<code>Queue</code>自动分配给当前的线程或进程，<br>这样就能实现对任务的流水作业话。</p>
+<p>引用</p>
+<p> <a href="https://zh.wikipedia.org/wiki/GIL" target="_blank" rel="noopener">12/26/2015 10:50:21 PM GIL维基资料</a></p>
+<p><a href="http://cenalulu.github.io/python/gil-in-python/" target="_blank" rel="noopener">GIL博文</a></p>
+
       
     </div>
 
@@ -1375,6 +1351,125 @@ print textwrap.fill(dedented_text, width=50)
   
   
 
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/python/PIL/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/07/18/python/PIL/" class="post-title-link" itemprop="url">PIL （Pillow）</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-07-18 16:07:36" itemprop="dateCreated datePublished" datetime="2016-07-18T16:07:36+08:00">2016-07-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:04:03" itemprop="dateModified" datetime="2021-03-09T20:04:03+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>1.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Pillow 是 PIL的对Python3支持的另外一个分支，当然他对Python2也兼容，由于PIL安装起来比较烦，而使用pip可以很轻松的安装Pillow，所以我选择Pillow使用，但是其核心还是PIL库的。</p>
+<hr>
+<p>Python的图形处理库如PIL一直很强大，但是要想使用好它必须对图片有一定的知识储备。<br>使用起来很简单</p>
+<pre><code>from PIL import Image
+</code></pre><p>引用Image包</p>
+<pre><code>im = Image.open(&apos;1.png&apos;)
+</code></pre><p>打开图片，得到一个im对象，我们接下来就可以对这个对象进行操作（前提有这个1.png图片）</p>
+<p>我们先看一下他的一些属性</p>
+<pre><code>&gt;&gt;&gt; print im.format, im.size, im.mode
+PNG (83, 81) RGB
+</code></pre><p>第一个我们输出图片的格式，图片有很多种格式，常用的有jpg、png还有gif动图啊，PIL支持很多种格式，我们可以使用PIL轻松的将格式转换，<code>im.save(&#39;1.jpg&#39;)</code>,当然你可以选择格式假如你没选好后缀名的话，im.size就是图片大小，他返回的是一个元组第一个长度第二个是宽度，单位是像素。<br>现在就谈谈 这三个属性对应的关系吧<br> 首先我们使用一张像素图来说吧</p>
+<p><img src="http://img1.imgtn.bdimg.com/it/u=214288124,4080808149&amp;fm=21&amp;gp=0.jpg" alt></p>
+<p>我们存贮图片的时候是将整个图像分成很多个相同的小方块，每个小方块我们称为像素，当然一张图片分的越小，像素越多，那么图片就越接近真实图片，上面的<code>im.size</code>属性就告诉我们，这张图片分成了，长为83px，宽为81px的图片，那么一共有83*81=6723个像素点，每个像素点里面存什么呢，这就是<code>im.mode</code>属性告诉我们的，贴一下属性有什么吧</p>
+<ol>
+<li>1 (1-bit pixels, black and white, stored with one pixel per byte)</li>
+<li>L (8-bit pixels, black and white)</li>
+<li>P (8-bit pixels, mapped to any other mode using a color palette)</li>
+<li>RGB (3x8-bit pixels, true color)</li>
+<li>RGBA (4x8-bit pixels, true color with transparency mask)</li>
+<li>CMYK (4x8-bit pixels, color separation)</li>
+<li>YCbCr (3x8-bit pixels, color video format)</li>
+<li>I (32-bit signed integer pixels)</li>
+<li>F (32-bit floating point pixels)</li>
+</ol>
+<p>像素存贮就是涉及到颜色的存贮，在早期的黑白游戏机，只有黑和白两种，那么每个像素点就只有1位颜色来存贮，1位只能存贮两种颜色，八位色就能存256种颜色，像八位我们能用256个油漆桶/256色调色板来形容，像上面我们使用的RGB是由三种三原色红绿蓝混合而成，我们知道大自然所有的颜色都可以用红绿蓝三种颜色调配出来，所以RGB又被称为真彩（true color），每种颜色我们都分成256种，所以我们一共有256<em>256</em>256=16777216种颜色可以调配，像素的其他模式我们不介绍太多，有兴趣的可以自己钻研。<br>那么我们知道每个像素占多少字节，又知道共有多少个像素，那我们是不是就可以直接计算出来图片大小，来验证一下</p>
+<p>以第一张图片为例，共有83<em>81=6723个像素点，用RGB模式，每个像素三个字节，共有6723</em>3=20667b=20kb，但是我这张图片只有11.6kb，误差太大了吧，这时候我们就要介绍一下上面那个<code>im.format</code>属性了，这张图片采用png格式，我们先尝试一下把他转成JPG格式吧</p>
+<pre><code>im.save(&apos;1.jpg&apos;)
+</code></pre><p>我们再查看一下这个<code>1.jpg</code>的大小，只有2.24kb了，我们用PIL打开这张图片</p>
+<pre><code>&gt;&gt;&gt; im2 = Image.open(&apos;1.jpg&apos;)
+&gt;&gt;&gt; print im2.format, im2.size, im2.mode 
+JPEG (83, 81) RGB
+</code></pre><p>图片大小没有改变，但是format变成了JPEG，而且文件大小变成原来的1/5,<br>JPEG和GIF和PNG是三种图片压缩技术，他们使用压缩算法把图片压缩成很小，当我们打开图片时，解密算法把他还原出来，所以我们算出来的大小与压缩后的大小是不一样的。<br>有了这些概念我们就能更好的使用PIL提供给我们的magic方法，下次在谈我对PIL的高级应用吧。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
   </div>
 
   
@@ -1447,7 +1542,7 @@ print textwrap.fill(dedented_text, width=50)
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">102</span>
+          <span class="site-state-item-count">103</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1522,12 +1617,12 @@ print textwrap.fill(dedented_text, width=50)
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">239k</span>
+    <span title="站点总字数">240k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:37</span>
+    <span title="站点阅读时长">3:38</span>
 </div>
 
         

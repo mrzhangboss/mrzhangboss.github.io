@@ -211,6 +211,117 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2019/10/12/software/FlinkSQLClient实战/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/10/12/software/FlinkSQLClient实战/" class="post-title-link" itemprop="url">FlinkSQL Client实战</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-10-12 00:00:00" itemprop="dateCreated datePublished" datetime="2019-10-12T00:00:00+08:00">2019-10-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:08:06" itemprop="dateModified" datetime="2021-03-09T20:08:06+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/软件/" itemprop="url" rel="index">
+                    <span itemprop="name">软件</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>1.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>Flink SQL Client 是一个帮助用户直接运行SQL，而不要进行编译运行的工具，首先他支持多个数据源，在Flink1.9.0开始支持了Hive，并且在Flink 1.10.0时候发布了企业级Hive支持，这样就把批处理和流计算结合了起来，这篇博客详解了Hive在Flink SQL Client中的安装和使用，以及探索在上面做的一些复杂开发实践</p>
+</blockquote>
+<h2 id="Hive安装"><a href="#Hive安装" class="headerlink" title="Hive安装"></a>Hive安装</h2><p><del>依赖的<code>jar</code>包如下</del></p>
+<pre><code>antlr4-runtime-4.5.jar        
+flink-connector-hive_2.11-1.9.0.jar
+antlr-runtime-3.5.2.jar        
+flink-hadoop-compatibility_2.11-1.9.0.jar
+datanucleus-api-jdo-4.2.4.jar  
+hive-exec-2.3.4.jar
+datanucleus-api-jdo-5.2.2.jar 
+javax.jdo-3.2.0-m3.jar
+datanucleus-core-4.1.17.jar   
+datanucleus-rdbms-4.1.9.jar    
+flink-shaded-hadoop-2-uber-2.7.5-8.0.jar
+</code></pre><p><del>将这些复制到<code>flink/lib</code>目录下面即可，下面是下载链接</del><br><del><a href="https://drive.google.com/file/d/1hRit-IsX7zvkHloUg5S36czWKvpBgBtN/view?usp=sharing" target="_blank" rel="noopener">1.10.0 flink hive jar Google Driver 下载地址</a></del><br><del><a href="https://drive.google.com/file/d/1WDFFa6ePkIu4Wft_0jEEhS7ekto5_DSo/view?usp=sharing" target="_blank" rel="noopener">1.9.0 flink hive jar Google Driver下载地址</a></del><br><del>百度云提取码： <a href="https://pan.baidu.com/s/1EA8YRUKjC7OzhJ3MPA0GlA" target="_blank" rel="noopener">1.9.0 flink hive 百度云下载地址</a></del><br> <del>百度云提取码: e9c7 链接:  <a href="https://pan.baidu.com/s/1WFH4T7AiV31PrptTRTqzJA" target="_blank" rel="noopener">1.10.0 flink hive 百度云下载地址</a></del></p>
+<h2 id="Hive使用中遇到的问题"><a href="#Hive使用中遇到的问题" class="headerlink" title="Hive使用中遇到的问题"></a>Hive使用中遇到的问题</h2><p><del>1. 目前只支持2.3.4和1.2.1</del><br><del>2. 支持的读取的hive类型有限，时间类型只支持1个<code>Date</code></del><br><del>PS: Sqoop导入数据库表到Hive的时候，只能将<code>DateTime</code>和<code>TimeStamp</code>设置为<code>String</code>，否则无法在Client中使用</del><br><del>3. 跨越<code>Catalog</code>读取表的时候Hive不能存放在<code>default</code>（默认）数据库中，否则会解析异常</del></p>
+<p><del>例如：想从Hive默认数据库中获取表<code>a</code>，使用<code>insert b select * from hive_catalog.default.a</code>会解析失败</del></p>
+<p><del>4. Hive不支持写入分区表，也不支持Overwrite，只支持append模式</del></p>
+<p>目前flink-1.10已经支持多个Hive版本并且修复了上面所遇到的问题，但是目前在<code>SQL Client</code>里面使用较为麻烦，需要自己安装缺少的jar包(而且版本不兼容的话会出现各种奇奇怪怪的bug），所以我写了一个项目把所以的依赖打包到一起这样只要一行命令就可以生成所需要的依赖，而且支持多个<code>Hive</code>版本</p>
+<p>下面是这个项目的github地址</p>
+<p><a href="https://github.com/mrzhangboss/flink-hive-dependence.git" target="_blank" rel="noopener">Flink SQL Client Hive 依赖生成器</a></p>
+<hr>
+<p>未完待续</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2019/10/05/summary/如何真正精通/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1653,92 +1764,6 @@ sudo docker run -itd \
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/10/13/useless/StartingUsingEnglishInMyBlog/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/10/13/useless/StartingUsingEnglishInMyBlog/" class="post-title-link" itemprop="url">Starting Using English In My Blog</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-10-13 00:00:00" itemprop="dateCreated datePublished" datetime="2018-10-13T00:00:00+08:00">2018-10-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:34:28" itemprop="dateModified" datetime="2021-03-09T20:34:28+08:00">2021-03-09</time>
-              </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>326</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>Happily, I decide to using English for my blog</p>
-</blockquote>
-<p>The reasons why I want to use English to write blog :</p>
-<ul>
-<li>I want to pratice my English writing </li>
-<li>it’s convenient for some tec in IT</li>
-<li>It’s kind of difficult for me in (<code>en</code>and <code>eng</code>,<code>in</code> and <code>ing</code>) as a southern Chinese which is deeply delay my write speed.</li>
-</ul>
-<p>It’s may be kind of difficult for me writing English in my blog, but I will try my best to avoiding stupied mistake.</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1811,7 +1836,7 @@ sudo docker run -itd \
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">102</span>
+          <span class="site-state-item-count">103</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1886,12 +1911,12 @@ sudo docker run -itd \
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">239k</span>
+    <span title="站点总字数">240k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:37</span>
+    <span title="站点阅读时长">3:38</span>
 </div>
 
         
