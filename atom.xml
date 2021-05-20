@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mrzhangboss.github.io/"/>
-  <updated>2021-04-05T03:43:41.926Z</updated>
+  <updated>2021-05-20T15:24:05.152Z</updated>
   <id>https://mrzhangboss.github.io/</id>
   
   <author>
@@ -15,6 +15,48 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Stream源码（1）：如何实现去重</title>
+    <link href="https://mrzhangboss.github.io/2021/05/15/java/stream/%E4%BB%8E%E5%8E%BB%E9%87%8D%E5%88%B0Stream%E6%BA%90%E7%A0%81/"/>
+    <id>https://mrzhangboss.github.io/2021/05/15/java/stream/从去重到Stream源码/</id>
+    <published>2021-05-15T14:48:20.000Z</published>
+    <updated>2021-05-20T15:24:05.152Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>本篇博客是在看代码的时候看到使用Java8使用<code>Stream</code>去重的妙用，从而对Java如何使用Stream实现几行代码<br>完成一个可支持并行化的流式计算程序</p></blockquote><h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote><p>什么是<code>Stream</code></p></blockquote><p>简单来说<code>Stream</code>就是Java8引入的一种流式API，让只需要定义一些处理函数就能优雅的对集合的一些操作</p><p>举个栗子，之前我们想遍历打印所有的参数我们得写下面代码</p><pre><code>for (int i : new int[]{1, 2, 3, 4}) {    System.out.println(i);}</code></pre><p>假如使用Java8，我们只需要一行代码</p><pre><code>Arrays.stream(new int[]{1, 2, 3, 4}).forEach(System.out::println);</code></pre><p>我们只需要定义一个函数，其他的<code>Stream</code>帮我们解决</p><h2 id="Stream模型"><a href="#Stream模型" class="headerlink" title="Stream模型"></a>Stream模型</h2><p>简单来说<code>Stream</code>把操作分为两张，一种是中间操作，一种是终结操作</p><p>中间操作你可以把他看做对数据源的一种处理，而终结操作是定义产生新数据过程，简单来说，假如我们有一堆苹果<br>需要处理，我们使用一个流水线来对经过的苹果进行各种处理（中间操作），丢掉烂掉的（filter），削掉皮（map）等等，<br>最后的我们需要对苹果进行装箱（终结操作）</p><h2 id="分析功能"><a href="#分析功能" class="headerlink" title="分析功能"></a>分析功能</h2><p>我们接下来看看我们需要实现的功能，就是去重，我们知道<code>Stream</code>其实提供了一个<code>distinct</code>方法中间操作来帮我们实现去重功能，<br>对于基本类型比如<code>String</code>，<code>Integer</code>，<code>Long</code>这些我们能很容易进行去重，但是对于复杂类，我们得<br>重写<code>hashCode</code>和<code>equal</code>方法来支持去重操作了，对于集合内的每个数据都会用<code>equal</code>来进行去重</p><p>接下来我们尝试直接使用终结操作<code>collect</code>来解决掉<br>怎么做呢，<code>collect</code>其实也很简单就是创建一个容器，把数据装进去，我们就只需要使用一个可以支持去重操作的<br>容器来做就好了</p><p>支持去重的有<code>Map</code>和<code>Set</code>，所以我们想到的第一个方法就是将流变成一个<code>Set</code>，这个也是网上很多人提供的一个版本</p><pre><code>dishes.stream().distinct().collect(Collectors.toCollection(            () -&gt; new TreeSet&lt;&gt;(Comparator.comparing(Dish::getType)))</code></pre><p>我们把这行代码给分解成两行</p><pre><code>TreeSet&lt;Dish&gt; container = new TreeSet&lt;&gt;(Comparator.comparing(Dish::getType));dishes.stream().collect(Collectors.toCollection(() -&gt; container));</code></pre><p>第一行其实就是声明了一个容器，核心代码就是 <code>() -&gt; container</code> 我们传入一个容器，让他来存贮，我们使用<br><code>TreeSet</code>的一个构造器，它只需要传入一个函数，他会比较传进来的每个值，假如发现已经存在了它就不会插入了</p><p>但是这个有个问题就是，他只能选择第一个出现的</p><p>接下来我们试试用<code>Map</code>，</p><pre><code>dishes.stream().collect(toMap(Dish::getType, d -&gt; d);</code></pre><p>我们写下下面的代码，但是这个代码有点问题就是假如出现重复的，他会抛异常，因为程序默认不知道你想要哪个数据</p><pre><code>dishes.stream().collect(toMap(Dish::getType, d -&gt; d, (oldData, newData) -&gt; oldData));</code></pre><p>我们可以传入一个选择函数，这样当发现重复的时候就可以选择要哪个插入到map中去，这个也解决了上面使用<code>Set</code>来存贮的时候没法选择到底是新来的还是后来的</p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这篇博客简单的介绍了实现去重功能的三种实现方法，接下来这个系列的博客会深入到源码来探究Java8如何实现<br>Stream这么多功能的</p><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul><li><a href="https://cloud.tencent.com/developer/article/1756399" target="_blank" rel="noopener">Java Stream 源码分析</a></li><li><a href="https://www.jianshu.com/p/3219f184bb8e" target="_blank" rel="noopener">JAVA8优雅的去重</a></li><li><a href="https://club.perfma.com/article/116123" target="_blank" rel="noopener">JAVA8Stream 源码分析2</a></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;本篇博客是在看代码的时候看到使用Java8使用&lt;code&gt;Stream&lt;/code&gt;去重的妙用，从而对Java如何使用Stream实现几行代码&lt;br&gt;完成一个可支持并行化的流式计算程序&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;引言&quot;&gt;&lt;
+      
+    
+    </summary>
+    
+      <category term="Java" scheme="https://mrzhangboss.github.io/categories/Java/"/>
+    
+    
+      <category term="Stream" scheme="https://mrzhangboss.github.io/tags/Stream/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>周末杂思</title>
+    <link href="https://mrzhangboss.github.io/2021/05/15/summary/%E5%91%A8%E6%9C%AB%E6%9D%82%E6%80%9D/"/>
+    <id>https://mrzhangboss.github.io/2021/05/15/summary/周末杂思/</id>
+    <published>2021-05-15T08:27:29.000Z</published>
+    <updated>2021-05-15T08:28:01.533Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>MySQL Group By 还可以用来去重</title>
@@ -216,52 +258,6 @@
     
     
       <category term="SpringCloud" scheme="https://mrzhangboss.github.io/tags/SpringCloud/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>未来一年规划</title>
-    <link href="https://mrzhangboss.github.io/2021/03/09/summary/%E6%9C%AA%E6%9D%A5%E4%B8%80%E5%B9%B4%E8%A7%84%E5%88%92/"/>
-    <id>https://mrzhangboss.github.io/2021/03/09/summary/未来一年规划/</id>
-    <published>2021-03-09T12:17:31.000Z</published>
-    <updated>2021-04-04T06:49:28.134Z</updated>
-    
-    <content type="html"><![CDATA[<div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="抱歉, 这个密码看着不太对, 请再试试." data-whm="抱歉, 这个文章不能被校验, 不过您还是能看看解密后的内容.">  <script id="hbeData" type="hbeData" data-hmacdigest="0a17a79738f7d826c0931cf6bec56461d60150a8fd9728c25ded49856cb20f39">c540170728923a36879c9e77e2af1df52c165f5f5b1a4238cd8bcd185a3c3f4afa0d11da59ef636ff6cd3eecf5951d4a871671e3782e8033283707da663537431a8a2fc6e31e7dd129d0d5318d8bd2d78aef6a357038767c52a415f0fb79e4ff21ba1553d85cb5b574b0300c063288440f8fb8464e8a253dea6c28d56a287796c63893e1ffc70f444b503440a635a3bd021288296dc33be6f10e78edf5f42ece6ec821cd7d2e362d4170c9f492f6d48f53f48cec50b6bfd6eb7e8cd15896f8783de48928cc96948a979c6e2dd89d1c550670eb6c2caa8c12676094582a71daaa909f9773f1f9d3448f575c76006eb2f89facfb95fc64b52a5d2de938ee9887468b2ad3b99ae97742a9594759db777270ae4e8e4f53b9b53d1928c83c44e76db0cdfef4a9677e0fb4f8573d4e4eeb4a60f05b82f744fe166e49a3fb26a56d5db9818b1d3dab6e8b1adf7f97084244ff5fd909a640c80f3174dd01a9cf5ea78bc9006dbcdfc5d334b09527fe1d09db6b0e6ed45ccea57bf1645a5fa2447209e3639326450916a8272431cbfea7d067b016c41d3addce83a2b070748c1ed8f0e423115698938a85a6b4c4a671e243ba91e6ab74f694c99fc4d76264816c148cb028a855de491ac766184bb93c4ade40f0fdf2941fd2d4dd30fb6cb5eabcc5e365d76fca8cdf46fa21741eea8a73530dfcc88519cbd627033b84f8cbd55d2c7081c4b9e7756a62eacb18845c3f8c9b457bdf892a22b3296a28f6949cbefef344b5f0a53aa29e944dd8f550e3aa0b763028230cbaf27afb71192d2cd0a6e929c618eaefff0fcd847dca1350452da8ee7b88edb19faebcaaaa443837812c984569c050093282494f75e6a634b94b815cea69aa8a05dc87fa690728ddeba5bb36b417818f06629aa17806be622e7ca1184942bfd3d34626763bd3de3da8f3b97f1ec18956e2ca1cca506edbd73fa7a727f635774d7330523b1e695b7652d31551e14f5c13bcabb83ff9e87ee39e6e30105a13e256e493d4be9ddbfcba546ab5d2f6654f07b770e459348ecb44609440cf922df00f94734e2fcdb0852a9b6dac77fd5b1cbca04ed526a87ca94a21eb2a194b9cc2497cd59874e5fb90a8781c9a39c6e5328257263543596388c82404869b26c829676957eb59c3f531e18b940e02b66fd4acdb6a34102b857aca21a5c0fb1ba5a6289573b28a99db7cd5845c2e358df5a12255ccaf441a3da4a47d8ce3b810e1f45474ffa14eac1ed1e116c504364fa3c8bab989a8212bba8b06be89b6fe7e3772d0decf2d08cbc35f13e97f2090b3ceb1ef1aa0256653168196cbcb0385236b8a7ab6908b731da761c263a50a07f256e6f1758aad45b43ffb39e153790bc128c8aef0851dda06e3cb6d251895e29ecaffd1b43e9af1236fa89703b8b8537a57f3b20fa66bb6f77edfedbd8e40545d4ac36e4f89239802b9bf05413c6553363e1e5f1bf545e86924f937b6c1d80b2637cd6c1e9be1bec8a388e3e4beac162d4d94e27d8ad4eb82ee892e7fa4c70c8c15bad2c3bf9be4e308129403bf454593c239899b0539bb55d5e208c7744ca010629a25aeac9a26347d6ea676b8fa5f85ec1210b23ce3528e698d2f50fc234d930282336f9172262a36899fd2a1bc8e62b2574d818e27e36b7424cdb857b85d1aecebaf6ac87bbf9f46ccd926d9bc248fee38337e3319cdf45220e00bad62002ae1783ac75801299a83641e1ae08cbea437ff799bcd111134f524dd644dc6f763c1cbca05c191c1bc58660eb8360ad0f9df77b9914c9d7d07de30756023e569356692151ed5213b8211b5e28d5532e82bfb72847d4828bdf5ec8b2c994e126cef82b11154a2213655fc7e93a8439bf6c0727b84770cc14b080a77e6cc892080356dae8b85f11d262426c64d3f25d93a275bae47b50c45f61da4670337d30048517209dfcc44db8c91199f6036ffc4c41497ce3d8226e065977dbf3aa494da07bddc6425897c480caa1215d2183705f3fc29499ec7802e1d0cb551a406320e95916a236fa6ca9f835f58612b534b54075a79cdf47040d5d173648271d3ffad3a7d8059d0e21882cc43a074ba50e99dc26b5f78622a7f23508f3fea13f671095fdfe17b4d3c24e4ff279b7d0118753fc1ce463dfadf31c7f8dc1d135dc546ed590d9cc760fffb57505686230cb2f8dbf850fca0d8f7e370d47625897ed65f5920e089aefa0edd38ab4f09e3b4dfd9dba0cc2a8d0b6475cb0a016b1eb1b4175627c1080660b2e9af98436c885a293f42b7710228f2de6f6e1f4ee179dceccd6ad8b8e75dc285e8d4cfc3bd8e05154f6ebfeee295653b6a85339d0521964d312c734f276cee0a3930fd67534ea3d57723c42924348e42063aeb04f70d4fb41403c9602283554b583c64328741a336b90795448264efdaf4430c60d65363667753456b7b577a2e3d045f6d5921139d91ae5111cbc3a9e1d9ae303bd71802c9c0a92f1652bb4169cf28cda115bcada274847c9d56ba8544037c8484f3976c82c06218102d00c6c9db9fcefd1f9299da3d543b45b3dd5510409c8cd975c05b1aaf8339fbaa144c57d9906aa9ac4763ce6d0466d4bcc860bdbea3069f4a14d8db9f1c8fe3a8fc84d3c4665f76117a0ae73b607aa6000dd985eff53682eef67461d1ed08d9fc1d61eadc5097129efde669f9f50c8c49f56b5fd02e9b3f8368bbbc4c078f8077f8feeee1d0bc3400036ef56b6162c5fb65af671f3629f03a85527f8cfec188da7883e206ec0f826c2c135b79484a454801a1e7cb2bc08d9b82ae53b5f9c836c896e3457b42b3f8bdc03db2f1ef5df606d987608e7f51933fe93b1682c23d31bba3c3fc66550a7a2919c3d81ec74d257680d1a2f71b2d6aff3a67232ade04a53a350c35224c1032f8bbe5ff9da169cd9ae4b9cd5eddac2ed2ed06b14280defde4d112001b59162686d7f539a18039290186d86663e89948b1cb3265143e7168d1eba36b8709efd0162d87f7075ab6179a634431df7021aa9cca9a56f339591fbb15d59ff70f7608de41d681ffb7ec546d3b6000b8be7e2b0daf877e830ea6ea2d93ae592309b100a50472edd62857c4127556a3791a1d69e4bc44c7f693e07c6275f6057db32d6936bdae2560f4a805146cbaaf80dae0271ba763d675fa12c49e6904f1690c409f9baed4368f82fb74b82b66055baf0e043abdf5e99d250a4707d8c070b20f1dc305a1f5fe516ef787be2beb2dd5838374a7dd9e936ed76c79c0e268c3efdfd95a7effc94b714f060b83d17a66746e4ea5edf8233afb77dd93542111975cff6fc9976b52a1f54025349436168c7f619bf809953172b115c32d49cb51768fb330932e30b9656b319438dbd3d7173a835b11b6cd7260b02719cff30913018de56ffd2b698536964b23ba04cbcf8709b675fb0c07fa73af31597660ae3535cd84ffc3d426b08bd9e2da25b058849b50d266b672df4b812222822be3b2c66776dc30743d06169972840d74309ad5e6ba6f1d828e5bda0350f37cff768fc532d5374c36db708d52dbceab0f1f9b7c6941abe8aaa388f301c75f92713f47892c8335269f7c46596e8ab2634783802e0e55e6b540fc02dab41090249f9201e279800edf0bd0d10b167db803eaffed78e2cb7ef17f392cc9a8aa988350ae8d0217d5933689739ee1439367a30cc25dc7bba902db8319aed68c1ba2ef42bff495ed3e91b56531ba7b49445f76c1fabdf5ea70a1ba0512e8cb81c023c9079a0f376f3451c297db8e1ee56cb6cc10bc6ea02e2e106f39d1804247fe6f8eefcf0133fd405133cada3e3dda3f2bac949191bfc99dffc7812ab2cf6ed6533f98e779c936ed1e53b7faf63b741241dfb36201a72d4e411a8b0cd421f3584d6c2c80fd221de500fc5aab32ae339d87609b09a1ad09cd93383f47dd0aaa29df9e986f7895c4ebec65940693101c3127add473c1165e44c69619140834da9b64faaf063a254ba55fffa84cf06923a16d94c43d8c8ca46d0450941800f8e034200efd51e11443520bda3e0e359404f443af75172c3a56aa20e59c4da6cecaeaa59497a9cd5539e40e31095ec32b3d3dbddbbd5b8e1893ae4bb35aa9f4b2fbaad89a6dfe2bf7d387b958ba8c0d91558c935cfb5402296e98c0668b5d746909f4e963ef4504039c51185b7f1e889bcc85e5ac48b266fede391b2f23335f3b3d7bbacdb09978409982804ecffd518b5ce27066af8b442c5e0e55c9275908e7c4d97792932f93f9150939f2a5a6e4e75247bbefb1a099828c613d5a4e8ae925d25b4e29a33724ee93aa25b7b6b63eac86132a62cc5bc085a450b0da84a7bc46e3e5349e4a914b3e11daa6078caab63ffa078635e7d7978ecdad120c88704ec62469097e05031a914c8654d5d43f5403ae2322de58527bbf103ca3452ded0a60360c681aac0da3bd3b9706df55410feb6854ef24f459c31490eabe00c7ae8c08f87dd82eb27462dce99f73b2e26ce76872c44b89ee0f85f7989f910ffdc7591b625b1e05ded7a83f81c438dd1950da0d9f9b716ba769ade2276cf5a4b9fa31abf905db9d195c32b003e0f4ed371e62a61f234a344d2155da82f9433636da14dad185ab14d2336fb690f15a81b8e2f830598ceec01972826613a45ae3bfd6c345188169b242aef7e451875f41a854c25a156faf73e10b93a9ad358951f31910fd17cffc6bec783466d5841a87e106bd208a084b8cde71ac6cf6fad1e78832a523f20358b3ee4754d9324407537ca9307327e9078bcb7eb152c341cb4dacaa685bd97c8968e0425f98e7e933519384c0acff287a7617057fe193d2d7c132ab1e84d1edfe3de92ffba91f3941ccaea067731f4a48299299b0ae03922829e90fadf1e410701c436427a47a65f96a5c744f3d590eddfa68c5da197c3a9c20ee8fcd0d962fe894c0de5ad69bc84f59f10ebe5aae9e3fca9fa7ad4d3b117a743226c53ccba812624537160a0e2f5f09c234ca104cd5ecfd8259da5eb4e41dadedff5db4797bd03b29381c23a07ea554459af367252052e185ddee59d28801cabc1d10adff118d730ebbaabc9d7a82db23827d5bacb9448216e901167348e9bd96f6ce578c72ded7d42c553be8f4cfc06464493366b665868ad5600d6c732a62b1496b038b148e8f075d2394276b9f9aff1533bae67f785f3a5b42c1b5f25c68ec8f0a05559f281f66a9d3ec2bc366c751106a6543337929fd056f7120799e0e561e51266fca1e6bad577c950437c949a8d80d842bfc7ce34caf116003a387c32c63112a009444aeef4afc793523d10aa69ec2614a70c0222515fbb6d0118fdbc1820c561c0ef4c71fbca0c19ee1df06b458bef70fed728f41a8643303b498a697e589e635b0be5429c94913733902223bb880c6db4629e7cc4091278752e140ccbed9a2b4fb273d1295bb7a7d8447340ad9d1c7961979f551a96345067e2a69039a20fce0838297d52bc1e9951506e72a0d05e0895fde362eb14ca510e34b84509219cd55c140f0178d19078a8ef8816f07ecbf141da9e62bdd2f9bf7257a730329f9726b6fe19dcc3dfebce6cc4b29efcdba8a5d65d2920a0def39603c35e4ac65255fce01c2acda1caafd7aa04414c885abd0854a90797c8def1984159265f714a7d493daf24f006746ab104d388af0db2973f82dd3a5dff96bb4906b23de46c00a662336ce70cb6ca0f0a21ac6dd930534ef542be383b7de0381926b52435f651f177bc665d58af6a34b8994ced52b22c2e9df772e4fa9885d871a140a5a17b108d6e6e85aadd43b9107ed8614d0187b678715f791cea35015fb27753133c3997349c54b7e07ef286d63cd6adb4160f6f19d41b938f3369f941cfaa464fff63cd8be5862880a0b900d6fc2e53f05c0a0c0ea7e02600552daebc1939571e38800ee5a2ec420e8abc950fdd4db050f8e17bd44b60e58d99b05f5c3091a209f7ade4a648eba73ae9b7f06b095d8a0145475616903a6b58ed6f588e8e2997a40d5e80a41cdcd23a5baf08cdd289404a20363f927fa4162b28d49b12ad03bc4719da86f3eb674b7600405a7b1fbbd09dc201a52a19262ae11d74bb3b058ec8ef9ece179c846a25cfdcf3d60127740ffed7dab3a7dfb9e02b6b620ec5e1b0c2da746d926f03d728898cba624e51f2da85046f8480e3697ef030077bdfcf09716a0c1e3c0ca42f171446efa12c936c7ad6d527bf250b2ac69f4730325b01ee04ecc0b6f1573f03b5a4e668446cb10ac9d17fcc4ef3671540c99f8bb1a870eee20e380841d3e78d644c668aa3cbfb91c426477ac0dd80430056c3d3108344b1b96665fbd41568fd9dc6ccb61160a4d1f557058210c46941a19e77f468f996d03b923c5179390e9b643756dd09fc93c8a610b51e2f4f97245c85ce387982098e0a9190468b245c8334fc4f44c7d34403433b9a975238f049fc88a70b69d926fdfe11f55d2cf9436c9765afe366b0ac68cf60194cf81f0dca11de1d50cabc0939da9187d98c2fc817c8e2b5921dfa425f710c4c0ea4e8e0656f9b462d723b14e14e29791f96f5fedf5cbde99bdc4525769312507c8ef87e775bf411506181e2e316aabc073c758575403b3c31635a51d9fd275d75a28b345f6de03d34aa2979b3276a0884fa4193c46fdea53f429752f9cfb91ae99dead1a987929e20dae80be484d52fba38f6b25ac6d7fc41aeb803763583e81afdff2f5c34fa175b78e418d06928117c6e1e1d96ec70011bc6914e2d5709c390df1a6daab1ad6f36011028acde1918ebf73f492ea8e1feac9a0f341c08de343481a27b726d48f5f010b93364f9e1b1279a2bbb1cbc042016d4002069379a3a60433157ebcabac01ac7f002e882579ec54acbe25371f1138767e23f1d750be9debd4537ebeb8ca54796dd512d079a350e15ac846f7b4f46880f6</script>  <div class="hbe hbe-content">    <div class="hbe hbe-input hbe-input-default">      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">        <span class="hbe hbe-input-label-content hbe-input-label-content-default">您好, 这里需要密码.</span>      </label>    </div>  </div></div><script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">]]></content>
-    
-    <summary type="html">
-    
-      这里有东西被加密了，需要输入密码查看哦。
-    
-    </summary>
-    
-      <category term="随想" scheme="https://mrzhangboss.github.io/categories/%E9%9A%8F%E6%83%B3/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>面试杂思</title>
-    <link href="https://mrzhangboss.github.io/2021/03/07/summary/%E9%9D%A2%E8%AF%95%E6%9D%82%E6%80%9D/"/>
-    <id>https://mrzhangboss.github.io/2021/03/07/summary/面试杂思/</id>
-    <published>2021-03-06T16:11:16.000Z</published>
-    <updated>2021-03-09T12:15:01.385Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote><p>最近在面试，面试之前总觉得有一丝焦虑</p></blockquote><p>我不知道这丝焦虑是不是学生时代带给我的，对于我来说，这种焦虑是害怕自己不知道这个知识点而很囧。或者对于我来说，我自己一直对自己不够自信。为什么呢，因为对于我来说，我自己一直在干的很杂，相比于其他人来说，我算是一个真“全干”工程师</p><h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p>我在思考为什么会这样，我觉得第一点很重要的是我缺乏一个明确的<strong>职业规划</strong></p><p>之所以我会变成“全干”工程师，是因为我一直在“瞎”折腾。为什么会这样，主要是因为好奇心，每个人都有好奇心，区别在于有些人好奇心强非得把这个东西搞懂然后再放手，有些人好奇心弱一会就结束了。相比而来，我是一个好奇心非常重的人</p><p>我觉得这种好奇心可能是在我上小学的时候就养成了。为什么这么说，你能想到一个十二岁左右小屁孩捧着一本右脑记忆的书，把圆周率后面五百位完整的记下来，还能完整的记忆一副扑克吗。</p><p>现在这种右脑记忆培训班在中国现在也挺流行的，但是在十几年前，图书馆里面只有几本这样的书。我觉得这是我第一次开始折腾吧，虽然最终我没能应用在我的学习上（因为我读的理科）。但是这段经历现在回头看还是得给自己竖个大拇指，现在十几岁的小孩只知道玩手机，看电视，玩游戏。当年的我在没人教导的情况下，自己去钻研学习记忆方法，而且直到我上高三，六年时间内我都没有放弃。我高三的时候用它来背古诗，读一遍就背出来，可惜背诵高考只占8分，最终也没能派上啥用场。</p><p>我人生中第二个折腾就是在高一的时候，我不记得我是听老师推荐还是自己在网上搜怎么学好英语，反正那个时候是新概念英语比较火，那个时候不知道是李阳还是谁鼓吹着学好英语就是听和背，大量重复的听和读，等你读到几百遍的时候你就自然而然的背下来了，我那个时候在睡觉的时候都听着新概念的英语文章，就是重复的听一篇文章还是每天重复的读，当你自然而然的背下来的时候就换下一篇文章背。我记得我当初买的新概念英语三，用这个方法背了大概20篇，有点后悔当初没有继续背下去，如果把新概念3和4全本背完，现在英语应该流利到丝滑境界吧。</p><p>当然现在捡起来其实也可以，其实自己毕业后也一直在背单词，但是其实效果也不是很明显。现在看来，自己现在会不满意自己的现状也是有原因的，自己会放弃一些好的习惯。</p><p>其实写之前自己也没意识到自己放弃了什么，因为人无时无刻不在做选择，当初放弃的原因是没有看到效果，相比于虎头虎脑的背，还不如多刷几道题（最终我高考英语考了130分），从分数上看我是挣了的，但是从长远的角度上来看，我是亏了的，我只是拿到了分数，然而那种方法能给我带来一种更长远的回报，好比短期投资和长期投资。长期投资最让人恐慌的是很难在短期内看到效果，必须要有一种信念让你坚持下去。</p><p>所以其实对于我来说，目前我就需要的是一种坚定的信念，首先我得明确自己的规划，然后把这些规划慢慢给他落实掉。</p><h2 id="反思"><a href="#反思" class="headerlink" title="反思"></a>反思</h2><p>其实回头看看，从大学开始到现在七年时间自己一共尝试了五个方向，按照时间排序</p><ul><li>后端</li><li>机器学习</li><li>爬虫</li><li>数据分析</li><li>大数据</li></ul><p>每个方向其实自己都钻研成中级和高级之间的实力，等我走完这一个圈后，我发现我更喜欢做后端，我突然发现我好像走了一个圈，最后又回到了原点。有时候在想，好像自己真的在浪费时间，假如自己一直在自己喜欢的圈子里努力，那么自己的实力目前也不会之停留在中级和高级之间了。</p><p>但是回头一想，其实自己也不去尝试怎么知道自己最后喜欢的是什么，没有谁天生就喜欢某一行，放牛郎的孩子没办法一辈子只能放牛，作为新一代的人，我很幸运的生活在这个互联网时代，我可以选择自己喜欢做的事，其实我也很感激毕业后呆的这家公司，虽然待遇上比不上大部分互联网人。但是在这里我没有压力没有开会，每天都在思考怎么学，怎么用。</p><p>这几年就像交了5个朋友，每个朋友关系都不是很亲密，所以我会感到“孤独”，感到焦虑。</p><p>要打破这个也很简单，选择自己真正想交的朋友做真心朋友，这样能解决你的焦虑和孤独</p><p>其实有时候觉得做技术必须学点心理学和经济学。为什么呢。因为做到最后你会发现，99.99%的问题都能通过时间来解决，我们每天都在做选择，这个选择是有代价的，其中最大的代价就是时间，所以如何把人生价值最大化，最重要的就是规划好你的时间</p><p>从大的层次上来讲，你要给自己做一个长期规划，这个一般是以年来做计划，第二个就是中期规划，这个一般以月来做单位，还有一个就是短期的，一般是以天来。</p><h2 id="术和道"><a href="#术和道" class="headerlink" title="术和道"></a>术和道</h2><p>其实上面讲的做规划很早之前自己就了解过，但是之前没有意识到这个重要性，年轻的时候不珍惜时间，对于任何问题不管是三七二十一搞定再说，所以以前会通宵解决一下很小的bug。虽然成就感很高，但是其实从后面角度上来看，得不偿失。</p><p>我不是说你碰到bug就放弃，而是你要去想自己为什么会碰到通宵才能解决的bug。自己的规划是不是出了问题，是自己哪个地方能力有欠缺。是debug能力，还是编程能力不足，或者没有熟悉某些工具帮助自己快速定位等等。</p><p>其实我自己也在开始尝试实践这种方法，我第一次了解是在知乎上看到一个硬件工程师在分享自己在家办公如何让自己有效的工作12个小时，然后我自己开始用Microsoft的TODO来帮助我自己实践这个。</p><p>下面是我这些天实践的心得：</p><ol><li>规划是非常严肃，你不能抱着一个完成任务的心态去制定它，你要首先把自己想做的事列出来，然后你得给他排序，对于很重要的事是必须要完成的</li><li>规划完成之后会有一种成就感，对于你历史规划，你也可以定时复盘，看看自己哪些地方可以做到更好</li><li>长期规划非常有必要，你可以每天开始规划之前，或者完成了当天规划之后再思考是否长期规划得做适当的调整，比如加快某项，或者你觉得某项还有更多细节需要深追</li></ol><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我觉得最重要一点就是复盘吧，你把每天自己完成的TODO，以及这个TODO对你长期规划的影响在脑海里面思考计量，这样你才能以最快速度的接近你的目标。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;blockquote&gt;
-&lt;p&gt;最近在面试，面试之前总觉得有一丝焦虑&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;我不知道这丝焦虑是不是学生时代带给我的，对于我来说，这种焦虑是害怕自己不知道这个知识点而很囧。或者对于我来说，我自己一直对自己不够自信。为什么呢，因为对于我来说，我自己
-      
-    
-    </summary>
-    
-      <category term="随想" scheme="https://mrzhangboss.github.io/categories/%E9%9A%8F%E6%83%B3/"/>
-    
     
   </entry>
   

@@ -211,6 +211,350 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2019/01/13/java/如何在Ubuntu上发布ScalaJar包到Maven中央仓库/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/01/13/java/如何在Ubuntu上发布ScalaJar包到Maven中央仓库/" class="post-title-link" itemprop="url">如何在Ubuntu上发布Scala Jar包到Maven中央仓库</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-01-13 00:00:00" itemprop="dateCreated datePublished" datetime="2019-01-13T00:00:00+08:00">2019-01-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:02:26" itemprop="dateModified" datetime="2021-03-09T20:02:26+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>6.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>由于网上的教程大多数是<code>Windows</code>下的，而且都是介绍怎么打包<code>Java</code>的<code>Jar</code>包，关于<code>Scala</code>相关的比较少，因此我踩了不少坑才成功的把包发布到<code>Maven</code>中央仓库，你们可以才中央仓库里面搜到<a href="https://search.maven.org/artifact/me.zhanglun.ahocorasick/trie/1.0.5/jar" target="_blank" rel="noopener">我的包</a></p>
+</blockquote>
+<p>如何你想直接使用<code>ctrl-c</code> + <code>ctrl-v</code>那么你直接去我的github上的<a href="https://github.com/mrzhangboss/ahocorasick/tree/MiniDeployToSonatypeDemo" target="_blank" rel="noopener">最小化打包版本</a>把<code>pom.xml</code>里面的<code>build</code>给复制下来就可以了（前提是你已经把<code>gpg</code>给配置好了）。</p>
+<p>PS：因为这篇主要是介绍步骤所以就用中文写了</p>
+<h2 id="第一步：选择用什么打包"><a href="#第一步：选择用什么打包" class="headerlink" title="第一步：选择用什么打包"></a>第一步：选择用什么打包</h2><p>由于<code>Scala</code>既可以选择用<code>SBT</code>打包，又可以用<code>maven</code>打包，所以你要先选择使用什么来打包，一开始我使用<code>SBT</code>来尝试进行打包上传，但是一直卡在没法配置好<code>SBT</code>的<code>gpg</code>插件（这个主要是对你的文件进行签名），我甚至到<code>Github</code>去看别人的项目是怎么配置的，但是我搜到的<code>Scala</code>项目大部分都没有选择把包发到<code>sonatype</code>去，有的是自己搭建中央仓库有的是根本没有提供中央仓库下载的。虽然我很想用<code>SBT</code>把<code>Scala</code>打包（毕竟是专门给<code>Scala</code>用的），但是那个<a href="https://www.scala-sbt.org/sbt-pgp/" target="_blank" rel="noopener">插件</a> 实在是卡的死死的，而且文档太少了，官网上的SBT似乎一直是用的0.13.5+，但是我用的是1.2+，在选择低版本还是选择换一种打包方式面前我选择听从大牛的意见，选择使用<code>maven</code>进行对<code>Scala</code>打包（毕竟<code>Scala</code>杀手级应用<code>Spark</code>也是用的<code>maven</code>进行打包）</p>
+<p>而且<code>SBT</code>有一个特别困扰我的地方，虽然我一直用阿里源，但是<code>SBT</code>更新依赖的速度实在是太慢了，无论是新建项目还是增加第三方包，相比<code>maven</code>它的速度都特别慢</p>
+<p>当然我做不到不代表大家做不到，如果有人能够搞定用<code>Maven</code>打包，记得在<code>Github</code>上发个<code>issue</code>告诉我</p>
+<h2 id="第二步：在中央仓库上面新建项目"><a href="#第二步：在中央仓库上面新建项目" class="headerlink" title="第二步：在中央仓库上面新建项目"></a>第二步：在中央仓库上面新建项目</h2><p>为了将包发到<code>maven</code>中央库，我们得借助【sonatype]<a href="https://issues.sonatype.org" target="_blank" rel="noopener">4</a>来帮我们上传，首先你得去上面注册一个用户</p>
+<p>相比于<code>Python</code>发包，<code>Java</code>有一个<code>group</code>的概念，也就是说每个包都属于不同的组织，比如说Java的核心包<code>java.lang</code>也可以看做是一个组织，在<code>Pypi</code>发包你只要不重名就行，但是在<code>maven</code>中央库发包，你可以重名但是不能重复组织名，由于我有个<code>zhanglun.me</code>的域名，所以我就新建了一个<code>me.zhanglun.ahocorasick</code>组织，你也可以理解组织就是一个网址，我新建了一个<code>ahocorasick.zhanglun.me</code>的网址，由于名字我们没法规定重名，但是网址可以，所以在<code>sonatype</code>上新建一个项目后你得要有帮你审核一下这个域名是否是你的（如果你使用<code>com.github.xxx</code>来作为域名的话那就不要审核了）</p>
+<p>随便找篇<a href="https://www.sojson.com/blog/250.html" target="_blank" rel="noopener">教程</a>新建完项目，等你的项目变成<code>Resolved</code>，接下来我们就来配置上传的秘钥</p>
+<h2 id="第三步：-上传配置"><a href="#第三步：-上传配置" class="headerlink" title="第三步： 上传配置"></a>第三步： 上传配置</h2><p>相比于<code>Python</code>直接将打包好的egg包发到<code>pypi</code>，<code>sonatype</code>需要你对你上传的文件都签名以验证安全，怎么签名呢，借助一个开源的<a href="https://www.gnupg.org/" target="_blank" rel="noopener">GnuPG</a>，我们只要自己制作一个秘钥，然后上传到秘钥服务器，然后我们就可以用这个秘钥来对我们的文件进行签名（会产生一个<code>.asc</code> 文件，里面是签名值）</p>
+<p>所以关键就是把这个秘钥产生并且上传到秘钥服务器，在<code>Ubuntu</code>上有两个版本的<code>GnuPG</code>，一个是1.0版一个是2.0版，我试过使用1.0版但是没法传到秘钥服务器上面，所以大家还是最好使用2.0来生成秘钥和上传到服务器。</p>
+<p>首先生成key，全部选择默认进行，填上你的个人信息，最后就会生成一个key</p>
+<pre><code>gpg2 --gen-key 
+</code></pre><p>里面会让你输入一个口令，你记住就行，等你上传的时候会弹出一个框让你输入这个口令</p>
+<p>生成完后使用下面命令列出key</p>
+<pre><code>   gpg2 --list-key
+
+
+
+/home/zhanglun/.gnupg/pubring.gpg
+---------------------------------
+pub   rsa2048/47DC71B6 2019-01-12 [SC]
+uid         [ultimate] zhanglun &lt;zhanglun.me@gmail.com&gt;
+sub   rsa2048/985EE474 2019-01-12 [E]
+
+pub   rsa2048/D0516023 2019-01-12 [SC]
+uid         [ultimate] zhanglun &lt;zhanglun.me@gmail.com&gt;
+sub   rsa2048/EE34357C 2019-01-12 [E]
+</code></pre><p>我生成好几个没有关系，随便找到一行pub ，例如第三行的，<code>47DC71B6</code>就是你得公钥</p>
+<p>使用下面命令把秘钥发到秘钥服务器（keyserver你可以在网上随便找一个，只有能用就会同步到全球）</p>
+<pre><code>gpg2 --keyserver pool.sks-keyservers.net --send-keys  47DC71B6
+</code></pre><p>接下来我们就要配置<code>maven</code>来使用这个秘钥，首先在pom.xml里面加上这个插件</p>
+<pre><code>&lt;plugin&gt;
+    &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+    &lt;artifactId&gt;maven-gpg-plugin&lt;/artifactId&gt;
+    &lt;version&gt;${version.maven.plugin.gpg}&lt;/version&gt;
+    &lt;executions&gt;
+        &lt;execution&gt;
+            &lt;id&gt;sign-artifacts&lt;/id&gt;
+            &lt;phase&gt;verify&lt;/phase&gt;
+            &lt;goals&gt;
+                &lt;goal&gt;sign&lt;/goal&gt;
+            &lt;/goals&gt;
+        &lt;/execution&gt;
+    &lt;/executions&gt;
+&lt;/plugin&gt;
+</code></pre><p>它能自动帮你使用<code>gpg</code>来进行签名（默认使用<code>gpg</code>待会我们得改成<code>gpg2</code>，否则会报错），这里要注意一点假如你计算机上面有很多秘钥，如果你不指定那个秘钥来进行签名那也会报错，我们要在<code>~/.m2/settings.xml</code> 上配置一下（注意不是你项目目录下面）</p>
+<p>在<code>settings.xml</code>的<code>settings/profiles</code>节点下面下面加上配置</p>
+<pre><code>&lt;settings&gt;
+      &lt;profiles&gt;
+            ....
+
+
+            &lt;profile&gt;
+            &lt;id&gt;oss&lt;/id&gt;
+            &lt;activation&gt;
+            &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;
+            &lt;/activation&gt;
+            &lt;properties&gt;
+            &lt;gpg.executable&gt;gpg2&lt;/gpg.executable&gt;
+            &lt;gpg.keyname&gt;47DC71B6&lt;/gpg.keyname&gt;
+            &lt;/properties&gt;
+            &lt;/profile&gt;
+
+
+             .....
+ &lt;/profiles&gt;
+&lt;/settings&gt;
+</code></pre><p><code>id</code>就是这个配置的名字，<code>gpg.keyname</code>就是秘钥的名字，<code>gpg.executable</code>就是选择使用<code>gpg2</code>（默认使用1.0版本也就是<code>gpg</code>）</p>
+<p>配置完这个你可以<code>mvn install</code>一下，你可以看到生成的<code>jar</code>都已经有一个<code>.asc</code>文件，接下来就是配置<code>sonatype</code>的账号密码，在<code>pom.xml</code>配置文件里面加上一个</p>
+<pre><code>&lt;distributionManagement&gt;
+    &lt;snapshotRepository&gt;
+        &lt;id&gt;oss&lt;/id&gt;
+        &lt;url&gt;https://oss.sonatype.org/content/repositories/snapshots&lt;/url&gt;
+    &lt;/snapshotRepository&gt;
+    &lt;site&gt;
+        &lt;id&gt;master&lt;/id&gt;
+        &lt;name&gt;Efficient longest keyword string matching&lt;/name&gt;
+        &lt;url&gt;git@github.com:mrzhangboss/ahocorasick.git&lt;/url&gt;
+    &lt;/site&gt;
+    &lt;repository&gt;
+        &lt;id&gt;oss&lt;/id&gt;
+        &lt;url&gt;https://oss.sonatype.org/service/local/staging/deploy/maven2/&lt;/url&gt;
+    &lt;/repository&gt;
+&lt;/distributionManagement&gt;
+</code></pre><p>在这里我们指定了用<code>oss</code>这个作为上传账号，接下啦我们在<code>~/.m2/settings.xml</code> 加上<code>sonatype</code>的用户名和密码</p>
+<pre><code>&lt;settings&gt;
+        &lt;servers&gt;
+            ....
+
+
+            &lt;server&gt;
+              &lt;id&gt;oss&lt;/id&gt;
+              &lt;username&gt;your usename&lt;/username&gt;
+              &lt;password&gt;your password&lt;/password&gt;
+            &lt;/server&gt;
+
+
+            ....
+  &lt;/servers&gt;
+&lt;/settings&gt;
+</code></pre><p>在<code>settings/servers</code>节点下加入一个<code>server</code>节点，填上你的账号密码就ok了，在这里你就可以使用<code>mvn clean deploy</code>进行上传了。</p>
+<h2 id="第四部：发布配置"><a href="#第四部：发布配置" class="headerlink" title="第四部：发布配置"></a>第四部：发布配置</h2><p>前面我们已经能够上传，但是我们现在上传的时候假如我们的版本号上面有<code>SNAPSHOT</code>这个的话，我们是不能把他发布出去的，带有那个代表那个只是实验性质，虽然我们能够把它上传上去但是不能在<code>maven</code>中央仓库里面看到。</p>
+<p>当然这个只是一个要求，为了能够上传你还必须满足两个条件，第一个要把源文件上传上去，第二个就是你的文档上传上去，而且<code>sonatype</code>采用了一个工作流的概念，你要上传中央库必须要进过 上传release-&gt; 关闭release -&gt; 发布release，当然所以的一切都可以用插件来完成，接下啦我们先介绍两个很重要的插件，打包源文件和打包文档。</p>
+<p>由于我们要打包<code>Scala</code>项目，所以第一步就是把<code>Scala</code>编译成<code>Java</code>字节码，这一步我们得借助<code>scala-maven-plugin</code>来完成</p>
+<p>我们在在<code>build</code>里面加入下面的插件</p>
+<pre><code>&lt;plugin&gt;
+    &lt;groupId&gt;net.alchim31.maven&lt;/groupId&gt;
+    &lt;artifactId&gt;scala-maven-plugin&lt;/artifactId&gt;
+    &lt;version&gt;${version.scala.maven.plugin}&lt;/version&gt;
+    &lt;executions&gt;
+        &lt;execution&gt;
+            &lt;goals&gt;
+                &lt;goal&gt;compile&lt;/goal&gt;
+                &lt;goal&gt;testCompile&lt;/goal&gt;
+            &lt;/goals&gt;
+        &lt;/execution&gt;
+        &lt;execution&gt;
+            &lt;id&gt;attach-javadocs&lt;/id&gt;
+            &lt;goals&gt;
+                &lt;goal&gt;doc-jar&lt;/goal&gt;
+            &lt;/goals&gt;
+        &lt;/execution&gt;
+    &lt;/executions&gt;
+&lt;/plugin&gt;
+</code></pre><p>它带了连个命令一个是<code>compile + testCompile</code>（编译），一个是<code>attach-javadocs</code>（打包<code>scaladoc</code>），加入这个插件后你可以试一下<code>mvn install</code> 它会帮你把<code>javadoc.jar</code>生成出来。</p>
+<p>添加<code>source</code>文件的插件就简单了，<code>Java</code>和<code>Scala</code>都可以使用这个插件来生成<code>jar</code>文件（只是简单的复制文件而已）</p>
+<p>加入下面这个插件就能实现打包源文件了</p>
+<pre><code>&lt;plugin&gt;
+    &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+    &lt;artifactId&gt;maven-source-plugin&lt;/artifactId&gt;
+    &lt;executions&gt;
+        &lt;execution&gt;
+            &lt;id&gt;attach-sources&lt;/id&gt;
+            &lt;goals&gt;
+                &lt;goal&gt;jar&lt;/goal&gt;
+            &lt;/goals&gt;
+        &lt;/execution&gt;
+    &lt;/executions&gt;
+&lt;/plugin&gt;
+</code></pre><p>加上这两个插件你就可以发布<code>release</code>版本了（第一次你得要跟工作人员comment一下才能上传到中央库，以后就不要了）。现在你就可以只要执行<code>mvn clean deploy</code>就能在<a href="https://oss.sonatype.org/#welcome" target="_blank" rel="noopener">管理页面</a>的Staging Repositories下面看到你构件，你只要选择最后一个，然后点击<code>close</code>，<code>close</code>结束之后在点击<code>release</code>就能在<code>maven</code>中央库看到你的开源包了，是不是很激动</p>
+<p>但是每次都要登录上面去点击很繁琐，所以你可以安装下面的插件帮你直接发布，不需要登录网站</p>
+<p>加上下面的插件就能自动帮你发布了</p>
+<pre><code>&lt;plugin&gt;
+    &lt;groupId&gt;org.sonatype.plugins&lt;/groupId&gt;
+    &lt;artifactId&gt;nexus-staging-maven-plugin&lt;/artifactId&gt;
+    &lt;version&gt;${version.maven.plugin.nexus.staging}&lt;/version&gt;
+    &lt;extensions&gt;true&lt;/extensions&gt;
+    &lt;configuration&gt;
+        &lt;serverId&gt;oss&lt;/serverId&gt;
+        &lt;nexusUrl&gt;https://oss.sonatype.org/&lt;/nexusUrl&gt;
+        &lt;autoReleaseAfterClose&gt;true&lt;/autoReleaseAfterClose&gt;
+    &lt;/configuration&gt;
+&lt;/plugin&gt;
+</code></pre><p>PS：我在<a href="https://github.com/mrzhangboss/ahocorasick/tree/MiniDeployToSonatypeDemo" target="_blank" rel="noopener">项目</a>里面把这个插件注释掉了，你们可以把注释取消</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这篇博文主要是把发布涉及到的库以及知识点简单的介绍了一下，其实发布并不难，很多时候我们只是卡在某一步上，只要我们知道原理，就能把钉子拔掉，顺利上路，在这里顺便推广一下我的项目，这个项目基于<code>Aho-corasick</code>自动匹配关键词，使用统计方法来对输出最匹配路径，项目展示的<a href="http://ahocorasick.zhanglun.me/" target="_blank" rel="noopener">Demo</a>在<a href="http://ahocorasick.zhanglun.me/" target="_blank" rel="noopener">http://ahocorasick.zhanglun.me/</a>  ，随意输入地点能够迅速匹配出相关城市，比如打入“樟树”能够找到“江西省-宜春市-樟树市”，假如你服务器内存够的话还可以根据村委会名字来寻找到你的地点，而且搜索的速度只和你的地点名长度有关，不会随着关键词的增长而变慢</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://stackoverflow.com/questions/5901378/what-exactly-is-a-maven-snapshot-and-why-do-we-need-it/5907727" target="_blank" rel="noopener">SNAPSHOT</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/11/07/bigdata/BigDataQuestions/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/11/07/bigdata/BigDataQuestions/" class="post-title-link" itemprop="url">Big Data Questions</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-11-07 00:00:00" itemprop="dateCreated datePublished" datetime="2018-11-07T00:00:00+08:00">2018-11-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:01:40" itemprop="dateModified" datetime="2021-03-09T20:01:40+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/大数据/" itemprop="url" rel="index">
+                    <span itemprop="name">大数据</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>358</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>Recently I found that I’m kind of over talking when I speak with others, so I want to train my conclusion of solving problem. Here are some problems I meet when I read books of Big Data.</p>
+</blockquote>
+<ul>
+<li>No 1. Why <code>Spark</code> does not use map-reduce?</li>
+</ul>
+<p>Disk reading is too slow to complete big data analyze.Map-reduce is a shuffle which meanings parallizing.<code>Spark</code> just use memory to complete parallizing a huge problem.</p>
+<ul>
+<li>No 2. How Hadoop to append data?</li>
+</ul>
+<p>Just use </p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/10/20/java/LearningScalaFromJava/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1620,415 +1964,6 @@ for i in range(100):
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/07/01/java/Java的Char类型到底几个字节/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/07/01/java/Java的Char类型到底几个字节/" class="post-title-link" itemprop="url">Java的char类型到底几个字节</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-07-01 00:00:00" itemprop="dateCreated datePublished" datetime="2018-07-01T00:00:00+08:00">2018-07-01</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:02:26" itemprop="dateModified" datetime="2021-03-09T20:02:26+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index">
-                    <span itemprop="name">Java</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>3.1k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>3 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>之所以有这个疑问，是上次阅读Java基础书时碰到讲解<code>char</code>类型没有看明白，并且在代码验证过程中错误的理解了代码的意思，导致我对这么个简单问题产生疑惑并且“恶意揣测”Java内部的黑魔法，这里就把我如何走上歪路，并且最终找到“正确”的道路的故事讲出来</p>
-<h2 id="问题的产生"><a href="#问题的产生" class="headerlink" title="问题的产生"></a>问题的产生</h2><p>我们知道<code>Java</code>是采用<code>Unicode</code>进行内部编码，但是使用<code>UTF-16</code>作为外部编码。</p>
-<p>怎么来理解这个东西呢。首先你要知道<code>Unicode</code>是在我们熟悉的<code>GB 18030</code>、<code>BIG-5</code>、<code>ISO8859-1</code>之后出现的，它的出现就是为了统一全世界的编码，因为前面这些编码都太片面了，只包含自己国家或者少数几个国家的字符。</p>
-<p><code>Unicode</code>的目的就是包括全世界的编码，并且给未来可能出现的编码留下位置，你可以理解为它是一张大“表”，一般我们使用16进制来表达它，并且在前面加上<code>U+</code>。例如<code>U+0041</code>代表字母<code>A</code>，但是这里有个历史问题</p>
-<p>一开始我们知道<code>Unicode</code>为了包含全世界的字符从<code>ASCII</code>的一个字节扩展到两个字节，就能包含65536个字符了，但是随着字符包含越来越多，我们逐渐需要更多字符了，最后扩展到<code>U+0000 -&gt; U+10FFFF</code>去了，为了表示这些我们必须使用三个字符，假设我们不考虑内存成本，每个字符都使用四个字符来表示（不使用三个是为了内存对齐），那么问题就解决了，大家都用<code>Unicode</code>来表示，这样我传给你一串字符你就能秒懂了。</p>
-<p>但是学过信息论就知道，单字符越长信息熵也就是信息量就少，其实在日常通信中我们并不是每个字符都会用到，为了提高效率，我们可以使用霍夫曼、香农编码技术对信息重新编码，这个就是<code>UTF-8</code>、<code>UTF-16</code>等现代编码的理论基础。</p>
-<p>这就好比特种部队手势，我们把作战命令（Unicode）需要的指令放到手势（如UTF-8）里面，这样几个手势就能表达复杂的作战计划（假如用嘴巴说的话）。</p>
-<p>接下来我们就从JAVA和Python来看，编码与其关系</p>
-<h2 id="表面兄弟：JAVA"><a href="#表面兄弟：JAVA" class="headerlink" title="表面兄弟：JAVA"></a>表面兄弟：JAVA</h2><p><code>Unicode</code>对于JAVA来说，只能算是表面兄弟，虽然内部支持<code>Unicode</code>编码，但是其本质还是基于<code>UTF-16</code>编码，为什么要这么说呢。</p>
-<p>我们来回顾一下，我们知道<code>Unicode</code>的范围是<code>U+0000-U+10ffff</code>，这意味着我们没法用两个字节来表示，但是在<code>Java</code>里面<code>char</code>类型字节为2字节，而对于字符串类<code>String</code>来说，其组成就是一个<code>char</code>字组，对于小于<code>U+10000</code>的<code>Unicode</code>码来说，<code>String</code>对象最小组成单位就是<code>char</code>，但是对于大于<code>U+10000</code>的<code>Unicode</code>码来说却是<code>char</code>数组，我们用代码来展示一下两者之间的关系。</p>
-<pre><code>char[] chars = Character.toChars(0x1f121);
-String s = new String(chars);
-</code></pre><p>而且我们将<code>s</code>输出的话，会发现它是一个字符，但是它的<code>length</code>却为二，而且我们将<code>s</code>每个字符转换成二进制你会发现他们的值依次为<code>0xd83c</code>和<code>0xdd21</code>，他们存贮的值全部以<code>UTF-16</code>的格式存贮，具体编码详细我就不细说了，下面<a href="https://zh.wikipedia.org/wiki/UTF-16" target="_blank" rel="noopener">资料</a>介绍的很详细（需要翻墙）。在<code>Unicode</code>里面占一个字符的值，却以两个基本类型存贮，当然为了维持这种“表面兄弟”的关系，<code>Java</code>也使用了“码点”来支持一下兄弟，只要使用<code>codePointAt</code>代替<code>charAt</code>，用<code>codePointCount</code>代替<code>length</code>，我们也能处理超过<code>U+10000</code>的<code>Unicode</code>编码（对于不超过<code>U+10000</code>的字符那就是“真兄弟”）</p>
-<p>当我不知道一个<code>char</code>只能放两个字节的时候，我强行使用<code>char c = (char)0x1f121</code>来“存”一个超过<code>U+10000</code>的<code>Unicode</code>码，结果被<code>Java</code>无情的溢出掉，只取到了部分值，但是我却误以为<code>Java</code>有黑魔法能用两个字节存贮了三个字节才能存下的值，乃至我闹了个笑话。</p>
-<p>总结一下<code>Java</code>是一个非常严谨的语言，规定死的东西就不会变，表面上看<code>Java</code>能够支持<code>Unicode</code>编码，但是实际上他只是编译器支持，比如你写一个<code>🄡</code>（0x1f122）的值来赋给<code>String</code>如下面：</p>
-<pre><code>String ns = &quot;🄡&quot;
-</code></pre><p>表面上看，<code>Java</code>完全支持<code>Unicode</code>码，但在实际的上面他内部还是用<code>UTF-16</code>进行编码，只是在编译的时候帮我们将<code>0x1f122</code>转换成为两个<br><code>0xd83c</code>和<code>0xdd21</code>存贮在<code>char</code>字符组里面。</p>
-<p>其实这个表面兄弟是相对的，从<code>Python3`</code>Unicode`支持来比较一下就能发现不同。</p>
-<h2 id="亲兄弟：Python"><a href="#亲兄弟：Python" class="headerlink" title="亲兄弟：Python"></a>亲兄弟：Python</h2><p><code>Python3</code>对<code>Unicode</code>是非常友好的，它在明面上完全按照<code>Unicode</code>的编码表使用来存贮<code>Unicode</code>码，对应它的<code>Unicode</code>字符串，最小单元都是<code>Unicode</code>码，多说无意，上代码。</p>
-<pre><code>  c = chr(0x1f122)
-print(len(c))  # = 1
-print(type(c)) # str
-</code></pre><p>我们可以看到我们得到的最小的码元是字符串<code>str</code>类型，无论这个<code>Unicode</code>码是否大于<code>U+10000</code>，<code>Python</code>都把它视为一个基本单位，这样避免了你对其进行一些误操作，插句话来讲讲怎么得到这个大小呢，我们使用<code>sys.getsizeof</code>方法就能计算出来</p>
-<pre><code>sys.getsizeof(chr(0x1f122))  # 80
-sys.getsizeof(chr(0x1f122) * 2) # 84
-</code></pre><p>由于<code>Python</code>使用一些字段来标注类型，所以直接使用<code>sys.getsizeof</code>得不得一个<code>Unicode</code>码需要的字节，所以我们计算两个的差，很清楚的就能得到一个<code>Unicode</code>码使用四个字节，你可以依次乘下去，而且你发现一个有趣的现象，对于小于<code>U+007F</code>的<code>Unicode</code>码，其大小为一字节，而对于<code>U+0080-U+07FF</code>其大小为两字节。具体可以看参考<a href="https://en.wikipedia.org/wiki/UTF-8" target="_blank" rel="noopener">资料</a>，<code>Python</code>内部是使用<code>UTF-8</code>来存贮<code>Unicode</code>码的，但是<code>Python</code>将这一切都隐藏起来，你从表面上看好像一个<code>Unicode</code>就是一个最小单元，对于其底层我们不得而知，我们可以从侧面来验证一下</p>
-<pre><code> timeit.timeit(&quot;&apos;中国人&apos;.encode(&apos;gbk&apos;)&quot;)
-&gt;&gt; 0.6366317819999949
-timeit.timeit(&quot;&apos;中国人&apos;.encode(&apos;utf-8&apos;)&quot;)
-&gt;&gt; 0.2109854949999317
-</code></pre><p>我们可以看到将<code>Unicode</code>编译成其他编码方式，其中<code>utf-8</code>速度是最快的，因为基本上是复制一下就行了，而其他的差距到了三倍</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过前面我们知道，<code>Python</code>之所以 <code>Unicode</code>如此“亲兄弟”是因为做了一层封装得来的，相比<code>Java</code>将<code>Unicode</code>码（使用<code>UTF-16</code>作为底层编码）暴露给出来，<code>Java</code>在底层上却是非常“坦诚”，你想直接使用<code>Unicode</code>码值也可以，<code>Java</code>编译器会帮你把<code>Unicode</code>码值转换成<code>UTF-16</code>，你也可以从<code>UTF-16</code>码生成<code>String</code>字符串，这样底层在实现查找的时候也是使用统一的编码进行。但是也正是由于这么“底层”，代码看起来总不是那么“亲”，相比于<code>Python</code>的“一视同仁”，我们也可以理解这就是这两种语言的各自特点所在。</p>
-<p>总的来说如果你想直接接触代码底层，推荐使用<code>Java</code>，假如你只想研究其本质，推荐使用<code>Python</code>来进行自然语言处理，他的封装能让你不需要了解其内部组成。</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://zh.wikipedia.org/wiki/UTF-16" target="_blank" rel="noopener">https://zh.wikipedia.org/wiki/UTF-16</a></p>
-<p><a href="https://en.wikipedia.org/wiki/UTF-8" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/UTF-8</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/05/28/java/springboot/从例子里解SpringIOC/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/05/28/java/springboot/从例子里解SpringIOC/" class="post-title-link" itemprop="url">从例子里解Spring IOC</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-05-28 00:00:00" itemprop="dateCreated datePublished" datetime="2018-05-28T00:00:00+08:00">2018-05-28</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:10:03" itemprop="dateModified" datetime="2021-03-09T20:10:03+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index">
-                    <span itemprop="name">Java</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>5.4k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>5 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="Spring的IOC理解"><a href="#Spring的IOC理解" class="headerlink" title="Spring的IOC理解"></a>Spring的IOC理解</h2><h2 id="什么是IOC"><a href="#什么是IOC" class="headerlink" title="什么是IOC"></a>什么是IOC</h2><p>在这里我们不谈Spring的基础知识,我们知道谈到Spring就会谈到IOC,这个IOC是什么呢,中文名叫控制反转，这个东西是伴随着一些编程思想出现,其实同Java的本身也有关</p>
-<p>就好比我熟悉的Python就是一个鸭子语言,你可以随便把一个值丢掉函数里面去,只要他满足一些特性就能正常运行,但是Java是一种强类型语言,你函数给什么参数,必须传什么参数</p>
-<p>这里就不讨论两张语言的设计优劣呢,Java这种特性也做了一些妥协,我们肯定得为语言的扩展性做点事,谁也不知道未来会发生什么,Java里面使用多态来实现这种扩展,只要他是函数参数的家族成员,他就能上去运行</p>
-<p>这个多态是实现IOC的基础,但是造成他出现的原因是因为设计模式里面的单一职责原则,这个要求我们类功能要单一,我们这里给一个例子来说明这个问题</p>
-<pre><code>class Car {
-    void run() {
-        System.out.println(&quot;Car running...&quot;);
-    }
-}
-</code></pre><p>首先我们有一个<code>Car</code>的类,一开始我们只让他有<code>run</code>这个属性,很好,接下来我们想知道是谁驾驶这辆车,于是我们便给这个类加一个字段<code>driver</code></p>
-<pre><code>public class Car {
-    String driver;
-    public Car(String driver) {
-        this.driver = driver;
-    }
-    void run() {
-        System.out.println(&quot;Driver :&quot; + driver);
-        System.out.println(&quot;Car running...&quot;);
-    }
-}
-</code></pre><p>很好我们知道驾驶这辆车的人,接着我们又想知道这个驾驶人的驾龄,如果我们继续给<code>Car</code>加入字段,这样我们就违背了<code>单一职责原则</code>,<code>Car</code>类不但承担了车的功能还承担了人的功能</p>
-<p>于是我们就把驾驶人隔离出来</p>
-<pre><code>class Driver{
-    String name;
-    String age;
-    public Driver(String name, String age) {
-        this.name = name;
-        this.age = age;
-    }
-}
-
-
-class Car {
-    Driver driver;
-    public Car(Driver driver) {
-        this.driver = driver;
-    }
-    void run() {
-        System.out.println(&quot;Driver age:&quot; + driver.age + &quot;name: &quot; + driver.name);
-        System.out.println(&quot;Car running...&quot;);
-    }
-}
-</code></pre><p>我们重新将类分成两个类来实现了这个问题,但是这个时候又来了一个问题,我们有一个飞行员的也想驾驶这辆车,但是这辆车只能司机来驾驶,但是飞行员和司机开车的动作步骤是一样的,为了复用<code>run</code>这个函数,你开始揪起了你的头发.</p>
-<p>你想呀想突然想到,Java的多态,假如我们声明一个<code>IDriver</code>的接口,让飞行员和司机都继承这个类这样我们只要给车一个<code>IDriver</code>对象就能复用<code>run</code>函数</p>
-<pre><code>//IDriver.java
-public interface IDriver{
-    String getName();
-    void setName(String name);
-    int getAge();
-    void setAge(int age);
-}
-
-// Driver.java
-public class Driver implements IDriver{
-    String name;
-    int age;
-
-
-    @Override
-    public String getName() {
-        return this.name;
-    }
-
-    @Override
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public int getAge() {
-        return this.age;
-    }
-
-    @Override
-    public void setAge(int age) {
-        this.age = age;
-    }
-}
-
-
-
-// Aviator.java
-public class Aviator implements IDriver{
-    String name;
-    int age;
-
-
-    @Override
-    public String getName() {
-        return null;
-    }
-
-    @Override
-    public void setName(String name) {
-
-    }
-
-    @Override
-    public int getAge() {
-        return 0;
-    }
-
-    @Override
-    public void setAge(int age) {
-
-    }
-}
-
-
-//Car.java
-public class Car {
-    private IDriver driver;
-
-    public void setDriver(IDriver driver) {
-        this.driver = driver;
-    }
-
-    void run() {
-        System.out.println(&quot;Driver age: &quot; + driver.getAge() + &quot; name: &quot; + driver.getName());
-        System.out.println(&quot;Car running...&quot;);
-    }
-}
-</code></pre><p>我们重构代码把<code>Driver</code>抽象为接口,然后让司机和飞行员都继承它,这样不管我们再添加什么其他的人就能适配这辆车.这个就是依赖倒置(DI)的思想</p>
-<p>网上大部分教程就停留到这里了,这里我们继续探索下去,看看Spring是如何让这个DI更加简单的</p>
-<p>首先我们反思一下,我们使用接口参数让我们的代码符合了设计模式,但是也带来了一些繁琐,我们来用代码”开”这辆车</p>
-<pre><code>IDriver driver = new Driver();
-driver.setName(&quot;allen&quot;);
-driver.setAge(18);
-Car car = new Car();
-car.setDriver(driver);
-car.run();
-</code></pre><p><strong>PS：当然可以把赋值放到构造器中减少代码，但是由于<code>Bean</code>依赖方法接口来赋值，所以为了后面讲解<code>Bean</code>这里就不采用构造器来减少代码</strong></p>
-<p>代码有2行变成了6行，而且我们发现这个代码现在带来两个问题：</p>
-<ol>
-<li>每次运行都得创建一个实现<code>IDriver</code>的对象</li>
-<li>每次我们想换人开车的时候都得修改源代码</li>
-</ol>
-<p>而且这些工作都很繁琐，作为一个偷懒的程序员，我可不想给每个用户都重新写一套代码，我们的想法很简单，我们希望这个<code>Car</code>能够开箱即用，其实前面我们已经实现了控制反转了，现在就是要解决控制反转带来的“负面影响”</p>
-<p>而且我们发现了一个问题，假如我们把上面函数放到一个代码里面，每次我们“开车”都得创建一个司机，然而我们还是相信“老司机”的手艺，所以我们也希望是否能够”记住“司机，只让一个老司机开车</p>
-<p>接下来就是隆重介绍<code>Spring</code>的<code>Bean</code>的用法了，前面我们知道我们需要某种机制来去除”IOC“的弊端，我们把每个<code>Car</code>当做一个对象，其实我们需要一个配置文件来记录<code>IDriver</code>这些依赖对象，对象的其实在Java里面表现就是一棵树，所以通俗来讲我们需一个”树结构“数据来存贮依赖关系</p>
-<p>我们程序在运行的时候解析这个树结构，然后依次给对象注入你想给他实例话的对象（比如你把”IDriver“设置为飞行员），这样的话，我们把依赖关系成功放到了配置文件中</p>
-<p>这样带来两个好处：</p>
-<ol>
-<li>想给不同用户使用软件时候，源代码不需要改变，只要给他们不同的配置文件就行</li>
-<li>我们可以保存依赖实现”老司机“的复用</li>
-</ol>
-<p>所以现在我们理理思路，我们需要的有两个东西</p>
-<ol>
-<li>配置文件</li>
-<li>一个加载配置文件并保存依赖的对象</li>
-</ol>
-<p>在<code>Spring</code>的<code>Bean</code>中这两个分别对应<code>xml文件</code>和实现<code>ResourceLoader</code>接口对象（有多种实现）</p>
-<p>为了更好的理解<code>Bean</code>，接下来我们就从代码出发来测试这个<code>Bean</code></p>
-<h2 id="最简单的实现"><a href="#最简单的实现" class="headerlink" title="最简单的实现"></a>最简单的实现</h2><p>首先我们新建一个<code>Spring</code>项目，无论你是用<code>IntelliJ</code>还是<code>Eslipse</code>都没关系，只能你能引用到<code>Spring</code>库就行，我们复用前面的代码，看看使用<code>Spring</code> <code>Bean</code>来如何解决掉IOC的”副作用“</p>
-<p>我们把前面的类分别放到同一路径不同的文件夹中，接下来我们先创建一个<code>xml</code>文件，什么名字不重要，我们这里先命名为<code>driver.xml</code></p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
-       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-       xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans
-    http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;
-
-
-    &lt;bean id=&quot;car&quot; class=&quot;Car&quot;&gt;
-        &lt;property name=&quot;driver&quot;&gt;
-            &lt;bean class=&quot;Driver&quot;&gt;
-                &lt;property name=&quot;name&quot; value=&quot;Allen&quot;&gt;&lt;/property&gt;
-                &lt;property name=&quot;age&quot; value=&quot;18&quot;&gt;&lt;/property&gt;
-            &lt;/bean&gt;
-        &lt;/property&gt;
-
-    &lt;/bean&gt;
-&lt;/beans&gt;
-</code></pre><p>写入这些东西，接下来我们看看是否能够通过这个<code>xml</code>文件来直接得到一个配置好司机<code>Allen</code>的车</p>
-<p>随便新建一个类在上面的路径中,我们这里就新建一个<code>Main</code>吧</p>
-<pre><code>import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-
-public class Main {
-    public static void main(String[] args) {
-        ApplicationContext context = new ClassPathXmlApplicationContext(&quot;driver.xml&quot;);
-        Car car  = context.getBean(&quot;car&quot;, Car.class);
-        car.run();
-
-    }
-}
-</code></pre><p>输出为</p>
-<pre><code>Driver age:18 name: Allen
-Car running...
-</code></pre><p>我们成功通过一个<code>xml</code>配置文件和一个<code>ApplicationContext</code>对象实现了一个即开即走的车，而且假如我们想换个司机，我们可以修改配置文件把<code>class</code>换成“飞行员”，而且我们可以发现我们得到的司机都是一样的，验证方法很简单，我就不写代码了，假如我们想换司机怎么办，简单在<code>bean</code>里面加上<code>scope=“prototype”</code>就行（默认值为<code>singleton</code>）</p>
-<p>接下来我们又有一个疑问，假如我们有一辆特别宝马车，我们希望只有某一种加上员能能开（假设只有飞行员），也就是是说，我们其实即不想放弃IOC，但是又不想将这个配置写到<code>Bean</code>里面去，有办法能够解决吗？</p>
-<p>当然有，<code>Spring</code>2.5就支持注解来写<code>Bean</code>配置，对于一些固定的类，我们可以把依赖关系用代码写到类中，这样一方面能够保证<code>IOC</code>，一方面又能实现<code>Bean xml</code>文件瘦身</p>
-<p>由于<code>Spring</code>默认不会去扫描注解，所以有三种方式，第一种是在<code>xml</code>里面用加上一个</p>
-<pre><code>&lt;context:component-scan base-package=&quot;....&quot;&gt;&lt;/context:component-scan&gt;
-</code></pre><p>第二种是使用<code>AnnotationConfigApplicationContext</code>来对象来进行扫描，第三种就是<code>SpringApplication</code>来运行<code>Spring</code>程序自动扫描</p>
-<p>这三种方式假如你最后要做一个<code>web</code>程序的话，第三种是非常方便的，这里我们就不谈怎么使用注解来代替<code>xml</code>文件了，本质上是一样的，其实在我没有理解<code>Bean</code>的强大之前，我比较推崇使用注解来写<code>Bean</code>，但是随着对<code>Bean</code>的探索，我发现<code>xml</code>文件才是最佳选择，他将程序依赖与代码分离开来，假如我们还想用程序依赖写在代码里面，那就违背了<code>Bean</code>的设计初衷</p>
-<p>如果你想了解怎么使用注解可以阅读这篇<a href="https://blog.csdn.net/sinat_34596644/article/details/53080026" target="_blank" rel="noopener">博客</a></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>至此，我们从问题的出现到问题的解决探索了IOC背后的故事，但是你可能会有一个疑问，为什么<code>Spring</code>里面会有<code>IOC</code>问题。</p>
-<p>其实这个也跟<code>Web</code>的发展有关，我们知道从Web的发展，一开始是没有前端的，只有后端，慢慢的后端分离出来前端，Web端页面也被分离出视图层和数据层，随着逐渐分离，也就出现我们前面举到的例子，类越来越多，比如视图层依赖数据层，数据层依赖控制层…..</p>
-<p>这种层层依赖的问题延生出来的IOC的提出，也就慢慢的促进了<code>Bean</code>这个库的开发，也正是因为<code>Bean</code>我们才能享受静态强类型语言的低耦合的酸爽。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -2101,7 +2036,7 @@ Car running...
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">105</span>
+          <span class="site-state-item-count">107</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -2114,7 +2049,7 @@ Car running...
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -2176,12 +2111,12 @@ Car running...
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">247k</span>
+    <span title="站点总字数">249k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:45</span>
+    <span title="站点阅读时长">3:46</span>
 </div>
 
         
