@@ -211,6 +211,100 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/01/31/algorithm/mit6_828/内存分页/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/01/31/algorithm/mit6_828/内存分页/" class="post-title-link" itemprop="url">内存分页</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-01-31 00:00:00" itemprop="dateCreated datePublished" datetime="2018-01-31T00:00:00+08:00">2018-01-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>731</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本来自己查了很多资料，想自己写出来，结果下笔的时候发现别人已经把我想写的部分全部写出来了，而且比我想的还要具体，所以我就不写了，把链接放出了，顺便我补充一些</p>
+<p><a href="http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan/" target="_blank" rel="noopener">http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan/</a></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>由于内存分页在后面的lab2中也会设计，而且给出的资料写的非常详细，所以我就不多提了。这里提一下为了更好的理解什么内存分页的段选择子与CS的关系，我写了一篇<a href="/2018/01/30/从CS寄存器看段的前世今生/">关于CS寄存器的发展史</a></p>
+<p>最后我提一下<code>kern/entrypgdir.c</code>手写的内存分页表</p>
+<p>第一个<code>entry_pgdir</code>是页目录，第二个<code>entry_pgtable</code>页表，而且注意<code>entry_pgtable</code>是代表0-4M物理内存可写可读的真实内存地址</p>
+<p>前面知道了目录和页表的作用，在现实系统中，一个目录下有1024个页表，但是这只有一个页表，而且它代表从0-4M连续的内存空间</p>
+<p>PS：后面12位是权限位，只看前三位，可以知道是从（000-3ff）的高20位物理地址，由于我们声明了<code>__attribute__((__aligned__(PGSIZE)))</code>（地址4K对齐，其实意思是它真实物理地址后12位一定全部为0），所以直接取<code>(uintptr_t)entry_pgtable</code>地址就是页表地址，虽然后面加上权限位<code>PTE_P + PTE_W</code>，但是在寻找真实地址时都会屏蔽（只取前20位如），当初想了很久感觉取不到页表的真实地址，还以为有什么神奇的编译设定，后面查了很久资料才明白，所以这里提个醒后面我们会在lab2中正式接触内存分页技术，这里只是相当于设定了一个“常数”，后面会将器扩展变成“函数”。</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/01/30/algorithm/mit6_828/从CS寄存器看段的前世今生/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1432,150 +1526,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2017/12/25/algorithm/从问题理解动态规划/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/12/25/algorithm/从问题理解动态规划/" class="post-title-link" itemprop="url">从问题理解动态规划</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-12-25 00:00:00" itemprop="dateCreated datePublished" datetime="2017-12-25T00:00:00+08:00">2017-12-25</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>2.3k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>2 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>网上关于动态规划的资料，大部分直接给结论，所以一开始我一头雾水，搞不懂为什么要这么做，这篇博文就从实际问题出发，简单的剖析动态规划</p>
-</blockquote>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>现实生活中总能找到一些问题你没法给出具体答案，比如给你一堆1块、5块、10块的零钱，要你找出多少种能够拼出100块的方法。还有就是迷宫问题这种。这种问题都有一个特征，我们没有办法立刻给出答案，而且我们对这种问题的想到的第一种解决方法就是暴力搜索，把所以的可能方案列出来然后得到答案。这种暴力搜索最终能够解决问题，但是他们在计算的时候花了很多时间在相同的计算上面。为了节省时间，所以我们使用动态规划“优化”暴力搜索</p>
-<h2 id="为什么要使用动态规划？"><a href="#为什么要使用动态规划？" class="headerlink" title="为什么要使用动态规划？"></a>为什么要使用动态规划？</h2><h3 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h3><p>我们先举一个简单的例子，大家都知道走楼梯问题，这也是教科书一个经典的递归程序</p>
-<ul>
-<li>有N阶台阶，一个人一次上两个或者一个，问有多少种走法?</li>
-</ul>
-<p>我们拿到这道题，我们首先会想这样想，从第一个台阶开始，我们使用递归让这个人走一步或者两步，这样每次分解成为两种可能，最后直达走到N阶台阶，或者迈过去了，然后计算这种所以迈到N阶台阶的可能路径。</p>
-<p>这种正向思维很容易理解，但是最终它直接得到的是所以可能的路径，但是这道题我们需要求的是N阶的走法，所以我们从正向思维必须要反过来思考，假如我们从一个台阶出发有两种可能，那么我们到达第N个的台阶来看，也有两种可能，第一种是N-1（迈了一步到达），第二种是N-2（迈了两步到达），这样我们就很清楚了，假如我们要想得到到达N阶台阶的走法总数，那么我们只需要把到达N-1和到达N-2的次数加起来就可以了</p>
-<p>这是一个很重要的思想<strong>把一个复杂的问题，分解成为其他的子问题</strong>，这也是我们完成动态规划的设计的核心思想</p>
-<p>从更好的理解动态规划的优点和源头，我们就从这个简单的例子使用不同的算法来解释为什么要用动态规划</p>
-<h3 id="暴力搜索法"><a href="#暴力搜索法" class="headerlink" title="暴力搜索法"></a>暴力搜索法</h3><p>我们成功的完成了问题的分解，为了完成计算，但是我们还得计算子问题的结果，上面得到一个很重要的公式<code>F(N) = F(N-1) + F(N-2)</code></p>
-<p>我们可以很轻松的写出代码（Python）</p>
-<pre><code>def f(n):
-  return f(n-1) + f(n-2) if n &gt; 2 else n
-</code></pre><p>我们只用一行代码就能将这个问题解决掉，而且效果看起来还不错，我们可以试不同的n都能获取正确的结果，但是n大于30之后，当我在我的电脑上运行起来非常慢，需要几秒钟才能返回结果，而且当n越大，消耗的时间也越多。</p>
-<p> 这是为什么呢？我们现在来思考一下这个暴力算法有什么弊端</p>
-<ul>
-<li>暴力搜索的弊端</li>
-</ul>
-<p>我们现在假设N=10，那么我们现在就把F(10)转换成为F(9)与F(8)的和，那么F(9)又分成了F(8)和F(7)，而F(8)被分成了F(7)和F(6)</p>
-<p>从这里可以看到，F(7)在第二次分解的时候计算了两次,而每次计算的结果都是一样的，所以我们相当于重复了一遍耗时的操作，知道这个问题，我们就必须改进了，我们可以用一个东西存贮计算结果，这样就不需要重复计算了</p>
-<h3 id="记忆搜索法"><a href="#记忆搜索法" class="headerlink" title="记忆搜索法"></a>记忆搜索法</h3><p>我们修改我们算法，加一个参数<code>map</code></p>
-<pre><code>def map_get(map, n):
-    v = map.get(n-1)
-    if not v:
-      v = f(n, map)
-      map[n] = v
-    return v
-
-
-def f(n, map):
-    if n &lt; 3:
-      return n
-    if n in map:
-      return map[n]
-    return map_get(map, n - 1) + map_get(map, n - 2)
-</code></pre><p>我们添加一个辅助的字典存贮我们中间计算过程，虽然让我们的代码臃肿了不少，但是让我们代码速度有了质的变化</p>
-<p>我们尝试使用运行让N增大到100多都能迅速返回，但是当我们逐渐增大到1000的时候我们会发现<code>Python</code>直接报了超出最大堆栈限制的错误</p>
-<ul>
-<li>堆栈超出最大层数的原因</li>
-</ul>
-<p>由于我们使用了递归，递归函数是在递归的时候当前堆栈再次申请一个堆栈待，运行递归函数，为了避免一直无限调用下去耗空堆栈空间（申请也需要一点空间），Python限制了递归层数，由于为了计算超过1000的我们必须至少要递归超过1000次（从1000减一减到小于2），所以我们光荣的被当错程序错乱被误杀了。</p>
-<h3 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h3><p>反观我们这个函数，使用递归，我们很容易理解，但是对于计算机来说，只是为了计算一个数而使用递归是非常不划算的，所以我们要思考这些中间值保留有什么共同点，我们从头开始看，对于第三个来说，它只需要知道第一个和第二个的值就行，而第一个第二个我们知道分别为1和2，对于第四个来说，它只需要知道第三个和第二个，如果我们先把第三个计算下来并保留下来，我们就能知道第四个。</p>
-<p>从头开始思考我们知道，我们只需要保留前面计算的结果就能知道后面的值，我们使用一个列表保存这个中间计算过程，我们将函数改写成下面这个</p>
-<pre><code>def f(n):
-    if n &lt; 3: return n
-    values = [1, 2]
-    for i in range(2, n):
-      values.append(values[i-2]+values[i-1])
-    return values[-1]
-</code></pre><p>接下来我们运行这个函数，我们会发现就算N为10000都能迅速返回</p>
-<p>来看看我们动态规划的“损失”，我们使用了一个列表存贮中间过程，使用了空间“换回”了速度</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我们使用了一个很简单的题目来介绍动态规划，由于这个问题太过于简单，你或许自己在不知道动态规划的时候都能写出来，但是这个从暴力搜索到记忆搜索最后动态规划的算法优化过程中，我们能够清楚的知道设计动态规范其实也非常简单，<strong>将大问题分解成小问题，然后思考小问题的如何细分，最后反过来思考从小问题逆向到最终的大问题</strong>，这就是动态规划。</p>
-<p>当然这道问题并不是很经典的动态规划问题，为了让大家更好的理解动态规划，我在下面这篇的博文中介绍若干中经典的动态规划问题</p>
-<p><a href="/2017/12/26/几个有趣的动态规划/">几个有趣的动态规划</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1648,7 +1598,7 @@ def f(n, map):
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">107</span>
+          <span class="site-state-item-count">108</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1723,12 +1673,12 @@ def f(n, map):
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">249k</span>
+    <span title="站点总字数">252k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:46</span>
+    <span title="站点阅读时长">3:49</span>
 </div>
 
         
