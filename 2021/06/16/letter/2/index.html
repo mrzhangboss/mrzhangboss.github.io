@@ -50,19 +50,20 @@
 
 
 
-  <meta name="description" content="本篇博客主要基于这篇博客的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍红黑树的实现原理，完整代码在github的rbtree.go文件中  浅谈”树”这种数据结构Github可视化页面 引言">
+  <meta name="description" content="这里有东西被加密了，需要输入密码查看哦。">
+<meta name="keywords" content="信">
 <meta property="og:type" content="article">
-<meta property="og:title" content="红黑树实现原理">
-<meta property="og:url" content="https://mrzhangboss.github.io/2018/01/05/algorithm/红黑树实现原理/index.html">
+<meta property="og:title" content="第二封信">
+<meta property="og:url" content="https://mrzhangboss.github.io/2021/06/16/letter/2/index.html">
 <meta property="og:site_name" content="小伦子的笔记">
-<meta property="og:description" content="本篇博客主要基于这篇博客的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍红黑树的实现原理，完整代码在github的rbtree.go文件中  浅谈”树”这种数据结构Github可视化页面 引言">
+<meta property="og:description" content="这里有东西被加密了，需要输入密码查看哦。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-03-09T11:59:44.249Z">
+<meta property="og:updated_time" content="2021-06-16T00:59:47.583Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="红黑树实现原理">
-<meta name="twitter:description" content="本篇博客主要基于这篇博客的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍红黑树的实现原理，完整代码在github的rbtree.go文件中  浅谈”树”这种数据结构Github可视化页面 引言">
+<meta name="twitter:title" content="第二封信">
+<meta name="twitter:description" content="这里有东西被加密了，需要输入密码查看哦。">
 
-<link rel="canonical" href="https://mrzhangboss.github.io/2018/01/05/algorithm/红黑树实现原理/">
+<link rel="canonical" href="https://mrzhangboss.github.io/2021/06/16/letter/2/">
 
 
 <script id="page-configurations">
@@ -74,7 +75,7 @@
   };
 </script>
 
-  <title>红黑树实现原理 | 小伦子的笔记</title>
+  <title>第二封信 | 小伦子的笔记</title>
   
 
 
@@ -215,7 +216,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/01/05/algorithm/红黑树实现原理/">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/06/16/letter/2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/myself.jpg">
@@ -228,7 +229,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          红黑树实现原理
+          第二封信
         </h1>
 
         <div class="post-meta">
@@ -237,24 +238,18 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2018-01-05 00:00:00" itemprop="dateCreated datePublished" datetime="2018-01-05T00:00:00+08:00">2018-01-05</time>
+              <time title="创建时间：2021-06-16 08:34:51 / 修改时间：08:59:47" itemprop="dateCreated datePublished" datetime="2021-06-16T08:34:51+08:00">2021-06-16</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
+                  <a href="/categories/随想/" itemprop="url" rel="index">
+                    <span itemprop="name">随想</span>
                   </a>
                 </span>
             </span>
@@ -271,7 +266,7 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span>94</span>
+              <span>215</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -289,11 +284,18 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <blockquote>
-<p>本篇博客主要基于这篇<a href="/">博客</a>的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍红黑树的实现原理，完整代码在<a href="https://github.com/mrzhangboss/trees" target="_blank" rel="noopener">github</a>的<code>rbtree.go</code>文件中</p>
-</blockquote>
-<p><a href="/">浅谈”树”这种数据结构</a><br><a href="https://github.com/mrzhangboss/trees" title="github" target="_blank" rel="noopener">Github</a><br><a href="http://www.cs.usfca.edu/~galles/visualization/RedBlack.html" target="_blank" rel="noopener">可视化页面</a></p>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2>
+        <div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="抱歉, 这个密码看着不太对, 请再试试." data-whm="抱歉, 这个文章不能被校验, 不过您还是能看看解密后的内容.">
+  <script id="hbeData" type="hbeData" data-hmacdigest="0a8b96305bc1f46151a59d44159669f8a9e0783930aa82b03dd3912d58c4f99b">995e50c340763ee1a325e8c3b289bb9412903aa8f2fc933eec9ae99a5646d798e1a3081c12ba095fd7da1fb53038e2eb4fb4a0470946ce98dd4f24e4e1b60612b0e7573c202882b12a99b3c82464c9ea6756639114992f107b39766b01e1bddbf4d95903e07fd9dc9975e407073180e8640b0dd753d4691860605e3d9256475b87a365e4a1ccc497dbe17fa7a62d0105aea7b5cc772c8574a1b1098603ebe9658887b4647f72e9b99d220f11a9406e3ed31279decd16bf98e13e05d03617bf4cd65a50c02e69a0c0824188fa33c3708a8c5ad1764c11c17e2d9fb697d6970470cbf1ebe504d0a06ab18483d574f887b88431377dcf7a0d915484a128fd3527964bcf0e24bfe30251e1d9ce217f4d7d9abe2a0919d4c8952ca5653fa5e2f0e816c56305c81c026542f834d01d0bd5555f620aa61c1f8a37e3cf48f0e465c875e6639c07cecb477f9c6567f48316525aac490d241f73de0163a106f47bea730a29bf5b2f12ab8d3afdce93e1cb46ed0315800632fcc0ae999665039f1cfe003b10913b90d966e959500fcd2ecb2d75a8942812204bdd2ff5fa4823a92d5bb163fc64cf115ae4f6cd1753291a11e730a269678bbcc0569169d675228ac883278fdcd8c62ed930e84c82a43d3a47be881760c9a29b1b20f9b920d8302d031284f1897b9c86d96a65a2e05bd02393e5f72453a045f90df5c62db24e20e1880b540a33b66a8a70f32913dbc4ade5f0044f279317b30c30f2470a2e7dca3fdb916892aad0864f9213fac030c559b5c800cc278eb62809972b7e64f2e612c3357ba5cdd1ceab49f1c97d76614b9457bffc50e123d0645ee2a5b8a53a507c862a0842ae73d4f17852ba4131867ec9920d276a0d9aa4f8e1dc782b544cf637b1c782bc702f2f798f277cfb6e9de0d4c1654d0627351fb2121e7a13488565373d32e86bf457f459a982f9a152e40e9d1eb8087fa4b6c5eab7d13a75d8de6740681d92604b87ee78465363f3dbf6448def8416540078abc825f2c95bbe404b3ce6fecff648c4</script>
+  <div class="hbe hbe-content">
+    <div class="hbe hbe-input hbe-input-default">
+      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
+      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">
+        <span class="hbe hbe-input-label-content hbe-input-label-content-default">您好, 这里需要密码.</span>
+      </label>
+    </div>
+  </div>
+</div>
+<script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">
     </div>
 
     
@@ -340,6 +342,9 @@
 
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/信/" rel="tag"># 信</a>
+          </div>
 
         
 
@@ -347,13 +352,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2018/01/04/algorithm/二叉搜索树实现原理/" rel="prev" title="二叉搜索树实现原理">
-      <i class="fa fa-chevron-left"></i> 二叉搜索树实现原理
+    <a href="/2021/06/15/letter/1/" rel="prev" title="第一封信">
+      <i class="fa fa-chevron-left"></i> 第一封信
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2018/01/06/summary/2018新年展望/" rel="next" title="新年展望">
-      新年展望 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -414,7 +416,6 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -594,7 +595,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo: 'comments',
       owner: 'mrzhangboss',
       admin: ['mrzhangboss'],
-      id: '89035aa7b190b902b2dd7804106a4309',
+      id: '7f242b2977eb123797d59eb7951db4d7',
         language: 'zh-CN',
       distractionFreeMode: true
     });

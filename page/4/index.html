@@ -211,6 +211,135 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2019/04/13/bigdata/TB级数据存贮经验总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/04/13/bigdata/TB级数据存贮经验总结/" class="post-title-link" itemprop="url">TB级数据存贮经验总结</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-04-13 00:00:00" itemprop="dateCreated datePublished" datetime="2019-04-13T00:00:00+08:00">2019-04-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:01:40" itemprop="dateModified" datetime="2021-03-09T20:01:40+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/大数据/" itemprop="url" rel="index">
+                    <span itemprop="name">大数据</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>3.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>项目背景</p>
+</blockquote>
+<p>这个项目是深圳一家证卷公司一个TB级日志离线导入项目，当数据达到10T左右的时候，他们的存贮架构以及检索系统直接奔溃，在朋友的推荐下，我负责对这个项目进行整体的重构以及优化，对于我一个大数据新手来说这是一个挑战也是一个学习的机会，最终幸不辱命最终完成了系统的优化，由原来的48小时导入优化至7个小时，并且提供亚秒级的查询检索，下面就是我对这个项目的总结</p>
+<h2 id="历史方案介绍"><a href="#历史方案介绍" class="headerlink" title="历史方案介绍"></a>历史方案介绍</h2><blockquote>
+<p>集群架构</p>
+</blockquote>
+<p>集群由8台高性能服务器组成，其中两台负责接收历史日志包，两台提供ES和Spark服务，其他四台提供HDFS存贮服务，总存贮量在200TB，其中我们导入主要在两台高性能服务器上面，每台内存256GB，总计512G内存</p>
+<blockquote>
+<p>历史方案</p>
+</blockquote>
+<p>原来的解决方案是日志被解析完成之后导入两份数据分别存贮到ElasticSearch（下面简称ES）和Kafka之中，其中存贮到Kafka之中的数据会被Spark读取，然后写入到HBase</p>
+<h2 id="架构优化"><a href="#架构优化" class="headerlink" title="架构优化"></a>架构优化</h2><h3 id="读取和存贮优化"><a href="#读取和存贮优化" class="headerlink" title="读取和存贮优化"></a>读取和存贮优化</h3><p>历史解决方案对日志数据的存贮是一个并行化的，但是由于项目对数据准确性要求严格，假如其中ES导入或者HBase导入失败之后，所以的数据都得重新生成，但是原来架构不提供删除HBase数据的功能（能实现但是不能检测是否删除），所以在读取方面我丢弃使用Kafka并行导入的方案，待ES导入完成并且校对完成后再从ES中获取数据导入到HBase中</p>
+<p>原来的导入是直接使用HBase提供的Put方案，单个插入到HBase当中，由于我们一次导入的量多的话大概在10个亿左右，虽然HBase能够承受住压力但是由于行键设计导致会造成region的”脑裂”，原来解决方案为了避免这个现象进行了region的预分配，由于这个预分配导致了另外的一个Bug，后面会提到。所以为了提高导入效率和避免脑裂，我采用了HBase的Bulk Load将数据直接”存”至HBase</p>
+<hr>
+<p>回头看看，其实大数据解决方案非常简单，当我刚接触项目的时候，在看原来的解决方案，惊讶的发现他们的代码其实非常简单，就像教程里面的demo一样，但是随着在实际接触这个”大”数据的过程中，大数据考验的是你代码的”结实”，能不能扛的住，什么花里胡哨的骚操作都没有，所以大数据的代码非常简洁质朴，如果说那些优雅的代码是面对对象的话，那么大数据的代码就是面对数据的。所以我接下来也不谈大数据框架，谈一谈我在这个项目中学到的大数据处理经验</p>
+<h2 id="提高处理速度"><a href="#提高处理速度" class="headerlink" title="提高处理速度"></a>提高处理速度</h2><blockquote>
+<p>读取速度</p>
+</blockquote>
+<p>大数据处理最核心的点就是分而治之，也就是我们常说的<code>MapReduce</code>中<code>Map</code>，无论数据有多大，只要我们分的够小，每一份我们计算机都很很快处理，那么我同时运行这些，意味着我就能在一个很短的时间内跑一个巨大的数据。</p>
+<p>由于我们是从ES中读取数据，ES的Map的个数是由分片（shards）来控制的ES的分片默认是十片（5个原始5个备份），假如我们采用默认设置，我们读取数据Map的大小最大为10（具体跟你给的Container大小和每个核心数的大小有关，给足的话就是10），这里要谈一下这个项目中的分片设计，分片这个东西对于每一个Index来说，不是越多越好，越多读取速度快，但是写入慢，反之。所以这个项目使用别名的方法来保证分片不会膨胀，当一个Index数据大于20GB的时候，会自动新建一个别的Index，比如原来是<code>es _index_0</code>，写满20G后，再新建一个 <code>es_index_1</code>，然后把新数据导入到里面去，然后每个Index固定分片为4片，这样所有的数据会均匀的分布到ES中去</p>
+<p>这种解决方法带来一个问题就是，我们获取数据的时候只能通过<code>es_index_*</code>，而且我们的ES中每次导入的<code>Map.size</code>只能是4，所以无论给<code>Spark</code>任务多少个<code>Container</code>多少个核心，他的Task任务最大也就是4个，一开始我一直在琢磨是否能够提高这个Task来加速数据读取，我尝试使用ES时间索引把数据切分成多份，并行跑多个Spark任务，但是无论我并行多少个，从ES一个月导出来时间总和单个Spark任务读取速度一致</p>
+<p>出现这个问题的原因主要是磁盘的性能关系，由于Bulk Load有一个很重要的部分就是Shuffle排序，所以数据在导入HBase之前一定会落盘，所以读取由两个条件限制，ES的获取速度和磁盘写入速度，由于ES读取速度也跟磁盘读取速度有关，所以读取基本上由磁盘的性能有关，由于集群Spark跑在机械硬盘上，除非换SSD否则在软件上优化无法取得较大的收益</p>
+<p>所以我放弃在读取上面优化，接下来介绍我在处理上面的优化</p>
+<blockquote>
+<p>处理速度</p>
+</blockquote>
+<p>其实导入到HBase的原理非常简单，只要使用Spark生成一个HFile然后调用HRegion将数据导入到HBase中去，HFile你可以看着一个排序好的文件，但是如何将1TB数据排序并在内存中生成HFile文件（可能比1TB小如果采用压缩的话，不压缩比原始文件要大得多）这个步骤就很复杂了</p>
+<p>Spark作为大数据界的神兵利器，处理PB级的数据也不在话下，但是怎么处理呢，简单来说就是三个和尚挑水，现在缸很大，但是和尚很多，如果要像迅速把缸里的水挑完，那就让很多和尚通力合作，同时去挑，但是如果里面10个和尚，9个是不干活，只有一个挑水，那么这个任务就花很长时间来完成，这个就是我们说的数据倾斜</p>
+<p>所以其实提高处理速度的方法只有一个把任务均分给CPU每个核心，接下来我就这个项目来谈一谈我遇到的数据倾斜问题</p>
+<p>首先我们要知道一个前面我们讲了Spark作为大数据上的神兵利器，他不会假设用户内存能装下所有的数据，但是用户的磁盘一定能装下所有的数据，我们其实要Spark做的最主要的一件事就是对数据的RowKey（HBase的行键）进行排序，然后把排好序的文件导入到HBase中，排序这个东西最主要的是要把所有的数据都放到一起排一遍，也就是说1个T的数据至少都得放到内存或者磁盘里面来进行排序</p>
+<p>我们接下来缕缕Spark处理数据的流程，其实你可以在UI界面上看到所以的stage，前面读取数据算一个Map stage，接下来我们要完成，排序的stage，还有保存数据的stage，按照正常流程，每个stage都会做一个Shuffle，也就是理论上我们总共要做两次Shuffle，然而TB级数据的Shuffle在机械硬盘上的速度非常慢（相比SSD），所以我们就的优化Shuffle过程</p>
+<p>我们先来谈一下一个正常大数据的排序怎么样，我们用打擂台来打比方，首先我们将所有选手分成10个小组，等小组赛打完，所以等小组都分好名次，然后我们搞一个10个人的擂台，小组第一名全部上擂台打比赛，打完决定出第一名，第一名成为擂主出擂台，然后这个时候再从其他其他小组中找一个积分最高的上来，继续打擂台，打完再找出第一名，继续上面的循环，最后每个人都出了擂台，名次也排练出来了</p>
+<p>这个排序方法是Spark早期使用的方法，这个方法可以面对超大数据，假设数据有10个T，我只有1M内存，我也能完成数据的排序，只是每次排1M，然后写文件，这种方式可以面对海量数据，但是有一个弊端，在排完序后每次必须要把所有的文件全部都打开读取”第一名”，也就是说我们做完一次Map之后，还的进行一次Reduce</p>
+<p>那怎么来去掉这个Reduce呢，考虑这种情况，我们在分组的时候，由一个”裁判”把每个人公正的计算他原来的历史积分在什么档次，然后把他分在那个档次的组，等所有组打完，排名就出来了，你属于哪个档第几名，也就知道你的排名了</p>
+<p>这个方法就是预先评估你的组数，但是这个也有一个问题，假如选手水平层次不齐，强者太少，弱者太多，那么有些组非常多的人打比赛，有的组没有人打比赛，这样，最后总耗时是那个人最多的小组的时间</p>
+<p>接下来我们回到上面的Shuffle过程，如果我们把那个排序过程使用上面的预估方法，那么我们就能在减少一次Shuffle过程，但是这个也带来了一个风险，就是预估如果失败（HBase会加载HFile失败）或者预估不均会导致运行异常</p>
+<p>所以我采用Spark提供的<code>sortWithinPartitions</code>方法来ES数据进行一个分区并排序，分区的方法是通过账号ID来进行，很不幸线上数据部分账号异常，一个月某些账号占了总数的40%左右，这个就导致我们预估不均，那如何来解决这个问题呢，解决方案由很多，由于我们数据只有少量资金账户异常，所以我们采用最简单的方案，分多批次跑，每个任务分剔除大账户的部分，其他的任务就是单个大账户单独跑，得益ES强大的统计功能，只需要执行几次HTTP请求就能完成设计</p>
+<hr>
+<p>至此整个数据优化导入部分就说完了，当然还有其他优化的地方没有讲，比如使用堆外内存加速排序，使用更大的Shuffle cache优化写入，切分更小的块避免磁盘split …..</p>
+<p>PS：亚秒级的查询主要通过Spark一个聚合生成HBase一张小表来实现，当然也可以使用MySql这些关系型数据库</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>记得我以前去面试大数据岗位的时候，我问面试官怎么才能提高自己大数据能力，他说必须要通过实践才能体会，经过这次项目我也感受到了，只有真正的面对大数据，你才能提高自己的大数据能力，小数据一下子就跑完了，完全体会不到内存OOM的”乐趣”，大数据的难点在于了解数据如何被处理，以及对大数据各个组件“协作”对经验。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2019/03/17/summary/book/重构-总结/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1766,154 +1895,6 @@ for i in range(100):
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/09/06/bigdata/千万级数据处理小结/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/09/06/bigdata/千万级数据处理小结/" class="post-title-link" itemprop="url">千万级数据处理小结</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-09-06 00:00:00" itemprop="dateCreated datePublished" datetime="2018-09-06T00:00:00+08:00">2018-09-06</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:01:40" itemprop="dateModified" datetime="2021-03-09T20:01:40+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/大数据/" itemprop="url" rel="index">
-                    <span itemprop="name">大数据</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>4.1k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>4 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
-<p>这两个星期的工作主要是对千万文本数据的处理，由于我以前没有接触过类似的数据量，所以我就把我在处理这千万数据的过程中遇到的问题以及解决的方法总结一下</p>
-</blockquote>
-<h2 id="明确目标"><a href="#明确目标" class="headerlink" title="明确目标"></a>明确目标</h2><p>完成任务之前我们必须要明确自己的目标，首先谈一下数据，数据是两张表，一张是文章列表，一张是文章内容，每篇文章都牵涉到一些人，我们的目标就是给定一些搜索条件然后把最可能相关文章给找出来</p>
-<p>这个任务有点像实现一个搜索引擎，我们通过输入关键词把相关的网页寻找出来，简单点来实现就是直接使用<code>SQL</code>的<code>Like</code>查询，但是这里存在两个很大的问题</p>
-<ul>
-<li>搜索精度不准，假如我们搜<code>张华</code>可能有关<code>张华硕</code>的人也会出来</li>
-<li>搜索耗时太长，在千万级文档中全文搜索速度非常慢</li>
-</ul>
-<p>我们希望我们能精确的实现查询，而且我们希望我们的查询能够实现毫秒级的速度。所以我们就尝试使用<code>ElasticSearch</code>来当我们“数据库”，并且放弃系统默认的分词，自己”手动分词“，来实现精准快速查询</p>
-<p>所以我们的目标很简单，将数据从<code>MySQL</code>“塞”到<code>ElasticSearch</code>中，然后想办法再”取”出来</p>
-<h2 id="第一个拦路虎“MySQL”"><a href="#第一个拦路虎“MySQL”" class="headerlink" title="第一个拦路虎“MySQL”"></a>第一个拦路虎“MySQL”</h2><p>我碰到的第一个拦路虎是数据库的响应速度，为了将数据完整的从数据库里面取出来（新数据还在产生），我按照id从小到大的顺序一小块一小块的从<code>MySQL</code>中获取出来</p>
-<p>一开始程序运行的挺Happy，速度一直很稳定，但是我发现跑了十万之后速度突然慢下来，一开始我以为解析有问题，我开始打断点，调试，找了半天原来是数据库返回数据太慢了。</p>
-<p>我们来分析一下这个<code>SQL</code>为什么这么慢</p>
-<pre><code>select * from a order by id limit 10 offset 100000 
-</code></pre><p>我们虽然限制返回了10个但是后面有个条件我们必须要后面10万个，为了拿到这10个，<code>MySQL</code>必须要扫描10万个数据先，虽然我们是在主键上扫描会快一点，但是十万毕竟很大，即使一次主键扫描花0.01ms，乘以十万也是很大的</p>
-<p>基本上每次解决数据库速度的时候，我们第一考虑点就是索引，那么我们这里就多聊两句：索引为什么快？</p>
-<p>数据库其实就是一堆数据的集合，它提供工具我们快速获取我们想要，用图书馆来打比方，数据库就是图书馆，他们把所以的图书分好类，你想买什么书，按照分类去寻找就行，这样假设你图书馆有一千万本书，你要找《安徒生童话》，你只要按照这个索引（童话书&gt;丹麦&gt;安徒生)就能找到，假如你想找一本《无类》的书你不知道他的分类，你就得把整个图书馆逛一遍才能找到你要的书了，这就是没有索引的下场。</p>
-<p>在程序的世界里也一样，你想快速找到一个记录，如果不用索引，那么就得遍历了，运气好一下子就能找到，运气不好一辈子也找不到。在    <code>MySQL</code>中，索引的背后就是B+树，也就是将数据查找最坏结果降到了一个<code>log2N</code>级。如果你想了解“树”为什么这么快，可以看看我前面写的的<a href="/2017/12/27/浅谈树这种数据结构/">博客</a></p>
-<p>怎么来说明这个索引的作业呢，假设你有一千万数据，你最坏的情况下要进行24次查找，24:1000000 达到惊人的41万倍差距，而且当数据越大这个差距越大，从这里我们就知道索引的威力了。</p>
-<p>我们回到前面，为了使用索引，那么我们只能在<code>id（主键）</code>上做手脚了，我第一个想到的是按照<code>id</code>分块，但是我仔细看了看数据库，<code>id</code>不是全部连续的（可能是因为删除过数据），假如我用<code>id</code>固定的区间来的话，获取到的数据可能部分有部分没有，虽然能够实现但是不够优雅，我还得增加处理空数据的代码。</p>
-<p>这时候我想到了，我们第一次获取的<code>id</code>如果能在后面继续使用，而且更新的话那么我们就能使用上索引了，所以我们只有把每一块数据的最后一个<code>id</code>记住，然后去这个<code>id</code>获取下一批数据，这样就能实现又用索引又不用改太多代码。</p>
-<p>那么我们的<code>SQL</code>就改成下面的语句</p>
-<pre><code>select * from a where id &gt; 1111 order by id limit 10
-</code></pre><p>通过简单的测试原来需要几分钟才能“掏”出来的数据在几毫秒就取出来了，上万倍的差距。至此我们第一个拦路虎就解决了</p>
-<p>PS：在后面看<code>ElasticSearch</code>文档的时候发现他们也提供了一个<code>scroll</code>（全库获取）的超级翻页功能，在他们的参数里面也要提供一个<code>scroll_id</code>，感觉原理应该也是和这个差不多。通过使用索引<code>id</code>来加速“翻页”</p>
-<h2 id="ElasticSearch存贮和排序"><a href="#ElasticSearch存贮和排序" class="headerlink" title="ElasticSearch存贮和排序"></a><code>ElasticSearch</code>存贮和排序</h2><p>接下来我就介绍，我怎么优化存储和编写定制动态<code>DSL</code>来实现我们想要的功能。</p>
-<p>在我介绍之前，我先简单的谈一下我对<code>ElasticSearch</code>的理解</p>
-<h3 id="ElasticSearch简介"><a href="#ElasticSearch简介" class="headerlink" title="ElasticSearch简介"></a>ElasticSearch简介</h3><p>在我没有真正使用<code>ElasticSearch</code>之前，我就在知乎上听过它的大名，<code>ElasticSearch</code>真正让我震惊的是当我把上千万数据导入到它里面去，它能在毫秒级别给你响应，而我在<code>MySQL</code>调用<code>SQL</code>进行查询得花几十分钟</p>
-<p>我们可以把<code>ElasticSearch</code>类比成一个数据库，相比于<code>MySQL</code>它在查询性能上做到了苛刻的，我一开始想好好介绍它是怎么做到的，但是我发现有人已经总结的非常好了，可以看看这份<a href="https://zhuanlan.zhihu.com/p/33671444" target="_blank" rel="noopener">资料</a>，它之所以能做到这么快的原因就是这个：索引+内存+缓存</p>
-<p><code>ElasticSearch</code>使用倒叙索引让查询时间复杂度降到logN级，使用内存让物理查询速度达到极限，加上一些过滤缓存让其在复杂查询还是简单查询都能保持在一个很平稳的速度</p>
-<p><code>ElasticSearch</code>相比与<code>MySQL</code>还有一个特点，就是对大文本搜索的支持，<code>ElasticSearch</code>对文本默认自动进行分词，并且通过一些高级分类算法（TF/IDF，5.0后使用更加先进的BM25算法），对匹配的文本进行打分，依次返回得分高低列表，而<code>MySQL</code>在大文本检索只有一个全文索引支持，从实现上来看就是一个加了索引的<code>Like</code>查询，所以<code>ElasticSearch</code>在设计的特定算法加持下被称为“搜索引擎”</p>
-<p>但是<code>ElasticSearch</code>同现在商业的搜索引擎，比如Google、百度、Bing这些又有些不同，<code>ElasticSearch</code>传入的是纯文本，所以它只能使用一些<code>TF/IDF</code>算法来计算给定关键词与文本的相关项，但是现在商业引擎输入的是网页，所以现在商业引擎比如Google就使用<code>Google Page Rank</code>算法来再次计算文档相关性。当然现代商业引擎不单仅仅使用<code>Google Page Rank</code>算法，他还会考虑更加因素进去（比如百度的竞价排行，Google的恶意影响网页排行检测），但是从本质上来说，无论是<code>ElasticSearch</code>和现代商业引擎都在做同一件事，给匹配项打分，这就是他们与<code>MySQL</code>的全文检索的不同（<code>MySQL</code>没有后面打分排行的概率，他只有<code>order by</code>的这个概率）</p>
-<h3 id="设计思路"><a href="#设计思路" class="headerlink" title="设计思路"></a>设计思路</h3><p>一开始我准备直接使用<code>ElasticSearch</code>的搜索引擎来对<code>文章</code>中的涉及到的人进行检索排序，但是我们来考虑这样一件事，假如文章中存在这么一句话：“刘二能吃两碗饭”（涉及到的人是刘二能）。假如我们使用“刘二”去检索，这篇文章中的”刘二能“也能检索到，而我们的目的就是尽可能返回最可能的结果，对于那些不可能的结果一律不返回</p>
-<p>所以我们就不能让<code>ElasticSearch</code>自动帮我们对文本进行分词，但是我们想利用<code>打分</code>这个机制帮我们完成最可能在最前面返回</p>
-<p>所以我们把每篇文章里面的人物解析出来的属性（姓名，出生年月，民族等）设定为<code>keyword</code>类型，这样<code>ElasticSearch</code>就不会对这个字段进行分词，查询的时候也必须全匹配才能命中，由于一篇文章可能设计到多个人，所以我把它用一个<code>list</code>存到一个<code>document</code>里面</p>
-<p>但是这个又引起了另外一个问题，对与一个<code>document</code>里面的<code>list</code>，<code>ElasticSearch</code>会把它进行转换</p>
-<p>我们用<a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/nested.html" target="_blank" rel="noopener">官方文档的例子</a>解释，我们存入了下面这个<code>document</code></p>
-<pre><code>{
-  &quot;group&quot; : &quot;fans&quot;,
-  &quot;user&quot; : [ 
-    {
-      &quot;first&quot; : &quot;张&quot;,
-      &quot;last&quot; :  &quot;华&quot;
-    },
-    {
-      &quot;first&quot; : &quot;李&quot;,
-      &quot;last&quot; :  &quot;四&quot;
-    }
-  ]
-}
-</code></pre><p><code>ElasticSearch</code>会把它转换成</p>
-<pre><code>{
-  &quot;group&quot; :        &quot;fans&quot;,
-  &quot;user.first&quot; : [ &quot;张&quot;, &quot;李&quot; ],
-  &quot;user.last&quot; :  [ &quot;华&quot;, &quot;四&quot; ]
-}
-</code></pre><p>这样你查询这个人<code>张四</code>，我们发现上面这个文档也返回了（选了<code>user.first</code>列表的第一个值，<code>user.last</code>的第二个值，这个结果明显是错误的，我们怎么才能避免<code>ElasticSearch</code>的“自作聪明”呢，答案很简单我们把<code>user</code>声明为<code>nested</code>对象，这样<code>ElasticSearch</code>就不会把它拆开了而是把它当做两个文档（有些人可能会说这个会不要影响它的速率，恰恰相反，<code>ElasticSearch</code>会经常使用类似技术来加速，详情可以看上面的<a href="https://zhuanlan.zhihu.com/p/33671444" target="_blank" rel="noopener">博文</a>)</p>
-<p>现在我们解决了重重困难终于要到排序的阶段了，然而我们没有使用<code>string</code>类型（支持TF/IDF算法）而使用了<code>keyword</code>类型，导致我们没有办法使用<code>ElasticSearch</code>提供的高级排序算法，所以我们得自己手动进行提分，怎么来提分呢，很简单使用<a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-boost.html" target="_blank" rel="noopener">boost</a></p>
-<p>前面我们提到了我们的文档可能解析出来对象多个属性（姓名、年龄、性别、居住地），但是有些文档也可能没有这些信息，我们查询的时候是有一个信息列表（这个人姓名、年龄、性别等等），所以我们使用<code>boost</code>对命中的信息越多的进行提分，所以我们最终就能完成命中越多信息的排在越前面，当然命中信息少的也会被筛选出来只不过位置稍微靠后</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过这次直面千万数据，让我学习到了不少，虽然一开始目的只想简单搜索出来最匹配的数据，但是在实际过程中，通过不断对产生结果提出问题，最终实现了一个比较满意的产品，整个产品在不断的优化过程中逐渐成型并且稳定，我觉得对我帮助最大就是撰写设计文档，并且在产品成型的过程中把结果反馈上去，最后慢慢迭代一个最好的版本</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1986,7 +1967,7 @@ for i in range(100):
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">109</span>
+          <span class="site-state-item-count">110</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -2061,12 +2042,12 @@ for i in range(100):
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">252k</span>
+    <span title="站点总字数">253k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:49</span>
+    <span title="站点阅读时长">3:50</span>
 </div>
 
         
