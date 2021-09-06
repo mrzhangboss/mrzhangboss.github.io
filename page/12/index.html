@@ -211,6 +211,325 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/software/在Linux下玩转Vim/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/07/18/software/在Linux下玩转Vim/" class="post-title-link" itemprop="url">在Linux下玩转Vim</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-07-18 16:07:36" itemprop="dateCreated datePublished" datetime="2016-07-18T16:07:36+08:00">2016-07-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:08:28" itemprop="dateModified" datetime="2021-03-09T20:08:28+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/软件/" itemprop="url" rel="index">
+                    <span itemprop="name">软件</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>1.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="学了鸟哥的书前面基础后，突然想在Linux下用gcc玩C语言，然后了解到了Vim这个神一样的编译器，接下来经过超长时间虐心的安装无数插件无数依赖包，突然有种打自己一顿的感觉，还好终于把Vim装的和VS差不多了，接下来我介绍我安装Vim的经验吧。"><a href="#学了鸟哥的书前面基础后，突然想在Linux下用gcc玩C语言，然后了解到了Vim这个神一样的编译器，接下来经过超长时间虐心的安装无数插件无数依赖包，突然有种打自己一顿的感觉，还好终于把Vim装的和VS差不多了，接下来我介绍我安装Vim的经验吧。" class="headerlink" title="学了鸟哥的书前面基础后，突然想在Linux下用gcc玩C语言，然后了解到了Vim这个神一样的编译器，接下来经过超长时间虐心的安装无数插件无数依赖包，突然有种打自己一顿的感觉，还好终于把Vim装的和VS差不多了，接下来我介绍我安装Vim的经验吧。"></a>学了鸟哥的书前面基础后，突然想在Linux下用gcc玩C语言，然后了解到了Vim这个神一样的编译器，接下来经过超长时间虐心的安装无数插件无数依赖包，突然有种打自己一顿的感觉，还好终于把Vim装的和VS差不多了，接下来我介绍我安装Vim的经验吧。</h4><h3 id="我虚拟机下的Linux原来是红旗6的，但是我改了一下yum的包源成CentOS的并且全部update一下后就神奇的变成了CentOS6，虽然他们两个是同一家公司，但是总给我一种由盗版成了正版的感觉。。"><a href="#我虚拟机下的Linux原来是红旗6的，但是我改了一下yum的包源成CentOS的并且全部update一下后就神奇的变成了CentOS6，虽然他们两个是同一家公司，但是总给我一种由盗版成了正版的感觉。。" class="headerlink" title="我虚拟机下的Linux原来是红旗6的，但是我改了一下yum的包源成CentOS的并且全部update一下后就神奇的变成了CentOS6，虽然他们两个是同一家公司，但是总给我一种由盗版成了正版的感觉。。"></a>我虚拟机下的Linux原来是红旗6的，但是我改了一下yum的包源成CentOS的并且全部update一下后就神奇的变成了CentOS6，虽然他们两个是同一家公司，但是总给我一种由盗版成了正版的感觉。。</h3><h2 id="闲话不多说，刚开始装第一个插件是Ctags"><a href="#闲话不多说，刚开始装第一个插件是Ctags" class="headerlink" title="闲话不多说，刚开始装第一个插件是Ctags"></a>闲话不多说，刚开始装第一个插件是Ctags</h2><p>刚开始装的时候我是在X-Windows里面的<a href="http://ctags.sourceforge.net" target="_blank" rel="noopener">这里</a>下载再转回shell敲</p>
+<pre><code>$ tar -xzvf ctags-5.6.tar.gz
+$ cd ctags-5.6
+$ make
+</code></pre><h1 id="make-install"><a href="#make-install" class="headerlink" title="make install"></a>make install</h1><h6 id="后来我发现不用这么复杂直接在X-Window下面复制到Terminal里面就可以了，毕竟后面安装的代码都是十几行，根本扛不住。。。。"><a href="#后来我发现不用这么复杂直接在X-Window下面复制到Terminal里面就可以了，毕竟后面安装的代码都是十几行，根本扛不住。。。。" class="headerlink" title="后来我发现不用这么复杂直接在X-Window下面复制到Terminal里面就可以了，毕竟后面安装的代码都是十几行，根本扛不住。。。。"></a>后来我发现不用这么复杂直接在X-Window下面复制到Terminal里面就可以了，毕竟后面安装的代码都是十几行，根本扛不住。。。。</h6><p>装完三个感觉整个我太苦逼，简直是辛苦啊，不是说好的敲几下键盘就可以吗。<br>后来了解到linux有几个软件可以帮忙安装而且解决依赖性，比如ubuntu的apt-get，redhat的rmp，yum，但是问题来了，我的黄狗（yum：yellow dog）怎么没用啊，全都装不上，一查错误提示，原来我没用被授权，原来RedHat更新软件是要收钱的，但是CentOS不用，然后我就用了CentOS的源，当时我就想只想装个git，然后就没用然后了。终于全部更新完了，yum也可以用了，用yum果然爽多了，直接</p>
+<pre><code>yum install git    
+</code></pre><p>git就装好了。如果想知道怎么改源，<a href="http://blog.chinaunix.net/uid-23683795-id-3477603.html" target="_blank" rel="noopener">点击这里</a></p>
+<hr>
+<p>好了装好了源接下来装软件就敲一敲代码就行，不用去网上找包下载再安装。</p>
+<p>装好一些热门的插件后，我碰到了第一个最难装的插件YouCompleteMe(YCM)，装完之后感觉就是神器一般的存在，但是装完之前一直在感慨，我去怎么没个卵用啊，而且装llvm（安装YCM必须先安装的软件)时，我用编译安装方法因为一些库的缺失一直报错，后面采用二进制安装方法安装完llvm才成功按上YCM。<br>推荐新手采用二进制安装方法安装llvm，想知道怎么安装YCM这些<a href="http://www.linuxzen.com/vim-dai-ma-bu-quan-he-jian-cha-youcompleteme-syntastic.html" target="_blank" rel="noopener">点击这里</a></p>
+<h2 id="安上一些实用的插件后，最后安装调试神器gdb，有三种方式使vim可以调试程序（与gdb一起工作），"><a href="#安上一些实用的插件后，最后安装调试神器gdb，有三种方式使vim可以调试程序（与gdb一起工作），" class="headerlink" title="安上一些实用的插件后，最后安装调试神器gdb，有三种方式使vim可以调试程序（与gdb一起工作），"></a>安上一些实用的插件后，最后安装调试神器gdb，有三种方式使vim可以调试程序（与gdb一起工作），</h2><p>vimgdb，pyclewn，clewn，三个我都试了，第一个要编译一下vim，我失败了，第二个要用python2.4+支持，我python2.6然并卵，每次都说不支持python2，第三个是用c写的，终于成功，安装非常简单，<br><a href="http://blog.csdn.net/linlianghui2004/article/details/7676792" target="_blank" rel="noopener">点击这里</a>了解详情.<br>装完了，我终于可以使用clewn打开gdb和gvim，然并卵，我写的程序并不能在gdb里面运行，一直说无法识别。。。。。。搜了一下原来是编译的时候的问题，用gcc编译的程序要带上<code>-g</code>参数才能在gdb里面用（我还以为我clewn没装好）<br>例如</p>
+<pre><code>gcc -g test.c -o test
+</code></pre><p>加上<code>-g</code>参数就行了。终于我的vim可以用了。。。。。。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/python/PIL/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/07/18/python/PIL/" class="post-title-link" itemprop="url">PIL （Pillow）</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-07-18 16:07:36" itemprop="dateCreated datePublished" datetime="2016-07-18T16:07:36+08:00">2016-07-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:04:03" itemprop="dateModified" datetime="2021-03-09T20:04:03+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>1.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Pillow 是 PIL的对Python3支持的另外一个分支，当然他对Python2也兼容，由于PIL安装起来比较烦，而使用pip可以很轻松的安装Pillow，所以我选择Pillow使用，但是其核心还是PIL库的。</p>
+<hr>
+<p>Python的图形处理库如PIL一直很强大，但是要想使用好它必须对图片有一定的知识储备。<br>使用起来很简单</p>
+<pre><code>from PIL import Image
+</code></pre><p>引用Image包</p>
+<pre><code>im = Image.open(&apos;1.png&apos;)
+</code></pre><p>打开图片，得到一个im对象，我们接下来就可以对这个对象进行操作（前提有这个1.png图片）</p>
+<p>我们先看一下他的一些属性</p>
+<pre><code>&gt;&gt;&gt; print im.format, im.size, im.mode
+PNG (83, 81) RGB
+</code></pre><p>第一个我们输出图片的格式，图片有很多种格式，常用的有jpg、png还有gif动图啊，PIL支持很多种格式，我们可以使用PIL轻松的将格式转换，<code>im.save(&#39;1.jpg&#39;)</code>,当然你可以选择格式假如你没选好后缀名的话，im.size就是图片大小，他返回的是一个元组第一个长度第二个是宽度，单位是像素。<br>现在就谈谈 这三个属性对应的关系吧<br> 首先我们使用一张像素图来说吧</p>
+<p><img src="http://img1.imgtn.bdimg.com/it/u=214288124,4080808149&amp;fm=21&amp;gp=0.jpg" alt></p>
+<p>我们存贮图片的时候是将整个图像分成很多个相同的小方块，每个小方块我们称为像素，当然一张图片分的越小，像素越多，那么图片就越接近真实图片，上面的<code>im.size</code>属性就告诉我们，这张图片分成了，长为83px，宽为81px的图片，那么一共有83*81=6723个像素点，每个像素点里面存什么呢，这就是<code>im.mode</code>属性告诉我们的，贴一下属性有什么吧</p>
+<ol>
+<li>1 (1-bit pixels, black and white, stored with one pixel per byte)</li>
+<li>L (8-bit pixels, black and white)</li>
+<li>P (8-bit pixels, mapped to any other mode using a color palette)</li>
+<li>RGB (3x8-bit pixels, true color)</li>
+<li>RGBA (4x8-bit pixels, true color with transparency mask)</li>
+<li>CMYK (4x8-bit pixels, color separation)</li>
+<li>YCbCr (3x8-bit pixels, color video format)</li>
+<li>I (32-bit signed integer pixels)</li>
+<li>F (32-bit floating point pixels)</li>
+</ol>
+<p>像素存贮就是涉及到颜色的存贮，在早期的黑白游戏机，只有黑和白两种，那么每个像素点就只有1位颜色来存贮，1位只能存贮两种颜色，八位色就能存256种颜色，像八位我们能用256个油漆桶/256色调色板来形容，像上面我们使用的RGB是由三种三原色红绿蓝混合而成，我们知道大自然所有的颜色都可以用红绿蓝三种颜色调配出来，所以RGB又被称为真彩（true color），每种颜色我们都分成256种，所以我们一共有256<em>256</em>256=16777216种颜色可以调配，像素的其他模式我们不介绍太多，有兴趣的可以自己钻研。<br>那么我们知道每个像素占多少字节，又知道共有多少个像素，那我们是不是就可以直接计算出来图片大小，来验证一下</p>
+<p>以第一张图片为例，共有83<em>81=6723个像素点，用RGB模式，每个像素三个字节，共有6723</em>3=20667b=20kb，但是我这张图片只有11.6kb，误差太大了吧，这时候我们就要介绍一下上面那个<code>im.format</code>属性了，这张图片采用png格式，我们先尝试一下把他转成JPG格式吧</p>
+<pre><code>im.save(&apos;1.jpg&apos;)
+</code></pre><p>我们再查看一下这个<code>1.jpg</code>的大小，只有2.24kb了，我们用PIL打开这张图片</p>
+<pre><code>&gt;&gt;&gt; im2 = Image.open(&apos;1.jpg&apos;)
+&gt;&gt;&gt; print im2.format, im2.size, im2.mode 
+JPEG (83, 81) RGB
+</code></pre><p>图片大小没有改变，但是format变成了JPEG，而且文件大小变成原来的1/5,<br>JPEG和GIF和PNG是三种图片压缩技术，他们使用压缩算法把图片压缩成很小，当我们打开图片时，解密算法把他还原出来，所以我们算出来的大小与压缩后的大小是不一样的。<br>有了这些概念我们就能更好的使用PIL提供给我们的magic方法，下次在谈我对PIL的高级应用吧。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/ai/机器学习实战心得/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/07/18/ai/机器学习实战心得/" class="post-title-link" itemprop="url"><<机器学习实战>>心得.</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-07-18 16:07:36" itemprop="dateCreated datePublished" datetime="2016-07-18T16:07:36+08:00">2016-07-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 19:57:07" itemprop="dateModified" datetime="2021-03-09T19:57:07+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/" itemprop="url" rel="index">
+                    <span itemprop="name">人工智能</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>880</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h6 id="先谈谈我对机器学习的理解"><a href="#先谈谈我对机器学习的理解" class="headerlink" title="先谈谈我对机器学习的理解"></a>先谈谈我对机器学习的理解</h6><h2 id="什么是机器学习"><a href="#什么是机器学习" class="headerlink" title="什么是机器学习?"></a>什么是机器学习?</h2><p>我们人类有从婴儿开始就开始学习,父母教我们穿衣吃饭、老师教我们读书写字，我们开始能辨别好人坏人，开始通过自己的经验来判断新事物。</p>
+<h5 id="机器学习很简单，就像人一样，我们教机器通过我们教的来判断新的事物，或者在从新的事物里面学习处理新的事物。"><a href="#机器学习很简单，就像人一样，我们教机器通过我们教的来判断新的事物，或者在从新的事物里面学习处理新的事物。" class="headerlink" title="机器学习很简单，就像人一样，我们教机器通过我们教的来判断新的事物，或者在从新的事物里面学习处理新的事物。"></a>机器学习很简单，就像人一样，我们教机器通过我们教的来判断新的事物，或者在从新的事物里面学习处理新的事物。</h5><p>这看起来很复杂的样子,但是从我们神经网络来看,我们可以把学习当做建立一个神经元连接,通过输入的信号得到一个输出的信号.我们只要简单的把输入的信号分类就可以了.通过无数个分类我们就可以建立复杂的神经系统,进而实现’学习’这个功能.</p>
+<h2 id="如何分类"><a href="#如何分类" class="headerlink" title="如何分类?"></a>如何分类?</h2><blockquote>
+<p>涉及到分类,假如输入的信号种类只要两种,我们就可以简单用if-else来实现分类功能,但是有时候输入信号种类个个都有细微的差别,只是遵循某种规律,这时候我们不能用简单的if-else来进行分类了,下面我就按照书的顺序来解释各种强大的分类方法.</p>
+</blockquote>
+<h1 id="K-近邻算法-k-Nearest-Neighbor"><a href="#K-近邻算法-k-Nearest-Neighbor" class="headerlink" title="K-近邻算法 ( k-Nearest Neighbor )"></a>K-近邻算法 ( k-Nearest Neighbor )</h1><blockquote>
+<p>作为本书的第一个机器学习算法,K-NN算是我感觉原理最简单的一个了.</p>
+</blockquote>
+<p>假设我们有两个点, 红点为(-1,  -1)分为红类, 绿点为(1, 1)分为绿类<br><img src="http://7xsxdn.com1.z0.glb.clouddn.com/knn1.png" alt="图片1"></p>
+<h4 id="接下来我一个点-0-1-这个点应该分为红还是绿呢-我们添加两条辅助线"><a href="#接下来我一个点-0-1-这个点应该分为红还是绿呢-我们添加两条辅助线" class="headerlink" title="接下来我一个点(0, -1),这个点应该分为红还是绿呢,我们添加两条辅助线"></a>接下来我一个点(0, -1),这个点应该分为红还是绿呢,我们添加两条辅助线</h4><p><img src="http://7xsxdn.com1.z0.glb.clouddn.com/knn2.png" alt></p>
+<p>蓝点离红点距离为1,蓝点离绿点距离为2.2,我们很轻松的可以知道这个点应该分为红类.<br>现在我们进一步推广,当有很多种类点的时候,当我们二维扩展到N维,给一个点a我们只要选取距离a最近的K个种类,我们就基本能判断他属于这K个种类的,这就是K-近邻的原理了.</p>
+<h4 id="K-近邻算法是最简单最有效的算法了-但是他也有缺点-比如他必须保存所有训练样本的数据-当训练样本很大的时候就会占用很多内存空间-我们后面会学到的KVM只取支持向量的训练样本来计算可以减少很多占用内存"><a href="#K-近邻算法是最简单最有效的算法了-但是他也有缺点-比如他必须保存所有训练样本的数据-当训练样本很大的时候就会占用很多内存空间-我们后面会学到的KVM只取支持向量的训练样本来计算可以减少很多占用内存" class="headerlink" title="K-近邻算法是最简单最有效的算法了,但是他也有缺点,比如他必须保存所有训练样本的数据,当训练样本很大的时候就会占用很多内存空间,我们后面会学到的KVM只取支持向量的训练样本来计算可以减少很多占用内存"></a>K-近邻算法是最简单最有效的算法了,但是他也有缺点,比如他必须保存所有训练样本的数据,当训练样本很大的时候就会占用很多内存空间,我们后面会学到的KVM只取支持向量的训练样本来计算可以减少很多占用内存</h4><h5 id="而且K-近邻算法对训练数据集都要计算距离值-实际使用可能会非常耗时-我们后面学到的logistic回归能很好解决这个问题"><a href="#而且K-近邻算法对训练数据集都要计算距离值-实际使用可能会非常耗时-我们后面学到的logistic回归能很好解决这个问题" class="headerlink" title="而且K-近邻算法对训练数据集都要计算距离值,实际使用可能会非常耗时,我们后面学到的logistic回归能很好解决这个问题."></a>而且K-近邻算法对训练数据集都要计算距离值,实际使用可能会非常耗时,我们后面学到的logistic回归能很好解决这个问题.</h5><p>######### 总而言之,KNN作为小样本时非常简单粗暴,但是他无法给出任何数据的基本结构信息.接下来我们要学习用概率测量解决分类问题,这个算法能解决这个问题</p>
+<p>(决策树)[]</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/useless/泛型继承的理解/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -336,410 +655,6 @@ public class TypeNode&lt;T&gt;:Node
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/software/有用的几个Shell命令/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/07/18/software/有用的几个Shell命令/" class="post-title-link" itemprop="url">有用的几个Shell命令</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-07-18 16:07:36" itemprop="dateCreated datePublished" datetime="2016-07-18T16:07:36+08:00">2016-07-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:08:54" itemprop="dateModified" datetime="2021-03-09T20:08:54+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/软件/" itemprop="url" rel="index">
-                    <span itemprop="name">软件</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>464</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="管线命令-pipe-："><a href="#管线命令-pipe-：" class="headerlink" title="管线命令 (pipe)："></a>管线命令 (pipe)：</h3><ol>
-<li>撷取命令： cut, grep</li>
-<li>排序命令： sort, wc, uniq</li>
-<li>双向重导向： tee</li>
-<li>字符转换命令： tr, col, join, paste, expand</li>
-<li>分割命令： split</li>
-<li>参数代换： xargs<h3 id="分割文档"><a href="#分割文档" class="headerlink" title="分割文档"></a>分割文档</h3></li>
-</ol>
-<blockquote>
-<p>长长的一大片文档有时我们并不愿意看到全部内容,我们只想关注<br>部分内容的时候了可以考虑使用分割文档命令</p>
-</blockquote>
-<p><code>cut</code>是一个很好的分割文档工具</p>
-<h3 id="vi常用命令"><a href="#vi常用命令" class="headerlink" title="vi常用命令"></a>vi常用命令</h3><ol>
-<li>[Ctrl] + [u] 屏幕『向上』移动半页</li>
-<li><ul>
-<li>光标移动到非空格符的下一列</li>
-</ul>
-</li>
-<li><ul>
-<li>光标移动到非空格符的上一列</li>
-</ul>
-</li>
-<li>n<space>那个 n 表示『数字』，例如 20 。按下数字后会向右移动这一行的n 个字符。例如 20&lt;spac移动 20 个字符距离。</space></li>
-<li>0 这是数字『0 』：移动到这一行的最前面字符</li>
-<li>$ 移动到这一行的最后面字符处(常用)</li>
-<li>H 光标移动到这个屏幕的最上方那一行</li>
-<li>M 光标移动到这个屏幕的中央那一行</li>
-<li>L 光标移动到这个屏幕的最下方那一行</li>
-<li>G 移动到这个档案的最后一行(常用)</li>
-<li>nG n 为数字。移动到这个档案的第 n 行。例如 2档案的第 20 行(可配合 :set nu)</li>
-<li>gg 移动到这个档案的第一行，相当于 1G 啊！ (<br>n<enter> n 为数字。光标向下移动 n 行(常用)</enter></li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/bigdata/大数据学习小总结/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/07/18/bigdata/大数据学习小总结/" class="post-title-link" itemprop="url">大数据学习小总结</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-07-18 16:07:36" itemprop="dateCreated datePublished" datetime="2016-07-18T16:07:36+08:00">2016-07-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:01:40" itemprop="dateModified" datetime="2021-03-09T20:01:40+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/大数据/" itemprop="url" rel="index">
-                    <span itemprop="name">大数据</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>453</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>最近在学习大数据,书看了不少,但是总是觉得很迷茫,不知道怎么学下去,今天<br>突然想写点什么来<br>总结一下这些天.</p>
-</blockquote>
-<h3 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h3><p>逛博客的时候看到一篇分享<a href="http://www.36dsj.com/archives/8094" target="_blank" rel="noopener">如何修炼成大数据高手</a>感觉很有趣</p>
-<h4 id="买了两本书"><a href="#买了两本书" class="headerlink" title="买了两本书"></a>买了两本书</h4><p><img src="http://www.36dsj.com/wp-content/uploads/2014/05/15.png" alt="大数据时代"></p>
-<p><img src="http://www.36dsj.com/wp-content/uploads/2014/05/23.png" alt="失控"></p>
-<h3 id="这两本书都是很多年前写的-但是最近这几年随着”大数据”被大家越炒越热-随即被大家所看重"><a href="#这两本书都是很多年前写的-但是最近这几年随着”大数据”被大家越炒越热-随即被大家所看重" class="headerlink" title="这两本书都是很多年前写的,但是最近这几年随着”大数据”被大家越炒越热,随即被大家所看重."></a>这两本书都是很多年前写的,但是最近这几年随着”大数据”被大家越炒越热,随即被大家所看重.</h3><h3 id="这两个作者很牛-在30年前大数据还只是萌芽的时候就提出未来大数据的重要性和价值"><a href="#这两个作者很牛-在30年前大数据还只是萌芽的时候就提出未来大数据的重要性和价值" class="headerlink" title="这两个作者很牛,在30年前大数据还只是萌芽的时候就提出未来大数据的重要性和价值."></a>这两个作者很牛,在30年前大数据还只是萌芽的时候就提出未来大数据的重要性和价值.</h3><h2 id="大数据是什么了-现在为什么这么火-以前没有大数据吗"><a href="#大数据是什么了-现在为什么这么火-以前没有大数据吗" class="headerlink" title="大数据是什么了,现在为什么这么火,以前没有大数据吗?"></a>大数据是什么了,现在为什么这么火,以前没有大数据吗?</h2><h3 id="大数据的产生就像是科技带来的附带品一样-原来我们把信息存贮在图书馆里面-因为人类的活动产生的信息越来越多-图书馆也越来越大-但是由于管理和存贮的成本越来越多-我们被迫要缩减浓缩我们的信息-我们想出了很多很方法来对付这种情况-比如抽样-只要抽取一部分的代表信息存在图书馆里面然后记录主要特征和平均分量-我们就可以把信息降低几个数量级"><a href="#大数据的产生就像是科技带来的附带品一样-原来我们把信息存贮在图书馆里面-因为人类的活动产生的信息越来越多-图书馆也越来越大-但是由于管理和存贮的成本越来越多-我们被迫要缩减浓缩我们的信息-我们想出了很多很方法来对付这种情况-比如抽样-只要抽取一部分的代表信息存在图书馆里面然后记录主要特征和平均分量-我们就可以把信息降低几个数量级" class="headerlink" title="大数据的产生就像是科技带来的附带品一样,原来我们把信息存贮在图书馆里面,因为人类的活动产生的信息越来越多,图书馆也越来越大,但是由于管理和存贮的成本越来越多,我们被迫要缩减浓缩我们的信息,我们想出了很多很方法来对付这种情况,比如抽样,只要抽取一部分的代表信息存在图书馆里面然后记录主要特征和平均分量,我们就可以把信息降低几个数量级."></a>大数据的产生就像是科技带来的附带品一样,原来我们把信息存贮在图书馆里面,因为人类的活动产生的信息越来越多,图书馆也越来越大,但是由于管理和存贮的成本越来越多,我们被迫要缩减浓缩我们的信息,我们想出了很多很方法来对付这种情况,比如抽样,只要抽取一部分的代表信息存在图书馆里面然后记录主要特征和平均分量,我们就可以把信息降低几个数量级.</h3><h3 id="但是现在不同"><a href="#但是现在不同" class="headerlink" title="但是现在不同."></a>但是现在不同.</h3><h3 id="芯片做的越来越小-容量做的越来越大-我们有能力存贮所以的信息-一些先驱发现我们用另一种思维去对待信息"><a href="#芯片做的越来越小-容量做的越来越大-我们有能力存贮所以的信息-一些先驱发现我们用另一种思维去对待信息" class="headerlink" title="芯片做的越来越小,容量做的越来越大,我们有能力存贮所以的信息,一些先驱发现我们用另一种思维去对待信息."></a>芯片做的越来越小,容量做的越来越大,我们有能力存贮所以的信息,一些先驱发现我们用另一种思维去对待信息.</h3><h2 id="用全体数据而不是随机样本"><a href="#用全体数据而不是随机样本" class="headerlink" title="用全体数据而不是随机样本"></a>用全体数据而不是随机样本</h2><h2 id="用混杂性而不是精确性"><a href="#用混杂性而不是精确性" class="headerlink" title="用混杂性而不是精确性"></a>用混杂性而不是精确性</h2><h2 id="用相关关系而不是因果性"><a href="#用相关关系而不是因果性" class="headerlink" title="用相关关系而不是因果性"></a>用相关关系而不是因果性</h2>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/software/阿里云服务器初体验/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/07/18/software/阿里云服务器初体验/" class="post-title-link" itemprop="url">阿里云服务器初体验</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-07-18 16:07:36" itemprop="dateCreated datePublished" datetime="2016-07-18T16:07:36+08:00">2016-07-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 08:41:07" itemprop="dateModified" datetime="2021-03-09T08:41:07+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/软件/" itemprop="url" rel="index">
-                    <span itemprop="name">软件</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>466</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。"><a href="#申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。" class="headerlink" title="申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。"></a>申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。</h3><h3 id="1-用户名和密码"><a href="#1-用户名和密码" class="headerlink" title="1.用户名和密码"></a>1.用户名和密码</h3><p>找了半天没有找到那个是用户名，试了实例的id，没有用，最后终于在登录帮助名里面找到了，用户名竟然是<code>root</code>！！！！,我用的是Ubuntu系统，说好的Ubuntu不提供root权限的呢，阿里还真会改造Linux系统<br>，但是我觉得用root登录还是不安全，我觉得新建一个用户吧</p>
-<p>在root权限下</p>
-<pre><code>useradd -s /bin/bash -r -m yourname
-</code></pre><p>解释一下，本来直接<code>useradd yourname</code> 就可以新建一个<code>yourname</code>账号，但是如果用你新建的用户登录的话，你无法使用Tab键和上下左右键 ，你键入 <code>echo $SHELL</code>，会发现是<code>/bin/sh</code>，因为Ubuntu默认创建账号使用<code>/bin/sh</code>，假如你没加这个可以删掉 用这个<code>userdel yourname</code>重新来一遍，搞完这个只是创建了一个普通用户，你使用不了sudo获取最高权限，这个怎么办，很简单在<code>/etc/sudoers</code>里面找到<br>        root ALL=(ALL:ALL) ALL</p>
-<p>模仿它加上自己的账号名就可以</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/ai/机器学习实战心得/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/07/18/ai/机器学习实战心得/" class="post-title-link" itemprop="url"><<机器学习实战>>心得.</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-07-18 16:07:36" itemprop="dateCreated datePublished" datetime="2016-07-18T16:07:36+08:00">2016-07-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 19:57:07" itemprop="dateModified" datetime="2021-03-09T19:57:07+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/" itemprop="url" rel="index">
-                    <span itemprop="name">人工智能</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>880</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h6 id="先谈谈我对机器学习的理解"><a href="#先谈谈我对机器学习的理解" class="headerlink" title="先谈谈我对机器学习的理解"></a>先谈谈我对机器学习的理解</h6><h2 id="什么是机器学习"><a href="#什么是机器学习" class="headerlink" title="什么是机器学习?"></a>什么是机器学习?</h2><p>我们人类有从婴儿开始就开始学习,父母教我们穿衣吃饭、老师教我们读书写字，我们开始能辨别好人坏人，开始通过自己的经验来判断新事物。</p>
-<h5 id="机器学习很简单，就像人一样，我们教机器通过我们教的来判断新的事物，或者在从新的事物里面学习处理新的事物。"><a href="#机器学习很简单，就像人一样，我们教机器通过我们教的来判断新的事物，或者在从新的事物里面学习处理新的事物。" class="headerlink" title="机器学习很简单，就像人一样，我们教机器通过我们教的来判断新的事物，或者在从新的事物里面学习处理新的事物。"></a>机器学习很简单，就像人一样，我们教机器通过我们教的来判断新的事物，或者在从新的事物里面学习处理新的事物。</h5><p>这看起来很复杂的样子,但是从我们神经网络来看,我们可以把学习当做建立一个神经元连接,通过输入的信号得到一个输出的信号.我们只要简单的把输入的信号分类就可以了.通过无数个分类我们就可以建立复杂的神经系统,进而实现’学习’这个功能.</p>
-<h2 id="如何分类"><a href="#如何分类" class="headerlink" title="如何分类?"></a>如何分类?</h2><blockquote>
-<p>涉及到分类,假如输入的信号种类只要两种,我们就可以简单用if-else来实现分类功能,但是有时候输入信号种类个个都有细微的差别,只是遵循某种规律,这时候我们不能用简单的if-else来进行分类了,下面我就按照书的顺序来解释各种强大的分类方法.</p>
-</blockquote>
-<h1 id="K-近邻算法-k-Nearest-Neighbor"><a href="#K-近邻算法-k-Nearest-Neighbor" class="headerlink" title="K-近邻算法 ( k-Nearest Neighbor )"></a>K-近邻算法 ( k-Nearest Neighbor )</h1><blockquote>
-<p>作为本书的第一个机器学习算法,K-NN算是我感觉原理最简单的一个了.</p>
-</blockquote>
-<p>假设我们有两个点, 红点为(-1,  -1)分为红类, 绿点为(1, 1)分为绿类<br><img src="http://7xsxdn.com1.z0.glb.clouddn.com/knn1.png" alt="图片1"></p>
-<h4 id="接下来我一个点-0-1-这个点应该分为红还是绿呢-我们添加两条辅助线"><a href="#接下来我一个点-0-1-这个点应该分为红还是绿呢-我们添加两条辅助线" class="headerlink" title="接下来我一个点(0, -1),这个点应该分为红还是绿呢,我们添加两条辅助线"></a>接下来我一个点(0, -1),这个点应该分为红还是绿呢,我们添加两条辅助线</h4><p><img src="http://7xsxdn.com1.z0.glb.clouddn.com/knn2.png" alt></p>
-<p>蓝点离红点距离为1,蓝点离绿点距离为2.2,我们很轻松的可以知道这个点应该分为红类.<br>现在我们进一步推广,当有很多种类点的时候,当我们二维扩展到N维,给一个点a我们只要选取距离a最近的K个种类,我们就基本能判断他属于这K个种类的,这就是K-近邻的原理了.</p>
-<h4 id="K-近邻算法是最简单最有效的算法了-但是他也有缺点-比如他必须保存所有训练样本的数据-当训练样本很大的时候就会占用很多内存空间-我们后面会学到的KVM只取支持向量的训练样本来计算可以减少很多占用内存"><a href="#K-近邻算法是最简单最有效的算法了-但是他也有缺点-比如他必须保存所有训练样本的数据-当训练样本很大的时候就会占用很多内存空间-我们后面会学到的KVM只取支持向量的训练样本来计算可以减少很多占用内存" class="headerlink" title="K-近邻算法是最简单最有效的算法了,但是他也有缺点,比如他必须保存所有训练样本的数据,当训练样本很大的时候就会占用很多内存空间,我们后面会学到的KVM只取支持向量的训练样本来计算可以减少很多占用内存"></a>K-近邻算法是最简单最有效的算法了,但是他也有缺点,比如他必须保存所有训练样本的数据,当训练样本很大的时候就会占用很多内存空间,我们后面会学到的KVM只取支持向量的训练样本来计算可以减少很多占用内存</h4><h5 id="而且K-近邻算法对训练数据集都要计算距离值-实际使用可能会非常耗时-我们后面学到的logistic回归能很好解决这个问题"><a href="#而且K-近邻算法对训练数据集都要计算距离值-实际使用可能会非常耗时-我们后面学到的logistic回归能很好解决这个问题" class="headerlink" title="而且K-近邻算法对训练数据集都要计算距离值,实际使用可能会非常耗时,我们后面学到的logistic回归能很好解决这个问题."></a>而且K-近邻算法对训练数据集都要计算距离值,实际使用可能会非常耗时,我们后面学到的logistic回归能很好解决这个问题.</h5><p>######### 总而言之,KNN作为小样本时非常简单粗暴,但是他无法给出任何数据的基本结构信息.接下来我们要学习用概率测量解决分类问题,这个算法能解决这个问题</p>
-<p>(决策树)[]</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/software/GitHubEducationPack/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -836,6 +751,210 @@ public class TypeNode&lt;T&gt;:Node
   
   
 
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/python/字符串处理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/07/18/python/字符串处理/" class="post-title-link" itemprop="url">字符串处理</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-07-18 16:07:36" itemprop="dateCreated datePublished" datetime="2016-07-18T16:07:36+08:00">2016-07-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:05:18" itemprop="dateModified" datetime="2021-03-09T20:05:18+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>605</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <hr>
+<h1 id="string"><a href="#string" class="headerlink" title="string"></a>string</h1><blockquote>
+<p>原来的很多函数都逐渐迁移到<code>str</code>和<code>unicode</code>对象上去了,<br>不过有两个函数没有迁移出去</p>
+</blockquote>
+<hr>
+<p>第一个是<code>capwords</code></p>
+<blockquote>
+<p>个人觉得没什么卵用<br>就是将英文单词首字母大写</p>
+</blockquote>
+<p>比如</p>
+<pre><code>string.capwords(&apos;this are some words&apos;)
+</code></pre><p>输出为 <code>This Are Some Words</code></p>
+<hr>
+<p>第二个我觉得挺有趣,他可以帮你把对应的文字换成你设定的</p>
+<p>我们可以用它来设计出莫斯密码’=’.</p>
+<pre><code>&quot;&quot;&quot;create a table&quot;&quot;&quot;
+table = string.maketrans(&apos;abc&apos;,&apos;123&apos;)
+print &apos;abc123&apos;.translate(table)
+</code></pre><p>输出为<code>123123</code>成功把abc转成了123</p>
+<hr>
+<p>string还有一个模板类型<code>Template</code><br>这个类型同我们转义差不多(%),不过能够实现的<br>更加自主化<br>我们可以继承这个类来修改模板类的具体实现<br>而且这个模板类有一个</p>
+<hr>
+<h1 id="textwrap"><a href="#textwrap" class="headerlink" title="textwrap"></a>textwrap</h1><blockquote>
+<p>由于sublime输出一个很长的字符串很卡,这个格式化字符串的类能够帮我们<br>解决很多问题</p>
+</blockquote>
+<p>我一般去除整体缩进然后去填充字符串</p>
+<pre><code>dedented_text = textwrap.dedent(&apos;...a long word...&apos;)
+print textwrap.fill(dedented_text, width=50)
+</code></pre>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/python/python学习/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/07/18/python/python学习/" class="post-title-link" itemprop="url">python学习</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-07-18 16:07:36" itemprop="dateCreated datePublished" datetime="2016-07-18T16:07:36+08:00">2016-07-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:04:07" itemprop="dateModified" datetime="2021-03-09T20:04:07+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>410</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="由于有其他编程语言基础，所以对于python的学习并不吃力，但是整体感觉python的确与前面学习c、c———"><a href="#由于有其他编程语言基础，所以对于python的学习并不吃力，但是整体感觉python的确与前面学习c、c———" class="headerlink" title="由于有其他编程语言基础，所以对于python的学习并不吃力，但是整体感觉python的确与前面学习c、c———"></a>由于有其他编程语言基础，所以对于python的学习并不吃力，但是整体感觉python的确与前面学习c、c———</h4><h3 id="1-实时编译VS静态编译"><a href="#1-实时编译VS静态编译" class="headerlink" title="1. 实时编译VS静态编译"></a>1. 实时编译VS静态编译</h3><p>不需要输入任何前缀，直接将代码放在python解释器上面就能运行，虽然window下不支持直接点开文件就能使用，但是只要安装了python解释器就能很轻松的运行。</p>
+<p>分量轻是他的特点吧！相比打开vs等半天然后，编译连接最后执行。python是一门很轻巧的语言，没有满屏的分号，大括号，基本类型比如int、string、float不区分直接拿来用就可以了，任何一个变量都是一个对象，对象可以千变万化，感觉python是一门很野的熊孩子什么都不在乎，比如说你什么了相同的两个变量</p>
+<h1 id="这门强类型语言则不允许，在同级作用域内他只允许声明一次，python或许已经没有声明了，每个名字只是一个对象而已并没有他的归属。"><a href="#这门强类型语言则不允许，在同级作用域内他只允许声明一次，python或许已经没有声明了，每个名字只是一个对象而已并没有他的归属。" class="headerlink" title="这门强类型语言则不允许，在同级作用域内他只允许声明一次，python或许已经没有声明了，每个名字只是一个对象而已并没有他的归属。"></a>这门强类型语言则不允许，在同级作用域内他只允许声明一次，python或许已经没有声明了，每个名字只是一个对象而已并没有他的归属。</h1><h4 id="2-动态语言VS静态语言"><a href="#2-动态语言VS静态语言" class="headerlink" title="2.动态语言VS静态语言"></a>2.动态语言VS静态语言</h4><h1 id="给我感受是一颗静止的树的话，那么python就是一匹‘野马’，C"><a href="#给我感受是一颗静止的树的话，那么python就是一匹‘野马’，C" class="headerlink" title="给我感受是一颗静止的树的话，那么python就是一匹‘野马’，C"></a>给我感受是一颗静止的树的话，那么python就是一匹‘野马’，C</h1>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
   </div>
 
   
@@ -908,7 +1027,7 @@ public class TypeNode&lt;T&gt;:Node
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">116</span>
+          <span class="site-state-item-count">117</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
