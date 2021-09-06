@@ -429,6 +429,106 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/01/07/java/springboot/浅析Spring/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/07/java/springboot/浅析Spring/" class="post-title-link" itemprop="url">浅析Spring</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-01-07 00:00:00" itemprop="dateCreated datePublished" datetime="2021-01-07T00:00:00+08:00">2021-01-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:10:03" itemprop="dateModified" datetime="2021-03-09T20:10:03+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>1.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>Spring核心就是IoC（依赖注入）AoP（面向切面）本篇就基于一个开源项目 tiny-spring 来分析Spring框架到底给我们提供了什么东西</p>
+</blockquote>
+<p>依赖注入是什么呢，说起来非常简单就是系统帮你把依赖组装好，我们来举个简单例子</p>
+<pre><code>class People { Hand hand;};
+</code></pre><p>上面是一个非常简单的类，Spring把这个类叫做Bean，这个People 的 Bean 依赖一个Hand的类，我们来看一下这个Hand类</p>
+<pre><code>class Hand { Finger finger; int num};
+</code></pre><p>  上面的Hand又依赖一个Finger类，而且提供了一个属性：手的num（数目），假如你要使用这个People类，你得新建3个类，而且得把代码写死，而Spring就是通过xml或者注解来帮你把这些类自动创建，所以才叫依赖注入，其实原理也非常简单</p>
+<p>为啥要提供这个功能呢，因为我们希望通过配置这些xml就能实现不同的xml来实现不同的功能类，而不用修改代码重新编译，你可以理解为就是代码是高度松耦合，我们可以提供很多相同接口的组件给用户用，用户用的时候只需要修改配置文件就能实现灵活组合不同模块的功能</p>
+<p>我们知道对于一个HTTP服务器，我们希望调用这个接口方法之前能对用户发的东西做一个核验，就像拦截器一样，但是Java里面怎么实现呢，就是调用一个方法之前调用一个特定方法，我们有两种方法，第一种就是定死类名，在调用所有方法之前就调用这个东西，第二张就是重新继承这个方法，在调用父方法之前或者之后在调用我们想调用的方法</p>
+<p>显然第一种太蠢了，我们得先判断这个方法不存在，第二种可以使用Java Proxy类来实现（当然有局限只能是接口，可以用动态生成的类比如Cglib来做），我们而且可以把那个想注入的方法也看作一个特殊的bean（默认在普通的bean之前就做好），这样最终我们把普通的bean使用IoC容器给初始化，然后在用代理类把这个bean继承出来</p>
+<p>这样我们就实现了一个高度控制的类方法，而Spring最主要就是要组装一个Servlet类来处理不同路径下面的请求，网络处理那些事情都交给Tomcat来处理了，所以其实Spring的职责也很简单，就是组装，最后根据组装模块来响应Tomcat发过来的request，返回一个response,因为Spring需要生成很多类，而且假如你使用为了支持注解，Spring还得使用反射来获取所有类的注解，反射速度也是非常慢的，所有Spring启动一般需要一点时间，甚至比其他框架比如Python还要慢，不过这些类的生成都是一次性的（不是单例除外），生成完之后就可以直接使用这些生成好的类的方法来响应Tomcat请求了</p>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><p><a href="https://github.com/code4craft/tiny-spring/blob/master/changelog.md" target="_blank" rel="noopener">https://github.com/code4craft/tiny-spring/blob/master/changelog.md</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/01/07/java/浅析微服务/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -517,106 +617,6 @@
 <p>所以说技术发展真的是快啊，记得以前一个架构师的道路是慢慢从学习各种nginx负载均衡Redis集群搭建，搭建起一套复杂的系统，你得去学习各种组件使用，现在呢，一个小白，网上拷拷代码，使用上内存作为缓存，使用MySQL当数据库，并发也就上个千，然后数据库配置一下把内存换成redis，MySQL换成Kudu，放进K8S里面并发就能上千万，高并发问题就解决了，原来一个百万年薪才能做的高并发技术专家在新的技术降纬打击下一个月薪1万的菜鸟也能搞定了</p>
 <p>总而言之，高并发随着技术发展会越来越简单，微服务的提出有人说就是干掉架构师，所以有时候也会想，随着技术的发展，是不是不会有工程师这个职位了，的确技术在不断发展，但是只要抱着一个不断学习的心也就不怕了，技术不断推成出新，但是本质是不变的，所以也不用害怕。</p>
 <h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><p><a href="https://philcalcado.com/2017/08/03/pattern_service_mesh.html" target="_blank" rel="noopener">https://philcalcado.com/2017/08/03/pattern_service_mesh.html</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/01/07/java/springboot/浅析Spring/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/01/07/java/springboot/浅析Spring/" class="post-title-link" itemprop="url">浅析Spring</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-01-07 00:00:00" itemprop="dateCreated datePublished" datetime="2021-01-07T00:00:00+08:00">2021-01-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:10:03" itemprop="dateModified" datetime="2021-03-09T20:10:03+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index">
-                    <span itemprop="name">Java</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>1.2k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>Spring核心就是IoC（依赖注入）AoP（面向切面）本篇就基于一个开源项目 tiny-spring 来分析Spring框架到底给我们提供了什么东西</p>
-</blockquote>
-<p>依赖注入是什么呢，说起来非常简单就是系统帮你把依赖组装好，我们来举个简单例子</p>
-<pre><code>class People { Hand hand;};
-</code></pre><p>上面是一个非常简单的类，Spring把这个类叫做Bean，这个People 的 Bean 依赖一个Hand的类，我们来看一下这个Hand类</p>
-<pre><code>class Hand { Finger finger; int num};
-</code></pre><p>  上面的Hand又依赖一个Finger类，而且提供了一个属性：手的num（数目），假如你要使用这个People类，你得新建3个类，而且得把代码写死，而Spring就是通过xml或者注解来帮你把这些类自动创建，所以才叫依赖注入，其实原理也非常简单</p>
-<p>为啥要提供这个功能呢，因为我们希望通过配置这些xml就能实现不同的xml来实现不同的功能类，而不用修改代码重新编译，你可以理解为就是代码是高度松耦合，我们可以提供很多相同接口的组件给用户用，用户用的时候只需要修改配置文件就能实现灵活组合不同模块的功能</p>
-<p>我们知道对于一个HTTP服务器，我们希望调用这个接口方法之前能对用户发的东西做一个核验，就像拦截器一样，但是Java里面怎么实现呢，就是调用一个方法之前调用一个特定方法，我们有两种方法，第一种就是定死类名，在调用所有方法之前就调用这个东西，第二张就是重新继承这个方法，在调用父方法之前或者之后在调用我们想调用的方法</p>
-<p>显然第一种太蠢了，我们得先判断这个方法不存在，第二种可以使用Java Proxy类来实现（当然有局限只能是接口，可以用动态生成的类比如Cglib来做），我们而且可以把那个想注入的方法也看作一个特殊的bean（默认在普通的bean之前就做好），这样最终我们把普通的bean使用IoC容器给初始化，然后在用代理类把这个bean继承出来</p>
-<p>这样我们就实现了一个高度控制的类方法，而Spring最主要就是要组装一个Servlet类来处理不同路径下面的请求，网络处理那些事情都交给Tomcat来处理了，所以其实Spring的职责也很简单，就是组装，最后根据组装模块来响应Tomcat发过来的request，返回一个response,因为Spring需要生成很多类，而且假如你使用为了支持注解，Spring还得使用反射来获取所有类的注解，反射速度也是非常慢的，所有Spring启动一般需要一点时间，甚至比其他框架比如Python还要慢，不过这些类的生成都是一次性的（不是单例除外），生成完之后就可以直接使用这些生成好的类的方法来响应Tomcat请求了</p>
-<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><p><a href="https://github.com/code4craft/tiny-spring/blob/master/changelog.md" target="_blank" rel="noopener">https://github.com/code4craft/tiny-spring/blob/master/changelog.md</a></p>
 
       
     </div>
