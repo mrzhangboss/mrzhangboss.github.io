@@ -211,6 +211,195 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/09/17/ai/recommendations-Programming-Colletive-Intelligence-impression/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/09/17/ai/recommendations-Programming-Colletive-Intelligence-impression/" class="post-title-link" itemprop="url">集体智慧编程之推荐系统(Programming Colletive Intelligence)</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-09-17 21:36:00" itemprop="dateCreated datePublished" datetime="2016-09-17T21:36:00+08:00">2016-09-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 19:53:53" itemprop="dateModified" datetime="2021-03-09T19:53:53+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/" itemprop="url" rel="index">
+                    <span itemprop="name">人工智能</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>看过好几把关于机器学习的书,但是很多书只是停留于算法原理阶段,或者更着重介绍算法原理, &lt;&lt;集体智慧编程&gt;&gt;这本书更多的是从实践来介绍书,比如你要撘一个推荐系统你怎么做,,还有怎么来做一个垃圾邮件过滤系统等….<br>接下来介绍一下我对于做一个推荐系统的理解.</p>
+</blockquote>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p>推荐系统是一个什么东西呢<br>简单来说就是两个字—-<code>推荐</code></p>
+</blockquote>
+<p>推荐系统的出现是伴随评价系统出现而出现的,评价系统就是我们的打分制,比如对一部电影每个人都对他进行打分</p>
+<table>
+<thead>
+<tr>
+<th>用户</th>
+<th>电影A评价</th>
+<th>电影B评价</th>
+<th>新电影C评价</th>
+<th>新电影D评价</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>张三</td>
+<td>5.0</td>
+<td>3.5</td>
+<td>4.9</td>
+<td>2.0</td>
+</tr>
+<tr>
+<td>李四</td>
+<td>2.5</td>
+<td>5.0</td>
+<td>2.0</td>
+<td>3.0</td>
+</tr>
+<tr>
+<td>王二</td>
+<td>3.1</td>
+<td>4.7</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>比如现在三个人张三李四王二,王二有两部电影没有看过,但是张三和李四看过了,现在就是要把电影C或D推荐给王二,推荐系统就是从其他数据分析来确定推荐次序</p>
+<h2 id="相似度"><a href="#相似度" class="headerlink" title="相似度"></a>相似度</h2><blockquote>
+<p>推荐系统如何根据其他用户的数据来推荐呢</p>
+</blockquote>
+<p>这里就要介绍一个相似度的概念,也可以加权系数,对于张三和李四,这两个人都看过电影C和D,但是我们该听谁的呢,我们可以把两个人的评价加起来然后排序,但是假如张三和李四品味相差太多,而且张三的评价可能会把某个王二喜欢看的电影评价总值拉低</p>
+<p>这个时候我们就要考虑一个相似度问题,就是尽量避免一些品味同王二不同的人对排名造成影响</p>
+<p>这里我们引进相似度这个概念,我们看张三和李四对电影A、B同王二的差别，这里我们使用距离这个概念，我们使用距离公式 <code>l=（（r1^2 + r2^2+....rN^2)^1/n)</code></p>
+<p>然后通过距离算得<code>S(相似度)=1/(1+l)</code></p>
+<p><em>当l=0时,两者相似度为1(最大),当l很大时,相似度几乎为零</em></p>
+<table>
+<thead>
+<tr>
+<th>用户</th>
+<th>电影A评价</th>
+<th>电影B评价</th>
+<th>相似度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>张三</td>
+<td>5.0</td>
+<td>3.5</td>
+<td>0.23</td>
+</tr>
+<tr>
+<td>李四</td>
+<td>2.5</td>
+<td>5.0</td>
+<td>0.59</td>
+</tr>
+</tbody>
+</table>
+<p>通过求相似度(权重)我们就把同我们臭味相投的人的评价提高了,那些同我们不一样品味的人评价作用降低了</p>
+<h2 id="选择"><a href="#选择" class="headerlink" title="选择"></a>选择</h2><p>基于人物的评价推荐有个缺点就是人的评价有时候会比物品多,而且变化频繁,假如使用上面的方法的话,每次每一个用户评价过后,就要重新算一次相似度了,假如用户不多或者电影不多还好,一旦数据偏多服务器就扛不住了</p>
+<p>所以我们要换一个角度出发,计算物品的相似度,这样图表就变成这样了</p>
+<table>
+<thead>
+<tr>
+<th>电影</th>
+<th>用户-张三</th>
+<th>用户-李四</th>
+<th>相似度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>5.0</td>
+<td>2.5</td>
+<td></td>
+</tr>
+<tr>
+<td>B</td>
+<td>3.5</td>
+<td>5.0</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>这样有个好处就是可以离线处理数据,我们可以搭建一个离线处理系统,让一个系统专门处理数据,当服务器需要的时候再拿取过去.</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>搭建一个简单推荐系统并不会你想象中那么简单,但是要搭建一个功能强大速度快的推荐系统需要的不仅仅是这么一点,还需要考虑系统的稳定和速度.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/09/07/software/git-working-streamline/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1315,120 +1504,6 @@ var moveY = function(y) {
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/19/summary/关于技术栈的总结/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/07/19/summary/关于技术栈的总结/" class="post-title-link" itemprop="url">关于技术栈的总结</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-07-19 21:51:01" itemprop="dateCreated datePublished" datetime="2016-07-19T21:51:01+08:00">2016-07-19</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:15:01" itemprop="dateModified" datetime="2021-03-09T20:15:01+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/随想/" itemprop="url" rel="index">
-                    <span itemprop="name">随想</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>1.4k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>这段时间重新学习了web前端的技术栈,其实一开始加入社团时就是从前端开始入门的,等到了会仿写几个页面后就跳到了后端的坑,从html、css、js（只学了一点）又马不停蹄的转到.net平台、后来在老司机的带领下我们放弃了不开放的.net平台投入了python的怀抱</p>
-</blockquote>
-<p> python的确很好，“内裤”很多，相对于.net 相对于封闭的生态圈， python对第三方的类库的依赖很大，<code>pip</code> 是程序的常客，看到一个好的类库就pip下来了。</p>
-<blockquote>
-<p>学了不少程序语言，从静态语言到动态语言，这其中的转变刚开始的确让人很苦闷。</p>
-</blockquote>
-<p> 自己从c系的语言过来，刚接触C的时候对于“过程编程”有很深的体会，结果并不重要，重要的是过程，有时候为了写好一个完美的函数自己苦思冥想好几天，花在一个函数上的时间比项目的时间都多。</p>
-<blockquote>
-<p>然而到了学习python, 自己把C系的学习习惯带到python , 在做项目的过程中,当自己写完一个函数的时候总在想怎么优化代码,怎么抽象化对象让事情简单,慢慢的走入一个误区,让我忘记了python的口号  <strong>life is short, I use python</strong> .</p>
-</blockquote>
-<h5 id="python是一门目的性很强的语言-先让我实现功能-其他以后再说-我以前使用的时候对过程强调的太多了-一个函数我得测试测试很多遍-确定每个参数的作用还有影响-花了太多时间-适得其反-我的代码一点都不-pythonic"><a href="#python是一门目的性很强的语言-先让我实现功能-其他以后再说-我以前使用的时候对过程强调的太多了-一个函数我得测试测试很多遍-确定每个参数的作用还有影响-花了太多时间-适得其反-我的代码一点都不-pythonic" class="headerlink" title="python是一门目的性很强的语言, 先让我实现功能,其他以后再说, 我以前使用的时候对过程强调的太多了, 一个函数我得测试测试很多遍,确定每个参数的作用还有影响, 花了太多时间, 适得其反,我的代码一点都不 pythonic"></a>python是一门目的性很强的语言, <strong>先让我实现功能,其他以后再说</strong>, 我以前使用的时候对过程强调的太多了, 一个函数我得测试测试很多遍,确定每个参数的作用还有影响, 花了太多时间, 适得其反,我的代码一点都不 <strong>pythonic</strong></h5><p>我在学习 python的过程中走了很多误区,总结起来有几点:</p>
-<ul>
-<li>太注重过程,不注重结果</li>
-<li>太注重功能丰富,不注重简单</li>
-</ul>
-<h4 id="在我看来-pythonic-就是用最简短清晰的代码最快的完成自己的目的"><a href="#在我看来-pythonic-就是用最简短清晰的代码最快的完成自己的目的" class="headerlink" title="在我看来, pythonic 就是用最简短清晰的代码最快的完成自己的目的"></a>在我看来, <strong>pythonic</strong> 就是<strong>用最简短清晰的代码最快的完成自己的目的</strong></h4><h2 id="python和javascript"><a href="#python和javascript" class="headerlink" title="python和javascript"></a>python和javascript</h2><blockquote>
-<p>这个都是动态的脚本语言,javascript更倾向于脚本</p>
-</blockquote>
-<p>两个家伙在我看来都是<strong>鸭式</strong>语言, 当然js更倾向函数式,而python更倾向于对象式.</p>
-<h3 id="python-是目的性强-javascrip-是表现力强"><a href="#python-是目的性强-javascrip-是表现力强" class="headerlink" title="python 是目的性强, javascrip 是表现力强"></a>python 是目的性强, javascrip 是表现力强</h3><p>以前在后端的时候总觉得只要把自己那端的语言学好就行了, 任何事python都能用来解决, 无论是数据库还是服务器,就算是图像都能用python处理(使用PIL),虽然有着GIL,有这性能低下等等的问题 .<br>颇有一番”学好数理化走遍全天下都不怕”的念头,</p>
-<p>  然而在实际项目中慢慢发现, 计算我能用几百行python代码画出一朵花来,用js几句话就在canvas上弄出来了,而且很轻松就能换成其他的东西.</p>
-<p>  得益于node.js社区的火热, 现在javascript也能在后端大显身手了, 学习了一点node.js,感觉通过node.js对js的封装,让javascript变成了一门类python的语言, 原本js文件只能运行在浏览器里面,通过node.js将每个文件封装成模块,就像python将每个文件封装成package,通过模块与模块的合作,js也能像python那样简单的用几行代码就构成一个强壮的服务器(虽然说现在node.js有点不稳定,但是随着node社区的努力也能将node.js强壮起来)</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><blockquote>
-<p> 通过一个星期的重温js, 自己简单的涉猎了现在很火的Angular,Ionic.和Node.js,并简单的搭建 Electron + Cordova + Ionic + Angular <a href="http://www.zhanglun.me" target="_blank" rel="noopener">原来博客</a> 的 Desktop端<br>  (linux + windows + OS)的软件版,还有移动版(由于本人没有OS操作系统,只做了Android版),还花了半天时间搭建了这个基于hexo的博客,算是完成了全平台的搭建 </p>
-</blockquote>
-<p> 接下来我会自己工作前的大学时光好好的培养自己解决问题的能力,希望能在工作前爱上并享受自己将要做的工作!</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1501,7 +1576,7 @@ var moveY = function(y) {
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">117</span>
+          <span class="site-state-item-count">118</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1576,12 +1651,12 @@ var moveY = function(y) {
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">264k</span>
+    <span title="站点总字数">266k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:01</span>
+    <span title="站点阅读时长">4:02</span>
 </div>
 
         

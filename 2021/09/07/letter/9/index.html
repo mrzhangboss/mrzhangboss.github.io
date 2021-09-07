@@ -50,20 +50,20 @@
 
 
 
-  <meta name="description" content="这篇文章是【Tomcat高并发浅析】的姊妹篇，专门通过分析Select和epoll两个框架来介绍如何实现高并发  起因我们知道建立TCP连接之后，就是创建了Socket链接，服务器得监控用户所有的Socket，以防用户发送请求过来 首先最简单就是用个for循环，遍历每个Socket链接看看有没有数据，如果没有就进程休眠一会再来，这个就非常低效，得一直检查一直检查，所以操作系统就开发了一个接口，因">
-<meta name="keywords" content="HTTP">
+  <meta name="description" content="明白了原来爱这么简单">
+<meta name="keywords" content="信">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Select和epoll浅析">
-<meta property="og:url" content="https://mrzhangboss.github.io/2020/12/30/software/http/Select和epoll浅析/index.html">
+<meta property="og:title" content="第九封信">
+<meta property="og:url" content="https://mrzhangboss.github.io/2021/09/07/letter/9/index.html">
 <meta property="og:site_name" content="小伦子的笔记">
-<meta property="og:description" content="这篇文章是【Tomcat高并发浅析】的姊妹篇，专门通过分析Select和epoll两个框架来介绍如何实现高并发  起因我们知道建立TCP连接之后，就是创建了Socket链接，服务器得监控用户所有的Socket，以防用户发送请求过来 首先最简单就是用个for循环，遍历每个Socket链接看看有没有数据，如果没有就进程休眠一会再来，这个就非常低效，得一直检查一直检查，所以操作系统就开发了一个接口，因">
+<meta property="og:description" content="明白了原来爱这么简单">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-03-09T12:08:06.939Z">
+<meta property="og:updated_time" content="2021-09-07T01:40:40.731Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Select和epoll浅析">
-<meta name="twitter:description" content="这篇文章是【Tomcat高并发浅析】的姊妹篇，专门通过分析Select和epoll两个框架来介绍如何实现高并发  起因我们知道建立TCP连接之后，就是创建了Socket链接，服务器得监控用户所有的Socket，以防用户发送请求过来 首先最简单就是用个for循环，遍历每个Socket链接看看有没有数据，如果没有就进程休眠一会再来，这个就非常低效，得一直检查一直检查，所以操作系统就开发了一个接口，因">
+<meta name="twitter:title" content="第九封信">
+<meta name="twitter:description" content="明白了原来爱这么简单">
 
-<link rel="canonical" href="https://mrzhangboss.github.io/2020/12/30/software/http/Select和epoll浅析/">
+<link rel="canonical" href="https://mrzhangboss.github.io/2021/09/07/letter/9/">
 
 
 <script id="page-configurations">
@@ -75,7 +75,7 @@
   };
 </script>
 
-  <title>Select和epoll浅析 | 小伦子的笔记</title>
+  <title>第九封信 | 小伦子的笔记</title>
   
 
 
@@ -216,7 +216,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2020/12/30/software/http/Select和epoll浅析/">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/09/07/letter/9/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/myself.jpg">
@@ -229,7 +229,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Select和epoll浅析
+          第九封信
         </h1>
 
         <div class="post-meta">
@@ -238,24 +238,18 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2020-12-30 00:00:00" itemprop="dateCreated datePublished" datetime="2020-12-30T00:00:00+08:00">2020-12-30</time>
+              <time title="创建时间：2021-09-07 08:35:21 / 修改时间：09:40:40" itemprop="dateCreated datePublished" datetime="2021-09-07T08:35:21+08:00">2021-09-07</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:08:06" itemprop="dateModified" datetime="2021-03-09T20:08:06+08:00">2021-03-09</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/软件/" itemprop="url" rel="index">
-                    <span itemprop="name">软件</span>
+                  <a href="/categories/恋爱日记/" itemprop="url" rel="index">
+                    <span itemprop="name">恋爱日记</span>
                   </a>
                 </span>
             </span>
@@ -272,13 +266,13 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span>898</span>
+              <span>1.8k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>1 分钟</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -290,16 +284,18 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <blockquote>
-<p>这篇文章是【Tomcat高并发浅析】的姊妹篇，专门通过分析Select和epoll两个框架来介绍如何实现高并发</p>
-</blockquote>
-<h1 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h1><p>我们知道建立TCP连接之后，就是创建了Socket链接，服务器得监控用户所有的Socket，以防用户发送请求过来</p>
-<p>首先最简单就是用个for循环，遍历每个Socket链接看看有没有数据，如果没有就进程休眠一会再来，这个就非常低效，得一直检查一直检查，所以操作系统就开发了一个接口，因为网卡数据是他控制的，首先他让进程睡觉，只要操作系统接受到了网卡数据，根据网卡数据请求的TCP上面的端口找到对应的进程，然后唤醒它，进程就开始遍历每个Socket链接，里面其中一个一定会有数据，因为操作系统已经明确告诉它了</p>
-<p>这个就是select框架，这个实现起来特别简单，不需要加很多东西就能实现，但是有个缺点就是，进程醒来之后他不知道哪个socket链接有数据，所以他得遍历所有的，假如有成千上万的Socket链接，那遍历一遍得好久，所以操作系统就限制了最多你可以监控1024个Socket接口，所有假如你使用select作为监控，你只可以同时监听1024个socket，意味着你同时只能和1024个用户建立连接</p>
-<p>这样看起来真的太低效了，当然也不是毫无优点，假如你用户少，而且都是活跃用户，这样操作系统叫醒一次你就可以同时处理很多用户了，但是假如你用户很多，那遍历耗费时间也太长了</p>
-<p>所以在Linux内核2.4提供了epoll框架，他终于开放自己的事件驱动核心，专门给他写了个函数，首先他用红黑树存贮了所有Socket连接以及他的回调函数，这样当网卡数据来了之后，他直接去回调那个函数了，这样进程不需要遍历了，直接执行函数，当然也有一定的代价，就是存贮这些Socket连接和回调地址，但是相对于的解除了1024的限制，第二直接找到有数据的Socket，读取数据一步到位，具体怎么实现我就不详细讲了，有兴趣的可以去查阅相关资料</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>服务器之所以很轻松的实现上万Socket监控靠的是操作系统的帮助，我们可以理解各种并发都是事件，操作系统就是事件并发高手，所以借助操作系统我们能够很轻松的实现管理看起来非常复杂的事情</p>
-
+        <div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="抱歉, 这个密码看着不太对, 请再试试." data-whm="抱歉, 这个文章不能被校验, 不过您还是能看看解密后的内容.">
+  <script id="hbeData" type="hbeData" data-hmacdigest="241f4f3124ce9e370f15a4924c3306e400b0830729790415e5e5c2fd2c5c52e5">a57307f02e4def6707adf4a4b54e4f1f7cdb8e649aca119dc8891e73a4e89cfd66a3cc302ff33ed09b855070f3184a2b6bbf6fd58de38754d67bbbb2a066dd7215764bdadbb2b34937690ad54251a6f0fc1214228455588b632e7a38e7d0ae0938dcd7d75b7f7ac5bd3ecbf6b58ce86e8b6c53b5b8eae381934026fb03562b3b54856f88aab2f763d4f4074d4c519352e4979464c68c01b25f7bfeba210ac754e7ae8848c07b138fe87f052d068e18bcc6859a7b2c67be912908121301b8eb296a80c10dac22fceec7118c076c435ed0a8456dd02832871987d9f6eabbfc26151f8fa2d7ad75bed8a7b9daa9629fe0b6f8ef33f7cc646064dce495afbb8de916cb2aecda5033b6f24005cea6f4be4eae942092b8078332e05afbebc79a701e5ff9ad2a8c37dfc57fb8285a145523279e5e0f512d1df1a07de42aae26349813a406394d2596cf715f28693c31cc18fcc339badf4a4c474cce47a2d2efced255c41f6ce59769088ee3ee8a179866dfee4575bb349673c9695c10126cb6147e5bec6a8cc727cd0dafaf177ff58c46ae4cb50b89bc53e3360f208444ab7180ca68cdcd45baa99f1a920c0165f584d2bce132f8edee7d70e85ef7dff370bf587d138819d3c00765d279068ef16762015fc608c38c369cb4cc4fb1ed1ad0f616188066c14ef73b70839950120fb3771dd7697565785c8e36ad2177abeeef52f59861ec8fe999cd5041c8311b831e66ed39aa3868b8ce98e3db96625aa8c2509f43d21a4fd0aa69be1da41fe879374acc44555316dcad5e279ba45d7e338fa2c0a16781380a6343887615bdf07734f8a97bee39dc68a617da149ad56068061576e6fefb3853212d1b942f5a04cf5ed16cb4b40c27dba337de12e8b636937b426c7f911aaa0e2b5c027b13fc5a2e981104d3db128d06eab3304158ba839f12f7fd5a9144c7f122702b66c8361b653699470cc4ad474fb7d678ba33df2c32506a05cad0e0f4403fa63252f8fb7aba8a992c6476e30ac479bc4e80becf773b361ba7bc6662b6e6015eb69409d23d3b0d959698bfe7c278d1b3f41defc429b11280e0a2f3b8c736ae0818eb03797e2057129b8fe235eb41e7bd004c30dbe5bcce55148a6c7c7cb411833b50d51f01d558c73faeceabf633b013f4351c2bc461a59e3a288922bc5aaf5896c10e2c3ef2b18f94fef483605877fde6eb2b7a6503b3a9795efe685d008c71cff700b757597f7e03d4dec4ffb00dcba303e11785f26c0d04a9e0d6c1f95e7b3ede81f447e3e2834745e9e43698ed8855a3d05c474ec764c764b31e54c07ca9aeeda729447ef4ae39e9e8f00bd5725fd4e2c0e7c85183726655ac7177a98952f92c7280f15f2d21ab9736b37a963d137059f22841c9e065142c6205155189d346bef2376dab82f7f715dd146a7feccec490ff2e204b329a2691231c3791d0801ec495f9ff8a5b4e31fa90e257d1f35ee4c9cf8391d4cc21a4b7924354c88a9d679be6fa96c1c3595df5fb074bc6dfe5a15836c3fd7534141665a8b2c1433bd2381ac37865ff082f353f75e53c205b56e9b88cd92e8a68f1565e4d7456410835059e87926ff8d8506ecbab07e97f363d7eb0cdcd5ccb268fa1c100d4ee38824b225c15ec649e191d792fae62383b8273b733fdeed6ccf98ceaa8480782b06f61ebd400088547681c3335b0db23be7b12692ea512f8c5611088381e892edcdcee42edeae3870c0805ba6a137dd7e96da258194f173646de1f1f6456de2abdbe61d35c1c1e1d2d32b5b39d5cfade7710a63fc7caaed5c57f5dc4b3ccdc55d88680dcc14e185e7c5a32dc01f5492e2f91a10b1c2c018cd3cf2059c6f32a86f3aa0c6dfcf48c899e0d1c7e21a87b76fcf83b1d2dfb248c29c140ea828d7e7d8dd58ab1fa53485abd25eb461086a565e6503343f56ce8b87cb4d48bce1c71cef0f3fd941e457b099deeb2496c51910276ba82d690b5addb82e66470dc1cf803987b2adbff0f3606b5fc23bd801e39f83c7a9d21549461e932b263892265d8163a862a028f182415904ef6d7cd4c3feda0bb845052e80b0d22f049b9b7aa8ef9e7ca66f7b6b75dac222f954006b7efe0529d84a9e9795b71e89cba02cb87369547d44f2f0ef6157bf06d91aa1cb05ff475480b72b38d55358fbb4d0e3e12b054f7cc2e8f928dd226d72334c3baa13611b55be36d3efd21c1c3c461e112c8816df97fc637909f95ccb44bbcedd254690b95f775ed54922d279afa9605eb771cd77e8ead8daf44459ac6e1916010f696adcf69c103e4ea0faae805bd393e2bdbc2c60b2e1010047d9c057778631084731043c9e4c86df317cdd02168ec9c8b3d44b5bd9129c4cd015047b8a3ba8615b2956f853cdc22b1aa4ba2323215ce3827b236b107d28da1f0b799cbe5e1577ff228fa0360138d235256853ae35cd7e1eb6d3f575366709eb3f8ef22048359ef12cdd207651f99e1b3832ad957fafa653d4850964320bba2ae155cd6a8c477ca9bf18f8779762c0d527d3642ced963851c6dc3aa1086ca8b6ec2a861e7257845345b9aa00a6edc39847e964d9205e5ae550a0ab14508e69ed8415ccba8a6d2e69c440bcea202e491ced7aa922f2bfa1db137e35624dd9360c4a4dbf62a3ed2e26bdfe5f1160122a32a900f3c6b4a9316e5df58b2f0f2e9ec33a52a0f9087f9fb1ae8a8fdd55628c6fef578b924a8ebaa48df981be8ca955ec1a68781ee5d1035cd9032662ff7490f38116295cd1cde2766968ccab0a9abdb283b18d753a1e8952b2af04489b30e775fd0880b8f872450b1c5ca9ef2be5fa4fd93f3c4c1d4e5383d984e009b060ef856c533a6edf75755cf1b8a82f61a4cbe51e0c0f0e6ff2196e31ccecc16a150ba0666dceb825220f6b17285b724ea3985db7c542126f5588cf2c37374afb41cc4c7791459bf818d181f12cfaed7d45388ee97414a7e285c05acac5eb8081c500f59d528e834f0d429222fab124773c38f048951ab0aca454595a572c4b7bfc3c0c062d5ba751373bd7001c6f6b2588b85ed0f90223dea9d5a4e14241a0648bb1b26a6079eb21248a99d7b68c2aef28416211d6345b10a69238a63793546b13b6846c2d3f342c932528c0d4bfcce756b0e2a49f4ecece74b059c9ab8a2dbea38c7228f1ea0c566b6324811f1371307d08cea2c2e85e1f75a589759149b4f8be2b68822ca837aca32dd37bf7cec518d3462daaa2b531f607068740e9f194dd809a65a949094948f884fece489f7ae2f61bbc5a834c527470cfaf9b08ba52282b2f74b6f3edf48971d5fd86cdcd181da683b3443c81dcba68dd8c8e3298f4b7b439959e29da32d748a932c94dd391142539748c43d71d2b0fdcddda4d43dcd0e5aa296daac8575aec87cc277323ddd9008f09ffe2a9501ad1aec1eecffb5d76c06e31837ab1b9a394765e81145b2b06eaa6ef4e486a727bd35b1fd31d1c1c40254774d0b295a7f03720e9cdf6097b88a2bde2a96aaee9aba1960406f2018acb554c2d0956b02a0c614ba25d938c531e04c541b4286ea6ad7df7c1b7dce1c933f571b66928eecf3b74506dc0ac9874715e668791ab13e549fc91a63823fc28f8dc676d68de42f4901af49a0c6538ee77612dde3c380cc0252869158b8ce16964663390f9924925608f358b02cc69d4e2765cb7c41c3097cf77c58a9d23b395a70c794815d762da81575883c399736f152a5730ce6815407c14fb956b26955768579cff05339e03191a9e5b13d2c542a61f47cb43f48df14ed0e372da17ed5f7b16b19f460f51363a458f50a606c764594e80826f488265270c87d00d332780f88d0d02877c796afff9dbfd6870b41731ca04c8036d09e91b477dd51c570b99fe5dcbe7e16cbebaa8d23b7895a303811990deb379ff9975bc9e92a52b5d8c9e637496f899e29c54f8cd756ef3dc506fcf920c45537998b380d24f7090f36dae119234725a1a017dde1d7071fc11cfd1aeffa96dece0c34f874c6c0eed88f44501d9a3eb444c261b1c9a16daa01d057ce58b80a8a0788db2165584870ee1aedb85872d483ea49fc3f85a761bfec8576617539e99813a8d195bff74d405bc587849c3168c203c4cee83a7526fb77dd937acb7e546961a5c2caa40c6333f0ddb15f0f176fc96d356d17a15da3fe71cf22e00394ac60d6ed204c6650c009664dedf958827dd6f88b565eb467b3ba8b01bf30a7e7a55a5f316366fa7057981794bca04006f87647d515f5a39ca6eca3fe0ce93ea268641fea48c5bbd114539dddd89ed6541515228962d809fe00d1f4cadcf61a9983901269e2b7bff049d16fc41b7ca17f3917cf99741086db4bcfbcc921b4c22ccef97791909fea3483309af3f67219e71fb8925301bc485ea0084b392458b6410c2b4195cd85853841adcc04734e58d8bc2bf462d46f9fc4f87228c3db38c392dfffaf76057dddc8f125f3f4c4c681091992cd4da7f6555c6d4de67eb93544ed9d32845d5651a2ab4aee3b713efb8d85b81c53b1deea104dee21b93a59d486f7e42ac8000ecbb933ef8fa363faee5ef4f7425b79d981fc97d1f2cb3a8430a83e61bcf8d91463ca678d45b4e04bfcd3e2d2e62e04c3daec1f0fa5d706a4f1ca717f085c91eb0cd4f17d4f4a045e2e9928df41a742621f27a5b09b26b7aff367044f4329b856ffebb71ff439ce75528bdb72413bf6a6cea464f5122e8f16052363dedd5895e88366eb60303bd0e2160d7317678e45397194dbb00e6af0f0b9862bda4bf18293b8f1a751e9d00bc2458e84196c8a549b1fc9e489536fed6fb38a9aca3f13b38ee93d4ebe2b33f27e6f54290bb96f3f7fa1fce7c06eb2066c1a4beaaa0572782e6327c374b85b45bb7fd70d8c28d813c84ff8953f9419fc156792e1701d90d4ad14cd2e74e45cf87043d8e082ddccbbba22589f4c72c77fa009e3cb1bed1a419f7751e2fbb34bd4d9a6f81ef341c092708db1cfc22a555e7f9afb5530f61b9adf3f419eafe39b41295e6bd45a1df84fed9d1ff4bccad9a13e517679ea66366c341a4eb146047307d0df6eec995b216f1917639e6fe12be94cc8971bea5d6ff13bc5efba55f9d0ba0795f1eb0aae9119df5409aa6c6c0c140ee2477b1b0f392f4b4d3431b46bd608f0ef9fa0b4e9571c81affa02425dd6e902190e8e3fed13f5266dd98f362cd8128a7db90ac0f8384c52e2cd7a89f50c3d5b37a9ab9e5c7038efbdc1b325d08ac64009c49de7756a87e5ccdfff6fc9b8cb519b988948a543dd415f6356dacc04af0848b7deb98fe93d94178ceaa3163a01419ca0e78b1df70517a59d8d6958940d33d27f63e2345428b450b44591ee5437753b718437da21e304047fa24dce15c6f1f9a3c34cb24bd3ffad2e8cb1ecae48a18ea3578119adf9626dbc996a5b975bff461f0f02593aa916820c4d2b4b4e0e38bb4a521002a876bd72ed8e932f6f217af8ac35a8ba27f4374d0c1534655dbe84c86a2d30a4e94edd01a2297ed77453439e77ecb6c84dad887b14912fd4de01cc850b93ec41bd2ce7c57ac7a2d86ef2c4807b3627fd9edfcdcbea00cab9bed0a2973eabac3a35d49fea81e1f411c71d6a5dd46e44209341001da3cc383f5f948721fab8c3effbf58523763c24d016722e501e998f4be141f6991862ccac73f4e1032030af9f77e5197ed327d0c7453aa37b3229eb6508835401d684973135158883b28c6e1c45dbc728c455ef348bfc1b3458ebd5d3178c30499a415329f2f9d393f80e61d1b102f087419f0056ad8fc479da3ca4adc17d05a5ad0b66953ab9bb729ba415bf0a4aa8b7c6787035c44ee36f1522bde4d8491a6e38555be3ecce1f7bd092eaacb8c0cc818313f48414507a2f70d0a0568c1b09e5cf44d5f39d02e278ac6329446f162018012e7f5012124c8ee858da405c1edc9268117d7c43f8b478819532d2d15f29fc105bc3984f3e80484cc13b16fcdd9de304157c143be0362b0697380a5ef2112ff46068d011bcc4a2d79da9014d5c848af452bf0e25b8e746ab4f3f3a7daeffafc3fdee66997a1b7ba150b13fb0da05da68f3a6f56a7d40c0f4b9a200396fbcd6e437bd951e853fedd38c85e057928c7c0b14192201c9f879ee6e6cead8b1da04beab5b5b07e4baf6607a6a55255abaf381f30dd0a538c47782731aad4902c225d94c5f8d729fe7d173c72a4501eaba4486d013859ccae4b585c514c8e2b708a640376287ec1fce079d68d87524b8e3fae9038c13966f9433aad42d0af3e7a70ae4dfe5024491ab0e845c9f1dce378f2a80d236657d086abe7ce6d7fe491337bb194afc7ba27b8db79d9ec95eeb70bf9092973183935892b6dad56358dabd1b97069f7d67609c6e4266976d69ba7a82be8f68a40c54a64f5e7c71825bd40a6f5010df9b1519768e987fcc0cc62187091a43fca934b78db210ec55dcdcbd00f38c6174faaa577f38509ac872d4eee3508544087dab6d3544e16841ba65cc4aa491e954c6da9d07c0151499cff9107e7d7550290a1dafa055e241d2b6fe4be9d18d552081bc1fb5312b480a3fdceaaf3710f1d6f4da48e4d95c6024a9687cc23f67c3dc5e2bc08cbd2cebb6e5f4706050563ec74d5a57b2fa13ccda99dbafa87f100ede6f85610d3455cb13c130eb43fecd320b36b0ce398857e9bd5cd4d50385e484178cf2891c9a7c93587fab7b7d13fee9c99f0b661bf558ece9914aa3e7a23ac67c63416c4842697a7f98e4d2ce35c86c48d17530b1838b9cbe355742f66a37ee687f2d45bfae9e56c9a93aeced90fe66880bb95280bc62530e084427d8a1077e47e84b482cdf8291749649facc5b1be41d48cc95311440ef0905620878b23d8b28a5a183619970cc4dcd0bd1dee33167da4f666c9fa1c16462afc1fa29eac5acb8a2e023f09679b489bf9675076e0a6caf39fa1e9bc8d827285f9f44a41e9a7b8e40e11b2f370adcf9ce46387d7e30c03f597b9b40be7ae372a97733b4475ec98d0894b5a6f9c620185a5e010e8e53bcd0549f4ef109c97efe4d60c7911c9f5204caea4e4eab1c8ae8f7cd0993afccee0da42b648dcc81d0efb6bd497319f79282fd5e75ea82de19c571996df5d8e0ed6cc8c746791574815e98063f63aded70b0cd46e1b231dbb94bdb4ae00d04be82bdea57f9f13fc958dbb38bf173ff7514dec6de1e58eef22f7624e05b79bd10c7912e6ee3d89fed47cf6a27e3008c5b6e55868868031d47a702b443cfc65db95cb239ad2006f3c3bc1fa6e949ce073d1a1df3b71f3089b8405f291f2a2ae5f9c4780aa5998275c4145ecb43423991a1fbe9c7b9b5a8cc77e80ee8f8979d7475c9d157ad2dc9896ee327f4c6cb5be28435045c424d850515032be4f44d3376ddce3281c2b85a595b0743d80a8e5a2d7c30c86c8de8ddb78eaed361bccff0b935570db72618a610917b0643cf2189ef3e0a067915bb818e360f81c49ed53bdd0f0e29426ce84736979431740d58d74909c792033a8847cfc69694fab51c9530f2a266764a9b4908b9891eab1f2457daf220819e3fb44bd8e2aab9d11a0fb1bebb00369ab902878eba62e8590be7c840ce0b9a34c8069ce30431f4c46613e09748b98e1f8e9b3414b52709faef3c32ab07c7a1ff88688fba7cd90c4acab84be530fa8db13cf18a06b2a76fabcbb980cc5a31a107065e661a9ec8d946781a031ed8ffd3cc696b6749e3de5fa6e1bf747671960adca67e5842d7dcba2df06153bf0dddfe29e0a8ec865f7756d76b9effe96d1d9305b2a2b3c0e4ab94018d43bc39650cb8699a28884aaeac9dcf9bb88aaac4512437b011abc5b571de25191edafd1e48e2e10fbe5a733ede7b9c8448c180cacbadac6c825fd9cea0c0a66619517d92dce40d2d172e750eaebf2013403762adc9e3a2955c76695dd548986675a916fd86f7c6454a313de8772bc5fad47c10062291664b</script>
+  <div class="hbe hbe-content">
+    <div class="hbe hbe-input hbe-input-default">
+      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
+      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">
+        <span class="hbe hbe-input-label-content hbe-input-label-content-default">您好, 这里需要密码！</span>
+      </label>
+    </div>
+  </div>
+</div>
+<script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">
     </div>
 
     
@@ -347,7 +343,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/HTTP/" rel="tag"># HTTP</a>
+              <a href="/tags/信/" rel="tag"># 信</a>
           </div>
 
         
@@ -356,13 +352,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/12/24/summary/技术虾虾看/" rel="prev" title="技术虾虾看">
-      <i class="fa fa-chevron-left"></i> 技术虾虾看
+    <a href="/2021/09/06/letter/8/" rel="prev" title="第八封信">
+      <i class="fa fa-chevron-left"></i> 第八封信
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/12/31/software/http/Tomcat高并发浅析/" rel="next" title="Tomcat高并发浅析">
-      Tomcat高并发浅析 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -423,7 +416,6 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#起因"><span class="nav-number">1.</span> <span class="nav-text">起因</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.1.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -603,7 +595,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo: 'comments',
       owner: 'mrzhangboss',
       admin: ['mrzhangboss'],
-      id: 'f59c1d3841673f9fdf1d88b5c66c7372',
+      id: '5301e0bbb7da4e2ea491083055f8e827',
         language: 'zh-CN',
       distractionFreeMode: true
     });
