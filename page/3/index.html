@@ -211,6 +211,100 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/03/16/java/springcloud/springcloudalibaba浅探/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/meAndMyGirlfriend.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/03/16/java/springcloud/springcloudalibaba浅探/" class="post-title-link" itemprop="url">Spring Cloud Alibaba浅探</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-03-16 20:05:53 / 修改时间：20:43:29" itemprop="dateCreated datePublished" datetime="2021-03-16T20:05:53+08:00">2021-03-16</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>943</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>花了半天时间把Spring Cloud Alibaba 的<code>Nacos</code> 、 <code>Sentinel</code> 和 <code>Seata</code>简单的使用了一下，下面是我的一些看法</p>
+</blockquote>
+<h2 id="Nacos"><a href="#Nacos" class="headerlink" title="Nacos"></a>Nacos</h2><p>Nacos 干了三件事，第一个就是把服务注册的活给揽过来了，第二个就是把配置中心的活给揽过来了，而且由于他是要监控各个服务的心跳的，<br>所以他顺便把配置同步这个活也给抢过来了</p>
+<p>Nacos做了很多事，美中不足的地方是，Nacos更希望你在网页上进行配置（当然可以通过url），比如说Spring Cloud Config 是希望你更新源代码然后再来将配置给更新 掉</p>
+<h2 id="Sentinel"><a href="#Sentinel" class="headerlink" title="Sentinel"></a>Sentinel</h2><p>Sentinel是一个流量控制的中间件，作用和Hystrix差不多，不过，相比于Hystrix，Sentinel提供了一个web界面来<br>帮助你定制限流规则，主要是保护后端</p>
+<p>这些规则其实也很简单，多尝试一下就好了，我其实很好奇，Sentinel在其中做的工作是什么，他是如何保证异常流量不<br>把自己给打爆的，当然负载均衡可以一定量的缓解这些</p>
+<h2 id="Seata"><a href="#Seata" class="headerlink" title="Seata"></a>Seata</h2><p>这个号称实现了分布式事务的软件，我没搭起来，尝试几个小时无果后，而且网上的资料也异常的少，甚至他们官方写的demo我也跑不起来<br>我看他们的start虽然多，但是issue也多，每个版本都有坑</p>
+<p>我也尝试去搜索有没有大公司尝试使用这个分布式事务，很遗憾没找到，首先限死了用MySQL，而且非常恶心的事每个数据库上面都得创建一个<code>undo</code>表</p>
+<p>我可以理解你在一个数据库上记录这些东西，但是我没法理解你要所有的数据库都建这么个表</p>
+<p>而且非常坑的事，官网SSL证书当天正好到期，在我看了引用了这么个分布式事务，第一肯定涉及到了很多锁，我看原理介绍上<br>也说了开始事务前会上锁，对于现在通用解决方案都是消息队列来处理这个东西的,引入分布式锁并发不高，而且万一锁表凉凉了</p>
+<p>所以我就去找有没有什么大公司实践过了，可是很遗憾好像没有，也没没看到有什么性能测试，而且部署半天报各种问题，每个版本都不一样，怕是个PPT项目<br>还是改天有空的时候在研究研究</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>其实Spring Cloud Alibaba比较重要的一个部分就是将Dubbo集合到了Spring Cloud，所以我接下来的时间得好好看看Dubbo了，目前Spring Cloud这些组件只能说都上手摸了一会<br>要想真正的成长还得去实际项目考验</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/03/15/software/UML最佳实践/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -677,106 +771,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/01/07/java/springboot/浅析Spring/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/meAndMyGirlfriend.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/01/07/java/springboot/浅析Spring/" class="post-title-link" itemprop="url">浅析Spring</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-01-07 00:00:00" itemprop="dateCreated datePublished" datetime="2021-01-07T00:00:00+08:00">2021-01-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:10:03" itemprop="dateModified" datetime="2021-03-09T20:10:03+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index">
-                    <span itemprop="name">Java</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>1.2k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>Spring核心就是IoC（依赖注入）AoP（面向切面）本篇就基于一个开源项目 tiny-spring 来分析Spring框架到底给我们提供了什么东西</p>
-</blockquote>
-<p>依赖注入是什么呢，说起来非常简单就是系统帮你把依赖组装好，我们来举个简单例子</p>
-<pre><code>class People { Hand hand;};
-</code></pre><p>上面是一个非常简单的类，Spring把这个类叫做Bean，这个People 的 Bean 依赖一个Hand的类，我们来看一下这个Hand类</p>
-<pre><code>class Hand { Finger finger; int num};
-</code></pre><p>  上面的Hand又依赖一个Finger类，而且提供了一个属性：手的num（数目），假如你要使用这个People类，你得新建3个类，而且得把代码写死，而Spring就是通过xml或者注解来帮你把这些类自动创建，所以才叫依赖注入，其实原理也非常简单</p>
-<p>为啥要提供这个功能呢，因为我们希望通过配置这些xml就能实现不同的xml来实现不同的功能类，而不用修改代码重新编译，你可以理解为就是代码是高度松耦合，我们可以提供很多相同接口的组件给用户用，用户用的时候只需要修改配置文件就能实现灵活组合不同模块的功能</p>
-<p>我们知道对于一个HTTP服务器，我们希望调用这个接口方法之前能对用户发的东西做一个核验，就像拦截器一样，但是Java里面怎么实现呢，就是调用一个方法之前调用一个特定方法，我们有两种方法，第一种就是定死类名，在调用所有方法之前就调用这个东西，第二张就是重新继承这个方法，在调用父方法之前或者之后在调用我们想调用的方法</p>
-<p>显然第一种太蠢了，我们得先判断这个方法不存在，第二种可以使用Java Proxy类来实现（当然有局限只能是接口，可以用动态生成的类比如Cglib来做），我们而且可以把那个想注入的方法也看作一个特殊的bean（默认在普通的bean之前就做好），这样最终我们把普通的bean使用IoC容器给初始化，然后在用代理类把这个bean继承出来</p>
-<p>这样我们就实现了一个高度控制的类方法，而Spring最主要就是要组装一个Servlet类来处理不同路径下面的请求，网络处理那些事情都交给Tomcat来处理了，所以其实Spring的职责也很简单，就是组装，最后根据组装模块来响应Tomcat发过来的request，返回一个response,因为Spring需要生成很多类，而且假如你使用为了支持注解，Spring还得使用反射来获取所有类的注解，反射速度也是非常慢的，所有Spring启动一般需要一点时间，甚至比其他框架比如Python还要慢，不过这些类的生成都是一次性的（不是单例除外），生成完之后就可以直接使用这些生成好的类的方法来响应Tomcat请求了</p>
-<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><p><a href="https://github.com/code4craft/tiny-spring/blob/master/changelog.md" target="_blank" rel="noopener">https://github.com/code4craft/tiny-spring/blob/master/changelog.md</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/01/07/java/浅析微服务/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -996,6 +990,106 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/01/07/java/springboot/浅析Spring/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/meAndMyGirlfriend.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/07/java/springboot/浅析Spring/" class="post-title-link" itemprop="url">浅析Spring</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-01-07 00:00:00" itemprop="dateCreated datePublished" datetime="2021-01-07T00:00:00+08:00">2021-01-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:10:03" itemprop="dateModified" datetime="2021-03-09T20:10:03+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>1.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>Spring核心就是IoC（依赖注入）AoP（面向切面）本篇就基于一个开源项目 tiny-spring 来分析Spring框架到底给我们提供了什么东西</p>
+</blockquote>
+<p>依赖注入是什么呢，说起来非常简单就是系统帮你把依赖组装好，我们来举个简单例子</p>
+<pre><code>class People { Hand hand;};
+</code></pre><p>上面是一个非常简单的类，Spring把这个类叫做Bean，这个People 的 Bean 依赖一个Hand的类，我们来看一下这个Hand类</p>
+<pre><code>class Hand { Finger finger; int num};
+</code></pre><p>  上面的Hand又依赖一个Finger类，而且提供了一个属性：手的num（数目），假如你要使用这个People类，你得新建3个类，而且得把代码写死，而Spring就是通过xml或者注解来帮你把这些类自动创建，所以才叫依赖注入，其实原理也非常简单</p>
+<p>为啥要提供这个功能呢，因为我们希望通过配置这些xml就能实现不同的xml来实现不同的功能类，而不用修改代码重新编译，你可以理解为就是代码是高度松耦合，我们可以提供很多相同接口的组件给用户用，用户用的时候只需要修改配置文件就能实现灵活组合不同模块的功能</p>
+<p>我们知道对于一个HTTP服务器，我们希望调用这个接口方法之前能对用户发的东西做一个核验，就像拦截器一样，但是Java里面怎么实现呢，就是调用一个方法之前调用一个特定方法，我们有两种方法，第一种就是定死类名，在调用所有方法之前就调用这个东西，第二张就是重新继承这个方法，在调用父方法之前或者之后在调用我们想调用的方法</p>
+<p>显然第一种太蠢了，我们得先判断这个方法不存在，第二种可以使用Java Proxy类来实现（当然有局限只能是接口，可以用动态生成的类比如Cglib来做），我们而且可以把那个想注入的方法也看作一个特殊的bean（默认在普通的bean之前就做好），这样最终我们把普通的bean使用IoC容器给初始化，然后在用代理类把这个bean继承出来</p>
+<p>这样我们就实现了一个高度控制的类方法，而Spring最主要就是要组装一个Servlet类来处理不同路径下面的请求，网络处理那些事情都交给Tomcat来处理了，所以其实Spring的职责也很简单，就是组装，最后根据组装模块来响应Tomcat发过来的request，返回一个response,因为Spring需要生成很多类，而且假如你使用为了支持注解，Spring还得使用反射来获取所有类的注解，反射速度也是非常慢的，所有Spring启动一般需要一点时间，甚至比其他框架比如Python还要慢，不过这些类的生成都是一次性的（不是单例除外），生成完之后就可以直接使用这些生成好的类的方法来响应Tomcat请求了</p>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><p><a href="https://github.com/code4craft/tiny-spring/blob/master/changelog.md" target="_blank" rel="noopener">https://github.com/code4craft/tiny-spring/blob/master/changelog.md</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2020/12/31/software/http/Tomcat高并发浅析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1193,101 +1287,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2020/12/24/summary/技术虾虾看/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/meAndMyGirlfriend.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/12/24/summary/技术虾虾看/" class="post-title-link" itemprop="url">技术虾虾看</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-12-24 00:00:00" itemprop="dateCreated datePublished" datetime="2020-12-24T00:00:00+08:00">2020-12-24</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-04-04 14:49:28" itemprop="dateModified" datetime="2021-04-04T14:49:28+08:00">2021-04-04</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/随想/" itemprop="url" rel="index">
-                    <span itemprop="name">随想</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>4.4k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>4 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          有东西被加密了, 请输入密码查看
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/12/24/summary/技术虾虾看/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1360,7 +1359,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">119</span>
+          <span class="site-state-item-count">120</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1435,12 +1434,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">267k</span>
+    <span title="站点总字数">269k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:03</span>
+    <span title="站点阅读时长">4:04</span>
 </div>
 
         

@@ -211,6 +211,245 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/02/05/algorithm/mit6_828/内存分页设计/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/meAndMyGirlfriend.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/02/05/algorithm/mit6_828/内存分页设计/" class="post-title-link" itemprop="url">内存分页设计</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-02-05 00:00:00" itemprop="dateCreated datePublished" datetime="2018-02-05T00:00:00+08:00">2018-02-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>1.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>前面已经通过lab1的这篇<a href="/2018/01/03/内存分页设计/">博文</a>了解了内存分页的实现细节，接下来就谈谈如何具体实现内存分页</p>
+<h2 id="物理载体"><a href="#物理载体" class="headerlink" title="物理载体"></a>物理载体</h2><p>通过了解<a href="/2018/02/19/KERNBASE对操作系统的影响/">KERNBASE对操作系统的影响</a>这篇博文我们知道，其实内存分页就是完成对物理存在的一种分割和隔离，所以我们在完成内存分页系统设计之前必须要构建一个载体，完成对物理存在的一种表示。</p>
+<p>在xv6中声明一个动态数组来代表物理内存，每一个值代表一块4k的内存页。我们主要通过<code>offset - base</code>得到偏移倍数，每个偏移量为<code>4K</code>，也就是通过<code>(offset - base )  &lt;&lt; 12</code>得到物理地址，我们看一下这个数组成员：PageInfo结构体</p>
+<pre><code>struct PageInfo {
+    struct PageInfo *pp_link;
+    uint16_t pp_ref;
+};
+</code></pre><p>主要存在两个值：一个为下一个可用的地址指针，一个为引用次数。</p>
+<p>引用次数比较好理解，但是这个<code>pp_link</code>有什么用呢。其实你可用把这个结构体看做成一个由链表组成的堆栈，我们只需要保留栈顶值（page_free_list)，由于它保存下一个值地址，这样通过不断的push、pop，就能维持一个可用物理内存栈。</p>
+<h2 id="二级指针的妙用"><a href="#二级指针的妙用" class="headerlink" title="二级指针的妙用"></a>二级指针的妙用</h2><p>由于前面的博客原理已经介绍的很详细了，我就不再累赘了，在这里我提一下源码中二级指针的妙用，虽然它只有短短几行，但是运行的结果却是让人大开眼界，体会到指针的神奇威力。</p>
+<p>这段代码出现在<code>kern/pmap.c</code>的<code>check_page_free_list</code>函数中</p>
+<pre><code>if (only_low_memory) {
+    // Move pages with lower addresses first in the free
+    // list, since entry_pgdir does not map all pages.
+    struct PageInfo *pp1, *pp2;
+    struct PageInfo **tp[2] = { &amp;pp1, &amp;pp2 };
+    for (pp = page_free_list; pp; pp = pp-&gt;pp_link) {
+        int pagetype = PDX(page2pa(pp)) &gt;= pdx_limit;
+        *tp[pagetype] = pp;
+        tp[pagetype] = &amp;pp-&gt;pp_link;
+    }
+    *tp[1] = 0;
+    *tp[0] = pp2;
+    page_free_list = pp1;
+}
+</code></pre><p>主要的作用是将“栈底”的元素移到“栈顶”，首先它使用了两个一级指针（pp1、pp2），还有两个二级指针分别指向（pp1、pp2）</p>
+<p> 首先<code>int pagetype = PDX(page2pa(pp)) &gt;= pdx_limit;</code>判断物理地址是否为大于4M还是小于4M，我们把物理内存页分成两组</p>
+<ul>
+<li>小于4M A组</li>
+<li>大于4M B组</li>
+</ul>
+<p>对于小于4M的组，分两种情况</p>
+<ol>
+<li>第一个小于4M的内存页（page1）</li>
+</ol>
+<blockquote>
+<ol>
+<li>*tp[0] (也就是pp1） 存贮了pp的值，也就是pp1 = page1</li>
+<li>tp[0] 存贮了pp -&gt; link 的地址（这个没有什么用）</li>
+</ol>
+</blockquote>
+<ol start="2">
+<li>A组第二个以及以后的内存页（page2）</li>
+</ol>
+<blockquote>
+<ol>
+<li>上一个地址的值等于pp（没什么用）</li>
+<li>tp[0] 存贮了下一个空闲地址的值</li>
+</ol>
+</blockquote>
+<p>对于B组来说也是一样的，最重要的是<code>for</code>循环结束后实现的交换</p>
+<pre><code>*tp[1] = 0; 
+</code></pre><p>B组最后一个的<code>pp_link</code>地址地址设置为NULL，也就相当于把他放到栈底</p>
+<pre><code>*tp[0] = pp2;
+</code></pre><p>A组最后一个变成<code>pp_link</code>地址设置pp2，也就是B组的第一个接到了A组的最后面去了</p>
+<pre><code>page_free_list = pp1;
+</code></pre><p>栈顶变成A组第一个，通过这样的“乾坤大挪移”术就将A组部分移到B组前面去了，也就实现了先使用低地址的物理内存的作用</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>理解内存分页必须要了解背后的原理，了解了原理看具体实现的时候才能事半功倍。</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/01/31/algorithm/mit6_828/内存分页/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/meAndMyGirlfriend.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/01/31/algorithm/mit6_828/内存分页/" class="post-title-link" itemprop="url">内存分页</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-01-31 00:00:00" itemprop="dateCreated datePublished" datetime="2018-01-31T00:00:00+08:00">2018-01-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>731</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本来自己查了很多资料，想自己写出来，结果下笔的时候发现别人已经把我想写的部分全部写出来了，而且比我想的还要具体，所以我就不写了，把链接放出了，顺便我补充一些</p>
+<p><a href="http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan/" target="_blank" rel="noopener">http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan/</a></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>由于内存分页在后面的lab2中也会设计，而且给出的资料写的非常详细，所以我就不多提了。这里提一下为了更好的理解什么内存分页的段选择子与CS的关系，我写了一篇<a href="/2018/01/30/从CS寄存器看段的前世今生/">关于CS寄存器的发展史</a></p>
+<p>最后我提一下<code>kern/entrypgdir.c</code>手写的内存分页表</p>
+<p>第一个<code>entry_pgdir</code>是页目录，第二个<code>entry_pgtable</code>页表，而且注意<code>entry_pgtable</code>是代表0-4M物理内存可写可读的真实内存地址</p>
+<p>前面知道了目录和页表的作用，在现实系统中，一个目录下有1024个页表，但是这只有一个页表，而且它代表从0-4M连续的内存空间</p>
+<p>PS：后面12位是权限位，只看前三位，可以知道是从（000-3ff）的高20位物理地址，由于我们声明了<code>__attribute__((__aligned__(PGSIZE)))</code>（地址4K对齐，其实意思是它真实物理地址后12位一定全部为0），所以直接取<code>(uintptr_t)entry_pgtable</code>地址就是页表地址，虽然后面加上权限位<code>PTE_P + PTE_W</code>，但是在寻找真实地址时都会屏蔽（只取前20位如），当初想了很久感觉取不到页表的真实地址，还以为有什么神奇的编译设定，后面查了很久资料才明白，所以这里提个醒后面我们会在lab2中正式接触内存分页技术，这里只是相当于设定了一个“常数”，后面会将器扩展变成“函数”。</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/01/31/algorithm/mit6_828/引导和操作系统的交互/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -334,100 +573,6 @@ ELF Header:
 <p><a href="https://my.oschina.net/u/864891/blog/87965" target="_blank" rel="noopener">https://my.oschina.net/u/864891/blog/87965</a></p>
 <p><a href="http://bochs.sourceforge.net/techspec/PORTS.LST" target="_blank" rel="noopener">端口信息</a></p>
 
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/01/31/algorithm/mit6_828/内存分页/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/meAndMyGirlfriend.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/01/31/algorithm/mit6_828/内存分页/" class="post-title-link" itemprop="url">内存分页</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-01-31 00:00:00" itemprop="dateCreated datePublished" datetime="2018-01-31T00:00:00+08:00">2018-01-31</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>731</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本来自己查了很多资料，想自己写出来，结果下笔的时候发现别人已经把我想写的部分全部写出来了，而且比我想的还要具体，所以我就不写了，把链接放出了，顺便我补充一些</p>
-<p><a href="http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan/" target="_blank" rel="noopener">http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan/</a></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>由于内存分页在后面的lab2中也会设计，而且给出的资料写的非常详细，所以我就不多提了。这里提一下为了更好的理解什么内存分页的段选择子与CS的关系，我写了一篇<a href="/2018/01/30/从CS寄存器看段的前世今生/">关于CS寄存器的发展史</a></p>
-<p>最后我提一下<code>kern/entrypgdir.c</code>手写的内存分页表</p>
-<p>第一个<code>entry_pgdir</code>是页目录，第二个<code>entry_pgtable</code>页表，而且注意<code>entry_pgtable</code>是代表0-4M物理内存可写可读的真实内存地址</p>
-<p>前面知道了目录和页表的作用，在现实系统中，一个目录下有1024个页表，但是这只有一个页表，而且它代表从0-4M连续的内存空间</p>
-<p>PS：后面12位是权限位，只看前三位，可以知道是从（000-3ff）的高20位物理地址，由于我们声明了<code>__attribute__((__aligned__(PGSIZE)))</code>（地址4K对齐，其实意思是它真实物理地址后12位一定全部为0），所以直接取<code>(uintptr_t)entry_pgtable</code>地址就是页表地址，虽然后面加上权限位<code>PTE_P + PTE_W</code>，但是在寻找真实地址时都会屏蔽（只取前20位如），当初想了很久感觉取不到页表的真实地址，还以为有什么神奇的编译设定，后面查了很久资料才明白，所以这里提个醒后面我们会在lab2中正式接触内存分页技术，这里只是相当于设定了一个“常数”，后面会将器扩展变成“函数”。</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2>
       
     </div>
 
@@ -1199,165 +1344,6 @@ ELF Header:
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2017/12/27/algorithm/浅谈树这种数据结构/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/meAndMyGirlfriend.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/12/27/algorithm/浅谈树这种数据结构/" class="post-title-link" itemprop="url">浅谈"树"这种数据结构</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-12-27 00:00:00" itemprop="dateCreated datePublished" datetime="2017-12-27T00:00:00+08:00">2017-12-27</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>4.7k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>4 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>一直以来我对树这种数据结构就比较头疼，随便找一个红黑树的博客，大部分都是在谈怎么旋转怎么插入怎么删除，将算法讲的头头是道，但是就算你看懂了也不懂为什么要这样做，所以我们这篇博文就从可视化的角度，慢慢的介绍这些树的来世今生。</p>
-</blockquote>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>首先给大家推荐一个神奇的网站，我们这篇博文很大程度上都是依托这个网站从可视化的角度分析各种树</p>
-<p>网站的网址是<a href="http://www.cs.usfca.edu/~galles/visualization/Algorithms.html" target="_blank" rel="noopener">http://www.cs.usfca.edu/~galles/visualization/Algorithms.html</a></p>
-<p>接下来我们从易到难分别谈谈下面这些树结构</p>
-<ul>
-<li>二叉搜索树</li>
-<li>AVL树</li>
-<li>红黑树</li>
-<li>Splay树</li>
-<li>Trie树</li>
-<li>B树</li>
-<li>B+树</li>
-</ul>
-<p>你可以点击下面高亮的标题尝试这种树结构的可视化操作，当然我在谈的过程中默认你已经打开可视化界面网站。</p>
-<p>在开始介绍各种树结构之前，我们先谈谈为什么我们需要树这种结构。</p>
-<p>假设我们一开始都有一个“柜子”存放东西，当我们东西很少的时候，我找东西的时候只要在柜子里面翻一翻就能找到，当我东西越来越多，在柜子里面找东西消耗的时间越来越多，这时候我就把柜子分类，让每一个柜子的东西都是固定的，这样我们查找时候不会在一个柜子里面寻找很久，这样无论你有多少东西进来，我查找的时间基本不会太长。</p>
-<p>所以树这种数据结构就是为了解决当数据量越来越大的时候相比与线性查找时间基本不会太长。对树查找和线性的区别我们可以看一下这个可视化界面</p>
-<p><a href="http://www.cs.usfca.edu/~galles/visualization/Search.html" target="_blank" rel="noopener">线性搜索与二分查找</a></p>
-<p>通过输入查找344，我们发现线性搜索花了15步才搜索到，而二分查找只需要2步，而且随着数据越来越大，线性搜索花的步数直线上升，而二分查找只会维持用Log(N)的步伐增长。</p>
-<p>树的结构基本上都是基于二分查找，但是在维护这个查找树的方法上各种树有各种优化方法，接下来我们就从可视化角度来依次介绍各种树的原理和优缺点。</p>
-<h2 id="二叉搜索树"><a href="#二叉搜索树" class="headerlink" title="二叉搜索树"></a><a href="http://www.cs.usfca.edu/~galles/visualization/BST.html" target="_blank" rel="noopener">二叉搜索树</a></h2><p>这个树可以称作所以后面变种树的鼻祖，基本上所以后面的树都是基于这个树的不足之处进行改良达到其各自的目的。</p>
-<p>我们现在尝试构造一棵二叉树，我们依次插入<code>3,2,4</code>。然后一棵标准的二叉树就出现在我们面前，在我们插入的过程中，我们可以清晰的看到，第一个插入的变成了母节点，而且插入程序实现的非常简单，首先跟母节点进行比较，如果比母节点大，从母节点右边下滑，然后依次找到最后一个为空的节点把自己插入进去。</p>
-<p> <img src="/images/bst-7.png" alt="单调递增二叉搜索树"></p>
-<p>我们接下来尝试一下如果输入一个连续递增的数组进去，比如<code>1， 2， 3， 4， 5</code>，我们发现这个二叉搜索树会逐渐把所以的值放到右节点上。这时候我们我们尝试搜索一下<code>5</code>，我们发送这个二叉搜索树需要5次查询才能得到最终结果，这个基本上等同与线性搜索。</p>
-<p>这里我们就发现二叉搜索树一个致命缺点，它容易造成一种空间的浪费，虽然这个树看起来很“高”，有5层，但是利用率极低，每层只有一个树，这样不但查找的时候效率不高，而且插入的时候效率也不高（很可能需要“爬”很多层）。</p>
-<p>二叉树搜索树实现起来非常简单，只要用一个<code>while</code>循环就能完成插入查找等功能，但是由于它结构控制太低，它对数据要求要很高，它时候依次插入那些无序数字，而对那些有序数据来说，二叉搜索树等同与一个数组。</p>
-<p>所以我们接下来介绍下面改良树，看看其他树是如何提高的空间利用率的，由于这篇主要是简单的谈一下这些树的优缺点，如果你想了解如何实现这样可以看一下我写的这篇<a href="/2018/01/04/二叉搜索树实现原理/" title="二叉搜索树Go实现">博文</a>，详细介绍了如何使用Go语言实现一个高效的二叉搜索树，如果你想彻底了解下面高级的树的实现，强烈建议一下了解一下二叉搜索树实现的方法，因为后面所以的树实现的前提<strong>必须满足是一个二叉搜索树</strong>，这点非常重要。</p>
-<p><a href="/2018/01/04/二叉搜索树实现原理/" title="二叉搜索树Go实现">二叉搜索树Go实现</a></p>
-<h2 id="AVL树"><a href="#AVL树" class="headerlink" title="AVL树"></a><a href="http://www.cs.usfca.edu/~galles/visualization/AVLtree.html" target="_blank" rel="noopener">AVL树</a></h2><p>1962发明的AVL树现在还生龙活虎的活跃在Windows进程地址空间管理，虽然作为最早的平衡二叉树现在有点干不过后面的年轻的小伙，但是作为前辈，后面小伙很多地方都是借鉴前辈的，所以我们有必要隆重介绍一下这个老前辈。</p>
-<p>首先要说明一下什么是平衡二叉树，前面我们也看到了，二叉搜索树有个弊端，它有可能子树高度不一样，比如说<code>1,2,3,4,5</code>那个母节点<code>1</code>的左子树高度为0，右字数高度为5，平衡二叉树就没有这个问题，它规定所以节点子树高度差不能超过1，这样规定的话我们的树空间利用率就能基本上达到100%了。</p>
-<p>AVL树就是一颗高度平衡二叉树，它的要求也非常简单，就两个</p>
-<ul>
-<li>必须是二叉搜索树</li>
-<li>必须是平衡二叉树</li>
-</ul>
-<p>成为一个二叉查找树非常容易，但是为了必须满足平衡二叉树条件，这里我们给每颗树定义一个高度，默认空为0，这样就可以计算左右子树的高度差是否在-1和1之间判断是否是平衡树。</p>
-<p>了解了这个之后，我们回到web页面，我们输入<code>1,2,3</code>看看AVL树如何避免像二叉搜索树一样过度生长</p>
-<p><img src="/images/avl-1.png" alt="插入前"></p>
-<p><img src="/images/avl-2.png" alt="插入后"></p>
-<p>我们从这两幅图可以看到，插入前AVL树高度为3，经过单旋转后，将2旋转到1的位置，然后让树又满足平衡二叉树的条件和二叉搜索树的条件。让我们思考一下旋转的意义。</p>
-<h3 id="旋转的意义"><a href="#旋转的意义" class="headerlink" title="旋转的意义"></a>旋转的意义</h3><p><strong>第一旋转并没有改变二叉搜索树的特性，我们将二叉树看做一个一个小区间组成的区域，旋转将区间整体移动了，所以我们保持住了区间的稳定，而且我们把旋转的支点看做中心，我们发现通过一次旋转后，支点左右之间的数量发生的变化，其中一方增加一个，其中一个减少一方，通过这种方式，把高度差由<code>2</code>转成<code>0</code></strong></p>
-<p>所以我们在插入和删除的时候造成的高度不平衡可以通过正确的旋转达到一个高度差的减少。而且我们可以很轻松的推断出在插入和删除的时候只需要通过有限的旋转就能实现树的平衡，但是我们也会发现这个平衡是非常严格的，每次插入删除的时候，删除或者增加的那条“路径”（从根节点到修改的节点）的各个节点的高度都会发生变化，所以我们需要检查和更新整条路径上高度差（也称平衡因子）是否满足平衡条件。</p>
-<p>直接纪录每个树的高度并且约束高度差的方法能够很好的规避像上面二叉搜索树造成的空间利用率低问题，但是对于增添和删除操作频繁的数据来说，AVL树并不是一个很好的解决方法，因为每次删除和增加都必须检测路径上的高度差，虽然旋转比较高效，但是每次检测和修改高度会让这个算法花费太多时间在这个严格的条件上面。</p>
-<p>总的来说，AVL树是比较好理解的一种平衡树算法，通过这个树的各种旋转操作，我们能很清晰的发现二叉树是一种很神奇的数据结构，一方面它可能是混乱的（分支混乱），一方面它又是整齐的，通过“扭动”它的身躯，将数据平均的分摊在根节点上面。我非常推荐你在这个<a href="http://www.cs.usfca.edu/~galles/visualization/AVLtree.html" target="_blank" rel="noopener">可视化界面</a>上通过一步一步将单独递增或者递减的数据插入AVL树中，你会发现AVL通过一次一次的“扭动”，将数据向根节点另一个方向传输过去。</p>
-<p>这里我也不详细介绍AVL树实现的具体原理，如果你想了解更底层的实现，可以看我下面这篇<a href="/2018/01/04/AVL树实现原理/" title="AVL树的实现原理">博客</a></p>
-<p><a href="/2018/01/04/AVL树实现原理/" title="AVL树的实现原理">AVL树的实现原理</a></p>
-<h2 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a><a href="http://www.cs.usfca.edu/~galles/visualization/RedBlack.html" target="_blank" rel="noopener">红黑树</a></h2><p>在AVL树发明10年后鲁道夫 贝尔发明了红黑树，直到现在红黑树还依旧在C++的STL、Java的HashMap中发挥着重要作用，只所以要先介绍AVL树再介绍红黑树，因为从我的理解上来看，其实红黑树和AVL树原理都是类似的，只不过红黑树修改了AVL树的缺点并且将AVL的平衡原理进行了抽象话。</p>
-<p>从数据结构上来看，红黑树相比于AVL树来说，只是将存贮高度的值换成了存贮颜色的值，从空间的角度上看，红黑树用一个二进制bool值（1Bit）换掉一个存贮int值（4Bit），节省了3Bit的空间，从增删所需要的操做来看，AVL树旋转可能需要lnN 步操作，而红黑树增不超过2次旋转，删不超高3次旋转，在增删效率上远远优于AVL树。所以我们有一个疑问为什么红黑树能用更少的空间实现更高的效率呢？</p>
-<p>回答这个问题之前，我们再捋捋AVL它的实现原理，前面介绍了AVL实现平衡的原理的就是使的左右子树高度差维持在[-1,1]之间，高度差这个东西，你想想高度这个东西其实它就是母节点到叶子节点的路径，所以高度差我们翻译一下就是左右子树路径差，现在我们把平衡后的AVL树条件更加严格一点，我们规定左右子树路径差为0，也就是左右子树高度一样。</p>
-<p><img src="/images/bst-2.png" alt="满二叉树"></p>
-<p>在上面那个严格的条件下，假如我们要新增一个到树末端，假如它加在像上面这样满二叉树上面，那么左右子树高度就立刻不相同了，但是对于一个AVL树来说，在这颗树上末端插一颗树并不会影响树的平衡，所以我们要想一个办法让插入这个值“不算高度”，这时候我们一想，如果我们把树节点分成两种颜色，一种红色一种黑色，红色不算高度，黑色才算高度，那样虽然我现在条件很苛刻“左右子树高度必须一样”，但是如果插入的是红色，那么就能很轻松的实现上面的条件。</p>
-<p>好了我们通过上面的操作成功的将高度变成了黑高（黑色节点的高度），而且满足了一种更加严格的条件“左右子树黑高必须相同），假如说前面AVL树的高度差为[-1,1]之间都能实现高空间利用率的，那么在这种更加严格的条件下也能满足，但是现在又出现一个问题，我们看下面这棵树</p>
-<p><img src="/images/rbt-1.png" alt="不平衡树"></p>
-<p>当我们插入节点3的时候，由于插入一颗红色你把红色节点不算高度，所以在前面的约束条件下，插入3满足条件，但是实际上这棵树并不是一个平衡AVL树，为了避免这种情况的发生我们必须要做一个约束，我们要约束红色节点不能太多，所以我们就约束红色节点后面只能是黑色节点，这样路径上最少都会有一半都是黑色（红色黑色相同）。</p>
-<p>我们现在得到两个约束，现在我们来说思考一下这两个条件的约束到底给我们带来了什么</p>
-<ul>
-<li>黑高相同</li>
-<li>红后面必须为黑</li>
-</ul>
-<p>首先对于黑色节点来说，这棵树是高度平衡的（假设它只能看到黑色节点），高度差为0，但是对于红色节点来说，这棵树有可能是不平衡的（假设有N个黑节点，红色高度差可能有N-1），所以从整体上来看，红黑树牺牲了一定的平衡性换来了插入删除的高效性</p>
-<p>这个高效性表现在哪呢？第一它不在需要更新所有的高度差，它只需要对受影响的路径上的有限节点进行染色就能实现再次的平衡，其次由于它不在需要高度的平衡，所以它能容忍树上的红色的不平衡现象，来减少旋转变化的次数。</p>
-<p>前面我们分析了AVL树旋转的意义那么对于红黑树来说，旋转的意义是什么呢？</p>
-<h3 id="红黑树的旋转意义"><a href="#红黑树的旋转意义" class="headerlink" title="红黑树的旋转意义"></a>红黑树的旋转意义</h3><p>前面我们知道了在AVL树中每一棵树都是独立的个体，所以每次旋转都是一次运输，将树按照节点扭动，但是对于红黑树来说，它要处理的情况是黑树高度的不同，当需要搬到的也是黑树，它的目的就是将黑树的高度平衡，对于红色的树来说，它更像一种胶水，它能保证当数据不平衡的时候（所以的树不可能全部变成黑树）还能使黑树保持一种平衡，从而使一棵树变得相对平衡。</p>
-<p>所以红黑树的旋转的意义同AVL树是类似的，只不过红黑树在旋转的时候要更加注意，它不但要考虑我们要如何在不平衡的节点上平衡黑高，而且要考虑我们平衡了这个节点的黑高有没有对其父亲的黑高造成影响。</p>
-<p>对于红黑树来说，由于颜色是可变的，所以着色（改变颜色）也是一种手段，而对于AVL树来说高度是固定的，只能通过旋转来改变，所以单独讲红黑树的旋转是没有意义的，或许有的时候只需要通过旋转就能实现黑高的统一，或许通过简单着色也能实现黑高的统一，但是只使用一种手段是不能高效的完成所以的条件。所以在我看来<em>着色和旋转是相辅相成的</em></p>
-<p>也正因为我们多了一个着色的手段，所以红黑树比AVL树在某些方面更加高效，随着而来也是更加复杂难懂，但是总体来说AVL和红黑还是类似的，在这里我就不深谈如何实现红黑树，如果你想了解如何实现红黑树，可以看我这篇<a href="/2018/01/05/红黑树实现原理/">博客</a></p>
-<p><a href="/2018/01/05/红黑树实现原理/">红黑树的实现原理</a></p>
-<h4 id="剩余的四种树的简析会待代码实现后陆续更新"><a href="#剩余的四种树的简析会待代码实现后陆续更新" class="headerlink" title="剩余的四种树的简析会待代码实现后陆续更新"></a>剩余的四种树的简析会待代码实现后陆续更新</h4><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://en.wikipedia.org/wiki/Binary_search_tree" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Binary_search_tree</a></p>
-<p><a href="https://en.wikipedia.org/wiki/AVL_tree" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/AVL_tree</a></p>
-<p><a href="https://www.cnblogs.com/vamei/archive/2013/03/21/2964092.html" target="_blank" rel="noopener">https://www.cnblogs.com/vamei/archive/2013/03/21/2964092.html</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1430,7 +1416,7 @@ ELF Header:
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">119</span>
+          <span class="site-state-item-count">120</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1505,12 +1491,12 @@ ELF Header:
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">267k</span>
+    <span title="站点总字数">269k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:03</span>
+    <span title="站点阅读时长">4:04</span>
 </div>
 
         
