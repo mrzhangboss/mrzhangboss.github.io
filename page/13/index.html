@@ -211,7 +211,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/software/有用的几个Shell命令/">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/python/字符串处理/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/meAndMyGirlfriend.jpg">
@@ -225,7 +225,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2016/07/18/software/有用的几个Shell命令/" class="post-title-link" itemprop="url">有用的几个Shell命令</a>
+            <a href="/2016/07/18/python/字符串处理/" class="post-title-link" itemprop="url">字符串处理</a>
         </h1>
 
         <div class="post-meta">
@@ -242,7 +242,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:08:54" itemprop="dateModified" datetime="2021-03-09T20:08:54+08:00">2021-03-09</time>
+                <time title="修改时间：2021-03-09 20:05:18" itemprop="dateModified" datetime="2021-03-09T20:05:18+08:00">2021-03-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -250,8 +250,8 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/软件/" itemprop="url" rel="index">
-                    <span itemprop="name">软件</span>
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
                   </a>
                 </span>
             </span>
@@ -261,7 +261,7 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span>464</span>
+              <span>605</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -279,39 +279,35 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="管线命令-pipe-："><a href="#管线命令-pipe-：" class="headerlink" title="管线命令 (pipe)："></a>管线命令 (pipe)：</h3><ol>
-<li>撷取命令： cut, grep</li>
-<li>排序命令： sort, wc, uniq</li>
-<li>双向重导向： tee</li>
-<li>字符转换命令： tr, col, join, paste, expand</li>
-<li>分割命令： split</li>
-<li>参数代换： xargs<h3 id="分割文档"><a href="#分割文档" class="headerlink" title="分割文档"></a>分割文档</h3></li>
-</ol>
-<blockquote>
-<p>长长的一大片文档有时我们并不愿意看到全部内容,我们只想关注<br>部分内容的时候了可以考虑使用分割文档命令</p>
+          <hr>
+<h1 id="string"><a href="#string" class="headerlink" title="string"></a>string</h1><blockquote>
+<p>原来的很多函数都逐渐迁移到<code>str</code>和<code>unicode</code>对象上去了,<br>不过有两个函数没有迁移出去</p>
 </blockquote>
-<p><code>cut</code>是一个很好的分割文档工具</p>
-<h3 id="vi常用命令"><a href="#vi常用命令" class="headerlink" title="vi常用命令"></a>vi常用命令</h3><ol>
-<li>[Ctrl] + [u] 屏幕『向上』移动半页</li>
-<li><ul>
-<li>光标移动到非空格符的下一列</li>
-</ul>
-</li>
-<li><ul>
-<li>光标移动到非空格符的上一列</li>
-</ul>
-</li>
-<li>n<space>那个 n 表示『数字』，例如 20 。按下数字后会向右移动这一行的n 个字符。例如 20&lt;spac移动 20 个字符距离。</space></li>
-<li>0 这是数字『0 』：移动到这一行的最前面字符</li>
-<li>$ 移动到这一行的最后面字符处(常用)</li>
-<li>H 光标移动到这个屏幕的最上方那一行</li>
-<li>M 光标移动到这个屏幕的中央那一行</li>
-<li>L 光标移动到这个屏幕的最下方那一行</li>
-<li>G 移动到这个档案的最后一行(常用)</li>
-<li>nG n 为数字。移动到这个档案的第 n 行。例如 2档案的第 20 行(可配合 :set nu)</li>
-<li>gg 移动到这个档案的第一行，相当于 1G 啊！ (<br>n<enter> n 为数字。光标向下移动 n 行(常用)</enter></li>
-</ol>
-
+<hr>
+<p>第一个是<code>capwords</code></p>
+<blockquote>
+<p>个人觉得没什么卵用<br>就是将英文单词首字母大写</p>
+</blockquote>
+<p>比如</p>
+<pre><code>string.capwords(&apos;this are some words&apos;)
+</code></pre><p>输出为 <code>This Are Some Words</code></p>
+<hr>
+<p>第二个我觉得挺有趣,他可以帮你把对应的文字换成你设定的</p>
+<p>我们可以用它来设计出莫斯密码’=’.</p>
+<pre><code>&quot;&quot;&quot;create a table&quot;&quot;&quot;
+table = string.maketrans(&apos;abc&apos;,&apos;123&apos;)
+print &apos;abc123&apos;.translate(table)
+</code></pre><p>输出为<code>123123</code>成功把abc转成了123</p>
+<hr>
+<p>string还有一个模板类型<code>Template</code><br>这个类型同我们转义差不多(%),不过能够实现的<br>更加自主化<br>我们可以继承这个类来修改模板类的具体实现<br>而且这个模板类有一个</p>
+<hr>
+<h1 id="textwrap"><a href="#textwrap" class="headerlink" title="textwrap"></a>textwrap</h1><blockquote>
+<p>由于sublime输出一个很长的字符串很卡,这个格式化字符串的类能够帮我们<br>解决很多问题</p>
+</blockquote>
+<p>我一般去除整体缩进然后去填充字符串</p>
+<pre><code>dedented_text = textwrap.dedent(&apos;...a long word...&apos;)
+print textwrap.fill(dedented_text, width=50)
+</code></pre>
       
     </div>
 
