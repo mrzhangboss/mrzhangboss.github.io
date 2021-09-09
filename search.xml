@@ -140,6 +140,27 @@
       </categories>
   </entry>
   <entry>
+    <title>&lt;&lt;机器学习实战&gt;&gt;心得.</title>
+    <url>/2016/07/18/ai/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98%E5%BF%83%E5%BE%97/</url>
+    <content><![CDATA[<h6 id="先谈谈我对机器学习的理解"><a href="#先谈谈我对机器学习的理解" class="headerlink" title="先谈谈我对机器学习的理解"></a>先谈谈我对机器学习的理解</h6><h2 id="什么是机器学习"><a href="#什么是机器学习" class="headerlink" title="什么是机器学习?"></a>什么是机器学习?</h2><p>我们人类有从婴儿开始就开始学习,父母教我们穿衣吃饭、老师教我们读书写字，我们开始能辨别好人坏人，开始通过自己的经验来判断新事物。</p>
+<h5 id="机器学习很简单，就像人一样，我们教机器通过我们教的来判断新的事物，或者在从新的事物里面学习处理新的事物。"><a href="#机器学习很简单，就像人一样，我们教机器通过我们教的来判断新的事物，或者在从新的事物里面学习处理新的事物。" class="headerlink" title="机器学习很简单，就像人一样，我们教机器通过我们教的来判断新的事物，或者在从新的事物里面学习处理新的事物。"></a>机器学习很简单，就像人一样，我们教机器通过我们教的来判断新的事物，或者在从新的事物里面学习处理新的事物。</h5><p>这看起来很复杂的样子,但是从我们神经网络来看,我们可以把学习当做建立一个神经元连接,通过输入的信号得到一个输出的信号.我们只要简单的把输入的信号分类就可以了.通过无数个分类我们就可以建立复杂的神经系统,进而实现’学习’这个功能.</p>
+<h2 id="如何分类"><a href="#如何分类" class="headerlink" title="如何分类?"></a>如何分类?</h2><blockquote>
+<p>涉及到分类,假如输入的信号种类只要两种,我们就可以简单用if-else来实现分类功能,但是有时候输入信号种类个个都有细微的差别,只是遵循某种规律,这时候我们不能用简单的if-else来进行分类了,下面我就按照书的顺序来解释各种强大的分类方法.</p>
+</blockquote>
+<h1 id="K-近邻算法-k-Nearest-Neighbor"><a href="#K-近邻算法-k-Nearest-Neighbor" class="headerlink" title="K-近邻算法 ( k-Nearest Neighbor )"></a>K-近邻算法 ( k-Nearest Neighbor )</h1><blockquote>
+<p>作为本书的第一个机器学习算法,K-NN算是我感觉原理最简单的一个了.</p>
+</blockquote>
+<p>假设我们有两个点, 红点为(-1,  -1)分为红类, 绿点为(1, 1)分为绿类<br><img src="http://7xsxdn.com1.z0.glb.clouddn.com/knn1.png" alt="图片1"></p>
+<h4 id="接下来我一个点-0-1-这个点应该分为红还是绿呢-我们添加两条辅助线"><a href="#接下来我一个点-0-1-这个点应该分为红还是绿呢-我们添加两条辅助线" class="headerlink" title="接下来我一个点(0, -1),这个点应该分为红还是绿呢,我们添加两条辅助线"></a>接下来我一个点(0, -1),这个点应该分为红还是绿呢,我们添加两条辅助线</h4><p><img src="http://7xsxdn.com1.z0.glb.clouddn.com/knn2.png" alt></p>
+<p>蓝点离红点距离为1,蓝点离绿点距离为2.2,我们很轻松的可以知道这个点应该分为红类.<br>现在我们进一步推广,当有很多种类点的时候,当我们二维扩展到N维,给一个点a我们只要选取距离a最近的K个种类,我们就基本能判断他属于这K个种类的,这就是K-近邻的原理了.</p>
+<h4 id="K-近邻算法是最简单最有效的算法了-但是他也有缺点-比如他必须保存所有训练样本的数据-当训练样本很大的时候就会占用很多内存空间-我们后面会学到的KVM只取支持向量的训练样本来计算可以减少很多占用内存"><a href="#K-近邻算法是最简单最有效的算法了-但是他也有缺点-比如他必须保存所有训练样本的数据-当训练样本很大的时候就会占用很多内存空间-我们后面会学到的KVM只取支持向量的训练样本来计算可以减少很多占用内存" class="headerlink" title="K-近邻算法是最简单最有效的算法了,但是他也有缺点,比如他必须保存所有训练样本的数据,当训练样本很大的时候就会占用很多内存空间,我们后面会学到的KVM只取支持向量的训练样本来计算可以减少很多占用内存"></a>K-近邻算法是最简单最有效的算法了,但是他也有缺点,比如他必须保存所有训练样本的数据,当训练样本很大的时候就会占用很多内存空间,我们后面会学到的KVM只取支持向量的训练样本来计算可以减少很多占用内存</h4><h5 id="而且K-近邻算法对训练数据集都要计算距离值-实际使用可能会非常耗时-我们后面学到的logistic回归能很好解决这个问题"><a href="#而且K-近邻算法对训练数据集都要计算距离值-实际使用可能会非常耗时-我们后面学到的logistic回归能很好解决这个问题" class="headerlink" title="而且K-近邻算法对训练数据集都要计算距离值,实际使用可能会非常耗时,我们后面学到的logistic回归能很好解决这个问题."></a>而且K-近邻算法对训练数据集都要计算距离值,实际使用可能会非常耗时,我们后面学到的logistic回归能很好解决这个问题.</h5><p>######### 总而言之,KNN作为小样本时非常简单粗暴,但是他无法给出任何数据的基本结构信息.接下来我们要学习用概率测量解决分类问题,这个算法能解决这个问题</p>
+<p>(决策树)[]</p>
+]]></content>
+      <categories>
+        <category>人工智能</category>
+      </categories>
+  </entry>
+  <entry>
     <title>AVL树实现原理</title>
     <url>/2018/01/04/algorithm/AVL%E6%A0%91%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/</url>
     <content><![CDATA[<blockquote>
@@ -159,24 +180,51 @@
       </categories>
   </entry>
   <entry>
-    <title>&lt;&lt;机器学习实战&gt;&gt;心得.</title>
-    <url>/2016/07/18/ai/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98%E5%BF%83%E5%BE%97/</url>
-    <content><![CDATA[<h6 id="先谈谈我对机器学习的理解"><a href="#先谈谈我对机器学习的理解" class="headerlink" title="先谈谈我对机器学习的理解"></a>先谈谈我对机器学习的理解</h6><h2 id="什么是机器学习"><a href="#什么是机器学习" class="headerlink" title="什么是机器学习?"></a>什么是机器学习?</h2><p>我们人类有从婴儿开始就开始学习,父母教我们穿衣吃饭、老师教我们读书写字，我们开始能辨别好人坏人，开始通过自己的经验来判断新事物。</p>
-<h5 id="机器学习很简单，就像人一样，我们教机器通过我们教的来判断新的事物，或者在从新的事物里面学习处理新的事物。"><a href="#机器学习很简单，就像人一样，我们教机器通过我们教的来判断新的事物，或者在从新的事物里面学习处理新的事物。" class="headerlink" title="机器学习很简单，就像人一样，我们教机器通过我们教的来判断新的事物，或者在从新的事物里面学习处理新的事物。"></a>机器学习很简单，就像人一样，我们教机器通过我们教的来判断新的事物，或者在从新的事物里面学习处理新的事物。</h5><p>这看起来很复杂的样子,但是从我们神经网络来看,我们可以把学习当做建立一个神经元连接,通过输入的信号得到一个输出的信号.我们只要简单的把输入的信号分类就可以了.通过无数个分类我们就可以建立复杂的神经系统,进而实现’学习’这个功能.</p>
-<h2 id="如何分类"><a href="#如何分类" class="headerlink" title="如何分类?"></a>如何分类?</h2><blockquote>
-<p>涉及到分类,假如输入的信号种类只要两种,我们就可以简单用if-else来实现分类功能,但是有时候输入信号种类个个都有细微的差别,只是遵循某种规律,这时候我们不能用简单的if-else来进行分类了,下面我就按照书的顺序来解释各种强大的分类方法.</p>
+    <title>二叉搜索树实现原理</title>
+    <url>/2018/01/04/algorithm/%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/</url>
+    <content><![CDATA[<blockquote>
+<p>本篇博客主要基于这篇<a href>博客</a>的扩展，建议阅读前先阅读这篇<a href="/2017/12/27/浅谈树这种数据结构/">博文</a>，这篇博文详细介绍二叉搜索树的实现原理，完整代码在<a href="https://github.com/mrzhangboss/trees" target="_blank" rel="noopener">github</a>的<code>binary.go</code>文件中</p>
 </blockquote>
-<h1 id="K-近邻算法-k-Nearest-Neighbor"><a href="#K-近邻算法-k-Nearest-Neighbor" class="headerlink" title="K-近邻算法 ( k-Nearest Neighbor )"></a>K-近邻算法 ( k-Nearest Neighbor )</h1><blockquote>
-<p>作为本书的第一个机器学习算法,K-NN算是我感觉原理最简单的一个了.</p>
-</blockquote>
-<p>假设我们有两个点, 红点为(-1,  -1)分为红类, 绿点为(1, 1)分为绿类<br><img src="http://7xsxdn.com1.z0.glb.clouddn.com/knn1.png" alt="图片1"></p>
-<h4 id="接下来我一个点-0-1-这个点应该分为红还是绿呢-我们添加两条辅助线"><a href="#接下来我一个点-0-1-这个点应该分为红还是绿呢-我们添加两条辅助线" class="headerlink" title="接下来我一个点(0, -1),这个点应该分为红还是绿呢,我们添加两条辅助线"></a>接下来我一个点(0, -1),这个点应该分为红还是绿呢,我们添加两条辅助线</h4><p><img src="http://7xsxdn.com1.z0.glb.clouddn.com/knn2.png" alt></p>
-<p>蓝点离红点距离为1,蓝点离绿点距离为2.2,我们很轻松的可以知道这个点应该分为红类.<br>现在我们进一步推广,当有很多种类点的时候,当我们二维扩展到N维,给一个点a我们只要选取距离a最近的K个种类,我们就基本能判断他属于这K个种类的,这就是K-近邻的原理了.</p>
-<h4 id="K-近邻算法是最简单最有效的算法了-但是他也有缺点-比如他必须保存所有训练样本的数据-当训练样本很大的时候就会占用很多内存空间-我们后面会学到的KVM只取支持向量的训练样本来计算可以减少很多占用内存"><a href="#K-近邻算法是最简单最有效的算法了-但是他也有缺点-比如他必须保存所有训练样本的数据-当训练样本很大的时候就会占用很多内存空间-我们后面会学到的KVM只取支持向量的训练样本来计算可以减少很多占用内存" class="headerlink" title="K-近邻算法是最简单最有效的算法了,但是他也有缺点,比如他必须保存所有训练样本的数据,当训练样本很大的时候就会占用很多内存空间,我们后面会学到的KVM只取支持向量的训练样本来计算可以减少很多占用内存"></a>K-近邻算法是最简单最有效的算法了,但是他也有缺点,比如他必须保存所有训练样本的数据,当训练样本很大的时候就会占用很多内存空间,我们后面会学到的KVM只取支持向量的训练样本来计算可以减少很多占用内存</h4><h5 id="而且K-近邻算法对训练数据集都要计算距离值-实际使用可能会非常耗时-我们后面学到的logistic回归能很好解决这个问题"><a href="#而且K-近邻算法对训练数据集都要计算距离值-实际使用可能会非常耗时-我们后面学到的logistic回归能很好解决这个问题" class="headerlink" title="而且K-近邻算法对训练数据集都要计算距离值,实际使用可能会非常耗时,我们后面学到的logistic回归能很好解决这个问题."></a>而且K-近邻算法对训练数据集都要计算距离值,实际使用可能会非常耗时,我们后面学到的logistic回归能很好解决这个问题.</h5><p>######### 总而言之,KNN作为小样本时非常简单粗暴,但是他无法给出任何数据的基本结构信息.接下来我们要学习用概率测量解决分类问题,这个算法能解决这个问题</p>
-<p>(决策树)[]</p>
+<p><a href="/2017/12/27/浅谈树这种数据结构/">浅谈”树”这种数据结构</a><br><a href="https://github.com/mrzhangboss/trees" title="github" target="_blank" rel="noopener">Github</a><br><a href="http://www.cs.usfca.edu/~galles/visualization/BST.html" target="_blank" rel="noopener">可视化页面</a></p>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>之所以使用Go来实现，个人还是比较喜欢Go的，作为一个基础数据结构，Go用来实现这个速度比Java、C++都快，而且相比Java也能节省内存，而且我也不喜欢换使用冒号。</p>
+<h2 id="二叉搜索树的基本功能"><a href="#二叉搜索树的基本功能" class="headerlink" title="二叉搜索树的基本功能"></a>二叉搜索树的基本功能</h2><p>作为一个树结构，主要必须实现三个功能，<strong>查增删</strong>（当然有改，不过改是删和增的结合所以就不算在里面），当然二叉树还能帮我实现一些额外功能，比如寻找最大值最小值等等，实现一颗二叉搜索树必须要保证在“增”和“删”的时候保持树结构不变，也就是保证还是一颗二叉搜索树</p>
+<p>什么二叉树是二叉搜索树呢，二叉搜索树只需要保证一点</p>
+<ul>
+<li>任何一个节点，它的左子树（不为空）所有值小于这个节点值，它的右子树（不为空）所有值大于这个节点值</li>
+</ul>
+<p>所有我们在实现增删的时候必须要牢记这点，而且我们也可以知道在你开始对这颗二叉树进行增删的时候，它一定已经满足了上面这个条件</p>
+<h3 id="查"><a href="#查" class="headerlink" title="查"></a>查</h3><p><img src="/images/bst-1.png" alt="标准的二叉树"></p>
+<p>如何在上面这颗标准的二叉树里面查询到我们想要的值呢？我们知道一颗二叉树只需要知道根节点（上面的10）就能通过遍历得到所以的节点的值，所以我们在实现中声明一个二叉搜索树的时候只保存一个<code>root</code>节点，通过这个节点，我们就可以实现所以的增删查改功能了</p>
+<p>为了找到每个值a，我们依次要在每个节点上对值进行比较，因为每个节点的值代表已经将这堆数据分成两个部分，一堆比这个值大在右边，一堆比这个值小在左边，这样只要最终能找到一个那个值的最小区间的对应值（找到）或者找到一个为空的叶节点（代表没有找到），</p>
+<p>通过最简单的查找，我们可以反推出一个理论，假如我们需要插入一个值，我们只要先尝试去寻找到那个值，假如找到了，因为已经存贮了就不插入，假如没找到就会找到一个为空的叶子节点，那样只要在父节点将这个为空的叶子节点替换成这个值为a的节点，我们就完成了插入</p>
+<p>所以查找和插入是相对的，知道怎么查找就知道怎么插入，接下来我们详细介绍如何删除，这个非常关键，因为它是后面要介绍的高级树实现高效的删除的关键</p>
+<h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><p>我们还是以上面那种图举例子，删除我们最先想到的是删除12,17那些节点，直接删除掉对二叉树没有什么影响，但是如果我们要删除那些带有节点的呢？我们先简化问题，先看一个只有两个节点的树</p>
+<p><img src="/images/bst-2.png" alt="双节点树"></p>
+<p>我们要想删除10，有两种可能</p>
+<p><img src="/images/bst-3.png" alt="左移"></p>
+<p><img src="/images/bst-4.png" alt="右移"></p>
+<p>一种是将左边值移过来，一种是将右边值移过来，这两种都不会破坏二叉树的平衡，现在我们假设我们倾向将左边的值移过来，我们再回到上面那棵标准的二叉树，如果我们要删除掉10节点，我们要把那个值移过来，我们直接在<a href="http://www.cs.usfca.edu/~galles/visualization/BST.html" target="_blank" rel="noopener">可视化界面</a>进行这个操作</p>
+<p><img src="/images/bst-5.png" alt="删除10后的标准二叉树"></p>
+<p>我们发现，我们只需要将7和放到10的位置上就完成了一次删除的操作，而7与10的关系是，7是10左边的那堆值最大的，用一个通俗的话来说，<em>完成改朝换代的关键就是要找一个能镇的住手下的人</em>，由于“10”挂了，在左边只有“7”能镇住左边，所以”7”升官直接跑到“10”的位置了</p>
+<p>根据这个原则我们将情况分成三种</p>
+<ol>
+<li>左右子树都为空，直接删掉</li>
+<li>左边子树或者右边子树有一个为空，将不为空的子树提上来当做删除的节点</li>
+<li>左右子树不为空，将左边最大的值提上来替换删除的节点</li>
+</ol>
+<p>对于第三种情况，为了编程方便，我们考虑一种情况，如果左子树的右节点有没有值（比如说上面的5节点），如果它右节点有值，那么左边的最大值肯定出现在，左子树的右节点上（就像上面左子树出现在5的右节点的7节点上面）。然后我们继续判断“7”节点有没有右子树，这样循环下去，我们总能找到一个节点没有右节点，这样我们就找到左子树的最大值了。</p>
+<p>在上面这种情况下，我们将这情况分成两种</p>
+<ul>
+<li>如果左子树的右节点有值（循环下去找到一个节点右节点没有值）</li>
+<li>如果左子树的右节点没值（那么第一个左子树就是最大值）</li>
+</ul>
+<p>具体的<a href="https://github.com/mrzhangboss/trees" title="github" target="_blank" rel="noopener">代码</a>在<code>binary.go</code>的<code>Delete</code>(寻找节点）方法和<code>delete</code>（删除节点）方法中</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>总的来说，二叉搜索树的插入是最容易理解的，但是删除的话要考虑不同四种的情况所以还是稍微需要点时间理解一下的，小小的一个二叉搜索树也花了近200行代码实现，但是相比后面的AVL树、红黑树的近千行代码来说，二叉搜索树还是比较简单的，而且后面实现的高级树结构基本上都是依赖二叉搜索树的实现（必须要按照二叉树的增删满足二叉搜索树的原则），所以我们对二叉搜索树的增删必须理解透彻。</p>
+<p>引用：</p>
+<p><a href="https://en.wikipedia.org/wiki/Binary_search_tree" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Binary_search_tree</a></p>
 ]]></content>
       <categories>
-        <category>人工智能</category>
+        <category>算法</category>
       </categories>
   </entry>
   <entry>
@@ -245,54 +293,6 @@ def f(n, map):
       </categories>
   </entry>
   <entry>
-    <title>二叉搜索树实现原理</title>
-    <url>/2018/01/04/algorithm/%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/</url>
-    <content><![CDATA[<blockquote>
-<p>本篇博客主要基于这篇<a href>博客</a>的扩展，建议阅读前先阅读这篇<a href="/2017/12/27/浅谈树这种数据结构/">博文</a>，这篇博文详细介绍二叉搜索树的实现原理，完整代码在<a href="https://github.com/mrzhangboss/trees" target="_blank" rel="noopener">github</a>的<code>binary.go</code>文件中</p>
-</blockquote>
-<p><a href="/2017/12/27/浅谈树这种数据结构/">浅谈”树”这种数据结构</a><br><a href="https://github.com/mrzhangboss/trees" title="github" target="_blank" rel="noopener">Github</a><br><a href="http://www.cs.usfca.edu/~galles/visualization/BST.html" target="_blank" rel="noopener">可视化页面</a></p>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>之所以使用Go来实现，个人还是比较喜欢Go的，作为一个基础数据结构，Go用来实现这个速度比Java、C++都快，而且相比Java也能节省内存，而且我也不喜欢换使用冒号。</p>
-<h2 id="二叉搜索树的基本功能"><a href="#二叉搜索树的基本功能" class="headerlink" title="二叉搜索树的基本功能"></a>二叉搜索树的基本功能</h2><p>作为一个树结构，主要必须实现三个功能，<strong>查增删</strong>（当然有改，不过改是删和增的结合所以就不算在里面），当然二叉树还能帮我实现一些额外功能，比如寻找最大值最小值等等，实现一颗二叉搜索树必须要保证在“增”和“删”的时候保持树结构不变，也就是保证还是一颗二叉搜索树</p>
-<p>什么二叉树是二叉搜索树呢，二叉搜索树只需要保证一点</p>
-<ul>
-<li>任何一个节点，它的左子树（不为空）所有值小于这个节点值，它的右子树（不为空）所有值大于这个节点值</li>
-</ul>
-<p>所有我们在实现增删的时候必须要牢记这点，而且我们也可以知道在你开始对这颗二叉树进行增删的时候，它一定已经满足了上面这个条件</p>
-<h3 id="查"><a href="#查" class="headerlink" title="查"></a>查</h3><p><img src="/images/bst-1.png" alt="标准的二叉树"></p>
-<p>如何在上面这颗标准的二叉树里面查询到我们想要的值呢？我们知道一颗二叉树只需要知道根节点（上面的10）就能通过遍历得到所以的节点的值，所以我们在实现中声明一个二叉搜索树的时候只保存一个<code>root</code>节点，通过这个节点，我们就可以实现所以的增删查改功能了</p>
-<p>为了找到每个值a，我们依次要在每个节点上对值进行比较，因为每个节点的值代表已经将这堆数据分成两个部分，一堆比这个值大在右边，一堆比这个值小在左边，这样只要最终能找到一个那个值的最小区间的对应值（找到）或者找到一个为空的叶节点（代表没有找到），</p>
-<p>通过最简单的查找，我们可以反推出一个理论，假如我们需要插入一个值，我们只要先尝试去寻找到那个值，假如找到了，因为已经存贮了就不插入，假如没找到就会找到一个为空的叶子节点，那样只要在父节点将这个为空的叶子节点替换成这个值为a的节点，我们就完成了插入</p>
-<p>所以查找和插入是相对的，知道怎么查找就知道怎么插入，接下来我们详细介绍如何删除，这个非常关键，因为它是后面要介绍的高级树实现高效的删除的关键</p>
-<h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><p>我们还是以上面那种图举例子，删除我们最先想到的是删除12,17那些节点，直接删除掉对二叉树没有什么影响，但是如果我们要删除那些带有节点的呢？我们先简化问题，先看一个只有两个节点的树</p>
-<p><img src="/images/bst-2.png" alt="双节点树"></p>
-<p>我们要想删除10，有两种可能</p>
-<p><img src="/images/bst-3.png" alt="左移"></p>
-<p><img src="/images/bst-4.png" alt="右移"></p>
-<p>一种是将左边值移过来，一种是将右边值移过来，这两种都不会破坏二叉树的平衡，现在我们假设我们倾向将左边的值移过来，我们再回到上面那棵标准的二叉树，如果我们要删除掉10节点，我们要把那个值移过来，我们直接在<a href="http://www.cs.usfca.edu/~galles/visualization/BST.html" target="_blank" rel="noopener">可视化界面</a>进行这个操作</p>
-<p><img src="/images/bst-5.png" alt="删除10后的标准二叉树"></p>
-<p>我们发现，我们只需要将7和放到10的位置上就完成了一次删除的操作，而7与10的关系是，7是10左边的那堆值最大的，用一个通俗的话来说，<em>完成改朝换代的关键就是要找一个能镇的住手下的人</em>，由于“10”挂了，在左边只有“7”能镇住左边，所以”7”升官直接跑到“10”的位置了</p>
-<p>根据这个原则我们将情况分成三种</p>
-<ol>
-<li>左右子树都为空，直接删掉</li>
-<li>左边子树或者右边子树有一个为空，将不为空的子树提上来当做删除的节点</li>
-<li>左右子树不为空，将左边最大的值提上来替换删除的节点</li>
-</ol>
-<p>对于第三种情况，为了编程方便，我们考虑一种情况，如果左子树的右节点有没有值（比如说上面的5节点），如果它右节点有值，那么左边的最大值肯定出现在，左子树的右节点上（就像上面左子树出现在5的右节点的7节点上面）。然后我们继续判断“7”节点有没有右子树，这样循环下去，我们总能找到一个节点没有右节点，这样我们就找到左子树的最大值了。</p>
-<p>在上面这种情况下，我们将这情况分成两种</p>
-<ul>
-<li>如果左子树的右节点有值（循环下去找到一个节点右节点没有值）</li>
-<li>如果左子树的右节点没值（那么第一个左子树就是最大值）</li>
-</ul>
-<p>具体的<a href="https://github.com/mrzhangboss/trees" title="github" target="_blank" rel="noopener">代码</a>在<code>binary.go</code>的<code>Delete</code>(寻找节点）方法和<code>delete</code>（删除节点）方法中</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>总的来说，二叉搜索树的插入是最容易理解的，但是删除的话要考虑不同四种的情况所以还是稍微需要点时间理解一下的，小小的一个二叉搜索树也花了近200行代码实现，但是相比后面的AVL树、红黑树的近千行代码来说，二叉搜索树还是比较简单的，而且后面实现的高级树结构基本上都是依赖二叉搜索树的实现（必须要按照二叉树的增删满足二叉搜索树的原则），所以我们对二叉搜索树的增删必须理解透彻。</p>
-<p>引用：</p>
-<p><a href="https://en.wikipedia.org/wiki/Binary_search_tree" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Binary_search_tree</a></p>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-  </entry>
-  <entry>
     <title>刷题笔记</title>
     <url>/2016/08/21/algorithm/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<blockquote>
@@ -308,18 +308,6 @@ f(n) ={           1                   n= 2
             f(n-1) + f(n-2)     n&gt;2
 </code></pre><p>  虽然</p>
 ]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>红黑树实现原理</title>
-    <url>/2018/01/05/algorithm/%E7%BA%A2%E9%BB%91%E6%A0%91%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/</url>
-    <content><![CDATA[<blockquote>
-<p>本篇博客主要基于这篇<a href="/">博客</a>的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍红黑树的实现原理，完整代码在<a href="https://github.com/mrzhangboss/trees" target="_blank" rel="noopener">github</a>的<code>rbtree.go</code>文件中</p>
-</blockquote>
-<p><a href="/">浅谈”树”这种数据结构</a><br><a href="https://github.com/mrzhangboss/trees" title="github" target="_blank" rel="noopener">Github</a><br><a href="http://www.cs.usfca.edu/~galles/visualization/RedBlack.html" target="_blank" rel="noopener">可视化页面</a></p>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2>]]></content>
       <categories>
         <category>算法</category>
       </categories>
@@ -357,6 +345,18 @@ f(n) ={           1                   n= 2
 <p>所以希尔排序改进就在于他能直接移动多位，在上面的例子里面，步长为3，我们能直接将数组从3的位置移动到2，如果直接使用插入排序，必须移动3次才能达到希尔排序的效果。</p>
 <p>希尔排序原理同插入是一样的，不同在于，插入的步长希尔是可变的，这样就为一些“调皮”的数字的移动加快了速度，一步一步的移动他们太累了，直接把步子迈大，一步到位。</p>
 ]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>红黑树实现原理</title>
+    <url>/2018/01/05/algorithm/%E7%BA%A2%E9%BB%91%E6%A0%91%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/</url>
+    <content><![CDATA[<blockquote>
+<p>本篇博客主要基于这篇<a href="/">博客</a>的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍红黑树的实现原理，完整代码在<a href="https://github.com/mrzhangboss/trees" target="_blank" rel="noopener">github</a>的<code>rbtree.go</code>文件中</p>
+</blockquote>
+<p><a href="/">浅谈”树”这种数据结构</a><br><a href="https://github.com/mrzhangboss/trees" title="github" target="_blank" rel="noopener">Github</a><br><a href="http://www.cs.usfca.edu/~galles/visualization/RedBlack.html" target="_blank" rel="noopener">可视化页面</a></p>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2>]]></content>
       <categories>
         <category>算法</category>
       </categories>
@@ -419,6 +419,49 @@ f(n) ={           1                   n= 2
 ]]></content>
       <categories>
         <category>大数据</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Java的char类型到底几个字节</title>
+    <url>/2018/07/01/java/Java%E7%9A%84Char%E7%B1%BB%E5%9E%8B%E5%88%B0%E5%BA%95%E5%87%A0%E4%B8%AA%E5%AD%97%E8%8A%82/</url>
+    <content><![CDATA[<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>之所以有这个疑问，是上次阅读Java基础书时碰到讲解<code>char</code>类型没有看明白，并且在代码验证过程中错误的理解了代码的意思，导致我对这么个简单问题产生疑惑并且“恶意揣测”Java内部的黑魔法，这里就把我如何走上歪路，并且最终找到“正确”的道路的故事讲出来</p>
+<h2 id="问题的产生"><a href="#问题的产生" class="headerlink" title="问题的产生"></a>问题的产生</h2><p>我们知道<code>Java</code>是采用<code>Unicode</code>进行内部编码，但是使用<code>UTF-16</code>作为外部编码。</p>
+<p>怎么来理解这个东西呢。首先你要知道<code>Unicode</code>是在我们熟悉的<code>GB 18030</code>、<code>BIG-5</code>、<code>ISO8859-1</code>之后出现的，它的出现就是为了统一全世界的编码，因为前面这些编码都太片面了，只包含自己国家或者少数几个国家的字符。</p>
+<p><code>Unicode</code>的目的就是包括全世界的编码，并且给未来可能出现的编码留下位置，你可以理解为它是一张大“表”，一般我们使用16进制来表达它，并且在前面加上<code>U+</code>。例如<code>U+0041</code>代表字母<code>A</code>，但是这里有个历史问题</p>
+<p>一开始我们知道<code>Unicode</code>为了包含全世界的字符从<code>ASCII</code>的一个字节扩展到两个字节，就能包含65536个字符了，但是随着字符包含越来越多，我们逐渐需要更多字符了，最后扩展到<code>U+0000 -&gt; U+10FFFF</code>去了，为了表示这些我们必须使用三个字符，假设我们不考虑内存成本，每个字符都使用四个字符来表示（不使用三个是为了内存对齐），那么问题就解决了，大家都用<code>Unicode</code>来表示，这样我传给你一串字符你就能秒懂了。</p>
+<p>但是学过信息论就知道，单字符越长信息熵也就是信息量就少，其实在日常通信中我们并不是每个字符都会用到，为了提高效率，我们可以使用霍夫曼、香农编码技术对信息重新编码，这个就是<code>UTF-8</code>、<code>UTF-16</code>等现代编码的理论基础。</p>
+<p>这就好比特种部队手势，我们把作战命令（Unicode）需要的指令放到手势（如UTF-8）里面，这样几个手势就能表达复杂的作战计划（假如用嘴巴说的话）。</p>
+<p>接下来我们就从JAVA和Python来看，编码与其关系</p>
+<h2 id="表面兄弟：JAVA"><a href="#表面兄弟：JAVA" class="headerlink" title="表面兄弟：JAVA"></a>表面兄弟：JAVA</h2><p><code>Unicode</code>对于JAVA来说，只能算是表面兄弟，虽然内部支持<code>Unicode</code>编码，但是其本质还是基于<code>UTF-16</code>编码，为什么要这么说呢。</p>
+<p>我们来回顾一下，我们知道<code>Unicode</code>的范围是<code>U+0000-U+10ffff</code>，这意味着我们没法用两个字节来表示，但是在<code>Java</code>里面<code>char</code>类型字节为2字节，而对于字符串类<code>String</code>来说，其组成就是一个<code>char</code>字组，对于小于<code>U+10000</code>的<code>Unicode</code>码来说，<code>String</code>对象最小组成单位就是<code>char</code>，但是对于大于<code>U+10000</code>的<code>Unicode</code>码来说却是<code>char</code>数组，我们用代码来展示一下两者之间的关系。</p>
+<pre><code>char[] chars = Character.toChars(0x1f121);
+String s = new String(chars);
+</code></pre><p>而且我们将<code>s</code>输出的话，会发现它是一个字符，但是它的<code>length</code>却为二，而且我们将<code>s</code>每个字符转换成二进制你会发现他们的值依次为<code>0xd83c</code>和<code>0xdd21</code>，他们存贮的值全部以<code>UTF-16</code>的格式存贮，具体编码详细我就不细说了，下面<a href="https://zh.wikipedia.org/wiki/UTF-16" target="_blank" rel="noopener">资料</a>介绍的很详细（需要翻墙）。在<code>Unicode</code>里面占一个字符的值，却以两个基本类型存贮，当然为了维持这种“表面兄弟”的关系，<code>Java</code>也使用了“码点”来支持一下兄弟，只要使用<code>codePointAt</code>代替<code>charAt</code>，用<code>codePointCount</code>代替<code>length</code>，我们也能处理超过<code>U+10000</code>的<code>Unicode</code>编码（对于不超过<code>U+10000</code>的字符那就是“真兄弟”）</p>
+<p>当我不知道一个<code>char</code>只能放两个字节的时候，我强行使用<code>char c = (char)0x1f121</code>来“存”一个超过<code>U+10000</code>的<code>Unicode</code>码，结果被<code>Java</code>无情的溢出掉，只取到了部分值，但是我却误以为<code>Java</code>有黑魔法能用两个字节存贮了三个字节才能存下的值，乃至我闹了个笑话。</p>
+<p>总结一下<code>Java</code>是一个非常严谨的语言，规定死的东西就不会变，表面上看<code>Java</code>能够支持<code>Unicode</code>编码，但是实际上他只是编译器支持，比如你写一个<code>🄡</code>（0x1f122）的值来赋给<code>String</code>如下面：</p>
+<pre><code>String ns = &quot;🄡&quot;
+</code></pre><p>表面上看，<code>Java</code>完全支持<code>Unicode</code>码，但在实际的上面他内部还是用<code>UTF-16</code>进行编码，只是在编译的时候帮我们将<code>0x1f122</code>转换成为两个<br><code>0xd83c</code>和<code>0xdd21</code>存贮在<code>char</code>字符组里面。</p>
+<p>其实这个表面兄弟是相对的，从<code>Python3`</code>Unicode`支持来比较一下就能发现不同。</p>
+<h2 id="亲兄弟：Python"><a href="#亲兄弟：Python" class="headerlink" title="亲兄弟：Python"></a>亲兄弟：Python</h2><p><code>Python3</code>对<code>Unicode</code>是非常友好的，它在明面上完全按照<code>Unicode</code>的编码表使用来存贮<code>Unicode</code>码，对应它的<code>Unicode</code>字符串，最小单元都是<code>Unicode</code>码，多说无意，上代码。</p>
+<pre><code>  c = chr(0x1f122)
+print(len(c))  # = 1
+print(type(c)) # str
+</code></pre><p>我们可以看到我们得到的最小的码元是字符串<code>str</code>类型，无论这个<code>Unicode</code>码是否大于<code>U+10000</code>，<code>Python</code>都把它视为一个基本单位，这样避免了你对其进行一些误操作，插句话来讲讲怎么得到这个大小呢，我们使用<code>sys.getsizeof</code>方法就能计算出来</p>
+<pre><code>sys.getsizeof(chr(0x1f122))  # 80
+sys.getsizeof(chr(0x1f122) * 2) # 84
+</code></pre><p>由于<code>Python</code>使用一些字段来标注类型，所以直接使用<code>sys.getsizeof</code>得不得一个<code>Unicode</code>码需要的字节，所以我们计算两个的差，很清楚的就能得到一个<code>Unicode</code>码使用四个字节，你可以依次乘下去，而且你发现一个有趣的现象，对于小于<code>U+007F</code>的<code>Unicode</code>码，其大小为一字节，而对于<code>U+0080-U+07FF</code>其大小为两字节。具体可以看参考<a href="https://en.wikipedia.org/wiki/UTF-8" target="_blank" rel="noopener">资料</a>，<code>Python</code>内部是使用<code>UTF-8</code>来存贮<code>Unicode</code>码的，但是<code>Python</code>将这一切都隐藏起来，你从表面上看好像一个<code>Unicode</code>就是一个最小单元，对于其底层我们不得而知，我们可以从侧面来验证一下</p>
+<pre><code> timeit.timeit(&quot;&apos;中国人&apos;.encode(&apos;gbk&apos;)&quot;)
+&gt;&gt; 0.6366317819999949
+timeit.timeit(&quot;&apos;中国人&apos;.encode(&apos;utf-8&apos;)&quot;)
+&gt;&gt; 0.2109854949999317
+</code></pre><p>我们可以看到将<code>Unicode</code>编译成其他编码方式，其中<code>utf-8</code>速度是最快的，因为基本上是复制一下就行了，而其他的差距到了三倍</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过前面我们知道，<code>Python</code>之所以 <code>Unicode</code>如此“亲兄弟”是因为做了一层封装得来的，相比<code>Java</code>将<code>Unicode</code>码（使用<code>UTF-16</code>作为底层编码）暴露给出来，<code>Java</code>在底层上却是非常“坦诚”，你想直接使用<code>Unicode</code>码值也可以，<code>Java</code>编译器会帮你把<code>Unicode</code>码值转换成<code>UTF-16</code>，你也可以从<code>UTF-16</code>码生成<code>String</code>字符串，这样底层在实现查找的时候也是使用统一的编码进行。但是也正是由于这么“底层”，代码看起来总不是那么“亲”，相比于<code>Python</code>的“一视同仁”，我们也可以理解这就是这两种语言的各自特点所在。</p>
+<p>总的来说如果你想直接接触代码底层，推荐使用<code>Java</code>，假如你只想研究其本质，推荐使用<code>Python</code>来进行自然语言处理，他的封装能让你不需要了解其内部组成。</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://zh.wikipedia.org/wiki/UTF-16" target="_blank" rel="noopener">https://zh.wikipedia.org/wiki/UTF-16</a></p>
+<p><a href="https://en.wikipedia.org/wiki/UTF-8" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/UTF-8</a></p>
+]]></content>
+      <categories>
+        <category>Java</category>
       </categories>
   </entry>
   <entry>
@@ -492,49 +535,6 @@ def say = &quot;Scala&quot; king
 <hr>
 <h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><p>There are so many secret in <code>Scala</code>, if you realy want to know how <code>Scala</code> do for us, just use <code>scalac</code> to compile to <code>.class</code> file, and use <code>javap</code> to tranceform to <code>Java</code> code.That will help you a lot.There are  also a intresting part in new power <code>switch</code>  in <code>Scala</code>, it’s too important to write a new blog to introducing it.</p>
 <p><code>Scala</code> is a intersting lanuage, if you want to know more about it, you can read the <code>Scala</code> library code .It’s really perfect.</p>
-]]></content>
-      <categories>
-        <category>Java</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>Java的char类型到底几个字节</title>
-    <url>/2018/07/01/java/Java%E7%9A%84Char%E7%B1%BB%E5%9E%8B%E5%88%B0%E5%BA%95%E5%87%A0%E4%B8%AA%E5%AD%97%E8%8A%82/</url>
-    <content><![CDATA[<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>之所以有这个疑问，是上次阅读Java基础书时碰到讲解<code>char</code>类型没有看明白，并且在代码验证过程中错误的理解了代码的意思，导致我对这么个简单问题产生疑惑并且“恶意揣测”Java内部的黑魔法，这里就把我如何走上歪路，并且最终找到“正确”的道路的故事讲出来</p>
-<h2 id="问题的产生"><a href="#问题的产生" class="headerlink" title="问题的产生"></a>问题的产生</h2><p>我们知道<code>Java</code>是采用<code>Unicode</code>进行内部编码，但是使用<code>UTF-16</code>作为外部编码。</p>
-<p>怎么来理解这个东西呢。首先你要知道<code>Unicode</code>是在我们熟悉的<code>GB 18030</code>、<code>BIG-5</code>、<code>ISO8859-1</code>之后出现的，它的出现就是为了统一全世界的编码，因为前面这些编码都太片面了，只包含自己国家或者少数几个国家的字符。</p>
-<p><code>Unicode</code>的目的就是包括全世界的编码，并且给未来可能出现的编码留下位置，你可以理解为它是一张大“表”，一般我们使用16进制来表达它，并且在前面加上<code>U+</code>。例如<code>U+0041</code>代表字母<code>A</code>，但是这里有个历史问题</p>
-<p>一开始我们知道<code>Unicode</code>为了包含全世界的字符从<code>ASCII</code>的一个字节扩展到两个字节，就能包含65536个字符了，但是随着字符包含越来越多，我们逐渐需要更多字符了，最后扩展到<code>U+0000 -&gt; U+10FFFF</code>去了，为了表示这些我们必须使用三个字符，假设我们不考虑内存成本，每个字符都使用四个字符来表示（不使用三个是为了内存对齐），那么问题就解决了，大家都用<code>Unicode</code>来表示，这样我传给你一串字符你就能秒懂了。</p>
-<p>但是学过信息论就知道，单字符越长信息熵也就是信息量就少，其实在日常通信中我们并不是每个字符都会用到，为了提高效率，我们可以使用霍夫曼、香农编码技术对信息重新编码，这个就是<code>UTF-8</code>、<code>UTF-16</code>等现代编码的理论基础。</p>
-<p>这就好比特种部队手势，我们把作战命令（Unicode）需要的指令放到手势（如UTF-8）里面，这样几个手势就能表达复杂的作战计划（假如用嘴巴说的话）。</p>
-<p>接下来我们就从JAVA和Python来看，编码与其关系</p>
-<h2 id="表面兄弟：JAVA"><a href="#表面兄弟：JAVA" class="headerlink" title="表面兄弟：JAVA"></a>表面兄弟：JAVA</h2><p><code>Unicode</code>对于JAVA来说，只能算是表面兄弟，虽然内部支持<code>Unicode</code>编码，但是其本质还是基于<code>UTF-16</code>编码，为什么要这么说呢。</p>
-<p>我们来回顾一下，我们知道<code>Unicode</code>的范围是<code>U+0000-U+10ffff</code>，这意味着我们没法用两个字节来表示，但是在<code>Java</code>里面<code>char</code>类型字节为2字节，而对于字符串类<code>String</code>来说，其组成就是一个<code>char</code>字组，对于小于<code>U+10000</code>的<code>Unicode</code>码来说，<code>String</code>对象最小组成单位就是<code>char</code>，但是对于大于<code>U+10000</code>的<code>Unicode</code>码来说却是<code>char</code>数组，我们用代码来展示一下两者之间的关系。</p>
-<pre><code>char[] chars = Character.toChars(0x1f121);
-String s = new String(chars);
-</code></pre><p>而且我们将<code>s</code>输出的话，会发现它是一个字符，但是它的<code>length</code>却为二，而且我们将<code>s</code>每个字符转换成二进制你会发现他们的值依次为<code>0xd83c</code>和<code>0xdd21</code>，他们存贮的值全部以<code>UTF-16</code>的格式存贮，具体编码详细我就不细说了，下面<a href="https://zh.wikipedia.org/wiki/UTF-16" target="_blank" rel="noopener">资料</a>介绍的很详细（需要翻墙）。在<code>Unicode</code>里面占一个字符的值，却以两个基本类型存贮，当然为了维持这种“表面兄弟”的关系，<code>Java</code>也使用了“码点”来支持一下兄弟，只要使用<code>codePointAt</code>代替<code>charAt</code>，用<code>codePointCount</code>代替<code>length</code>，我们也能处理超过<code>U+10000</code>的<code>Unicode</code>编码（对于不超过<code>U+10000</code>的字符那就是“真兄弟”）</p>
-<p>当我不知道一个<code>char</code>只能放两个字节的时候，我强行使用<code>char c = (char)0x1f121</code>来“存”一个超过<code>U+10000</code>的<code>Unicode</code>码，结果被<code>Java</code>无情的溢出掉，只取到了部分值，但是我却误以为<code>Java</code>有黑魔法能用两个字节存贮了三个字节才能存下的值，乃至我闹了个笑话。</p>
-<p>总结一下<code>Java</code>是一个非常严谨的语言，规定死的东西就不会变，表面上看<code>Java</code>能够支持<code>Unicode</code>编码，但是实际上他只是编译器支持，比如你写一个<code>🄡</code>（0x1f122）的值来赋给<code>String</code>如下面：</p>
-<pre><code>String ns = &quot;🄡&quot;
-</code></pre><p>表面上看，<code>Java</code>完全支持<code>Unicode</code>码，但在实际的上面他内部还是用<code>UTF-16</code>进行编码，只是在编译的时候帮我们将<code>0x1f122</code>转换成为两个<br><code>0xd83c</code>和<code>0xdd21</code>存贮在<code>char</code>字符组里面。</p>
-<p>其实这个表面兄弟是相对的，从<code>Python3`</code>Unicode`支持来比较一下就能发现不同。</p>
-<h2 id="亲兄弟：Python"><a href="#亲兄弟：Python" class="headerlink" title="亲兄弟：Python"></a>亲兄弟：Python</h2><p><code>Python3</code>对<code>Unicode</code>是非常友好的，它在明面上完全按照<code>Unicode</code>的编码表使用来存贮<code>Unicode</code>码，对应它的<code>Unicode</code>字符串，最小单元都是<code>Unicode</code>码，多说无意，上代码。</p>
-<pre><code>  c = chr(0x1f122)
-print(len(c))  # = 1
-print(type(c)) # str
-</code></pre><p>我们可以看到我们得到的最小的码元是字符串<code>str</code>类型，无论这个<code>Unicode</code>码是否大于<code>U+10000</code>，<code>Python</code>都把它视为一个基本单位，这样避免了你对其进行一些误操作，插句话来讲讲怎么得到这个大小呢，我们使用<code>sys.getsizeof</code>方法就能计算出来</p>
-<pre><code>sys.getsizeof(chr(0x1f122))  # 80
-sys.getsizeof(chr(0x1f122) * 2) # 84
-</code></pre><p>由于<code>Python</code>使用一些字段来标注类型，所以直接使用<code>sys.getsizeof</code>得不得一个<code>Unicode</code>码需要的字节，所以我们计算两个的差，很清楚的就能得到一个<code>Unicode</code>码使用四个字节，你可以依次乘下去，而且你发现一个有趣的现象，对于小于<code>U+007F</code>的<code>Unicode</code>码，其大小为一字节，而对于<code>U+0080-U+07FF</code>其大小为两字节。具体可以看参考<a href="https://en.wikipedia.org/wiki/UTF-8" target="_blank" rel="noopener">资料</a>，<code>Python</code>内部是使用<code>UTF-8</code>来存贮<code>Unicode</code>码的，但是<code>Python</code>将这一切都隐藏起来，你从表面上看好像一个<code>Unicode</code>就是一个最小单元，对于其底层我们不得而知，我们可以从侧面来验证一下</p>
-<pre><code> timeit.timeit(&quot;&apos;中国人&apos;.encode(&apos;gbk&apos;)&quot;)
-&gt;&gt; 0.6366317819999949
-timeit.timeit(&quot;&apos;中国人&apos;.encode(&apos;utf-8&apos;)&quot;)
-&gt;&gt; 0.2109854949999317
-</code></pre><p>我们可以看到将<code>Unicode</code>编译成其他编码方式，其中<code>utf-8</code>速度是最快的，因为基本上是复制一下就行了，而其他的差距到了三倍</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过前面我们知道，<code>Python</code>之所以 <code>Unicode</code>如此“亲兄弟”是因为做了一层封装得来的，相比<code>Java</code>将<code>Unicode</code>码（使用<code>UTF-16</code>作为底层编码）暴露给出来，<code>Java</code>在底层上却是非常“坦诚”，你想直接使用<code>Unicode</code>码值也可以，<code>Java</code>编译器会帮你把<code>Unicode</code>码值转换成<code>UTF-16</code>，你也可以从<code>UTF-16</code>码生成<code>String</code>字符串，这样底层在实现查找的时候也是使用统一的编码进行。但是也正是由于这么“底层”，代码看起来总不是那么“亲”，相比于<code>Python</code>的“一视同仁”，我们也可以理解这就是这两种语言的各自特点所在。</p>
-<p>总的来说如果你想直接接触代码底层，推荐使用<code>Java</code>，假如你只想研究其本质，推荐使用<code>Python</code>来进行自然语言处理，他的封装能让你不需要了解其内部组成。</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://zh.wikipedia.org/wiki/UTF-16" target="_blank" rel="noopener">https://zh.wikipedia.org/wiki/UTF-16</a></p>
-<p><a href="https://en.wikipedia.org/wiki/UTF-8" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/UTF-8</a></p>
 ]]></content>
       <categories>
         <category>Java</category>
@@ -635,10 +635,10 @@ timeit.timeit(&quot;&apos;中国人&apos;.encode(&apos;utf-8&apos;)&quot;)
       </tags>
   </entry>
   <entry>
-    <title>第二封信</title>
-    <url>/2021/06/16/letter/2/</url>
+    <title>第十二封信</title>
+    <url>/2021/09/09/letter/12/</url>
     <content><![CDATA[<div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="抱歉, 这个密码看着不太对, 请再试试." data-whm="抱歉, 这个文章不能被校验, 不过您还是能看看解密后的内容.">
-  <script id="hbeData" type="hbeData" data-hmacdigest="6f964f2800abcf3b0c7abf1dfa34b5f4402f502dd5a9e64cfebf13e161c4f43b">a57307f02e4def6707adf4a4b54e4f1f6e58595f2b7ae769da14fe23387cecb9cb3005f8d6eea02484acbd37431d378ee33e27be9720d896942287f32fd732d5ecf8933566388cbdec007f479eb15f0caca482fe60f2a308881692c02544837b37e5a06a791d414703dd930d6ccfe65b3dd8247b86b08a3e43332217a59a414d903d598ad9f441c67536d1a11dd419977ef9865a197b6e7c25bcec15abcd19506cf073c4d3f098be10c413d3d3409fea1349070228e1a6a9f2eea3e96813ee9263aa06e502a72a1e34c8e8bf7ae4012abbd540a4f0c474444acf1321e7523085debc7b8e9c0158e37ee72717341151ac10ad7cd3a5c0fa6fd752e2db205c6a51120c5944ca3f1a6a1b095e87a49c0db78b9ef55a507e632961aa43af220a6256c0ed757dea8bb7b9c3468a6e8ae7acf2f99007b8c3ae54600ea90462fc3fe59cc615be4e3dcc95d144064d95de9162379a4e9f59dbdd8118223fc45efc535b388279ea9e9b27c2164f6daf6fc913676256b5c9b6fe34fddef362807cf95a73c512019e771c24796917c1309b5eb951a4891bb712238765cead9143cf0ea346293dd9c0399080c7af0a37214001afcaa78a9279c4a6f50d14506cb73a75ad97ccced40339de2bf776153b80e08578844ca22fa4d24208dd14adb914d78743e51fd440c6b53bf3b4762b0d1cf495cda90e247aa6977ea6786f671b986effdfde7d9ed7691b7d5c504240e2bfa6f213b949d9153fb85e3ab1af12226089d47e548591e9c53012bcbc3d9e46039758367c5c83e894cdd9ae447d0bb8c587a5892af38b55c72e4fa98b9b143d566c970bb8ecc44cbdf86cb3c4642ac29bf2c22a29603bd848e23b7ed339a12e917c3cdd0fe278b58ad65c2b74c8485b3924acbb6b0be23d9334bb9abf9fe3f6195829bf18243dea9b54f267b50ef43b157619d4c996ca345a5849deb32d617d80ff11f9fd5ddd643dfd22a35af33a607d29dc2eea2e21c1a7cf9494b52b6927c62b6496e585c9caf36d2e591a281dae620222fb0a7e</script>
+  <script id="hbeData" type="hbeData" data-hmacdigest="76855dc65db4634ca40bbf1edc05a2bac66ab1481174be543b711367a153bcff">a57307f02e4def6707adf4a4b54e4f1f7cdb8e649aca119dc8891e73a4e89cfdefbbba389717576d77789e81b1ad7d23900fc1e6e92a19f04d673ee850088405a544bb3da474997e7833824fe62936f03958ab65ebaa32cdacd30d8756f1e89e4c6514c82016bba21bef417245ba7d73de518c6e466e0abb5bf7cd76ee3f0c006cf43d43b4a9b5a200eeb993de5a05c480fcd69d832740a0da018825079d70acf11c977de5ac312496b309cd76409f38c688e6a685199002daf23a6e4e0b0d57ba864946bd2c371f7d279a3b83304103e51ab1b6da16457319e01de1e4150eed7dd9f82ae9c134389407b40ffd4dce9451982656b76ee5d09a093b7e1a6c735b72463f8b5b91e6721ec56972af4e19fd062a788bd390d8c860a20dde150ec01d4a1b7fe21f53b2195c64cd43ebb38c3a4fba1fcc5c6b1ce4ea51f5b9fad896628e34d2046e91ade3e978c7b428fb6ebc1b7e7ea9f7304dbc501977f8823b476ed985c48a58043cd71d7d757d53395c7ee87524f99c7e48762e80fbe4535f1f01700cf6750dcb47539c521c993e08e4cb9722d12c4e5f5c59bd2c325af9df24418d9589c84b49c0e4fb907428915b8e8fc3b73f21df8f5e6122e83404e9d0be2c13cdce1628ded141f5168f7f913782cc0d62bc6a5b94c150309fcded8486dbb3059702d81bdd8bfad70d832e4bf24b8133f101e77ae41ed51f0c6b4cdcca9582135fd6c8d05a04fe5e7b6c151fcf63f8bf89a6732d73a230568be175c52b7d0dec958fd47c9e30b55b5b5d95cc7919190d623b78a319286f8b343eae1ae1dfae94bc4b0cd5927167c5b649188059163587947cb506ec05c83cee30e49524d13cc243bfda3e56ebf9935569981e404af85a67930d9f703979a6114616c26c644d558ca291b4f8db4d56464823256c71d8210ab8f5ef50193cb18e93477062c764f8dfe8e599c3a48ab89d8db3e365ba8e76393ea06398b937847151793a0ca49b588aaa27c64136c369ccb0948f4440d6dbafca8e5ecbcca961a655f5c2d5ba40c78dd1ec8a0a932058ee42a4431184961f2e757b963f5fad78d32cf9fd05ce86b72eaef38a0e5b937f260572595b05804485aad2db7b4ae14316eaf3ad4457e71466523a63a4552f9595b2658ce8a4b7dc9a1c37397794419d99e175378150ffdf0c2a0a2aa4dd446da3224a4f9bad62bf3181560e4e624612ee669b871e5dddab6bee04a4b622c570a562d3389ab9d6</script>
   <div class="hbe hbe-content">
     <div class="hbe hbe-input hbe-input-default">
       <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
@@ -661,6 +661,28 @@ timeit.timeit(&quot;&apos;中国人&apos;.encode(&apos;utf-8&apos;)&quot;)
     <url>/2021/06/24/letter/3/</url>
     <content><![CDATA[<div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="抱歉, 这个密码看着不太对, 请再试试." data-whm="抱歉, 这个文章不能被校验, 不过您还是能看看解密后的内容.">
   <script id="hbeData" type="hbeData" data-hmacdigest="a9d83c414e1ce434e761f33defca79d5d130cd8262f95a278c71f72bbf488b0f">a57307f02e4def6707adf4a4b54e4f1f6e58595f2b7ae769da14fe23387cecb9cb3005f8d6eea02484acbd37431d378e582db39f2b126d5032791b00799abb4406d24799599e26f4aa137124c2ddae432dd50a82545bfbb02da5f22f6e074e5309a5d358e8cde76b5a5fe94045df1f82c087df2176daa75cf4030490a43fb0d0ebe87490136a54ec632774d70a0423e7f28eddf39c6fd7099b8e21fc2baca841af4f7b53ec63bdf4866c8e44ef9d092ddc112970a388945de4237a72c003ee0971c2540c73e7bd35679752c482f80e27079dd8f9dffed37706c317767cac71efbfdf2333d765c0f53c27a2700861f6cc61df7d93d44eb1532624012a41d7addc18e3902f74e91149f3502946ae3e27e062751a651782a315bba88bcd2a43642b07eb8c875b956a9fdfde9e2496a5170293c1e246f5fb1e2451a253cb87cee3e13b000e19f9e796f62f2510e41b40dea2539b8aba897fec3c0dbd0464287bede14d733d0b9b6b520e5e2b33a9b8d7c6f7d3a8ad8748e5598e6f1eb73edbec0b620abc931ca987854e9a54a62f554d8ce2dfd6716acb8230edec2fd72a891218ea1b9173bd7e7601610dad2466613fffd6c7e93048efbe6007f6ac053ec0f139a87194e933ad1b4ad3ab2505a276d6b060de41f4fdba77bddfcff75c6bbd5ee26f09a0d296803859694b33e76c94cc364c5c4b3ed9cd580804ad6109c93ac97370bc979565d130f719f86ce40c585b56a52f6f482d4d4db2dd3ca09394179f664f9e80fdd75d5565adbc4c5ab48c53acc17705665d598d1367d4c11c0899b48cdcd16bcd7629e6a1b7a4d132790412212e1a56f815245a18c62ec636cb910a4f45814997e3bfcd33d70c502c011f1a90c3971461d9db29e43df20b959314dd82e07176cc7fd9b45fe659a6001b5b457663976686700c3720c26a0824a7cf42ddf278415743344513163fa09df8a63da003539ee557623dd22edd3c00bb93d46441f79db8cf5f9108fec02d9c8ce2f4ef30fcd5ccdb5699736d1d415ff06969696b1addf9abcdaa357a2989b2c057609681d4b32be33c642a9f720def8d1c0eede86619b8f03933484284af3f1139ed0cfb7666e42cb04ddf0854d18d36ac5dececc261e98be8358dff523d12566da93e4b</script>
+  <div class="hbe hbe-content">
+    <div class="hbe hbe-input hbe-input-default">
+      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
+      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">
+        <span class="hbe hbe-input-label-content hbe-input-label-content-default">您好, 这里需要密码！</span>
+      </label>
+    </div>
+  </div>
+</div>
+<script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">]]></content>
+      <categories>
+        <category>恋爱日记</category>
+      </categories>
+      <tags>
+        <tag>信</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>第二封信</title>
+    <url>/2021/06/16/letter/2/</url>
+    <content><![CDATA[<div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="抱歉, 这个密码看着不太对, 请再试试." data-whm="抱歉, 这个文章不能被校验, 不过您还是能看看解密后的内容.">
+  <script id="hbeData" type="hbeData" data-hmacdigest="6f964f2800abcf3b0c7abf1dfa34b5f4402f502dd5a9e64cfebf13e161c4f43b">a57307f02e4def6707adf4a4b54e4f1f6e58595f2b7ae769da14fe23387cecb9cb3005f8d6eea02484acbd37431d378ee33e27be9720d896942287f32fd732d5ecf8933566388cbdec007f479eb15f0caca482fe60f2a308881692c02544837b37e5a06a791d414703dd930d6ccfe65b3dd8247b86b08a3e43332217a59a414d903d598ad9f441c67536d1a11dd419977ef9865a197b6e7c25bcec15abcd19506cf073c4d3f098be10c413d3d3409fea1349070228e1a6a9f2eea3e96813ee9263aa06e502a72a1e34c8e8bf7ae4012abbd540a4f0c474444acf1321e7523085debc7b8e9c0158e37ee72717341151ac10ad7cd3a5c0fa6fd752e2db205c6a51120c5944ca3f1a6a1b095e87a49c0db78b9ef55a507e632961aa43af220a6256c0ed757dea8bb7b9c3468a6e8ae7acf2f99007b8c3ae54600ea90462fc3fe59cc615be4e3dcc95d144064d95de9162379a4e9f59dbdd8118223fc45efc535b388279ea9e9b27c2164f6daf6fc913676256b5c9b6fe34fddef362807cf95a73c512019e771c24796917c1309b5eb951a4891bb712238765cead9143cf0ea346293dd9c0399080c7af0a37214001afcaa78a9279c4a6f50d14506cb73a75ad97ccced40339de2bf776153b80e08578844ca22fa4d24208dd14adb914d78743e51fd440c6b53bf3b4762b0d1cf495cda90e247aa6977ea6786f671b986effdfde7d9ed7691b7d5c504240e2bfa6f213b949d9153fb85e3ab1af12226089d47e548591e9c53012bcbc3d9e46039758367c5c83e894cdd9ae447d0bb8c587a5892af38b55c72e4fa98b9b143d566c970bb8ecc44cbdf86cb3c4642ac29bf2c22a29603bd848e23b7ed339a12e917c3cdd0fe278b58ad65c2b74c8485b3924acbb6b0be23d9334bb9abf9fe3f6195829bf18243dea9b54f267b50ef43b157619d4c996ca345a5849deb32d617d80ff11f9fd5ddd643dfd22a35af33a607d29dc2eea2e21c1a7cf9494b52b6927c62b6496e585c9caf36d2e591a281dae620222fb0a7e</script>
   <div class="hbe hbe-content">
     <div class="hbe hbe-input hbe-input-default">
       <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
@@ -727,28 +749,6 @@ timeit.timeit(&quot;&apos;中国人&apos;.encode(&apos;utf-8&apos;)&quot;)
     <url>/2021/09/05/letter/6/</url>
     <content><![CDATA[<div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="抱歉, 这个密码看着不太对, 请再试试." data-whm="抱歉, 这个文章不能被校验, 不过您还是能看看解密后的内容.">
   <script id="hbeData" type="hbeData" data-hmacdigest="1d37e4c29158953d3f52db816fbfdab1f9272eeadba773b11608edc5dd713847">a57307f02e4def6707adf4a4b54e4f1f8ed01aa157aa6bc92116568336a01a0e8a7cd7345771237590b10aeda349a74dcbacaea23932ad1b001e70c02e7276e361fa50e0a96b43d5b0f31d9488bba6dca307d50daf0aa6b3e9323d1fe504f29feef592de60a12eccf9a7c34797804760a5e15eed0b619d4c2cc8f201f9c10f782ec306bbf442818c84f84d6fcbed474a141eb09a3b6572596a7c8a685fa6001ec74899672015ea59b0597253dc246b823237928761a7edc0537ecc0cc5402bfde91c590d625223e85d693e42c9fc84dd83ae0a22083fddb79ea41eb4845bcc7b697487439bfc4208b05a4b3497eab18ea2e4671563ada2f665f0bcb4b7d883523dc5e68c9aeaae965950c51a1f2911b2cdacab3d58e13f9a69d3c7e56dcfaf4c44d21b73ae07d11622fc94ab8fc5b03e8daa24840afb0e7120205ac08c1050400508c8903dc8c834743028acfb8cdc5874957046ca5a22a18b3e149a4f9fe61ec0c51ad84c29aeedb0ebd7a5abef665f4f8fa37e1daaf4018eedc851be1e01b87fe131abad334fcce624b97cdd15a023ac515d6db0783d8603864a34bacaec940d6d11ce03e6e554cef2c740f3a3d84437ad0a2ba5d4b04d874286c0b291363183720f1e97254efc7e7f77df7d693b1d2bd61aaad9f021c513da0506105dd84f1ff21c455518834b140199092d4684cae9d01d41c8427c305fc333a264488027b4a4d615e80decd7791a324d2995764fc714f524b18dd8906cd88e3c3ea1aabf8e437ab3f9ce92318c68a8d20d39e15e15df3a07dc078b2baf10e00f325e71950ee463b67c24c7ea01d3bb665168ba40da679c36278d6d085575250b4a99412f9c26841c4ad4b005e42c30ce55da2800ab03be71bf27777328ac23b59dfe3d4aaabeeacd55b290f1dbcc00ac7fcdfd5905be1a6f2a1cccd58e76b3574a36feea061eae1d629ea3438cd07e9dc5d94085dc70ebe89db635bc46690041aaa2e06cfd4dba8be6bf9912087e0e8c080f76a6d05c70b0a447458eafae1b6c9baa2a30f3e2135ec50171323d60f26de19ba63f5d2feaf2c7ba6b09c89aceef55ee93afe04f78cca5d66914e8c17a8a3f3e512770c1a098cfef759439112c9fa306988b5bf1cc400f1f33920789cf7521a3036c2a106ebf2e96186eaa4247291822cbba5ebb2d10886d90eec07ad7ba5ace1c7e593f68c8358abdcdfe1ee149d25ba8152742a090964b855a7e68b1dce8f4f463b81ccce3e85f8fc75a9f276fc94cc19962738c9fa557b72d000ae6261d5879ee3329a8837ae30d6395183bb0ffccfecf476d43fbcf531095d595bbec609d43c610104987ea4578965965df7dc3be249c66ca2ea512ecc930dec6737aa8d7bc5153bf7cb046fef1deb148523d3451d9adda70f7ae489967081de75ef90dd676a28ea909106dd5ceee2304652f8f9ba7e003eb065e83804de03ba93da5bcc639cf64a5964000a8be34d8605d78104cd9d3160c1956b2a4f078e2618d6117045daecb750ea825bf4d09c1c943940b51440a46cd8554e2389109d5a89e0213f9c26b9df77e00123a950e80981fdf8f421f1ffd343d7afa7296a582428027c9ba334022e6d00fb6b5867e7f4b69de8bebf480e849cace15135f2b3f24ae5da5dba4732faca40007478eab53778739a6f967de35cc8606028485458084678913f725ea3823f45c9d648c7e1546608db91e43bdfeee979a664ffdd7c52ec8eb6e5293120856b2119508000423a341445984bd37acea8ee6e7bd96b571d21b25487b9e91df3ba9ed9564c476e3635c32d4640551a2a0e4c1c133b77eb92b43f0f05d191aed99ea6785ce0ab632c30712bafea0c333abe16b808e8c009263807762b2f24be4fb11cd34ce83faa8cd9453be9f5c0e3e31e62c7cd47c1b023a74fc6be315c4129a36c6fb2b3d8c6fd215de918c3ec77ffff3758123a363239cb6d4b460e6498095c47e0c1bb4af59b836df50fba088e8859bf2bc4333da22d8e23858e6705c913763f988b133934b4aea1d8a18157a41e4c6e8e939d50eac9feafb4fea8e81d5155999e918e53157b22e7d83a2b96a2d0a9362310901d8c48bb9b7822655b49cae3cccf0ee2482052f21d2c8471142435a3900d166f090283c634ce17a82f749e25f47adc115c70afd238b8aacfe9cd72e7d42bd4b05d96dec9589896db2a0963400edd932ba38fa270ff367f1484951f09a5d0a770cbebb771018bd45166d2ae6560788d8e80fb1ddeaf259941c833fe3fa36f71ffda41c90858fcf9515183749c04c136a7743f7b54ce18d8a8292e984d7e9aee5b4c105f9c1e939ddc15aec10e1f9cfabb8f7a4b6162157490d4f029de5368477d2005685c6bca7ae60a34af4ebba2f2a22b8b2ca19c66a14feec5980027d1254ccca4a46083a04ed3ae670653e541146d5a861fd4d0c375ba5b4de3d6a289fefa8d714b63e3dbdf2e4ff90575c464cf3ab2960413062a4f20c6a43b49f4913b6442ca45125c247f470eae950db124566fba9165dfe59d348dac61f6c69ffe6e2a1d489babed6aeb6c4dd4349e20159b735a1e5f5301827ff73bafa17508a33a589788b1226c88307ef9b7cc3e262c447dde5b4b9e0be330b273a21339ace5a8de11b9b21b05b3f1b2db968f228985557bb17b4ebfe7fb292fa32cfd311d14c5f4bac1c84482a7191aaaeeca860a65f5acdf4d79e1a3e035e06a81d3d60451c3445a4ebe584d454ab0f2d72d29c02e213df17e713ceb9c5d073defb4f2eab0842199dbe374b8d28f187a018b333ec844404ae88ce2eb9d94376e056856742b154c72e51f6bc2afdb5164bdc3804bad91d38ca1dad4e552333f4abc6639f574f1a814cf5595b4172a8f2b3ef53b4f49ce8041d3e1612c259ad9689cbe982ca36e257ba84d7234799836d9fd0d646f16ee9f5537c1b515db06a79ff3ce54d0d8468fa88a47f4761f7c0719f20c5b94368ac9b1a612ee88d8a2ebd787fbc70de05b1b5a4838d8069e5136d63570df5937e39cc53ce56196f86cd2349c96430aeb34bb82460f849b5d19c2d6f2080112c7e8b063192140fd646ea61f6bd6ffb91cc57ef3380556ccd38277a852059298cc81b9e0b803113b09c9a4915e580d29ab81da7aaf640dcc2db996e7a1c91b536810e030f55e0ec836f93fb292e4f7f23bb8da89f8c7b8e5fd35d243b22495f60d725413ccd721b1676cb2146e41d7615037a22901b0f8bab9b1a9899b34994f757ab9d906abe992b9f9abcd481e8acaa9b05606c92cbfc4ebf496925528da4d0e4673a479a75e6bef63e5549924d5b6d5f2e6aaae45d66337d2d64d90972c93e490876c588aedddfd31451dc8bdb12dcab76b5ab68271a60ce9b72d19ce12d48c95588f962e7fc126899cb7b87dc37593cf01e45691ce949eb459024bcc451ad58dc34367a5c3ae7ce87fbaddf41edf0352363add89407c02b7c6a99bb3261cfa03203a67a52207feb172d3ccc74d34b34ac46d9df989af93b20414707b99c28d7e8b6c21498be3b9b19e94e470980c690f0d713303f8c12062fbb601d438595d91d61eb9954b8a53d6bac6dddadc2ad5dc030c3b1716117f973232da5e7ed69a6513fc37e954bafb2927468d0eb2e4067fe0fa78be67d1f67a830bc4322eb11cb6cceafc4c643dd23f7d63248937d7e7626910f3236be00419bbfe940a0c43964a6b1e18f3990b7d054671f7337fa76cdc22d1f34c31cb1a4c285c25e1dc3656439a08d740ed1b7ec69b2d0b211dbc23617d9b00e7c5a1efbd04062dec21af6edb38dfe59ded407bf7e5ca501ee7a2aa37f2a9af7ef3da7f00840b93d7bdcec4a581df749c2dcd0de99d3255dfca410e8a2d4f8682b01708daf1bc2a872b5ba27ea7d88247c061032ef80173693325f16a31d3d6b47c149152029047ccdb4ab3a6ba459aeae522272aa2b4288aaca8b125f3fbbdd64d53d8833540113e6d01ceb988bccf634d4b5c0475fb6a9f544e487acdfdb7bab365202ea58a1f7099294f8a272d4c7ce5b58010ffaef9e8046dfea4a6604fab7d890b4b614cfb7f0da731ac27d83d86c196bc23861276c9bdbcabd9c0fae6d2a8993e16de6602a4568e5c7f682306935401e8c57a9a8d245c8f4f8ae7258d4afebd73079f605c4482b7c77019878d9d6b1baaa9f4a5e6ba16d601e1d472b3a1457fa4148a01d8ad3e98d0f2ff0005b75c4f9e12d4d8631b094a053a68b6c0dbc2ce590917df831e76f8aa1748c17b95bc5e5152830a35b40ce11042368fdeb6d5b877f27f220c2be0761ba895b8ba8bffedc5a0984d5264674fb543640ff9225a0e4218418bda3e08e8f0c3a4d006974acd3371d01b267f16a83cb5acdf0b6ccc653f9d66dffb70464549d4506a05a216824933070c2db58bee5c0e1c8ff14b1f835951168fc2b6b34df601a0b3996fc1183810fcb369f107041be44896acd19f8e91cb6bad7629077f2fd81efed648b752e47fb30831809806be7d03514f2aca267ba531f4902adf2e57781f65ac5e1ca694672255b40157a23e74696bb3a7021839c3781ddf80067de929e55561ae1d9fb2a06de51602a75c68779e4bc1ec3f1a2d61f362fbf36a55c2560d6e52ff55876d0c7d44bf7d25d66d694e0676e6cf901dc76f3a1e920691ecdcd9a131e0632b30a7961b2df9084597b06b56ff85486750143dedb7c34c5179385441c4c9045d563b28d81bfe8120733019fd6ac338d97c90181b09b33fcb53c8eb0b6509c6190de869c713e4d051c27728236c9649c734d368d63abb2a3f724ecc871dbe75e4995d73163b09a73453306202e43b6c5afb1b688b78da6f3b1dd8fb79a22808fbda2b5cb1137c18a846598eb02c118933b2ee2a35b8a254f1b3e0cb6a8a7a085da2dc606da3c4d27fdf87ac81edada6e02aba3b9f717375efbd8c07aed655ef613343ad5e73288014b485ef1407d5fcdf61e061538683c044964a6be7d96a73af5b8e183a5d9a8a1491f634e65b94236fe7576f1c51813030402cc8229db4c40b213e7e078fc5714e815a43c42e0958c730529ecb67d70d6081f84ae4c52a8ec8ae0caf28f3cdbcd4a7ee0083afc3cae621c910cc4eb2a1452ec163ae96293fe508e084b93c910422d2959c8f8693a6666d7267a8b78570f3a3758c4a8f3765216e7ee2094858547c8cd41cfe24030746e6866534dcb689a990116098b07717177fe2d214f45d1bafe793f26a538fbc472fc39b83217ad26702b51a65d5e0933df958c46b55625ea448d2c548d65a390e7e9a3c4cc11709b56662aa90af026c722e55827a985b74ba871a2082a0dcacb9de48728f2c897aa08783493a4d7fe5e16ee43022b971167259fe2edecc790bdf03dfddc01feb462447386c345e68fd049c1f57b7488325c9435d14de25f93d96de8bbb7301c57d9942e9b9a88c938291baaa58bf6ced58a3fee8a76e15e4cbb22bb5fd94c511a38f53f11f0be1e7783ad5a55df2abac3842ea5a5c2276946ddecda5c4c3d65a18c382de946dce2c53dcdc2006297333e906504e6fd0c8006d879ff64d96b05798383ec49bd78762b2dee29d3380c1c1f2a92cefe0666416427780c0272283955a046e5b44b0e9e5bd37ee41248c6ee5ff8a91a3f56a84bbce78d6c085b144009a8c519d2b1c561ee248be5846348334f07210aa20c72dc03987491a584ac1ed4e89235047909144315050a43388844939c95bc0bf2b7461ad1f4721937c11596e706cd53cfe4b0b7834732daf155c52767f7aa6bf9e94ad276bc56c1fda8ba2eb88d3d5cf6e096723a11794bcdc71e9c67eb32c59e371544cf1e47d56752596d47bb24f8da7c8bf22c00950eacb20d08c985447f5ae619682da111a5bd89087f7220d8f002e0487306bf78c49c5244fcef2b748953722645453857a1c73a515c1330185665a4624a09e8cd11f5be56264beccea989389b83edd2db68594ae7bd46deb81671fb834f6522714e87fb7646cb8e40809ce0c3df1d7add64129b6c4ad08b29b05855b5346a68a212f957bf77836ac8b923f04219c5064195cf8f2856344450c1a88150d63c5cc87ed5ba4dcc9cbf7a1bdfbfdaf6da286501ede68295f72899c45b4c92638cf5bd6e39287a2aa3db6f3cadd26659a18bee93c76540b6b176c6611357191d58ded8fbd886c737bcfa17d033878e961c13ff9615acdbaabe0db23f5fde3a624a421ac3944577c40b030d3b8b706fb25360b30ab405915a50953bbf4308b3ba008db75a94f9e41cf88875f163d31755d6f523fcae679cb9244b70681e90ef5061ad3ca76df97a652c2a56fdb4a514757164f38f76be1fda961cfafffe526f2db96133baaae4034901aafc3b745b8765658313b60b1ec708a55db2c9d69574512920489425d46da42c80d7644204bdcf29370460eaac7e41e6f9b228f26d430caba62158399db7a3de2820abb99e657168b737960cff21f9ff2cc212b6862813308039e5a2f35c2a7c09f3006969e28749722226998144473a2b9d4641330ec224c800c7670360cbd6352802447822acbe9b7556e9a0f6f027481fb659129c825bbc61d980667e91ce2305eba85533d30415e459aa0d09135c579904c23a2958c92d578646805c7952b65ae266c560e6f93472dd1d66dd7dad5660ba45e88d72c2e13b994dbb91246acff4a713e2a963496570c7c525117c667fd2a42456a4d7e15fcdc4370c5609c9c6310a65ae02202b287e8b064c331419081cb1550274731f80cc718627a01065c65b390f3dc1e59e9e156329761b2e484586e9af5a46251e01216a8b88383524919c4f4563fe7798e1faffff8589f0908011b5f42ed26a57223ed59876ba54e832d05cd2b72c72cd9444da81404f5bcbb8aa1465408ee99f3e8ce98735fcca762cf9c6d699109c510231f919841af426a95391394dffa4be54509c248e419aa198975228041d077a4226b923abecc3a590edf65c4fe347c996e281ebc61693c7b67b6f6020f5a4e1a95ba8efc6eb92561754e12a468672eac92f417becdf4b21fa804e0d1d6df6050f9f198a2ede0930be5d84f6dcd807d78c2a313ac051ecad8a6993937c9b730f52a0d167e912116f54e0a6c0e1075502c2f721d7a58b968c545e105f42836af27bb75b77519497dc61fc1f2bfc71a6c676344575035057f10965af1015098fb33ea857306accd3af235618eed224acedf12e3b0e9b3b6ab5198c9007c85c514d903401b3b70546f8fa7ddefc67a17afe14ff3efae3b7a5e53a0e05acc358169d872cb789245d59bd05d3c0c7160fa724d53b53dd64dfeeeb38718cc850dd8bbdec8bcee6ff6cdbff91b3c28f3cb1b26022b47b20b42d0cce2d5624cd2ac9f64e631c3f1a0c72b9f9c8f8995e15ffc3c32e8454a9574a9c50cc5d051207120704b7bf90af730d778235e2758ab75afc1a2a94edfb48630c467410a54d3315830f6f769bbefc449b841e815887cecdf539e3da598490942a07e54348a1f21511e64b633e93f1c66e3394672369e937d94ac500b5146cfa405bc8d715b2ffef8d20ef1f76ec2f850b14ccabb0f03fbe4ec4a0a57ff7461760420ae75f556ce4860ef39256de05100d145f1394f3a2f78931a9fed6c6b82254ae0ab502bfcaf496cf54e10b40a4c47b9db895d204e880a0efc90b00d8b5497fc7f55c66cf02ec4fcb8f0f486487004b923ebba7b9d26342d7cb3e0522bb20cb2d1cf98cdce2d313fcadbaded8e21fcd0a181c2ed363ac2d7b33957d6475185bb4a4344536657dd6e371a0c18d1f252f682fa3bb0359c50faee4cb1b66a8afc0661f0e85eec739c0b478c7ddd5bafc772b73b06457f5d0c53e5351a63cc237d01e21cc55faf40aa2ecb73d8964749d429361342e95367ce3a83ded1a8d49693acfd8f843389e19ccea4f10fc45881219bc7f45aab1776c74172cbe8a5e3caa044889e0d12eedffc4df71e4d6e8455b1a5f47ddce9c5d4706d5fea52ac51507e33689aed07183da1582a6db35c42e2183bd56e5bf7463d153bc3dde7da7bb98f59af08c54721db20f517908db445662cead2f84a7a73fbbd0c380e26f8df9c6d964ac78a595a1afc0bc31925efad39190db438bb83bcc014c5143d58bd629063618b3698ba2a28af213d0db2567540956931ed1ea1ad3b55d7da4e8a45860ecdcb6326f1607cfa339b286ff431a66e7be0d4c0c44f9374fb0297c0ca145790cf4976ec0195eae40d118ed3bd5d3b748ead13b63e486d2b1368a17df3dc7bc570418cef62b5ea2597bac80fa330a461e4c1930be30c2d51e2cc8442c41cf4cb909bc2fe100b487e531d75af85689ef821cbae2d813f055d03a408efc8a21633ac3801a61f7f2125f49b4eac549302d864211d858c20b47dcae4e50570cc5f3a46f79f10862eaa06de00a46f87f3c5cf8e5dc83388a52b22eebb6f2bee3f61449ce5c086387ce6c6df9938abfe4ea9c3c6d3cd3869d86c2d3628067c2fc95dee92eaac2b7f75d7cb10141bf3dba57866b11046feb8b6020fa76276da0c7a6d8f29dc0d80cb9a19dcabde5f8972b9b4809633e1293a489f3f21a7bcd9f302f4058dd36e7c6f4804a13ef0b5b0ea9b8d577060f37a54a21b70de921e0a85dfc183cf25c374087f2d508c5bea613fea3a706d95a8165f9d8bd0027e88a9974bed210923148b51d2f66dcd081923f9667c5a625441c649cf95e2dcb98120189e1583c12d0db19591efd6568cb39c32d5d57112663784226122f3fba3a9842fa0b535359319b22215112ce902931ed77b716ed47b3e696f9e6f82bf03ce2825e4f753ff270f3afa659d455f455d516d4ed0f5ee3b7f926fc40a77bf0c812728c46cbc8ff973b9bf3c0bcb2b9ace54fdeedefc6239e77c1ff07cb075ded1afd6728f7810f1f0c9827a4527110bdd3ae0626e316b9e4d4c2c423bc20e71d6e008a5e3bbf57140abed98b1e973ad8c3b82bd4ac2e8de57871f422453f77fcab0e5b2460edaffcc607639d84586d7bde236cd9d8bffac591d72fe32a54784ea8255e671c66b646e5856f85346a8ca64840a0cd73c053816544f5eee15dc667b977ee006fdd466cccad31c146d78fe5c41e6fd3e3a679fde50b9d974dcdb8a83a4a909cfb2a091a0b3b9828a79f753cc0c5fb484ef46d12049b17f6bbcf89040076c6de84a9697d62cb5be6c692b50db0aa8daafbf5e89cb8f3d8ba77acc75089274c0b0a3def242f1867001c73cb25529b56a65355b3a8002946f156259ada1404b8190aa7b505bb303087c8f06a16dd5ac9af2fe7376e56a6c29a76c5d42a92ccc0e80c25fb8c114bc4016083fc0b93b486c00b9c8726c037f31112ecf34c84fc2ad227acf4a4c776706199212751c2b6b5691a09626f68ba1f8f1fa8dbdd8b7fbaf3c50f1eb0a87f673113bba40eca4bb7f9476031927bdfa2c1b337ce3e1ad5d786dbfa8317d440af6abe7c645f1b807d606efb29cc70941cfb31a55b18ccf1a3ddcb0c1bb168650b33865627dfc849d638d688252ca3da777f2c1549fd4b032d8d52abb8bebc61457356214cf38d6ba57c9c1bf81bb033bb2d73cb031ff5ab57df2b29c2c8c35eedfe933a09da337764992c25f67166f6ebce6e423b4a1c4bff808f912f29b2ee58220f3fbe608dd0d885fb00ac8a72e19e4ff598dcf4e5f61b448323800acc5e87cc610b9c0b10e4daa71af04a716618c794e5560a1dfe0a38f45d325533ba866cd879df534726453f07419d7b979d37f5a3c76ba226ded67d8277bfc863fafbec58707279976a18b08e5bbc1d461a38a6bcd82bbe3b5fd305d719193872755fdbecfdaf7293e1c349d5050a049560e7634c6291c90bf72f244ce8cf74a49800d2e047ba682f264cec93a00fbf1a97f9f731ab8408a6846fa7c9fc3cfd372ad60203dc3414538c0936e0d2219187c035fffa6eff39d2980341c55beb3d65f1e7202450934c4d2e2832da26391b29eb167094c7e77e3d583ee5f289c4a609c7544522cf29664fcd9be0c51329357256f9585a57831738b6fcd727e475e75b424c3ff01a98c33a636390dba921847c64aee1b5b0689ebcbb548990e6b151258ae4f1c4d1129ad242bfd4acc7771780711591e54f2e33ad68eba75ba028d9152f4dab52828e4cac96f92e30a59b96c2d377dc6adde02ed4dc886bb6ea0a24b14a2564e9c0c0ef4b35dbb3fa908000e1383319d333c48d5d17d4d9dedd4f4110f724d817b9737b0dfcc6b603e521e511162ec71d132098ee8fddcceb5c69d9fe44f7aecfbd33ca6d27c66d974e122e59cfc44818387f821539189bbbea818f5bf5eafeaa0e70ae26e8a77f0044d941c63816d460c47cf24d6d33534af89c344bfb617aaf6157575b1cd509e6a97b5efc122c4808ad332608a98e52969446d209aa8792f646fa1b47ebfd8534191ab29d07a0a389379c07c47cd208fd21d30ce057aa1b25548119a9861dbaad570ea058451cbb868ff2f373b0d1399dd903f9422e43401981ccbef3f1df85a19b01f53ed2caecb760133f050f63cf1f33e90fd479090ee25f84be0df66ae187061f3400f0e734d2451b1893d7e2bfbe725b271596c491329e8186627a15576c4af5c3f802af5a5544696a4ac0d0768abab6aa074fdd7414d1d6788d67d0c905d24d69f4cbab92e5a380b7fc48a1946770087afd3279977082baf4f881a48f9ea2949f433efe212a142b67eec443d450cdc6708f65ed2f10f0e4762b83f76c7a56e769891d497356de32ad3df4bee15d98fe270128cfbebd086d67a4b8f0449105c5bccf40983215b04b0559b95c6dd543965e5c16808e8289ff44d0ff3ce41a19</script>
-  <div class="hbe hbe-content">
-    <div class="hbe hbe-input hbe-input-default">
-      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
-      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">
-        <span class="hbe hbe-input-label-content hbe-input-label-content-default">您好, 这里需要密码！</span>
-      </label>
-    </div>
-  </div>
-</div>
-<script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">]]></content>
-      <categories>
-        <category>恋爱日记</category>
-      </categories>
-      <tags>
-        <tag>信</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>第九封信</title>
-    <url>/2021/09/07/letter/9/</url>
-    <content><![CDATA[<div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="抱歉, 这个密码看着不太对, 请再试试." data-whm="抱歉, 这个文章不能被校验, 不过您还是能看看解密后的内容.">
-  <script id="hbeData" type="hbeData" data-hmacdigest="241f4f3124ce9e370f15a4924c3306e400b0830729790415e5e5c2fd2c5c52e5">a57307f02e4def6707adf4a4b54e4f1f7cdb8e649aca119dc8891e73a4e89cfd66a3cc302ff33ed09b855070f3184a2b6bbf6fd58de38754d67bbbb2a066dd7215764bdadbb2b34937690ad54251a6f0fc1214228455588b632e7a38e7d0ae0938dcd7d75b7f7ac5bd3ecbf6b58ce86e8b6c53b5b8eae381934026fb03562b3b54856f88aab2f763d4f4074d4c519352e4979464c68c01b25f7bfeba210ac754e7ae8848c07b138fe87f052d068e18bcc6859a7b2c67be912908121301b8eb296a80c10dac22fceec7118c076c435ed0a8456dd02832871987d9f6eabbfc26151f8fa2d7ad75bed8a7b9daa9629fe0b6f8ef33f7cc646064dce495afbb8de916cb2aecda5033b6f24005cea6f4be4eae942092b8078332e05afbebc79a701e5ff9ad2a8c37dfc57fb8285a145523279e5e0f512d1df1a07de42aae26349813a406394d2596cf715f28693c31cc18fcc339badf4a4c474cce47a2d2efced255c41f6ce59769088ee3ee8a179866dfee4575bb349673c9695c10126cb6147e5bec6a8cc727cd0dafaf177ff58c46ae4cb50b89bc53e3360f208444ab7180ca68cdcd45baa99f1a920c0165f584d2bce132f8edee7d70e85ef7dff370bf587d138819d3c00765d279068ef16762015fc608c38c369cb4cc4fb1ed1ad0f616188066c14ef73b70839950120fb3771dd7697565785c8e36ad2177abeeef52f59861ec8fe999cd5041c8311b831e66ed39aa3868b8ce98e3db96625aa8c2509f43d21a4fd0aa69be1da41fe879374acc44555316dcad5e279ba45d7e338fa2c0a16781380a6343887615bdf07734f8a97bee39dc68a617da149ad56068061576e6fefb3853212d1b942f5a04cf5ed16cb4b40c27dba337de12e8b636937b426c7f911aaa0e2b5c027b13fc5a2e981104d3db128d06eab3304158ba839f12f7fd5a9144c7f122702b66c8361b653699470cc4ad474fb7d678ba33df2c32506a05cad0e0f4403fa63252f8fb7aba8a992c6476e30ac479bc4e80becf773b361ba7bc6662b6e6015eb69409d23d3b0d959698bfe7c278d1b3f41defc429b11280e0a2f3b8c736ae0818eb03797e2057129b8fe235eb41e7bd004c30dbe5bcce55148a6c7c7cb411833b50d51f01d558c73faeceabf633b013f4351c2bc461a59e3a288922bc5aaf5896c10e2c3ef2b18f94fef483605877fde6eb2b7a6503b3a9795efe685d008c71cff700b757597f7e03d4dec4ffb00dcba303e11785f26c0d04a9e0d6c1f95e7b3ede81f447e3e2834745e9e43698ed8855a3d05c474ec764c764b31e54c07ca9aeeda729447ef4ae39e9e8f00bd5725fd4e2c0e7c85183726655ac7177a98952f92c7280f15f2d21ab9736b37a963d137059f22841c9e065142c6205155189d346bef2376dab82f7f715dd146a7feccec490ff2e204b329a2691231c3791d0801ec495f9ff8a5b4e31fa90e257d1f35ee4c9cf8391d4cc21a4b7924354c88a9d679be6fa96c1c3595df5fb074bc6dfe5a15836c3fd7534141665a8b2c1433bd2381ac37865ff082f353f75e53c205b56e9b88cd92e8a68f1565e4d7456410835059e87926ff8d8506ecbab07e97f363d7eb0cdcd5ccb268fa1c100d4ee38824b225c15ec649e191d792fae62383b8273b733fdeed6ccf98ceaa8480782b06f61ebd400088547681c3335b0db23be7b12692ea512f8c5611088381e892edcdcee42edeae3870c0805ba6a137dd7e96da258194f173646de1f1f6456de2abdbe61d35c1c1e1d2d32b5b39d5cfade7710a63fc7caaed5c57f5dc4b3ccdc55d88680dcc14e185e7c5a32dc01f5492e2f91a10b1c2c018cd3cf2059c6f32a86f3aa0c6dfcf48c899e0d1c7e21a87b76fcf83b1d2dfb248c29c140ea828d7e7d8dd58ab1fa53485abd25eb461086a565e6503343f56ce8b87cb4d48bce1c71cef0f3fd941e457b099deeb2496c51910276ba82d690b5addb82e66470dc1cf803987b2adbff0f3606b5fc23bd801e39f83c7a9d21549461e932b263892265d8163a862a028f182415904ef6d7cd4c3feda0bb845052e80b0d22f049b9b7aa8ef9e7ca66f7b6b75dac222f954006b7efe0529d84a9e9795b71e89cba02cb87369547d44f2f0ef6157bf06d91aa1cb05ff475480b72b38d55358fbb4d0e3e12b054f7cc2e8f928dd226d72334c3baa13611b55be36d3efd21c1c3c461e112c8816df97fc637909f95ccb44bbcedd254690b95f775ed54922d279afa9605eb771cd77e8ead8daf44459ac6e1916010f696adcf69c103e4ea0faae805bd393e2bdbc2c60b2e1010047d9c057778631084731043c9e4c86df317cdd02168ec9c8b3d44b5bd9129c4cd015047b8a3ba8615b2956f853cdc22b1aa4ba2323215ce3827b236b107d28da1f0b799cbe5e1577ff228fa0360138d235256853ae35cd7e1eb6d3f575366709eb3f8ef22048359ef12cdd207651f99e1b3832ad957fafa653d4850964320bba2ae155cd6a8c477ca9bf18f8779762c0d527d3642ced963851c6dc3aa1086ca8b6ec2a861e7257845345b9aa00a6edc39847e964d9205e5ae550a0ab14508e69ed8415ccba8a6d2e69c440bcea202e491ced7aa922f2bfa1db137e35624dd9360c4a4dbf62a3ed2e26bdfe5f1160122a32a900f3c6b4a9316e5df58b2f0f2e9ec33a52a0f9087f9fb1ae8a8fdd55628c6fef578b924a8ebaa48df981be8ca955ec1a68781ee5d1035cd9032662ff7490f38116295cd1cde2766968ccab0a9abdb283b18d753a1e8952b2af04489b30e775fd0880b8f872450b1c5ca9ef2be5fa4fd93f3c4c1d4e5383d984e009b060ef856c533a6edf75755cf1b8a82f61a4cbe51e0c0f0e6ff2196e31ccecc16a150ba0666dceb825220f6b17285b724ea3985db7c542126f5588cf2c37374afb41cc4c7791459bf818d181f12cfaed7d45388ee97414a7e285c05acac5eb8081c500f59d528e834f0d429222fab124773c38f048951ab0aca454595a572c4b7bfc3c0c062d5ba751373bd7001c6f6b2588b85ed0f90223dea9d5a4e14241a0648bb1b26a6079eb21248a99d7b68c2aef28416211d6345b10a69238a63793546b13b6846c2d3f342c932528c0d4bfcce756b0e2a49f4ecece74b059c9ab8a2dbea38c7228f1ea0c566b6324811f1371307d08cea2c2e85e1f75a589759149b4f8be2b68822ca837aca32dd37bf7cec518d3462daaa2b531f607068740e9f194dd809a65a949094948f884fece489f7ae2f61bbc5a834c527470cfaf9b08ba52282b2f74b6f3edf48971d5fd86cdcd181da683b3443c81dcba68dd8c8e3298f4b7b439959e29da32d748a932c94dd391142539748c43d71d2b0fdcddda4d43dcd0e5aa296daac8575aec87cc277323ddd9008f09ffe2a9501ad1aec1eecffb5d76c06e31837ab1b9a394765e81145b2b06eaa6ef4e486a727bd35b1fd31d1c1c40254774d0b295a7f03720e9cdf6097b88a2bde2a96aaee9aba1960406f2018acb554c2d0956b02a0c614ba25d938c531e04c541b4286ea6ad7df7c1b7dce1c933f571b66928eecf3b74506dc0ac9874715e668791ab13e549fc91a63823fc28f8dc676d68de42f4901af49a0c6538ee77612dde3c380cc0252869158b8ce16964663390f9924925608f358b02cc69d4e2765cb7c41c3097cf77c58a9d23b395a70c794815d762da81575883c399736f152a5730ce6815407c14fb956b26955768579cff05339e03191a9e5b13d2c542a61f47cb43f48df14ed0e372da17ed5f7b16b19f460f51363a458f50a606c764594e80826f488265270c87d00d332780f88d0d02877c796afff9dbfd6870b41731ca04c8036d09e91b477dd51c570b99fe5dcbe7e16cbebaa8d23b7895a303811990deb379ff9975bc9e92a52b5d8c9e637496f899e29c54f8cd756ef3dc506fcf920c45537998b380d24f7090f36dae119234725a1a017dde1d7071fc11cfd1aeffa96dece0c34f874c6c0eed88f44501d9a3eb444c261b1c9a16daa01d057ce58b80a8a0788db2165584870ee1aedb85872d483ea49fc3f85a761bfec8576617539e99813a8d195bff74d405bc587849c3168c203c4cee83a7526fb77dd937acb7e546961a5c2caa40c6333f0ddb15f0f176fc96d356d17a15da3fe71cf22e00394ac60d6ed204c6650c009664dedf958827dd6f88b565eb467b3ba8b01bf30a7e7a55a5f316366fa7057981794bca04006f87647d515f5a39ca6eca3fe0ce93ea268641fea48c5bbd114539dddd89ed6541515228962d809fe00d1f4cadcf61a9983901269e2b7bff049d16fc41b7ca17f3917cf99741086db4bcfbcc921b4c22ccef97791909fea3483309af3f67219e71fb8925301bc485ea0084b392458b6410c2b4195cd85853841adcc04734e58d8bc2bf462d46f9fc4f87228c3db38c392dfffaf76057dddc8f125f3f4c4c681091992cd4da7f6555c6d4de67eb93544ed9d32845d5651a2ab4aee3b713efb8d85b81c53b1deea104dee21b93a59d486f7e42ac8000ecbb933ef8fa363faee5ef4f7425b79d981fc97d1f2cb3a8430a83e61bcf8d91463ca678d45b4e04bfcd3e2d2e62e04c3daec1f0fa5d706a4f1ca717f085c91eb0cd4f17d4f4a045e2e9928df41a742621f27a5b09b26b7aff367044f4329b856ffebb71ff439ce75528bdb72413bf6a6cea464f5122e8f16052363dedd5895e88366eb60303bd0e2160d7317678e45397194dbb00e6af0f0b9862bda4bf18293b8f1a751e9d00bc2458e84196c8a549b1fc9e489536fed6fb38a9aca3f13b38ee93d4ebe2b33f27e6f54290bb96f3f7fa1fce7c06eb2066c1a4beaaa0572782e6327c374b85b45bb7fd70d8c28d813c84ff8953f9419fc156792e1701d90d4ad14cd2e74e45cf87043d8e082ddccbbba22589f4c72c77fa009e3cb1bed1a419f7751e2fbb34bd4d9a6f81ef341c092708db1cfc22a555e7f9afb5530f61b9adf3f419eafe39b41295e6bd45a1df84fed9d1ff4bccad9a13e517679ea66366c341a4eb146047307d0df6eec995b216f1917639e6fe12be94cc8971bea5d6ff13bc5efba55f9d0ba0795f1eb0aae9119df5409aa6c6c0c140ee2477b1b0f392f4b4d3431b46bd608f0ef9fa0b4e9571c81affa02425dd6e902190e8e3fed13f5266dd98f362cd8128a7db90ac0f8384c52e2cd7a89f50c3d5b37a9ab9e5c7038efbdc1b325d08ac64009c49de7756a87e5ccdfff6fc9b8cb519b988948a543dd415f6356dacc04af0848b7deb98fe93d94178ceaa3163a01419ca0e78b1df70517a59d8d6958940d33d27f63e2345428b450b44591ee5437753b718437da21e304047fa24dce15c6f1f9a3c34cb24bd3ffad2e8cb1ecae48a18ea3578119adf9626dbc996a5b975bff461f0f02593aa916820c4d2b4b4e0e38bb4a521002a876bd72ed8e932f6f217af8ac35a8ba27f4374d0c1534655dbe84c86a2d30a4e94edd01a2297ed77453439e77ecb6c84dad887b14912fd4de01cc850b93ec41bd2ce7c57ac7a2d86ef2c4807b3627fd9edfcdcbea00cab9bed0a2973eabac3a35d49fea81e1f411c71d6a5dd46e44209341001da3cc383f5f948721fab8c3effbf58523763c24d016722e501e998f4be141f6991862ccac73f4e1032030af9f77e5197ed327d0c7453aa37b3229eb6508835401d684973135158883b28c6e1c45dbc728c455ef348bfc1b3458ebd5d3178c30499a415329f2f9d393f80e61d1b102f087419f0056ad8fc479da3ca4adc17d05a5ad0b66953ab9bb729ba415bf0a4aa8b7c6787035c44ee36f1522bde4d8491a6e38555be3ecce1f7bd092eaacb8c0cc818313f48414507a2f70d0a0568c1b09e5cf44d5f39d02e278ac6329446f162018012e7f5012124c8ee858da405c1edc9268117d7c43f8b478819532d2d15f29fc105bc3984f3e80484cc13b16fcdd9de304157c143be0362b0697380a5ef2112ff46068d011bcc4a2d79da9014d5c848af452bf0e25b8e746ab4f3f3a7daeffafc3fdee66997a1b7ba150b13fb0da05da68f3a6f56a7d40c0f4b9a200396fbcd6e437bd951e853fedd38c85e057928c7c0b14192201c9f879ee6e6cead8b1da04beab5b5b07e4baf6607a6a55255abaf381f30dd0a538c47782731aad4902c225d94c5f8d729fe7d173c72a4501eaba4486d013859ccae4b585c514c8e2b708a640376287ec1fce079d68d87524b8e3fae9038c13966f9433aad42d0af3e7a70ae4dfe5024491ab0e845c9f1dce378f2a80d236657d086abe7ce6d7fe491337bb194afc7ba27b8db79d9ec95eeb70bf9092973183935892b6dad56358dabd1b97069f7d67609c6e4266976d69ba7a82be8f68a40c54a64f5e7c71825bd40a6f5010df9b1519768e987fcc0cc62187091a43fca934b78db210ec55dcdcbd00f38c6174faaa577f38509ac872d4eee3508544087dab6d3544e16841ba65cc4aa491e954c6da9d07c0151499cff9107e7d7550290a1dafa055e241d2b6fe4be9d18d552081bc1fb5312b480a3fdceaaf3710f1d6f4da48e4d95c6024a9687cc23f67c3dc5e2bc08cbd2cebb6e5f4706050563ec74d5a57b2fa13ccda99dbafa87f100ede6f85610d3455cb13c130eb43fecd320b36b0ce398857e9bd5cd4d50385e484178cf2891c9a7c93587fab7b7d13fee9c99f0b661bf558ece9914aa3e7a23ac67c63416c4842697a7f98e4d2ce35c86c48d17530b1838b9cbe355742f66a37ee687f2d45bfae9e56c9a93aeced90fe66880bb95280bc62530e084427d8a1077e47e84b482cdf8291749649facc5b1be41d48cc95311440ef0905620878b23d8b28a5a183619970cc4dcd0bd1dee33167da4f666c9fa1c16462afc1fa29eac5acb8a2e023f09679b489bf9675076e0a6caf39fa1e9bc8d827285f9f44a41e9a7b8e40e11b2f370adcf9ce46387d7e30c03f597b9b40be7ae372a97733b4475ec98d0894b5a6f9c620185a5e010e8e53bcd0549f4ef109c97efe4d60c7911c9f5204caea4e4eab1c8ae8f7cd0993afccee0da42b648dcc81d0efb6bd497319f79282fd5e75ea82de19c571996df5d8e0ed6cc8c746791574815e98063f63aded70b0cd46e1b231dbb94bdb4ae00d04be82bdea57f9f13fc958dbb38bf173ff7514dec6de1e58eef22f7624e05b79bd10c7912e6ee3d89fed47cf6a27e3008c5b6e55868868031d47a702b443cfc65db95cb239ad2006f3c3bc1fa6e949ce073d1a1df3b71f3089b8405f291f2a2ae5f9c4780aa5998275c4145ecb43423991a1fbe9c7b9b5a8cc77e80ee8f8979d7475c9d157ad2dc9896ee327f4c6cb5be28435045c424d850515032be4f44d3376ddce3281c2b85a595b0743d80a8e5a2d7c30c86c8de8ddb78eaed361bccff0b935570db72618a610917b0643cf2189ef3e0a067915bb818e360f81c49ed53bdd0f0e29426ce84736979431740d58d74909c792033a8847cfc69694fab51c9530f2a266764a9b4908b9891eab1f2457daf220819e3fb44bd8e2aab9d11a0fb1bebb00369ab902878eba62e8590be7c840ce0b9a34c8069ce30431f4c46613e09748b98e1f8e9b3414b52709faef3c32ab07c7a1ff88688fba7cd90c4acab84be530fa8db13cf18a06b2a76fabcbb980cc5a31a107065e661a9ec8d946781a031ed8ffd3cc696b6749e3de5fa6e1bf747671960adca67e5842d7dcba2df06153bf0dddfe29e0a8ec865f7756d76b9effe96d1d9305b2a2b3c0e4ab94018d43bc39650cb8699a28884aaeac9dcf9bb88aaac4512437b011abc5b571de25191edafd1e48e2e10fbe5a733ede7b9c8448c180cacbadac6c825fd9cea0c0a66619517d92dce40d2d172e750eaebf2013403762adc9e3a2955c76695dd548986675a916fd86f7c6454a313de8772bc5fad47c10062291664b</script>
   <div class="hbe hbe-content">
     <div class="hbe hbe-input hbe-input-default">
       <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
@@ -851,6 +851,28 @@ sudo python3.5 manage.py scan --vps
       <categories>
         <category>开源</category>
       </categories>
+  </entry>
+  <entry>
+    <title>第九封信</title>
+    <url>/2021/09/07/letter/9/</url>
+    <content><![CDATA[<div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="抱歉, 这个密码看着不太对, 请再试试." data-whm="抱歉, 这个文章不能被校验, 不过您还是能看看解密后的内容.">
+  <script id="hbeData" type="hbeData" data-hmacdigest="241f4f3124ce9e370f15a4924c3306e400b0830729790415e5e5c2fd2c5c52e5">a57307f02e4def6707adf4a4b54e4f1f7cdb8e649aca119dc8891e73a4e89cfd66a3cc302ff33ed09b855070f3184a2b6bbf6fd58de38754d67bbbb2a066dd7215764bdadbb2b34937690ad54251a6f0fc1214228455588b632e7a38e7d0ae0938dcd7d75b7f7ac5bd3ecbf6b58ce86e8b6c53b5b8eae381934026fb03562b3b54856f88aab2f763d4f4074d4c519352e4979464c68c01b25f7bfeba210ac754e7ae8848c07b138fe87f052d068e18bcc6859a7b2c67be912908121301b8eb296a80c10dac22fceec7118c076c435ed0a8456dd02832871987d9f6eabbfc26151f8fa2d7ad75bed8a7b9daa9629fe0b6f8ef33f7cc646064dce495afbb8de916cb2aecda5033b6f24005cea6f4be4eae942092b8078332e05afbebc79a701e5ff9ad2a8c37dfc57fb8285a145523279e5e0f512d1df1a07de42aae26349813a406394d2596cf715f28693c31cc18fcc339badf4a4c474cce47a2d2efced255c41f6ce59769088ee3ee8a179866dfee4575bb349673c9695c10126cb6147e5bec6a8cc727cd0dafaf177ff58c46ae4cb50b89bc53e3360f208444ab7180ca68cdcd45baa99f1a920c0165f584d2bce132f8edee7d70e85ef7dff370bf587d138819d3c00765d279068ef16762015fc608c38c369cb4cc4fb1ed1ad0f616188066c14ef73b70839950120fb3771dd7697565785c8e36ad2177abeeef52f59861ec8fe999cd5041c8311b831e66ed39aa3868b8ce98e3db96625aa8c2509f43d21a4fd0aa69be1da41fe879374acc44555316dcad5e279ba45d7e338fa2c0a16781380a6343887615bdf07734f8a97bee39dc68a617da149ad56068061576e6fefb3853212d1b942f5a04cf5ed16cb4b40c27dba337de12e8b636937b426c7f911aaa0e2b5c027b13fc5a2e981104d3db128d06eab3304158ba839f12f7fd5a9144c7f122702b66c8361b653699470cc4ad474fb7d678ba33df2c32506a05cad0e0f4403fa63252f8fb7aba8a992c6476e30ac479bc4e80becf773b361ba7bc6662b6e6015eb69409d23d3b0d959698bfe7c278d1b3f41defc429b11280e0a2f3b8c736ae0818eb03797e2057129b8fe235eb41e7bd004c30dbe5bcce55148a6c7c7cb411833b50d51f01d558c73faeceabf633b013f4351c2bc461a59e3a288922bc5aaf5896c10e2c3ef2b18f94fef483605877fde6eb2b7a6503b3a9795efe685d008c71cff700b757597f7e03d4dec4ffb00dcba303e11785f26c0d04a9e0d6c1f95e7b3ede81f447e3e2834745e9e43698ed8855a3d05c474ec764c764b31e54c07ca9aeeda729447ef4ae39e9e8f00bd5725fd4e2c0e7c85183726655ac7177a98952f92c7280f15f2d21ab9736b37a963d137059f22841c9e065142c6205155189d346bef2376dab82f7f715dd146a7feccec490ff2e204b329a2691231c3791d0801ec495f9ff8a5b4e31fa90e257d1f35ee4c9cf8391d4cc21a4b7924354c88a9d679be6fa96c1c3595df5fb074bc6dfe5a15836c3fd7534141665a8b2c1433bd2381ac37865ff082f353f75e53c205b56e9b88cd92e8a68f1565e4d7456410835059e87926ff8d8506ecbab07e97f363d7eb0cdcd5ccb268fa1c100d4ee38824b225c15ec649e191d792fae62383b8273b733fdeed6ccf98ceaa8480782b06f61ebd400088547681c3335b0db23be7b12692ea512f8c5611088381e892edcdcee42edeae3870c0805ba6a137dd7e96da258194f173646de1f1f6456de2abdbe61d35c1c1e1d2d32b5b39d5cfade7710a63fc7caaed5c57f5dc4b3ccdc55d88680dcc14e185e7c5a32dc01f5492e2f91a10b1c2c018cd3cf2059c6f32a86f3aa0c6dfcf48c899e0d1c7e21a87b76fcf83b1d2dfb248c29c140ea828d7e7d8dd58ab1fa53485abd25eb461086a565e6503343f56ce8b87cb4d48bce1c71cef0f3fd941e457b099deeb2496c51910276ba82d690b5addb82e66470dc1cf803987b2adbff0f3606b5fc23bd801e39f83c7a9d21549461e932b263892265d8163a862a028f182415904ef6d7cd4c3feda0bb845052e80b0d22f049b9b7aa8ef9e7ca66f7b6b75dac222f954006b7efe0529d84a9e9795b71e89cba02cb87369547d44f2f0ef6157bf06d91aa1cb05ff475480b72b38d55358fbb4d0e3e12b054f7cc2e8f928dd226d72334c3baa13611b55be36d3efd21c1c3c461e112c8816df97fc637909f95ccb44bbcedd254690b95f775ed54922d279afa9605eb771cd77e8ead8daf44459ac6e1916010f696adcf69c103e4ea0faae805bd393e2bdbc2c60b2e1010047d9c057778631084731043c9e4c86df317cdd02168ec9c8b3d44b5bd9129c4cd015047b8a3ba8615b2956f853cdc22b1aa4ba2323215ce3827b236b107d28da1f0b799cbe5e1577ff228fa0360138d235256853ae35cd7e1eb6d3f575366709eb3f8ef22048359ef12cdd207651f99e1b3832ad957fafa653d4850964320bba2ae155cd6a8c477ca9bf18f8779762c0d527d3642ced963851c6dc3aa1086ca8b6ec2a861e7257845345b9aa00a6edc39847e964d9205e5ae550a0ab14508e69ed8415ccba8a6d2e69c440bcea202e491ced7aa922f2bfa1db137e35624dd9360c4a4dbf62a3ed2e26bdfe5f1160122a32a900f3c6b4a9316e5df58b2f0f2e9ec33a52a0f9087f9fb1ae8a8fdd55628c6fef578b924a8ebaa48df981be8ca955ec1a68781ee5d1035cd9032662ff7490f38116295cd1cde2766968ccab0a9abdb283b18d753a1e8952b2af04489b30e775fd0880b8f872450b1c5ca9ef2be5fa4fd93f3c4c1d4e5383d984e009b060ef856c533a6edf75755cf1b8a82f61a4cbe51e0c0f0e6ff2196e31ccecc16a150ba0666dceb825220f6b17285b724ea3985db7c542126f5588cf2c37374afb41cc4c7791459bf818d181f12cfaed7d45388ee97414a7e285c05acac5eb8081c500f59d528e834f0d429222fab124773c38f048951ab0aca454595a572c4b7bfc3c0c062d5ba751373bd7001c6f6b2588b85ed0f90223dea9d5a4e14241a0648bb1b26a6079eb21248a99d7b68c2aef28416211d6345b10a69238a63793546b13b6846c2d3f342c932528c0d4bfcce756b0e2a49f4ecece74b059c9ab8a2dbea38c7228f1ea0c566b6324811f1371307d08cea2c2e85e1f75a589759149b4f8be2b68822ca837aca32dd37bf7cec518d3462daaa2b531f607068740e9f194dd809a65a949094948f884fece489f7ae2f61bbc5a834c527470cfaf9b08ba52282b2f74b6f3edf48971d5fd86cdcd181da683b3443c81dcba68dd8c8e3298f4b7b439959e29da32d748a932c94dd391142539748c43d71d2b0fdcddda4d43dcd0e5aa296daac8575aec87cc277323ddd9008f09ffe2a9501ad1aec1eecffb5d76c06e31837ab1b9a394765e81145b2b06eaa6ef4e486a727bd35b1fd31d1c1c40254774d0b295a7f03720e9cdf6097b88a2bde2a96aaee9aba1960406f2018acb554c2d0956b02a0c614ba25d938c531e04c541b4286ea6ad7df7c1b7dce1c933f571b66928eecf3b74506dc0ac9874715e668791ab13e549fc91a63823fc28f8dc676d68de42f4901af49a0c6538ee77612dde3c380cc0252869158b8ce16964663390f9924925608f358b02cc69d4e2765cb7c41c3097cf77c58a9d23b395a70c794815d762da81575883c399736f152a5730ce6815407c14fb956b26955768579cff05339e03191a9e5b13d2c542a61f47cb43f48df14ed0e372da17ed5f7b16b19f460f51363a458f50a606c764594e80826f488265270c87d00d332780f88d0d02877c796afff9dbfd6870b41731ca04c8036d09e91b477dd51c570b99fe5dcbe7e16cbebaa8d23b7895a303811990deb379ff9975bc9e92a52b5d8c9e637496f899e29c54f8cd756ef3dc506fcf920c45537998b380d24f7090f36dae119234725a1a017dde1d7071fc11cfd1aeffa96dece0c34f874c6c0eed88f44501d9a3eb444c261b1c9a16daa01d057ce58b80a8a0788db2165584870ee1aedb85872d483ea49fc3f85a761bfec8576617539e99813a8d195bff74d405bc587849c3168c203c4cee83a7526fb77dd937acb7e546961a5c2caa40c6333f0ddb15f0f176fc96d356d17a15da3fe71cf22e00394ac60d6ed204c6650c009664dedf958827dd6f88b565eb467b3ba8b01bf30a7e7a55a5f316366fa7057981794bca04006f87647d515f5a39ca6eca3fe0ce93ea268641fea48c5bbd114539dddd89ed6541515228962d809fe00d1f4cadcf61a9983901269e2b7bff049d16fc41b7ca17f3917cf99741086db4bcfbcc921b4c22ccef97791909fea3483309af3f67219e71fb8925301bc485ea0084b392458b6410c2b4195cd85853841adcc04734e58d8bc2bf462d46f9fc4f87228c3db38c392dfffaf76057dddc8f125f3f4c4c681091992cd4da7f6555c6d4de67eb93544ed9d32845d5651a2ab4aee3b713efb8d85b81c53b1deea104dee21b93a59d486f7e42ac8000ecbb933ef8fa363faee5ef4f7425b79d981fc97d1f2cb3a8430a83e61bcf8d91463ca678d45b4e04bfcd3e2d2e62e04c3daec1f0fa5d706a4f1ca717f085c91eb0cd4f17d4f4a045e2e9928df41a742621f27a5b09b26b7aff367044f4329b856ffebb71ff439ce75528bdb72413bf6a6cea464f5122e8f16052363dedd5895e88366eb60303bd0e2160d7317678e45397194dbb00e6af0f0b9862bda4bf18293b8f1a751e9d00bc2458e84196c8a549b1fc9e489536fed6fb38a9aca3f13b38ee93d4ebe2b33f27e6f54290bb96f3f7fa1fce7c06eb2066c1a4beaaa0572782e6327c374b85b45bb7fd70d8c28d813c84ff8953f9419fc156792e1701d90d4ad14cd2e74e45cf87043d8e082ddccbbba22589f4c72c77fa009e3cb1bed1a419f7751e2fbb34bd4d9a6f81ef341c092708db1cfc22a555e7f9afb5530f61b9adf3f419eafe39b41295e6bd45a1df84fed9d1ff4bccad9a13e517679ea66366c341a4eb146047307d0df6eec995b216f1917639e6fe12be94cc8971bea5d6ff13bc5efba55f9d0ba0795f1eb0aae9119df5409aa6c6c0c140ee2477b1b0f392f4b4d3431b46bd608f0ef9fa0b4e9571c81affa02425dd6e902190e8e3fed13f5266dd98f362cd8128a7db90ac0f8384c52e2cd7a89f50c3d5b37a9ab9e5c7038efbdc1b325d08ac64009c49de7756a87e5ccdfff6fc9b8cb519b988948a543dd415f6356dacc04af0848b7deb98fe93d94178ceaa3163a01419ca0e78b1df70517a59d8d6958940d33d27f63e2345428b450b44591ee5437753b718437da21e304047fa24dce15c6f1f9a3c34cb24bd3ffad2e8cb1ecae48a18ea3578119adf9626dbc996a5b975bff461f0f02593aa916820c4d2b4b4e0e38bb4a521002a876bd72ed8e932f6f217af8ac35a8ba27f4374d0c1534655dbe84c86a2d30a4e94edd01a2297ed77453439e77ecb6c84dad887b14912fd4de01cc850b93ec41bd2ce7c57ac7a2d86ef2c4807b3627fd9edfcdcbea00cab9bed0a2973eabac3a35d49fea81e1f411c71d6a5dd46e44209341001da3cc383f5f948721fab8c3effbf58523763c24d016722e501e998f4be141f6991862ccac73f4e1032030af9f77e5197ed327d0c7453aa37b3229eb6508835401d684973135158883b28c6e1c45dbc728c455ef348bfc1b3458ebd5d3178c30499a415329f2f9d393f80e61d1b102f087419f0056ad8fc479da3ca4adc17d05a5ad0b66953ab9bb729ba415bf0a4aa8b7c6787035c44ee36f1522bde4d8491a6e38555be3ecce1f7bd092eaacb8c0cc818313f48414507a2f70d0a0568c1b09e5cf44d5f39d02e278ac6329446f162018012e7f5012124c8ee858da405c1edc9268117d7c43f8b478819532d2d15f29fc105bc3984f3e80484cc13b16fcdd9de304157c143be0362b0697380a5ef2112ff46068d011bcc4a2d79da9014d5c848af452bf0e25b8e746ab4f3f3a7daeffafc3fdee66997a1b7ba150b13fb0da05da68f3a6f56a7d40c0f4b9a200396fbcd6e437bd951e853fedd38c85e057928c7c0b14192201c9f879ee6e6cead8b1da04beab5b5b07e4baf6607a6a55255abaf381f30dd0a538c47782731aad4902c225d94c5f8d729fe7d173c72a4501eaba4486d013859ccae4b585c514c8e2b708a640376287ec1fce079d68d87524b8e3fae9038c13966f9433aad42d0af3e7a70ae4dfe5024491ab0e845c9f1dce378f2a80d236657d086abe7ce6d7fe491337bb194afc7ba27b8db79d9ec95eeb70bf9092973183935892b6dad56358dabd1b97069f7d67609c6e4266976d69ba7a82be8f68a40c54a64f5e7c71825bd40a6f5010df9b1519768e987fcc0cc62187091a43fca934b78db210ec55dcdcbd00f38c6174faaa577f38509ac872d4eee3508544087dab6d3544e16841ba65cc4aa491e954c6da9d07c0151499cff9107e7d7550290a1dafa055e241d2b6fe4be9d18d552081bc1fb5312b480a3fdceaaf3710f1d6f4da48e4d95c6024a9687cc23f67c3dc5e2bc08cbd2cebb6e5f4706050563ec74d5a57b2fa13ccda99dbafa87f100ede6f85610d3455cb13c130eb43fecd320b36b0ce398857e9bd5cd4d50385e484178cf2891c9a7c93587fab7b7d13fee9c99f0b661bf558ece9914aa3e7a23ac67c63416c4842697a7f98e4d2ce35c86c48d17530b1838b9cbe355742f66a37ee687f2d45bfae9e56c9a93aeced90fe66880bb95280bc62530e084427d8a1077e47e84b482cdf8291749649facc5b1be41d48cc95311440ef0905620878b23d8b28a5a183619970cc4dcd0bd1dee33167da4f666c9fa1c16462afc1fa29eac5acb8a2e023f09679b489bf9675076e0a6caf39fa1e9bc8d827285f9f44a41e9a7b8e40e11b2f370adcf9ce46387d7e30c03f597b9b40be7ae372a97733b4475ec98d0894b5a6f9c620185a5e010e8e53bcd0549f4ef109c97efe4d60c7911c9f5204caea4e4eab1c8ae8f7cd0993afccee0da42b648dcc81d0efb6bd497319f79282fd5e75ea82de19c571996df5d8e0ed6cc8c746791574815e98063f63aded70b0cd46e1b231dbb94bdb4ae00d04be82bdea57f9f13fc958dbb38bf173ff7514dec6de1e58eef22f7624e05b79bd10c7912e6ee3d89fed47cf6a27e3008c5b6e55868868031d47a702b443cfc65db95cb239ad2006f3c3bc1fa6e949ce073d1a1df3b71f3089b8405f291f2a2ae5f9c4780aa5998275c4145ecb43423991a1fbe9c7b9b5a8cc77e80ee8f8979d7475c9d157ad2dc9896ee327f4c6cb5be28435045c424d850515032be4f44d3376ddce3281c2b85a595b0743d80a8e5a2d7c30c86c8de8ddb78eaed361bccff0b935570db72618a610917b0643cf2189ef3e0a067915bb818e360f81c49ed53bdd0f0e29426ce84736979431740d58d74909c792033a8847cfc69694fab51c9530f2a266764a9b4908b9891eab1f2457daf220819e3fb44bd8e2aab9d11a0fb1bebb00369ab902878eba62e8590be7c840ce0b9a34c8069ce30431f4c46613e09748b98e1f8e9b3414b52709faef3c32ab07c7a1ff88688fba7cd90c4acab84be530fa8db13cf18a06b2a76fabcbb980cc5a31a107065e661a9ec8d946781a031ed8ffd3cc696b6749e3de5fa6e1bf747671960adca67e5842d7dcba2df06153bf0dddfe29e0a8ec865f7756d76b9effe96d1d9305b2a2b3c0e4ab94018d43bc39650cb8699a28884aaeac9dcf9bb88aaac4512437b011abc5b571de25191edafd1e48e2e10fbe5a733ede7b9c8448c180cacbadac6c825fd9cea0c0a66619517d92dce40d2d172e750eaebf2013403762adc9e3a2955c76695dd548986675a916fd86f7c6454a313de8772bc5fad47c10062291664b</script>
+  <div class="hbe hbe-content">
+    <div class="hbe hbe-input hbe-input-default">
+      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
+      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">
+        <span class="hbe hbe-input-label-content hbe-input-label-content-default">您好, 这里需要密码！</span>
+      </label>
+    </div>
+  </div>
+</div>
+<script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">]]></content>
+      <categories>
+        <category>恋爱日记</category>
+      </categories>
+      <tags>
+        <tag>信</tag>
+      </tags>
   </entry>
   <entry>
     <title>hookman develpment blog</title>
@@ -1287,6 +1309,49 @@ print textwrap.fill(dedented_text, width=50)
       </categories>
   </entry>
   <entry>
+    <title>爬虫分布式总结</title>
+    <url>/2017/04/04/python/%E7%88%AC%E8%99%AB%E5%88%86%E5%B8%83%E5%BC%8F%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[<blockquote>
+<p>由于最近在一家数据服务公司实习，项目需要了解分布式，所以在这里基于<code>scrapy</code>的分布式总结一下爬虫的分布式实习</p>
+</blockquote>
+<h1 id="分布式起因"><a href="#分布式起因" class="headerlink" title="分布式起因"></a>分布式起因</h1><blockquote>
+<p>单机无法完成全部工作任务所以要使用集群加速完成工作任务</p>
+</blockquote>
+<p>分布式有点像蚁群，一只蚂蚁举不起一只卡壳虫，但是几百只就能轻松的把他运回家</p>
+<p>但是分布式设计必须科学，否则就像下面一样，一个和尚挑水，其他和尚围观</p>
+<p><img src="/images/timg.jpg" alt="分工不合理，来源网络"></p>
+<h1 id="分布式设计"><a href="#分布式设计" class="headerlink" title="分布式设计"></a>分布式设计</h1><p>分布式设计原理在于<strong>分工</strong></p>
+<p>首先我们来看看爬虫怎么进行分工，单个爬虫运行根据<code>url</code>获取响应报文，然后通过解析报文返回结果或者下一次爬取目标，如果单个爬虫我们只要在内存维持一个<code>set</code>变量记住爬取过的<code>url</code>，这就是<code>scrapy</code>默认的方法。</p>
+<p>但是我们无数个爬虫由于不在同一个进程，无法共享变量，所以我们只要让一个“<code>variable</code>（变量）”能够被被所以爬虫共享到就完成了主要功能</p>
+<p>现在我们来完善具体细节<br>要求：</p>
+<ul>
+<li>爬虫能够轻松读取所以已爬取变量</li>
+<li>爬虫能够加入已读取变量</li>
+<li>爬虫能够获取下一次请求具体参数</li>
+</ul>
+<p>原则上我们可以使用内存映射来构建这个变量，但是读取，修改都不便利，所以可以先使用<code>redis</code>作为存贮变量的地方，使用<code>redis</code>提供的<code>set</code>我们替代<code>scrapy</code>框架的<code>set</code>变量。</p>
+<p>现在我们已经决定我们要使用什么容器来存贮变量，接下来我们要考虑存什么变量。</p>
+<p>我们先看<code>scrapy-redis</code>存贮了什么，分析源代码可知，<code>scrapy-redis</code>将返回的<code>Request</code>pickle话存入数据库，并且计算这个<code>Request</code>的32位hash值存入<code>redis</code>的<code>set</code>中过滤列表。</p>
+<p><code>scrapy-redis</code>通过修改<code>scrapy</code>的调度器（scheduler）让其当爬虫没有<code>Request</code>需要处理时在<code>redis</code>中提取<code>Request</code>，实现分布式。</p>
+<p>我们来分析一下这种方法，爬虫在爬取的过程中从<code>master</code>端获取<code>Request</code>，并不断生成<code>Request</code>到<code>master</code>端，<code>master</code>只是一个<code>redis</code>数据库，负责对<code>url</code>去重，分发任务。</p>
+<p>我们来比较一下直接存取<code>url</code>这种方法，这种方法好处在于，<code>slaver</code>能够从上一个<code>Request</code>中获取全部信息，假如上一个<code>Request</code>需要存取获取的表单提取地址，我们下一次爬虫发起<code>Request</code>就能从上一个<code>Request</code>中获取参数。</p>
+<p>当然由于我们存贮的是<code>Request</code>，一个<code>Request</code> <code>pickle</code>化之后的字符串比较长，当我们的任务列表里面有很多<code>Request</code>的时候，<code>redis</code>占用的内存会非常巨大。</p>
+<p>当然如果爬虫启动的够多，生成一个就能把任务被调度下去，那么这个任务列表就能稳定在一个可控的范围。</p>
+<p> <strong>总结</strong></p>
+<p>每个爬虫即负责爬取数据，又负责生成下一个任务，即无主次之分，我们可以一次性在<code>docker</code>中启动上百个实例，我们只是用<code>redis</code>充当一个存放<code>变量</code>的地方。</p>
+<p>但是这种方法也有一个缺点，我们不能自由的添加初始<code>url</code>，要想添加新的爬取任务，必须新建一个爬虫更新初始<code>url</code>，我们如果是想搭建一个自由添加<code>url</code>的爬虫，这种实现方式不大优雅。</p>
+<h1 id="分布式改良"><a href="#分布式改良" class="headerlink" title="分布式改良"></a>分布式改良</h1><p>我们要修改程序框架，达到随时可以添加要爬取新任务，然而不影响爬虫集群</p>
+<p><img src="/images/distribute_crawl.png" alt="爬虫框架"></p>
+<p>我们独立出来<code>master</code>，<code>master</code>负责生成<code>Request</code>去重以及任务调度，而<code>slaver</code>只负责从<code>master</code>获取任务爬取。</p>
+<p>这种方法我们可以很轻松对<code>master</code>改良而不影响<code>slaver</code>，通过让<code>master</code>定时从<code>数据库</code>中获取新的任务生成到任务列表，我们可以轻松添加新的任务到<code>slaver</code>集群中去。</p>
+<p>下一步我们就介绍如何修改<code>scrapy-redis</code>达到我们新框架需要</p>
+<h1 id="重构scrapy-redis"><a href="#重构scrapy-redis" class="headerlink" title="重构scrapy-redis"></a>重构<code>scrapy-redis</code></h1><p>参考：<br><a href="http://blog.csdn.net/bone_ace/article/details/50989104" target="_blank" rel="noopener">基于Redis的三种分布式爬虫策略</a></p>
+]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
+  </entry>
+  <entry>
     <title>Python正则表达式</title>
     <url>/2018/03/17/python/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
     <content><![CDATA[<hr>
@@ -1356,49 +1421,6 @@ VERBOSE  [简X]  --------------神器,会无视代码中的注释空格和换行
       </categories>
   </entry>
   <entry>
-    <title>爬虫分布式总结</title>
-    <url>/2017/04/04/python/%E7%88%AC%E8%99%AB%E5%88%86%E5%B8%83%E5%BC%8F%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[<blockquote>
-<p>由于最近在一家数据服务公司实习，项目需要了解分布式，所以在这里基于<code>scrapy</code>的分布式总结一下爬虫的分布式实习</p>
-</blockquote>
-<h1 id="分布式起因"><a href="#分布式起因" class="headerlink" title="分布式起因"></a>分布式起因</h1><blockquote>
-<p>单机无法完成全部工作任务所以要使用集群加速完成工作任务</p>
-</blockquote>
-<p>分布式有点像蚁群，一只蚂蚁举不起一只卡壳虫，但是几百只就能轻松的把他运回家</p>
-<p>但是分布式设计必须科学，否则就像下面一样，一个和尚挑水，其他和尚围观</p>
-<p><img src="/images/timg.jpg" alt="分工不合理，来源网络"></p>
-<h1 id="分布式设计"><a href="#分布式设计" class="headerlink" title="分布式设计"></a>分布式设计</h1><p>分布式设计原理在于<strong>分工</strong></p>
-<p>首先我们来看看爬虫怎么进行分工，单个爬虫运行根据<code>url</code>获取响应报文，然后通过解析报文返回结果或者下一次爬取目标，如果单个爬虫我们只要在内存维持一个<code>set</code>变量记住爬取过的<code>url</code>，这就是<code>scrapy</code>默认的方法。</p>
-<p>但是我们无数个爬虫由于不在同一个进程，无法共享变量，所以我们只要让一个“<code>variable</code>（变量）”能够被被所以爬虫共享到就完成了主要功能</p>
-<p>现在我们来完善具体细节<br>要求：</p>
-<ul>
-<li>爬虫能够轻松读取所以已爬取变量</li>
-<li>爬虫能够加入已读取变量</li>
-<li>爬虫能够获取下一次请求具体参数</li>
-</ul>
-<p>原则上我们可以使用内存映射来构建这个变量，但是读取，修改都不便利，所以可以先使用<code>redis</code>作为存贮变量的地方，使用<code>redis</code>提供的<code>set</code>我们替代<code>scrapy</code>框架的<code>set</code>变量。</p>
-<p>现在我们已经决定我们要使用什么容器来存贮变量，接下来我们要考虑存什么变量。</p>
-<p>我们先看<code>scrapy-redis</code>存贮了什么，分析源代码可知，<code>scrapy-redis</code>将返回的<code>Request</code>pickle话存入数据库，并且计算这个<code>Request</code>的32位hash值存入<code>redis</code>的<code>set</code>中过滤列表。</p>
-<p><code>scrapy-redis</code>通过修改<code>scrapy</code>的调度器（scheduler）让其当爬虫没有<code>Request</code>需要处理时在<code>redis</code>中提取<code>Request</code>，实现分布式。</p>
-<p>我们来分析一下这种方法，爬虫在爬取的过程中从<code>master</code>端获取<code>Request</code>，并不断生成<code>Request</code>到<code>master</code>端，<code>master</code>只是一个<code>redis</code>数据库，负责对<code>url</code>去重，分发任务。</p>
-<p>我们来比较一下直接存取<code>url</code>这种方法，这种方法好处在于，<code>slaver</code>能够从上一个<code>Request</code>中获取全部信息，假如上一个<code>Request</code>需要存取获取的表单提取地址，我们下一次爬虫发起<code>Request</code>就能从上一个<code>Request</code>中获取参数。</p>
-<p>当然由于我们存贮的是<code>Request</code>，一个<code>Request</code> <code>pickle</code>化之后的字符串比较长，当我们的任务列表里面有很多<code>Request</code>的时候，<code>redis</code>占用的内存会非常巨大。</p>
-<p>当然如果爬虫启动的够多，生成一个就能把任务被调度下去，那么这个任务列表就能稳定在一个可控的范围。</p>
-<p> <strong>总结</strong></p>
-<p>每个爬虫即负责爬取数据，又负责生成下一个任务，即无主次之分，我们可以一次性在<code>docker</code>中启动上百个实例，我们只是用<code>redis</code>充当一个存放<code>变量</code>的地方。</p>
-<p>但是这种方法也有一个缺点，我们不能自由的添加初始<code>url</code>，要想添加新的爬取任务，必须新建一个爬虫更新初始<code>url</code>，我们如果是想搭建一个自由添加<code>url</code>的爬虫，这种实现方式不大优雅。</p>
-<h1 id="分布式改良"><a href="#分布式改良" class="headerlink" title="分布式改良"></a>分布式改良</h1><p>我们要修改程序框架，达到随时可以添加要爬取新任务，然而不影响爬虫集群</p>
-<p><img src="/images/distribute_crawl.png" alt="爬虫框架"></p>
-<p>我们独立出来<code>master</code>，<code>master</code>负责生成<code>Request</code>去重以及任务调度，而<code>slaver</code>只负责从<code>master</code>获取任务爬取。</p>
-<p>这种方法我们可以很轻松对<code>master</code>改良而不影响<code>slaver</code>，通过让<code>master</code>定时从<code>数据库</code>中获取新的任务生成到任务列表，我们可以轻松添加新的任务到<code>slaver</code>集群中去。</p>
-<p>下一步我们就介绍如何修改<code>scrapy-redis</code>达到我们新框架需要</p>
-<h1 id="重构scrapy-redis"><a href="#重构scrapy-redis" class="headerlink" title="重构scrapy-redis"></a>重构<code>scrapy-redis</code></h1><p>参考：<br><a href="http://blog.csdn.net/bone_ace/article/details/50989104" target="_blank" rel="noopener">基于Redis的三种分布式爬虫策略</a></p>
-]]></content>
-      <categories>
-        <category>Python</category>
-      </categories>
-  </entry>
-  <entry>
     <title>人生浅思</title>
     <url>/2021/03/27/secret/%E4%BA%BA%E7%94%9F%E6%B5%85%E6%80%9D/</url>
     <content><![CDATA[<div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="抱歉, 这个密码看着不太对, 请再试试." data-whm="抱歉, 这个文章不能被校验, 不过您还是能看看解密后的内容.">
@@ -1450,31 +1472,6 @@ flink-shaded-hadoop-2-uber-2.7.5-8.0.jar
       </categories>
   </entry>
   <entry>
-    <title>Flink批和流处理的思考</title>
-    <url>/2019/10/16/software/Flink%E6%89%B9%E5%92%8C%E6%B5%81%E5%A4%84%E7%90%86%E7%9A%84%E6%80%9D%E8%80%83/</url>
-    <content><![CDATA[<blockquote>
-<p>随着2019年8月份，Flink1.9.0正式发布，Flink并入Blink代码，开始同时支持批和流的处理，于此同时，批量同时处理所遇到的问题也就产生了</p>
-</blockquote>
-<p>首先我们要知道，什么是批，什么是流，批好比一瓶水，我们看到到它在那里，流就像雨水，我们只能看着它慢慢的从天上掉下来，什么时候掉完我们不知道</p>
-<p>批处理解决我们非常好理解，分而治之即可，然而对于流数据的解决该如何呢，当然也是分而治之，但是我们分的是时间，所以对于流数据最重要的第一是不能让历史数据沉淀下来</p>
-<p>我们回到现实中，理想状态我们处理数据总希望数据全部都能获取到，由于数据库三范式的存在，我们的数据不是完整的，比如消费记录只会存一个id代表用户，而我们希望统计用户记录的年龄分布就不能只通过记录表来实现</p>
-<p>所以我们第一个挑战就是<code>Join</code>，把多个维度表汇集到一起，什么是<code>Join</code>呢，就是把不同的表进行分组，我们这里就不讨论大表和大表的<code>Join</code>，因为这个不是<code>Flink</code>的强项，对于这个来说，我只能说<code>MapReduce</code>欢迎您。</p>
-<p>我们就讨论一种情况，大表处理表，小表配置表，因为这代表实际大数据处理的中最常见的情况，由于Flink的批流一致的支持，我们现在处理<code>Join</code>有两张情况</p>
-<p>第一种是批流进行<code>Join</code>，第二种是流和流（双流）<code>Join</code>，当然由于Flink底层其实把批看做一种特殊的流（无后续增加），我们也可以看成一种</p>
-<p>对于批和流的<code>Join</code>，Flink的优化是将批变成<code>State</code>，这样流只需要进行内存匹配而不需要每次进行<code>Join</code>的时候在读取一遍批处理数据，这个方式来说最简单，但是也有一个问题，我们的配置表变成的“一次性”的了，假如我们想更新配置表，但是流计算察觉不到变化也就实现不了一个动态的更新</p>
-<p>接下来我们在看看流和流的<code>Join</code>，对于最简单的双流<code>Join</code>来说，为了维持流数据的更新，必须存贮两个流的所以历史数据，对于小表来说存储耗费不了内存，但是大表来说就不一样的，所以双流<code>Join</code>不适合大表和小表的<code>Join</code>，但是统计的话可以，<code>Flink</code>针对一些东西做了优化不会存储所以历史数据，只保留一个统计<code>State</code>，会根据更新动态来修改，那么大表和小表就没法实现双流<code>Join</code>了吗</p>
-<p>当然不是，我们想想为什么大表小表会保留历史数据才能维持结果正确，我们思考一个例子，我们有很多不同种类的商品，然后我们有一个本子记录客人想买的商品（实时更新），为了做到正确匹配客人像要的商品，我们必须记住我们所以种类的商品，当有个客人想买的时候才能匹配上，假如你忘了你们有什么匹配的商品，那么这个客人就买不到了，因为匹配不上</p>
-<p>这种情况是必须要记住所以种类的，但是我们大部分情况是这样的，我们的大表里面记录了系统某个指标，我们的配置表里面保存了我们想监听的指标，当我们更新我们的配置表的时候代表从这个时刻起我们对某个指标感兴趣，对于历史的数据我们其实是不感兴趣的，所以，你完全可以“忘掉”原来的大表历史数据，<code>Flink</code>对于这个功能使用了<code>Temporal Join</code>来支持</p>
-<p>例如：</p>
-<pre><code>select * from source a, lateral table (ConfigTable(a.protime)) b
-where a.id = b.id;
-</code></pre><p>我们只要注册<code>ConfigTable</code>到一个流表上就代表告诉<code>Flink</code>历史数据可以不用记住了，我只关心现在的最新配置能不能匹配上，这样就解决了对大表的时间分片</p>
-]]></content>
-      <categories>
-        <category>软件</category>
-      </categories>
-  </entry>
-  <entry>
     <title>GitHub Education Pack</title>
     <url>/2016/07/18/software/GitHubEducationPack/</url>
     <content><![CDATA[<blockquote>
@@ -1496,34 +1493,25 @@ where a.id = b.id;
       </categories>
   </entry>
   <entry>
-    <title>UML最佳实践</title>
-    <url>/2021/03/15/software/UML%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/</url>
+    <title>Flink批和流处理的思考</title>
+    <url>/2019/10/16/software/Flink%E6%89%B9%E5%92%8C%E6%B5%81%E5%A4%84%E7%90%86%E7%9A%84%E6%80%9D%E8%80%83/</url>
     <content><![CDATA[<blockquote>
-<p>最近面试的时候一个面试官指出了我对系统架构没有固定的认知，推荐我去好好学习一下UML这个语言，我花了几个小时在B站上看了<a href="https://www.bilibili.com/video/BV1LE411T75W" target="_blank" rel="noopener">UML</a>这门课，下面是我对UML最佳实践的一点心得</p>
+<p>随着2019年8月份，Flink1.9.0正式发布，Flink并入Blink代码，开始同时支持批和流的处理，于此同时，批量同时处理所遇到的问题也就产生了</p>
 </blockquote>
-<h2 id="UML是什么"><a href="#UML是什么" class="headerlink" title="UML是什么"></a>UML是什么</h2><p>首先它是一门语言，全名叫 Unified Modeling Language，翻译过来就是统一建模语言，首先为什么我们思考一下为什么我们需要这么一门语言。</p>
-<p>最开始的C语言是面对过程的，我们想做一个什么东西，直接去写就好了，等我们到了比如Java这些面对对象的语言的时候，我们就要思考怎么去建模，所以UML就是在这种情况被创建出来的</p>
-<h2 id="怎么用"><a href="#怎么用" class="headerlink" title="怎么用"></a>怎么用</h2><p>首先UML主要帮助我们设计一个系统，那一般的流程是什么呢</p>
-<ol>
-<li>确定用例 -&gt; 用例图</li>
-<li>确定类模型 -&gt; 类图</li>
-<li>确定流程 -&gt; 时序图</li>
-<li>确定细节 -&gt; 状态图</li>
-</ol>
-<h2 id="软件选择"><a href="#软件选择" class="headerlink" title="软件选择"></a>软件选择</h2><p>其实UML很核心的一个地方就是用可视化的图表展示出你的系统架构，视频里面使用的<strong>IBM Rational Rose</strong>这个软件，的确拖拽非常方便，但是有个问题就是只支持<code>window</code>，目前我主要操作系统是Ubuntu和Mac，所以我需要一个跨平台的软件</p>
-<p>我尝试了跨平台的<code>dia</code>，或者目前一些主流的在网页上拖拽的软件来完成UML图，但是这些都有一个痛点，不方便管理，而且修改起来也比较麻烦，然后有人推荐使用<a href="https://plantuml.com/zh/state-diagram" target="_blank" rel="noopener">plantuml</a>，不但跨平台，而且UML图是根据代码自动生成</p>
-<p>也就是说你不需要拖拽，你可以像写代码一样画UML图，更主要的是这个IDEA上面都有插件集成，你只要安装好插件就可以在IDE里面写UML代码生成你想要的图了</p>
-<h2 id="安装流程"><a href="#安装流程" class="headerlink" title="安装流程"></a>安装流程</h2><p>首先在插件库查找<code>plantuml intergration</code>，然后点击安装，接下面安装绘图课</p>
-<p>Mac</p>
-<p>brew install graphviz</p>
-<p>Ubuntu</p>
-<p>sudo apt-get install -y graphviz</p>
-<p>接下来你重启IDEA然后随便新建一个文件，输入下面代码</p>
-<p>@startuml<br>Alice -&gt; Bob: test<br>@enduml</p>
-<p>点开侧边栏PlantUML就能看到生成的UML图了</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>以前我只知道IDEA能写代码，后面我知道IDEA能执行SQL，我就把他当成SQL管理工具，后面我发现他也能写Markdown，我就放弃的专业markdown软件，如今我发现他也能写UML，IDEA真的太全能了</p>
-<p>PS：这篇博客简单的介绍了我对UML最佳实践的配合，没有涉及到<code>PlantUML</code>的具体使用方法，可以看我的使用<a href="https://github.com/mrzhangboss/plantuml-introduction" target="_blank" rel="noopener">UML实现</a></p>
-<p><a href="https://github.com/mrzhangboss/plantuml-introduction" target="_blank" rel="noopener">UML实现Github链接</a></p>
+<p>首先我们要知道，什么是批，什么是流，批好比一瓶水，我们看到到它在那里，流就像雨水，我们只能看着它慢慢的从天上掉下来，什么时候掉完我们不知道</p>
+<p>批处理解决我们非常好理解，分而治之即可，然而对于流数据的解决该如何呢，当然也是分而治之，但是我们分的是时间，所以对于流数据最重要的第一是不能让历史数据沉淀下来</p>
+<p>我们回到现实中，理想状态我们处理数据总希望数据全部都能获取到，由于数据库三范式的存在，我们的数据不是完整的，比如消费记录只会存一个id代表用户，而我们希望统计用户记录的年龄分布就不能只通过记录表来实现</p>
+<p>所以我们第一个挑战就是<code>Join</code>，把多个维度表汇集到一起，什么是<code>Join</code>呢，就是把不同的表进行分组，我们这里就不讨论大表和大表的<code>Join</code>，因为这个不是<code>Flink</code>的强项，对于这个来说，我只能说<code>MapReduce</code>欢迎您。</p>
+<p>我们就讨论一种情况，大表处理表，小表配置表，因为这代表实际大数据处理的中最常见的情况，由于Flink的批流一致的支持，我们现在处理<code>Join</code>有两张情况</p>
+<p>第一种是批流进行<code>Join</code>，第二种是流和流（双流）<code>Join</code>，当然由于Flink底层其实把批看做一种特殊的流（无后续增加），我们也可以看成一种</p>
+<p>对于批和流的<code>Join</code>，Flink的优化是将批变成<code>State</code>，这样流只需要进行内存匹配而不需要每次进行<code>Join</code>的时候在读取一遍批处理数据，这个方式来说最简单，但是也有一个问题，我们的配置表变成的“一次性”的了，假如我们想更新配置表，但是流计算察觉不到变化也就实现不了一个动态的更新</p>
+<p>接下来我们在看看流和流的<code>Join</code>，对于最简单的双流<code>Join</code>来说，为了维持流数据的更新，必须存贮两个流的所以历史数据，对于小表来说存储耗费不了内存，但是大表来说就不一样的，所以双流<code>Join</code>不适合大表和小表的<code>Join</code>，但是统计的话可以，<code>Flink</code>针对一些东西做了优化不会存储所以历史数据，只保留一个统计<code>State</code>，会根据更新动态来修改，那么大表和小表就没法实现双流<code>Join</code>了吗</p>
+<p>当然不是，我们想想为什么大表小表会保留历史数据才能维持结果正确，我们思考一个例子，我们有很多不同种类的商品，然后我们有一个本子记录客人想买的商品（实时更新），为了做到正确匹配客人像要的商品，我们必须记住我们所以种类的商品，当有个客人想买的时候才能匹配上，假如你忘了你们有什么匹配的商品，那么这个客人就买不到了，因为匹配不上</p>
+<p>这种情况是必须要记住所以种类的，但是我们大部分情况是这样的，我们的大表里面记录了系统某个指标，我们的配置表里面保存了我们想监听的指标，当我们更新我们的配置表的时候代表从这个时刻起我们对某个指标感兴趣，对于历史的数据我们其实是不感兴趣的，所以，你完全可以“忘掉”原来的大表历史数据，<code>Flink</code>对于这个功能使用了<code>Temporal Join</code>来支持</p>
+<p>例如：</p>
+<pre><code>select * from source a, lateral table (ConfigTable(a.protime)) b
+where a.id = b.id;
+</code></pre><p>我们只要注册<code>ConfigTable</code>到一个流表上就代表告诉<code>Flink</code>历史数据可以不用记住了，我只关心现在的最新配置能不能匹配上，这样就解决了对大表的时间分片</p>
 ]]></content>
       <categories>
         <category>软件</category>
@@ -1599,6 +1587,40 @@ name text
       </categories>
   </entry>
   <entry>
+    <title>UML最佳实践</title>
+    <url>/2021/03/15/software/UML%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/</url>
+    <content><![CDATA[<blockquote>
+<p>最近面试的时候一个面试官指出了我对系统架构没有固定的认知，推荐我去好好学习一下UML这个语言，我花了几个小时在B站上看了<a href="https://www.bilibili.com/video/BV1LE411T75W" target="_blank" rel="noopener">UML</a>这门课，下面是我对UML最佳实践的一点心得</p>
+</blockquote>
+<h2 id="UML是什么"><a href="#UML是什么" class="headerlink" title="UML是什么"></a>UML是什么</h2><p>首先它是一门语言，全名叫 Unified Modeling Language，翻译过来就是统一建模语言，首先为什么我们思考一下为什么我们需要这么一门语言。</p>
+<p>最开始的C语言是面对过程的，我们想做一个什么东西，直接去写就好了，等我们到了比如Java这些面对对象的语言的时候，我们就要思考怎么去建模，所以UML就是在这种情况被创建出来的</p>
+<h2 id="怎么用"><a href="#怎么用" class="headerlink" title="怎么用"></a>怎么用</h2><p>首先UML主要帮助我们设计一个系统，那一般的流程是什么呢</p>
+<ol>
+<li>确定用例 -&gt; 用例图</li>
+<li>确定类模型 -&gt; 类图</li>
+<li>确定流程 -&gt; 时序图</li>
+<li>确定细节 -&gt; 状态图</li>
+</ol>
+<h2 id="软件选择"><a href="#软件选择" class="headerlink" title="软件选择"></a>软件选择</h2><p>其实UML很核心的一个地方就是用可视化的图表展示出你的系统架构，视频里面使用的<strong>IBM Rational Rose</strong>这个软件，的确拖拽非常方便，但是有个问题就是只支持<code>window</code>，目前我主要操作系统是Ubuntu和Mac，所以我需要一个跨平台的软件</p>
+<p>我尝试了跨平台的<code>dia</code>，或者目前一些主流的在网页上拖拽的软件来完成UML图，但是这些都有一个痛点，不方便管理，而且修改起来也比较麻烦，然后有人推荐使用<a href="https://plantuml.com/zh/state-diagram" target="_blank" rel="noopener">plantuml</a>，不但跨平台，而且UML图是根据代码自动生成</p>
+<p>也就是说你不需要拖拽，你可以像写代码一样画UML图，更主要的是这个IDEA上面都有插件集成，你只要安装好插件就可以在IDE里面写UML代码生成你想要的图了</p>
+<h2 id="安装流程"><a href="#安装流程" class="headerlink" title="安装流程"></a>安装流程</h2><p>首先在插件库查找<code>plantuml intergration</code>，然后点击安装，接下面安装绘图课</p>
+<p>Mac</p>
+<p>brew install graphviz</p>
+<p>Ubuntu</p>
+<p>sudo apt-get install -y graphviz</p>
+<p>接下来你重启IDEA然后随便新建一个文件，输入下面代码</p>
+<p>@startuml<br>Alice -&gt; Bob: test<br>@enduml</p>
+<p>点开侧边栏PlantUML就能看到生成的UML图了</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>以前我只知道IDEA能写代码，后面我知道IDEA能执行SQL，我就把他当成SQL管理工具，后面我发现他也能写Markdown，我就放弃的专业markdown软件，如今我发现他也能写UML，IDEA真的太全能了</p>
+<p>PS：这篇博客简单的介绍了我对UML最佳实践的配合，没有涉及到<code>PlantUML</code>的具体使用方法，可以看我的使用<a href="https://github.com/mrzhangboss/plantuml-introduction" target="_blank" rel="noopener">UML实现</a></p>
+<p><a href="https://github.com/mrzhangboss/plantuml-introduction" target="_blank" rel="noopener">UML实现Github链接</a></p>
+]]></content>
+      <categories>
+        <category>软件</category>
+      </categories>
+  </entry>
+  <entry>
     <title>Ubuntu16.04安装Tensorflow的CPU优化</title>
     <url>/2018/04/19/software/Ubuntu14%E5%AE%89%E8%A3%85Tensorflow%E7%9A%84CPU%E4%BC%98%E5%8C%96/</url>
     <content><![CDATA[<blockquote>
@@ -1639,34 +1661,6 @@ cd tensorflow
 bazel --host_jvm_args=&quot;-Dhttp.proxyHost=localhost -Dhttp.proxyPort=8123 -Dhttps.proxyHost=localhost -Dhttps.proxyPort=8123&quot;    build --config=mkl //tensorflow/tools/pip_package:build_pip_package
 </code></pre><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><del>如果没有报上面的不支持指令集的warning，那么你的CPU指令集优化版就安装好了，当然这个加速效果因CPU而异，对于Xeon SP系列（100核心以上）已经能加速到50倍，同GPU差距也就2倍了（原来可是100倍），但是对于我的笔记本来说，加速效果可能就在30%左右（核心少），所以当前加速性价比最高的还是GPU加速，骚年还是买个好一点的GPU吧，没事还可以吃吃鸡。</del></p>
 <p>经过我测试在<code>I7 9700K</code>下相同的<code>mnist</code>数据下运行，不使用CPU指令优化比使用CPU指令优化下速度还要更快，所以在高版本下的Tensorflow CPU版其实优不优化都无所谓，推荐还是使用GPU加速</p>
-]]></content>
-      <categories>
-        <category>软件</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>git 工作流程</title>
-    <url>/2016/09/07/software/git-working-streamline/</url>
-    <content><![CDATA[<blockquote>
-<p><code>git</code>是当今流行的版本控制工具,一般我们可能只要会<code>push</code>, <code>pull</code>就可以了,<br>但是当我们同别人共同工作的时候,我们必须要了解<code>git</code>协同开发的一些重要流程.</p>
-</blockquote>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
-<p><code>git</code>作为当今最流行的版本控制工具之一,当时开发出来就是为了管理<code>Linux</code>庞大源代码的分布式版本控制工具.<br>由于<code>Linux</code>源代码过于巨大,仅靠一个人的力量是完成不了的,那就必须把工作分配下去,然后将代码合并,所以<code>git</code>一开始设计的时候就是一种分布式的、多分支的</p>
-</blockquote>
-<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>所以<code>git</code>最重要的就是<strong>分支</strong>这个性质,分支是什么呢.</p>
-<p>要了解<strong>分支</strong>必须要了解<code>git</code>工作原理.</p>
-<p><code>git</code>工作原理很简单就是<code>add</code>、<code>commit</code>，<code>add</code>、<code>commit</code>….,简单来说就是添加记录,添加记录,保存快照,添加记录,添加记录,保存快照</p>
-<p><img src="/images/git-workflow-release-cycle-4maintenance.png" alt="git工作分支流程-来源网上"></p>
-<p>  如上图,随着master分支快照的一个一个建立,软件就慢慢的迭代下去了</p>
-<h2 id="分支工作流程"><a href="#分支工作流程" class="headerlink" title="分支工作流程"></a>分支工作流程</h2><p>  接下来我们要着重讲一下分支,我们看到<code>master</code>分支的<code>v0.1</code>版本,我们已经开发出稳定的<code>v0.1</code>版,这时候我们决定开发一个新功能.</p>
-<p> 在这里我们分了一个<code>Develop</code>分支,我们在<code>Develop</code>分支开发新代码.</p>
-<p> 这时候我们发现<code>v0,1</code>的一个<code>bug</code>,假如是没有使用版本控制的话,一般人会停下手中的活,然后从当前的新代码处来修复这个<code>bug</code>,当这个<code>bug</code>很简单的时候,我们不会遇到很大困难,但是当<code>bug</code>藏的很深,而且新代码隐藏了这个<code>bug</code>,或者被这个<code>bug</code>影响,这时修复工作就变得很困难.</p>
-<p> 还好我们有<code>git</code>,我们从<code>v0.1</code>直接分一个<code>Hotfix</code>分支,这两个分支的父都是<code>v0.1</code>,我们直接从稳定版本修复,不牵涉到新代码,这样修改好后我们就能很快从<code>Develop</code>分支继续工作了</p>
-<p> 而且这样有一个好处我们将<code>master</code>和<code>Develop</code>分支合并的时候很大可能不会产生冲突.</p>
-<p> <em>冲突(coflic)是什么了,怎么能避免呢?</em></p>
-<p> 从两个分支的父亲<code>v0.1</code>看起,我们每次改动一个保存文件就会产生一个<code>modify</code>(修改)的动作,我们假如分支里面都对同一个文件产生了<code>modify</code>(修改)动作,当我们合并的时候这就是一个冲突,<code>git</code>无法理解采用哪个分支的<code>modify</code>动作,这时候就要你人工来修改采用哪个分支.</p>
-<p> 假如没有相同的文件有<code>modify</code>(修改)动作,<code>git</code>就会聪明的知道采用每个分支的最新的<code>modify</code>(修改)修改出一份所以文件的最新版.</p>
-<p> 那我们怎么来避免这个冲突呢,这就要求我们分支要分的合理,分支只要完成特定的工作,不要越俎代庖,那有些人会说我这个分支一定要改父的耦合地方否则我的代码工作不了,这时我们要好好思考自己的分支的功能,把合并耦合的代码放在主分支里面,次分支只要完成特定功能就可以了,这样合并分支时候不但可以安全的<code>merge</code>(合并)了, 而且修改<code>bug</code>的时候也可以对症下药,直接在问题开始的地方修改.</p>
 ]]></content>
       <categories>
         <category>软件</category>
@@ -1773,21 +1767,28 @@ google ansible_ssh_host=1.1.1.3 ansible_ssh_user=root
       </categories>
   </entry>
   <entry>
-    <title>在Linux下玩转Vim</title>
-    <url>/2016/07/18/software/%E5%9C%A8Linux%E4%B8%8B%E7%8E%A9%E8%BD%ACVim/</url>
-    <content><![CDATA[<h4 id="学了鸟哥的书前面基础后，突然想在Linux下用gcc玩C语言，然后了解到了Vim这个神一样的编译器，接下来经过超长时间虐心的安装无数插件无数依赖包，突然有种打自己一顿的感觉，还好终于把Vim装的和VS差不多了，接下来我介绍我安装Vim的经验吧。"><a href="#学了鸟哥的书前面基础后，突然想在Linux下用gcc玩C语言，然后了解到了Vim这个神一样的编译器，接下来经过超长时间虐心的安装无数插件无数依赖包，突然有种打自己一顿的感觉，还好终于把Vim装的和VS差不多了，接下来我介绍我安装Vim的经验吧。" class="headerlink" title="学了鸟哥的书前面基础后，突然想在Linux下用gcc玩C语言，然后了解到了Vim这个神一样的编译器，接下来经过超长时间虐心的安装无数插件无数依赖包，突然有种打自己一顿的感觉，还好终于把Vim装的和VS差不多了，接下来我介绍我安装Vim的经验吧。"></a>学了鸟哥的书前面基础后，突然想在Linux下用gcc玩C语言，然后了解到了Vim这个神一样的编译器，接下来经过超长时间虐心的安装无数插件无数依赖包，突然有种打自己一顿的感觉，还好终于把Vim装的和VS差不多了，接下来我介绍我安装Vim的经验吧。</h4><h3 id="我虚拟机下的Linux原来是红旗6的，但是我改了一下yum的包源成CentOS的并且全部update一下后就神奇的变成了CentOS6，虽然他们两个是同一家公司，但是总给我一种由盗版成了正版的感觉。。"><a href="#我虚拟机下的Linux原来是红旗6的，但是我改了一下yum的包源成CentOS的并且全部update一下后就神奇的变成了CentOS6，虽然他们两个是同一家公司，但是总给我一种由盗版成了正版的感觉。。" class="headerlink" title="我虚拟机下的Linux原来是红旗6的，但是我改了一下yum的包源成CentOS的并且全部update一下后就神奇的变成了CentOS6，虽然他们两个是同一家公司，但是总给我一种由盗版成了正版的感觉。。"></a>我虚拟机下的Linux原来是红旗6的，但是我改了一下yum的包源成CentOS的并且全部update一下后就神奇的变成了CentOS6，虽然他们两个是同一家公司，但是总给我一种由盗版成了正版的感觉。。</h3><h2 id="闲话不多说，刚开始装第一个插件是Ctags"><a href="#闲话不多说，刚开始装第一个插件是Ctags" class="headerlink" title="闲话不多说，刚开始装第一个插件是Ctags"></a>闲话不多说，刚开始装第一个插件是Ctags</h2><p>刚开始装的时候我是在X-Windows里面的<a href="http://ctags.sourceforge.net" target="_blank" rel="noopener">这里</a>下载再转回shell敲</p>
-<pre><code>$ tar -xzvf ctags-5.6.tar.gz
-$ cd ctags-5.6
-$ make
-</code></pre><h1 id="make-install"><a href="#make-install" class="headerlink" title="make install"></a>make install</h1><h6 id="后来我发现不用这么复杂直接在X-Window下面复制到Terminal里面就可以了，毕竟后面安装的代码都是十几行，根本扛不住。。。。"><a href="#后来我发现不用这么复杂直接在X-Window下面复制到Terminal里面就可以了，毕竟后面安装的代码都是十几行，根本扛不住。。。。" class="headerlink" title="后来我发现不用这么复杂直接在X-Window下面复制到Terminal里面就可以了，毕竟后面安装的代码都是十几行，根本扛不住。。。。"></a>后来我发现不用这么复杂直接在X-Window下面复制到Terminal里面就可以了，毕竟后面安装的代码都是十几行，根本扛不住。。。。</h6><p>装完三个感觉整个我太苦逼，简直是辛苦啊，不是说好的敲几下键盘就可以吗。<br>后来了解到linux有几个软件可以帮忙安装而且解决依赖性，比如ubuntu的apt-get，redhat的rmp，yum，但是问题来了，我的黄狗（yum：yellow dog）怎么没用啊，全都装不上，一查错误提示，原来我没用被授权，原来RedHat更新软件是要收钱的，但是CentOS不用，然后我就用了CentOS的源，当时我就想只想装个git，然后就没用然后了。终于全部更新完了，yum也可以用了，用yum果然爽多了，直接</p>
-<pre><code>yum install git    
-</code></pre><p>git就装好了。如果想知道怎么改源，<a href="http://blog.chinaunix.net/uid-23683795-id-3477603.html" target="_blank" rel="noopener">点击这里</a></p>
-<hr>
-<p>好了装好了源接下来装软件就敲一敲代码就行，不用去网上找包下载再安装。</p>
-<p>装好一些热门的插件后，我碰到了第一个最难装的插件YouCompleteMe(YCM)，装完之后感觉就是神器一般的存在，但是装完之前一直在感慨，我去怎么没个卵用啊，而且装llvm（安装YCM必须先安装的软件)时，我用编译安装方法因为一些库的缺失一直报错，后面采用二进制安装方法安装完llvm才成功按上YCM。<br>推荐新手采用二进制安装方法安装llvm，想知道怎么安装YCM这些<a href="http://www.linuxzen.com/vim-dai-ma-bu-quan-he-jian-cha-youcompleteme-syntastic.html" target="_blank" rel="noopener">点击这里</a></p>
-<h2 id="安上一些实用的插件后，最后安装调试神器gdb，有三种方式使vim可以调试程序（与gdb一起工作），"><a href="#安上一些实用的插件后，最后安装调试神器gdb，有三种方式使vim可以调试程序（与gdb一起工作），" class="headerlink" title="安上一些实用的插件后，最后安装调试神器gdb，有三种方式使vim可以调试程序（与gdb一起工作），"></a>安上一些实用的插件后，最后安装调试神器gdb，有三种方式使vim可以调试程序（与gdb一起工作），</h2><p>vimgdb，pyclewn，clewn，三个我都试了，第一个要编译一下vim，我失败了，第二个要用python2.4+支持，我python2.6然并卵，每次都说不支持python2，第三个是用c写的，终于成功，安装非常简单，<br><a href="http://blog.csdn.net/linlianghui2004/article/details/7676792" target="_blank" rel="noopener">点击这里</a>了解详情.<br>装完了，我终于可以使用clewn打开gdb和gvim，然并卵，我写的程序并不能在gdb里面运行，一直说无法识别。。。。。。搜了一下原来是编译的时候的问题，用gcc编译的程序要带上<code>-g</code>参数才能在gdb里面用（我还以为我clewn没装好）<br>例如</p>
-<pre><code>gcc -g test.c -o test
-</code></pre><p>加上<code>-g</code>参数就行了。终于我的vim可以用了。。。。。。</p>
+    <title>git 工作流程</title>
+    <url>/2016/09/07/software/git-working-streamline/</url>
+    <content><![CDATA[<blockquote>
+<p><code>git</code>是当今流行的版本控制工具,一般我们可能只要会<code>push</code>, <code>pull</code>就可以了,<br>但是当我们同别人共同工作的时候,我们必须要了解<code>git</code>协同开发的一些重要流程.</p>
+</blockquote>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p><code>git</code>作为当今最流行的版本控制工具之一,当时开发出来就是为了管理<code>Linux</code>庞大源代码的分布式版本控制工具.<br>由于<code>Linux</code>源代码过于巨大,仅靠一个人的力量是完成不了的,那就必须把工作分配下去,然后将代码合并,所以<code>git</code>一开始设计的时候就是一种分布式的、多分支的</p>
+</blockquote>
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>所以<code>git</code>最重要的就是<strong>分支</strong>这个性质,分支是什么呢.</p>
+<p>要了解<strong>分支</strong>必须要了解<code>git</code>工作原理.</p>
+<p><code>git</code>工作原理很简单就是<code>add</code>、<code>commit</code>，<code>add</code>、<code>commit</code>….,简单来说就是添加记录,添加记录,保存快照,添加记录,添加记录,保存快照</p>
+<p><img src="/images/git-workflow-release-cycle-4maintenance.png" alt="git工作分支流程-来源网上"></p>
+<p>  如上图,随着master分支快照的一个一个建立,软件就慢慢的迭代下去了</p>
+<h2 id="分支工作流程"><a href="#分支工作流程" class="headerlink" title="分支工作流程"></a>分支工作流程</h2><p>  接下来我们要着重讲一下分支,我们看到<code>master</code>分支的<code>v0.1</code>版本,我们已经开发出稳定的<code>v0.1</code>版,这时候我们决定开发一个新功能.</p>
+<p> 在这里我们分了一个<code>Develop</code>分支,我们在<code>Develop</code>分支开发新代码.</p>
+<p> 这时候我们发现<code>v0,1</code>的一个<code>bug</code>,假如是没有使用版本控制的话,一般人会停下手中的活,然后从当前的新代码处来修复这个<code>bug</code>,当这个<code>bug</code>很简单的时候,我们不会遇到很大困难,但是当<code>bug</code>藏的很深,而且新代码隐藏了这个<code>bug</code>,或者被这个<code>bug</code>影响,这时修复工作就变得很困难.</p>
+<p> 还好我们有<code>git</code>,我们从<code>v0.1</code>直接分一个<code>Hotfix</code>分支,这两个分支的父都是<code>v0.1</code>,我们直接从稳定版本修复,不牵涉到新代码,这样修改好后我们就能很快从<code>Develop</code>分支继续工作了</p>
+<p> 而且这样有一个好处我们将<code>master</code>和<code>Develop</code>分支合并的时候很大可能不会产生冲突.</p>
+<p> <em>冲突(coflic)是什么了,怎么能避免呢?</em></p>
+<p> 从两个分支的父亲<code>v0.1</code>看起,我们每次改动一个保存文件就会产生一个<code>modify</code>(修改)的动作,我们假如分支里面都对同一个文件产生了<code>modify</code>(修改)动作,当我们合并的时候这就是一个冲突,<code>git</code>无法理解采用哪个分支的<code>modify</code>动作,这时候就要你人工来修改采用哪个分支.</p>
+<p> 假如没有相同的文件有<code>modify</code>(修改)动作,<code>git</code>就会聪明的知道采用每个分支的最新的<code>modify</code>(修改)修改出一份所以文件的最新版.</p>
+<p> 那我们怎么来避免这个冲突呢,这就要求我们分支要分的合理,分支只要完成特定的工作,不要越俎代庖,那有些人会说我这个分支一定要改父的耦合地方否则我的代码工作不了,这时我们要好好思考自己的分支的功能,把合并耦合的代码放在主分支里面,次分支只要完成特定功能就可以了,这样合并分支时候不但可以安全的<code>merge</code>(合并)了, 而且修改<code>bug</code>的时候也可以对症下药,直接在问题开始的地方修改.</p>
 ]]></content>
       <categories>
         <category>软件</category>
@@ -1835,6 +1836,27 @@ $ make
 <h3 id="如果你是用MVC进行表单传值的话，你必须在post方法上面添加-ValidateInput-false-属性，如果不这样的话就会报下面的错"><a href="#如果你是用MVC进行表单传值的话，你必须在post方法上面添加-ValidateInput-false-属性，如果不这样的话就会报下面的错" class="headerlink" title="如果你是用MVC进行表单传值的话，你必须在post方法上面添加 [ValidateInput(false)] 属性，如果不这样的话就会报下面的错"></a>如果你是用MVC进行表单传值的话，你必须在post方法上面添加 <strong>[ValidateInput(false)]</strong> 属性，如果不这样的话就会报下面的错</h3><pre><code>“/”应用程序中的服务器错误。
 从客户端(content=&quot;&lt;p&gt;sdfsdafwewo shdfh...&quot;)中检测到有潜在危险的 Request.Form 值。
 </code></pre>]]></content>
+      <categories>
+        <category>软件</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>在Linux下玩转Vim</title>
+    <url>/2016/07/18/software/%E5%9C%A8Linux%E4%B8%8B%E7%8E%A9%E8%BD%ACVim/</url>
+    <content><![CDATA[<h4 id="学了鸟哥的书前面基础后，突然想在Linux下用gcc玩C语言，然后了解到了Vim这个神一样的编译器，接下来经过超长时间虐心的安装无数插件无数依赖包，突然有种打自己一顿的感觉，还好终于把Vim装的和VS差不多了，接下来我介绍我安装Vim的经验吧。"><a href="#学了鸟哥的书前面基础后，突然想在Linux下用gcc玩C语言，然后了解到了Vim这个神一样的编译器，接下来经过超长时间虐心的安装无数插件无数依赖包，突然有种打自己一顿的感觉，还好终于把Vim装的和VS差不多了，接下来我介绍我安装Vim的经验吧。" class="headerlink" title="学了鸟哥的书前面基础后，突然想在Linux下用gcc玩C语言，然后了解到了Vim这个神一样的编译器，接下来经过超长时间虐心的安装无数插件无数依赖包，突然有种打自己一顿的感觉，还好终于把Vim装的和VS差不多了，接下来我介绍我安装Vim的经验吧。"></a>学了鸟哥的书前面基础后，突然想在Linux下用gcc玩C语言，然后了解到了Vim这个神一样的编译器，接下来经过超长时间虐心的安装无数插件无数依赖包，突然有种打自己一顿的感觉，还好终于把Vim装的和VS差不多了，接下来我介绍我安装Vim的经验吧。</h4><h3 id="我虚拟机下的Linux原来是红旗6的，但是我改了一下yum的包源成CentOS的并且全部update一下后就神奇的变成了CentOS6，虽然他们两个是同一家公司，但是总给我一种由盗版成了正版的感觉。。"><a href="#我虚拟机下的Linux原来是红旗6的，但是我改了一下yum的包源成CentOS的并且全部update一下后就神奇的变成了CentOS6，虽然他们两个是同一家公司，但是总给我一种由盗版成了正版的感觉。。" class="headerlink" title="我虚拟机下的Linux原来是红旗6的，但是我改了一下yum的包源成CentOS的并且全部update一下后就神奇的变成了CentOS6，虽然他们两个是同一家公司，但是总给我一种由盗版成了正版的感觉。。"></a>我虚拟机下的Linux原来是红旗6的，但是我改了一下yum的包源成CentOS的并且全部update一下后就神奇的变成了CentOS6，虽然他们两个是同一家公司，但是总给我一种由盗版成了正版的感觉。。</h3><h2 id="闲话不多说，刚开始装第一个插件是Ctags"><a href="#闲话不多说，刚开始装第一个插件是Ctags" class="headerlink" title="闲话不多说，刚开始装第一个插件是Ctags"></a>闲话不多说，刚开始装第一个插件是Ctags</h2><p>刚开始装的时候我是在X-Windows里面的<a href="http://ctags.sourceforge.net" target="_blank" rel="noopener">这里</a>下载再转回shell敲</p>
+<pre><code>$ tar -xzvf ctags-5.6.tar.gz
+$ cd ctags-5.6
+$ make
+</code></pre><h1 id="make-install"><a href="#make-install" class="headerlink" title="make install"></a>make install</h1><h6 id="后来我发现不用这么复杂直接在X-Window下面复制到Terminal里面就可以了，毕竟后面安装的代码都是十几行，根本扛不住。。。。"><a href="#后来我发现不用这么复杂直接在X-Window下面复制到Terminal里面就可以了，毕竟后面安装的代码都是十几行，根本扛不住。。。。" class="headerlink" title="后来我发现不用这么复杂直接在X-Window下面复制到Terminal里面就可以了，毕竟后面安装的代码都是十几行，根本扛不住。。。。"></a>后来我发现不用这么复杂直接在X-Window下面复制到Terminal里面就可以了，毕竟后面安装的代码都是十几行，根本扛不住。。。。</h6><p>装完三个感觉整个我太苦逼，简直是辛苦啊，不是说好的敲几下键盘就可以吗。<br>后来了解到linux有几个软件可以帮忙安装而且解决依赖性，比如ubuntu的apt-get，redhat的rmp，yum，但是问题来了，我的黄狗（yum：yellow dog）怎么没用啊，全都装不上，一查错误提示，原来我没用被授权，原来RedHat更新软件是要收钱的，但是CentOS不用，然后我就用了CentOS的源，当时我就想只想装个git，然后就没用然后了。终于全部更新完了，yum也可以用了，用yum果然爽多了，直接</p>
+<pre><code>yum install git    
+</code></pre><p>git就装好了。如果想知道怎么改源，<a href="http://blog.chinaunix.net/uid-23683795-id-3477603.html" target="_blank" rel="noopener">点击这里</a></p>
+<hr>
+<p>好了装好了源接下来装软件就敲一敲代码就行，不用去网上找包下载再安装。</p>
+<p>装好一些热门的插件后，我碰到了第一个最难装的插件YouCompleteMe(YCM)，装完之后感觉就是神器一般的存在，但是装完之前一直在感慨，我去怎么没个卵用啊，而且装llvm（安装YCM必须先安装的软件)时，我用编译安装方法因为一些库的缺失一直报错，后面采用二进制安装方法安装完llvm才成功按上YCM。<br>推荐新手采用二进制安装方法安装llvm，想知道怎么安装YCM这些<a href="http://www.linuxzen.com/vim-dai-ma-bu-quan-he-jian-cha-youcompleteme-syntastic.html" target="_blank" rel="noopener">点击这里</a></p>
+<h2 id="安上一些实用的插件后，最后安装调试神器gdb，有三种方式使vim可以调试程序（与gdb一起工作），"><a href="#安上一些实用的插件后，最后安装调试神器gdb，有三种方式使vim可以调试程序（与gdb一起工作），" class="headerlink" title="安上一些实用的插件后，最后安装调试神器gdb，有三种方式使vim可以调试程序（与gdb一起工作），"></a>安上一些实用的插件后，最后安装调试神器gdb，有三种方式使vim可以调试程序（与gdb一起工作），</h2><p>vimgdb，pyclewn，clewn，三个我都试了，第一个要编译一下vim，我失败了，第二个要用python2.4+支持，我python2.6然并卵，每次都说不支持python2，第三个是用c写的，终于成功，安装非常简单，<br><a href="http://blog.csdn.net/linlianghui2004/article/details/7676792" target="_blank" rel="noopener">点击这里</a>了解详情.<br>装完了，我终于可以使用clewn打开gdb和gvim，然并卵，我写的程序并不能在gdb里面运行，一直说无法识别。。。。。。搜了一下原来是编译的时候的问题，用gcc编译的程序要带上<code>-g</code>参数才能在gdb里面用（我还以为我clewn没装好）<br>例如</p>
+<pre><code>gcc -g test.c -o test
+</code></pre><p>加上<code>-g</code>参数就行了。终于我的vim可以用了。。。。。。</p>
+]]></content>
       <categories>
         <category>软件</category>
       </categories>
@@ -2029,41 +2051,6 @@ exec git-update-server-info
       </categories>
   </entry>
   <entry>
-    <title>8月 总结</title>
-    <url>/2016/08/21/summary/8-conclusion/</url>
-    <content><![CDATA[<blockquote>
-<p>因为这段时间待在家没什么事干,虽然完成一个小的项目,也还有很多功能需要完善,但是说实话还是有点迷茫,明年就大三了,接下来有两条路给我走,要么是考研,要么是出去工作.<br>自己算是个半个程序员吧,web开发那一套前后端撸起袖子都能搞出点名堂来,但是为什么说我是半个程序员呢,因为现在我还不知道我是爱他还是不爱他呢.</p>
-</blockquote>
-<p>兴趣这东西是培养来的,谁也不是天生就死心塌地的爱上某个东西.</p>
-<p>现在学习新东西的成本太低了,这两个月来我也尝试过很多以前没有接触的东西,<code>Android</code>,<code>Deskapp</code>,用了几个框架做了几个<code>apk</code>和软件,虽然用前端栈实现的东西但是所以的语言都差不多.</p>
-<p>当然项目基本功能都很单一,当然复杂的也就是简单的堆积而成.</p>
-<p>完成之后反倒更迷茫了,为什么了,互联网技术太好学了,无论你的文化程度有多低,按照<code>demo</code>依葫芦画瓢搞几下也能像模像样,我们作为一个文化程度比较高的一群人,或许花半天就能比别人一天能掌握的东西.</p>
-<p>但是人家索要的报酬却比你的四分之一还要低,你拿什么跟人家竞争</p>
-<p>我有一些志同道合的同学虽然像我一样学了几年web这一块,但是他们决定考研,web谁都能做,不用读大学就能做,他们想多读点出来改造世界,也可以说让世界更美好吧.</p>
-<p>其实我对考研的态度是消极的,我现在嘛并不准备投身科研这方面,在美国其实大学都是少部分人才能上,比起我们现在博士硕士满天飞,在美国其实只有真正喜欢科研的人才会去读大学.</p>
-<p>其实我写的时候很纠结,该怎么写才不跑题……</p>
-<p>我其实想总结的是<strong>注重基础</strong>,但是我脑海里面出现无数个论点,好像回到了高中时代写议论文了, 想把主人公塑造成一个焕然大悟顿悟人生的形象…..</p>
-<p>以上是个小插曲跳过跳过</p>
-<p>现在开始正式总结了,越短越好.</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>七八两个月自己还是很急躁的两个月,一方面在于选择技术栈,一方面在于选择出路.</p>
-<p>虽然没有想通,但是在想的过程中发现自己好焦躁…….</p>
-<p>总是想一秒钟决定自己未来N年的时,有点像人生规划一样</p>
-<p>虽然说搞个人生规划很好,但是发现真的是白费力气,因为无论那个伟人,谁也不知道自己将来会干什么,奥巴马在大学客堂睡觉的时候也不知道自己将领导美国.</p>
-<p>焦躁点找到了,接下来就静下来想了怎么解决了,既然无法预测未来那就好好准备未来吧.</p>
-<p>怎么准备呢?做你不屑做的事,并坚持下去.</p>
-<p>你们不要想歪了,不屑做的事是指那些你看起来没什么卵用的建议.</p>
-<p>比如说每天背几个单词,每天看一点英文原著,每天刷一刷编程题</p>
-<p>在这我要提一句,虽然很多人从高中过来有点嫌弃刷题了,但是我们是大学生不能用高中生的观点去看待问题,高中的刷题是为了分数,大学的刷题是为了醒脑</p>
-<p>你看不起一天在<code>leetcode</code>刷几道题,那是因为你刷不动,不愿刷,以前刷题刷到你一眼就能看出答案,现在我们刷题要每刷一遍都要有新的感受,让大脑活跃起来.</p>
-<p>而且当年把运动刷题背单词看书写博客当成<code>副本</code>规定题量字数的时候,每次完成你的任务都会很爽,一方面脑子变得活跃了,另一方面你有种马上就升级的感觉.</p>
-<p>每天都能发现自己的进步这是你前进的动力,虽然我们无法预测未来,好好准备,当未来真的来的时候,不会慌.</p>
-<p>私下插个话,现在<code>app</code>泛滥,你刷单词完全可以搞个扇贝,刷题搞个牛客或leetcode,健身搞个keep,虽然我没收他们的广告费,但是这些东西给我的反馈比我自己搞个小本记着好多了.不多说了与君共勉,希望大家都能沉下焦躁的心,一起慢慢”升级”.</p>
-]]></content>
-      <categories>
-        <category>随想</category>
-      </categories>
-  </entry>
-  <entry>
     <title>关于驱动力</title>
     <url>/2016/10/01/summary/about-diving-force/</url>
     <content><![CDATA[<h2 id="驱动力是什么"><a href="#驱动力是什么" class="headerlink" title="驱动力是什么"></a>驱动力是什么</h2><blockquote>
@@ -2101,15 +2088,35 @@ exec git-update-server-info
       </categories>
   </entry>
   <entry>
-    <title>八月杂感</title>
-    <url>/2020/08/22/summary/%E5%85%AB%E6%9C%88%E6%9D%82%E6%84%9F/</url>
+    <title>8月 总结</title>
+    <url>/2016/08/21/summary/8-conclusion/</url>
     <content><![CDATA[<blockquote>
-<p>一眨眼暑假就要过完了，这段博客又停下来了，倒不是因为我停下来学东西，而是我又忘了去归纳总结自己学的东西，总是一个鲁莽的心态去学，总感觉停下来会阻挡自己学习的脚步，但是其实写博客也是学习，把自己的学到的知识转换成自己的东西，写出来的过程就是帮自己的过程，其实这个方法也是一个非常牛逼的学习的方法叫做费尔曼学习法</p>
+<p>因为这段时间待在家没什么事干,虽然完成一个小的项目,也还有很多功能需要完善,但是说实话还是有点迷茫,明年就大三了,接下来有两条路给我走,要么是考研,要么是出去工作.<br>自己算是个半个程序员吧,web开发那一套前后端撸起袖子都能搞出点名堂来,但是为什么说我是半个程序员呢,因为现在我还不知道我是爱他还是不爱他呢.</p>
 </blockquote>
-<p>但是我这个人有点啰嗦，写的东西总是东一句西一句，没有一针见血，这个在接下来的博客里面也要改掉，尽量不要写废话</p>
-<p>接下来说一下我最近的学习方向，其实主要就是金融方向，主要设计到金融、股票、量化等等。牵涉到很多金融知识</p>
-<p>这里我再谈一下为什么我会去想精通业务，其实我一开始接触编程，我一直把自己往框架、底层方向搞（俗称造轮子），忽视了业务，一直觉得业务就是增删查改。但是其实本末倒置。</p>
-<p>所以去年到今年，我一直在犯错误，我一直想造一个轮子出来，但是没有灵魂，再好看的轮子也没有用，所以现在我从头开始，把金融知识掌握透，这个过程会很难，但是应该会很有趣</p>
+<p>兴趣这东西是培养来的,谁也不是天生就死心塌地的爱上某个东西.</p>
+<p>现在学习新东西的成本太低了,这两个月来我也尝试过很多以前没有接触的东西,<code>Android</code>,<code>Deskapp</code>,用了几个框架做了几个<code>apk</code>和软件,虽然用前端栈实现的东西但是所以的语言都差不多.</p>
+<p>当然项目基本功能都很单一,当然复杂的也就是简单的堆积而成.</p>
+<p>完成之后反倒更迷茫了,为什么了,互联网技术太好学了,无论你的文化程度有多低,按照<code>demo</code>依葫芦画瓢搞几下也能像模像样,我们作为一个文化程度比较高的一群人,或许花半天就能比别人一天能掌握的东西.</p>
+<p>但是人家索要的报酬却比你的四分之一还要低,你拿什么跟人家竞争</p>
+<p>我有一些志同道合的同学虽然像我一样学了几年web这一块,但是他们决定考研,web谁都能做,不用读大学就能做,他们想多读点出来改造世界,也可以说让世界更美好吧.</p>
+<p>其实我对考研的态度是消极的,我现在嘛并不准备投身科研这方面,在美国其实大学都是少部分人才能上,比起我们现在博士硕士满天飞,在美国其实只有真正喜欢科研的人才会去读大学.</p>
+<p>其实我写的时候很纠结,该怎么写才不跑题……</p>
+<p>我其实想总结的是<strong>注重基础</strong>,但是我脑海里面出现无数个论点,好像回到了高中时代写议论文了, 想把主人公塑造成一个焕然大悟顿悟人生的形象…..</p>
+<p>以上是个小插曲跳过跳过</p>
+<p>现在开始正式总结了,越短越好.</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>七八两个月自己还是很急躁的两个月,一方面在于选择技术栈,一方面在于选择出路.</p>
+<p>虽然没有想通,但是在想的过程中发现自己好焦躁…….</p>
+<p>总是想一秒钟决定自己未来N年的时,有点像人生规划一样</p>
+<p>虽然说搞个人生规划很好,但是发现真的是白费力气,因为无论那个伟人,谁也不知道自己将来会干什么,奥巴马在大学客堂睡觉的时候也不知道自己将领导美国.</p>
+<p>焦躁点找到了,接下来就静下来想了怎么解决了,既然无法预测未来那就好好准备未来吧.</p>
+<p>怎么准备呢?做你不屑做的事,并坚持下去.</p>
+<p>你们不要想歪了,不屑做的事是指那些你看起来没什么卵用的建议.</p>
+<p>比如说每天背几个单词,每天看一点英文原著,每天刷一刷编程题</p>
+<p>在这我要提一句,虽然很多人从高中过来有点嫌弃刷题了,但是我们是大学生不能用高中生的观点去看待问题,高中的刷题是为了分数,大学的刷题是为了醒脑</p>
+<p>你看不起一天在<code>leetcode</code>刷几道题,那是因为你刷不动,不愿刷,以前刷题刷到你一眼就能看出答案,现在我们刷题要每刷一遍都要有新的感受,让大脑活跃起来.</p>
+<p>而且当年把运动刷题背单词看书写博客当成<code>副本</code>规定题量字数的时候,每次完成你的任务都会很爽,一方面脑子变得活跃了,另一方面你有种马上就升级的感觉.</p>
+<p>每天都能发现自己的进步这是你前进的动力,虽然我们无法预测未来,好好准备,当未来真的来的时候,不会慌.</p>
+<p>私下插个话,现在<code>app</code>泛滥,你刷单词完全可以搞个扇贝,刷题搞个牛客或leetcode,健身搞个keep,虽然我没收他们的广告费,但是这些东西给我的反馈比我自己搞个小本记着好多了.不多说了与君共勉,希望大家都能沉下焦躁的心,一起慢慢”升级”.</p>
 ]]></content>
       <categories>
         <category>随想</category>
@@ -2141,6 +2148,21 @@ exec git-update-server-info
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>好像我的大学一直全部都是由错误组成的，但是这些错误真的对我来说毫无作用吗。其实未必，当我学完第一门编程语言C的时候，所以的“错误”都在默默的发挥的作用，我用静态语言的辩证思想学Python，我用动态语言的思想反过来学习Java，好像全部的“错误”全部融合成为一个圈，</p>
 <p><strong>我们好像一直在害怕自己出错，其实慢慢的发现那些没有错误的人生不是完整的。</strong></p>
 <p>小时候很羡慕那些一直走在正确的道路上的人，也有时候会幻想成为他们一样的人。没错那样的人生固然完美，但是我更喜欢一直跌跌撞撞的我，或许我经常走在错误的道路上，但是我享受了沿途的风景，不论最终结果如何，人生的意义还是沿途的风景吧!</p>
+]]></content>
+      <categories>
+        <category>随想</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>八月杂感</title>
+    <url>/2020/08/22/summary/%E5%85%AB%E6%9C%88%E6%9D%82%E6%84%9F/</url>
+    <content><![CDATA[<blockquote>
+<p>一眨眼暑假就要过完了，这段博客又停下来了，倒不是因为我停下来学东西，而是我又忘了去归纳总结自己学的东西，总是一个鲁莽的心态去学，总感觉停下来会阻挡自己学习的脚步，但是其实写博客也是学习，把自己的学到的知识转换成自己的东西，写出来的过程就是帮自己的过程，其实这个方法也是一个非常牛逼的学习的方法叫做费尔曼学习法</p>
+</blockquote>
+<p>但是我这个人有点啰嗦，写的东西总是东一句西一句，没有一针见血，这个在接下来的博客里面也要改掉，尽量不要写废话</p>
+<p>接下来说一下我最近的学习方向，其实主要就是金融方向，主要设计到金融、股票、量化等等。牵涉到很多金融知识</p>
+<p>这里我再谈一下为什么我会去想精通业务，其实我一开始接触编程，我一直把自己往框架、底层方向搞（俗称造轮子），忽视了业务，一直觉得业务就是增删查改。但是其实本末倒置。</p>
+<p>所以去年到今年，我一直在犯错误，我一直想造一个轮子出来，但是没有灵魂，再好看的轮子也没有用，所以现在我从头开始，把金融知识掌握透，这个过程会很难，但是应该会很有趣</p>
 ]]></content>
       <categories>
         <category>随想</category>
@@ -2187,6 +2209,25 @@ exec git-update-server-info
     <content><![CDATA[]]></content>
   </entry>
   <entry>
+    <title>未来一年规划</title>
+    <url>/2021/03/09/summary/%E6%9C%AA%E6%9D%A5%E4%B8%80%E5%B9%B4%E8%A7%84%E5%88%92/</url>
+    <content><![CDATA[<div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="抱歉, 这个密码看着不太对, 请再试试." data-whm="抱歉, 这个文章不能被校验, 不过您还是能看看解密后的内容.">
+  <script id="hbeData" type="hbeData" data-hmacdigest="0a17a79738f7d826c0931cf6bec56461d60150a8fd9728c25ded49856cb20f39">c540170728923a36879c9e77e2af1df52c165f5f5b1a4238cd8bcd185a3c3f4afa0d11da59ef636ff6cd3eecf5951d4a871671e3782e8033283707da663537431a8a2fc6e31e7dd129d0d5318d8bd2d78aef6a357038767c52a415f0fb79e4ff21ba1553d85cb5b574b0300c063288440f8fb8464e8a253dea6c28d56a287796c63893e1ffc70f444b503440a635a3bd021288296dc33be6f10e78edf5f42ece6ec821cd7d2e362d4170c9f492f6d48f53f48cec50b6bfd6eb7e8cd15896f8783de48928cc96948a979c6e2dd89d1c550670eb6c2caa8c12676094582a71daaa909f9773f1f9d3448f575c76006eb2f89facfb95fc64b52a5d2de938ee9887468b2ad3b99ae97742a9594759db777270ae4e8e4f53b9b53d1928c83c44e76db0cdfef4a9677e0fb4f8573d4e4eeb4a60f05b82f744fe166e49a3fb26a56d5db9818b1d3dab6e8b1adf7f97084244ff5fd909a640c80f3174dd01a9cf5ea78bc9006dbcdfc5d334b09527fe1d09db6b0e6ed45ccea57bf1645a5fa2447209e3639326450916a8272431cbfea7d067b016c41d3addce83a2b070748c1ed8f0e423115698938a85a6b4c4a671e243ba91e6ab74f694c99fc4d76264816c148cb028a855de491ac766184bb93c4ade40f0fdf2941fd2d4dd30fb6cb5eabcc5e365d76fca8cdf46fa21741eea8a73530dfcc88519cbd627033b84f8cbd55d2c7081c4b9e7756a62eacb18845c3f8c9b457bdf892a22b3296a28f6949cbefef344b5f0a53aa29e944dd8f550e3aa0b763028230cbaf27afb71192d2cd0a6e929c618eaefff0fcd847dca1350452da8ee7b88edb19faebcaaaa443837812c984569c050093282494f75e6a634b94b815cea69aa8a05dc87fa690728ddeba5bb36b417818f06629aa17806be622e7ca1184942bfd3d34626763bd3de3da8f3b97f1ec18956e2ca1cca506edbd73fa7a727f635774d7330523b1e695b7652d31551e14f5c13bcabb83ff9e87ee39e6e30105a13e256e493d4be9ddbfcba546ab5d2f6654f07b770e459348ecb44609440cf922df00f94734e2fcdb0852a9b6dac77fd5b1cbca04ed526a87ca94a21eb2a194b9cc2497cd59874e5fb90a8781c9a39c6e5328257263543596388c82404869b26c829676957eb59c3f531e18b940e02b66fd4acdb6a34102b857aca21a5c0fb1ba5a6289573b28a99db7cd5845c2e358df5a12255ccaf441a3da4a47d8ce3b810e1f45474ffa14eac1ed1e116c504364fa3c8bab989a8212bba8b06be89b6fe7e3772d0decf2d08cbc35f13e97f2090b3ceb1ef1aa0256653168196cbcb0385236b8a7ab6908b731da761c263a50a07f256e6f1758aad45b43ffb39e153790bc128c8aef0851dda06e3cb6d251895e29ecaffd1b43e9af1236fa89703b8b8537a57f3b20fa66bb6f77edfedbd8e40545d4ac36e4f89239802b9bf05413c6553363e1e5f1bf545e86924f937b6c1d80b2637cd6c1e9be1bec8a388e3e4beac162d4d94e27d8ad4eb82ee892e7fa4c70c8c15bad2c3bf9be4e308129403bf454593c239899b0539bb55d5e208c7744ca010629a25aeac9a26347d6ea676b8fa5f85ec1210b23ce3528e698d2f50fc234d930282336f9172262a36899fd2a1bc8e62b2574d818e27e36b7424cdb857b85d1aecebaf6ac87bbf9f46ccd926d9bc248fee38337e3319cdf45220e00bad62002ae1783ac75801299a83641e1ae08cbea437ff799bcd111134f524dd644dc6f763c1cbca05c191c1bc58660eb8360ad0f9df77b9914c9d7d07de30756023e569356692151ed5213b8211b5e28d5532e82bfb72847d4828bdf5ec8b2c994e126cef82b11154a2213655fc7e93a8439bf6c0727b84770cc14b080a77e6cc892080356dae8b85f11d262426c64d3f25d93a275bae47b50c45f61da4670337d30048517209dfcc44db8c91199f6036ffc4c41497ce3d8226e065977dbf3aa494da07bddc6425897c480caa1215d2183705f3fc29499ec7802e1d0cb551a406320e95916a236fa6ca9f835f58612b534b54075a79cdf47040d5d173648271d3ffad3a7d8059d0e21882cc43a074ba50e99dc26b5f78622a7f23508f3fea13f671095fdfe17b4d3c24e4ff279b7d0118753fc1ce463dfadf31c7f8dc1d135dc546ed590d9cc760fffb57505686230cb2f8dbf850fca0d8f7e370d47625897ed65f5920e089aefa0edd38ab4f09e3b4dfd9dba0cc2a8d0b6475cb0a016b1eb1b4175627c1080660b2e9af98436c885a293f42b7710228f2de6f6e1f4ee179dceccd6ad8b8e75dc285e8d4cfc3bd8e05154f6ebfeee295653b6a85339d0521964d312c734f276cee0a3930fd67534ea3d57723c42924348e42063aeb04f70d4fb41403c9602283554b583c64328741a336b90795448264efdaf4430c60d65363667753456b7b577a2e3d045f6d5921139d91ae5111cbc3a9e1d9ae303bd71802c9c0a92f1652bb4169cf28cda115bcada274847c9d56ba8544037c8484f3976c82c06218102d00c6c9db9fcefd1f9299da3d543b45b3dd5510409c8cd975c05b1aaf8339fbaa144c57d9906aa9ac4763ce6d0466d4bcc860bdbea3069f4a14d8db9f1c8fe3a8fc84d3c4665f76117a0ae73b607aa6000dd985eff53682eef67461d1ed08d9fc1d61eadc5097129efde669f9f50c8c49f56b5fd02e9b3f8368bbbc4c078f8077f8feeee1d0bc3400036ef56b6162c5fb65af671f3629f03a85527f8cfec188da7883e206ec0f826c2c135b79484a454801a1e7cb2bc08d9b82ae53b5f9c836c896e3457b42b3f8bdc03db2f1ef5df606d987608e7f51933fe93b1682c23d31bba3c3fc66550a7a2919c3d81ec74d257680d1a2f71b2d6aff3a67232ade04a53a350c35224c1032f8bbe5ff9da169cd9ae4b9cd5eddac2ed2ed06b14280defde4d112001b59162686d7f539a18039290186d86663e89948b1cb3265143e7168d1eba36b8709efd0162d87f7075ab6179a634431df7021aa9cca9a56f339591fbb15d59ff70f7608de41d681ffb7ec546d3b6000b8be7e2b0daf877e830ea6ea2d93ae592309b100a50472edd62857c4127556a3791a1d69e4bc44c7f693e07c6275f6057db32d6936bdae2560f4a805146cbaaf80dae0271ba763d675fa12c49e6904f1690c409f9baed4368f82fb74b82b66055baf0e043abdf5e99d250a4707d8c070b20f1dc305a1f5fe516ef787be2beb2dd5838374a7dd9e936ed76c79c0e268c3efdfd95a7effc94b714f060b83d17a66746e4ea5edf8233afb77dd93542111975cff6fc9976b52a1f54025349436168c7f619bf809953172b115c32d49cb51768fb330932e30b9656b319438dbd3d7173a835b11b6cd7260b02719cff30913018de56ffd2b698536964b23ba04cbcf8709b675fb0c07fa73af31597660ae3535cd84ffc3d426b08bd9e2da25b058849b50d266b672df4b812222822be3b2c66776dc30743d06169972840d74309ad5e6ba6f1d828e5bda0350f37cff768fc532d5374c36db708d52dbceab0f1f9b7c6941abe8aaa388f301c75f92713f47892c8335269f7c46596e8ab2634783802e0e55e6b540fc02dab41090249f9201e279800edf0bd0d10b167db803eaffed78e2cb7ef17f392cc9a8aa988350ae8d0217d5933689739ee1439367a30cc25dc7bba902db8319aed68c1ba2ef42bff495ed3e91b56531ba7b49445f76c1fabdf5ea70a1ba0512e8cb81c023c9079a0f376f3451c297db8e1ee56cb6cc10bc6ea02e2e106f39d1804247fe6f8eefcf0133fd405133cada3e3dda3f2bac949191bfc99dffc7812ab2cf6ed6533f98e779c936ed1e53b7faf63b741241dfb36201a72d4e411a8b0cd421f3584d6c2c80fd221de500fc5aab32ae339d87609b09a1ad09cd93383f47dd0aaa29df9e986f7895c4ebec65940693101c3127add473c1165e44c69619140834da9b64faaf063a254ba55fffa84cf06923a16d94c43d8c8ca46d0450941800f8e034200efd51e11443520bda3e0e359404f443af75172c3a56aa20e59c4da6cecaeaa59497a9cd5539e40e31095ec32b3d3dbddbbd5b8e1893ae4bb35aa9f4b2fbaad89a6dfe2bf7d387b958ba8c0d91558c935cfb5402296e98c0668b5d746909f4e963ef4504039c51185b7f1e889bcc85e5ac48b266fede391b2f23335f3b3d7bbacdb09978409982804ecffd518b5ce27066af8b442c5e0e55c9275908e7c4d97792932f93f9150939f2a5a6e4e75247bbefb1a099828c613d5a4e8ae925d25b4e29a33724ee93aa25b7b6b63eac86132a62cc5bc085a450b0da84a7bc46e3e5349e4a914b3e11daa6078caab63ffa078635e7d7978ecdad120c88704ec62469097e05031a914c8654d5d43f5403ae2322de58527bbf103ca3452ded0a60360c681aac0da3bd3b9706df55410feb6854ef24f459c31490eabe00c7ae8c08f87dd82eb27462dce99f73b2e26ce76872c44b89ee0f85f7989f910ffdc7591b625b1e05ded7a83f81c438dd1950da0d9f9b716ba769ade2276cf5a4b9fa31abf905db9d195c32b003e0f4ed371e62a61f234a344d2155da82f9433636da14dad185ab14d2336fb690f15a81b8e2f830598ceec01972826613a45ae3bfd6c345188169b242aef7e451875f41a854c25a156faf73e10b93a9ad358951f31910fd17cffc6bec783466d5841a87e106bd208a084b8cde71ac6cf6fad1e78832a523f20358b3ee4754d9324407537ca9307327e9078bcb7eb152c341cb4dacaa685bd97c8968e0425f98e7e933519384c0acff287a7617057fe193d2d7c132ab1e84d1edfe3de92ffba91f3941ccaea067731f4a48299299b0ae03922829e90fadf1e410701c436427a47a65f96a5c744f3d590eddfa68c5da197c3a9c20ee8fcd0d962fe894c0de5ad69bc84f59f10ebe5aae9e3fca9fa7ad4d3b117a743226c53ccba812624537160a0e2f5f09c234ca104cd5ecfd8259da5eb4e41dadedff5db4797bd03b29381c23a07ea554459af367252052e185ddee59d28801cabc1d10adff118d730ebbaabc9d7a82db23827d5bacb9448216e901167348e9bd96f6ce578c72ded7d42c553be8f4cfc06464493366b665868ad5600d6c732a62b1496b038b148e8f075d2394276b9f9aff1533bae67f785f3a5b42c1b5f25c68ec8f0a05559f281f66a9d3ec2bc366c751106a6543337929fd056f7120799e0e561e51266fca1e6bad577c950437c949a8d80d842bfc7ce34caf116003a387c32c63112a009444aeef4afc793523d10aa69ec2614a70c0222515fbb6d0118fdbc1820c561c0ef4c71fbca0c19ee1df06b458bef70fed728f41a8643303b498a697e589e635b0be5429c94913733902223bb880c6db4629e7cc4091278752e140ccbed9a2b4fb273d1295bb7a7d8447340ad9d1c7961979f551a96345067e2a69039a20fce0838297d52bc1e9951506e72a0d05e0895fde362eb14ca510e34b84509219cd55c140f0178d19078a8ef8816f07ecbf141da9e62bdd2f9bf7257a730329f9726b6fe19dcc3dfebce6cc4b29efcdba8a5d65d2920a0def39603c35e4ac65255fce01c2acda1caafd7aa04414c885abd0854a90797c8def1984159265f714a7d493daf24f006746ab104d388af0db2973f82dd3a5dff96bb4906b23de46c00a662336ce70cb6ca0f0a21ac6dd930534ef542be383b7de0381926b52435f651f177bc665d58af6a34b8994ced52b22c2e9df772e4fa9885d871a140a5a17b108d6e6e85aadd43b9107ed8614d0187b678715f791cea35015fb27753133c3997349c54b7e07ef286d63cd6adb4160f6f19d41b938f3369f941cfaa464fff63cd8be5862880a0b900d6fc2e53f05c0a0c0ea7e02600552daebc1939571e38800ee5a2ec420e8abc950fdd4db050f8e17bd44b60e58d99b05f5c3091a209f7ade4a648eba73ae9b7f06b095d8a0145475616903a6b58ed6f588e8e2997a40d5e80a41cdcd23a5baf08cdd289404a20363f927fa4162b28d49b12ad03bc4719da86f3eb674b7600405a7b1fbbd09dc201a52a19262ae11d74bb3b058ec8ef9ece179c846a25cfdcf3d60127740ffed7dab3a7dfb9e02b6b620ec5e1b0c2da746d926f03d728898cba624e51f2da85046f8480e3697ef030077bdfcf09716a0c1e3c0ca42f171446efa12c936c7ad6d527bf250b2ac69f4730325b01ee04ecc0b6f1573f03b5a4e668446cb10ac9d17fcc4ef3671540c99f8bb1a870eee20e380841d3e78d644c668aa3cbfb91c426477ac0dd80430056c3d3108344b1b96665fbd41568fd9dc6ccb61160a4d1f557058210c46941a19e77f468f996d03b923c5179390e9b643756dd09fc93c8a610b51e2f4f97245c85ce387982098e0a9190468b245c8334fc4f44c7d34403433b9a975238f049fc88a70b69d926fdfe11f55d2cf9436c9765afe366b0ac68cf60194cf81f0dca11de1d50cabc0939da9187d98c2fc817c8e2b5921dfa425f710c4c0ea4e8e0656f9b462d723b14e14e29791f96f5fedf5cbde99bdc4525769312507c8ef87e775bf411506181e2e316aabc073c758575403b3c31635a51d9fd275d75a28b345f6de03d34aa2979b3276a0884fa4193c46fdea53f429752f9cfb91ae99dead1a987929e20dae80be484d52fba38f6b25ac6d7fc41aeb803763583e81afdff2f5c34fa175b78e418d06928117c6e1e1d96ec70011bc6914e2d5709c390df1a6daab1ad6f36011028acde1918ebf73f492ea8e1feac9a0f341c08de343481a27b726d48f5f010b93364f9e1b1279a2bbb1cbc042016d4002069379a3a60433157ebcabac01ac7f002e882579ec54acbe25371f1138767e23f1d750be9debd4537ebeb8ca54796dd512d079a350e15ac846f7b4f46880f6</script>
+  <div class="hbe hbe-content">
+    <div class="hbe hbe-input hbe-input-default">
+      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
+      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">
+        <span class="hbe hbe-input-label-content hbe-input-label-content-default">您好, 这里需要密码！</span>
+      </label>
+    </div>
+  </div>
+</div>
+<script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">]]></content>
+      <categories>
+        <category>随想</category>
+      </categories>
+  </entry>
+  <entry>
     <title>技术如何深入</title>
     <url>/2021/01/07/summary/%E6%8A%80%E6%9C%AF%E5%A6%82%E4%BD%95%E6%B7%B1%E5%85%A5/</url>
     <content><![CDATA[<blockquote>
@@ -2215,25 +2256,6 @@ exec git-update-server-info
 <p>这里分享一个 中国比特币第一人 李笑来的一个技巧，就是他以前背单词也是，知道背单词对自己有好处，但是总是拖延，后面他就给自己暗示，背一个单词10块钱，就是这种激励让他打败拖延症，成为新东方的一名非常强的英语老师。</p>
 <p>⛽️</p>
 ]]></content>
-      <categories>
-        <category>随想</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>未来一年规划</title>
-    <url>/2021/03/09/summary/%E6%9C%AA%E6%9D%A5%E4%B8%80%E5%B9%B4%E8%A7%84%E5%88%92/</url>
-    <content><![CDATA[<div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="抱歉, 这个密码看着不太对, 请再试试." data-whm="抱歉, 这个文章不能被校验, 不过您还是能看看解密后的内容.">
-  <script id="hbeData" type="hbeData" data-hmacdigest="0a17a79738f7d826c0931cf6bec56461d60150a8fd9728c25ded49856cb20f39">c540170728923a36879c9e77e2af1df52c165f5f5b1a4238cd8bcd185a3c3f4afa0d11da59ef636ff6cd3eecf5951d4a871671e3782e8033283707da663537431a8a2fc6e31e7dd129d0d5318d8bd2d78aef6a357038767c52a415f0fb79e4ff21ba1553d85cb5b574b0300c063288440f8fb8464e8a253dea6c28d56a287796c63893e1ffc70f444b503440a635a3bd021288296dc33be6f10e78edf5f42ece6ec821cd7d2e362d4170c9f492f6d48f53f48cec50b6bfd6eb7e8cd15896f8783de48928cc96948a979c6e2dd89d1c550670eb6c2caa8c12676094582a71daaa909f9773f1f9d3448f575c76006eb2f89facfb95fc64b52a5d2de938ee9887468b2ad3b99ae97742a9594759db777270ae4e8e4f53b9b53d1928c83c44e76db0cdfef4a9677e0fb4f8573d4e4eeb4a60f05b82f744fe166e49a3fb26a56d5db9818b1d3dab6e8b1adf7f97084244ff5fd909a640c80f3174dd01a9cf5ea78bc9006dbcdfc5d334b09527fe1d09db6b0e6ed45ccea57bf1645a5fa2447209e3639326450916a8272431cbfea7d067b016c41d3addce83a2b070748c1ed8f0e423115698938a85a6b4c4a671e243ba91e6ab74f694c99fc4d76264816c148cb028a855de491ac766184bb93c4ade40f0fdf2941fd2d4dd30fb6cb5eabcc5e365d76fca8cdf46fa21741eea8a73530dfcc88519cbd627033b84f8cbd55d2c7081c4b9e7756a62eacb18845c3f8c9b457bdf892a22b3296a28f6949cbefef344b5f0a53aa29e944dd8f550e3aa0b763028230cbaf27afb71192d2cd0a6e929c618eaefff0fcd847dca1350452da8ee7b88edb19faebcaaaa443837812c984569c050093282494f75e6a634b94b815cea69aa8a05dc87fa690728ddeba5bb36b417818f06629aa17806be622e7ca1184942bfd3d34626763bd3de3da8f3b97f1ec18956e2ca1cca506edbd73fa7a727f635774d7330523b1e695b7652d31551e14f5c13bcabb83ff9e87ee39e6e30105a13e256e493d4be9ddbfcba546ab5d2f6654f07b770e459348ecb44609440cf922df00f94734e2fcdb0852a9b6dac77fd5b1cbca04ed526a87ca94a21eb2a194b9cc2497cd59874e5fb90a8781c9a39c6e5328257263543596388c82404869b26c829676957eb59c3f531e18b940e02b66fd4acdb6a34102b857aca21a5c0fb1ba5a6289573b28a99db7cd5845c2e358df5a12255ccaf441a3da4a47d8ce3b810e1f45474ffa14eac1ed1e116c504364fa3c8bab989a8212bba8b06be89b6fe7e3772d0decf2d08cbc35f13e97f2090b3ceb1ef1aa0256653168196cbcb0385236b8a7ab6908b731da761c263a50a07f256e6f1758aad45b43ffb39e153790bc128c8aef0851dda06e3cb6d251895e29ecaffd1b43e9af1236fa89703b8b8537a57f3b20fa66bb6f77edfedbd8e40545d4ac36e4f89239802b9bf05413c6553363e1e5f1bf545e86924f937b6c1d80b2637cd6c1e9be1bec8a388e3e4beac162d4d94e27d8ad4eb82ee892e7fa4c70c8c15bad2c3bf9be4e308129403bf454593c239899b0539bb55d5e208c7744ca010629a25aeac9a26347d6ea676b8fa5f85ec1210b23ce3528e698d2f50fc234d930282336f9172262a36899fd2a1bc8e62b2574d818e27e36b7424cdb857b85d1aecebaf6ac87bbf9f46ccd926d9bc248fee38337e3319cdf45220e00bad62002ae1783ac75801299a83641e1ae08cbea437ff799bcd111134f524dd644dc6f763c1cbca05c191c1bc58660eb8360ad0f9df77b9914c9d7d07de30756023e569356692151ed5213b8211b5e28d5532e82bfb72847d4828bdf5ec8b2c994e126cef82b11154a2213655fc7e93a8439bf6c0727b84770cc14b080a77e6cc892080356dae8b85f11d262426c64d3f25d93a275bae47b50c45f61da4670337d30048517209dfcc44db8c91199f6036ffc4c41497ce3d8226e065977dbf3aa494da07bddc6425897c480caa1215d2183705f3fc29499ec7802e1d0cb551a406320e95916a236fa6ca9f835f58612b534b54075a79cdf47040d5d173648271d3ffad3a7d8059d0e21882cc43a074ba50e99dc26b5f78622a7f23508f3fea13f671095fdfe17b4d3c24e4ff279b7d0118753fc1ce463dfadf31c7f8dc1d135dc546ed590d9cc760fffb57505686230cb2f8dbf850fca0d8f7e370d47625897ed65f5920e089aefa0edd38ab4f09e3b4dfd9dba0cc2a8d0b6475cb0a016b1eb1b4175627c1080660b2e9af98436c885a293f42b7710228f2de6f6e1f4ee179dceccd6ad8b8e75dc285e8d4cfc3bd8e05154f6ebfeee295653b6a85339d0521964d312c734f276cee0a3930fd67534ea3d57723c42924348e42063aeb04f70d4fb41403c9602283554b583c64328741a336b90795448264efdaf4430c60d65363667753456b7b577a2e3d045f6d5921139d91ae5111cbc3a9e1d9ae303bd71802c9c0a92f1652bb4169cf28cda115bcada274847c9d56ba8544037c8484f3976c82c06218102d00c6c9db9fcefd1f9299da3d543b45b3dd5510409c8cd975c05b1aaf8339fbaa144c57d9906aa9ac4763ce6d0466d4bcc860bdbea3069f4a14d8db9f1c8fe3a8fc84d3c4665f76117a0ae73b607aa6000dd985eff53682eef67461d1ed08d9fc1d61eadc5097129efde669f9f50c8c49f56b5fd02e9b3f8368bbbc4c078f8077f8feeee1d0bc3400036ef56b6162c5fb65af671f3629f03a85527f8cfec188da7883e206ec0f826c2c135b79484a454801a1e7cb2bc08d9b82ae53b5f9c836c896e3457b42b3f8bdc03db2f1ef5df606d987608e7f51933fe93b1682c23d31bba3c3fc66550a7a2919c3d81ec74d257680d1a2f71b2d6aff3a67232ade04a53a350c35224c1032f8bbe5ff9da169cd9ae4b9cd5eddac2ed2ed06b14280defde4d112001b59162686d7f539a18039290186d86663e89948b1cb3265143e7168d1eba36b8709efd0162d87f7075ab6179a634431df7021aa9cca9a56f339591fbb15d59ff70f7608de41d681ffb7ec546d3b6000b8be7e2b0daf877e830ea6ea2d93ae592309b100a50472edd62857c4127556a3791a1d69e4bc44c7f693e07c6275f6057db32d6936bdae2560f4a805146cbaaf80dae0271ba763d675fa12c49e6904f1690c409f9baed4368f82fb74b82b66055baf0e043abdf5e99d250a4707d8c070b20f1dc305a1f5fe516ef787be2beb2dd5838374a7dd9e936ed76c79c0e268c3efdfd95a7effc94b714f060b83d17a66746e4ea5edf8233afb77dd93542111975cff6fc9976b52a1f54025349436168c7f619bf809953172b115c32d49cb51768fb330932e30b9656b319438dbd3d7173a835b11b6cd7260b02719cff30913018de56ffd2b698536964b23ba04cbcf8709b675fb0c07fa73af31597660ae3535cd84ffc3d426b08bd9e2da25b058849b50d266b672df4b812222822be3b2c66776dc30743d06169972840d74309ad5e6ba6f1d828e5bda0350f37cff768fc532d5374c36db708d52dbceab0f1f9b7c6941abe8aaa388f301c75f92713f47892c8335269f7c46596e8ab2634783802e0e55e6b540fc02dab41090249f9201e279800edf0bd0d10b167db803eaffed78e2cb7ef17f392cc9a8aa988350ae8d0217d5933689739ee1439367a30cc25dc7bba902db8319aed68c1ba2ef42bff495ed3e91b56531ba7b49445f76c1fabdf5ea70a1ba0512e8cb81c023c9079a0f376f3451c297db8e1ee56cb6cc10bc6ea02e2e106f39d1804247fe6f8eefcf0133fd405133cada3e3dda3f2bac949191bfc99dffc7812ab2cf6ed6533f98e779c936ed1e53b7faf63b741241dfb36201a72d4e411a8b0cd421f3584d6c2c80fd221de500fc5aab32ae339d87609b09a1ad09cd93383f47dd0aaa29df9e986f7895c4ebec65940693101c3127add473c1165e44c69619140834da9b64faaf063a254ba55fffa84cf06923a16d94c43d8c8ca46d0450941800f8e034200efd51e11443520bda3e0e359404f443af75172c3a56aa20e59c4da6cecaeaa59497a9cd5539e40e31095ec32b3d3dbddbbd5b8e1893ae4bb35aa9f4b2fbaad89a6dfe2bf7d387b958ba8c0d91558c935cfb5402296e98c0668b5d746909f4e963ef4504039c51185b7f1e889bcc85e5ac48b266fede391b2f23335f3b3d7bbacdb09978409982804ecffd518b5ce27066af8b442c5e0e55c9275908e7c4d97792932f93f9150939f2a5a6e4e75247bbefb1a099828c613d5a4e8ae925d25b4e29a33724ee93aa25b7b6b63eac86132a62cc5bc085a450b0da84a7bc46e3e5349e4a914b3e11daa6078caab63ffa078635e7d7978ecdad120c88704ec62469097e05031a914c8654d5d43f5403ae2322de58527bbf103ca3452ded0a60360c681aac0da3bd3b9706df55410feb6854ef24f459c31490eabe00c7ae8c08f87dd82eb27462dce99f73b2e26ce76872c44b89ee0f85f7989f910ffdc7591b625b1e05ded7a83f81c438dd1950da0d9f9b716ba769ade2276cf5a4b9fa31abf905db9d195c32b003e0f4ed371e62a61f234a344d2155da82f9433636da14dad185ab14d2336fb690f15a81b8e2f830598ceec01972826613a45ae3bfd6c345188169b242aef7e451875f41a854c25a156faf73e10b93a9ad358951f31910fd17cffc6bec783466d5841a87e106bd208a084b8cde71ac6cf6fad1e78832a523f20358b3ee4754d9324407537ca9307327e9078bcb7eb152c341cb4dacaa685bd97c8968e0425f98e7e933519384c0acff287a7617057fe193d2d7c132ab1e84d1edfe3de92ffba91f3941ccaea067731f4a48299299b0ae03922829e90fadf1e410701c436427a47a65f96a5c744f3d590eddfa68c5da197c3a9c20ee8fcd0d962fe894c0de5ad69bc84f59f10ebe5aae9e3fca9fa7ad4d3b117a743226c53ccba812624537160a0e2f5f09c234ca104cd5ecfd8259da5eb4e41dadedff5db4797bd03b29381c23a07ea554459af367252052e185ddee59d28801cabc1d10adff118d730ebbaabc9d7a82db23827d5bacb9448216e901167348e9bd96f6ce578c72ded7d42c553be8f4cfc06464493366b665868ad5600d6c732a62b1496b038b148e8f075d2394276b9f9aff1533bae67f785f3a5b42c1b5f25c68ec8f0a05559f281f66a9d3ec2bc366c751106a6543337929fd056f7120799e0e561e51266fca1e6bad577c950437c949a8d80d842bfc7ce34caf116003a387c32c63112a009444aeef4afc793523d10aa69ec2614a70c0222515fbb6d0118fdbc1820c561c0ef4c71fbca0c19ee1df06b458bef70fed728f41a8643303b498a697e589e635b0be5429c94913733902223bb880c6db4629e7cc4091278752e140ccbed9a2b4fb273d1295bb7a7d8447340ad9d1c7961979f551a96345067e2a69039a20fce0838297d52bc1e9951506e72a0d05e0895fde362eb14ca510e34b84509219cd55c140f0178d19078a8ef8816f07ecbf141da9e62bdd2f9bf7257a730329f9726b6fe19dcc3dfebce6cc4b29efcdba8a5d65d2920a0def39603c35e4ac65255fce01c2acda1caafd7aa04414c885abd0854a90797c8def1984159265f714a7d493daf24f006746ab104d388af0db2973f82dd3a5dff96bb4906b23de46c00a662336ce70cb6ca0f0a21ac6dd930534ef542be383b7de0381926b52435f651f177bc665d58af6a34b8994ced52b22c2e9df772e4fa9885d871a140a5a17b108d6e6e85aadd43b9107ed8614d0187b678715f791cea35015fb27753133c3997349c54b7e07ef286d63cd6adb4160f6f19d41b938f3369f941cfaa464fff63cd8be5862880a0b900d6fc2e53f05c0a0c0ea7e02600552daebc1939571e38800ee5a2ec420e8abc950fdd4db050f8e17bd44b60e58d99b05f5c3091a209f7ade4a648eba73ae9b7f06b095d8a0145475616903a6b58ed6f588e8e2997a40d5e80a41cdcd23a5baf08cdd289404a20363f927fa4162b28d49b12ad03bc4719da86f3eb674b7600405a7b1fbbd09dc201a52a19262ae11d74bb3b058ec8ef9ece179c846a25cfdcf3d60127740ffed7dab3a7dfb9e02b6b620ec5e1b0c2da746d926f03d728898cba624e51f2da85046f8480e3697ef030077bdfcf09716a0c1e3c0ca42f171446efa12c936c7ad6d527bf250b2ac69f4730325b01ee04ecc0b6f1573f03b5a4e668446cb10ac9d17fcc4ef3671540c99f8bb1a870eee20e380841d3e78d644c668aa3cbfb91c426477ac0dd80430056c3d3108344b1b96665fbd41568fd9dc6ccb61160a4d1f557058210c46941a19e77f468f996d03b923c5179390e9b643756dd09fc93c8a610b51e2f4f97245c85ce387982098e0a9190468b245c8334fc4f44c7d34403433b9a975238f049fc88a70b69d926fdfe11f55d2cf9436c9765afe366b0ac68cf60194cf81f0dca11de1d50cabc0939da9187d98c2fc817c8e2b5921dfa425f710c4c0ea4e8e0656f9b462d723b14e14e29791f96f5fedf5cbde99bdc4525769312507c8ef87e775bf411506181e2e316aabc073c758575403b3c31635a51d9fd275d75a28b345f6de03d34aa2979b3276a0884fa4193c46fdea53f429752f9cfb91ae99dead1a987929e20dae80be484d52fba38f6b25ac6d7fc41aeb803763583e81afdff2f5c34fa175b78e418d06928117c6e1e1d96ec70011bc6914e2d5709c390df1a6daab1ad6f36011028acde1918ebf73f492ea8e1feac9a0f341c08de343481a27b726d48f5f010b93364f9e1b1279a2bbb1cbc042016d4002069379a3a60433157ebcabac01ac7f002e882579ec54acbe25371f1138767e23f1d750be9debd4537ebeb8ca54796dd512d079a350e15ac846f7b4f46880f6</script>
-  <div class="hbe hbe-content">
-    <div class="hbe hbe-input hbe-input-default">
-      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
-      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">
-        <span class="hbe hbe-input-label-content hbe-input-label-content-default">您好, 这里需要密码！</span>
-      </label>
-    </div>
-  </div>
-</div>
-<script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">]]></content>
       <categories>
         <category>随想</category>
       </categories>
@@ -4468,6 +4490,264 @@ for i in range(18000):
       </tags>
   </entry>
   <entry>
+    <title>KERNBASE对操作系统的影响</title>
+    <url>/2018/02/19/algorithm/mit6_828/KERNBASE%E5%AF%B9%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%BD%B1%E5%93%8D/</url>
+    <content><![CDATA[<h2 id="概括"><a href="#概括" class="headerlink" title="概括"></a>概括</h2><blockquote>
+<p>这个问题主要在这本<a href="https://pdos.csail.mit.edu/6.828/2016/xv6/book-rev9.pdf" target="_blank" rel="noopener">xv6-ref</a>的第一章的练习题2中提出来</p>
+</blockquote>
+<p>问题如下</p>
+<pre><code>KERNBASE limits the amount of memory a single process can use, which might be irritating on a machine with a full 4 GB of RAM. Would raising KERNBASE allow a process to use more memory?
+</code></pre><p>根据前面的知识可知这个问题翻译过来就是：在32位处理器下，当<code>KERNBASE</code>为<code>0x80000000</code>时用户最多可以用2GB内存，我们是否能够增加<code>KERNBASE</code>让用户使用超过2GB内存呢？</p>
+<p>ps： 下面<code>KERNBASE</code>简写为<code>KE</code></p>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>要想解答这个问题，我们必须要知道xv6是如何分配内存的，以及如何区分用户和内核，以及<code>KE</code>的作用。</p>
+<p>xv6使用内存分页技术，如果你对这个不了解可以看这篇<a href="/2018/01/31/内存分页/">引导中的静态表</a>和这篇<a href="/2018/02/内存分页设计/">内存分页设计细节</a>，了解完这个我们谈谈用户和内核的内存分页应用。</p>
+<p>注意我们所以计算的前提是在32位处理器的条件下</p>
+<h2 id="用户和内核应用内存分页"><a href="#用户和内核应用内存分页" class="headerlink" title="用户和内核应用内存分页"></a>用户和内核应用内存分页</h2><p>其实用户和内核都是程序，对于用户来说内核只有一个，对于内核来说，用户可以有无数个。为了隔离内核和用户我们必须在内存上就进行隔离，所以单一内核和每个用户都拥有一个内存目录。</p>
+<h3 id="内存分页的意义"><a href="#内存分页的意义" class="headerlink" title="内存分页的意义"></a>内存分页的意义</h3><p> 其实我们可以把内存的目录对应的所有内存表看做一张大的内存映射表，我们使用<code>1024 × 1024</code>个表单项代表<code>4GB</code>内存地址，每个代表<code>4K</code>连续的内存空间，当然大部分程序不会使用全部表单（一般就是内存目录一个，一到三个内存表）</p>
+<p> 当然好处有很多，比如任何程序都可以使用相同的虚拟地址但是在实际运行的时候不会相互影响，这个好处就是通过映射来实现的。</p>
+<ul>
+<li>映射就是虚拟地址到物理地址的一种转换，这是一种<code>多对一</code>的映射，也就是一个虚拟地址只能对应一个物理地址，然而物理地址可以对应多个虚拟地址</li>
+</ul>
+<p>这个转换带来了一个问题，给你一个虚拟地址，你可以查表然后得到物理地址，但是如果给你一个物理地址，你除了遍历没有很好的办法获取虚拟地址（而且有可能你会得到多个虚拟地址）。</p>
+<p>这个问题非常重要，因为它影响了我们后面内核与用户切换的时候地址的搜索，接下来我们看看内核初始化后内存是一种什么样的存在。</p>
+<h2 id="内核内存利用"><a href="#内核内存利用" class="headerlink" title="内核内存利用"></a>内核内存利用</h2><p>看xv6源码我们知道，内核这个程序将程序虚拟地址起点定在<code>KE</code>上，我们知道一个程序由三部分组成指令、数据、堆栈。堆栈是向下生长，而数据、指令向上生长。而xv6把堆栈固定为32KB，所以内存只能向上生长，所以理论上内核最大占用空间只有<code>2^32(4G) - KE</code></p>
+<ul>
+<li>当<code>KE</code>为<code>0xf0000000</code>时，只有256M</li>
+<li>当<code>KE</code>为<code>0x80000000</code>，有2G。</li>
+</ul>
+<p>由于用户内存空间不能超过<code>KE</code>（实际系统中为<code>UTOP</code>，值为<code>KE</code>减去一些为系统功能预留的空间，这里我们忽略他们），所以用户所能得到的内存空间最大为<code>KE</code>，也就是</p>
+<ul>
+<li>当<code>KE</code>为<code>0xf0000000</code>时，为 3840M（4G-256M）</li>
+<li>当<code>KE</code>为<code>0x80000000</code>，有2G。</li>
+</ul>
+<p>通过上面简单的理论值我们推断出答案是：</p>
+<ul>
+<li>增大<code>KE</code>可以增大用户内存</li>
+</ul>
+<p>这个结果看起来是正确的，但是我们知道作为一个操作系统不能固定用户的内存，我们接下来就看看在不同的内存下的实际应用以及<code>xv6</code>自身设计问题，由此来探索这个问题的本质</p>
+<p>我们就分两种情况来考虑 </p>
+<h3 id="物理内存小于（4G-KERNBASE）"><a href="#物理内存小于（4G-KERNBASE）" class="headerlink" title="物理内存小于（4G-KERNBASE）"></a>物理内存小于（4G-KERNBASE）</h3><p>这种情况在很早的时候经常出现，我们计算机的内存可能就几M，这个时候内核假如真的占了<code>4G-KE</code>那连内核都跑不起来何况用户程序。</p>
+<p>我们接下来进入源码来看<code>xv6</code>将实际占用的空间体现在内存表中，我们看到<code>kern/kernld.ld</code>配置文件，其中最主要的一行</p>
+<pre><code>PROVIDE(end = .);
+</code></pre><p>这行位置出现在最后一行，它的作用是提供了一个变量<code>end</code>，我们在C中就可以用这个变量代表机器码的最后一行的虚拟地址，有了这个地址之后，我们就获取了一个重要信息内核程序总长度，假如没有这个变量，我们只能人工设定一个操作系统的占用空间，假如定大了就是浪费，定小了程序就可能崩溃（内存溢出）。分配的细节可以看这篇<a href="/2018/02/内存分页设计/">文章</a>，通过这个变量，我们把内核占用的物理空间给腾出来了。接下来的剩余的物理空间就留给用户了，所以用户能用到的内存最大为<code>实际内存 - 操作系统占用的内存</code>。</p>
+<p>而且我们能够知道操作系统还将内核的内存映射直接固定了，将<code>KE：4G</code>的地址映射到<code>0:4G-KE</code>，公式为<code>虚拟内存=物理内存+KERNBASE</code>，这个映射存在于<code>kern/pmap.c</code>的<code>mem_init</code>函数中，这个带来了一个便利，就是程序变得很简单，假如我们得到一个物理内存地址，我们就能知道虚拟内存地址，但是这个也引来一个巨大的问题，就是当内存大于<code>4G - KE</code>的时候。</p>
+<p>PS：关于知道物理内存能知道虚拟地址在源码的好处主要体现在用户内存空间创建的时候，这个时候处于内核态，当我们得到一个空的物理空间页，我们只要简单的使用上面公式就能获取到虚拟地址，然后内核就能在直接通过指针修改程序。假如没有这个映射，我们就后面动态建立，但是这里涉及到一个非常棘手的<code>成本</code>的问题，我们其实只需要一个值映射，然而我们却要浪费4K的连续内存空间，而且给程序带来了很大的复杂性。</p>
+<p>我们接下来考虑系统内存大于那段映射最大值（4G-KE）时候会造成什么情况</p>
+<h2 id="物理内存大于-（4G-KERNBASE）"><a href="#物理内存大于-（4G-KERNBASE）" class="headerlink" title="物理内存大于 （4G-KERNBASE）"></a>物理内存大于 （4G-KERNBASE）</h2><p>在现在大家内存愈来愈大，这种情况比较常见，由于xv6在程序设计中是动态创建用户空间，当用户比较少占用空间比较小的时候，程序不会用到物理地址比较大的空间，但是当物理内存超过这个阀值（4G-E），在这里我们考虑<code>KE=0xf0000000</code>,也就是物理内存地址大于256M的时候，由于内核没有映射到这么高的地址，所以我们用上面那个物理地址转虚拟地址公式就失效了。</p>
+<p>由于xv6只是一个教学系统，所以为了简化系统，降低程序复杂性所以使用了最简单的直接映射的方法来处理内存，也正是由于这个原因提高<code>KE</code>并不能增加用户最大内存，当然解决的方法也有，我想了两种。</p>
+<ul>
+<li>在内核空间中分配用户内存目录空间，这种最为简单，但是会浪费一定的内存空间（必须在内核一开始运行就占用空间）</li>
+<li>在内核空间中映射一段固定的地址来存放用户内存目录地址，这个程序设计比较复杂，但是只需要初始化一个内存表单就行</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过上面的分析，我们得到一个结论：</p>
+<p>由于xv6设计的局限性，增大<code>KERNBASE</code>并不能增大用户最大可用空间，反而会减少。但是如果修改xv6设计可以实现增大<code>KERNBASE</code>增大用户最大可用空间。</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>MOOC</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mit6.828课程总结</title>
+    <url>/2018/01/09/algorithm/mit6_828/mit6.828%E8%AF%BE%E7%A8%8B%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
+<p>一开始想直接做一个操作系统，但是万事开头难，学习操作系统需要太多基础知识了，所以就按照网上推荐先学习mit6.828的课程，先把xvf6操作系统搞懂，然后在来实现自己的操作系统，下面就是学习这个课程的体会，按照各个lab的顺序，介绍自己的心得体会</p>
+</blockquote>
+<p>课程的地址是： <a href="https://pdos.csail.mit.edu/6.828/2016/schedule.html" target="_blank" rel="noopener">mit6.828</a><br>PS：由于<a href="https://pdos.csail.mit.edu/6.828/2016/schedule.html" target="_blank" rel="noopener">mit6.828</a>课程仓库需要翻墙，所以我把clone下来放到我的github仓库，我的<a href="https://github.com/mrzhangboss/mit6.828-2016" target="_blank" rel="noopener">仓库</a>里，大家可以clone下来（我会逐渐完成所以的实验）</p>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="/2018/01/29/什么是操作系统/">什么是操作系统</a> lab1</li>
+<li><a href="/2018/02/05/内存分页设计/">内存分页设计</a> lab2</li>
+<li><a href="/2018/02/20/用户空间隔离/">用户空间隔离</a> lab3</li>
+<li><a href="/2018/02/">并行多核设计</a> lab4</li>
+<li><a href="/2018/02/">文件系统设计</a> lab5</li>
+<li><a href="/2018/02/">网络设计</a> lab6</li>
+</ul>
+<h2 id="课程总结"><a href="#课程总结" class="headerlink" title="课程总结"></a>课程总结</h2><p>学到一半才发现这是一门研究生课程的学习，的确难度非常大，而且每一个实验都可以拿出来大做研究，但是课程给的资料非常详细，基本上每个硬件细节都给出了链接，但是对于最大的困难还是英语资料实在太多，有点“吸收”不过来。不过一路学习下来，感觉还是收获很大，基本上每个实验都环环相扣，每个实现细节都需要反复思考，为什么要这样做，还能怎么做，最终实现的xvf6还有些许跟不上时代的脚步，但是基本上框架已经有了，就是按照这个骨架完善更多细节，所以这个课程还远远没有结束，期待接下来对这个操作系统的进一步改进！！！</p>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>MOOC</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>从CS寄存器看段的前世今生</title>
+    <url>/2018/01/30/algorithm/mit6_828/%E4%BB%8ECS%E5%AF%84%E5%AD%98%E5%99%A8%E7%9C%8B%E6%AE%B5%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/</url>
+    <content><![CDATA[<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>Intel作为作为微处理器的航头老大，一直引导CPU的进步发展，也正是因为Intel是一个有着历史包袱的企业，所以站在现代CPU看起来，有一些非常奇葩的设计遗留下来，这些设计一开始是为了兼容，慢慢的将这种兼容又发展成新的功能，把“包袱”转换成“亮点”，段设计就是其中的一个很重要的代表，要想搞懂这个设计在不同的CPU的如何保持兼容和强化，我们必须要慢慢的把CPU的历史给捋顺。</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>我们要介绍第一个CPU是8086，虽然Intel前面也生产了4004、8008、8080微处理器，但是8086基本上后面所以现代化CPU始祖，Intel后面生产的CPU都对8086兼容，所以可以说段这个“祸端”就是从8086种下来的</p>
+<p>8086作为第一款的16位处理器，由于技术的问题，出现了一个严重问题寄存器只有16位，而地址总线却有20位，要想只通过一个寄存器表达地址的值显示无法实现，所以8086采用了一个段寄存器，segment × 16+offset（CS:IP），采用这个方式就能实现20位地址索引</p>
+<h2 id="段设计对程序影响"><a href="#段设计对程序影响" class="headerlink" title="段设计对程序影响"></a>段设计对程序影响</h2><p>前面简单的介绍了段设计的原因，现在我们来看看这个设计的对16位程序的影响。</p>
+<h3 id="兼容性"><a href="#兼容性" class="headerlink" title="兼容性"></a>兼容性</h3><p>由于段的存在，我们设计程序的时候可以更加自由，我们可以假设我们是在任何低16位置的内存上，只有到时切换程序时候切换段就可以</p>
+<h3 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h3><p>我们可以用相同的低地址存代码和数据，只需要切换段就行，而且我们也不需要考虑数据要多少空间，代码要多少空间，以便设定跳转地址</p>
+<blockquote>
+<p>可以说段设计是16位程序的一个很优雅的做法，但是到了３２位的时候程序不行了</p>
+</blockquote>
+<h2 id="32位处理器的改变"><a href="#32位处理器的改变" class="headerlink" title="32位处理器的改变"></a>32位处理器的改变</h2><p>我们知道32位处理器的诞生带来了两件事,第一个就是寄存器有32位了,说明最大内存地址可以到4G了(<code>0x000000-0xffffff</code>),而且总线地址也有32位了。这个时候就很尴尬了，原来的段设计到这里就成鸡肋了。但是为了兼容，我们还是给他一个功能，段选择子，当然现代Unix操作系统没有用这个东西，只是在初始化的时候意思意思一下，具体可以看一下这篇<a href="http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/" target="_blank" rel="noopener">博客</a>的<code>GDB</code>表</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>最近学操作系统感觉有很多疑惑，了解很多知识，总想好好总结一下细节，结果发现总有大神们早就写出来了，而且非常详细，我就不班门弄釜了，把下面的lab好好思考，提炼出自己的知识。</p>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>MOOC</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>内存分页</title>
+    <url>/2018/01/31/algorithm/mit6_828/%E5%86%85%E5%AD%98%E5%88%86%E9%A1%B5/</url>
+    <content><![CDATA[<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本来自己查了很多资料，想自己写出来，结果下笔的时候发现别人已经把我想写的部分全部写出来了，而且比我想的还要具体，所以我就不写了，把链接放出了，顺便我补充一些</p>
+<p><a href="http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan/" target="_blank" rel="noopener">http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan/</a></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>由于内存分页在后面的lab2中也会设计，而且给出的资料写的非常详细，所以我就不多提了。这里提一下为了更好的理解什么内存分页的段选择子与CS的关系，我写了一篇<a href="/2018/01/30/从CS寄存器看段的前世今生/">关于CS寄存器的发展史</a></p>
+<p>最后我提一下<code>kern/entrypgdir.c</code>手写的内存分页表</p>
+<p>第一个<code>entry_pgdir</code>是页目录，第二个<code>entry_pgtable</code>页表，而且注意<code>entry_pgtable</code>是代表0-4M物理内存可写可读的真实内存地址</p>
+<p>前面知道了目录和页表的作用，在现实系统中，一个目录下有1024个页表，但是这只有一个页表，而且它代表从0-4M连续的内存空间</p>
+<p>PS：后面12位是权限位，只看前三位，可以知道是从（000-3ff）的高20位物理地址，由于我们声明了<code>__attribute__((__aligned__(PGSIZE)))</code>（地址4K对齐，其实意思是它真实物理地址后12位一定全部为0），所以直接取<code>(uintptr_t)entry_pgtable</code>地址就是页表地址，虽然后面加上权限位<code>PTE_P + PTE_W</code>，但是在寻找真实地址时都会屏蔽（只取前20位如），当初想了很久感觉取不到页表的真实地址，还以为有什么神奇的编译设定，后面查了很久资料才明白，所以这里提个醒后面我们会在lab2中正式接触内存分页技术，这里只是相当于设定了一个“常数”，后面会将器扩展变成“函数”。</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>MOOC</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>内存分页设计</title>
+    <url>/2018/02/05/algorithm/mit6_828/%E5%86%85%E5%AD%98%E5%88%86%E9%A1%B5%E8%AE%BE%E8%AE%A1/</url>
+    <content><![CDATA[<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>前面已经通过lab1的这篇<a href="/2018/01/03/内存分页设计/">博文</a>了解了内存分页的实现细节，接下来就谈谈如何具体实现内存分页</p>
+<h2 id="物理载体"><a href="#物理载体" class="headerlink" title="物理载体"></a>物理载体</h2><p>通过了解<a href="/2018/02/19/KERNBASE对操作系统的影响/">KERNBASE对操作系统的影响</a>这篇博文我们知道，其实内存分页就是完成对物理存在的一种分割和隔离，所以我们在完成内存分页系统设计之前必须要构建一个载体，完成对物理存在的一种表示。</p>
+<p>在xv6中声明一个动态数组来代表物理内存，每一个值代表一块4k的内存页。我们主要通过<code>offset - base</code>得到偏移倍数，每个偏移量为<code>4K</code>，也就是通过<code>(offset - base )  &lt;&lt; 12</code>得到物理地址，我们看一下这个数组成员：PageInfo结构体</p>
+<pre><code>struct PageInfo {
+    struct PageInfo *pp_link;
+    uint16_t pp_ref;
+};
+</code></pre><p>主要存在两个值：一个为下一个可用的地址指针，一个为引用次数。</p>
+<p>引用次数比较好理解，但是这个<code>pp_link</code>有什么用呢。其实你可用把这个结构体看做成一个由链表组成的堆栈，我们只需要保留栈顶值（page_free_list)，由于它保存下一个值地址，这样通过不断的push、pop，就能维持一个可用物理内存栈。</p>
+<h2 id="二级指针的妙用"><a href="#二级指针的妙用" class="headerlink" title="二级指针的妙用"></a>二级指针的妙用</h2><p>由于前面的博客原理已经介绍的很详细了，我就不再累赘了，在这里我提一下源码中二级指针的妙用，虽然它只有短短几行，但是运行的结果却是让人大开眼界，体会到指针的神奇威力。</p>
+<p>这段代码出现在<code>kern/pmap.c</code>的<code>check_page_free_list</code>函数中</p>
+<pre><code>if (only_low_memory) {
+    // Move pages with lower addresses first in the free
+    // list, since entry_pgdir does not map all pages.
+    struct PageInfo *pp1, *pp2;
+    struct PageInfo **tp[2] = { &amp;pp1, &amp;pp2 };
+    for (pp = page_free_list; pp; pp = pp-&gt;pp_link) {
+        int pagetype = PDX(page2pa(pp)) &gt;= pdx_limit;
+        *tp[pagetype] = pp;
+        tp[pagetype] = &amp;pp-&gt;pp_link;
+    }
+    *tp[1] = 0;
+    *tp[0] = pp2;
+    page_free_list = pp1;
+}
+</code></pre><p>主要的作用是将“栈底”的元素移到“栈顶”，首先它使用了两个一级指针（pp1、pp2），还有两个二级指针分别指向（pp1、pp2）</p>
+<p> 首先<code>int pagetype = PDX(page2pa(pp)) &gt;= pdx_limit;</code>判断物理地址是否为大于4M还是小于4M，我们把物理内存页分成两组</p>
+<ul>
+<li>小于4M A组</li>
+<li>大于4M B组</li>
+</ul>
+<p>对于小于4M的组，分两种情况</p>
+<ol>
+<li>第一个小于4M的内存页（page1）</li>
+</ol>
+<blockquote>
+<ol>
+<li>*tp[0] (也就是pp1） 存贮了pp的值，也就是pp1 = page1</li>
+<li>tp[0] 存贮了pp -&gt; link 的地址（这个没有什么用）</li>
+</ol>
+</blockquote>
+<ol start="2">
+<li>A组第二个以及以后的内存页（page2）</li>
+</ol>
+<blockquote>
+<ol>
+<li>上一个地址的值等于pp（没什么用）</li>
+<li>tp[0] 存贮了下一个空闲地址的值</li>
+</ol>
+</blockquote>
+<p>对于B组来说也是一样的，最重要的是<code>for</code>循环结束后实现的交换</p>
+<pre><code>*tp[1] = 0; 
+</code></pre><p>B组最后一个的<code>pp_link</code>地址地址设置为NULL，也就相当于把他放到栈底</p>
+<pre><code>*tp[0] = pp2;
+</code></pre><p>A组最后一个变成<code>pp_link</code>地址设置pp2，也就是B组的第一个接到了A组的最后面去了</p>
+<pre><code>page_free_list = pp1;
+</code></pre><p>栈顶变成A组第一个，通过这样的“乾坤大挪移”术就将A组部分移到B组前面去了，也就实现了先使用低地址的物理内存的作用</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>理解内存分页必须要了解背后的原理，了解了原理看具体实现的时候才能事半功倍。</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>MOOC</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>引导和操作系统的交互</title>
+    <url>/2018/01/31/algorithm/mit6_828/%E5%BC%95%E5%AF%BC%E5%92%8C%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E4%BA%A4%E4%BA%92/</url>
+    <content><![CDATA[<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本来自己查了很多资料，想自己写出来，结果下笔的时候发现别人已经把我想写的部分全部写出来了，而且比我想的还要具体，所以我就不写了，把链接放出了，顺便我补充一些</p>
+<p><a href="http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/" target="_blank" rel="noopener">http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/</a></p>
+<p><a href="http://leenjewel.github.io/blog/2015/05/26/%5B%28xue-xi-xv6%29%5D-jia-zai-bing-yun-xing-nei-he/" target="_blank" rel="noopener">http://leenjewel.github.io/blog/2015/05/26/%5B%28xue-xi-xv6%29%5D-jia-zai-bing-yun-xing-nei-he/</a></p>
+<h2 id="ELF文件"><a href="#ELF文件" class="headerlink" title="ELF文件"></a>ELF文件</h2><p>首先你要知道什么是ELF，可以看一下这篇<a href="https://my.oschina.net/u/864891/blog/87965" target="_blank" rel="noopener">博客</a>，简单来说就是编译完C后的机器码，前面加了一些数据表记录程序的分布情况</p>
+<p>为了帮助我们逆向分析这些代码有什么，我们必须要借助两个工具</p>
+<ul>
+<li>objdump</li>
+<li>readelf</li>
+</ul>
+<p>我们接下来就用实际例子解读mit6.828里面的引导和核心</p>
+<h2 id="引导"><a href="#引导" class="headerlink" title="引导"></a>引导</h2><p>首先我们查看一下引导文件，在<code>boot/</code>目录下有两个文件</p>
+<ul>
+<li>boot.S</li>
+<li>main.c</li>
+</ul>
+<p>两者是通过gcc编译器将汇编和C编译成为一个<code>elf</code>文件，具体在<code>Makefile</code>文件中（<code>boot/Makefrag</code>)，我将它简单翻译一下</p>
+<pre><code>gcc -N -e start -Ttext 0x7C00 -o boot.out boot.o main.o
+</code></pre><p><code>boot.o</code>和<code>main.o</code>就是<code>boot.S</code>和<code>main.c</code>编译后的文件，<code>-e start</code>意思程序从<code>boot.S</code>的<code>start</code>中开始运行（这样就能从汇编开始执行），<code>-Ttext</code>中<code>text</code>代表代码段，也就是说直接指定代码入口地址为<code>0x7C00</code>，我们可以用<code>readelf</code>验证一下</p>
+<pre><code>mit-6.828-2014 ➤ readelf -h obj/boot/boot.out                         git:lab1*
+ELF Header:
+  Magic:   7f 45 4c 46 01 01 01 00 00 00 00 00 00 00 00 00 
+  Class:                             ELF32
+  Data:                              2&apos;s complement, little endian
+  Version:                           1 (current)
+  OS/ABI:                            UNIX - System V
+  ABI Version:                       0
+  Type:                              EXEC (Executable file)
+  Machine:                           Intel 80386
+  Version:                           0x1
+  Entry point address:               0x7c00
+  Start of program headers:          52 (bytes into file)
+  Start of section headers:          4868 (bytes into file)
+  Flags:                             0x0
+  Size of this header:               52 (bytes)
+  Size of program headers:           32 (bytes)
+  Number of program headers:         2
+  Size of section headers:           40 (bytes)
+  Number of section headers:         9
+  Section header string table index: 6
+</code></pre><p>我们读取了一下生成的<code>elf</code>文件头部，我们可以看到<code>Entry point address</code>这个字段，就是我们设定的<code>0x7c00</code>，要了解这个地址的含义我们必须知道虚拟地址和物理地址的区别，可以看一下这篇<a href="http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/" target="_blank" rel="noopener">博客</a>，接着我们看一下反汇编的汇编代码<code>obj/boot/boot.asm</code>中，我们知道现在<code>0x7c00</code>代表程序把自己当做在内存上的真实内存上面，但是不一定会真的存在这块上，所以我们称它为虚拟的</p>
+<p>首先我们了解一个系统知识，因为电脑启动后会按照启动盘顺序，把每个盘第一个扇形区512B取出来，如果最后两个字节为<code>0xAA55</code>的话就把它放到内存上面的<code>0x7c00</code>上去，我们看一下我们生成的<code>obj/boot/boot</code></p>
+<p>使用<code>hexdump obj/boot/boo</code>可以看到（我把最后一行复制出来）</p>
+<pre><code>00001f0 0000 0000 0000 0000 0000 0000 0000 aa55
+</code></pre><p>最后连个字节为<code>0xaa55</code>，且文件大小刚刚好512B，这时候你可以有一个疑惑了，我们知道<code>gcc</code>我们生成的<code>boot.out</code>的elf文件，但是这个文件还有头部存贮数据，我们如果把整个文件放到磁盘上，当程序在内存<code>0x7c00</code>处执行时，那么文件头部碰到的就是elf头了，所以<br>为了把机器码提取出来并生成合适文件（512B尾部为<code>0xaa55</code>），程序干了两件事</p>
+<ul>
+<li>用objcopy将elf文件中执行代码提取出来（相当于去掉elf头部）</li>
+<li>用脚本修改尾部两字节（在<code>boot/sign.pl</code>用了perl程序来将生成512B且尾部为<code>0xaa55</code>的<code>boot</code>文件）</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>后面将核心加载到内存，上面的给出资料写的很详细，我就不多说，只不过由于当前<code>2014</code>的版本同资料有点不同，这里我提一下</p>
+<p>当前版本是将内核头加载在<code>0x10000</code>上，然后在把内核代码加载到<code>0x100000</code>上（前面4个0，后面5个0，我当初看错了，百思不得其解），并将内核地址映射到<code>f0100000</code>上。</p>
+<p>由于资料给的操作系统与2016的操作系统实现细节有点不同，其中最主要的就是一个很重要的<code>KERNBASE</code>常量值由<code>0x80000000</code>变成<code>0xf0000000</code>，这个变量牵扯到了在给出的<code>book-rev8.pdf</code>资料中第一章的最后一个问题，我就把我对这个问题的思考放到这篇<a href="/2018/02/19/KERNBASE对操作系统的影响/">文章</a>中。</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/" target="_blank" rel="noopener">http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/</a></p>
+<p><a href="https://my.oschina.net/u/864891/blog/87965" target="_blank" rel="noopener">https://my.oschina.net/u/864891/blog/87965</a></p>
+<p><a href="http://bochs.sourceforge.net/techspec/PORTS.LST" target="_blank" rel="noopener">端口信息</a></p>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>MOOC</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>TDD-隔离测试</title>
     <url>/2016/08/09/algorithm/TDD/TDD-Isolution-Test/</url>
     <content><![CDATA[<blockquote>
@@ -4650,195 +4930,6 @@ class ListForm(forms.models.ModelForm):
       </categories>
       <tags>
         <tag>TDD</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>KERNBASE对操作系统的影响</title>
-    <url>/2018/02/19/algorithm/mit6_828/KERNBASE%E5%AF%B9%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%BD%B1%E5%93%8D/</url>
-    <content><![CDATA[<h2 id="概括"><a href="#概括" class="headerlink" title="概括"></a>概括</h2><blockquote>
-<p>这个问题主要在这本<a href="https://pdos.csail.mit.edu/6.828/2016/xv6/book-rev9.pdf" target="_blank" rel="noopener">xv6-ref</a>的第一章的练习题2中提出来</p>
-</blockquote>
-<p>问题如下</p>
-<pre><code>KERNBASE limits the amount of memory a single process can use, which might be irritating on a machine with a full 4 GB of RAM. Would raising KERNBASE allow a process to use more memory?
-</code></pre><p>根据前面的知识可知这个问题翻译过来就是：在32位处理器下，当<code>KERNBASE</code>为<code>0x80000000</code>时用户最多可以用2GB内存，我们是否能够增加<code>KERNBASE</code>让用户使用超过2GB内存呢？</p>
-<p>ps： 下面<code>KERNBASE</code>简写为<code>KE</code></p>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>要想解答这个问题，我们必须要知道xv6是如何分配内存的，以及如何区分用户和内核，以及<code>KE</code>的作用。</p>
-<p>xv6使用内存分页技术，如果你对这个不了解可以看这篇<a href="/2018/01/31/内存分页/">引导中的静态表</a>和这篇<a href="/2018/02/内存分页设计/">内存分页设计细节</a>，了解完这个我们谈谈用户和内核的内存分页应用。</p>
-<p>注意我们所以计算的前提是在32位处理器的条件下</p>
-<h2 id="用户和内核应用内存分页"><a href="#用户和内核应用内存分页" class="headerlink" title="用户和内核应用内存分页"></a>用户和内核应用内存分页</h2><p>其实用户和内核都是程序，对于用户来说内核只有一个，对于内核来说，用户可以有无数个。为了隔离内核和用户我们必须在内存上就进行隔离，所以单一内核和每个用户都拥有一个内存目录。</p>
-<h3 id="内存分页的意义"><a href="#内存分页的意义" class="headerlink" title="内存分页的意义"></a>内存分页的意义</h3><p> 其实我们可以把内存的目录对应的所有内存表看做一张大的内存映射表，我们使用<code>1024 × 1024</code>个表单项代表<code>4GB</code>内存地址，每个代表<code>4K</code>连续的内存空间，当然大部分程序不会使用全部表单（一般就是内存目录一个，一到三个内存表）</p>
-<p> 当然好处有很多，比如任何程序都可以使用相同的虚拟地址但是在实际运行的时候不会相互影响，这个好处就是通过映射来实现的。</p>
-<ul>
-<li>映射就是虚拟地址到物理地址的一种转换，这是一种<code>多对一</code>的映射，也就是一个虚拟地址只能对应一个物理地址，然而物理地址可以对应多个虚拟地址</li>
-</ul>
-<p>这个转换带来了一个问题，给你一个虚拟地址，你可以查表然后得到物理地址，但是如果给你一个物理地址，你除了遍历没有很好的办法获取虚拟地址（而且有可能你会得到多个虚拟地址）。</p>
-<p>这个问题非常重要，因为它影响了我们后面内核与用户切换的时候地址的搜索，接下来我们看看内核初始化后内存是一种什么样的存在。</p>
-<h2 id="内核内存利用"><a href="#内核内存利用" class="headerlink" title="内核内存利用"></a>内核内存利用</h2><p>看xv6源码我们知道，内核这个程序将程序虚拟地址起点定在<code>KE</code>上，我们知道一个程序由三部分组成指令、数据、堆栈。堆栈是向下生长，而数据、指令向上生长。而xv6把堆栈固定为32KB，所以内存只能向上生长，所以理论上内核最大占用空间只有<code>2^32(4G) - KE</code></p>
-<ul>
-<li>当<code>KE</code>为<code>0xf0000000</code>时，只有256M</li>
-<li>当<code>KE</code>为<code>0x80000000</code>，有2G。</li>
-</ul>
-<p>由于用户内存空间不能超过<code>KE</code>（实际系统中为<code>UTOP</code>，值为<code>KE</code>减去一些为系统功能预留的空间，这里我们忽略他们），所以用户所能得到的内存空间最大为<code>KE</code>，也就是</p>
-<ul>
-<li>当<code>KE</code>为<code>0xf0000000</code>时，为 3840M（4G-256M）</li>
-<li>当<code>KE</code>为<code>0x80000000</code>，有2G。</li>
-</ul>
-<p>通过上面简单的理论值我们推断出答案是：</p>
-<ul>
-<li>增大<code>KE</code>可以增大用户内存</li>
-</ul>
-<p>这个结果看起来是正确的，但是我们知道作为一个操作系统不能固定用户的内存，我们接下来就看看在不同的内存下的实际应用以及<code>xv6</code>自身设计问题，由此来探索这个问题的本质</p>
-<p>我们就分两种情况来考虑 </p>
-<h3 id="物理内存小于（4G-KERNBASE）"><a href="#物理内存小于（4G-KERNBASE）" class="headerlink" title="物理内存小于（4G-KERNBASE）"></a>物理内存小于（4G-KERNBASE）</h3><p>这种情况在很早的时候经常出现，我们计算机的内存可能就几M，这个时候内核假如真的占了<code>4G-KE</code>那连内核都跑不起来何况用户程序。</p>
-<p>我们接下来进入源码来看<code>xv6</code>将实际占用的空间体现在内存表中，我们看到<code>kern/kernld.ld</code>配置文件，其中最主要的一行</p>
-<pre><code>PROVIDE(end = .);
-</code></pre><p>这行位置出现在最后一行，它的作用是提供了一个变量<code>end</code>，我们在C中就可以用这个变量代表机器码的最后一行的虚拟地址，有了这个地址之后，我们就获取了一个重要信息内核程序总长度，假如没有这个变量，我们只能人工设定一个操作系统的占用空间，假如定大了就是浪费，定小了程序就可能崩溃（内存溢出）。分配的细节可以看这篇<a href="/2018/02/内存分页设计/">文章</a>，通过这个变量，我们把内核占用的物理空间给腾出来了。接下来的剩余的物理空间就留给用户了，所以用户能用到的内存最大为<code>实际内存 - 操作系统占用的内存</code>。</p>
-<p>而且我们能够知道操作系统还将内核的内存映射直接固定了，将<code>KE：4G</code>的地址映射到<code>0:4G-KE</code>，公式为<code>虚拟内存=物理内存+KERNBASE</code>，这个映射存在于<code>kern/pmap.c</code>的<code>mem_init</code>函数中，这个带来了一个便利，就是程序变得很简单，假如我们得到一个物理内存地址，我们就能知道虚拟内存地址，但是这个也引来一个巨大的问题，就是当内存大于<code>4G - KE</code>的时候。</p>
-<p>PS：关于知道物理内存能知道虚拟地址在源码的好处主要体现在用户内存空间创建的时候，这个时候处于内核态，当我们得到一个空的物理空间页，我们只要简单的使用上面公式就能获取到虚拟地址，然后内核就能在直接通过指针修改程序。假如没有这个映射，我们就后面动态建立，但是这里涉及到一个非常棘手的<code>成本</code>的问题，我们其实只需要一个值映射，然而我们却要浪费4K的连续内存空间，而且给程序带来了很大的复杂性。</p>
-<p>我们接下来考虑系统内存大于那段映射最大值（4G-KE）时候会造成什么情况</p>
-<h2 id="物理内存大于-（4G-KERNBASE）"><a href="#物理内存大于-（4G-KERNBASE）" class="headerlink" title="物理内存大于 （4G-KERNBASE）"></a>物理内存大于 （4G-KERNBASE）</h2><p>在现在大家内存愈来愈大，这种情况比较常见，由于xv6在程序设计中是动态创建用户空间，当用户比较少占用空间比较小的时候，程序不会用到物理地址比较大的空间，但是当物理内存超过这个阀值（4G-E），在这里我们考虑<code>KE=0xf0000000</code>,也就是物理内存地址大于256M的时候，由于内核没有映射到这么高的地址，所以我们用上面那个物理地址转虚拟地址公式就失效了。</p>
-<p>由于xv6只是一个教学系统，所以为了简化系统，降低程序复杂性所以使用了最简单的直接映射的方法来处理内存，也正是由于这个原因提高<code>KE</code>并不能增加用户最大内存，当然解决的方法也有，我想了两种。</p>
-<ul>
-<li>在内核空间中分配用户内存目录空间，这种最为简单，但是会浪费一定的内存空间（必须在内核一开始运行就占用空间）</li>
-<li>在内核空间中映射一段固定的地址来存放用户内存目录地址，这个程序设计比较复杂，但是只需要初始化一个内存表单就行</li>
-</ul>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过上面的分析，我们得到一个结论：</p>
-<p>由于xv6设计的局限性，增大<code>KERNBASE</code>并不能增大用户最大可用空间，反而会减少。但是如果修改xv6设计可以实现增大<code>KERNBASE</code>增大用户最大可用空间。</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2>]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>MOOC</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mit6.828课程总结</title>
-    <url>/2018/01/09/algorithm/mit6_828/mit6.828%E8%AF%BE%E7%A8%8B%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
-<p>一开始想直接做一个操作系统，但是万事开头难，学习操作系统需要太多基础知识了，所以就按照网上推荐先学习mit6.828的课程，先把xvf6操作系统搞懂，然后在来实现自己的操作系统，下面就是学习这个课程的体会，按照各个lab的顺序，介绍自己的心得体会</p>
-</blockquote>
-<p>课程的地址是： <a href="https://pdos.csail.mit.edu/6.828/2016/schedule.html" target="_blank" rel="noopener">mit6.828</a><br>PS：由于<a href="https://pdos.csail.mit.edu/6.828/2016/schedule.html" target="_blank" rel="noopener">mit6.828</a>课程仓库需要翻墙，所以我把clone下来放到我的github仓库，我的<a href="https://github.com/mrzhangboss/mit6.828-2016" target="_blank" rel="noopener">仓库</a>里，大家可以clone下来（我会逐渐完成所以的实验）</p>
-<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
-<li><a href="/2018/01/29/什么是操作系统/">什么是操作系统</a> lab1</li>
-<li><a href="/2018/02/05/内存分页设计/">内存分页设计</a> lab2</li>
-<li><a href="/2018/02/20/用户空间隔离/">用户空间隔离</a> lab3</li>
-<li><a href="/2018/02/">并行多核设计</a> lab4</li>
-<li><a href="/2018/02/">文件系统设计</a> lab5</li>
-<li><a href="/2018/02/">网络设计</a> lab6</li>
-</ul>
-<h2 id="课程总结"><a href="#课程总结" class="headerlink" title="课程总结"></a>课程总结</h2><p>学到一半才发现这是一门研究生课程的学习，的确难度非常大，而且每一个实验都可以拿出来大做研究，但是课程给的资料非常详细，基本上每个硬件细节都给出了链接，但是对于最大的困难还是英语资料实在太多，有点“吸收”不过来。不过一路学习下来，感觉还是收获很大，基本上每个实验都环环相扣，每个实现细节都需要反复思考，为什么要这样做，还能怎么做，最终实现的xvf6还有些许跟不上时代的脚步，但是基本上框架已经有了，就是按照这个骨架完善更多细节，所以这个课程还远远没有结束，期待接下来对这个操作系统的进一步改进！！！</p>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>MOOC</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>从CS寄存器看段的前世今生</title>
-    <url>/2018/01/30/algorithm/mit6_828/%E4%BB%8ECS%E5%AF%84%E5%AD%98%E5%99%A8%E7%9C%8B%E6%AE%B5%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/</url>
-    <content><![CDATA[<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>Intel作为作为微处理器的航头老大，一直引导CPU的进步发展，也正是因为Intel是一个有着历史包袱的企业，所以站在现代CPU看起来，有一些非常奇葩的设计遗留下来，这些设计一开始是为了兼容，慢慢的将这种兼容又发展成新的功能，把“包袱”转换成“亮点”，段设计就是其中的一个很重要的代表，要想搞懂这个设计在不同的CPU的如何保持兼容和强化，我们必须要慢慢的把CPU的历史给捋顺。</p>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>我们要介绍第一个CPU是8086，虽然Intel前面也生产了4004、8008、8080微处理器，但是8086基本上后面所以现代化CPU始祖，Intel后面生产的CPU都对8086兼容，所以可以说段这个“祸端”就是从8086种下来的</p>
-<p>8086作为第一款的16位处理器，由于技术的问题，出现了一个严重问题寄存器只有16位，而地址总线却有20位，要想只通过一个寄存器表达地址的值显示无法实现，所以8086采用了一个段寄存器，segment × 16+offset（CS:IP），采用这个方式就能实现20位地址索引</p>
-<h2 id="段设计对程序影响"><a href="#段设计对程序影响" class="headerlink" title="段设计对程序影响"></a>段设计对程序影响</h2><p>前面简单的介绍了段设计的原因，现在我们来看看这个设计的对16位程序的影响。</p>
-<h3 id="兼容性"><a href="#兼容性" class="headerlink" title="兼容性"></a>兼容性</h3><p>由于段的存在，我们设计程序的时候可以更加自由，我们可以假设我们是在任何低16位置的内存上，只有到时切换程序时候切换段就可以</p>
-<h3 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h3><p>我们可以用相同的低地址存代码和数据，只需要切换段就行，而且我们也不需要考虑数据要多少空间，代码要多少空间，以便设定跳转地址</p>
-<blockquote>
-<p>可以说段设计是16位程序的一个很优雅的做法，但是到了３２位的时候程序不行了</p>
-</blockquote>
-<h2 id="32位处理器的改变"><a href="#32位处理器的改变" class="headerlink" title="32位处理器的改变"></a>32位处理器的改变</h2><p>我们知道32位处理器的诞生带来了两件事,第一个就是寄存器有32位了,说明最大内存地址可以到4G了(<code>0x000000-0xffffff</code>),而且总线地址也有32位了。这个时候就很尴尬了，原来的段设计到这里就成鸡肋了。但是为了兼容，我们还是给他一个功能，段选择子，当然现代Unix操作系统没有用这个东西，只是在初始化的时候意思意思一下，具体可以看一下这篇<a href="http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/" target="_blank" rel="noopener">博客</a>的<code>GDB</code>表</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>最近学操作系统感觉有很多疑惑，了解很多知识，总想好好总结一下细节，结果发现总有大神们早就写出来了，而且非常详细，我就不班门弄釜了，把下面的lab好好思考，提炼出自己的知识。</p>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>MOOC</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>内存分页</title>
-    <url>/2018/01/31/algorithm/mit6_828/%E5%86%85%E5%AD%98%E5%88%86%E9%A1%B5/</url>
-    <content><![CDATA[<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本来自己查了很多资料，想自己写出来，结果下笔的时候发现别人已经把我想写的部分全部写出来了，而且比我想的还要具体，所以我就不写了，把链接放出了，顺便我补充一些</p>
-<p><a href="http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan/" target="_blank" rel="noopener">http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan/</a></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>由于内存分页在后面的lab2中也会设计，而且给出的资料写的非常详细，所以我就不多提了。这里提一下为了更好的理解什么内存分页的段选择子与CS的关系，我写了一篇<a href="/2018/01/30/从CS寄存器看段的前世今生/">关于CS寄存器的发展史</a></p>
-<p>最后我提一下<code>kern/entrypgdir.c</code>手写的内存分页表</p>
-<p>第一个<code>entry_pgdir</code>是页目录，第二个<code>entry_pgtable</code>页表，而且注意<code>entry_pgtable</code>是代表0-4M物理内存可写可读的真实内存地址</p>
-<p>前面知道了目录和页表的作用，在现实系统中，一个目录下有1024个页表，但是这只有一个页表，而且它代表从0-4M连续的内存空间</p>
-<p>PS：后面12位是权限位，只看前三位，可以知道是从（000-3ff）的高20位物理地址，由于我们声明了<code>__attribute__((__aligned__(PGSIZE)))</code>（地址4K对齐，其实意思是它真实物理地址后12位一定全部为0），所以直接取<code>(uintptr_t)entry_pgtable</code>地址就是页表地址，虽然后面加上权限位<code>PTE_P + PTE_W</code>，但是在寻找真实地址时都会屏蔽（只取前20位如），当初想了很久感觉取不到页表的真实地址，还以为有什么神奇的编译设定，后面查了很久资料才明白，所以这里提个醒后面我们会在lab2中正式接触内存分页技术，这里只是相当于设定了一个“常数”，后面会将器扩展变成“函数”。</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2>]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>MOOC</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>引导和操作系统的交互</title>
-    <url>/2018/01/31/algorithm/mit6_828/%E5%BC%95%E5%AF%BC%E5%92%8C%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E4%BA%A4%E4%BA%92/</url>
-    <content><![CDATA[<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本来自己查了很多资料，想自己写出来，结果下笔的时候发现别人已经把我想写的部分全部写出来了，而且比我想的还要具体，所以我就不写了，把链接放出了，顺便我补充一些</p>
-<p><a href="http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/" target="_blank" rel="noopener">http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/</a></p>
-<p><a href="http://leenjewel.github.io/blog/2015/05/26/%5B%28xue-xi-xv6%29%5D-jia-zai-bing-yun-xing-nei-he/" target="_blank" rel="noopener">http://leenjewel.github.io/blog/2015/05/26/%5B%28xue-xi-xv6%29%5D-jia-zai-bing-yun-xing-nei-he/</a></p>
-<h2 id="ELF文件"><a href="#ELF文件" class="headerlink" title="ELF文件"></a>ELF文件</h2><p>首先你要知道什么是ELF，可以看一下这篇<a href="https://my.oschina.net/u/864891/blog/87965" target="_blank" rel="noopener">博客</a>，简单来说就是编译完C后的机器码，前面加了一些数据表记录程序的分布情况</p>
-<p>为了帮助我们逆向分析这些代码有什么，我们必须要借助两个工具</p>
-<ul>
-<li>objdump</li>
-<li>readelf</li>
-</ul>
-<p>我们接下来就用实际例子解读mit6.828里面的引导和核心</p>
-<h2 id="引导"><a href="#引导" class="headerlink" title="引导"></a>引导</h2><p>首先我们查看一下引导文件，在<code>boot/</code>目录下有两个文件</p>
-<ul>
-<li>boot.S</li>
-<li>main.c</li>
-</ul>
-<p>两者是通过gcc编译器将汇编和C编译成为一个<code>elf</code>文件，具体在<code>Makefile</code>文件中（<code>boot/Makefrag</code>)，我将它简单翻译一下</p>
-<pre><code>gcc -N -e start -Ttext 0x7C00 -o boot.out boot.o main.o
-</code></pre><p><code>boot.o</code>和<code>main.o</code>就是<code>boot.S</code>和<code>main.c</code>编译后的文件，<code>-e start</code>意思程序从<code>boot.S</code>的<code>start</code>中开始运行（这样就能从汇编开始执行），<code>-Ttext</code>中<code>text</code>代表代码段，也就是说直接指定代码入口地址为<code>0x7C00</code>，我们可以用<code>readelf</code>验证一下</p>
-<pre><code>mit-6.828-2014 ➤ readelf -h obj/boot/boot.out                         git:lab1*
-ELF Header:
-  Magic:   7f 45 4c 46 01 01 01 00 00 00 00 00 00 00 00 00 
-  Class:                             ELF32
-  Data:                              2&apos;s complement, little endian
-  Version:                           1 (current)
-  OS/ABI:                            UNIX - System V
-  ABI Version:                       0
-  Type:                              EXEC (Executable file)
-  Machine:                           Intel 80386
-  Version:                           0x1
-  Entry point address:               0x7c00
-  Start of program headers:          52 (bytes into file)
-  Start of section headers:          4868 (bytes into file)
-  Flags:                             0x0
-  Size of this header:               52 (bytes)
-  Size of program headers:           32 (bytes)
-  Number of program headers:         2
-  Size of section headers:           40 (bytes)
-  Number of section headers:         9
-  Section header string table index: 6
-</code></pre><p>我们读取了一下生成的<code>elf</code>文件头部，我们可以看到<code>Entry point address</code>这个字段，就是我们设定的<code>0x7c00</code>，要了解这个地址的含义我们必须知道虚拟地址和物理地址的区别，可以看一下这篇<a href="http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/" target="_blank" rel="noopener">博客</a>，接着我们看一下反汇编的汇编代码<code>obj/boot/boot.asm</code>中，我们知道现在<code>0x7c00</code>代表程序把自己当做在内存上的真实内存上面，但是不一定会真的存在这块上，所以我们称它为虚拟的</p>
-<p>首先我们了解一个系统知识，因为电脑启动后会按照启动盘顺序，把每个盘第一个扇形区512B取出来，如果最后两个字节为<code>0xAA55</code>的话就把它放到内存上面的<code>0x7c00</code>上去，我们看一下我们生成的<code>obj/boot/boot</code></p>
-<p>使用<code>hexdump obj/boot/boo</code>可以看到（我把最后一行复制出来）</p>
-<pre><code>00001f0 0000 0000 0000 0000 0000 0000 0000 aa55
-</code></pre><p>最后连个字节为<code>0xaa55</code>，且文件大小刚刚好512B，这时候你可以有一个疑惑了，我们知道<code>gcc</code>我们生成的<code>boot.out</code>的elf文件，但是这个文件还有头部存贮数据，我们如果把整个文件放到磁盘上，当程序在内存<code>0x7c00</code>处执行时，那么文件头部碰到的就是elf头了，所以<br>为了把机器码提取出来并生成合适文件（512B尾部为<code>0xaa55</code>），程序干了两件事</p>
-<ul>
-<li>用objcopy将elf文件中执行代码提取出来（相当于去掉elf头部）</li>
-<li>用脚本修改尾部两字节（在<code>boot/sign.pl</code>用了perl程序来将生成512B且尾部为<code>0xaa55</code>的<code>boot</code>文件）</li>
-</ul>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>后面将核心加载到内存，上面的给出资料写的很详细，我就不多说，只不过由于当前<code>2014</code>的版本同资料有点不同，这里我提一下</p>
-<p>当前版本是将内核头加载在<code>0x10000</code>上，然后在把内核代码加载到<code>0x100000</code>上（前面4个0，后面5个0，我当初看错了，百思不得其解），并将内核地址映射到<code>f0100000</code>上。</p>
-<p>由于资料给的操作系统与2016的操作系统实现细节有点不同，其中最主要的就是一个很重要的<code>KERNBASE</code>常量值由<code>0x80000000</code>变成<code>0xf0000000</code>，这个变量牵扯到了在给出的<code>book-rev8.pdf</code>资料中第一章的最后一个问题，我就把我对这个问题的思考放到这篇<a href="/2018/02/19/KERNBASE对操作系统的影响/">文章</a>中。</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/" target="_blank" rel="noopener">http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/</a></p>
-<p><a href="https://my.oschina.net/u/864891/blog/87965" target="_blank" rel="noopener">https://my.oschina.net/u/864891/blog/87965</a></p>
-<p><a href="http://bochs.sourceforge.net/techspec/PORTS.LST" target="_blank" rel="noopener">端口信息</a></p>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>MOOC</tag>
       </tags>
   </entry>
   <entry>
@@ -6455,75 +6546,6 @@ Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
       </categories>
       <tags>
         <tag>HTTP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>内存分页设计</title>
-    <url>/2018/02/05/algorithm/mit6_828/%E5%86%85%E5%AD%98%E5%88%86%E9%A1%B5%E8%AE%BE%E8%AE%A1/</url>
-    <content><![CDATA[<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>前面已经通过lab1的这篇<a href="/2018/01/03/内存分页设计/">博文</a>了解了内存分页的实现细节，接下来就谈谈如何具体实现内存分页</p>
-<h2 id="物理载体"><a href="#物理载体" class="headerlink" title="物理载体"></a>物理载体</h2><p>通过了解<a href="/2018/02/19/KERNBASE对操作系统的影响/">KERNBASE对操作系统的影响</a>这篇博文我们知道，其实内存分页就是完成对物理存在的一种分割和隔离，所以我们在完成内存分页系统设计之前必须要构建一个载体，完成对物理存在的一种表示。</p>
-<p>在xv6中声明一个动态数组来代表物理内存，每一个值代表一块4k的内存页。我们主要通过<code>offset - base</code>得到偏移倍数，每个偏移量为<code>4K</code>，也就是通过<code>(offset - base )  &lt;&lt; 12</code>得到物理地址，我们看一下这个数组成员：PageInfo结构体</p>
-<pre><code>struct PageInfo {
-    struct PageInfo *pp_link;
-    uint16_t pp_ref;
-};
-</code></pre><p>主要存在两个值：一个为下一个可用的地址指针，一个为引用次数。</p>
-<p>引用次数比较好理解，但是这个<code>pp_link</code>有什么用呢。其实你可用把这个结构体看做成一个由链表组成的堆栈，我们只需要保留栈顶值（page_free_list)，由于它保存下一个值地址，这样通过不断的push、pop，就能维持一个可用物理内存栈。</p>
-<h2 id="二级指针的妙用"><a href="#二级指针的妙用" class="headerlink" title="二级指针的妙用"></a>二级指针的妙用</h2><p>由于前面的博客原理已经介绍的很详细了，我就不再累赘了，在这里我提一下源码中二级指针的妙用，虽然它只有短短几行，但是运行的结果却是让人大开眼界，体会到指针的神奇威力。</p>
-<p>这段代码出现在<code>kern/pmap.c</code>的<code>check_page_free_list</code>函数中</p>
-<pre><code>if (only_low_memory) {
-    // Move pages with lower addresses first in the free
-    // list, since entry_pgdir does not map all pages.
-    struct PageInfo *pp1, *pp2;
-    struct PageInfo **tp[2] = { &amp;pp1, &amp;pp2 };
-    for (pp = page_free_list; pp; pp = pp-&gt;pp_link) {
-        int pagetype = PDX(page2pa(pp)) &gt;= pdx_limit;
-        *tp[pagetype] = pp;
-        tp[pagetype] = &amp;pp-&gt;pp_link;
-    }
-    *tp[1] = 0;
-    *tp[0] = pp2;
-    page_free_list = pp1;
-}
-</code></pre><p>主要的作用是将“栈底”的元素移到“栈顶”，首先它使用了两个一级指针（pp1、pp2），还有两个二级指针分别指向（pp1、pp2）</p>
-<p> 首先<code>int pagetype = PDX(page2pa(pp)) &gt;= pdx_limit;</code>判断物理地址是否为大于4M还是小于4M，我们把物理内存页分成两组</p>
-<ul>
-<li>小于4M A组</li>
-<li>大于4M B组</li>
-</ul>
-<p>对于小于4M的组，分两种情况</p>
-<ol>
-<li>第一个小于4M的内存页（page1）</li>
-</ol>
-<blockquote>
-<ol>
-<li>*tp[0] (也就是pp1） 存贮了pp的值，也就是pp1 = page1</li>
-<li>tp[0] 存贮了pp -&gt; link 的地址（这个没有什么用）</li>
-</ol>
-</blockquote>
-<ol start="2">
-<li>A组第二个以及以后的内存页（page2）</li>
-</ol>
-<blockquote>
-<ol>
-<li>上一个地址的值等于pp（没什么用）</li>
-<li>tp[0] 存贮了下一个空闲地址的值</li>
-</ol>
-</blockquote>
-<p>对于B组来说也是一样的，最重要的是<code>for</code>循环结束后实现的交换</p>
-<pre><code>*tp[1] = 0; 
-</code></pre><p>B组最后一个的<code>pp_link</code>地址地址设置为NULL，也就相当于把他放到栈底</p>
-<pre><code>*tp[0] = pp2;
-</code></pre><p>A组最后一个变成<code>pp_link</code>地址设置pp2，也就是B组的第一个接到了A组的最后面去了</p>
-<pre><code>page_free_list = pp1;
-</code></pre><p>栈顶变成A组第一个，通过这样的“乾坤大挪移”术就将A组部分移到B组前面去了，也就实现了先使用低地址的物理内存的作用</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>理解内存分页必须要了解背后的原理，了解了原理看具体实现的时候才能事半功倍。</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2>]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>MOOC</tag>
       </tags>
   </entry>
 </search>
