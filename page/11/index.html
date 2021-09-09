@@ -211,149 +211,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/08/09/algorithm/TDD/TDD-Isolution-Test/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/meAndMyGirlfriend.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/08/09/algorithm/TDD/TDD-Isolution-Test/" class="post-title-link" itemprop="url">TDD-隔离测试</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-08-09 18:02:56" itemprop="dateCreated datePublished" datetime="2016-08-09T18:02:56+08:00">2016-08-09</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:00:25" itemprop="dateModified" datetime="2021-03-09T20:00:25+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>2.3k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>2 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p> 隔离测试是相对与于整合测试来说的，现代软件架构流行分层式、模块化，而隔离测试就是相当于在每层上进行测试，整合测试就是跨越多个层进行测试</p>
-</blockquote>
-<h2 id="introduction"><a href="#introduction" class="headerlink" title="introduction"></a>introduction</h2><p>举个简单例子来说，在django系列中，我们把表单提交分成两个层，一个<code>form</code>层，一个式<code>model</code>层</p>
-<p><code>form</code>层相当于接近用户交互层，而<code>model</code>层与数据库联系更大， <code>form</code>层负责获取用户数据并验证，而<code>model</code>层根据<code>form</code>层数据将数据存入数据库。</p>
-<p>隔离测试就是隔离<code>form</code>层向<code>model</code>层提交，而整合测试就是直接测试<code>form</code>层和<code>model</code>层。</p>
-<p>判断一个测试是整合测试还是隔离测试就是看测试的边界，整合测试相当于我们更加熟悉，我们测试时通过伪造form提交，然后通过数据库获取存入数据来得到验证，而隔离测试就比较复杂，因为我们很难在一个耦合度高代码找到怎么隔离两个层的方法。</p>
-<p>接下来我就介绍python里一个神器：mock</p>
-<p><em>自己用过其他语言框架中的mock，但是python里面mock里面最神奇的的是里面的<code>patch</code>，就像一个超级补丁一样。</em></p>
-<h2 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h2><blockquote>
-<p>接下来我用一个例子来介绍一下如何写隔离测试</p>
-</blockquote>
-<p>首先我们在 <code>lists.forms.py</code>中一个表单model</p>
-<pre><code>class ListForm(forms.models.ModelForm):
-    def save(self):
-        pass
-</code></pre><p>我们在<code>lists.models.py</code>有个model</p>
-<pre><code>class List(models.Model):
-    def create_now():
-        pass
-</code></pre><p>现在来分析一下这个隔离测试，我们要测试<code>ListForm</code>中<code>save</code>方法</p>
-<p>首先<code>ListForm</code>和<code>List</code>两个类是耦合的，一个整合测试，我们只要调用<code>save</code>方法，然后查询数据库就可以完成这个测试，然而隔离测试不同，我们只能测试在调用<code>save</code>方法时，他“干”了什么。他可能调用了<code>List</code>的<code>create_now</code>方法，将得到表单数据传了过去。</p>
-<p>意味着我们只能测试到<code>save</code>方法调用了<code>List</code>方法。</p>
-<p>那这个隔离单元测试该怎么写？</p>
-<p><em>接下来我们隆重介绍mock里面的最强补丁<strong>patch</strong></em></p>
-<p>根据TDD原则，我们先新建一个单元测试<code>IsolutionFormTest</code></p>
-<pre><code>import unittest
-from unittest.mock import patch, Mock      ##load super patch 
-from lists.models import List
-from lists.forms import ListForm
-
-
-class IsolutionFormTest(unitest.TestCase):
-
-       @patch(&apos;lists.forms.List.create_new&apos;)
-       def test_save_creates_new_list(self, mock_list_create_new):
-            form = ListForm(data={&apos;text&apos;: &quot;example text&quot;})
-            form.is_valid()    # get clean data
-            form.save()
-
-            mock_list_create_new.assert_called_once_with(
-                text= &quot;example text&quot;
-            )   # the major test
-</code></pre><p>我来介绍一下这个<code>patch</code>，就像名字一样补丁，通过我们使用字符串将要替换的函数写出来，当<code>test</code>运行时，会自动将函数替换成一个<code>mock</code>对象，通过参数（上面的<code>mock_list_create_new</code>）赋给函数。</p>
-<p>你可以这样想象，当<code>form.save()</code>调用时，在<code>save</code>函数里面，我们如果使用了<code>lists.forms.List.create_new</code>这个函数，这个函数就会被直接被补丁替换掉，你如果使用了<code>lists.forms.List.create_new(text=&quot;xxx&quot;)</code>就会变成<code>mock_list_create_new(text=&quot;xxx&quot;)</code>,当你调用了<code>mock_list_create_new(text=&quot;xxx&quot;)</code>时，<code>mock_list_create_new</code>这个<code>mock</code>对象就会记录下来。</p>
-<p>这样我们就通过<code>mock_list_create_new</code>测试了函数是否执行了没有，因为隔离开<code>form</code>层和<code>model</code>层的就是通过两者之间的接口。我们只用测试接口是否执行了没有就可以了。</p>
-<p>这样我们就完成了隔离单元测试，运行一下肯定失败，我们接下来就把<code>save</code>方法完善一下通过测试。</p>
-<pre><code>from django import form
-form list.models import List
-
-class ListForm(forms.models.ModelForm):
-    def save(self):
-        List.create_new(text=self.cleaned_data[&apos;text&apos;])
-</code></pre><p>ok测试通过了，我们就可以歇一口气了。</p>
-<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>相对于整合测试，隔离测试运行速度更快，但是相对的隔离测试对接口要求非常严格，好的方面利用我们进行更好的代码设计，更好的分析代码的复杂程度，并且当接口变迁的时候，隔离测试能迅速发现变化而报警，然而隔离测试工作量比较大，而且没有整合测试那么好理解。在实际生产中对于复杂的接口我们尽量进行隔离测试，对于简单接口我们使用整合测试能根据减少程序的耦合性，而且能迅速发现集成问题。</p>
-<p>ps：对<code>patch</code>感兴趣的童鞋可以自行google，<code>patch</code>好玩的地方还有很多，这里为了篇幅我只介绍了最核心的使用方法，大家可以自行探索<code>patch</code>更多好玩的东西。s</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/26/algorithm/TDD/TDD测试开发理解/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -737,7 +594,7 @@ var moveY = function(y) {
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/python/python的编码问题研究/">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/python/关于python3和python2import区别/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/meAndMyGirlfriend.jpg">
@@ -751,7 +608,7 @@ var moveY = function(y) {
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2016/07/18/python/python的编码问题研究/" class="post-title-link" itemprop="url">python的编码问题研究------使用scrapy体验</a>
+            <a href="/2016/07/18/python/关于python3和python2import区别/" class="post-title-link" itemprop="url">关于python3和python2 import区别</a>
         </h1>
 
         <div class="post-meta">
@@ -787,7 +644,7 @@ var moveY = function(y) {
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span>2.3k</span>
+              <span>1.7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -806,231 +663,39 @@ var moveY = function(y) {
 
       
           <blockquote>
-<p>基于python2</p>
+<p>最近从python2转到python3,发现还是有一些不同,一些库改名字很好解决,但是这个import机制不了解原理是不好理解的.</p>
 </blockquote>
-<p>scrapy是一款非常轻量级的爬虫框架，但是由于它隐藏了太多关于网络请求的细节，所以我们有时候会遭遇到一下很尴尬的bug，当然这主要是因为碰到一些不规范的网站。</p>
-<p>python的编码转码网上有很多文章，如果你不了解这个你可以参考下面了解。</p>
-<p><a href="http://nedbatchelder.com/text/unipain.html" target="_blank" rel="noopener">Ned Batchelder 关于python unicode和str的理解，通俗易懂</a></p>
-<p><a href="http://www.tuicool.com/articles/ZbEFnya" target="_blank" rel="noopener">关于scrapy 入门</a></p>
-<p><a href="http://blog.csdn.net/crazyhacking/article/details/39375535" target="_blank" rel="noopener"> 关于 encode的认识</a></p>
-<p>通过上面我们可以很好的理解python的转码译码，在这里我想谈一下我自己对其的认识吧，我一开始接触的c语言序列的基本上都是强类型，比如C里面假如我想写一个函数每个传人的参数都得是有类型的，但是python弱化了类型这一点，python也是面对对象的，但是他的对象就是鸡同鸭讲，照猫画虎就能运行，弱类型适合动态语言，我们不确定下一行代码输入的是什么，自从学python起，一直感觉python对类型一直不严格，这样就给了我一种错觉，只要长得差不多就能一样的比划，比如在两个string，<code>&#39;中国&#39;</code>,<code>u&#39;中国&#39;</code>,看起来差不多但是如果你把<code>u&#39;中国&#39;</code>存入文件中就会出错（假如你没定义编码规则)</p>
-<pre><code>UnicodeEncodeError: &apos;ascii&apos; codec can&apos;t encode characters in position 344-351: ordinal not in range(128)
-</code></pre><p>unicode字符编码错误，要想理解这个要对unicode字符集和unicode编码有一定的理解，推荐你读一下这篇博客<a href="http://www.techug.com/character-set" target="_blank" rel="noopener">字符编码的知识</a>,python内部使用unicode字符集存贮所以的编码的字符，为什么要用unicode字符集举个栗子吧：</p>
-<blockquote>
-<p>A是米国的程序员，他使用asicc编码的文件上传了一封邮件，<br>B是中国的程序员他使用gbk编码的文件上传了一封邮件，<br>现在C要用程序同时处理A和B的邮件，有两种解决方法他把A的文件译码再编码成B的gbk，或者将B的文件译码成asicc但是中文无法处理，那么只能使用第一种方法将A的文件编码成gbk，但是改天D又来啦，他是俄国人，天啊噜gbk可能没有把俄语编进去，那肿么办，我们迫切需要一种编码可以把所以的字符放进去，所以unicode出现了，Unicode中将字符集按照一定的类别划分到0~16这17个层面（Planes）中，每个层面中拥有216=65536个字符码，因此Unicode总共拥有的字符码，也即是Unicode的字符空间总共有17*65536=1114112，一共有1114112这么多的字符可以用，这下我们不用担心了吧，太好了这下不用愁了，</p>
-</blockquote>
-<p>python 内部使用unicode字符集作为一个译码中转站，因为他编码了所以的字符集，只要你能在自己编码方案上找到自己的字，我就能在unicode字符集找到你的位置，所以使用unicode可以很好的解决多种编码方案产生的问题（比如gbk，utf-8）</p>
-<p>当然其他编码方案如果想使用unicode解码成其他的必须同unicode有一一对应关系，不过现在主流的编码方案如gbk，gb2312，utf-8都是unicode系的。</p>
-<p>了解了这些基础知识就可以知道了为什么存贮<code>u&#39;中国&#39;</code>存不进文件里面去了，因为unicode并不提供给当今字符解析器的方法，就是<code>\u234e</code>一个16进制数字，屏幕上不知道他对应什么图形，所以python系统要求存进文件的必须是字节流，也就是可以unicode是一种更高级的字符流，这个字符流能存贮当今世界所以定义的字符，但是他只是一个规定字符集合，我们只需要把发现的字符放进去占据一个位置，但是我们不需要考虑屏幕是否认识这个字符，这个字符的存贮由编码方案负责，如utf-8这些，假如没有字符编码方案可以存贮这些，我们虽然在unicode上有这个字符但是我们无法print出来，所以我们必须将unicode转换成普通字符流，有人就会问了，假如我真的没有找到一个合适编码方案可以存贮所有语言，我们可以将他编码成unicode—escape类型，这里我们不多讲。</p>
-<p>这就可以解释我们大部分碰到的错误unicodedecodeerror和unicodeencodeerror错误，都是因为字符编码方案不了解造成的，网上很多说碰到这种错误就encode，decode搞一下就行但是不弄清楚这背后的知识就会犯迷糊。</p>
-<p>接下来我谈谈我遇到的错误吧，在爬取<code>http://yjsy.ncu.edu.cn/yjs_showmsg.asp?id=2770</code>这个页面时（这是一个不规范的页面没有设置charset），因为每个spider调用的</p>
-<pre><code>response.xpath(&apos;//xpath&apos;).extract()    
-</code></pre><p>选择器返回的是一个unicode编码的字符集，但是他是接受的是一个字符流，spider可能调用了<br><code>response.body.decode(response.encoding)</code>进行转码，但是这个response.encoding有时候会判断错误，比如将我一个gbk编码的文件判断成cp1253,这个时候假如我把他解码成encode成其他编码方式的话，我们就会得到乱码，那怎么纠正呢，我们可以这样干<br>先将得到的列表中每个<code>content</code>取出来，然后使用<code>content.encode(resonse.encoding)</code>转码成原始字符流，现在你可以将它用正确的编码转换成unicode了</p>
-<p>下面是我github上的关于这个scrapy的项目，在coding_pitch.py文件里面就是对于这个乱码的处理</p>
-<p><a href="https://github.com/MrZhangLoveLearning/ncuscrapy.git" target="_blank" rel="noopener">南昌大学教务处公告爬取</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/python/python学习/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/meAndMyGirlfriend.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/07/18/python/python学习/" class="post-title-link" itemprop="url">python学习</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-07-18 16:07:36" itemprop="dateCreated datePublished" datetime="2016-07-18T16:07:36+08:00">2016-07-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:04:07" itemprop="dateModified" datetime="2021-03-09T20:04:07+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>410</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="由于有其他编程语言基础，所以对于python的学习并不吃力，但是整体感觉python的确与前面学习c、c———"><a href="#由于有其他编程语言基础，所以对于python的学习并不吃力，但是整体感觉python的确与前面学习c、c———" class="headerlink" title="由于有其他编程语言基础，所以对于python的学习并不吃力，但是整体感觉python的确与前面学习c、c———"></a>由于有其他编程语言基础，所以对于python的学习并不吃力，但是整体感觉python的确与前面学习c、c———</h4><h3 id="1-实时编译VS静态编译"><a href="#1-实时编译VS静态编译" class="headerlink" title="1. 实时编译VS静态编译"></a>1. 实时编译VS静态编译</h3><p>不需要输入任何前缀，直接将代码放在python解释器上面就能运行，虽然window下不支持直接点开文件就能使用，但是只要安装了python解释器就能很轻松的运行。</p>
-<p>分量轻是他的特点吧！相比打开vs等半天然后，编译连接最后执行。python是一门很轻巧的语言，没有满屏的分号，大括号，基本类型比如int、string、float不区分直接拿来用就可以了，任何一个变量都是一个对象，对象可以千变万化，感觉python是一门很野的熊孩子什么都不在乎，比如说你什么了相同的两个变量</p>
-<h1 id="这门强类型语言则不允许，在同级作用域内他只允许声明一次，python或许已经没有声明了，每个名字只是一个对象而已并没有他的归属。"><a href="#这门强类型语言则不允许，在同级作用域内他只允许声明一次，python或许已经没有声明了，每个名字只是一个对象而已并没有他的归属。" class="headerlink" title="这门强类型语言则不允许，在同级作用域内他只允许声明一次，python或许已经没有声明了，每个名字只是一个对象而已并没有他的归属。"></a>这门强类型语言则不允许，在同级作用域内他只允许声明一次，python或许已经没有声明了，每个名字只是一个对象而已并没有他的归属。</h1><h4 id="2-动态语言VS静态语言"><a href="#2-动态语言VS静态语言" class="headerlink" title="2.动态语言VS静态语言"></a>2.动态语言VS静态语言</h4><h1 id="给我感受是一颗静止的树的话，那么python就是一匹‘野马’，C"><a href="#给我感受是一颗静止的树的话，那么python就是一匹‘野马’，C" class="headerlink" title="给我感受是一颗静止的树的话，那么python就是一匹‘野马’，C"></a>给我感受是一颗静止的树的话，那么python就是一匹‘野马’，C</h1>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/useless/EF搭建可扩展菜单/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/meAndMyGirlfriend.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/07/18/useless/EF搭建可扩展菜单/" class="post-title-link" itemprop="url">EF搭建可扩展菜单</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-07-18 16:07:36" itemprop="dateCreated datePublished" datetime="2016-07-18T16:07:36+08:00">2016-07-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:34:28" itemprop="dateModified" datetime="2021-03-09T20:34:28+08:00">2021-03-09</time>
-              </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>1.9k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>2 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-</blockquote>
-<h3 id="由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。"><a href="#由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。" class="headerlink" title="由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。"></a>由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。</h3><h4 id="由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF-Code-First更是坑了我一把，我想把我碰到坑给大家分享一下。"><a href="#由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF-Code-First更是坑了我一把，我想把我碰到坑给大家分享一下。" class="headerlink" title="由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF Code First更是坑了我一把，我想把我碰到坑给大家分享一下。"></a>由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF Code First更是坑了我一把，我想把我碰到坑给大家分享一下。</h4><h2 id="1-类库的实现"><a href="#1-类库的实现" class="headerlink" title="1.类库的实现"></a>1.类库的实现</h2><h3 id="首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个bool类型IsFoot来定义是否为根菜单，每个Menus有一个父级菜单Menus，有一群子菜单，下面是我定义的Menu库。"><a href="#首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个bool类型IsFoot来定义是否为根菜单，每个Menus有一个父级菜单Menus，有一群子菜单，下面是我定义的Menu库。" class="headerlink" title="首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个bool类型IsFoot来定义是否为根菜单，每个Menus有一个父级菜单Menus，有一群子菜单，下面是我定义的Menu库。"></a>首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个<code>bool</code>类型<strong>IsFoot</strong>来定义是否为根菜单，每个Menus有一个父级菜单Menus，有一群子菜单，下面是我定义的Menu库。</h3><pre><code>  [Description(&quot;菜单&quot;)]
-public class Menus
-{
-    [Key]
-    [Display(Name=&quot;菜单ID&quot;)]
-    public int MenusID { get; set; }
-    [Required]
-    [Display(Name=&quot;是否为根节点&quot;)]
-    public bool IsFoot { get; set; }
-    [Required]
-    [StringLength(25)]
-    [Display(Name=&quot;目录名字&quot;)]
-    public string Name { get; set; }
-    [Display(Name=&quot;是否删除&quot;)]
-    public bool IsDelete { get; set; }
-    [Display(Name=&quot;包含的文章&quot;)]
-    public virtual List&lt;Article&gt; articles { get; set; }
-    [Display(Name = &quot;父级菜单&quot;)]
-    public virtual Menus fatherMenus { get; set; }
-    [Display(Name = &quot;子菜单&quot;)]
-    public virtual List&lt;Menus&gt; sonList { get; set; }
-
-
-}
-</code></pre><h3 id="每个Menus都包含了一个文章集合-虽然有些菜单不一定有文章但是EF可以允许我们0对多，或1对多。"><a href="#每个Menus都包含了一个文章集合-虽然有些菜单不一定有文章但是EF可以允许我们0对多，或1对多。" class="headerlink" title="每个Menus都包含了一个文章集合,虽然有些菜单不一定有文章但是EF可以允许我们0对多，或1对多。"></a>每个Menus都包含了一个文章集合,虽然有些菜单不一定有文章但是EF可以允许我们0对多，或1对多。</h3><h2 id="2-生成数据库"><a href="#2-生成数据库" class="headerlink" title="2.  生成数据库"></a>2.  生成数据库</h2><hr>
-<p>EF比较人性化的是，当我们数据库里面没有我们想要生成的表时，我们不需要多余的代码，只要当成数据库有表，像平时一样添加数据然后EF会帮我们自动在数据库里面建好表，当然你如果有相同名字的表话它报错，会提醒你数据库里面有如果想保存数据要做好数据迁移工作，数据迁移不是我们的重点，如果想了解的话，<a href="http://www.cnblogs.com/guomingfeng/archive/2013/06/15/mvc-ef-configuration-migration.html" target="_blank" rel="noopener">点击这里</a></p>
-<h3 id="生成的数据库包含两个表，一个Menus表，一个是Article表（PS：上面没有给出Article的类型定义，想要的可以自己写），对于这个来说，我们并没有在表里面定义外键属性，只是用来一个引用属性，引用属性是一种“虚属性”，我们通过这个属性来建立起两个对象的虚拟联系，比如说父与子，这种关系是虚拟的对于两者之间的联系是通过血缘来联系的，这个血缘是存在的，相对应就是数据库里面的外键联系，外键也可以看做是表中的一个字段，它记录了一种关系。"><a href="#生成的数据库包含两个表，一个Menus表，一个是Article表（PS：上面没有给出Article的类型定义，想要的可以自己写），对于这个来说，我们并没有在表里面定义外键属性，只是用来一个引用属性，引用属性是一种“虚属性”，我们通过这个属性来建立起两个对象的虚拟联系，比如说父与子，这种关系是虚拟的对于两者之间的联系是通过血缘来联系的，这个血缘是存在的，相对应就是数据库里面的外键联系，外键也可以看做是表中的一个字段，它记录了一种关系。" class="headerlink" title="生成的数据库包含两个表，一个Menus表，一个是Article表（PS：上面没有给出Article的类型定义，想要的可以自己写），对于这个来说，我们并没有在表里面定义外键属性，只是用来一个引用属性，引用属性是一种“虚属性”，我们通过这个属性来建立起两个对象的虚拟联系，比如说父与子，这种关系是虚拟的对于两者之间的联系是通过血缘来联系的，这个血缘是存在的，相对应就是数据库里面的外键联系，外键也可以看做是表中的一个字段，它记录了一种关系。"></a>生成的数据库包含两个表，一个Menus表，一个是Article表（PS：上面没有给出Article的类型定义，想要的可以自己写），对于这个来说，我们并没有在表里面定义外键属性，只是用来一个引用属性，引用属性是一种“虚属性”，我们通过这个属性来建立起两个对象的虚拟联系，比如说父与子，这种关系是虚拟的对于两者之间的联系是通过血缘来联系的，这个血缘是存在的，相对应就是数据库里面的外键联系，外键也可以看做是表中的一个字段，它记录了一种关系。</h3><h4 id="由于EF的智能关系，当我们Code-First时，他会帮我们自动建好外键如果我们不定义的话，当我们使用EF的时候是不需要考虑外键的值的初始化，如果我们没有给他赋值EF会自动给他赋值。"><a href="#由于EF的智能关系，当我们Code-First时，他会帮我们自动建好外键如果我们不定义的话，当我们使用EF的时候是不需要考虑外键的值的初始化，如果我们没有给他赋值EF会自动给他赋值。" class="headerlink" title="由于EF的智能关系，当我们Code First时，他会帮我们自动建好外键如果我们不定义的话，当我们使用EF的时候是不需要考虑外键的值的初始化，如果我们没有给他赋值EF会自动给他赋值。"></a>由于EF的智能关系，当我们Code First时，他会帮我们自动建好外键如果我们不定义的话，当我们使用EF的时候是不需要考虑外键的值的初始化，如果我们没有给他赋值EF会自动给他赋值。</h4><hr>
-<p>讲完了EF的建立，现在就谈谈使用Code First在项目中遇到的问题。</p>
+<h4 id="python2是默认相对路径导入-python3是默认绝对路径导入"><a href="#python2是默认相对路径导入-python3是默认绝对路径导入" class="headerlink" title="python2是默认相对路径导入,python3是默认绝对路径导入"></a>python2是默认相对路径导入,python3是默认绝对路径导入</h4><p>首先这个包的导入机制,就是你在一个module里面引用另一个module,python运行文件有两种方式,一种是直接以主文件运行(默认以这种方式运行,同下面一种有点区别),一种是以module形式运行,就是用<code>python -m filename</code>方式调用.</p>
+<h2 id="以module的方式运行"><a href="#以module的方式运行" class="headerlink" title="以module的方式运行"></a>以module的方式运行</h2><p>####### 什么是相对导入和绝对导入呢<br>相对导入是用一个<code>.</code>来声明的,相当于Unix上的选择当前文件夹.</p>
+<p>假设你的文件目录为下面的</p>
+<pre><code>main
+|    main.py
+|     __init__py
+|   momod+
+|      | __init__.py
+|      | pack.py
+|       | flask
+|      |    |  __init__.py
+|       |    |  myflask.py
+--------------------
+</code></pre><h5 id="python里面的module分三种-一种是build-in-module-内建库-一种是第三方库-还有一种是你自己写的库-如上面的flask"><a href="#python里面的module分三种-一种是build-in-module-内建库-一种是第三方库-还有一种是你自己写的库-如上面的flask" class="headerlink" title="python里面的module分三种,一种是build-in module(内建库),一种是第三方库,还有一种是你自己写的库(如上面的flask)."></a>python里面的module分三种,一种是build-in module(内建库),一种是第三方库,还有一种是你自己写的库(如上面的flask).</h5><p>在python2里面,当你import 一个module时,搜索的顺序是 内建库,自己的库,第三方库.</p>
+<p>####### 而在python3里面顺序为 内建库,第三方库,你自己的库.</p>
+<p>我自己感觉python3的import的机制更为清晰,因为当你import一个库时,假如你写的库和第三方库重合时,你优先导入第三方库,如果你不适用声明相对导入的话,你无法正确的导入自己的库,而使用<code>.</code>来声明库来自自己的代码让代码的结构更加清晰了.所以如果你想让你的代码兼容py2和py3,你自己的库都要采用相对导入方法来导入.<br>比如在momod 里面的pack.py假如想引用flask的myflask.py要这样写</p>
+<pre><code>from .flask import myflask
+</code></pre><p>########### 假如你在py2中写了 <code>from flask import myflask</code>(并且你安装了flask库),这个是可以成功运行但是在py3中就会报错,因为他会优先导入flask库假如你没有显示声明相对导入的话.</p>
 <hr>
-<p>这个问题主要出在给创建子菜单上，当我们创建子菜单时，我们用的是我们自己的类库代码进行初始化数据库，我们先得到菜单的ID然后在EF里面查询这个菜单，我们查询到这个实体，然后在菜单实体里面添加子菜单，在SaveChange()时候就报错了，EF称检测到有循环赋值的可能，让我们添加外键以避免冲突，我不记得看到的那篇博客看到有人也遇到相同的问题，如果只是普通的一对多（假如是A对1，2，3，4···），当我们给A那个新建一个5时，这个外键的位置是知道的，我们只要在5的外键位置存贮A的主键，然而当我们建立这种父级菜单时，每个菜单里面的外键可以是存贮父级的主键，也可以是子集的主键，所以EF并不能解决冲突，解决这个问题的方法有两种一种是在表中添加外键<br>如：</p>
-<pre><code>       [ForeignKey(&quot;sonList&quot;)]
-public int sonListMenusID{get;set;}
-</code></pre><p>或者用Fluent API 在继承的方法 onModelCreate中添加</p>
-<pre><code>modelBuilder.Entity&lt;Menus&gt;().HasRequired(p=&gt;p.sonList).WithMany(l=&gt;l.Menus).HasForeignKey(p=&gt;p.sonListMenusID)
-</code></pre><p>通过这种创建方式当我们创建子集菜单时我们就可以成功利用EF特性帮我们自动添加上外键，以及建立好实体关系。</p>
-<p>关于更详细的外键知识可以点击<a href="http://www.cnblogs.com/Gyoung/archive/2013/01/22/2869782.html" target="_blank" rel="noopener">这里</a></p>
+<p>上面成立的前提是将pack.py以module方式运行,或者运行main.py在其中引入pack.py.接下来讲讲以主文件运行的不同.</p>
+<h4 id="当你直接使用"><a href="#当你直接使用" class="headerlink" title="当你直接使用"></a>当你直接使用</h4><pre><code>python pack.py
+</code></pre><p>你假如在pack.py里面使用了这个</p>
+<pre><code>from .flask import myflask
+</code></pre><p>引用了自己的myflaskmodule,在py2和py3中都会下面报这个错</p>
+<pre><code>SystemError: Parent module &apos;&apos; not loaded, cannot perform relative import
+</code></pre><p>因为当你以主文件方式运行 pack.py ,python会吧pack.py重命名为<code>__main__</code>,所以用.相对路径也不会是当前文件.所以全部都只能用绝对引用.所以在主文件运行在python3里面有个问题,假如你自己的库与第三方库有重名.</p>
+<h4 id="python3默认绝对路径-自己的库不会优先于第三方库被扫描-有两个解决方法-把自己的库重命名-第二个方法就是把包含主文件的文件夹加上init-py-你可以在sys-path的路径里加上-或者具体上一个上一个文件夹的路径-怪绕口的-其实你只要python能找到你的上一个文件夹-就行"><a href="#python3默认绝对路径-自己的库不会优先于第三方库被扫描-有两个解决方法-把自己的库重命名-第二个方法就是把包含主文件的文件夹加上init-py-你可以在sys-path的路径里加上-或者具体上一个上一个文件夹的路径-怪绕口的-其实你只要python能找到你的上一个文件夹-就行" class="headerlink" title="python3默认绝对路径,自己的库不会优先于第三方库被扫描.有两个解决方法,把自己的库重命名,第二个方法就是把包含主文件的文件夹加上init.py,你可以在sys.path的路径里加上..或者具体上一个上一个文件夹的路径.怪绕口的,其实你只要python能找到你的上一个文件夹,就行."></a>python3默认绝对路径,自己的库不会优先于第三方库被扫描.有两个解决方法,把自己的库重命名,第二个方法就是把包含主文件的文件夹加上<strong>init</strong>.py,你可以在sys.path的路径里加上<code>..</code>或者具体上一个上一个文件夹的路径.怪绕口的,其实你只要python能找到你的上一个文件夹,就行.</h4><p>说到这里顺便插一句对doctest和集成测试的理解.</p>
+<h4 id="由于我平时喜欢一边写代码一遍测试功能-图方便就使用doctest直接插在方法里面-在代码后面加上"><a href="#由于我平时喜欢一边写代码一遍测试功能-图方便就使用doctest直接插在方法里面-在代码后面加上" class="headerlink" title="由于我平时喜欢一边写代码一遍测试功能,图方便就使用doctest直接插在方法里面,在代码后面加上"></a>由于我平时喜欢一边写代码一遍测试功能,图方便就使用doctest直接插在方法里面,在代码后面加上</h4><pre><code>if __name__ == &apos;__main__&apos;:
+        import doctest
+        doctest.tesmod()
+</code></pre><p>平时写小module的时候没有问题,在将python2转python3时候,出现问题,因为我要测试这个module时,会报上面的那个错,因为我要测试他的话必须将它作为主文件.查了资料知道,其实doctest虽然在当前页面代码测试,但是对于module的话,最好采用集成测试,一是module很多,假如一个一个运行很麻烦,二是有时候module必须多个一起测试,所以测试module时要用集成测试来取代doctest.</p>
 
       
     </div>
@@ -1211,7 +876,7 @@ for t in threading.enumerate():
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/python/PIL/">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/software/富文本编辑器CKEditor配置CKFinder/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/meAndMyGirlfriend.jpg">
@@ -1225,7 +890,7 @@ for t in threading.enumerate():
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2016/07/18/python/PIL/" class="post-title-link" itemprop="url">PIL （Pillow）</a>
+            <a href="/2016/07/18/software/富文本编辑器CKEditor配置CKFinder/" class="post-title-link" itemprop="url">富文本编辑器CKEditor配置CKFinder</a>
         </h1>
 
         <div class="post-meta">
@@ -1242,7 +907,132 @@ for t in threading.enumerate():
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:04:03" itemprop="dateModified" datetime="2021-03-09T20:04:03+08:00">2021-03-09</time>
+                <time title="修改时间：2021-03-09 20:08:28" itemprop="dateModified" datetime="2021-03-09T20:08:28+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/软件/" itemprop="url" rel="index">
+                    <span itemprop="name">软件</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>2.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>由于网站要实现图片和文字的混排的上传<br>所以在网上找了富文本编辑器的插件，发现<a href="http://ckeditor.com/download" target="_blank" rel="noopener">CKEditor</a>这款还不错的插件</p>
+</blockquote>
+<h3 id="我用的是4-5-1这个版本，的确很好用，只是引用了一个js文件就可以实现。"><a href="#我用的是4-5-1这个版本，的确很好用，只是引用了一个js文件就可以实现。" class="headerlink" title="我用的是4.5.1这个版本，的确很好用，只是引用了一个js文件就可以实现。"></a>我用的是<strong>4.5.1</strong>这个版本，的确很好用，只是引用了一个<strong>js</strong>文件就可以实现。</h3><hr>
+<ol>
+<li>将网上下的CKEditor包解压放在根目录下</li>
+<li><p>在页面上引用CKEditor的核心包<strong>ckeditor.js</strong></p>
+<pre><code>&lt;script src=&quot;ckeditor/ckeditor.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;;
+</code></pre></li>
+<li><p>在页面添加一个输入框<strong>textarea</strong></p>
+<pre><code>&lt;textarea name=&quot;individual&quot; id=&quot;individual&quot; runat=&quot;server&quot;&gt;&lt;/textarea&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+ CKEDITOR.replace(&apos;individual&apos;);
+ &lt;/script&gt;
+</code></pre></li>
+</ol>
+<hr>
+<h3 id="只要通过上面上面几个步骤就能实现富文本编辑器，但是点开图片上传功能，发现只有上传url的功能，并不能本地上传图片，百度了一下发现由于安全性问题CKEditor没有上传功能，只有安上CKFinder才能实现上传功能，于是我在官网下了ckfinder-aspnet-2-5-0-1-同CKEditor一样引用JS文件（只要引用ckfinder-js"><a href="#只要通过上面上面几个步骤就能实现富文本编辑器，但是点开图片上传功能，发现只有上传url的功能，并不能本地上传图片，百度了一下发现由于安全性问题CKEditor没有上传功能，只有安上CKFinder才能实现上传功能，于是我在官网下了ckfinder-aspnet-2-5-0-1-同CKEditor一样引用JS文件（只要引用ckfinder-js" class="headerlink" title="只要通过上面上面几个步骤就能实现富文本编辑器，但是点开图片上传功能，发现只有上传url的功能，并不能本地上传图片，百度了一下发现由于安全性问题CKEditor没有上传功能，只有安上CKFinder才能实现上传功能，于是我在官网下了ckfinder__aspnet_2.5.0.1,同CKEditor一样引用JS文件（只要引用ckfinder.js)"></a>只要通过上面上面几个步骤就能实现富文本编辑器，但是点开图片上传功能，发现只有上传url的功能，并不能本地上传图片，百度了一下发现由于安全性问题<strong>CKEditor</strong>没有上传功能，只有安上<a href="http://ckfinder.com/download" title="CKFinder" target="_blank" rel="noopener">CKFinder</a>才能实现上传功能，于是我在官网下了<strong>ckfinder__aspnet_2.5.0.1</strong>,同CKEditor一样引用JS文件（只要引用ckfinder.js)</h3><pre><code>&lt;script src=&quot;ckfinder/ckfinder.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+</code></pre><ul>
+<li>由于我是MVC的网站基于.net4.5，在官方给的包里面有一个asp.net网站实例放在<strong>_source</strong>文件夹里面，里面有一个基于.net2的示例网站，一运行就报找不到 <strong>System.Web.UI.Design</strong>这个命名空间的错，所以我把它从项目中排除，把项目中bin中debug文件夹下的<strong>CKFinder.dll</strong>复制出来，引用到我自己的项目中。<h3 id="接下来要配置CKEditor来让CKFinder引用进来，在CKEditor文件夹下config-js在CKEDITOR-editorConfig-function-config-方法中添加如下代码："><a href="#接下来要配置CKEditor来让CKFinder引用进来，在CKEditor文件夹下config-js在CKEDITOR-editorConfig-function-config-方法中添加如下代码：" class="headerlink" title="接下来要配置CKEditor来让CKFinder引用进来，在CKEditor文件夹下config.js在CKEDITOR.editorConfig = function (config) {};方法中添加如下代码："></a>接下来要配置<strong>CKEditor</strong>来让CKFinder引用进来，在CKEditor文件夹下config.js在CKEDITOR.editorConfig = function (config) {};方法中添加如下代码：</h3>   config.filebrowserImageBrowseUrl = ‘ckfinder/ckfinder.html?Type=Images’;<br>   config.filebrowserFlashBrowseUrl = ‘ckfinder/ckfinder.html?Type=Flash’;<pre><code>config.filebrowserUploadUrl = &apos;ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&amp;type=Files&apos;;
+</code></pre>  config.filebrowserImageUploadUrl = ‘ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&amp;type=Images’;<br>  config.filebrowserFlashUploadUrl = ‘ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&amp;type=Flash’;<br>  config.filebrowserWindowWidth = ‘800’;  //“浏览服务器”弹出框的size设置<br>  config.filebrowserWindowHeight = ‘500’;</li>
+</ul>
+<hr>
+<h4 id="注意在配置Url的时候要修改成相对于网站本地网站磁盘文件路径，比如说，你的网址是http-example-com-cn-你把ckfinder文件夹放在Admin下的Editor文件夹，那么所有url要改成下面类似的格式"><a href="#注意在配置Url的时候要修改成相对于网站本地网站磁盘文件路径，比如说，你的网址是http-example-com-cn-你把ckfinder文件夹放在Admin下的Editor文件夹，那么所有url要改成下面类似的格式" class="headerlink" title="注意在配置Url的时候要修改成相对于网站本地网站磁盘文件路径，比如说，你的网址是http://example.com.cn ,你把ckfinder文件夹放在Admin下的Editor文件夹，那么所有url要改成下面类似的格式"></a>注意在配置Url的时候要修改成相对于网站本地网站磁盘文件路径，比如说，你的网址是<a href="http://example.com.cn" target="_blank" rel="noopener">http://example.com.cn</a> ,你把ckfinder文件夹放在Admin下的Editor文件夹，那么所有url要改成下面类似的格式</h4><pre><code>config.filebrowserImageBrowseUrl =&apos;/Admin/Editor/ckfinder/ckfinder.html?Type=Images&apos;;
+</code></pre><h4 id="否则会报404错误，"><a href="#否则会报404错误，" class="headerlink" title="否则会报404错误，"></a>否则会报404错误，</h4><h4 id="最后一步是修改一个函数让所有人能看到服务器上传文件夹里面的文件，在ckfinder文件夹下面的cofig-ascx文件，找到-CheckAuthentication函数将返回值改成true"><a href="#最后一步是修改一个函数让所有人能看到服务器上传文件夹里面的文件，在ckfinder文件夹下面的cofig-ascx文件，找到-CheckAuthentication函数将返回值改成true" class="headerlink" title="最后一步是修改一个函数让所有人能看到服务器上传文件夹里面的文件，在ckfinder文件夹下面的cofig.ascx文件，找到 CheckAuthentication函数将返回值改成true"></a>最后一步是修改一个函数让所有人能看到服务器上传文件夹里面的文件，在ckfinder文件夹下面的cofig.ascx文件，找到 CheckAuthentication函数将返回值改成true</h4><p>当然如果你想修改上传文件的地址，你可以在上面方法里面找到SetConfig()方法，找到BaseUrl，修改为你想上传的地址，</p>
+<hr>
+<hr>
+<h3 id="PS："><a href="#PS：" class="headerlink" title="PS："></a>PS：</h3><h4 id="我是在在VS里面进行调试的，由于VS的IIS在调试的时候不允许对磁盘文件的路由地址访问，就是CKFinder通过ckfinder-html这个html来实现上传图片的功能，但是这个在调试的时候VS无法访问这个文件，所以一直报404错误，可以修改IIS来允许IIS访问磁盘文件，步骤如下："><a href="#我是在在VS里面进行调试的，由于VS的IIS在调试的时候不允许对磁盘文件的路由地址访问，就是CKFinder通过ckfinder-html这个html来实现上传图片的功能，但是这个在调试的时候VS无法访问这个文件，所以一直报404错误，可以修改IIS来允许IIS访问磁盘文件，步骤如下：" class="headerlink" title="我是在在VS里面进行调试的，由于VS的IIS在调试的时候不允许对磁盘文件的路由地址访问，就是CKFinder通过ckfinder.html这个html来实现上传图片的功能，但是这个在调试的时候VS无法访问这个文件，所以一直报404错误，可以修改IIS来允许IIS访问磁盘文件，步骤如下："></a>我是在在VS里面进行调试的，由于VS的IIS在调试的时候不允许对磁盘文件的路由地址访问，就是CKFinder通过<strong>ckfinder.html</strong>这个html来实现上传图片的功能，但是这个在调试的时候VS无法访问这个文件，所以一直报404错误，可以修改IIS来允许IIS访问磁盘文件，步骤如下：</h4><ol>
+<li>右键点击IIS Express，选择显示所有应用程序</li>
+<li>找到运行网站的配置，进入applicationhost.config文件夹</li>
+<li>ctrl+f 寻找UrlRoutingModule</li>
+<li><p>将preCodition设置为空字符</p>
+<pre><code>&lt;add name=&quot;UrlRoutingModule-4.0&quot; type=&quot;System.Web.Routing.UrlRoutingModule&quot; preCondition=&quot;&quot; /&gt;
+</code></pre></li>
+</ol>
+<hr>
+<h3 id="如果你是用MVC进行表单传值的话，你必须在post方法上面添加-ValidateInput-false-属性，如果不这样的话就会报下面的错"><a href="#如果你是用MVC进行表单传值的话，你必须在post方法上面添加-ValidateInput-false-属性，如果不这样的话就会报下面的错" class="headerlink" title="如果你是用MVC进行表单传值的话，你必须在post方法上面添加 [ValidateInput(false)] 属性，如果不这样的话就会报下面的错"></a>如果你是用MVC进行表单传值的话，你必须在post方法上面添加 <strong>[ValidateInput(false)]</strong> 属性，如果不这样的话就会报下面的错</h3><pre><code>“/”应用程序中的服务器错误。
+从客户端(content=&quot;&lt;p&gt;sdfsdafwewo shdfh...&quot;)中检测到有潜在危险的 Request.Form 值。
+</code></pre>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/python/python学习/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/meAndMyGirlfriend.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/07/18/python/python学习/" class="post-title-link" itemprop="url">python学习</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-07-18 16:07:36" itemprop="dateCreated datePublished" datetime="2016-07-18T16:07:36+08:00">2016-07-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:04:07" itemprop="dateModified" datetime="2021-03-09T20:04:07+08:00">2021-03-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1261,13 +1051,13 @@ for t in threading.enumerate():
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span>1.8k</span>
+              <span>410</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>2 分钟</span>
+              <span>1 分钟</span>
             </span>
 
         </div>
@@ -1279,38 +1069,108 @@ for t in threading.enumerate():
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>Pillow 是 PIL的对Python3支持的另外一个分支，当然他对Python2也兼容，由于PIL安装起来比较烦，而使用pip可以很轻松的安装Pillow，所以我选择Pillow使用，但是其核心还是PIL库的。</p>
+          <h4 id="由于有其他编程语言基础，所以对于python的学习并不吃力，但是整体感觉python的确与前面学习c、c———"><a href="#由于有其他编程语言基础，所以对于python的学习并不吃力，但是整体感觉python的确与前面学习c、c———" class="headerlink" title="由于有其他编程语言基础，所以对于python的学习并不吃力，但是整体感觉python的确与前面学习c、c———"></a>由于有其他编程语言基础，所以对于python的学习并不吃力，但是整体感觉python的确与前面学习c、c———</h4><h3 id="1-实时编译VS静态编译"><a href="#1-实时编译VS静态编译" class="headerlink" title="1. 实时编译VS静态编译"></a>1. 实时编译VS静态编译</h3><p>不需要输入任何前缀，直接将代码放在python解释器上面就能运行，虽然window下不支持直接点开文件就能使用，但是只要安装了python解释器就能很轻松的运行。</p>
+<p>分量轻是他的特点吧！相比打开vs等半天然后，编译连接最后执行。python是一门很轻巧的语言，没有满屏的分号，大括号，基本类型比如int、string、float不区分直接拿来用就可以了，任何一个变量都是一个对象，对象可以千变万化，感觉python是一门很野的熊孩子什么都不在乎，比如说你什么了相同的两个变量</p>
+<h1 id="这门强类型语言则不允许，在同级作用域内他只允许声明一次，python或许已经没有声明了，每个名字只是一个对象而已并没有他的归属。"><a href="#这门强类型语言则不允许，在同级作用域内他只允许声明一次，python或许已经没有声明了，每个名字只是一个对象而已并没有他的归属。" class="headerlink" title="这门强类型语言则不允许，在同级作用域内他只允许声明一次，python或许已经没有声明了，每个名字只是一个对象而已并没有他的归属。"></a>这门强类型语言则不允许，在同级作用域内他只允许声明一次，python或许已经没有声明了，每个名字只是一个对象而已并没有他的归属。</h1><h4 id="2-动态语言VS静态语言"><a href="#2-动态语言VS静态语言" class="headerlink" title="2.动态语言VS静态语言"></a>2.动态语言VS静态语言</h4><h1 id="给我感受是一颗静止的树的话，那么python就是一匹‘野马’，C"><a href="#给我感受是一颗静止的树的话，那么python就是一匹‘野马’，C" class="headerlink" title="给我感受是一颗静止的树的话，那么python就是一匹‘野马’，C"></a>给我感受是一颗静止的树的话，那么python就是一匹‘野马’，C</h1>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/software/在Linux下玩转Vim/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/meAndMyGirlfriend.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/07/18/software/在Linux下玩转Vim/" class="post-title-link" itemprop="url">在Linux下玩转Vim</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-07-18 16:07:36" itemprop="dateCreated datePublished" datetime="2016-07-18T16:07:36+08:00">2016-07-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:08:28" itemprop="dateModified" datetime="2021-03-09T20:08:28+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/软件/" itemprop="url" rel="index">
+                    <span itemprop="name">软件</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>1.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="学了鸟哥的书前面基础后，突然想在Linux下用gcc玩C语言，然后了解到了Vim这个神一样的编译器，接下来经过超长时间虐心的安装无数插件无数依赖包，突然有种打自己一顿的感觉，还好终于把Vim装的和VS差不多了，接下来我介绍我安装Vim的经验吧。"><a href="#学了鸟哥的书前面基础后，突然想在Linux下用gcc玩C语言，然后了解到了Vim这个神一样的编译器，接下来经过超长时间虐心的安装无数插件无数依赖包，突然有种打自己一顿的感觉，还好终于把Vim装的和VS差不多了，接下来我介绍我安装Vim的经验吧。" class="headerlink" title="学了鸟哥的书前面基础后，突然想在Linux下用gcc玩C语言，然后了解到了Vim这个神一样的编译器，接下来经过超长时间虐心的安装无数插件无数依赖包，突然有种打自己一顿的感觉，还好终于把Vim装的和VS差不多了，接下来我介绍我安装Vim的经验吧。"></a>学了鸟哥的书前面基础后，突然想在Linux下用gcc玩C语言，然后了解到了Vim这个神一样的编译器，接下来经过超长时间虐心的安装无数插件无数依赖包，突然有种打自己一顿的感觉，还好终于把Vim装的和VS差不多了，接下来我介绍我安装Vim的经验吧。</h4><h3 id="我虚拟机下的Linux原来是红旗6的，但是我改了一下yum的包源成CentOS的并且全部update一下后就神奇的变成了CentOS6，虽然他们两个是同一家公司，但是总给我一种由盗版成了正版的感觉。。"><a href="#我虚拟机下的Linux原来是红旗6的，但是我改了一下yum的包源成CentOS的并且全部update一下后就神奇的变成了CentOS6，虽然他们两个是同一家公司，但是总给我一种由盗版成了正版的感觉。。" class="headerlink" title="我虚拟机下的Linux原来是红旗6的，但是我改了一下yum的包源成CentOS的并且全部update一下后就神奇的变成了CentOS6，虽然他们两个是同一家公司，但是总给我一种由盗版成了正版的感觉。。"></a>我虚拟机下的Linux原来是红旗6的，但是我改了一下yum的包源成CentOS的并且全部update一下后就神奇的变成了CentOS6，虽然他们两个是同一家公司，但是总给我一种由盗版成了正版的感觉。。</h3><h2 id="闲话不多说，刚开始装第一个插件是Ctags"><a href="#闲话不多说，刚开始装第一个插件是Ctags" class="headerlink" title="闲话不多说，刚开始装第一个插件是Ctags"></a>闲话不多说，刚开始装第一个插件是Ctags</h2><p>刚开始装的时候我是在X-Windows里面的<a href="http://ctags.sourceforge.net" target="_blank" rel="noopener">这里</a>下载再转回shell敲</p>
+<pre><code>$ tar -xzvf ctags-5.6.tar.gz
+$ cd ctags-5.6
+$ make
+</code></pre><h1 id="make-install"><a href="#make-install" class="headerlink" title="make install"></a>make install</h1><h6 id="后来我发现不用这么复杂直接在X-Window下面复制到Terminal里面就可以了，毕竟后面安装的代码都是十几行，根本扛不住。。。。"><a href="#后来我发现不用这么复杂直接在X-Window下面复制到Terminal里面就可以了，毕竟后面安装的代码都是十几行，根本扛不住。。。。" class="headerlink" title="后来我发现不用这么复杂直接在X-Window下面复制到Terminal里面就可以了，毕竟后面安装的代码都是十几行，根本扛不住。。。。"></a>后来我发现不用这么复杂直接在X-Window下面复制到Terminal里面就可以了，毕竟后面安装的代码都是十几行，根本扛不住。。。。</h6><p>装完三个感觉整个我太苦逼，简直是辛苦啊，不是说好的敲几下键盘就可以吗。<br>后来了解到linux有几个软件可以帮忙安装而且解决依赖性，比如ubuntu的apt-get，redhat的rmp，yum，但是问题来了，我的黄狗（yum：yellow dog）怎么没用啊，全都装不上，一查错误提示，原来我没用被授权，原来RedHat更新软件是要收钱的，但是CentOS不用，然后我就用了CentOS的源，当时我就想只想装个git，然后就没用然后了。终于全部更新完了，yum也可以用了，用yum果然爽多了，直接</p>
+<pre><code>yum install git    
+</code></pre><p>git就装好了。如果想知道怎么改源，<a href="http://blog.chinaunix.net/uid-23683795-id-3477603.html" target="_blank" rel="noopener">点击这里</a></p>
 <hr>
-<p>Python的图形处理库如PIL一直很强大，但是要想使用好它必须对图片有一定的知识储备。<br>使用起来很简单</p>
-<pre><code>from PIL import Image
-</code></pre><p>引用Image包</p>
-<pre><code>im = Image.open(&apos;1.png&apos;)
-</code></pre><p>打开图片，得到一个im对象，我们接下来就可以对这个对象进行操作（前提有这个1.png图片）</p>
-<p>我们先看一下他的一些属性</p>
-<pre><code>&gt;&gt;&gt; print im.format, im.size, im.mode
-PNG (83, 81) RGB
-</code></pre><p>第一个我们输出图片的格式，图片有很多种格式，常用的有jpg、png还有gif动图啊，PIL支持很多种格式，我们可以使用PIL轻松的将格式转换，<code>im.save(&#39;1.jpg&#39;)</code>,当然你可以选择格式假如你没选好后缀名的话，im.size就是图片大小，他返回的是一个元组第一个长度第二个是宽度，单位是像素。<br>现在就谈谈 这三个属性对应的关系吧<br> 首先我们使用一张像素图来说吧</p>
-<p><img src="http://img1.imgtn.bdimg.com/it/u=214288124,4080808149&amp;fm=21&amp;gp=0.jpg" alt></p>
-<p>我们存贮图片的时候是将整个图像分成很多个相同的小方块，每个小方块我们称为像素，当然一张图片分的越小，像素越多，那么图片就越接近真实图片，上面的<code>im.size</code>属性就告诉我们，这张图片分成了，长为83px，宽为81px的图片，那么一共有83*81=6723个像素点，每个像素点里面存什么呢，这就是<code>im.mode</code>属性告诉我们的，贴一下属性有什么吧</p>
-<ol>
-<li>1 (1-bit pixels, black and white, stored with one pixel per byte)</li>
-<li>L (8-bit pixels, black and white)</li>
-<li>P (8-bit pixels, mapped to any other mode using a color palette)</li>
-<li>RGB (3x8-bit pixels, true color)</li>
-<li>RGBA (4x8-bit pixels, true color with transparency mask)</li>
-<li>CMYK (4x8-bit pixels, color separation)</li>
-<li>YCbCr (3x8-bit pixels, color video format)</li>
-<li>I (32-bit signed integer pixels)</li>
-<li>F (32-bit floating point pixels)</li>
-</ol>
-<p>像素存贮就是涉及到颜色的存贮，在早期的黑白游戏机，只有黑和白两种，那么每个像素点就只有1位颜色来存贮，1位只能存贮两种颜色，八位色就能存256种颜色，像八位我们能用256个油漆桶/256色调色板来形容，像上面我们使用的RGB是由三种三原色红绿蓝混合而成，我们知道大自然所有的颜色都可以用红绿蓝三种颜色调配出来，所以RGB又被称为真彩（true color），每种颜色我们都分成256种，所以我们一共有256<em>256</em>256=16777216种颜色可以调配，像素的其他模式我们不介绍太多，有兴趣的可以自己钻研。<br>那么我们知道每个像素占多少字节，又知道共有多少个像素，那我们是不是就可以直接计算出来图片大小，来验证一下</p>
-<p>以第一张图片为例，共有83<em>81=6723个像素点，用RGB模式，每个像素三个字节，共有6723</em>3=20667b=20kb，但是我这张图片只有11.6kb，误差太大了吧，这时候我们就要介绍一下上面那个<code>im.format</code>属性了，这张图片采用png格式，我们先尝试一下把他转成JPG格式吧</p>
-<pre><code>im.save(&apos;1.jpg&apos;)
-</code></pre><p>我们再查看一下这个<code>1.jpg</code>的大小，只有2.24kb了，我们用PIL打开这张图片</p>
-<pre><code>&gt;&gt;&gt; im2 = Image.open(&apos;1.jpg&apos;)
-&gt;&gt;&gt; print im2.format, im2.size, im2.mode 
-JPEG (83, 81) RGB
-</code></pre><p>图片大小没有改变，但是format变成了JPEG，而且文件大小变成原来的1/5,<br>JPEG和GIF和PNG是三种图片压缩技术，他们使用压缩算法把图片压缩成很小，当我们打开图片时，解密算法把他还原出来，所以我们算出来的大小与压缩后的大小是不一样的。<br>有了这些概念我们就能更好的使用PIL提供给我们的magic方法，下次在谈我对PIL的高级应用吧。</p>
+<p>好了装好了源接下来装软件就敲一敲代码就行，不用去网上找包下载再安装。</p>
+<p>装好一些热门的插件后，我碰到了第一个最难装的插件YouCompleteMe(YCM)，装完之后感觉就是神器一般的存在，但是装完之前一直在感慨，我去怎么没个卵用啊，而且装llvm（安装YCM必须先安装的软件)时，我用编译安装方法因为一些库的缺失一直报错，后面采用二进制安装方法安装完llvm才成功按上YCM。<br>推荐新手采用二进制安装方法安装llvm，想知道怎么安装YCM这些<a href="http://www.linuxzen.com/vim-dai-ma-bu-quan-he-jian-cha-youcompleteme-syntastic.html" target="_blank" rel="noopener">点击这里</a></p>
+<h2 id="安上一些实用的插件后，最后安装调试神器gdb，有三种方式使vim可以调试程序（与gdb一起工作），"><a href="#安上一些实用的插件后，最后安装调试神器gdb，有三种方式使vim可以调试程序（与gdb一起工作），" class="headerlink" title="安上一些实用的插件后，最后安装调试神器gdb，有三种方式使vim可以调试程序（与gdb一起工作），"></a>安上一些实用的插件后，最后安装调试神器gdb，有三种方式使vim可以调试程序（与gdb一起工作），</h2><p>vimgdb，pyclewn，clewn，三个我都试了，第一个要编译一下vim，我失败了，第二个要用python2.4+支持，我python2.6然并卵，每次都说不支持python2，第三个是用c写的，终于成功，安装非常简单，<br><a href="http://blog.csdn.net/linlianghui2004/article/details/7676792" target="_blank" rel="noopener">点击这里</a>了解详情.<br>装完了，我终于可以使用clewn打开gdb和gvim，然并卵，我写的程序并不能在gdb里面运行，一直说无法识别。。。。。。搜了一下原来是编译的时候的问题，用gcc编译的程序要带上<code>-g</code>参数才能在gdb里面用（我还以为我clewn没装好）<br>例如</p>
+<pre><code>gcc -g test.c -o test
+</code></pre><p>加上<code>-g</code>参数就行了。终于我的vim可以用了。。。。。。</p>
 
       
     </div>
@@ -1463,11 +1323,136 @@ array([ 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
   
   
 
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/useless/泛型继承的理解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/meAndMyGirlfriend.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/07/18/useless/泛型继承的理解/" class="post-title-link" itemprop="url">泛型继承的理解</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-07-18 16:07:36" itemprop="dateCreated datePublished" datetime="2016-07-18T16:07:36+08:00">2016-07-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:34:28" itemprop="dateModified" datetime="2021-03-09T20:34:28+08:00">2021-03-09</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>901</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="泛型对于解决面对对象编程的算法设计可以提高其运算速度，但是对于引用类型来说还是没什么差别，因为引用类型只是指针的地址的调用，简单来说泛型还是挺好理解的，但是对于泛型、非泛型、继承和接口的融合就有些迷惑了。"><a href="#泛型对于解决面对对象编程的算法设计可以提高其运算速度，但是对于引用类型来说还是没什么差别，因为引用类型只是指针的地址的调用，简单来说泛型还是挺好理解的，但是对于泛型、非泛型、继承和接口的融合就有些迷惑了。" class="headerlink" title="泛型对于解决面对对象编程的算法设计可以提高其运算速度，但是对于引用类型来说还是没什么差别，因为引用类型只是指针的地址的调用，简单来说泛型还是挺好理解的，但是对于泛型、非泛型、继承和接口的融合就有些迷惑了。"></a>泛型对于解决面对对象编程的算法设计可以提高其运算速度，但是对于引用类型来说还是没什么差别，因为引用类型只是指针的地址的调用，简单来说泛型还是挺好理解的，但是对于泛型、非泛型、继承和接口的融合就有些迷惑了。</h3><h5 id="比如说这种接口"><a href="#比如说这种接口" class="headerlink" title="比如说这种接口"></a>比如说这种接口</h5><pre><code>public interface IEnumeratot&lt;T&gt;:IDisposable,IEnumerator,ICompare&lt;T&gt;
+</code></pre><h4 id="这个泛型接口继承了两个非泛型接口，和一个泛型接口。"><a href="#这个泛型接口继承了两个非泛型接口，和一个泛型接口。" class="headerlink" title="这个泛型接口继承了两个非泛型接口，和一个泛型接口。"></a>这个泛型接口继承了两个非泛型接口，和一个泛型接口。</h4><hr>
+<h3 id="我一开始理解泛型就是一个个模型，只要我们把类型一个参数赋给他，他就能生成一个标准的类型，他缺少的只是一个参数而已，我们引用的时候感觉就像我们引用一个“全体方法”，把参数赋给类型后就可以一直调用类中的方法了，但是对于接口的继承如何理解？"><a href="#我一开始理解泛型就是一个个模型，只要我们把类型一个参数赋给他，他就能生成一个标准的类型，他缺少的只是一个参数而已，我们引用的时候感觉就像我们引用一个“全体方法”，把参数赋给类型后就可以一直调用类中的方法了，但是对于接口的继承如何理解？" class="headerlink" title="我一开始理解泛型就是一个个模型，只要我们把类型一个参数赋给他，他就能生成一个标准的类型，他缺少的只是一个参数而已，我们引用的时候感觉就像我们引用一个“全体方法”，把参数赋给类型后就可以一直调用类中的方法了，但是对于接口的继承如何理解？"></a>我一开始理解泛型就是一个个模型，只要我们把类型一个参数赋给他，他就能生成一个标准的类型，他缺少的只是一个参数而已，我们引用的时候感觉就像我们引用一个“全体方法”，把参数赋给类型后就可以一直调用类中的方法了，但是对于接口的继承如何理解？</h3><p>对于泛型类的继承，继承的类必须实现泛型的参数或者保留泛型的参数，比如下面</p>
+<pre><code>  public class A&lt;T&gt;
+{
+    public T tt;
+}
+public class C&lt;T&gt; : A&lt;T&gt;
+{
+    public T tt;
+}
+</code></pre><p>或者是这样</p>
+<pre><code>  public class A&lt;T&gt;
+{
+    public T tt;
+}
+public class C : A&lt;string&gt;
+{
+    C cc;
+}
+</code></pre><p>对于泛型继承非泛型类，比如下面</p>
+<pre><code>public class A 
+{
+     A aa;
+ }
+
+ public class B&lt;T&gt;:A
+{
+    B&lt;T&gt; bb;
+}
+</code></pre><p>基类是非泛型，而继承的是泛型类，我感觉这种构造就是让泛型类多了一种<strong>包容性</strong>,比如下面的链表实现的代码，让基类是非泛型，而继承是泛型，就能让链表可以连起很多种类型的数据，而本身的类型安全没有丢失。</p>
+<pre><code>public class Node
+{
+        pretected Node next;
+          public Node(Node next){
+            this.next=next;
+            }
+}
+public class TypeNode&lt;T&gt;:Node
+{
+    public T data ;
+    public TypeNode(T data):this(data ,null){
+        }
+    public TypeNode(T data,Node next):base(next){
+        this.data=data;
+        }
+
+    }
+</code></pre><p>泛型的约束</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
   </div>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/12/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/12/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1535,7 +1520,7 @@ array([ 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">121</span>
+          <span class="site-state-item-count">120</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
