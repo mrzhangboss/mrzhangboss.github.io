@@ -211,6 +211,128 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2019/10/05/summary/如何真正精通/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/meAndMyGirlfriend.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/10/05/summary/如何真正精通/" class="post-title-link" itemprop="url">如何真正精通</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-10-05 00:00:00" itemprop="dateCreated datePublished" datetime="2019-10-05T00:00:00+08:00">2019-10-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:15:01" itemprop="dateModified" datetime="2021-03-09T20:15:01+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/随想/" itemprop="url" rel="index">
+                    <span itemprop="name">随想</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>3.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
+<p>写这篇博客是因为自己从去年就开始学习大数据，但是当自己入了门之后，虽然懂得一点皮毛，但是总觉得自己没有真正掌握这个，尝试了很多方法（做了不少项目，读了几个月源代码），但是总感觉不得要领，或者来说进步缓慢，下面是自己的一些思考</p>
+</blockquote>
+<p>进步最快的是做项目，但是做项目其实也有下面的问题：</p>
+<ul>
+<li>项目参杂业务</li>
+<li>项目只涉及到大数据某个部分</li>
+</ul>
+<p>比如以我前面数据转存HBase的项目为例，我遇到的问题是Spark内存不足，以及优化HBase存贮，在解决问题的过程中我的确查了不少资料，学了不少东西，但是通过这个项目之后我只能说我对上面的问题有一定的经验，谈不上精通</p>
+<p>从理论上讲你想真正精通就是不停的使用它，但是对于每个人来说，并不是都有机会去在每个项目中应用它，比如我上个项目Flink SQL管理系统，虽然它是跟Flink有关，但是它大部分都是和前端以及动态编译有关，随着项目越来越多你会发现你越来越熟练某个东西，但是不是精通</p>
+<p>那怎么才能真正的精通某个东西呢，接下来我就下面几点谈谈我的体会</p>
+<h2 id="心态"><a href="#心态" class="headerlink" title="心态"></a>心态</h2><p>心态这个东西非常的重要，一开始我接触大数据，我飞快的过了一遍大数据的各个软件，把tutorial都运行了一遍，整个人是一种完成任务的心态把所以大数据组件给过了一遍，做完之后感觉大数据也就那么回事，但是其实你只是会运行几个软件而已，就好比一个会用遥控器的猴子，你会看电视不是你有多聪明，而是发明遥控器的人的聪明才让你能那么轻松的看电视</p>
+<p>所以我们要想深入精通某个东西第一个就是摆正自己的心态，心态这个东西怎么端正呢，其实我觉得第一件事就是让自己变成一个“演员”</p>
+<p>这里我插一句，其实我们这一代虽然压力很大，但是有很大一部分年轻人比如我会有一种“佛系”心态，无欲无求，这种心态可能会让你心态变得更加平静，你不会思考那么多问题（为什么我工资没有他高、为什么我买不起房），但是这种心态也会让你丧失变得更加优秀的可能，比如前面我们提到我们要想精通必须端正心态，把这件事放在你心上，作为一个“佛系”看到这可能会想，为什么要把它放到心上，不就是精通嘛多花点时间就可以了</p>
+<p>这种心态就像在一间教室了，你和你同学都在认真听课，你同学被叫起来回答问题，你的心态非常平静，老师提出的问题你根本不会用心去想，你内心只有这个起来讲的傻蛋会怎么出丑，而对于站起来回答问题的那个同学他会精神高度紧张，他会用100%的精力会放在这个“问题”上</p>
+<p>我们回到前面，前面我们提了“演员”这个概念，我们端正心态的具体方法就是把自己变成一个“演员”，或许学这个东西对于你来说只是一个给自己充一下电，在你心中，玩一把LOL、刷一会抖音和充一下电的地位是一样。</p>
+<p><em>所以第一步就是“假装”你非常热爱这个东西</em></p>
+<p>为什么要说是假装呢，就以我们自己举例，我们从小到大爱过学习吗？我敢说一万个里面只有一个会说我好爱学习，那个人很有可能是如果他不学习他爸就叫他下地干活，其实我们从小到大一直在被强迫着学习，如果没有老师布置作业我们很有可能一下课就把书包丢到看不到的地方，打开电视机，假如没有考试要求我们背诵课文，我们可能不会把一段又丑又长的文章读了一遍又一遍，等我们到了社会，我们又被领导用工资压着我们做一些内心厌据的工作</p>
+<p>我还好毕业之后从事的是我喜欢做的，所以我经常下班之后会呆在电脑旁，与之相反我有一个建筑朋友，他也是做电脑设计这方面的，他很好奇我每天下班都待在电脑旁边不打游戏就坐在那编程，对于他来说，他下班之后再也不想打开电脑，因为他觉得平常在公司已经非常辛苦了，为什么还要折磨自己。对于他来说工作只是一个维持生活的手段</p>
+<p>其实对于我来说，编程也没有上升到热爱那一个层次，只是比游戏稍微高那么一点而已，这也可以解释有的时候我敲着敲着代码敲累了又打开了虎牙看起直播来了，热爱这个东西就好比打游戏，你越打越开心，而不会越来越累</p>
+<p><em>所以其实对于我们大部分年轻人来说，第一件事就是把“佛系”心态收起来，变成一个“演员”，假装我们热爱这个东西</em></p>
+<p>其实李笑来也提到过类似观点，他提过他是学习英语的窍门，他“假装”他背一个单词可以挣5块钱，所以他单词越背越多，最后英语也越来越好，对于我们每个人来说如果你真的想精通某个东西，找到一种能够刺激你的方法去“热爱”它</p>
+<p>插一句，为什么我在这个心态这里用了很多“演员”、“假装”这些词汇，因为从小到大我没有看到一个人真正的热爱某个东西，无论是工作还是学习大家似乎都是一种“妥协”的态度，因为钱而工作，因为击杀的快感而打游戏，很少能看到一个人因为热爱而沉浸在一件事上一辈子，这也可以解释为什么大师那么少，大部分太“博爱”，无法选择出自己最喜爱的</p>
+<p>把人生当做登山，我们面前有很多座山，大部分人登了一会就觉得这座山不是自己的菜，厌倦了，从头开始换另一座山登，而对于我们来说，最好的方法是登了一会虽然觉得厌倦了，“假装”热爱，拼命往上登，到了山顶，视野广阔才能真正的看到自己想要的，这个时候不是随便换个山登，而是“跳”到那座山去。</p>
+<p>大道理我们也不多说了，现在我们面前只有一个朱丽叶，接下来我们谈谈一些我觉得很重要的“术”来帮助我们维持这个心态</p>
+<h2 id="精通的手段"><a href="#精通的手段" class="headerlink" title="精通的手段"></a>精通的手段</h2><h3 id="问自己问题"><a href="#问自己问题" class="headerlink" title="问自己问题"></a>问自己问题</h3><p>帮住我们精通某个东西的最重要的方法的是问问题，比如你想精通Hadoop，这个时候你就问自己，什么是Hadoop，为什么叫Hadoop，它有啥用….</p>
+<p>这些问题你可以记录下来，在回答过程中你必须要像对待孩子一样对待这些问题，你要充分激发你的求知欲，其实这个同打游戏是一个道理，假如你喜欢打LOL，你会去尝试各种符文天赋，尝试各种英雄各种套路，你拿到一个盲僧你总会问自己，盲僧装备啥符文最强，R闪会不会撞墙。</p>
+<p>问自己问题还有一个关键就是：打破砂锅问到底。接着Hadoop那个问题，当你回答到Hadoop的组成的时候，提到了Namenode，然后在问自己Namenode是什么，如果文件过多会怎么样，高可用和Namenode有什么关系，如果Namenode挂掉会怎么样….</p>
+<p>问问题的过程不但是是一个不断了解的过程，也是一个学习的工程，你在学习的过程中遇到的问题越多说明你的短板也越多，我们就像一个修补匠不断对一艘船修修补补，最终它能坚固的如军舰一般</p>
+<h3 id="系统总结"><a href="#系统总结" class="headerlink" title="系统总结"></a>系统总结</h3><p>不断的提出新的问题就像不断的在一个树枝上分叉，但是假如你一直问下去，你有可能会在寻找问题的过程中迷失自己，或者偏离主航道，比如问大数据最后深入到硬件最后深入到化学方向去了，所以一个系统的归纳总结也非常有帮助</p>
+<p>方法有很多，你可以像我一样写博客，画画思维导图，甚至手写都可以，一切能够帮助你总结归纳都可以</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这篇博客简单的介绍了一下我对于怎么精通的个人体会，我个人也还在路上，之所以写这篇也是自己在摸索的过程中磕磕碰碰走了很多弯路，这里谈一下对以前学习过程中的反思吧，我一开始心态就不对，飞快的过了大数据的组件，然后开始做了些项目，但是做完之后也只是熟练的编程而已，接着开始研究源代码，虽然代码都能看懂，但是不知道怎么去看，好像是为了看源代码而看源代码而已，自己对整个系统一窍不通</p>
+<p>后面突然看到一下大数据的面试题，我尝试回答但是好像都模模糊糊，这个时候我才意识到我的问题的关键：“心态”。我自己一直没有摆正自己的心态，我只是把他当做一个工具来用了，就好比电视遥控器，我只是一只会按遥控器的monkey而已。摆正心态说难也难说容易也容易，假如明天马云跟我说你把Hadoop搞精通我给你1000万，那我心态不需要“假装”，我们需要一种手段帮助我们端正心态，每个人可以采取不同的手段来帮助自己，对于我这个佛系青年来说，上面的方法是最好的。</p>
+<p>其实我记得好像小学的时候我就有过这种思考，当初我妈和我姐聊天说为什么同一个妈生的，一个成绩好一个成绩差，我当时直接就说了假如你想成绩好那必须要热爱它，后面我也用这个办法帮我自己学习一些东西，但是苦于没有想到怎么精通的“术”，所以虽然一开始保持100分的热情但是坚持坚持着就放弃了，所以心态不但重要，后面的精通的“术”也非常重要，就像太极，一阴一阳，光有热情没有行动没有用，只有行动没有热情，你也领悟不到精髓。</p>
+<p>PS：其实回头想想这篇博客也非常简单，很多前辈或者先人已经提出来过，不外乎是：端正心态、多问问题、多总结。我自己一开始也想过别人都写过，自己何必多此一举，但是想想虽然这些问题都是老生常谈，但是我们来说，我们都是第一次做人，每个人都是不一样，对于我来说，端正心态怎么端，为什么要端正，端正后干什么这些都是不一样。其实我这篇博客最主要的想谈一下心态，就以我们健身房为例，一遍健身一遍玩手机的都是没有什么肌肉的，那些肌肉大的都是训练的时候拼尽全力，假如你抱着来健身房玩一玩的心态，你永远没法把你的肌肉练出来，而那些为每次动作拼尽全力的人他们的肌肉是最强壮的。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2019/05/05/ai/推荐系统微博数据实战/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1617,352 +1739,6 @@ sudo docker run -itd \
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/09/15/python/触摸Python的GIL/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/meAndMyGirlfriend.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/09/15/python/触摸Python的GIL/" class="post-title-link" itemprop="url">触摸Python的GIL</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-09-15 00:00:00" itemprop="dateCreated datePublished" datetime="2018-09-15T00:00:00+08:00">2018-09-15</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:05:18" itemprop="dateModified" datetime="2021-03-09T20:05:18+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>11k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>10 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>Python的<code>GIL</code>一直是被大家攻击其语言的一个弊端，每次在讨论语言特性的时候这点总是会被人们提起，但是这个东西好像就一个“污点”，大家都知道，但是大家都不了解为什么。本片博客就是好好的探索一下GIL，让我们不再畏惧它</p>
-</blockquote>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
-<p>其实一开始并没有想到研究GIL，但是在研究<a href="/2018/09/12/如何让你的Python像C++一样快/">如何让你的Python更快</a>的过程中发现我们可以通过这种方式解决掉GIL，让我们的代码不被<code>Python</code>拖累</p>
-</blockquote>
-<p>这篇博客相比于上面的博客更注重于代码的讲解，我们通过使用<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pybind11</a>从一个<code>Python</code>调用<code>C++</code>的demo出发介绍如何让<code>Python</code>调用<code>C++</code>并且丢弃GIL</p>
-<h2 id="GIL简介"><a href="#GIL简介" class="headerlink" title="GIL简介"></a>GIL简介</h2><p>首先我们要知道什么是<code>GIL</code>，为什么它会拖累<code>Python</code>，首先我们看一下<code>Python</code>历史，<code>Python</code>是Guido van Rossum 在1989年发布的，那个时候计算机的主频还没有达到1G，程序全部都是运行在单核计算机上面，直到2005年多核处理器才被Intel开发出来</p>
-<p>多核处理器意味着什么呢，就好比一个工厂，你原来只有一个工人干活，现在有很多个了，一开始设计出来只是为了能在每个核心上跑不同的应用，但是随着大家对多核计算机的使用，大家发现有的时候计算器其实很空闲，大部分CPU都在休息，假如只在一个核上跑一个应用的话，那么其他CPU就浪费了，所以大家就开始设计怎么并行在多个CPU上跑同样的任务</p>
-<p>现在我们来考虑一下怎么能让CPU力往一处使，我们用数据库来做比方，假设我们计算机上安装一个银行数据库，为了让这个“银行”能够服务更多的人，我们把对钱的操作（增删查改）放到每个CPU上运行。假如我们的顾客一个一个排着队来取钱存钱，我们每个CPU查询都是唯一的，存取也是唯一的，那么我们的“银行”就能正常工作</p>
-<p>但是现实的环境往往不是这样的，顾客它可能会因为网络原因个人原因同时进行多个操作，假如它同时取1千万的两次操作（它账号只有1千万），每个CPU上的程序查询时候正好都是账号有一千万，然后依次进行数据的更新，最后我们发现用户的账号变成了0，但是用户却取了两千万出来，你的银行损失了一千万，所以并行任务最重要的就是数据共享</p>
-<p>怎么解决这个共享问题呢，很简单加“锁”，我们给需要共享的东西上个锁，每次你想用的时候你就把锁锁上，然后对共享的东西进行操作，当有别人想动这个东西的时候，他一看哎呀有人在用，那我等会。这样就不会造成上面的冲突了，但是这个也造成了一个问题由于我上了一把锁，每次我们想操作的时候，必须去看一下这个锁有没有被人锁上，假如没有我就锁上，有就等待，这一来一去就会造成一个效率问题（感觉这个也是国企的通病，权利依次掌握在领导上，要想完成工作得不断的进行开“锁”、关“锁”，有时候还会造成“死锁”），所以并行的4个任务运行速度不一定是一个任务的四倍，所以我们经常看到一些库在运行说明里面双核速度会比单核加速一点几倍，之说以达不到双倍就是因为这些“锁”的存在</p>
-<p>“锁”帮我们能让单任务拆分成子任务并行化加速，但是在一定程度上拖累了运行速度，我们回到<code>Python</code>，因为多核是在2005年才出现的，但是在并行化上面，一个比多核更早出现的概率就是：<code>线程</code>和<code>进程</code></p>
-<p>在还没有多核处理器的时候，操作系统为了让程序并行化跑，就创造了进程和线程的概率。用通俗的话来讲，进程就是一家大工厂，而线程就是工人，为了提高生产力，我们可以开很多家工厂，当然我们也可以开一家工厂，招很多工人。但是线程这个东西相比于进程要消耗的少的多，因为它“原材料”都是从“工厂”里面拿的，假如说工厂少了几个工人还可以生产，但是上万个工人没有工厂他们也办法工作。</p>
-<p>所以对于<code>Python</code>来说首先得支持线程和进程的概率，对于进程来说很简单，就是多开几家工厂(多开几个<code>Python</code>程序)罢了，但是对于线程来说，由于<code>Python</code>是一门脚本语言，它需要一个<code>解释器</code>来执行代码，我们知道这个解释器它可以当做大一个共享变量，假如在不同的线程里面用“锁”来限制一下的话，环境变量就会乱了套</p>
-<p>所以<code>Python</code>对于线程的支持就是给他加一个锁，也就是我们俗称的<code>GIL</code>，由于在操作系统在运行单核的时候就支持线程，一个工人加一个锁其实也没有什么，无非就是多了一点开锁关锁的时间，所以<code>Python</code>在2005前一直没有<code>GIL</code>这个概率，到了2005大家发现<code>Python</code>使用多线程竟然只能使用一个核，完全浪费了其他核，因为虽然<code>Python</code>的线程可以分配到不同的核上运行，但是当他们运行的时候发现这个锁没有被释放，所以每个核上的线程都傻乎乎的在等待，结果最后查看效果多线程比单线程速度还慢（要等<code>GIL</code>释放）</p>
-<p><code>Python</code>社区逐渐发现这个问题，他们也做了很多挽救工作，比如在线程睡觉（sleep）、等待连接的时候让线程主动释放<code>GIL</code>，这样就能让其他线程继续执行，但是对于纯粹的运算代码而不是IO密集代码总也避不开这个锁的存在，如果允许<code>GIL</code>释放，由于历史遗留问题很多代码都会乱了套（理论上其实就是需要重新修改锁的设计，可以参考MySQL的代码去掉<a href="https://dev.mysql.com/worklog/task/?id=8423" target="_blank" rel="noopener">“锁”</a>花了5年时间），考虑到<code>Python</code>本来就运行的慢，<code>Python</code>开发者觉得假如你觉得代码很慢，你可以放到<code>C/C++</code>里面执行，所以对于这个<code>GIL</code>就没有继续啃下去，而是把中心放在<code>Python</code>调用<code>C/C++</code>中，提供了一些很方便的方式让我们在<code>C/C++</code>中控制<code>GIL</code>的释放以及获取</p>
-<p>所以我们接下来通过一个来学习<code>Python</code>调用<code>C++</code>代码，来了解<code>Python</code>如何调用<code>C++</code>，并且通过一些实验来验证线程、进程和<code>GIL</code></p>
-<h2 id="测试GIL的存在"><a href="#测试GIL的存在" class="headerlink" title="测试GIL的存在"></a>测试GIL的存在</h2><p>首先我们要做的第一件事就是测试GIL的存在，现在基本上主流电脑都是多核CPU，所以我们这个实验可以很轻松的在多核下进行</p>
-<p>首先我们得安装一些环境：<code>Python3</code>，<code>gcc</code>，<code>htop</code>（在Windows可以用下任务管理器代替）</p>
-<p>首先我得提一下我的一个认识误区，在以前我不太清楚线程、进程与多核直接的关系的时候我有一个误区，我以为<code>C</code>能在单线程里面使用多核（我也不清楚为什么我会这么想，可能是因为了解很少），而<code>Python</code>却不能，后面通过我实验我才发现，无论是<code>C</code>和<code>Python</code>只要你的代码不使用线程、进程那么你的代码只能同时运行在同一个核上</p>
-<p>怎么来测试呢，我们可以在<code>Python</code>的解释器里面输入</p>
-<pre><code>while True:
-  pass
-</code></pre><p>然后我们打开<code>htop</code>，我们可以发现某一个<code>CPU</code>始终保持在100%（这个CPU可能会变化，因为操作系统控制每个进程切换CPU时间），假如你没有其他任务过多使用<code>CPU</code>的话，你其他的核心一直保持在很低的利用率，当你<code>ctrl-c</code>你的代码后，那个100%的CUP会立马降下来</p>
-<p>然后你在编译一个<code>C</code>程序，使用<code>gcc a.c &amp;&amp; ./a.out</code>命令编译下面代码然后运行</p>
-<pre><code>// a.c
-int main(){while(1){};}
-</code></pre><p>你会发现<code>C</code>也只能消耗一个CPU，这就印证了我们前面说过得，如果我们不主动使用线程或进程来，同时只能有一个在运行</p>
-<p>接下来我们看看在多进程的基础上，使用<code>Python</code>来使用多核</p>
-<pre><code>from concurrent.futures import ProcessPoolExecutor
-
-def f(a):
-    while 1:
-        pass
-if __name__ == &apos;__main__&apos;:
-    pool = ProcessPoolExecutor()
-    pool.map(f, range(100))
-</code></pre><p>当我们运行上面代码的时候，我们会发现所有<code>CPU</code>会运行到100%，我们只要简单声明一个进程池（<code>ProcessPoolExecutor</code>），<code>Python</code>自动帮我们生成你CPU核数相同的进程，然后我们只要把任务分配到池中就能重复的并行化任务，把所有的核心都用起来。</p>
-<p>然后我们来测试一下线程池，要使用<code>Python</code>线程池只需要初始化<code>ThreadPoolExecutor</code>就行</p>
-<pre><code>from concurrent.futures import ThreadPoolExecutor
-
-def f(a):
-    while 1:
-        pass
-if __name__ == &apos;__main__&apos;:
-    pool = ThreadPoolExecutor()
-    pool.map(f, range(100))
-</code></pre><p>我们从<code>htop</code>可以看到在<code>Python</code>线程中，只有一个能达到100%，这就是<code>GIL</code>的“威力”，它让我们多线程没有发挥多线程的力量，重复使用到多核CPU</p>
-<p>接下来我们看看在<code>C++</code>里面使用多线程是否能够发挥多核的威力</p>
-<pre><code>// run.cpp
-#include &lt;thread&gt;
-using namespace std;
-
-#define NUM_THREADS 50
-
-void f(){
-    while(1){};
-}
-void run_dead(){
-
-    std::thread threads[NUM_THREADS];
-    for(int i = 0; i &lt; NUM_THREADS; ++i)
-    {
-        threads[i] = std::thread(f);
-    }
-
-
-    for (int i = 0; i &lt; NUM_THREADS; ++i) {
-        threads[i].join();
-
-    }
-};
-int main(void){
-    run_dead();
-}
-</code></pre><p>我们使用<code>g++ -pthread -std=c++11 run.cpp &amp;&amp; ./a.out</code>运行上面的<code>C++</code>程序，我们在htop里面能够发现，<code>C++</code>的多线程能够完全发挥多核的威力</p>
-<p>上面的程序都很简单，但是具备一个多线程运行的基本构造，我们可以修改我们的调用的子任务来完成实际的任务，当然你程序越复杂也涉及到了各种锁的使用，这里我们就不谈了</p>
-<p>从上面的程序我们可以知道<code>C++</code>的多线程能够充分使用多核，而<code>Python</code>的不行，接下来我们就开始探索<code>Python</code>调用<code>C++</code></p>
-<h2 id="Python调用C"><a href="#Python调用C" class="headerlink" title="Python调用C++"></a>Python调用C++</h2><p>在上面的<a href="/2018/09/12/如何让你的Python像C++一样快/">博客</a>我总结了<code>Python</code>调用<code>C++</code>的方式，总的来说<code>Cython</code>是控制能力最好的，效率也是最高的，但是由于存在一个学习新语言的难度，所以我这里就不提了，改天再写一篇关于<code>Cython</code>的博客，我们这里使用<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pybind11</a>这个库作为介绍</p>
-<p>安装非常简单<code>pip install pybind11</code>就行，接下来我们使用github上这个<a href="https://github.com/pybind/python_example" target="_blank" rel="noopener">官方例子</a>做介绍，最后我们以一个实际的<code>C++</code>项目为例子，看看如何在实际的项目使用</p>
-<p>首先我们先把项目下载下来</p>
-<pre><code>git clone https://github.com/pybind/python_example.git
-</code></pre><p>然后我们新建一个环境（避免安装到我们系统的环境，方便删除）</p>
-<pre><code>python -m venv venv
-</code></pre><p>PS: 当前<code>Python</code>版本默认为py3.5以上（你可以使用pyenv安装Python多个版本，目前我在自己使用Python版本，但主要使用3.6以上）</p>
-<pre><code>source venv/bin/activate
-</code></pre><p>然后我们激活我们的环境，我们顺便安装一下我们接下来要安装的<code>Python</code>包</p>
-<pre><code>pip install ipython
-</code></pre><p>然后我们进入项目<code>cd python_example</code>，假如你用<code>Pycharm</code>的话，你可以在项目目录下生成<code>venv</code>环境，然后在<code>Pycharm</code>里面打开会自动设定为默认环境</p>
-<p>然后我们先测试一下代码可以不可以用</p>
-<pre><code>pip install .
-</code></pre><p>假如我们安装成功了，恭喜你，我们的环境已经准备好了，打开<code>ipython</code>，我们先测试一下这个<code>C++</code>代码的速度</p>
-<pre><code>In [1]: import python_example
-
-In [2]: python_example.add(1, 1)
-Out[2]: 2
-</code></pre><p>很好，代码运行正常，就是一个简单的加法运算，我们测试一下平均时间</p>
-<pre><code>In [3]: %timeit python_example.add(1, 1)
-313 ns ± 3.03 ns per loop (mean ± std. dev. of 7 runs, 1000000 loops each)
-</code></pre><p>很好，我们的<code>C</code>代码还是跑到很快，313纳秒就跑完了，接下来我们看看纯粹的<code>Python</code>代码速度</p>
-<pre><code>In [4]: def add(a, b):
-   ...:     return a + b
-   ...: 
-   ...: 
-
-In [5]: %timeit add(1, 1)
-113 ns ± 9.04 ns per loop (mean ± std. dev. of 7 runs, 10000000 loops each)
-</code></pre><p>什么竟然比<code>C++</code>还要快，快了近3倍，记得我当时第一次运行出来的这个结果的时候的震惊，说好的快呢，你骗我。</p>
-<p>接下来我们就来分析一下出现这个的原因，会不会是因为类型转换出现问题呢，因为<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pyblind11</a>使用了很多自动转换的技术来帮我们转换，我们看看原函数（在src/main.cpp)</p>
-<pre><code>int add(int i, int j) {
-    return i + j;
-}
-</code></pre><p>首先<code>Python</code>调用它，要把第一个参数由<code>Python</code>的<code>int</code>对象转换成<code>C++</code>的<code>int</code>基本类型，<code>C++</code>运行完之后，又得转换将<code>C++</code>基本<code>int</code>类型转换成<code>Python</code>的<code>int</code>对象，这一来一回就得多花三个操作，为了验证我们猜想，我们插入一个<code>nothing</code>函数在<code>add</code>函数后面</p>
-<pre><code>void nothing(){
-}
-</code></pre><p>然后模仿<code>m.def</code>仿照写一行插入<code>nothing</code>函数（你会发现语法特别简单，这也是我喜欢<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pyblind11</a>的原因）</p>
-<pre><code>m.def(&quot;nothing&quot;, &amp;nothing, R&quot;pbdoc(
-        do nothing
-    )pbdoc&quot;);
-</code></pre><p>接下来我们安装一下我们的新库<code>pip install .</code></p>
-<p>然后我们再开一个新的<code>ipython</code>（你可以用<code>importlib</code>来重新加载库）</p>
-<pre><code>In [1]: import python_example
-
-In [2]: %timeit python_example.nothing()
-125 ns ± 0.6 ns per loop (mean ± std. dev. of 7 runs, 10000000 loops each)
-</code></pre><p>125ns，我们的猜想成功了，类型转换的确拖累了<code>C++</code>运行的速度，我们再看看原生的速度如何</p>
-<pre><code>In [4]: def nothing():
-   ...:     pass
-   ...: 
-   ...: 
-
-In [5]: %timeit nothing()
-85.1 ns ± 0.262 ns per loop (mean ± std. dev. of 7 runs, 10000000 loops each)
-</code></pre><p>竟然还是比<code>C++</code>快，虽然没有上面那么夸张，但是快了25%，我们再来分析原因，首先现在没有类型转换所以理论上那只能是代码运行问题，我们知道<code>Python</code>优化里面提过一句，少用<code>.</code>，因为<code>Python</code>要搜寻很多东西才能获得到对象的属性、方法等，所以我们这边使用了<code>python_example.nothing</code>来调用<code>nothing</code>函数，假如我们去掉<code>.</code>速度会不会提高呢</p>
-<p>怎么去掉呢，用局部变量</p>
-<pre><code>In [6]: pn = python_example.nothing
-
-In [7]: %timeit pn()
-90 ns ± 0.761 ns per loop (mean ± std. dev. of 7 runs, 10000000 loops each)
-</code></pre><p>从上面可以看到的确，<code>.</code>“害人不浅”，我们的速度又快了一大截，基本上同原生没有太多差距了，一开始我以为是概率问题，运行了多次但是结果都是一样，原生就是比<code>C++</code>快了5ns，可能是<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pyblind11</a>“偷偷”的在哪个地方偷跑了一条语句吧，或者有可能是<code>C++</code>比<code>C</code>（<code>Python</code>是<code>C</code>写的）稍微慢了一点</p>
-<p>一开始我以为<code>C++</code>一定会比<code>Python</code>快，但是我们从上面测试可以看出来，在“起跑”阶段，<code>C++</code>甚至比<code>Python</code>要慢，我们使用<code>C++</code>主要是为了加速大段<code>Python</code>代码，只要在这场“长征”中<code>C++</code>能够胜出，那么我们的努力就没白费，那好我们继续测试，看看在长征过程中<code>C++</code>表现如何</p>
-<p>首先我们把<code>add</code>函数魔改一下，我们让他进行100次运算</p>
-<pre><code>int add(int i, int j) {
-    int s = 0, x = 0;
-    for(;x&lt;100;x++){
-        s = s + i + j;
-    }
-    return s;
-}
-</code></pre><p>我们再把模块给安装一下<code>pip install .</code>，重新打开新的<code>ipython</code></p>
-<pre><code>In [1]: import python_example
-
-In [2]: python_example.add(1,2)
-Out[2]: 300
-
-In [3]: padd = python_example.add
-
-In [4]: %timeit padd(1,1)
-282 ns ± 3.9 ns per loop (mean ± std. dev. of 7 runs, 1000000 loops each)
-
-In [5]: %timeit python_example.add(1,1)
-316 ns ± 3.78 ns per loop (mean ± std. dev. of 7 runs, 1000000 loops each)
-</code></pre><p>我们这次重要见到了<code>C++</code>的威力，我们进行100次运算，相比于上面一次运算，我们只增加了<code>4ns</code>的平均时间，我们来看看原生<code>Python</code>的表现如何</p>
-<pre><code>In [6]: def add(a, b):
-   ...:     s = 0
-   ...:     for i in range(100):
-   ...:         s += a + b
-   ...:     return s
-   ...: 
-   ...: 
-
-In [7]: add(1, 2)
-Out[7]: 300
-
-In [8]: %timeit add(1, 1)
-4.74 µs ± 40.5 ns per loop (mean ± std. dev. of 7 runs, 100000 loops each)
-</code></pre><p><code>C++</code>完爆<code>Python</code>，<code>4.74us = 4750ns</code>，<code>Python</code>用时是<code>C++</code>的10倍多，只还只是100次运算，假如我们上万次运算，那结果更加夸张，<code>C++</code>在长征的过程中胜利了，但是我们也不能说<code>Python</code>是慢毕竟<code>us</code>的单位其实非常小，<code>1us=1000ms=1000000s</code>，在1s内可以执行上面函数几十万次，只能说<code>C++</code>速度太可怕了</p>
-<h3 id="调用总结"><a href="#调用总结" class="headerlink" title="调用总结"></a>调用总结</h3><p>我们从上面可以看到，虽然<code>Python</code>调用<code>C++</code>在类型转换上会有速度损失，但是在进入到函数提内运行过程中的速度是不影响的，假如我们的运算量够大，完全可以弥补那一点点性能影响，所以要想重复利用<code>C++</code>的速度，尽量少调用<code>C++</code>，把计算结果竟然一次性返回，而不是我们多次进行交互，这样就能最大化利用<code>C++</code></p>
-<h2 id="在C-线程中测试GIL"><a href="#在C-线程中测试GIL" class="headerlink" title="在C++线程中测试GIL"></a>在<code>C++</code>线程中测试GIL</h2><p>接下来我们来考虑这么一个问题，前面我们测试了<code>C++</code>的线程能使用多核，我们假如在让<code>Python</code>在调用<code>C++</code>的代码中中使用线程，那么我们的<code>C++</code>的线程能不能使用多核呢进而解除GIL的作用</p>
-<p>我们把<code>nothing</code>函数改成多线程</p>
-<pre><code>#include &lt;thread&gt;
-#define NUM_THREADS 50
-using namespace std;
-
-void f(){
-    while(1){};
-}
-
-void nothing(){
-    std::thread threads[NUM_THREADS];
-    for(int i = 0; i &lt; NUM_THREADS; ++i)
-    {
-        threads[i] = std::thread(f);
-    }
-
-
-    for (int i = 0; i &lt; NUM_THREADS; ++i) {
-        threads[i].join();
-
-    }
-}
-</code></pre><p>然后我们再重新编译一下<code>pip install .</code>，我们来跑一下我们这个多线程的<code>nothing</code>函数</p>
-<pre><code>In [1]: import python_example
-
-In [2]: python_example.nothing()
-</code></pre><p>我们在<code>htop</code>里面可以看到在单线程的<code>Python</code>程序中，成功的将所有核心都利用上了，也就是是说假如我们在<code>C++</code>扩展中使用线程的话，是不会被<code>GIL</code>影响的</p>
-<p>说实话当我第一次运行的时候我直觉是还是会被<code>GIL</code>影响，结果最后跑出来的结果大吃我一惊，现在我们分析为什么不会被受影响，因为<code>GIL</code>锁的是<code>Python</code>解释器，当我们的代码进入到<code>C++</code>中的时候，我们已经不在<code>Python</code>解释器中了，这样即使我在<code>C++</code>中声明线程，那也是<code>C++</code>的线程，所以就不会造成无法使用多核的情况</p>
-<p>这里我们学到一点，如果我们想摆脱<code>GIL</code>可以把线程放到<code>C++</code>中，这样线程的不再依赖<code>Python</code>解释器，前面我们知道其实<code>Python</code>底层是用<code>C</code>写的，所以基本上所以的语法都是基于<code>C</code>代码实现加上语法糖来完成的，<code>Python</code>线程也就是<code>C</code>线程，我们能不能模拟一下<code>Python</code>来构建这个<code>GIL</code></p>
-<p>首先我们知道<code>GIL</code>是一把锁，所以我们第一件事就是查看这把锁，在这里我们通过<code>Python</code>的<code>C</code>头文件来引入一个函数<code>PyGILState_Check</code>这个函数会返回一个<code>1</code>和<code>0</code>值，假如是<code>1</code>那么意思该线程拿着<code>GIL</code>锁，反之。</p>
-<p>所以我们先在头部加上<code>#include &quot;Python.h&quot;</code>，在Linux系统上要安装<code>python-dev</code>或者<code>python-devel</code>开发包才有这个头文件，接下来我们在<code>nothing</code>函数加上这个检测状态</p>
-<pre><code>cout &lt;&lt; &quot;GIL is &quot; &lt;&lt;  ((PyGILState_Check() == 1) ? &quot;hold&quot; : &quot;not hold&quot;)&lt;&lt;endl;
-</code></pre><p>提一句为了使用<code>cout</code>，我们得在头部加上<code>C++</code>输出库<code>#include &lt;iostream&gt;</code></p>
-<p>先在我们重新安装一下并运行<code>nothing</code>函数，程序会输出<code>GIL is hold</code>，为什么会出现这个情况呢，因为<code>Python</code>默认会锁住<code>GIL</code>当运行<code>C++</code>或者<code>C</code>代码的时候，但是为什么我们虽然锁住了<code>GIL</code>但是我们还是能够使用<code>C++</code>的线程来运行多核呢，其实很简单因为我们的线程没有像<code>Python</code>一样每次运行的时候去获取这个<code>GIL</code>锁，为了证明这一点，我们来做个实验</p>
-<p>首先我们得在<code>nothing</code>函数里面释放<code>GIL</code>，然后让线程去获取<code>GIL</code>（如果<code>nothing</code>主函数不释放<code>GIL</code>，会造成死锁，线程无法运行，一直获取不了<code>GIL</code>锁），我们可以用<code>Python</code>的<code>C</code>头文件的函数来释放<code>GIL</code>锁，但是<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pybind11</a>提供了一个更加方便的函数让我们来释放<code>GIL</code>锁，我们把<code>nothing</code>函数定义修改一下，在后面添加一条语句<code>py::call_guard&lt;py::gil_scoped_release&gt;()</code></p>
-<pre><code>//    m.def(&quot;nothing&quot;, &amp;nothing);
-    m.def(&quot;nothing&quot;, &amp;nothing, py::call_guard&lt;py::gil_scoped_release&gt;());
-</code></pre><p>然后我们在重新编译安装运行一下代码，我们的结果就会是<code>GIL is not hold</code>，我们通过简单的一条语句就释放<code>GIL</code>锁，接下来我们来测试在线程中获取<code>GIL</code>锁来模拟<code>Python</code>的情况</p>
-<p>要想获取<code>GIL</code>锁，<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pybind11</a>也提供了一个非常简单的方法来实现这个：<code>py::gil_scoped_acquire acquire;</code></p>
-<p>我们接下来把<code>f</code>函数改成下面的</p>
-<pre><code>void f(){
-    cout &lt;&lt; &quot;entner F: GIL is &quot; &lt;&lt;  ((PyGILState_Check() == 1) ? &quot;hold&quot; : &quot;not hold&quot;)&lt;&lt;endl;
-    py::gil_scoped_acquire acquire;
-    cout &lt;&lt; &quot;GIL is &quot; &lt;&lt;  ((PyGILState_Check() == 1) ? &quot;hold&quot; : &quot;not hold&quot;) &lt;&lt; &quot; now is runing &quot;&lt;&lt;endl;
-    while(1) {
-    };
-
-}
-</code></pre><p>我们在获取<code>GIL</code>前后，添加了一些输出，方便我们调试，接下来我们再运行我们的代码，我们发现程序输出50个进入<code>entner F: GIL is not hold</code>（在我的电脑上，因为线程同时运行，获取<code>GIL</code>锁需要时间，所以在我电脑上每次运行<code>f</code>函数时锁都打开着），但是只有一行<code>GIL is hold now is runing</code>，因为当一个线程获取到<code>GIL</code>后，其他线程就没法获取到了，而且看<code>htop</code>我们也能发现只有一个核到了<code>100</code>，在我们强行模拟下<code>C++</code>也没能使用多核</p>
-<p>其实从这里我们可以看出来，<code>GIL</code>问题其实就是一个死锁的问题，线程获取后不释放锁，导致所有线程相互竞争，用一个谚语来说就是：一个和尚挑水喝、两个和尚抬水喝、三个和尚没水喝。</p>
-<p>那么我们怎么来解决这个问题呢，很简单就是在你不需要的锁的时候去释放它，接下来我们来模拟一下怎么释放这个锁达到多线程“和平共处”，首先我们引入<code>C++</code>时间库来使用<code>sleep</code>函数(<code>#include &lt;unistd.h&gt;</code>)，接下来我们引入<code>Python</code>的<code>C</code>头文件中的宏来释放<code>GIL</code>，我们把<code>f</code>函数改成下面的形式</p>
-<pre><code>void f(){
-    cout &lt;&lt; &quot;entner F: GIL is &quot; &lt;&lt;  ((PyGILState_Check() == 1) ? &quot;hold&quot; : &quot;not hold&quot;)&lt;&lt;endl;
-    py::gil_scoped_acquire acquire;
-    cout &lt;&lt; &quot;GIL is &quot; &lt;&lt;  ((PyGILState_Check() == 1) ? &quot;hold&quot; : &quot;not hold&quot;) &lt;&lt; &quot; now is runing &quot;&lt;&lt;endl;
-    Py_BEGIN_ALLOW_THREADS
-
-    while(1){
-    };
-    Py_END_ALLOW_THREADS
-}
-</code></pre><p>我们使用<code>Py_BEGIN_ALLOW_THREADS</code>和<code>Py_END_ALLOW_THREADS</code>这一对宏来释放<code>GIL</code>，这样我们重新编译运行<code>nothing</code>函数我们就能看到50个<code>enter</code>和50个<code>runing</code>，而且在<code>htop</code>中我们也能发现<code>C++</code>的线程再次使用所有的核心了（利用率达到不了100%，不知道是因为宏的“副作用”还是其他原因，但是每个核还是能够到70%作用），这种在一个函数中获取和释放<code>GIL</code>锁还是不推荐的，最好在函数一开始的时候释放<code>GIL</code>，在函数结束的时候获取<code>GIL</code>返回到<code>Python</code>解释器中（假如你需要与<code>Python</code>进行交互的话），毕竟获取一次锁的成本还是挺大的，而且一不小心就会造成死锁</p>
-<h2 id="在Python线程中测试GIL"><a href="#在Python线程中测试GIL" class="headerlink" title="在Python线程中测试GIL"></a>在<code>Python</code>线程中测试GIL</h2><p>接下来我们来看看一个已经存在的问题，就是如何解决掉使用<code>Python</code>线程时遇到的<code>GIL</code>问题，其实我们在上面的<code>C++</code>线程已经模拟出来了，解决这个问题的关键就是释放<code>GIL</code>锁，我们先测试一下在<code>GIL</code>锁下，线程调用<code>C++</code>代码的速度</p>
-<p>我们首先添加一个新死循环函数</p>
-<pre><code>void run_dead(){
-    while(1){};
-}
-</code></pre><p>然后在后面加上<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pybind11</a>的定义</p>
-<pre><code>m.def(&quot;run_dead&quot;, &amp;run_dead);
-</code></pre><p>接着我们运行下面函数</p>
-<pre><code>from concurrent.futures import ThreadPoolExecutor
-import python_example
-
-pool = ThreadPoolExecutor()
-
-for i in range(100):
-    pool.submit(python_example.run_dead)
-</code></pre><p>在这个函数里面我们声明了一个线程池，并且向池蕾加入了100函数，接着我们在<code>htop</code>里面查看CPU利用率，我们可以看到只有1个CPU能够跑满100%，其实从前面的实验我们就能猜到这个结果，解决方案其实前面也给了，有两种方法，第一种就是使用<code>Python</code>的C的头文件函数宏<br>：<code>Py_BEGIN_ALLOW_THREADS</code>和<code>Py_END_ALLOW_THREADS</code>，第二种就是在函数声明的地方使用<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pybind11</a>提供的<code>py::call_guard&lt;py::gil_scoped_release&gt;()</code>来释放<code>GIL</code>，两种方法都可以，但是第二种更加简单一点，在这里我就不测试释放<code>GIL</code>之后的性能了，前面已经做过了</p>
-<h2 id="GIL总结"><a href="#GIL总结" class="headerlink" title="GIL总结"></a><code>GIL</code>总结</h2><p>通过前面我们的测试，<code>GIL</code>这个东西其实只是一把锁，我们经常能听到很多人抨击<code>Python</code>关于<code>GIL</code>问题，这就给人一种错觉<code>Python</code>这种语言在设计上有弊端，在前面测试我们也发现了就算是<code>C++</code>或者<code>C</code>假如不正确的使用锁其实也会有这个<code>GIL</code>问题，<code>GIL</code>的问题的并不是“编程语言”的锅，主要是我们自己的代码造成的死锁，所以面对<code>GIL</code>的时候，不需要困惑，它就是一把“锁”，把它打开，而不是碰到它就跑，你会发现它也就是一把“锁”而已。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -2035,7 +1811,7 @@ for i in range(100):
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">121</span>
+          <span class="site-state-item-count">122</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -2115,7 +1891,7 @@ for i in range(100):
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:04</span>
+    <span title="站点阅读时长">4:05</span>
 </div>
 
         

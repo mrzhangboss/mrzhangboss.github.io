@@ -1,6 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>如何成为一名数据挖掘机</title>
+    <url>/2017/05/16/ai/%E5%A6%82%E4%BD%95%E6%88%90%E4%B8%BA%E4%B8%80%E5%90%8D%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E6%9C%BA/</url>
+    <content><![CDATA[<p>自我介绍</p>
+<p>前端 - &gt; 后端  -&gt; 数据挖掘机</p>
+<p>ML DM AI  的区别</p>
+<p>我的自学之旅</p>
+<p>给新手的推荐</p>
+<ul>
+<li>机器学习课程(MOOC)</li>
+<li>Kaggle、天池、数据城堡</li>
+</ul>
+<p>掌握的技能</p>
+<ul>
+<li>Java + Python</li>
+<li>数据可视化</li>
+<li>训练团队感</li>
+</ul>
+<p>未来的发展方向</p>
+<ul>
+<li>全栈数据挖掘工程师</li>
+<li>增长黑客</li>
+<li>ML算法工程师</li>
+</ul>
+]]></content>
+      <categories>
+        <category>人工智能</category>
+      </categories>
+  </entry>
+  <entry>
     <title>集体智慧编程之推荐系统(Programming Colletive Intelligence)</title>
     <url>/2016/09/17/ai/recommendations-Programming-Colletive-Intelligence-impression/</url>
     <content><![CDATA[<blockquote>
@@ -111,35 +140,6 @@
       </categories>
   </entry>
   <entry>
-    <title>如何成为一名数据挖掘机</title>
-    <url>/2017/05/16/ai/%E5%A6%82%E4%BD%95%E6%88%90%E4%B8%BA%E4%B8%80%E5%90%8D%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E6%9C%BA/</url>
-    <content><![CDATA[<p>自我介绍</p>
-<p>前端 - &gt; 后端  -&gt; 数据挖掘机</p>
-<p>ML DM AI  的区别</p>
-<p>我的自学之旅</p>
-<p>给新手的推荐</p>
-<ul>
-<li>机器学习课程(MOOC)</li>
-<li>Kaggle、天池、数据城堡</li>
-</ul>
-<p>掌握的技能</p>
-<ul>
-<li>Java + Python</li>
-<li>数据可视化</li>
-<li>训练团队感</li>
-</ul>
-<p>未来的发展方向</p>
-<ul>
-<li>全栈数据挖掘工程师</li>
-<li>增长黑客</li>
-<li>ML算法工程师</li>
-</ul>
-]]></content>
-      <categories>
-        <category>人工智能</category>
-      </categories>
-  </entry>
-  <entry>
     <title>&lt;&lt;机器学习实战&gt;&gt;心得.</title>
     <url>/2016/07/18/ai/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98%E5%BF%83%E5%BE%97/</url>
     <content><![CDATA[<h6 id="先谈谈我对机器学习的理解"><a href="#先谈谈我对机器学习的理解" class="headerlink" title="先谈谈我对机器学习的理解"></a>先谈谈我对机器学习的理解</h6><h2 id="什么是机器学习"><a href="#什么是机器学习" class="headerlink" title="什么是机器学习?"></a>什么是机器学习?</h2><p>我们人类有从婴儿开始就开始学习,父母教我们穿衣吃饭、老师教我们读书写字，我们开始能辨别好人坏人，开始通过自己的经验来判断新事物。</p>
@@ -177,6 +177,120 @@
 ]]></content>
       <categories>
         <category>算法</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>推荐系统微博数据实战</title>
+    <url>/2019/05/05/ai/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E5%BE%AE%E5%8D%9A%E6%95%B0%E6%8D%AE%E5%AE%9E%E6%88%98/</url>
+    <content><![CDATA[<blockquote>
+<p>虽然自己刚解决掉一个TB级数据导入“大项目”，但是感觉自己对大数据流程还是缺乏一定对认识，所以想通过一个完整对项目体会一下大数据如何落地再实际产出对，正好@志斌 提供了一个硬盘给我，里面有12年微博对数据，数据量在3TB左右，微博量为65亿，所以就借助这个数据来捣鼓一下推荐系统，我把自己捣鼓的过程写下来，希望能够给其他想了解推荐系统的人一点帮助。</p>
+</blockquote>
+<h2 id="什么是推荐系统"><a href="#什么是推荐系统" class="headerlink" title="什么是推荐系统"></a>什么是推荐系统</h2><p>其实从名字上面我们就知道，我们其实就是要做一件事，“推荐”，并把这个东西做成一个系统，推荐很好理解，但是怎么来做呢，我们拿买东西作为例子，我很喜欢吃苹果，所以我经常去超市买苹果，售货员大妈知道我喜欢吃苹果，所以经常推荐我一些好吃苹果，这个就是推荐，他是根据我们历史的消费记录来给我们推荐的</p>
+<p>这算一种非常简单的推荐系统，你喜欢啥我就给你推荐啥，但是有一个问题，假如你喜欢Apple，你买了一个IPhone X，但是如果我再给你推荐IPhone X其实你不会买的（当然也有可能，但是可能性非常低），那一个“高级”的推荐系统应该怎么做呢，你买了IPhone X，你就很有可能会买AirPod、会买IPod、IMac这些，你脑子里面可能会这样想，做一个归类把一类商品都归到一起，比如IPhone，Mac这些，然后只要他买了其中一个，我们就推荐其他，当然这是最容易想到的一个方法，但是这个方法成本太高而且只适用了Apple产品，假如你买小米，你的手机可能是小米的，但是你的贴膜可能不是小米的。</p>
+<p>得亏于大数据时代的到来，我们记录了很多用户的购买记录，这就相当于我们知道这些商品存在一些联系，假如我们能把这种联系找出来，再用一些算法搅拌一下数据，我们就能产生香喷喷的“推荐数据”</p>
+<h2 id="推荐系统原理"><a href="#推荐系统原理" class="headerlink" title="推荐系统原理"></a>推荐系统原理</h2><p>首先我们来看一下我们有什么数据，最主要的就三张表，第一张用户表（User表），第二张商品表（Item表），第三张用户和商品交互记录表，这个交互记录可能是评分可能是浏览记录可能是购买记录，我们简称为Rank表</p>
+<p>我们把这三个维度组合起来就是一个二维数组，我们可以用一个矩阵来代表这个，如下面所示</p>
+<p>$$\begin{bmatrix} 5 &amp; 4 &amp; 2 &amp; 1 &amp; 0 \\ 4 &amp; 3 &amp; 1 &amp; 2 &amp; 5 \\ 1 &amp; 1 &amp; 5 &amp; 0 &amp; 2 \end{bmatrix}$$</p>
+<p>有三个用户，5件商品，我们从上面伪造的数据可以看出，用户1、2品味很近，而用户三品味与他们完全不同，所以对于最后一件商品，虽然用户1没有评价或者没有购买，我们可以预测他的评价和用户2 差不多，所以我们可以把东西给推荐给用户1，这个是从我们直觉上来感受的，但是计算机可是没有知觉的，我们必须把这些东西量化才能实现智能推荐</p>
+<p>我们用一个欧几里德距离或者皮尔逊相关度来衡量这种品味，其实你可以把它想象为一个N维空间的上每个点的距离，这里我们就不谈公式，我们直接给结果，对于每个用户来说，自己跟自己的品味是100%相近，其他人则有的相同，有的不相同，所以对于用户1，我们可以算出一个“品味值”（我们其实可以不跟自己算因为绝对是1，但是在大型矩阵运算的过程中，其实少算一个比多算一个要划得来）</p>
+<p>$$\begin{bmatrix} 1 &amp; 0.8 &amp; 0.1 \end{bmatrix}$$</p>
+<p>我们得到上面的品味值（加权值），所以对于最后一个商品，我们把其他用户评价与他们与用户一的值相乘，我们就把他们对数据的评价可靠性给量化下来了，所以就可以下一步排序输出我们的推荐。</p>
+<p>我们知道现在的大数据强大在于能给所有用户都推荐他们想要的数据，但是从我们上面的描述来看，我们为了获取一个用户的品味值就得对数据进行大量运算，如果一个用户要1s的，一亿个用户就得要3年才能算完，所以我们得将我们的for循环改成矩阵运算，才能通过大数据将所以用户的推荐给算出来</p>
+<p>现在我们来谈谈怎么用矩阵运算来加速这个过程，我们用$$R_{UI}$$ 来代替上面的评价矩阵，我们首先要把$$R_{UI}$$ 给倒置，然后让两个做矩阵乘法，得到”品味矩阵“ $$W_{UU}$$</p>
+<p>$$R_{UI}$$ * $$R_{UI}^T $$ = $$W_{UU}$$</p>
+<p>这个$$W_{UU}$$ 是什么呢，他是一个行数为用户总数，列数也为用户总数的方阵，每一行代表，第i个用户，他与其他用户的品味差距，有了这个我们可以将$$W_{UU}$$ 与 $$R_{UI}$$ 做一个矩阵乘法，这样我们就得到一个$$V_{UI}$$矩阵，这个矩阵就是我们对$$R_{UI}$$的一个预测值，我们就把一些用户没有评价的值给预测出现，接下来就对每一行先做一个过滤，取出用户没有购买的，然后把没有购买的按照大小排序输出</p>
+<p>PS：也可以用点乘一下矩阵进行过滤，就是将没有将用户与商品购买记录生产一个UI矩阵，购买过置0，每购买过置1，这样点乘后购买过无论分多高都变成0了，把0过滤就ok了</p>
+<p>我们来总结一下上面用到的矩阵公式</p>
+<ol>
+<li>$$R_{UI}$$ * $$R_{UI}^T $$ = $$W_{UU}$$</li>
+<li>$$W_{UU}$$ * $$R_{UI}$$ = $$V_{UI}$$</li>
+</ol>
+<p> 初略一看没有啥问题，但是你要想一下假如用户数非常大，有一千万（很容易达到，QQ微信都10几亿了），那个$$W_{UU}$$ 矩阵的大小有 1千万 * 一千万 = 1e+14 ，我们根本没有足够的内存来存放这个矩阵，而且有一个问题，就是其实假如我们有一千万件商品，但是一个用户一辈子可能就买了几十件，这是一个巨大的稀疏矩阵</p>
+<p>所以虽然我们这个矩阵算法很高效，能通过两次运算就把用户推荐给全部输出，但是假如用户量多或者商品多第一内存不够，第二个矩阵太稀疏了，在没有大数据之前或者计算机还没有现在这么强的时候，大家的解决方法是对数据进行抽样，把大数据分解成为小数据，但是大数据的魅力就是使用全部数据而不是部分，所以我们要使用一些抽象的算法来帮助我们把这个问题给解决了</p>
+<p>首先我们还是要用所以的用户数据，所以的商品数据，但是现在我们做一个抽象，我们假设用户身上有几十种特征来决定他们的品味（比如年龄，性别，性格等），我们直接跳过前面两个计算步骤，我们假设用户特征矩阵$$U_{UP}$$ (每个用户有P个特征，决定他们品味)，对于商品，我们假设就是因为这些特征导致的一个商品特征矩阵$$I_{PI}$$</p>
+<p>最后我们假设，我们这个$$U_{UP}$$ 矩阵乘法$$I_{PI}$$就是 我们上面得到的$$V_{UI}$$ ，也就是公式为</p>
+<p>$$U_{UP}$$ *$$I_{PI}$$ = $$V_{UI}$$ </p>
+<p>假如我们能计算出来这个 $$U_{UP}$$和 $$I_{PI}$$，那么我们就基本上算出所以用户的评价了，这个就是ALS的原理，我们利用这个抽象能将原来的亿亿相乘的计算，改成亿与常数P的相乘的计算</p>
+<p>当然具体的原理没有这么简单，涉及到很多矩阵运算的知识，我这里就不多说了，具体可以看下面给的论文《Collaborative Filtering for Implicit Feedback Datasets》，Spark的Mlib中的ALS实现就是基于这篇论文的，也可以参考一下Python的实现，公式推导比较复杂，但是实现还是非常好理解的</p>
+<h2 id="Python实战"><a href="#Python实战" class="headerlink" title="Python实战"></a>Python实战</h2><p>首先我们来先试试使用Python来快速搭建我们的模型出来</p>
+<pre><code>{&apos;account&apos;: &apos;1920286160&apos;, &apos;content&apos;: &apos;你的笑容灿烂了一整个夏天!&apos;, &apos;source&apos;: &apos;http://wp1.sina.cn/wap240/5d738637jw1dpmonay1thj.jpg&apos;, &apos;time&apos;: &apos;2012-02-01 13:48:39&apos;, &apos;from&apos;: &apos;网页版&apos;, &apos;comment&apos;: 0, &apos;forward&apos;: 0, &apos;forward_account&apos;: &apos;1567852087&apos;, &apos;forward_content&apos;: &apos;民浩君！！ &apos;,&apos;forward_id&apos;: &apos;xdasfd21x-s&apos;， &apos;forword_nickname&apos;: &apos;全球流行风尚&apos;, &apos;is_forward_followed&apos;: &apos;0&apos;}
+</code></pre><p>我们原始数据全部都是这种字符串，我们没有用户点赞、浏览数据，我们只有用户所发的所以微博数据，而且假如后面有<code>forward_account</code>的值的话，说明这条微博是用户转发的，所以这里我们把用户转发当做一个用户“喜欢”这篇微博，我们系统就是要推荐更多微博给用户“转发”，所以我们把用户账号，和转发ID提取出来当做一次“记录”</p>
+<p>我们把数据全部变成，<code>user-id：forward_id</code>，字符对，然后我们导入到一个<code>pandas</code> 的<code>DataFrame</code>里面去</p>
+<p>我们这里使用一个Python 实现的ALS包<code>implicit</code>，只需要把我们生成的<code>DataFrame</code>转换成为一个压缩矩阵OK了，但是这里要注意的一点是我们所以的用户id和转发id都得变成Int型整数，最好的做法使用</p>
+<pre><code>df.user.astype(&apos;category&apos;).cat.codes
+</code></pre><p>比如上面，我们把<code>user</code>这个字符型数字转换成一个整数序号，这样我们得到的就是每个<code>user</code>id的序号</p>
+<p>完整的代码为下面</p>
+<pre><code>origin_data = [(x[&apos;forward_id&apos;], x[&apos;account&apos;], 1) for x in data if x.get(&apos;forward_id&apos;)] # data  为json数组
+df = pd.DataFrame(origin_data, columns=[&apos;item&apos;, &apos;user&apos;, &apos;num&apos;])
+df[&apos;item&apos;] =  df.item.astype(&apos;category&apos;).cat.codes.astype(&apos;int64&apos;)
+df[&apos;user&apos;] = df.user.astype(&apos;category&apos;).cat.codes.astype(&apos;int64&apos;)
+
+from scipy import sparse
+
+# convert df to martrix
+item_user_data = sparse.csr_matrix(df.values)
+# train
+import implicit
+
+model = implicit.als.AlternatingLeastSquares(factors=50)
+
+model.fit(item_user_data)
+
+# recommend items for a user
+user_items = item_user_data.T.tocsr()
+
+# recommend user
+model.recommend(1, user_items=user_items, N = 5)
+</code></pre><p>只要简单的几行代码我们就实现了一个协同过滤的算法实现，从Python代码我们可以知道，最关键的地方就是生成训练数据，然后其他都交给算法了，接下来我们来尝试实现一个使用Spark加载全部数据，来实现对几十亿微博数据的推荐</p>
+<h2 id="Spark实战"><a href="#Spark实战" class="headerlink" title="Spark实战"></a>Spark实战</h2><p>在前面我们把3个T的微博数据的用户转发数据抽取出来，最后数据量在35亿左右，数据量在100G左右，这个数据量还是有的大的，首先内存肯定放不下，假如我们使用前面Python的方式来实现的话，我们的内存至少要200个G，所以我们得使用Spark的内存加磁盘运算来实现这个推荐系统</p>
+<h3 id="生成用户和转发ID的序列值"><a href="#生成用户和转发ID的序列值" class="headerlink" title="生成用户和转发ID的序列值"></a>生成用户和转发ID的序列值</h3><p>前面Python的实现100个G的数据排序，基本的原理就是Hash表进行排序，然而我们内存不足以放下这100G的数据，所以我们要使用MapReduce来“消化”这个数据，所以我们要借助Hive来进行一个排序，一方面我们可以生成用户和物品的唯一ID，等我们产生推荐结果后也可以通过HIVE来生成对应的数据</p>
+<p>第一步我们将数据导入到HIVE中</p>
+<blockquote>
+<p>首先创表</p>
+</blockquote>
+<pre><code>create table record(item string, account int, time int) row format delimited fields terminated by &apos;,&apos;   LINES TERMINATED BY &apos;\n&apos;  stored as textfile;
+</code></pre><p>这里我还额外导入了一个时间进去，为的是方便以后做线上预测</p>
+<p>然后我们把文件导入进去（文件存贮在<code>/weibo/all_data.txt</code>中）</p>
+<pre><code>load data  local inpath &apos;/weibo/all_data.txt&apos; into table record;
+</code></pre><p>接下来我们生成用户表和物品表</p>
+<pre><code>create table items as select row_number() over (order by a.item) as id ,a.item from (select distinct item from record) a ;
+
+  create table users as select row_number() over (order by a.account) as id ,a.account from (select distinct account from record) a ;
+</code></pre><p>我们使用HIVE的<code>row_number</code>函数来生成一个唯一序列自增值，每一个值对应一个用户，最后我们生成我们训练表，最好使用<code>HIVE2</code>来进行导入，因为HIVE1的<code>row_number</code>会存贮所以的id值，由于我们数据量有35个亿，内存会爆炸，<code>HIVE2</code>优化了使用一个流来存贮</p>
+<pre><code>  create table train as 
+select account_id, item_id, count(*) as num from (select a.id as item_id, b.id as account_id from  record 
+left join items a on record.item = a.item 
+left join users b on record.account = b.account) a group by item_id, account_id ;
+</code></pre><p>接下来我们在Spark里面调用我们Mlib的<code>ALS</code>模型，首先我们从HIVE中获取数据</p>
+<pre><code>val df = sql(&quot;select * from train&quot;)
+</code></pre><p>然后我们从将数据导入ALS模型进行训练，同Python比较类似，我就直接给出代码</p>
+<pre><code>val ratings = df.map(row =&gt; Rating(row.getAs[Int](&quot;item_id&quot;).toInt, row.getAs[Int](&quot;account_id&quot;).toInt, row.getAs[Long](&quot;num&quot;).toDouble)).rdd
+val rank = 10
+val numIterations = 50
+val model = ALS.train(ratings, rank, numIterations, 0.01)
+val usersProducts = ratings.map { case Rating(user, product, rate) =&gt;
+  (user, product)
+}
+val predictions =
+  model.predict(usersProducts).map { case Rating(user, product, rate) =&gt;
+    ((user, product), rate)
+  }
+val ratesAndPreds = ratings.map { case Rating(user, product, rate) =&gt;
+  ((user, product), rate)
+}.join(predictions)
+val MSE = ratesAndPreds.map { case ((user, product), (r1, r2)) =&gt;
+  val err = (r1 - r2)
+  err * err
+}.mean()
+println(s&quot;Mean Squared Error = $MSE&quot;)
+</code></pre><p>最终我们这35亿数据用时4个半小时跑完模型并计算出MSE （均方误差），当然由于我的核心比较小，假如在一个大集群上面的话速度会快很多，值得注意的是，在Spark运行这35亿数据的时候，物理磁盘占用达到800多个G，所以在哪里省下来（内存）的就得从哪里还回来（磁盘）O(∩_∩)O哈哈~</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我们这次只是完成了一个非常简陋的推荐系统，只是具备简单的推荐功能，我们还没有考虑到一些“冷启动”问题，一个“智能”的推荐系统需要考虑到很多方面，我的推荐系统还有很多地方需要完善，但是从我的这个Demo里面也可以看到其实大数据也是非常“简单”的，由于数据量太大，你只能使用最简洁的代码来训练你的模型，你的算法要最大可能性满足分布式要求，推荐系统最核心的地方还是如何将你的推荐算法变成一个优秀的分布式算法，我们这篇博客只是走马观花的谈了一下它的原理，看看有空好好研究一下Spark分布式算法是怎么实现的。</p>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><p><a href="https://blog.csdn.net/antkillerfarm/article/details/53734658" target="_blank" rel="noopener">ALS原理介绍</a></p>
+<p><a href="https://yq.aliyun.com/articles/684195" target="_blank" rel="noopener">Python实现ALS</a></p>
+<p><a href="http://yifanhu.net/PUB/cf.pdf" target="_blank" rel="noopener">Spark Mlib ALS 论文</a></p>
+]]></content>
+      <categories>
+        <category>人工智能</category>
       </categories>
   </entry>
   <entry>
@@ -228,71 +342,6 @@
       </categories>
   </entry>
   <entry>
-    <title>从问题理解动态规划</title>
-    <url>/2017/12/25/algorithm/%E4%BB%8E%E9%97%AE%E9%A2%98%E7%90%86%E8%A7%A3%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</url>
-    <content><![CDATA[<blockquote>
-<p>网上关于动态规划的资料，大部分直接给结论，所以一开始我一头雾水，搞不懂为什么要这么做，这篇博文就从实际问题出发，简单的剖析动态规划</p>
-</blockquote>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>现实生活中总能找到一些问题你没法给出具体答案，比如给你一堆1块、5块、10块的零钱，要你找出多少种能够拼出100块的方法。还有就是迷宫问题这种。这种问题都有一个特征，我们没有办法立刻给出答案，而且我们对这种问题的想到的第一种解决方法就是暴力搜索，把所以的可能方案列出来然后得到答案。这种暴力搜索最终能够解决问题，但是他们在计算的时候花了很多时间在相同的计算上面。为了节省时间，所以我们使用动态规划“优化”暴力搜索</p>
-<h2 id="为什么要使用动态规划？"><a href="#为什么要使用动态规划？" class="headerlink" title="为什么要使用动态规划？"></a>为什么要使用动态规划？</h2><h3 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h3><p>我们先举一个简单的例子，大家都知道走楼梯问题，这也是教科书一个经典的递归程序</p>
-<ul>
-<li>有N阶台阶，一个人一次上两个或者一个，问有多少种走法?</li>
-</ul>
-<p>我们拿到这道题，我们首先会想这样想，从第一个台阶开始，我们使用递归让这个人走一步或者两步，这样每次分解成为两种可能，最后直达走到N阶台阶，或者迈过去了，然后计算这种所以迈到N阶台阶的可能路径。</p>
-<p>这种正向思维很容易理解，但是最终它直接得到的是所以可能的路径，但是这道题我们需要求的是N阶的走法，所以我们从正向思维必须要反过来思考，假如我们从一个台阶出发有两种可能，那么我们到达第N个的台阶来看，也有两种可能，第一种是N-1（迈了一步到达），第二种是N-2（迈了两步到达），这样我们就很清楚了，假如我们要想得到到达N阶台阶的走法总数，那么我们只需要把到达N-1和到达N-2的次数加起来就可以了</p>
-<p>这是一个很重要的思想<strong>把一个复杂的问题，分解成为其他的子问题</strong>，这也是我们完成动态规划的设计的核心思想</p>
-<p>从更好的理解动态规划的优点和源头，我们就从这个简单的例子使用不同的算法来解释为什么要用动态规划</p>
-<h3 id="暴力搜索法"><a href="#暴力搜索法" class="headerlink" title="暴力搜索法"></a>暴力搜索法</h3><p>我们成功的完成了问题的分解，为了完成计算，但是我们还得计算子问题的结果，上面得到一个很重要的公式<code>F(N) = F(N-1) + F(N-2)</code></p>
-<p>我们可以很轻松的写出代码（Python）</p>
-<pre><code>def f(n):
-  return f(n-1) + f(n-2) if n &gt; 2 else n
-</code></pre><p>我们只用一行代码就能将这个问题解决掉，而且效果看起来还不错，我们可以试不同的n都能获取正确的结果，但是n大于30之后，当我在我的电脑上运行起来非常慢，需要几秒钟才能返回结果，而且当n越大，消耗的时间也越多。</p>
-<p> 这是为什么呢？我们现在来思考一下这个暴力算法有什么弊端</p>
-<ul>
-<li>暴力搜索的弊端</li>
-</ul>
-<p>我们现在假设N=10，那么我们现在就把F(10)转换成为F(9)与F(8)的和，那么F(9)又分成了F(8)和F(7)，而F(8)被分成了F(7)和F(6)</p>
-<p>从这里可以看到，F(7)在第二次分解的时候计算了两次,而每次计算的结果都是一样的，所以我们相当于重复了一遍耗时的操作，知道这个问题，我们就必须改进了，我们可以用一个东西存贮计算结果，这样就不需要重复计算了</p>
-<h3 id="记忆搜索法"><a href="#记忆搜索法" class="headerlink" title="记忆搜索法"></a>记忆搜索法</h3><p>我们修改我们算法，加一个参数<code>map</code></p>
-<pre><code>def map_get(map, n):
-    v = map.get(n-1)
-    if not v:
-      v = f(n, map)
-      map[n] = v
-    return v
-
-
-def f(n, map):
-    if n &lt; 3:
-      return n
-    if n in map:
-      return map[n]
-    return map_get(map, n - 1) + map_get(map, n - 2)
-</code></pre><p>我们添加一个辅助的字典存贮我们中间计算过程，虽然让我们的代码臃肿了不少，但是让我们代码速度有了质的变化</p>
-<p>我们尝试使用运行让N增大到100多都能迅速返回，但是当我们逐渐增大到1000的时候我们会发现<code>Python</code>直接报了超出最大堆栈限制的错误</p>
-<ul>
-<li>堆栈超出最大层数的原因</li>
-</ul>
-<p>由于我们使用了递归，递归函数是在递归的时候当前堆栈再次申请一个堆栈待，运行递归函数，为了避免一直无限调用下去耗空堆栈空间（申请也需要一点空间），Python限制了递归层数，由于为了计算超过1000的我们必须至少要递归超过1000次（从1000减一减到小于2），所以我们光荣的被当错程序错乱被误杀了。</p>
-<h3 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h3><p>反观我们这个函数，使用递归，我们很容易理解，但是对于计算机来说，只是为了计算一个数而使用递归是非常不划算的，所以我们要思考这些中间值保留有什么共同点，我们从头开始看，对于第三个来说，它只需要知道第一个和第二个的值就行，而第一个第二个我们知道分别为1和2，对于第四个来说，它只需要知道第三个和第二个，如果我们先把第三个计算下来并保留下来，我们就能知道第四个。</p>
-<p>从头开始思考我们知道，我们只需要保留前面计算的结果就能知道后面的值，我们使用一个列表保存这个中间计算过程，我们将函数改写成下面这个</p>
-<pre><code>def f(n):
-    if n &lt; 3: return n
-    values = [1, 2]
-    for i in range(2, n):
-      values.append(values[i-2]+values[i-1])
-    return values[-1]
-</code></pre><p>接下来我们运行这个函数，我们会发现就算N为10000都能迅速返回</p>
-<p>来看看我们动态规划的“损失”，我们使用了一个列表存贮中间过程，使用了空间“换回”了速度</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我们使用了一个很简单的题目来介绍动态规划，由于这个问题太过于简单，你或许自己在不知道动态规划的时候都能写出来，但是这个从暴力搜索到记忆搜索最后动态规划的算法优化过程中，我们能够清楚的知道设计动态规范其实也非常简单，<strong>将大问题分解成小问题，然后思考小问题的如何细分，最后反过来思考从小问题逆向到最终的大问题</strong>，这就是动态规划。</p>
-<p>当然这道问题并不是很经典的动态规划问题，为了让大家更好的理解动态规划，我在下面这篇的博文中介绍若干中经典的动态规划问题</p>
-<p><a href="/2017/12/26/几个有趣的动态规划/">几个有趣的动态规划</a></p>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-  </entry>
-  <entry>
     <title>刷题笔记</title>
     <url>/2016/08/21/algorithm/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<blockquote>
@@ -308,6 +357,18 @@ f(n) ={           1                   n= 2
             f(n-1) + f(n-2)     n&gt;2
 </code></pre><p>  虽然</p>
 ]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>红黑树实现原理</title>
+    <url>/2018/01/05/algorithm/%E7%BA%A2%E9%BB%91%E6%A0%91%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/</url>
+    <content><![CDATA[<blockquote>
+<p>本篇博客主要基于这篇<a href="/">博客</a>的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍红黑树的实现原理，完整代码在<a href="https://github.com/mrzhangboss/trees" target="_blank" rel="noopener">github</a>的<code>rbtree.go</code>文件中</p>
+</blockquote>
+<p><a href="/">浅谈”树”这种数据结构</a><br><a href="https://github.com/mrzhangboss/trees" title="github" target="_blank" rel="noopener">Github</a><br><a href="http://www.cs.usfca.edu/~galles/visualization/RedBlack.html" target="_blank" rel="noopener">可视化页面</a></p>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2>]]></content>
       <categories>
         <category>算法</category>
       </categories>
@@ -345,18 +406,6 @@ f(n) ={           1                   n= 2
 <p>所以希尔排序改进就在于他能直接移动多位，在上面的例子里面，步长为3，我们能直接将数组从3的位置移动到2，如果直接使用插入排序，必须移动3次才能达到希尔排序的效果。</p>
 <p>希尔排序原理同插入是一样的，不同在于，插入的步长希尔是可变的，这样就为一些“调皮”的数字的移动加快了速度，一步一步的移动他们太累了，直接把步子迈大，一步到位。</p>
 ]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>红黑树实现原理</title>
-    <url>/2018/01/05/algorithm/%E7%BA%A2%E9%BB%91%E6%A0%91%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/</url>
-    <content><![CDATA[<blockquote>
-<p>本篇博客主要基于这篇<a href="/">博客</a>的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍红黑树的实现原理，完整代码在<a href="https://github.com/mrzhangboss/trees" target="_blank" rel="noopener">github</a>的<code>rbtree.go</code>文件中</p>
-</blockquote>
-<p><a href="/">浅谈”树”这种数据结构</a><br><a href="https://github.com/mrzhangboss/trees" title="github" target="_blank" rel="noopener">Github</a><br><a href="http://www.cs.usfca.edu/~galles/visualization/RedBlack.html" target="_blank" rel="noopener">可视化页面</a></p>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2>]]></content>
       <categories>
         <category>算法</category>
       </categories>
@@ -661,6 +710,28 @@ def say = &quot;Scala&quot; king
     <url>/2021/06/16/letter/2/</url>
     <content><![CDATA[<div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="抱歉, 这个密码看着不太对, 请再试试." data-whm="抱歉, 这个文章不能被校验, 不过您还是能看看解密后的内容.">
   <script id="hbeData" type="hbeData" data-hmacdigest="6f964f2800abcf3b0c7abf1dfa34b5f4402f502dd5a9e64cfebf13e161c4f43b">a57307f02e4def6707adf4a4b54e4f1f6e58595f2b7ae769da14fe23387cecb9cb3005f8d6eea02484acbd37431d378ee33e27be9720d896942287f32fd732d5ecf8933566388cbdec007f479eb15f0caca482fe60f2a308881692c02544837b37e5a06a791d414703dd930d6ccfe65b3dd8247b86b08a3e43332217a59a414d903d598ad9f441c67536d1a11dd419977ef9865a197b6e7c25bcec15abcd19506cf073c4d3f098be10c413d3d3409fea1349070228e1a6a9f2eea3e96813ee9263aa06e502a72a1e34c8e8bf7ae4012abbd540a4f0c474444acf1321e7523085debc7b8e9c0158e37ee72717341151ac10ad7cd3a5c0fa6fd752e2db205c6a51120c5944ca3f1a6a1b095e87a49c0db78b9ef55a507e632961aa43af220a6256c0ed757dea8bb7b9c3468a6e8ae7acf2f99007b8c3ae54600ea90462fc3fe59cc615be4e3dcc95d144064d95de9162379a4e9f59dbdd8118223fc45efc535b388279ea9e9b27c2164f6daf6fc913676256b5c9b6fe34fddef362807cf95a73c512019e771c24796917c1309b5eb951a4891bb712238765cead9143cf0ea346293dd9c0399080c7af0a37214001afcaa78a9279c4a6f50d14506cb73a75ad97ccced40339de2bf776153b80e08578844ca22fa4d24208dd14adb914d78743e51fd440c6b53bf3b4762b0d1cf495cda90e247aa6977ea6786f671b986effdfde7d9ed7691b7d5c504240e2bfa6f213b949d9153fb85e3ab1af12226089d47e548591e9c53012bcbc3d9e46039758367c5c83e894cdd9ae447d0bb8c587a5892af38b55c72e4fa98b9b143d566c970bb8ecc44cbdf86cb3c4642ac29bf2c22a29603bd848e23b7ed339a12e917c3cdd0fe278b58ad65c2b74c8485b3924acbb6b0be23d9334bb9abf9fe3f6195829bf18243dea9b54f267b50ef43b157619d4c996ca345a5849deb32d617d80ff11f9fd5ddd643dfd22a35af33a607d29dc2eea2e21c1a7cf9494b52b6927c62b6496e585c9caf36d2e591a281dae620222fb0a7e</script>
+  <div class="hbe hbe-content">
+    <div class="hbe hbe-input hbe-input-default">
+      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
+      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">
+        <span class="hbe hbe-input-label-content hbe-input-label-content-default">您好, 这里需要密码！</span>
+      </label>
+    </div>
+  </div>
+</div>
+<script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">]]></content>
+      <categories>
+        <category>恋爱日记</category>
+      </categories>
+      <tags>
+        <tag>信</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>13</title>
+    <url>/2021/09/10/letter/13/</url>
+    <content><![CDATA[<div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="抱歉, 这个密码看着不太对, 请再试试." data-whm="抱歉, 这个文章不能被校验, 不过您还是能看看解密后的内容.">
+  <script id="hbeData" type="hbeData" data-hmacdigest="01a4dec0a9e647f6ac0bd4280b64c8a41fab10a23d7b16774634533b623c115a">a57307f02e4def6707adf4a4b54e4f1f7cdb8e649aca119dc8891e73a4e89cfd557fceef188b7cbfe6e09d4213d3468023b4d6896abdc7bfe2c453b09b3298c70f086885ca01cbea98184aeda76cf4be7e3d100706f2a8550b9a97ac98b2d7b8dddad96a423bdfd4176539cb559af18b46fa60bf7e3344aa367a1ec5908df3f0c8ed564b8f771c15ce0ee04f7c8176230bd561ca24d28bda258754a88e12179c701208dafb435b6a30b134a981cea220dbe6660e01074ec7527ab3b6261dd1de084fd466260cf489c975b2a508fafba2bfe32641c56e1b90763b1c0a86c6f0be7579cfd992dfebdba883355b70b47be52ab784f851282a3d6569e9dadb8d2c91a162cc442028e991bca0183266977d191a44862d2d3bb19cb27b945ddc9906fc09a6b86eac478992abd4c82355ddf8ebc2ec421fbf35a82ea858cff2818120c2d7626b5575b52ddf74985e196901465260aa063590059543d75613427267e36dec64f6e7cf5a6d8f559355bc2bc2664ce1d8428b6e8f21fcecd72978899bcb61b887b307c9a7bdfdee3af91c482d25668ad229d7a6209dc34ecd5b43c092642d1dd1deafb2ac3d68f6fab3d58c3725366e1e1a4e5e450d2d2fe000d52c0dcd2620807624b3cb3f3a6e4a698ae9e94ecfceb695b63515ccc31b915bdbe19b070c67b547d7ef0b079f07ecbf195e356f4fec58c5e00aebc2b770f81e35e7514c4ef4cad13422fbf64cd7007d25307b2518e22b68579d56ed932dd6f10611cf3b15ce4137f3468efea003a0c63f2fa468c0d0c8e0cc9d4ae5234d61c272db04823c424fb6292b9dc8c1953f63a3da7b9fb8e6ad5cde1a7cacdfca10276e73faac0705761785b39423801fd5682bd5689f5f2e2ee022c3b349433ad325d7dfd10eee0a91e60de31ea993015ea0d9e984789a2b8b39c021f71140fdaea66c3bb1519fd3450f367b17b1e030603ca45ccde32b835a38baa4d338cfe23db1e2482e82f6a18965283428ccc9d3b807e7ff0462f38b5c25c7c30cc7e50f710efbff31d082c14b6467a079f3f496c3552f4f9b448a4391cdb9ea08dd54a2100abb87fe42973f595bc2994b74bfb3d161512bafe963b935db02a1e5b4b16b92bfff3c7a39a08089623961c2618c8a2966b5ab2ae3affb0e679097ed17ba62af40e13702a61d4578853d28de06b1a1134057700ca39f6bc06a2c52ba028734c8ba1156e923be641998d209da6b0f2128a0bcf1ed9b045dda1f2d27944320c941040fc8ee678625db888760fd1faa894e02631489cfd52f7ea5d5877b63bceb22e304a2b7b83ab1e349e7e31f556759e1e2ed6e3f58e8c6115068a4d1f4fe3791eb2d4d5da6ec0621f91c66a4e81802603360c0acd6827a5b39d73d623729e53f135b4d5735474131391b49c5e19343c93a279323c66c5b5e2aec8b87b583b27ab2b9dce4ab83e5326798606d88c53a2840e71fd7175c3436fbdb643a2f532054b69c71ce5f14d927e4bb4cb65d142c60a4605e0e8187a89d01c4496cbcd4ccc7589306e9e0f34cbfaf3070c13980693ee6cd449fa957f8efb17293650efb7c69ce541ceed23440439136753e6a1807db902aa8dc6483cbf8399d96e03fc1156b2538909ea11ce5921e673869732d8137e15ce273700f8e73cc3b760904e18c8a11d2429163bd0479bd02da6a8f11c8150397247763a872c0558e63716ed4b11b21d1dd346ec8d1c43c4a64b0190b29b7e6d6619ffc3cbd41560998fbd6945dd3d408687650efb43a5dc0dc43aec99c45ca93ca8e8d510a63fd06c5cc5c4b21404086be3bc5e055da592b2ca5bf2b3e4355483a31282bb8b729e8227c3f2d361d0352a152173d2680fd69175c2897003e77568df5defc1a9b1c88ea6ecd51750d2d0c8c4bafaf2ef0efa26bc8fd3391e48ed59a6b1e235542d07448d79c3a2a680829981595440daa4e394b2913781476b9811468aee4f761578afd5b2be5886d29fb24ebd63d60ca7f33ec28ae87fdac739f214e1ff041f92e608f181d813b0ead2deb9ab85b66a29739f312277bc039d3abf54c2c27bae77cca598797ffaf0fbb25cc7eefa3e61e520b8d1e3135c8836e2f6eef94a689de39b7ec7021c1baee569c30d168233c8e5a8b1bedbb1fad1c49b6e658ed7cdb653a91160ab839c03d5968d82da1be9d18c3553fd6dfbf0a9085b777964adaffa0e02e6243ca8a0f9e2f121194934b5259b755471a2a018197c8cc1774877c55ea548134a50bd047c5e0eec9dc9fa6868ad40efc086be01c516ba8b36b763d</script>
   <div class="hbe hbe-content">
     <div class="hbe hbe-input hbe-input-default">
       <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
@@ -1309,49 +1380,6 @@ print textwrap.fill(dedented_text, width=50)
       </categories>
   </entry>
   <entry>
-    <title>爬虫分布式总结</title>
-    <url>/2017/04/04/python/%E7%88%AC%E8%99%AB%E5%88%86%E5%B8%83%E5%BC%8F%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[<blockquote>
-<p>由于最近在一家数据服务公司实习，项目需要了解分布式，所以在这里基于<code>scrapy</code>的分布式总结一下爬虫的分布式实习</p>
-</blockquote>
-<h1 id="分布式起因"><a href="#分布式起因" class="headerlink" title="分布式起因"></a>分布式起因</h1><blockquote>
-<p>单机无法完成全部工作任务所以要使用集群加速完成工作任务</p>
-</blockquote>
-<p>分布式有点像蚁群，一只蚂蚁举不起一只卡壳虫，但是几百只就能轻松的把他运回家</p>
-<p>但是分布式设计必须科学，否则就像下面一样，一个和尚挑水，其他和尚围观</p>
-<p><img src="/images/timg.jpg" alt="分工不合理，来源网络"></p>
-<h1 id="分布式设计"><a href="#分布式设计" class="headerlink" title="分布式设计"></a>分布式设计</h1><p>分布式设计原理在于<strong>分工</strong></p>
-<p>首先我们来看看爬虫怎么进行分工，单个爬虫运行根据<code>url</code>获取响应报文，然后通过解析报文返回结果或者下一次爬取目标，如果单个爬虫我们只要在内存维持一个<code>set</code>变量记住爬取过的<code>url</code>，这就是<code>scrapy</code>默认的方法。</p>
-<p>但是我们无数个爬虫由于不在同一个进程，无法共享变量，所以我们只要让一个“<code>variable</code>（变量）”能够被被所以爬虫共享到就完成了主要功能</p>
-<p>现在我们来完善具体细节<br>要求：</p>
-<ul>
-<li>爬虫能够轻松读取所以已爬取变量</li>
-<li>爬虫能够加入已读取变量</li>
-<li>爬虫能够获取下一次请求具体参数</li>
-</ul>
-<p>原则上我们可以使用内存映射来构建这个变量，但是读取，修改都不便利，所以可以先使用<code>redis</code>作为存贮变量的地方，使用<code>redis</code>提供的<code>set</code>我们替代<code>scrapy</code>框架的<code>set</code>变量。</p>
-<p>现在我们已经决定我们要使用什么容器来存贮变量，接下来我们要考虑存什么变量。</p>
-<p>我们先看<code>scrapy-redis</code>存贮了什么，分析源代码可知，<code>scrapy-redis</code>将返回的<code>Request</code>pickle话存入数据库，并且计算这个<code>Request</code>的32位hash值存入<code>redis</code>的<code>set</code>中过滤列表。</p>
-<p><code>scrapy-redis</code>通过修改<code>scrapy</code>的调度器（scheduler）让其当爬虫没有<code>Request</code>需要处理时在<code>redis</code>中提取<code>Request</code>，实现分布式。</p>
-<p>我们来分析一下这种方法，爬虫在爬取的过程中从<code>master</code>端获取<code>Request</code>，并不断生成<code>Request</code>到<code>master</code>端，<code>master</code>只是一个<code>redis</code>数据库，负责对<code>url</code>去重，分发任务。</p>
-<p>我们来比较一下直接存取<code>url</code>这种方法，这种方法好处在于，<code>slaver</code>能够从上一个<code>Request</code>中获取全部信息，假如上一个<code>Request</code>需要存取获取的表单提取地址，我们下一次爬虫发起<code>Request</code>就能从上一个<code>Request</code>中获取参数。</p>
-<p>当然由于我们存贮的是<code>Request</code>，一个<code>Request</code> <code>pickle</code>化之后的字符串比较长，当我们的任务列表里面有很多<code>Request</code>的时候，<code>redis</code>占用的内存会非常巨大。</p>
-<p>当然如果爬虫启动的够多，生成一个就能把任务被调度下去，那么这个任务列表就能稳定在一个可控的范围。</p>
-<p> <strong>总结</strong></p>
-<p>每个爬虫即负责爬取数据，又负责生成下一个任务，即无主次之分，我们可以一次性在<code>docker</code>中启动上百个实例，我们只是用<code>redis</code>充当一个存放<code>变量</code>的地方。</p>
-<p>但是这种方法也有一个缺点，我们不能自由的添加初始<code>url</code>，要想添加新的爬取任务，必须新建一个爬虫更新初始<code>url</code>，我们如果是想搭建一个自由添加<code>url</code>的爬虫，这种实现方式不大优雅。</p>
-<h1 id="分布式改良"><a href="#分布式改良" class="headerlink" title="分布式改良"></a>分布式改良</h1><p>我们要修改程序框架，达到随时可以添加要爬取新任务，然而不影响爬虫集群</p>
-<p><img src="/images/distribute_crawl.png" alt="爬虫框架"></p>
-<p>我们独立出来<code>master</code>，<code>master</code>负责生成<code>Request</code>去重以及任务调度，而<code>slaver</code>只负责从<code>master</code>获取任务爬取。</p>
-<p>这种方法我们可以很轻松对<code>master</code>改良而不影响<code>slaver</code>，通过让<code>master</code>定时从<code>数据库</code>中获取新的任务生成到任务列表，我们可以轻松添加新的任务到<code>slaver</code>集群中去。</p>
-<p>下一步我们就介绍如何修改<code>scrapy-redis</code>达到我们新框架需要</p>
-<h1 id="重构scrapy-redis"><a href="#重构scrapy-redis" class="headerlink" title="重构scrapy-redis"></a>重构<code>scrapy-redis</code></h1><p>参考：<br><a href="http://blog.csdn.net/bone_ace/article/details/50989104" target="_blank" rel="noopener">基于Redis的三种分布式爬虫策略</a></p>
-]]></content>
-      <categories>
-        <category>Python</category>
-      </categories>
-  </entry>
-  <entry>
     <title>Python正则表达式</title>
     <url>/2018/03/17/python/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
     <content><![CDATA[<hr>
@@ -1421,6 +1449,49 @@ VERBOSE  [简X]  --------------神器,会无视代码中的注释空格和换行
       </categories>
   </entry>
   <entry>
+    <title>爬虫分布式总结</title>
+    <url>/2017/04/04/python/%E7%88%AC%E8%99%AB%E5%88%86%E5%B8%83%E5%BC%8F%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[<blockquote>
+<p>由于最近在一家数据服务公司实习，项目需要了解分布式，所以在这里基于<code>scrapy</code>的分布式总结一下爬虫的分布式实习</p>
+</blockquote>
+<h1 id="分布式起因"><a href="#分布式起因" class="headerlink" title="分布式起因"></a>分布式起因</h1><blockquote>
+<p>单机无法完成全部工作任务所以要使用集群加速完成工作任务</p>
+</blockquote>
+<p>分布式有点像蚁群，一只蚂蚁举不起一只卡壳虫，但是几百只就能轻松的把他运回家</p>
+<p>但是分布式设计必须科学，否则就像下面一样，一个和尚挑水，其他和尚围观</p>
+<p><img src="/images/timg.jpg" alt="分工不合理，来源网络"></p>
+<h1 id="分布式设计"><a href="#分布式设计" class="headerlink" title="分布式设计"></a>分布式设计</h1><p>分布式设计原理在于<strong>分工</strong></p>
+<p>首先我们来看看爬虫怎么进行分工，单个爬虫运行根据<code>url</code>获取响应报文，然后通过解析报文返回结果或者下一次爬取目标，如果单个爬虫我们只要在内存维持一个<code>set</code>变量记住爬取过的<code>url</code>，这就是<code>scrapy</code>默认的方法。</p>
+<p>但是我们无数个爬虫由于不在同一个进程，无法共享变量，所以我们只要让一个“<code>variable</code>（变量）”能够被被所以爬虫共享到就完成了主要功能</p>
+<p>现在我们来完善具体细节<br>要求：</p>
+<ul>
+<li>爬虫能够轻松读取所以已爬取变量</li>
+<li>爬虫能够加入已读取变量</li>
+<li>爬虫能够获取下一次请求具体参数</li>
+</ul>
+<p>原则上我们可以使用内存映射来构建这个变量，但是读取，修改都不便利，所以可以先使用<code>redis</code>作为存贮变量的地方，使用<code>redis</code>提供的<code>set</code>我们替代<code>scrapy</code>框架的<code>set</code>变量。</p>
+<p>现在我们已经决定我们要使用什么容器来存贮变量，接下来我们要考虑存什么变量。</p>
+<p>我们先看<code>scrapy-redis</code>存贮了什么，分析源代码可知，<code>scrapy-redis</code>将返回的<code>Request</code>pickle话存入数据库，并且计算这个<code>Request</code>的32位hash值存入<code>redis</code>的<code>set</code>中过滤列表。</p>
+<p><code>scrapy-redis</code>通过修改<code>scrapy</code>的调度器（scheduler）让其当爬虫没有<code>Request</code>需要处理时在<code>redis</code>中提取<code>Request</code>，实现分布式。</p>
+<p>我们来分析一下这种方法，爬虫在爬取的过程中从<code>master</code>端获取<code>Request</code>，并不断生成<code>Request</code>到<code>master</code>端，<code>master</code>只是一个<code>redis</code>数据库，负责对<code>url</code>去重，分发任务。</p>
+<p>我们来比较一下直接存取<code>url</code>这种方法，这种方法好处在于，<code>slaver</code>能够从上一个<code>Request</code>中获取全部信息，假如上一个<code>Request</code>需要存取获取的表单提取地址，我们下一次爬虫发起<code>Request</code>就能从上一个<code>Request</code>中获取参数。</p>
+<p>当然由于我们存贮的是<code>Request</code>，一个<code>Request</code> <code>pickle</code>化之后的字符串比较长，当我们的任务列表里面有很多<code>Request</code>的时候，<code>redis</code>占用的内存会非常巨大。</p>
+<p>当然如果爬虫启动的够多，生成一个就能把任务被调度下去，那么这个任务列表就能稳定在一个可控的范围。</p>
+<p> <strong>总结</strong></p>
+<p>每个爬虫即负责爬取数据，又负责生成下一个任务，即无主次之分，我们可以一次性在<code>docker</code>中启动上百个实例，我们只是用<code>redis</code>充当一个存放<code>变量</code>的地方。</p>
+<p>但是这种方法也有一个缺点，我们不能自由的添加初始<code>url</code>，要想添加新的爬取任务，必须新建一个爬虫更新初始<code>url</code>，我们如果是想搭建一个自由添加<code>url</code>的爬虫，这种实现方式不大优雅。</p>
+<h1 id="分布式改良"><a href="#分布式改良" class="headerlink" title="分布式改良"></a>分布式改良</h1><p>我们要修改程序框架，达到随时可以添加要爬取新任务，然而不影响爬虫集群</p>
+<p><img src="/images/distribute_crawl.png" alt="爬虫框架"></p>
+<p>我们独立出来<code>master</code>，<code>master</code>负责生成<code>Request</code>去重以及任务调度，而<code>slaver</code>只负责从<code>master</code>获取任务爬取。</p>
+<p>这种方法我们可以很轻松对<code>master</code>改良而不影响<code>slaver</code>，通过让<code>master</code>定时从<code>数据库</code>中获取新的任务生成到任务列表，我们可以轻松添加新的任务到<code>slaver</code>集群中去。</p>
+<p>下一步我们就介绍如何修改<code>scrapy-redis</code>达到我们新框架需要</p>
+<h1 id="重构scrapy-redis"><a href="#重构scrapy-redis" class="headerlink" title="重构scrapy-redis"></a>重构<code>scrapy-redis</code></h1><p>参考：<br><a href="http://blog.csdn.net/bone_ace/article/details/50989104" target="_blank" rel="noopener">基于Redis的三种分布式爬虫策略</a></p>
+]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
+  </entry>
+  <entry>
     <title>人生浅思</title>
     <url>/2021/03/27/secret/%E4%BA%BA%E7%94%9F%E6%B5%85%E6%80%9D/</url>
     <content><![CDATA[<div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="抱歉, 这个密码看着不太对, 请再试试." data-whm="抱歉, 这个文章不能被校验, 不过您还是能看看解密后的内容.">
@@ -1472,6 +1543,27 @@ flink-shaded-hadoop-2-uber-2.7.5-8.0.jar
       </categories>
   </entry>
   <entry>
+    <title>GitHub Education Pack</title>
+    <url>/2016/07/18/software/GitHubEducationPack/</url>
+    <content><![CDATA[<blockquote>
+<p>GitHub推出一个对学生和教师的福利包,对于学生来说这是一个不小<br>的福利,只要通过一个edu邮箱就可以领取,但奈何国内有些无良人买卖<br>邮箱,所以GitHub对于.cn的邮箱一律拒绝,但是可以通过上传学生证的方法<br>得到验证,题主刚开始用学校邮箱试了试,失败了,抱着试一试的心态,上传了<br>学生证,没想到第二天就给我回复,并给我这个豪华大礼包,接下来我就介绍介绍<br>如何用这个包来.</p>
+</blockquote>
+<h3 id="有些人在网上说-上传学生证没有用-可能是那个plan-GitHub会叫你写一点你想用GitHub做什么-用的是中文写的-最好用英文写-回复的会快一点"><a href="#有些人在网上说-上传学生证没有用-可能是那个plan-GitHub会叫你写一点你想用GitHub做什么-用的是中文写的-最好用英文写-回复的会快一点" class="headerlink" title="有些人在网上说,上传学生证没有用,可能是那个plan(GitHub会叫你写一点你想用GitHub做什么)用的是中文写的,最好用英文写-_-,回复的会快一点."></a>有些人在网上说,上传学生证没有用,可能是那个plan(GitHub会叫你写一点你想用GitHub做什么)用的是中文写的,最好用英文写-_-,回复的会快一点.</h3><h2 id="Digital-Ocean-—VPS-50刀"><a href="#Digital-Ocean-—VPS-50刀" class="headerlink" title="Digital Ocean —VPS 50刀"></a>Digital Ocean —VPS 50刀</h2><blockquote>
+<p>以前貌似是100刀,现在缩水一半了,不知道为什么.</p>
+</blockquote>
+<h4 id="DigitalOcean是一家以优质的VPS服务器著名-毕竟用SSD做存贮的服务器商没几家"><a href="#DigitalOcean是一家以优质的VPS服务器著名-毕竟用SSD做存贮的服务器商没几家" class="headerlink" title="DigitalOcean是一家以优质的VPS服务器著名,毕竟用SSD做存贮的服务器商没几家."></a>DigitalOcean是一家以优质的VPS服务器著名,毕竟用SSD做存贮的服务器商没几家.</h4><h6 id="这个是包小时的我们可以最便宜的5刀每月-提供20GSSD-1TB流量-我们可以用它来搭建服务器或者搭建一个shadowsocks服务器-安装shadowsocks很简单-但是怎么得到这50刀就要花点时间了"><a href="#这个是包小时的我们可以最便宜的5刀每月-提供20GSSD-1TB流量-我们可以用它来搭建服务器或者搭建一个shadowsocks服务器-安装shadowsocks很简单-但是怎么得到这50刀就要花点时间了" class="headerlink" title="这个是包小时的我们可以最便宜的5刀每月,提供20GSSD,1TB流量,我们可以用它来搭建服务器或者搭建一个shadowsocks服务器,安装shadowsocks很简单,但是怎么得到这50刀就要花点时间了."></a>这个是包小时的我们可以最便宜的5刀每月,提供20GSSD,1TB流量,我们可以用它来搭建服务器或者搭建一个shadowsocks服务器,安装shadowsocks很简单,但是怎么得到这50刀就要花点时间了.</h6><h4 id="你要是想得到这50刀必须先充值5刀-但是怎么给钱有是个问题-真是有钱也花出去啊-你可以选择绑卡-但是很复杂不一定能绑的上-最好的方式使用PayPal付这5刀-PayPal可以绑定银联卡付款-但是这个PayPal注册又是个问题-当时题主注册的时候一直提示服务器故障"><a href="#你要是想得到这50刀必须先充值5刀-但是怎么给钱有是个问题-真是有钱也花出去啊-你可以选择绑卡-但是很复杂不一定能绑的上-最好的方式使用PayPal付这5刀-PayPal可以绑定银联卡付款-但是这个PayPal注册又是个问题-当时题主注册的时候一直提示服务器故障" class="headerlink" title="你要是想得到这50刀必须先充值5刀,但是怎么给钱有是个问题,真是有钱也花出去啊.你可以选择绑卡,但是很复杂不一定能绑的上,最好的方式使用PayPal付这5刀,PayPal可以绑定银联卡付款,但是这个PayPal注册又是个问题,当时题主注册的时候一直提示服务器故障."></a>你要是想得到这50刀必须先充值5刀,但是怎么给钱有是个问题,真是有钱也花出去啊.你可以选择绑卡,但是很复杂不一定能绑的上,最好的方式使用PayPal付这5刀,PayPal可以绑定银联卡付款,但是这个PayPal注册又是个问题,当时题主注册的时候一直提示服务器故障.</h4><h3 id="当时去上网搜了搜-中国大陆是有这个情况-可以通过贝宝-PayPal在中国的分公司-来注册"><a href="#当时去上网搜了搜-中国大陆是有这个情况-可以通过贝宝-PayPal在中国的分公司-来注册" class="headerlink" title="当时去上网搜了搜,中国大陆是有这个情况,可以通过贝宝(PayPal在中国的分公司)来注册"></a>当时去上网搜了搜,中国大陆是有这个情况,可以通过贝宝(PayPal在中国的分公司)来注册</h3><h5 id="提醒一句-绑银联卡的时候最好用IE来绑定-别问我为什么谷歌浏览器不行—"><a href="#提醒一句-绑银联卡的时候最好用IE来绑定-别问我为什么谷歌浏览器不行—" class="headerlink" title="提醒一句,绑银联卡的时候最好用IE来绑定,别问我为什么谷歌浏览器不行—-"></a>提醒一句,绑银联卡的时候最好用IE来绑定,别问我为什么谷歌浏览器不行—-</h5><h4 id="选择VPS的时候推荐San-Francisco-延迟最低"><a href="#选择VPS的时候推荐San-Francisco-延迟最低" class="headerlink" title="选择VPS的时候推荐San Francisco,延迟最低."></a>选择VPS的时候推荐San Francisco,延迟最低.</h4><h4 id="搭建shadowsocks可以参考这篇博客"><a href="#搭建shadowsocks可以参考这篇博客" class="headerlink" title="搭建shadowsocks可以参考这篇博客"></a>搭建shadowsocks可以参考这篇<a href="https://segmentfault.com/a/1190000002511795" target="_blank" rel="noopener">博客</a></h4><h2 id="NameCheap"><a href="#NameCheap" class="headerlink" title="NameCheap"></a>NameCheap</h2><h3 id="ME域名一个（一年，价值8-99刀）PositiveSSL一个-（一年，价值9刀）"><a href="#ME域名一个（一年，价值8-99刀）PositiveSSL一个-（一年，价值9刀）" class="headerlink" title="ME域名一个（一年，价值8.99刀）PositiveSSL一个 （一年，价值9刀）"></a>ME域名一个（一年，价值8.99刀）PositiveSSL一个 （一年，价值9刀）</h3><blockquote>
+<p>这个要想得到域名必须通过邮箱验证还好NameCheape承认.edu.cn邮箱</p>
+</blockquote>
+<h5 id="提醒一下-通过DVC验证的时候选择邮箱验证就够了-虽然不是你的邮箱但是会把资料发到你提供的邮箱"><a href="#提醒一下-通过DVC验证的时候选择邮箱验证就够了-虽然不是你的邮箱但是会把资料发到你提供的邮箱" class="headerlink" title="提醒一下,通过DVC验证的时候选择邮箱验证就够了.虽然不是你的邮箱但是会把资料发到你提供的邮箱"></a>提醒一下,通过DVC验证的时候选择邮箱验证就够了.虽然不是你的邮箱但是会把资料发到你提供的邮箱</h5><h4 id="可以参考这篇博客搭建你的https网站-本站也是采用这种方法搭建的-但是有一点不同的时-现在NameCheap直接发给我一个-crt文件和-ca-bundle文件-用于Apache-所以把-key文件和-crt文件放到服务器上配置一下就好了"><a href="#可以参考这篇博客搭建你的https网站-本站也是采用这种方法搭建的-但是有一点不同的时-现在NameCheap直接发给我一个-crt文件和-ca-bundle文件-用于Apache-所以把-key文件和-crt文件放到服务器上配置一下就好了" class="headerlink" title="可以参考这篇博客搭建你的https网站,本站也是采用这种方法搭建的.但是有一点不同的时,现在NameCheap直接发给我一个.crt文件和.ca-bundle文件(用于Apache),所以把.key文件和.crt文件放到服务器上配置一下就好了."></a>可以参考这篇<a href="http://www.freehao123.com/namecheap-ssl/" target="_blank" rel="noopener">博客</a>搭建你的https网站,本站也是采用这种方法搭建的.但是有一点不同的时,现在NameCheap直接发给我一个.crt文件和.ca-bundle文件(用于Apache),所以把.key文件和.crt文件放到服务器上配置一下就好了.</h4><h2 id="GitHub-Micro-account-7刀-month"><a href="#GitHub-Micro-account-7刀-month" class="headerlink" title="GitHub Micro account 7刀/month"></a>GitHub Micro account 7刀/month</h2><blockquote>
+<p>这个不错我们可以有五个私有项目,一直可以用到你毕业.</p>
+</blockquote>
+<p>这个不错哦,妈妈再也不怕我写的stupid代码被人看到了 O(∩_∩)O哈哈~.</p>
+]]></content>
+      <categories>
+        <category>软件</category>
+      </categories>
+  </entry>
+  <entry>
     <title>Flink批和流处理的思考</title>
     <url>/2019/10/16/software/Flink%E6%89%B9%E5%92%8C%E6%B5%81%E5%A4%84%E7%90%86%E7%9A%84%E6%80%9D%E8%80%83/</url>
     <content><![CDATA[<blockquote>
@@ -1491,27 +1583,6 @@ flink-shaded-hadoop-2-uber-2.7.5-8.0.jar
 <pre><code>select * from source a, lateral table (ConfigTable(a.protime)) b
 where a.id = b.id;
 </code></pre><p>我们只要注册<code>ConfigTable</code>到一个流表上就代表告诉<code>Flink</code>历史数据可以不用记住了，我只关心现在的最新配置能不能匹配上，这样就解决了对大表的时间分片</p>
-]]></content>
-      <categories>
-        <category>软件</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>GitHub Education Pack</title>
-    <url>/2016/07/18/software/GitHubEducationPack/</url>
-    <content><![CDATA[<blockquote>
-<p>GitHub推出一个对学生和教师的福利包,对于学生来说这是一个不小<br>的福利,只要通过一个edu邮箱就可以领取,但奈何国内有些无良人买卖<br>邮箱,所以GitHub对于.cn的邮箱一律拒绝,但是可以通过上传学生证的方法<br>得到验证,题主刚开始用学校邮箱试了试,失败了,抱着试一试的心态,上传了<br>学生证,没想到第二天就给我回复,并给我这个豪华大礼包,接下来我就介绍介绍<br>如何用这个包来.</p>
-</blockquote>
-<h3 id="有些人在网上说-上传学生证没有用-可能是那个plan-GitHub会叫你写一点你想用GitHub做什么-用的是中文写的-最好用英文写-回复的会快一点"><a href="#有些人在网上说-上传学生证没有用-可能是那个plan-GitHub会叫你写一点你想用GitHub做什么-用的是中文写的-最好用英文写-回复的会快一点" class="headerlink" title="有些人在网上说,上传学生证没有用,可能是那个plan(GitHub会叫你写一点你想用GitHub做什么)用的是中文写的,最好用英文写-_-,回复的会快一点."></a>有些人在网上说,上传学生证没有用,可能是那个plan(GitHub会叫你写一点你想用GitHub做什么)用的是中文写的,最好用英文写-_-,回复的会快一点.</h3><h2 id="Digital-Ocean-—VPS-50刀"><a href="#Digital-Ocean-—VPS-50刀" class="headerlink" title="Digital Ocean —VPS 50刀"></a>Digital Ocean —VPS 50刀</h2><blockquote>
-<p>以前貌似是100刀,现在缩水一半了,不知道为什么.</p>
-</blockquote>
-<h4 id="DigitalOcean是一家以优质的VPS服务器著名-毕竟用SSD做存贮的服务器商没几家"><a href="#DigitalOcean是一家以优质的VPS服务器著名-毕竟用SSD做存贮的服务器商没几家" class="headerlink" title="DigitalOcean是一家以优质的VPS服务器著名,毕竟用SSD做存贮的服务器商没几家."></a>DigitalOcean是一家以优质的VPS服务器著名,毕竟用SSD做存贮的服务器商没几家.</h4><h6 id="这个是包小时的我们可以最便宜的5刀每月-提供20GSSD-1TB流量-我们可以用它来搭建服务器或者搭建一个shadowsocks服务器-安装shadowsocks很简单-但是怎么得到这50刀就要花点时间了"><a href="#这个是包小时的我们可以最便宜的5刀每月-提供20GSSD-1TB流量-我们可以用它来搭建服务器或者搭建一个shadowsocks服务器-安装shadowsocks很简单-但是怎么得到这50刀就要花点时间了" class="headerlink" title="这个是包小时的我们可以最便宜的5刀每月,提供20GSSD,1TB流量,我们可以用它来搭建服务器或者搭建一个shadowsocks服务器,安装shadowsocks很简单,但是怎么得到这50刀就要花点时间了."></a>这个是包小时的我们可以最便宜的5刀每月,提供20GSSD,1TB流量,我们可以用它来搭建服务器或者搭建一个shadowsocks服务器,安装shadowsocks很简单,但是怎么得到这50刀就要花点时间了.</h6><h4 id="你要是想得到这50刀必须先充值5刀-但是怎么给钱有是个问题-真是有钱也花出去啊-你可以选择绑卡-但是很复杂不一定能绑的上-最好的方式使用PayPal付这5刀-PayPal可以绑定银联卡付款-但是这个PayPal注册又是个问题-当时题主注册的时候一直提示服务器故障"><a href="#你要是想得到这50刀必须先充值5刀-但是怎么给钱有是个问题-真是有钱也花出去啊-你可以选择绑卡-但是很复杂不一定能绑的上-最好的方式使用PayPal付这5刀-PayPal可以绑定银联卡付款-但是这个PayPal注册又是个问题-当时题主注册的时候一直提示服务器故障" class="headerlink" title="你要是想得到这50刀必须先充值5刀,但是怎么给钱有是个问题,真是有钱也花出去啊.你可以选择绑卡,但是很复杂不一定能绑的上,最好的方式使用PayPal付这5刀,PayPal可以绑定银联卡付款,但是这个PayPal注册又是个问题,当时题主注册的时候一直提示服务器故障."></a>你要是想得到这50刀必须先充值5刀,但是怎么给钱有是个问题,真是有钱也花出去啊.你可以选择绑卡,但是很复杂不一定能绑的上,最好的方式使用PayPal付这5刀,PayPal可以绑定银联卡付款,但是这个PayPal注册又是个问题,当时题主注册的时候一直提示服务器故障.</h4><h3 id="当时去上网搜了搜-中国大陆是有这个情况-可以通过贝宝-PayPal在中国的分公司-来注册"><a href="#当时去上网搜了搜-中国大陆是有这个情况-可以通过贝宝-PayPal在中国的分公司-来注册" class="headerlink" title="当时去上网搜了搜,中国大陆是有这个情况,可以通过贝宝(PayPal在中国的分公司)来注册"></a>当时去上网搜了搜,中国大陆是有这个情况,可以通过贝宝(PayPal在中国的分公司)来注册</h3><h5 id="提醒一句-绑银联卡的时候最好用IE来绑定-别问我为什么谷歌浏览器不行—"><a href="#提醒一句-绑银联卡的时候最好用IE来绑定-别问我为什么谷歌浏览器不行—" class="headerlink" title="提醒一句,绑银联卡的时候最好用IE来绑定,别问我为什么谷歌浏览器不行—-"></a>提醒一句,绑银联卡的时候最好用IE来绑定,别问我为什么谷歌浏览器不行—-</h5><h4 id="选择VPS的时候推荐San-Francisco-延迟最低"><a href="#选择VPS的时候推荐San-Francisco-延迟最低" class="headerlink" title="选择VPS的时候推荐San Francisco,延迟最低."></a>选择VPS的时候推荐San Francisco,延迟最低.</h4><h4 id="搭建shadowsocks可以参考这篇博客"><a href="#搭建shadowsocks可以参考这篇博客" class="headerlink" title="搭建shadowsocks可以参考这篇博客"></a>搭建shadowsocks可以参考这篇<a href="https://segmentfault.com/a/1190000002511795" target="_blank" rel="noopener">博客</a></h4><h2 id="NameCheap"><a href="#NameCheap" class="headerlink" title="NameCheap"></a>NameCheap</h2><h3 id="ME域名一个（一年，价值8-99刀）PositiveSSL一个-（一年，价值9刀）"><a href="#ME域名一个（一年，价值8-99刀）PositiveSSL一个-（一年，价值9刀）" class="headerlink" title="ME域名一个（一年，价值8.99刀）PositiveSSL一个 （一年，价值9刀）"></a>ME域名一个（一年，价值8.99刀）PositiveSSL一个 （一年，价值9刀）</h3><blockquote>
-<p>这个要想得到域名必须通过邮箱验证还好NameCheape承认.edu.cn邮箱</p>
-</blockquote>
-<h5 id="提醒一下-通过DVC验证的时候选择邮箱验证就够了-虽然不是你的邮箱但是会把资料发到你提供的邮箱"><a href="#提醒一下-通过DVC验证的时候选择邮箱验证就够了-虽然不是你的邮箱但是会把资料发到你提供的邮箱" class="headerlink" title="提醒一下,通过DVC验证的时候选择邮箱验证就够了.虽然不是你的邮箱但是会把资料发到你提供的邮箱"></a>提醒一下,通过DVC验证的时候选择邮箱验证就够了.虽然不是你的邮箱但是会把资料发到你提供的邮箱</h5><h4 id="可以参考这篇博客搭建你的https网站-本站也是采用这种方法搭建的-但是有一点不同的时-现在NameCheap直接发给我一个-crt文件和-ca-bundle文件-用于Apache-所以把-key文件和-crt文件放到服务器上配置一下就好了"><a href="#可以参考这篇博客搭建你的https网站-本站也是采用这种方法搭建的-但是有一点不同的时-现在NameCheap直接发给我一个-crt文件和-ca-bundle文件-用于Apache-所以把-key文件和-crt文件放到服务器上配置一下就好了" class="headerlink" title="可以参考这篇博客搭建你的https网站,本站也是采用这种方法搭建的.但是有一点不同的时,现在NameCheap直接发给我一个.crt文件和.ca-bundle文件(用于Apache),所以把.key文件和.crt文件放到服务器上配置一下就好了."></a>可以参考这篇<a href="http://www.freehao123.com/namecheap-ssl/" target="_blank" rel="noopener">博客</a>搭建你的https网站,本站也是采用这种方法搭建的.但是有一点不同的时,现在NameCheap直接发给我一个.crt文件和.ca-bundle文件(用于Apache),所以把.key文件和.crt文件放到服务器上配置一下就好了.</h4><h2 id="GitHub-Micro-account-7刀-month"><a href="#GitHub-Micro-account-7刀-month" class="headerlink" title="GitHub Micro account 7刀/month"></a>GitHub Micro account 7刀/month</h2><blockquote>
-<p>这个不错我们可以有五个私有项目,一直可以用到你毕业.</p>
-</blockquote>
-<p>这个不错哦,妈妈再也不怕我写的stupid代码被人看到了 O(∩_∩)O哈哈~.</p>
 ]]></content>
       <categories>
         <category>软件</category>
@@ -2630,114 +2701,238 @@ public class TypeNode&lt;T&gt;:Node
 ]]></content>
   </entry>
   <entry>
-    <title>推荐系统微博数据实战</title>
-    <url>/2019/05/05/ai/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E5%BE%AE%E5%8D%9A%E6%95%B0%E6%8D%AE%E5%AE%9E%E6%88%98/</url>
+    <title>从问题理解动态规划</title>
+    <url>/2017/12/25/algorithm/%E4%BB%8E%E9%97%AE%E9%A2%98%E7%90%86%E8%A7%A3%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</url>
     <content><![CDATA[<blockquote>
-<p>虽然自己刚解决掉一个TB级数据导入“大项目”，但是感觉自己对大数据流程还是缺乏一定对认识，所以想通过一个完整对项目体会一下大数据如何落地再实际产出对，正好@志斌 提供了一个硬盘给我，里面有12年微博对数据，数据量在3TB左右，微博量为65亿，所以就借助这个数据来捣鼓一下推荐系统，我把自己捣鼓的过程写下来，希望能够给其他想了解推荐系统的人一点帮助。</p>
+<p>网上关于动态规划的资料，大部分直接给结论，所以一开始我一头雾水，搞不懂为什么要这么做，这篇博文就从实际问题出发，简单的剖析动态规划</p>
 </blockquote>
-<h2 id="什么是推荐系统"><a href="#什么是推荐系统" class="headerlink" title="什么是推荐系统"></a>什么是推荐系统</h2><p>其实从名字上面我们就知道，我们其实就是要做一件事，“推荐”，并把这个东西做成一个系统，推荐很好理解，但是怎么来做呢，我们拿买东西作为例子，我很喜欢吃苹果，所以我经常去超市买苹果，售货员大妈知道我喜欢吃苹果，所以经常推荐我一些好吃苹果，这个就是推荐，他是根据我们历史的消费记录来给我们推荐的</p>
-<p>这算一种非常简单的推荐系统，你喜欢啥我就给你推荐啥，但是有一个问题，假如你喜欢Apple，你买了一个IPhone X，但是如果我再给你推荐IPhone X其实你不会买的（当然也有可能，但是可能性非常低），那一个“高级”的推荐系统应该怎么做呢，你买了IPhone X，你就很有可能会买AirPod、会买IPod、IMac这些，你脑子里面可能会这样想，做一个归类把一类商品都归到一起，比如IPhone，Mac这些，然后只要他买了其中一个，我们就推荐其他，当然这是最容易想到的一个方法，但是这个方法成本太高而且只适用了Apple产品，假如你买小米，你的手机可能是小米的，但是你的贴膜可能不是小米的。</p>
-<p>得亏于大数据时代的到来，我们记录了很多用户的购买记录，这就相当于我们知道这些商品存在一些联系，假如我们能把这种联系找出来，再用一些算法搅拌一下数据，我们就能产生香喷喷的“推荐数据”</p>
-<h2 id="推荐系统原理"><a href="#推荐系统原理" class="headerlink" title="推荐系统原理"></a>推荐系统原理</h2><p>首先我们来看一下我们有什么数据，最主要的就三张表，第一张用户表（User表），第二张商品表（Item表），第三张用户和商品交互记录表，这个交互记录可能是评分可能是浏览记录可能是购买记录，我们简称为Rank表</p>
-<p>我们把这三个维度组合起来就是一个二维数组，我们可以用一个矩阵来代表这个，如下面所示</p>
-<p>$$\begin{bmatrix} 5 &amp; 4 &amp; 2 &amp; 1 &amp; 0 \\ 4 &amp; 3 &amp; 1 &amp; 2 &amp; 5 \\ 1 &amp; 1 &amp; 5 &amp; 0 &amp; 2 \end{bmatrix}$$</p>
-<p>有三个用户，5件商品，我们从上面伪造的数据可以看出，用户1、2品味很近，而用户三品味与他们完全不同，所以对于最后一件商品，虽然用户1没有评价或者没有购买，我们可以预测他的评价和用户2 差不多，所以我们可以把东西给推荐给用户1，这个是从我们直觉上来感受的，但是计算机可是没有知觉的，我们必须把这些东西量化才能实现智能推荐</p>
-<p>我们用一个欧几里德距离或者皮尔逊相关度来衡量这种品味，其实你可以把它想象为一个N维空间的上每个点的距离，这里我们就不谈公式，我们直接给结果，对于每个用户来说，自己跟自己的品味是100%相近，其他人则有的相同，有的不相同，所以对于用户1，我们可以算出一个“品味值”（我们其实可以不跟自己算因为绝对是1，但是在大型矩阵运算的过程中，其实少算一个比多算一个要划得来）</p>
-<p>$$\begin{bmatrix} 1 &amp; 0.8 &amp; 0.1 \end{bmatrix}$$</p>
-<p>我们得到上面的品味值（加权值），所以对于最后一个商品，我们把其他用户评价与他们与用户一的值相乘，我们就把他们对数据的评价可靠性给量化下来了，所以就可以下一步排序输出我们的推荐。</p>
-<p>我们知道现在的大数据强大在于能给所有用户都推荐他们想要的数据，但是从我们上面的描述来看，我们为了获取一个用户的品味值就得对数据进行大量运算，如果一个用户要1s的，一亿个用户就得要3年才能算完，所以我们得将我们的for循环改成矩阵运算，才能通过大数据将所以用户的推荐给算出来</p>
-<p>现在我们来谈谈怎么用矩阵运算来加速这个过程，我们用$$R_{UI}$$ 来代替上面的评价矩阵，我们首先要把$$R_{UI}$$ 给倒置，然后让两个做矩阵乘法，得到”品味矩阵“ $$W_{UU}$$</p>
-<p>$$R_{UI}$$ * $$R_{UI}^T $$ = $$W_{UU}$$</p>
-<p>这个$$W_{UU}$$ 是什么呢，他是一个行数为用户总数，列数也为用户总数的方阵，每一行代表，第i个用户，他与其他用户的品味差距，有了这个我们可以将$$W_{UU}$$ 与 $$R_{UI}$$ 做一个矩阵乘法，这样我们就得到一个$$V_{UI}$$矩阵，这个矩阵就是我们对$$R_{UI}$$的一个预测值，我们就把一些用户没有评价的值给预测出现，接下来就对每一行先做一个过滤，取出用户没有购买的，然后把没有购买的按照大小排序输出</p>
-<p>PS：也可以用点乘一下矩阵进行过滤，就是将没有将用户与商品购买记录生产一个UI矩阵，购买过置0，每购买过置1，这样点乘后购买过无论分多高都变成0了，把0过滤就ok了</p>
-<p>我们来总结一下上面用到的矩阵公式</p>
-<ol>
-<li>$$R_{UI}$$ * $$R_{UI}^T $$ = $$W_{UU}$$</li>
-<li>$$W_{UU}$$ * $$R_{UI}$$ = $$V_{UI}$$</li>
-</ol>
-<p> 初略一看没有啥问题，但是你要想一下假如用户数非常大，有一千万（很容易达到，QQ微信都10几亿了），那个$$W_{UU}$$ 矩阵的大小有 1千万 * 一千万 = 1e+14 ，我们根本没有足够的内存来存放这个矩阵，而且有一个问题，就是其实假如我们有一千万件商品，但是一个用户一辈子可能就买了几十件，这是一个巨大的稀疏矩阵</p>
-<p>所以虽然我们这个矩阵算法很高效，能通过两次运算就把用户推荐给全部输出，但是假如用户量多或者商品多第一内存不够，第二个矩阵太稀疏了，在没有大数据之前或者计算机还没有现在这么强的时候，大家的解决方法是对数据进行抽样，把大数据分解成为小数据，但是大数据的魅力就是使用全部数据而不是部分，所以我们要使用一些抽象的算法来帮助我们把这个问题给解决了</p>
-<p>首先我们还是要用所以的用户数据，所以的商品数据，但是现在我们做一个抽象，我们假设用户身上有几十种特征来决定他们的品味（比如年龄，性别，性格等），我们直接跳过前面两个计算步骤，我们假设用户特征矩阵$$U_{UP}$$ (每个用户有P个特征，决定他们品味)，对于商品，我们假设就是因为这些特征导致的一个商品特征矩阵$$I_{PI}$$</p>
-<p>最后我们假设，我们这个$$U_{UP}$$ 矩阵乘法$$I_{PI}$$就是 我们上面得到的$$V_{UI}$$ ，也就是公式为</p>
-<p>$$U_{UP}$$ *$$I_{PI}$$ = $$V_{UI}$$ </p>
-<p>假如我们能计算出来这个 $$U_{UP}$$和 $$I_{PI}$$，那么我们就基本上算出所以用户的评价了，这个就是ALS的原理，我们利用这个抽象能将原来的亿亿相乘的计算，改成亿与常数P的相乘的计算</p>
-<p>当然具体的原理没有这么简单，涉及到很多矩阵运算的知识，我这里就不多说了，具体可以看下面给的论文《Collaborative Filtering for Implicit Feedback Datasets》，Spark的Mlib中的ALS实现就是基于这篇论文的，也可以参考一下Python的实现，公式推导比较复杂，但是实现还是非常好理解的</p>
-<h2 id="Python实战"><a href="#Python实战" class="headerlink" title="Python实战"></a>Python实战</h2><p>首先我们来先试试使用Python来快速搭建我们的模型出来</p>
-<pre><code>{&apos;account&apos;: &apos;1920286160&apos;, &apos;content&apos;: &apos;你的笑容灿烂了一整个夏天!&apos;, &apos;source&apos;: &apos;http://wp1.sina.cn/wap240/5d738637jw1dpmonay1thj.jpg&apos;, &apos;time&apos;: &apos;2012-02-01 13:48:39&apos;, &apos;from&apos;: &apos;网页版&apos;, &apos;comment&apos;: 0, &apos;forward&apos;: 0, &apos;forward_account&apos;: &apos;1567852087&apos;, &apos;forward_content&apos;: &apos;民浩君！！ &apos;,&apos;forward_id&apos;: &apos;xdasfd21x-s&apos;， &apos;forword_nickname&apos;: &apos;全球流行风尚&apos;, &apos;is_forward_followed&apos;: &apos;0&apos;}
-</code></pre><p>我们原始数据全部都是这种字符串，我们没有用户点赞、浏览数据，我们只有用户所发的所以微博数据，而且假如后面有<code>forward_account</code>的值的话，说明这条微博是用户转发的，所以这里我们把用户转发当做一个用户“喜欢”这篇微博，我们系统就是要推荐更多微博给用户“转发”，所以我们把用户账号，和转发ID提取出来当做一次“记录”</p>
-<p>我们把数据全部变成，<code>user-id：forward_id</code>，字符对，然后我们导入到一个<code>pandas</code> 的<code>DataFrame</code>里面去</p>
-<p>我们这里使用一个Python 实现的ALS包<code>implicit</code>，只需要把我们生成的<code>DataFrame</code>转换成为一个压缩矩阵OK了，但是这里要注意的一点是我们所以的用户id和转发id都得变成Int型整数，最好的做法使用</p>
-<pre><code>df.user.astype(&apos;category&apos;).cat.codes
-</code></pre><p>比如上面，我们把<code>user</code>这个字符型数字转换成一个整数序号，这样我们得到的就是每个<code>user</code>id的序号</p>
-<p>完整的代码为下面</p>
-<pre><code>origin_data = [(x[&apos;forward_id&apos;], x[&apos;account&apos;], 1) for x in data if x.get(&apos;forward_id&apos;)] # data  为json数组
-df = pd.DataFrame(origin_data, columns=[&apos;item&apos;, &apos;user&apos;, &apos;num&apos;])
-df[&apos;item&apos;] =  df.item.astype(&apos;category&apos;).cat.codes.astype(&apos;int64&apos;)
-df[&apos;user&apos;] = df.user.astype(&apos;category&apos;).cat.codes.astype(&apos;int64&apos;)
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>现实生活中总能找到一些问题你没法给出具体答案，比如给你一堆1块、5块、10块的零钱，要你找出多少种能够拼出100块的方法。还有就是迷宫问题这种。这种问题都有一个特征，我们没有办法立刻给出答案，而且我们对这种问题的想到的第一种解决方法就是暴力搜索，把所以的可能方案列出来然后得到答案。这种暴力搜索最终能够解决问题，但是他们在计算的时候花了很多时间在相同的计算上面。为了节省时间，所以我们使用动态规划“优化”暴力搜索</p>
+<h2 id="为什么要使用动态规划？"><a href="#为什么要使用动态规划？" class="headerlink" title="为什么要使用动态规划？"></a>为什么要使用动态规划？</h2><h3 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h3><p>我们先举一个简单的例子，大家都知道走楼梯问题，这也是教科书一个经典的递归程序</p>
+<ul>
+<li>有N阶台阶，一个人一次上两个或者一个，问有多少种走法?</li>
+</ul>
+<p>我们拿到这道题，我们首先会想这样想，从第一个台阶开始，我们使用递归让这个人走一步或者两步，这样每次分解成为两种可能，最后直达走到N阶台阶，或者迈过去了，然后计算这种所以迈到N阶台阶的可能路径。</p>
+<p>这种正向思维很容易理解，但是最终它直接得到的是所以可能的路径，但是这道题我们需要求的是N阶的走法，所以我们从正向思维必须要反过来思考，假如我们从一个台阶出发有两种可能，那么我们到达第N个的台阶来看，也有两种可能，第一种是N-1（迈了一步到达），第二种是N-2（迈了两步到达），这样我们就很清楚了，假如我们要想得到到达N阶台阶的走法总数，那么我们只需要把到达N-1和到达N-2的次数加起来就可以了</p>
+<p>这是一个很重要的思想<strong>把一个复杂的问题，分解成为其他的子问题</strong>，这也是我们完成动态规划的设计的核心思想</p>
+<p>从更好的理解动态规划的优点和源头，我们就从这个简单的例子使用不同的算法来解释为什么要用动态规划</p>
+<h3 id="暴力搜索法"><a href="#暴力搜索法" class="headerlink" title="暴力搜索法"></a>暴力搜索法</h3><p>我们成功的完成了问题的分解，为了完成计算，但是我们还得计算子问题的结果，上面得到一个很重要的公式<code>F(N) = F(N-1) + F(N-2)</code></p>
+<p>我们可以很轻松的写出代码（Python）</p>
+<pre><code>def f(n):
+  return f(n-1) + f(n-2) if n &gt; 2 else n
+</code></pre><p>我们只用一行代码就能将这个问题解决掉，而且效果看起来还不错，我们可以试不同的n都能获取正确的结果，但是n大于30之后，当我在我的电脑上运行起来非常慢，需要几秒钟才能返回结果，而且当n越大，消耗的时间也越多。</p>
+<p> 这是为什么呢？我们现在来思考一下这个暴力算法有什么弊端</p>
+<ul>
+<li>暴力搜索的弊端</li>
+</ul>
+<p>我们现在假设N=10，那么我们现在就把F(10)转换成为F(9)与F(8)的和，那么F(9)又分成了F(8)和F(7)，而F(8)被分成了F(7)和F(6)</p>
+<p>从这里可以看到，F(7)在第二次分解的时候计算了两次,而每次计算的结果都是一样的，所以我们相当于重复了一遍耗时的操作，知道这个问题，我们就必须改进了，我们可以用一个东西存贮计算结果，这样就不需要重复计算了</p>
+<h3 id="记忆搜索法"><a href="#记忆搜索法" class="headerlink" title="记忆搜索法"></a>记忆搜索法</h3><p>我们修改我们算法，加一个参数<code>map</code></p>
+<pre><code>def map_get(map, n):
+    v = map.get(n-1)
+    if not v:
+      v = f(n, map)
+      map[n] = v
+    return v
 
-from scipy import sparse
 
-# convert df to martrix
-item_user_data = sparse.csr_matrix(df.values)
-# train
-import implicit
-
-model = implicit.als.AlternatingLeastSquares(factors=50)
-
-model.fit(item_user_data)
-
-# recommend items for a user
-user_items = item_user_data.T.tocsr()
-
-# recommend user
-model.recommend(1, user_items=user_items, N = 5)
-</code></pre><p>只要简单的几行代码我们就实现了一个协同过滤的算法实现，从Python代码我们可以知道，最关键的地方就是生成训练数据，然后其他都交给算法了，接下来我们来尝试实现一个使用Spark加载全部数据，来实现对几十亿微博数据的推荐</p>
-<h2 id="Spark实战"><a href="#Spark实战" class="headerlink" title="Spark实战"></a>Spark实战</h2><p>在前面我们把3个T的微博数据的用户转发数据抽取出来，最后数据量在35亿左右，数据量在100G左右，这个数据量还是有的大的，首先内存肯定放不下，假如我们使用前面Python的方式来实现的话，我们的内存至少要200个G，所以我们得使用Spark的内存加磁盘运算来实现这个推荐系统</p>
-<h3 id="生成用户和转发ID的序列值"><a href="#生成用户和转发ID的序列值" class="headerlink" title="生成用户和转发ID的序列值"></a>生成用户和转发ID的序列值</h3><p>前面Python的实现100个G的数据排序，基本的原理就是Hash表进行排序，然而我们内存不足以放下这100G的数据，所以我们要使用MapReduce来“消化”这个数据，所以我们要借助Hive来进行一个排序，一方面我们可以生成用户和物品的唯一ID，等我们产生推荐结果后也可以通过HIVE来生成对应的数据</p>
-<p>第一步我们将数据导入到HIVE中</p>
-<blockquote>
-<p>首先创表</p>
+def f(n, map):
+    if n &lt; 3:
+      return n
+    if n in map:
+      return map[n]
+    return map_get(map, n - 1) + map_get(map, n - 2)
+</code></pre><p>我们添加一个辅助的字典存贮我们中间计算过程，虽然让我们的代码臃肿了不少，但是让我们代码速度有了质的变化</p>
+<p>我们尝试使用运行让N增大到100多都能迅速返回，但是当我们逐渐增大到1000的时候我们会发现<code>Python</code>直接报了超出最大堆栈限制的错误</p>
+<ul>
+<li>堆栈超出最大层数的原因</li>
+</ul>
+<p>由于我们使用了递归，递归函数是在递归的时候当前堆栈再次申请一个堆栈待，运行递归函数，为了避免一直无限调用下去耗空堆栈空间（申请也需要一点空间），Python限制了递归层数，由于为了计算超过1000的我们必须至少要递归超过1000次（从1000减一减到小于2），所以我们光荣的被当错程序错乱被误杀了。</p>
+<h3 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h3><p>反观我们这个函数，使用递归，我们很容易理解，但是对于计算机来说，只是为了计算一个数而使用递归是非常不划算的，所以我们要思考这些中间值保留有什么共同点，我们从头开始看，对于第三个来说，它只需要知道第一个和第二个的值就行，而第一个第二个我们知道分别为1和2，对于第四个来说，它只需要知道第三个和第二个，如果我们先把第三个计算下来并保留下来，我们就能知道第四个。</p>
+<p>从头开始思考我们知道，我们只需要保留前面计算的结果就能知道后面的值，我们使用一个列表保存这个中间计算过程，我们将函数改写成下面这个</p>
+<pre><code>def f(n):
+    if n &lt; 3: return n
+    values = [1, 2]
+    for i in range(2, n):
+      values.append(values[i-2]+values[i-1])
+    return values[-1]
+</code></pre><p>接下来我们运行这个函数，我们会发现就算N为10000都能迅速返回</p>
+<p>来看看我们动态规划的“损失”，我们使用了一个列表存贮中间过程，使用了空间“换回”了速度</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我们使用了一个很简单的题目来介绍动态规划，由于这个问题太过于简单，你或许自己在不知道动态规划的时候都能写出来，但是这个从暴力搜索到记忆搜索最后动态规划的算法优化过程中，我们能够清楚的知道设计动态规范其实也非常简单，<strong>将大问题分解成小问题，然后思考小问题的如何细分，最后反过来思考从小问题逆向到最终的大问题</strong>，这就是动态规划。</p>
+<p>当然这道问题并不是很经典的动态规划问题，为了让大家更好的理解动态规划，我在下面这篇的博文中介绍若干中经典的动态规划问题</p>
+<p><a href="/2017/12/26/几个有趣的动态规划/">几个有趣的动态规划</a></p>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>从MNIST了解卷积神经网络</title>
+    <url>/2018/04/24/ai/%E4%BB%8EMNIST%E4%BA%86%E8%A7%A3%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</url>
+    <content><![CDATA[<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
+<p>本文是学习Tensorflow<a href="http://www.tensorfly.cn/tfdoc/tutorials/mnist_pros.html" target="_blank" rel="noopener">官方文档</a>的过程中的一点感悟，本文假设你对矩阵运算有一定的了解，具体可以看看下面<a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html" target="_blank" rel="noopener">资料</a></p>
 </blockquote>
-<pre><code>create table record(item string, account int, time int) row format delimited fields terminated by &apos;,&apos;   LINES TERMINATED BY &apos;\n&apos;  stored as textfile;
-</code></pre><p>这里我还额外导入了一个时间进去，为的是方便以后做线上预测</p>
-<p>然后我们把文件导入进去（文件存贮在<code>/weibo/all_data.txt</code>中）</p>
-<pre><code>load data  local inpath &apos;/weibo/all_data.txt&apos; into table record;
-</code></pre><p>接下来我们生成用户表和物品表</p>
-<pre><code>create table items as select row_number() over (order by a.item) as id ,a.item from (select distinct item from record) a ;
+<h2 id="加载数据"><a href="#加载数据" class="headerlink" title="加载数据"></a>加载数据</h2><blockquote>
+<p>首先我们得先把数据下载下来，Tensorflow给我们提供了一个函数来进行下载，这个<a href="https://github.com/tensorflow/tensorflow/blob/master/tensorflow/contrib/learn/python/learn/datasets/mnist.py" target="_blank" rel="noopener">函数</a>为<a href="https://github.com/tensorflow/tensorflow/blob/master/tensorflow/contrib/learn/python/learn/datasets/mnist.py" target="_blank" rel="noopener">read_data_sets</a></p>
+</blockquote>
+<p>这个函数<code>read_data_sets</code>函数很简单，查看在目录下面有没有文件没有就去下载，有就解析加载，一方面方便我们获取数据，一方面方便我们直接开箱即食，但是由于这个默认下载地址是需要翻墙，所以我这里提供一个不需要翻墙的<a href="http://yann.lecun.com/exdb/mnist/" target="_blank" rel="noopener">地址</a>，你只需要加载下面的函数</p>
+<pre><code>from tensorflow.examples.tutorials.mnist import input_data
+mnist = input_data.read_data_sets(&quot;input/&quot;, one_hot=True, source_url=&quot;http://yann.lecun.com/exdb/mnist/&quot;)
+</code></pre><p>等几分钟，数据就会下载到当前目录的<code>input</code>文件夹中，这样你下次运行就能直接本地文件夹中加载图片数据了</p>
+<h2 id="观察数据"><a href="#观察数据" class="headerlink" title="观察数据"></a>观察数据</h2><p>首先我们看看下载了什么数据，打开<code>input</code>文件夹，我们可以看到，Tensorflow给我下载好了四个文件，分为两组，一组训练集一组测试集，每组里面2个文件，一个是手写图片文件，一个标签文件（每张手写的图片代表的数字）</p>
+<p>加载图片数据对于新手来说挺麻烦的，为了让我们专注于模型而不是编程，Tensorflow直接帮我们做好了加载数据的事情，我们上面得到的<code>mnist</code>变量里面就存贮了我们这个项目所需要的数据，我们来看看这个<code>mnist</code>有什么</p>
+<p>我们最关心的就是<code>mnist</code>里面训练数据，这里推荐使用<code>notebook</code>来操作这个数据集，我们首先<code>mnist</code>的训练数据是什么</p>
+<p><img src="/images/mnist-nums.png" alt="mnist数据来源网络"></p>
+<p><code>mnist</code>数据就是上面这些图片，我们把图片把每个像素的二值化，然后把他们放到一个数组中，每张图片对应一个数组</p>
+<p>mnist训练数据存贮在这两个变量中</p>
+<pre><code>mnist.train.labels
+mnist.train.images
+</code></pre><p>其中<code>mnist.train.images</code>是一个<code>(55000, 784)</code>的二维数组，其中<code>mnist.train.labels.shape</code>是一个<code>(55000, 10)</code>的二维数组，现在摆在我们面前的其实很简单，通过<code>55000</code>个图片像素值来训练我们模型，以便能让模型能给一张图片像素值来预测图片代表的数字</p>
+<p>这些数字在人看来非常容易辨认，但是怎么能让电脑也能辨别他呢，这就要用到卷积神经网络的力量，通过卷积神经网络，电脑的准确率能到99%，这就非常恐怖了，我们人有时候也会看走眼呢。</p>
+<p>在谈卷积之前我们先谈谈我们以前的做法，这样通过对比就能知道卷积到底做了什么优化</p>
+<h2 id="传统做法"><a href="#传统做法" class="headerlink" title="传统做法"></a>传统做法</h2><p>其实从传统的角度来看，其实图像识别也就是通过图片的特征值来判断图片代表的含义，但是图片这个东西又很特殊，相比于其他机器学习问题，他的特征值很多，这里我们使用28X28的图片就有784个特征，如果我们图片尺寸再大，这个特征值会变得非常巨大，而且我们知道机器学习需要大量数据才能大展身手，然而每个图片如此巨大，训练巨大的数据集电脑也吃不消</p>
+<p>所以我们必须要将数据进行降维，机器学习里面有很多降维的方法，比如PCA，LDA这些，但是这些方法都有一个问题他们必须把一个图片看做一个整体输入，也就是前面的将28X28转换成一个784的数组，这个数组我们知道，他丧失了一个非常重要的东西维度，我们仔细观察上面的图片</p>
+<p><img src="/images/mnist-nums.png" alt="mnist数据来源网络"></p>
+<p>每个图片其实我们关注的都是数字的二维分布，我们通过闭合的圆的个数来区分8和0，我们通过中间的空白部分来区分0和1，所以我们希望能使用一种新的方法来确定图片特征，一方面能够保存图片的空间信息，一方面能最终数据一维的结果（图片代表的数字），这个就是卷积的引入了，卷积从二维的角度来提取图片的特征，相比于传统的一维提取，它能最大程度保留图片的信息，并且进行深度降维</p>
+<h2 id="从项目了解卷积"><a href="#从项目了解卷积" class="headerlink" title="从项目了解卷积"></a>从项目了解卷积</h2><blockquote>
+<p>一开始学习深度学习卷积神经网络，看了很多资料，但是总是感觉并没有很深的理解，至到接触这个项目，从代码的层次上再去理解卷积才给我恍然大悟的感觉</p>
+</blockquote>
+<p>首先先谈一谈Tensorflow这个库的基础知识，由于Python速度有点慢，所以Tensorflow的后端全部由C++写的，你可以这样理解Tensorflow，Python相当于一个客户端，你可以使用一个session（回话）与服务器（C++）进行交互，这样的话，我们在客户端可以享受Python的方便快捷，也可以享受C++运行的高效性，但是这个也带来一个麻烦，原来Python是一个所见即所得的，现在运行一些东西必须使用session来通知服务器来运行，我们很多中间过程就没法知道，只能通过返回的结果来进行推断了。在官方教程并没有讲太多中间过程，只是一笔带过，所以为了更好的理解卷积神经网络，我们将会以一种很难看的方法运行Tensorflow，但是我们能从这个过程中对卷积的理解更加深刻</p>
+<p><strong>所以接下来我们基本上每个操作都会让后端运行并且分析返回结果，为了方便叙述，我们假设你在运行<code>session.run</code>之前都会运行这个<code>session.run(tf.global_variables_initializer())</code>来初始化所以的变量</strong></p>
+<p>PS：之所以要运行这个，因为我们使用session与<code>C++</code>进行交互，如果我们“不声明”变量，c++会报错的</p>
+<p>下面我们就从这个项目一行一行讲起</p>
+<h3 id="准备数据"><a href="#准备数据" class="headerlink" title="准备数据"></a>准备数据</h3><p>前面我们知道，卷积就是要从二维空间中来提取我们想要的特征，首先我们把数据还原成二维的</p>
+<pre><code>x_image = tf.reshape(x, [-1,28,28,1])
+</code></pre><p>x是上面我们输入的数据，来我们来检测一下，首先我们声明一个<code>session</code></p>
+<pre><code>session = tf.Session()
+</code></pre><p>再从数据集中掏出50张图</p>
+<pre><code>data = mnist.train.next_batch(50)[0]
+</code></pre><p>接下来我们看看这个<code>x_image</code>变成了什么</p>
+<pre><code>session.run(tf.global_variables_initializer())
 
-  create table users as select row_number() over (order by a.account) as id ,a.account from (select distinct account from record) a ;
-</code></pre><p>我们使用HIVE的<code>row_number</code>函数来生成一个唯一序列自增值，每一个值对应一个用户，最后我们生成我们训练表，最好使用<code>HIVE2</code>来进行导入，因为HIVE1的<code>row_number</code>会存贮所以的id值，由于我们数据量有35个亿，内存会爆炸，<code>HIVE2</code>优化了使用一个流来存贮</p>
-<pre><code>  create table train as 
-select account_id, item_id, count(*) as num from (select a.id as item_id, b.id as account_id from  record 
-left join items a on record.item = a.item 
-left join users b on record.account = b.account) a group by item_id, account_id ;
-</code></pre><p>接下来我们在Spark里面调用我们Mlib的<code>ALS</code>模型，首先我们从HIVE中获取数据</p>
-<pre><code>val df = sql(&quot;select * from train&quot;)
-</code></pre><p>然后我们从将数据导入ALS模型进行训练，同Python比较类似，我就直接给出代码</p>
-<pre><code>val ratings = df.map(row =&gt; Rating(row.getAs[Int](&quot;item_id&quot;).toInt, row.getAs[Int](&quot;account_id&quot;).toInt, row.getAs[Long](&quot;num&quot;).toDouble)).rdd
-val rank = 10
-val numIterations = 50
-val model = ALS.train(ratings, rank, numIterations, 0.01)
-val usersProducts = ratings.map { case Rating(user, product, rate) =&gt;
-  (user, product)
-}
-val predictions =
-  model.predict(usersProducts).map { case Rating(user, product, rate) =&gt;
-    ((user, product), rate)
-  }
-val ratesAndPreds = ratings.map { case Rating(user, product, rate) =&gt;
-  ((user, product), rate)
-}.join(predictions)
-val MSE = ratesAndPreds.map { case ((user, product), (r1, r2)) =&gt;
-  val err = (r1 - r2)
-  err * err
-}.mean()
-println(s&quot;Mean Squared Error = $MSE&quot;)
-</code></pre><p>最终我们这35亿数据用时4个半小时跑完模型并计算出MSE （均方误差），当然由于我的核心比较小，假如在一个大集群上面的话速度会快很多，值得注意的是，在Spark运行这35亿数据的时候，物理磁盘占用达到800多个G，所以在哪里省下来（内存）的就得从哪里还回来（磁盘）O(∩_∩)O哈哈~</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我们这次只是完成了一个非常简陋的推荐系统，只是具备简单的推荐功能，我们还没有考虑到一些“冷启动”问题，一个“智能”的推荐系统需要考虑到很多方面，我的推荐系统还有很多地方需要完善，但是从我的这个Demo里面也可以看到其实大数据也是非常“简单”的，由于数据量太大，你只能使用最简洁的代码来训练你的模型，你的算法要最大可能性满足分布式要求，推荐系统最核心的地方还是如何将你的推荐算法变成一个优秀的分布式算法，我们这篇博客只是走马观花的谈了一下它的原理，看看有空好好研究一下Spark分布式算法是怎么实现的。</p>
-<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><p><a href="https://blog.csdn.net/antkillerfarm/article/details/53734658" target="_blank" rel="noopener">ALS原理介绍</a></p>
-<p><a href="https://yq.aliyun.com/articles/684195" target="_blank" rel="noopener">Python实现ALS</a></p>
-<p><a href="http://yifanhu.net/PUB/cf.pdf" target="_blank" rel="noopener">Spark Mlib ALS 论文</a></p>
+x_image_data = session.run(x_image, feed_dict={x: data})
+</code></pre><p>我们输入两者的<code>shape</code></p>
+<pre><code>data.shape, x_image_data.shape
+(50, 784) (50, 28, 28, 1)
+</code></pre><p>我们很清楚的看到，我们成功将一维的数组图像（784）变成了二维的数组图像（28X28），其实我们生成了三维（28 X 28 X 1），但是由于我们只有有些图片还会有多个色道（RGB），所以我们为了兼容，声明成28 X 28 X 1</p>
+<p>好的，现在我们成功将一维图片还原成二维的，接下来就是将他们卷起来的时候了</p>
+<h3 id="第一层"><a href="#第一层" class="headerlink" title="第一层"></a>第一层</h3><p>如果你学过一些信号处理你会发现，深度学习使用的卷积其实并不是原始意义上的卷积，他没有“旋转180”的操作，但是他的形式其实是类似的。这个“积”的操作主要是通过矩阵运算来实现的，为了更好的理解卷这个操作，我从网上找了前辈们辛苦做的动图</p>
+<p><img src="/images/Tensorflow-mult.gif" alt="卷积操作-来源网络"></p>
+<p>PS： 这个图与我们数据有点不同，我们每张只有一个色道，这个有三个色道，这张图有两个卷积核，但是我们这个第一层会使用32个，但是其实原理都一样，如果你实在理解不过来，你可以先值看最上面那一排</p>
+<p>我们回到这种图，最左边就是图像输入，中间是卷积核，最后右边是输出，我们可以从图中可以很清楚的看到卷积的与我们平常操作不同，首先输入上我们是二维数据，通过二维的卷积核进行矩阵运算，最后我们输出二维结果，这就是卷积的强大之处，不但保留了原来的二维信息而且能够使用高效的矩阵运算来加速提取特征</p>
+<p>现在我们回到代码</p>
+<p>首先是要声明卷积核，我们可以使用简单的方法，将卷积核全部声明为全0矩阵，但是这个有可能造成0梯度，所以我们加入一点噪音，我们看看加入噪音的卷积核是什么值</p>
+<pre><code>initial = tf.truncated_normal([5, 5, 1, 32], stddev=0.1)
+W_conv1 = tf.Variable(initial)
+session.run(tf.global_variables_initializer())
+
+W_conv1_value = session.run(W_conv1)
+
+W_conv1_value.mean(), W_conv1_value.std()
+(0.001365028, 0.08744488)
+</code></pre><p>我们使用<code>tf.truncated_normal</code>函数声明了32个5X5X1的随机卷积核，看起来随机性还挺不错哦</p>
+<p>PS：前面（5，5，1）代表输入长、宽、色道，后面代表输出输出数量当然我说它是32个它不一点为32个矩阵，应该是（色道X输出数量）个卷积核，但是我们这里只有一个色道，所以只有32个，我们可以通过<code>W_conv1_value.shape</code>查看真实的维度（当前的维度为（5， 5， 1， 32））</p>
+<p>这个卷积核就对应上面图中间的小矩阵，他的长宽都为5，图中长宽都为3，当然我们可以把这个长宽修改，使用5是我们的经验值，通过这个大小的卷积核能够在模型表现能力更好。</p>
+<p>接下来我们就进行最重要的卷积操作了，由上面图可知，要进行卷积必须要有三维的数据与对应的卷积核进行相卷，其实我们在图中还可以看到一个重要的东西，卷积的步长也就是每个框移动的位置（图中的步长为2）</p>
+<p>还有一个较隐秘的知识，你有没有注意到图中的数据原来是7X7的数据，通过卷积核转换之后就变成了3X3了，影响卷积后图像尺寸不但有步长还有框子的大小，假如你的框是7，那图中只剩下一个值了，所以我们避免尺寸减少，我们使用周围填充0来使最边缘的位置卷积也成为到框子的中心，一方面避免边缘数据流失，一方面也能突出边缘数据（周边全为0）</p>
+<p>Tensorflow为我们封装好了上面所以的方法，我们只要通过传参过去就能改变部长，改变填充方式，好了现在就开始来正式“卷”了</p>
+<pre><code>session.run(tf.global_variables_initializer())
+
+v = session.run(tf.nn.conv2d(x_image, W_conv1, strides=[1, 1, 1, 1], padding=&apos;SAME&apos;), feed_dict={x: data})
+</code></pre><p>现在我们来看看卷完后<code>v</code>的<code>shape</code></p>
+<pre><code>   v.shape
+(50, 28, 28, 32)
+</code></pre><p>50代表50个数据，（28、28）代表图片维度，这个32就是卷积核数，50和32这两个应该是固定的，不难理解，我们现在来看看为什么通过卷积核的“卷”，图片还是保持28X28的，这个也是在知乎上涉及到的一个<a href="https://www.zhihu.com/question/46889310" target="_blank" rel="noopener">问题</a>，现在我们从实验上来解决一下</p>
+<p>首先我们看<code>tf.nn.conv2d</code>函数，他接受四个参数，第一个图片、第二个卷积核、第三个步长，第四个卷积方式</p>
+<p>首先问题是觉得，卷完之后应该是变成24 X 24，这个理解是没错的，我们将pading的值改成VALID再次运行</p>
+<pre><code>session.run(tf.global_variables_initializer())
+
+v = session.run(tf.nn.conv2d(x_image, W_conv1, strides=[1, 1, 1, 1], padding=&apos;VALID&apos;), feed_dict={x: data})
+
+v.shape
+(50, 24, 24, 32)
+</code></pre><p>我们得到了24 X 24的图片，这个SAME和VALID有什么区别呢，这个区别就是填充0没有填充0的原因，SAME在图像周边填0这样就能得到28 X 28</p>
+<p>我们也发现，这个还有一个参数strides，这个就是前面填的步长，步长的长宽就是中间两位设置的（最边上两位跟输入有关，第一个是输入图片数量，最后一个是图片的色道），我们在这里使用使用1步长，我们来试试2步长试试</p>
+<pre><code>v = session.run(tf.nn.conv2d(x_image, W_conv1, strides=[1, 2, 2, 1], padding=&apos;SAME&apos;), feed_dict={x: data})
+
+v.shape
+(50, 14, 14, 32)
+</code></pre><p>果然输出的图像变成28的1/2了</p>
+<p>接下来我们就要把卷积的值丢到神经元函数里面去了，为了符合实际，我们加入一个偏置量<code>b_conv1</code></p>
+<pre><code>def bias_variable(shape):
+  initial = tf.constant(0.1, shape=shape)
+  return tf.Variable(initial)
+b_conv1 = bias_variable([32])
+</code></pre><p>这里我们使用0.1来初始化偏置量，接下来就是丢到神经元函数，这里我们使用numpy 的array的传播性，将b_conv1传递给所有的28X28的维度</p>
+<pre><code>h_conv1 = tf.nn.relu(tf.nn.conv2d(x_image, W_conv1, strides=[1, 1, 1, 1], padding=&apos;SAME&apos;) + b_conv1)
+
+v = session.run(h_conv1,  feed_dict={x: data})
+
+v.shape
+(50, 28, 28, 32)
+</code></pre><p>我们可以看到卷积完后从神经元函数生成的数据是（50X28X28X32）的，最后维度由1变成32，所有我们得使用点方法来缩减数据维度，这里我们使用卷积池的方法</p>
+<p><img src="/images/tensorflow_pool.png" alt="卷积池"></p>
+<p>由上面可以看到，其实很简单就是把最大的挑出来</p>
+<pre><code>h_pool1 = tf.nn.max_pool(h_conv1, ksize=[1, 2, 2, 1],
+                    strides=[1, 2, 2, 1], padding=&apos;SAME&apos;)
+</code></pre><p>这里的参数很简单我就不介绍，这样“瘦身”之后，数据的维度由(50, 28, 28, 32)变成(50, 14, 14, 32)，减少4倍</p>
+<p>到这里我们的第一层卷积就结束了，接下来就是第二层卷积，为什么要多卷一次呢，因为前一层学到的还是太少了，要加强学习，这层和第一层没什么差别，所以我们就跳过这层</p>
+<p>直接贴代码（函数就不复制了，文档里面有）</p>
+<pre><code>W_conv2 = weight_variable([5, 5, 32, 64])
+b_conv2 = bias_variable([64])
+
+h_conv2 = tf.nn.relu(conv2d(h_pool1, W_conv2) + b_conv2)
+h_pool2 = max_pool_2x2(h_conv2)
+</code></pre><h3 id="全连接层"><a href="#全连接层" class="headerlink" title="全连接层"></a>全连接层</h3><p>当我们完成两层卷积之后，我们的数据变成了（50，7,7，64）的四维数组了，我们知道我们传统的机器学习其实最后都是采用二维数组来当做训练数据（X代表特征，Y代表样本），所以全连接层就是把卷积给“反卷”过来，这样后面你方便对接传统机器学习，而且最后我们需要的数据也是输出的也是二维的（对一堆数据统一进行预测，所以这里称二维），但是这里要注意全连接层不是输出层，所以我们可以随意设置输出的维度，最后输出层对接再进行一次全连接层类似操作就能输出我们想输出的维度，这里我们看看全连接层权值变量</p>
+<pre><code>W_fc1 = weight_variable([7 * 7 * 64, 1024])
+b_fc1 = bias_variable([1024])
+</code></pre><p>这里我们声明全连接层的权值变量<code>W_fc1</code>和偏置量<code>b_fc1</code>，我们可以看看<code>W_fc1</code>的<code>shape</code>是多少</p>
+<pre><code>session.run(tf.global_variables_initializer())
+
+session.run(W_fc1).shape
+(3136, 1024)
+</code></pre><p>我们可以看到其实就是一个二维数组维度为（3136,1024），第一个维度跟输入有关，第二个维度影响输出维度，前面我们使用<code>tf.nn.conv2d</code>卷积操作来转换图片，在全连接层我们要使用矩阵运算来转换我们的维度</p>
+<p>矩阵运算非常有趣，我们在前面其实也提到过一点，就是降维的实现PCA就是使用矩阵运算来进行降维，我们把数据分为X（特征），Y（数量），经过一次矩阵运算我们可以实现数量不变，而特征改变，这个就非常强大了，我们可以随便修改矩阵参数来动态修改我们特征数量</p>
+<p>但是矩阵运算也有一定局限性，就是两个运算的矩阵必须是前者长与后者的宽想同，这个跟矩阵运算特性有关，具体可以看看矩阵运算相关<a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html" target="_blank" rel="noopener">资料</a></p>
+<p>所以为了进行矩阵运算我们第一件事就是改变输入的<code>shape</code>，让它由四维变成二维，以便能够与我们权值矩阵<code>W_fc1</code>进行运算</p>
+<pre><code>h_pool2_flat = tf.reshape(h_pool2, [-1, 7*7*64])
+</code></pre><p>我们简单的使用<code>tf.reshape</code>就能把第二层卷积后的输出变量转换成（50，7<em>7</em>64）的维度，这样我们就能直接与权值矩阵<code>W_fc1</code>进行运算</p>
+<pre><code>h_fc1 = tf.nn.relu(tf.matmul(h_pool2_flat, W_fc1) + b_fc1)
+</code></pre><p>我们这里直接将运算后的值放到激活函数里面去完成全连接层的功能</p>
+<h3 id="输出层"><a href="#输出层" class="headerlink" title="输出层"></a>输出层</h3><p>其实输出层同全连接层很类似，我们就是把前面的变量转换成我们想输出的维度，在进行这个输出层之前，我们得先搞一层<code>Dropout</code>层，这个能有效的避免神经网络的过拟合问题，具体可以看看这篇<a href="http://jmlr.org/papers/volume15/srivastava14a.old/srivastava14a.pdf" target="_blank" rel="noopener">论文</a></p>
+<pre><code>keep_prob = tf.placeholder(&quot;float&quot;)
+h_fc1_drop = tf.nn.dropout(h_fc1, keep_prob)
+</code></pre><p>因为同全连接层原理类似，输出层我就不就不详细介绍了</p>
+<pre><code>W_fc2 = weight_variable([1024, 10])
+b_fc2 = bias_variable([10])
+
+y_conv=tf.nn.softmax(tf.matmul(h_fc1_drop, W_fc2) + b_fc2)
+</code></pre><p>我们可以看看最后我们输出是什么</p>
+<pre><code>session.run(tf.global_variables_initializer())
+
+session.run(y_conv, feed_dict={x:data, keep_prob:0.5}).shape
+(50, 10)
+</code></pre><p>ok，我们最后得到一个二维数组，50个预测结果（输出采用OneHot方法）</p>
+<h3 id="反向传播"><a href="#反向传播" class="headerlink" title="反向传播"></a>反向传播</h3><p>在前面我们得到了在初始话随机权值下得到输出结果，但是这个结果肯定是错误的，我们必须通过修改每层的权值来修正模型，使模型越来越聪明，所以第一步，我们必须“自我反省”，了解自己与真实结果差距多少</p>
+<pre><code>y_ = tf.placeholder(&quot;float&quot;, [None, 10])
+cross_entropy = -tf.reduce_sum(y_*tf.log(y_conv))
+</code></pre><p>我们引入<code>y_</code>作为实际值（我们模型预测值为<code>y</code>），我们这里使用交叉熵来评判预测准确性，但是单单知道“自己错了”没有什么卵用，我们必须要“改正”，这里我们使用<code>AdamOptimizer</code>优化算法来反向传播我们误差，让模型好好“反省改正”</p>
+<pre><code>train_step = tf.train.AdamOptimizer(1e-4).minimize(cross_entropy)
+</code></pre><p>到这里基本上差不多了，我们已经形成了一个闭环，预测-&gt;评估-&gt;改正-&gt;预测-&gt;……，只有让它不断的训练下去直到我们能接受他的误差我们的模型就训练好了</p>
+<pre><code>correct_prediction = tf.equal(tf.argmax(y_conv,1), tf.argmax(y_,1))
+accuracy = tf.reduce_mean(tf.cast(correct_prediction, &quot;float&quot;))
+session.run(tf.initialize_all_variables())
+for i in range(18000):
+  batch = mnist.train.next_batch(50)
+  if i%100 == 0:
+    train_accuracy = accuracy.eval(feed_dict={
+        x:batch[0], y_: batch[1], keep_prob: 1.0}, session=session)
+    print(&quot;step %d, training accuracy %g&quot;%(i, train_accuracy))
+    if abs(train_accuracy - 1) &lt; 0.01:
+        break
+  train_step.run(feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5}, session=session)
+</code></pre><p>由于我们使用<code>OneHot</code>方法来输出预测变量，所以我们要使用<code>tf.argmax</code>来得到我们想要的真实数字，经过20000轮训练我们正确率可以达到99%，至此卷积神经网络发挥他的威力。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>卷积神经网络是深度学习的一个很重要的组成部分，了解卷积必须要知道为什么要用卷积，用了有什么好处。总而言之，卷积并不是一个很新奇的东西，很早在信号处理中就有应用，但是在图像处理上由于他能保留图像维度信息从而在深度学习领域大放异彩，这也可以看做“是金子总会发光吧”</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="http://www.tensorfly.cn/tfdoc/tutorials/mnist_pros.html" target="_blank" rel="noopener">http://www.tensorfly.cn/tfdoc/tutorials/mnist_pros.html</a><br><a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html" target="_blank" rel="noopener">矩阵运算</a><br><a href="https://blog.csdn.net/v_july_v/article/details/51812459" target="_blank" rel="noopener">通俗理解卷积神经网络</a><br><a href="http://jmlr.org/papers/volume15/srivastava14a.old/srivastava14a.pdf" target="_blank" rel="noopener">Dropout</a></p>
 ]]></content>
       <categories>
         <category>人工智能</category>
@@ -3712,6 +3907,203 @@ result None
       </categories>
   </entry>
   <entry>
+    <title>Apache Atlas 2.0.0部署实践</title>
+    <url>/2019/10/12/software/ApacheAtlas%E9%83%A8%E7%BD%B2%E5%AE%9E%E8%B7%B5/</url>
+    <content><![CDATA[<blockquote>
+<p>Atlas 是一个可扩展和可扩展的核心基础治理服务集 - 使企业能够有效地和高效地满足 Hadoop 中的合规性要求，并允许与整个企业数据生态系统的集成。[来自百科]</p>
+</blockquote>
+<p><img src="/images/apache-atlas-formwork.png" alt="架构图-来源网络"></p>
+<p>现在我们就基于最新版2.0.0介绍一下部署细节</p>
+<h2 id="Server安装"><a href="#Server安装" class="headerlink" title="Server安装"></a>Server安装</h2><ol>
+<li>源码安装</li>
+</ol>
+<blockquote>
+<p>首先在<a href="https://www.apache.org/dyn/closer.cgi/atlas/2.0.0/apache-atlas-2.0.0-sources.tar.gz" target="_blank" rel="noopener">https://www.apache.org/dyn/closer.cgi/atlas/2.0.0/apache-atlas-2.0.0-sources.tar.gz</a>下载2.0.0源码</p>
+</blockquote>
+<p>解压源码</p>
+<ol start="2">
+<li>选择Atlas架构</li>
+</ol>
+<p>Atlas支持多种架构作为后端</p>
+<ul>
+<li>HBase + Solr</li>
+<li>Cassandra + Solr</li>
+</ul>
+<p>你可以选择多种，这里我们采用集成<code>HBase + Solr</code>方式编译</p>
+<pre><code>mvn clean -DskipTests package -Pdist,embedded-hbase-solr
+</code></pre><p>执行代码即可（推荐使用阿里云的maven源加速编译）</p>
+<ol start="3">
+<li>修改环境变量</li>
+</ol>
+<p>编译完之后在<code>/distro/target</code>下面有很多tar.gz包，我们需要的是<code>apache-atlas-2.0.0-server.tar.gz</code>包，解压到当前目录</p>
+<p>3.1 修改配置文件<code>conf/atlas-env.sh</code></p>
+<pre><code>export JAVA_HOME=/your/java/install
+
+export MANAGE_LOCAL_HBASE=false
+
+export MANAGE_LOCAL_SOLR=false
+</code></pre><p>我们设定<code>Solr</code>和<code>HBase</code>手动开启，方便我们发现哪个部分启动异常</p>
+<p>3.2 修改admin密码：</p>
+<p>系统默认会生成一个密码给我们，但是官网我也没看到说这个密码，所以我们自己生成一个，然后修改上去</p>
+<pre><code>echo -n &quot;password&quot; | sha256sum
+</code></pre><p>使用上面命令生成一个<code>sha256</code>加密字符（你可以把password改成你想要的密码），复制生成的字符串（不需要<code>-</code>），例如<code>5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8</code><br>修改<code>conf/users-credentials.properties</code> 改成</p>
+<pre><code>admin=ADMIN::5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8
+</code></pre><p>3.3 修改HBase配置(需要提前安装好java和Zookeeper和Hadoop）</p>
+<p>进入<code>hbase</code>目录夹</p>
+<p>修改 <code>conf/hbase-env.sh</code></p>
+<pre><code>export JAVA_HOME=/your/java/install
+export HBASE_MANAGES_ZK=false
+</code></pre><p>复制Hadoop配置到HBase中</p>
+<pre><code>cp $HADOOP_HOME/etc/hadoop/core-site.xml $HBASE_HOME/conf/
+cp $HADOOP_HOME/etc/hadoop/hdfs-site.xml $HBASE_HOME/conf/
+</code></pre><p>在<code>hbase-site.xml</code>中加入</p>
+<pre><code>      &lt;property&gt;
+         &lt;name&gt;hbase.cluster.distributed&lt;/name&gt;
+         &lt;value&gt;true&lt;/value&gt;
+    &lt;/property&gt;
+             &lt;property&gt;
+        &lt;name&gt;hbase.rootdir&lt;/name&gt;
+         &lt;value&gt;/hbase&lt;/value&gt; 
+    &lt;/property&gt;
+    &lt;property&gt;
+
+    &lt;name&gt;hbase.zookeeper.quorum&lt;/name&gt;
+
+    &lt;value&gt;localhost&lt;/value&gt;
+
+    &lt;/property&gt;
+    &lt;property&gt;
+    &lt;name&gt;hbase.zookeeper.property.clientPort&lt;/name&gt;
+&lt;value&gt;2181&lt;/value&gt;
+    &lt;/property&gt;
+</code></pre><p>启动安装好的Zookeeper，使用<code>./bin/start-hbase.sh</code>启动<code>HBase</code></p>
+<p>使用<code>jps</code>应该能看到<code>HMaster</code>和<code>HRegionServer</code>启动了</p>
+<p>测试HBase安装是否完成，使用<code>./bin/hbase shell</code> 进入<code>HBase</code> 命令行，如果<code>status</code>命令返回正确的话，那么你的HBase就安装好了</p>
+<p>3.4 启动Solr</p>
+<p>进入<code>solr</code>目录，启动<code>solr</code></p>
+<pre><code>./bin/solr -c -z localhost:2181 -p 8983
+</code></pre><p>打开<code>http://localhost:8983/solr/#/</code>如果能看到正常页面，那么Solr就启动好了</p>
+<p>在<code>apache-atlas-2.0.0</code>目录下创建索引</p>
+<pre><code>./solr/bin/solr create -c vertex_index -d conf/solr -shards 1 -replicationFactor 1
+./solr/bin/solr create -c edge_index -d conf/solr -shards 1 -replicationFactor 1
+./solr/bin/solr create -c fulltext_index -d conf/solr -shards 1 -replicationFactor 1
+</code></pre><p>3.5 启动Atlas</p>
+<p>在<code>apache-atlas-2.0.0</code>目录下启动Atlas</p>
+<p>使用<code>bin/atlas_start.py</code>  或者 <code>/usr/bin/python2.7 bin/atlas_start.py</code></p>
+<p>PS：第一次启动比较慢，如果前面的HBase和Solr都安装好了的话，一般都没有什么大问题，可以查看<code>logs/application.log</code>查看系统运行情况，等到初始化完成后打开<code>localhost:21000</code>使用<code>admin:password</code>即可登录上去</p>
+<p><img src="/images/apache-atlas-index.png" alt="登录后的页面"></p>
+<p>当然我们现在系统空空如也，现在我们来使用Hook导入数据到Atlas里面去吧<br>我测试通过的版本是：Hadoop2.8.1 + Zookeeper 3.4.10 ，其他的都是用的默认Atlas 集成的版本</p>
+<h2 id="Hook安装"><a href="#Hook安装" class="headerlink" title="Hook安装"></a>Hook安装</h2><p><code>Atlas</code>最强大的的地方就是能够把Hive，Sqoop，Kafka这些大数据组件的血缘关系给自动抽取出来，所以钩子的安装至关重要</p>
+<h3 id="Sqoop钩子"><a href="#Sqoop钩子" class="headerlink" title="Sqoop钩子"></a>Sqoop钩子</h3><blockquote>
+<p>Sqoop 我用的是<code>1.4.7</code>版本</p>
+</blockquote>
+<ul>
+<li>配置Sqoop钩子</li>
+</ul>
+<p>首先在<code>conf/sqoop-site.xml</code>中添加</p>
+<pre><code> &lt;property&gt;
+  &lt;name&gt;sqoop.job.data.publish.class&lt;/name&gt;
+  &lt;value&gt;org.apache.atlas.sqoop.hook.SqoopHook&lt;/value&gt;
+&lt;/property&gt;
+</code></pre><ul>
+<li>复制必要的包</li>
+</ul>
+<p>解压<code>distro/target</code>的<code>apache-atlas-2.0.0-sqoop-hook.tar.gz</code>，复制<code>apache-atlas-2.0.0-sqoop-hook/apache-atlas-sqoop-hook-2.0.0/hook/sqoop/</code>目录到 <code>&lt;atlas package&gt;/hook/sqoop</code></p>
+<p>如：</p>
+<pre><code>cd /where/your/untar/atlas
+cp -r ../../apache-atlas-2.0.0-sqoop-hook/apache-atlas-sqoop-hook-2.0.0/hook .
+</code></pre><p>创建软链接<code>&lt;atlas-conf&gt;/atlas-application.properties</code>到<code>&lt;sqoop-conf&gt;/</code></p>
+<p>如：</p>
+<pre><code>ln -s ln -s /home/zhanglun/github/apache-atlas-sources-2.0.0/distro/target/apache-atlas-2.0.0-server/apache-atlas-2.0.0/conf/atlas-application.properties /opt/sqoop-1.4.7.bin__hadoop-2.6.0/conf
+</code></pre><p>将<code>&lt;atlas package&gt;/hook/sqoop/*.jar</code> 复制到<code>sqoop</code> <code>lib</code>目录</p>
+<p>如：</p>
+<pre><code>cp hook/sqoop/*.jar /opt/sqoop-1.4.7.bin__hadoop-2.6.0/lib
+cp hook/sqoop/atlas-sqoop-plugin-impl/*.jar /opt/sqoop-1.4.7.bin__hadoop-2.6.0/lib
+</code></pre><ul>
+<li>测试Sqoop 导入Hive中</li>
+</ul>
+<p>sqoop import –connect jdbc:mysql://localhost:3306/sqoop<br>–username root<br>-P<br>–split-by id<br>–table root<br>–hive-import<br>–create-hive-table<br>–hive-table db.auth_user</p>
+<p>不出意外应该会报错 </p>
+<pre><code>Caused by: java.lang.NullPointerException
+at org.apache.atlas.hook.AtlasHook
+</code></pre><p>因为我们还没有配置好Sqoop钩子，接下来我们来配置Sqoop钩子</p>
+<ul>
+<li>配置Atlas</li>
+</ul>
+<p>前面我们创建了软链接，现在我们只要修改<code>conf/atlas-application.properties</code>这个配置即可</p>
+<p>首先我们得配置关闭<code>Kafka</code>作为发送消息缓冲，因为Atlas默认使用<code>Kafka</code>作为消息缓冲，然后我们修改下面的配置（这个后期可以打开，你再配置好kafka的地址）</p>
+<pre><code>atlas.notification.embedded=false  # 不往kafka里面发送
+atlas.graph.index.search.backend=solr5 
+</code></pre><ul>
+<li><p>异常一： Caused by: java.lang.ClassNotFoundException: org.json.JSONObject</p>
+<p>包缺失，下载<a href="http://www.java2s.com/Code/Jar/j/Downloadjavajsonjar.htm" target="_blank" rel="noopener">java-json.jar</a> 到<code>Sqoop</code>文件夹</p>
+<ul>
+<li>异常二：<code>Import failed: java.io.IOException: java.lang.ClassNotFoundException: org.apache.hadoop.hive.conf.HiveConf 
+Could not load org.apache.hadoop.hive.conf.HiveConf. Make sure HIVE_CONF_DIR is set correctly</code></li>
+</ul>
+</li>
+</ul>
+<p>环境变量没有设置对，设置<code>HIVE_CONF_DIR</code>在<code>conf/sqoop-env.sh</code>（确保<code>HADOOP_HOME</code>和<code>HIVE_HOME</code>不是空值）</p>
+<pre><code>export HADOOP_CLASSPATH=&quot;`$HADOOP_HOME/bin/hadoop classpath`:$HIVE_HOME/lib/*&quot;
+</code></pre><ul>
+<li>异常三： <code>Error when removing metric from org.apache.kafka.common.metrics.JmxReporter
+java.security.AccessControlException: access denied (&quot;javax.management.MBeanTrustPermission&quot; &quot;register&quot;)</code></li>
+</ul>
+<p>根据<a href="https://stackoverflow.com/questions/12195868/java-security-accesscontrolexception-when-using-ant-but-runs-ok-when-invoking-j" target="_blank" rel="noopener">stackoverflow</a> 解决</p>
+<ul>
+<li>异常四：<code>java.lang.NoSuchMethodError: com.fasterxml.jackson.databind.ObjectMapper.readerFor</code></li>
+</ul>
+<p>Hive包版本和Sqoop包版本冲突（我的Hive版本是2.3.4），可以先备份<code>Sqoop</code>的lib，文件再进行下面操作：</p>
+<pre><code>cp -r lib lib_back
+rm lib/jackson-*
+cp $HIVE_HOME/lib/jackson-* lib/
+</code></pre><ul>
+<li>异常五：<code>Connection to node -1 could not be established</code></li>
+</ul>
+<p>你在<code>conf/atlas-application.properties</code>没有修改<code>atlas.notification.embedded</code>成false，那么你必须配置好<code>kafka</code>地址</p>
+<pre><code>atlas.kafka.zookeeper.connect=localhost:2181
+atlas.kafka.bootstrap.servers=localhost:9092
+</code></pre><p>PS：每次出现异常，你必须先删掉Hadoop上面的文件，再执行导入，你可以直接安装我的流程进行修复，因为这些都是我在配置的时候顺序出现的问题，走到这里我们就配置好了<code>Sqoop</code>和<code>Hive</code>的导入Hook，如果运行成功，你会看到下面界面</p>
+<p><img src="images/apache-atlas-hive-table.png" alt="Sqoop导入Hive血缘关系"></p>
+<p>接下来我们配置Hive钩子来导入Hive中的表</p>
+<h3 id="Hive-钩子"><a href="#Hive-钩子" class="headerlink" title="Hive 钩子"></a>Hive 钩子</h3><ul>
+<li>配置hive-site.xml</li>
+</ul>
+<p>在里面加入</p>
+<pre><code>&lt;property&gt;
+    &lt;name&gt;hive.exec.post.hooks&lt;/name&gt;
+      &lt;value&gt;org.apache.atlas.hive.hook.HiveHook&lt;/value&gt;
+  &lt;/property&gt;
+</code></pre><ul>
+<li>解压 hive-hook包</li>
+</ul>
+<p>如：<code>tar xzvf apache-atlas-2.0.0-hive-hook.tar.gz</code></p>
+<ul>
+<li>复制到atlas中</li>
+</ul>
+<p>如：<code>cp -r ../../apache-atlas-2.0.0-hive-hook/apache-atlas-hive-hook-2.0.0/hook/hive hook/</code></p>
+<ul>
+<li>配置Hive环境变量</li>
+</ul>
+<p>在<code>hive-env.sh</code>中加入<code>&#39;export HIVE_AUX_JARS_PATH=&lt;atlas package&gt;/hook/hiv</code></p>
+<ul>
+<li>给创建软链接</li>
+</ul>
+<p>像前面一样创建一个<code>atlas-application.properties</code>软链接到<code>hive/conf</code>目录下<br>如：<code>ln -s /home/zhanglun/github/apache-atlas-sources-2.0.0/distro/target/apache-atlas-2.0.0-server/apache-atlas-2.0.0/conf/atlas-application.properties /opt/apache-hive-2.3.4-bin/conf</code></p>
+<ul>
+<li>复制Hive包到Hook</li>
+</ul>
+<p><code>import-hive.sh</code>依赖<code>Hive</code>的<code>jackson</code>一些包（报<code>java.lang.NoSuchMethodError: com.fasterxml.jackson.databind.util.BeanUtil.okNameForGetter</code>错误），把Hive的依赖包复制到钩子的包目录下面<br>如：<code>cp $HIVE_HOME/lib/jackson-* ../hook/hive/atlas-hive-plugin-impl/</code></p>
+<p>现在我们尝试执行<code>hook-bin/import-hive.sh</code>(在<code>apache-atlas-2.0.0-hive-hook/apache-atlas-hive-hook-2.0.0</code>目录下）</p>
+<p><img src="/images/apache-atlas-hive-hook.png" alt="hive导入的表"></p>
+<p>现在Atlas里面有两张表，不过一张是Sqoop导入的，一张是Hive导入的，查看Hive导入的血缘关系时候我们发现，他只有自己的一张表（源表）</p>
+<p>其他Kafka和Storm的钩子比较简单我就不介绍详细过程了</p>
+]]></content>
+      <categories>
+        <category>软件</category>
+      </categories>
+  </entry>
+  <entry>
     <title>Build Hadoop Cluster in One Computer</title>
     <url>/2018/10/14/software/BuildHadoopClusterinOneComputer/</url>
     <content><![CDATA[<blockquote>
@@ -3954,203 +4346,6 @@ sudo docker run -itd \
       </categories>
   </entry>
   <entry>
-    <title>Apache Atlas 2.0.0部署实践</title>
-    <url>/2019/10/12/software/ApacheAtlas%E9%83%A8%E7%BD%B2%E5%AE%9E%E8%B7%B5/</url>
-    <content><![CDATA[<blockquote>
-<p>Atlas 是一个可扩展和可扩展的核心基础治理服务集 - 使企业能够有效地和高效地满足 Hadoop 中的合规性要求，并允许与整个企业数据生态系统的集成。[来自百科]</p>
-</blockquote>
-<p><img src="/images/apache-atlas-formwork.png" alt="架构图-来源网络"></p>
-<p>现在我们就基于最新版2.0.0介绍一下部署细节</p>
-<h2 id="Server安装"><a href="#Server安装" class="headerlink" title="Server安装"></a>Server安装</h2><ol>
-<li>源码安装</li>
-</ol>
-<blockquote>
-<p>首先在<a href="https://www.apache.org/dyn/closer.cgi/atlas/2.0.0/apache-atlas-2.0.0-sources.tar.gz" target="_blank" rel="noopener">https://www.apache.org/dyn/closer.cgi/atlas/2.0.0/apache-atlas-2.0.0-sources.tar.gz</a>下载2.0.0源码</p>
-</blockquote>
-<p>解压源码</p>
-<ol start="2">
-<li>选择Atlas架构</li>
-</ol>
-<p>Atlas支持多种架构作为后端</p>
-<ul>
-<li>HBase + Solr</li>
-<li>Cassandra + Solr</li>
-</ul>
-<p>你可以选择多种，这里我们采用集成<code>HBase + Solr</code>方式编译</p>
-<pre><code>mvn clean -DskipTests package -Pdist,embedded-hbase-solr
-</code></pre><p>执行代码即可（推荐使用阿里云的maven源加速编译）</p>
-<ol start="3">
-<li>修改环境变量</li>
-</ol>
-<p>编译完之后在<code>/distro/target</code>下面有很多tar.gz包，我们需要的是<code>apache-atlas-2.0.0-server.tar.gz</code>包，解压到当前目录</p>
-<p>3.1 修改配置文件<code>conf/atlas-env.sh</code></p>
-<pre><code>export JAVA_HOME=/your/java/install
-
-export MANAGE_LOCAL_HBASE=false
-
-export MANAGE_LOCAL_SOLR=false
-</code></pre><p>我们设定<code>Solr</code>和<code>HBase</code>手动开启，方便我们发现哪个部分启动异常</p>
-<p>3.2 修改admin密码：</p>
-<p>系统默认会生成一个密码给我们，但是官网我也没看到说这个密码，所以我们自己生成一个，然后修改上去</p>
-<pre><code>echo -n &quot;password&quot; | sha256sum
-</code></pre><p>使用上面命令生成一个<code>sha256</code>加密字符（你可以把password改成你想要的密码），复制生成的字符串（不需要<code>-</code>），例如<code>5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8</code><br>修改<code>conf/users-credentials.properties</code> 改成</p>
-<pre><code>admin=ADMIN::5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8
-</code></pre><p>3.3 修改HBase配置(需要提前安装好java和Zookeeper和Hadoop）</p>
-<p>进入<code>hbase</code>目录夹</p>
-<p>修改 <code>conf/hbase-env.sh</code></p>
-<pre><code>export JAVA_HOME=/your/java/install
-export HBASE_MANAGES_ZK=false
-</code></pre><p>复制Hadoop配置到HBase中</p>
-<pre><code>cp $HADOOP_HOME/etc/hadoop/core-site.xml $HBASE_HOME/conf/
-cp $HADOOP_HOME/etc/hadoop/hdfs-site.xml $HBASE_HOME/conf/
-</code></pre><p>在<code>hbase-site.xml</code>中加入</p>
-<pre><code>      &lt;property&gt;
-         &lt;name&gt;hbase.cluster.distributed&lt;/name&gt;
-         &lt;value&gt;true&lt;/value&gt;
-    &lt;/property&gt;
-             &lt;property&gt;
-        &lt;name&gt;hbase.rootdir&lt;/name&gt;
-         &lt;value&gt;/hbase&lt;/value&gt; 
-    &lt;/property&gt;
-    &lt;property&gt;
-
-    &lt;name&gt;hbase.zookeeper.quorum&lt;/name&gt;
-
-    &lt;value&gt;localhost&lt;/value&gt;
-
-    &lt;/property&gt;
-    &lt;property&gt;
-    &lt;name&gt;hbase.zookeeper.property.clientPort&lt;/name&gt;
-&lt;value&gt;2181&lt;/value&gt;
-    &lt;/property&gt;
-</code></pre><p>启动安装好的Zookeeper，使用<code>./bin/start-hbase.sh</code>启动<code>HBase</code></p>
-<p>使用<code>jps</code>应该能看到<code>HMaster</code>和<code>HRegionServer</code>启动了</p>
-<p>测试HBase安装是否完成，使用<code>./bin/hbase shell</code> 进入<code>HBase</code> 命令行，如果<code>status</code>命令返回正确的话，那么你的HBase就安装好了</p>
-<p>3.4 启动Solr</p>
-<p>进入<code>solr</code>目录，启动<code>solr</code></p>
-<pre><code>./bin/solr -c -z localhost:2181 -p 8983
-</code></pre><p>打开<code>http://localhost:8983/solr/#/</code>如果能看到正常页面，那么Solr就启动好了</p>
-<p>在<code>apache-atlas-2.0.0</code>目录下创建索引</p>
-<pre><code>./solr/bin/solr create -c vertex_index -d conf/solr -shards 1 -replicationFactor 1
-./solr/bin/solr create -c edge_index -d conf/solr -shards 1 -replicationFactor 1
-./solr/bin/solr create -c fulltext_index -d conf/solr -shards 1 -replicationFactor 1
-</code></pre><p>3.5 启动Atlas</p>
-<p>在<code>apache-atlas-2.0.0</code>目录下启动Atlas</p>
-<p>使用<code>bin/atlas_start.py</code>  或者 <code>/usr/bin/python2.7 bin/atlas_start.py</code></p>
-<p>PS：第一次启动比较慢，如果前面的HBase和Solr都安装好了的话，一般都没有什么大问题，可以查看<code>logs/application.log</code>查看系统运行情况，等到初始化完成后打开<code>localhost:21000</code>使用<code>admin:password</code>即可登录上去</p>
-<p><img src="/images/apache-atlas-index.png" alt="登录后的页面"></p>
-<p>当然我们现在系统空空如也，现在我们来使用Hook导入数据到Atlas里面去吧<br>我测试通过的版本是：Hadoop2.8.1 + Zookeeper 3.4.10 ，其他的都是用的默认Atlas 集成的版本</p>
-<h2 id="Hook安装"><a href="#Hook安装" class="headerlink" title="Hook安装"></a>Hook安装</h2><p><code>Atlas</code>最强大的的地方就是能够把Hive，Sqoop，Kafka这些大数据组件的血缘关系给自动抽取出来，所以钩子的安装至关重要</p>
-<h3 id="Sqoop钩子"><a href="#Sqoop钩子" class="headerlink" title="Sqoop钩子"></a>Sqoop钩子</h3><blockquote>
-<p>Sqoop 我用的是<code>1.4.7</code>版本</p>
-</blockquote>
-<ul>
-<li>配置Sqoop钩子</li>
-</ul>
-<p>首先在<code>conf/sqoop-site.xml</code>中添加</p>
-<pre><code> &lt;property&gt;
-  &lt;name&gt;sqoop.job.data.publish.class&lt;/name&gt;
-  &lt;value&gt;org.apache.atlas.sqoop.hook.SqoopHook&lt;/value&gt;
-&lt;/property&gt;
-</code></pre><ul>
-<li>复制必要的包</li>
-</ul>
-<p>解压<code>distro/target</code>的<code>apache-atlas-2.0.0-sqoop-hook.tar.gz</code>，复制<code>apache-atlas-2.0.0-sqoop-hook/apache-atlas-sqoop-hook-2.0.0/hook/sqoop/</code>目录到 <code>&lt;atlas package&gt;/hook/sqoop</code></p>
-<p>如：</p>
-<pre><code>cd /where/your/untar/atlas
-cp -r ../../apache-atlas-2.0.0-sqoop-hook/apache-atlas-sqoop-hook-2.0.0/hook .
-</code></pre><p>创建软链接<code>&lt;atlas-conf&gt;/atlas-application.properties</code>到<code>&lt;sqoop-conf&gt;/</code></p>
-<p>如：</p>
-<pre><code>ln -s ln -s /home/zhanglun/github/apache-atlas-sources-2.0.0/distro/target/apache-atlas-2.0.0-server/apache-atlas-2.0.0/conf/atlas-application.properties /opt/sqoop-1.4.7.bin__hadoop-2.6.0/conf
-</code></pre><p>将<code>&lt;atlas package&gt;/hook/sqoop/*.jar</code> 复制到<code>sqoop</code> <code>lib</code>目录</p>
-<p>如：</p>
-<pre><code>cp hook/sqoop/*.jar /opt/sqoop-1.4.7.bin__hadoop-2.6.0/lib
-cp hook/sqoop/atlas-sqoop-plugin-impl/*.jar /opt/sqoop-1.4.7.bin__hadoop-2.6.0/lib
-</code></pre><ul>
-<li>测试Sqoop 导入Hive中</li>
-</ul>
-<p>sqoop import –connect jdbc:mysql://localhost:3306/sqoop<br>–username root<br>-P<br>–split-by id<br>–table root<br>–hive-import<br>–create-hive-table<br>–hive-table db.auth_user</p>
-<p>不出意外应该会报错 </p>
-<pre><code>Caused by: java.lang.NullPointerException
-at org.apache.atlas.hook.AtlasHook
-</code></pre><p>因为我们还没有配置好Sqoop钩子，接下来我们来配置Sqoop钩子</p>
-<ul>
-<li>配置Atlas</li>
-</ul>
-<p>前面我们创建了软链接，现在我们只要修改<code>conf/atlas-application.properties</code>这个配置即可</p>
-<p>首先我们得配置关闭<code>Kafka</code>作为发送消息缓冲，因为Atlas默认使用<code>Kafka</code>作为消息缓冲，然后我们修改下面的配置（这个后期可以打开，你再配置好kafka的地址）</p>
-<pre><code>atlas.notification.embedded=false  # 不往kafka里面发送
-atlas.graph.index.search.backend=solr5 
-</code></pre><ul>
-<li><p>异常一： Caused by: java.lang.ClassNotFoundException: org.json.JSONObject</p>
-<p>包缺失，下载<a href="http://www.java2s.com/Code/Jar/j/Downloadjavajsonjar.htm" target="_blank" rel="noopener">java-json.jar</a> 到<code>Sqoop</code>文件夹</p>
-<ul>
-<li>异常二：<code>Import failed: java.io.IOException: java.lang.ClassNotFoundException: org.apache.hadoop.hive.conf.HiveConf 
-Could not load org.apache.hadoop.hive.conf.HiveConf. Make sure HIVE_CONF_DIR is set correctly</code></li>
-</ul>
-</li>
-</ul>
-<p>环境变量没有设置对，设置<code>HIVE_CONF_DIR</code>在<code>conf/sqoop-env.sh</code>（确保<code>HADOOP_HOME</code>和<code>HIVE_HOME</code>不是空值）</p>
-<pre><code>export HADOOP_CLASSPATH=&quot;`$HADOOP_HOME/bin/hadoop classpath`:$HIVE_HOME/lib/*&quot;
-</code></pre><ul>
-<li>异常三： <code>Error when removing metric from org.apache.kafka.common.metrics.JmxReporter
-java.security.AccessControlException: access denied (&quot;javax.management.MBeanTrustPermission&quot; &quot;register&quot;)</code></li>
-</ul>
-<p>根据<a href="https://stackoverflow.com/questions/12195868/java-security-accesscontrolexception-when-using-ant-but-runs-ok-when-invoking-j" target="_blank" rel="noopener">stackoverflow</a> 解决</p>
-<ul>
-<li>异常四：<code>java.lang.NoSuchMethodError: com.fasterxml.jackson.databind.ObjectMapper.readerFor</code></li>
-</ul>
-<p>Hive包版本和Sqoop包版本冲突（我的Hive版本是2.3.4），可以先备份<code>Sqoop</code>的lib，文件再进行下面操作：</p>
-<pre><code>cp -r lib lib_back
-rm lib/jackson-*
-cp $HIVE_HOME/lib/jackson-* lib/
-</code></pre><ul>
-<li>异常五：<code>Connection to node -1 could not be established</code></li>
-</ul>
-<p>你在<code>conf/atlas-application.properties</code>没有修改<code>atlas.notification.embedded</code>成false，那么你必须配置好<code>kafka</code>地址</p>
-<pre><code>atlas.kafka.zookeeper.connect=localhost:2181
-atlas.kafka.bootstrap.servers=localhost:9092
-</code></pre><p>PS：每次出现异常，你必须先删掉Hadoop上面的文件，再执行导入，你可以直接安装我的流程进行修复，因为这些都是我在配置的时候顺序出现的问题，走到这里我们就配置好了<code>Sqoop</code>和<code>Hive</code>的导入Hook，如果运行成功，你会看到下面界面</p>
-<p><img src="images/apache-atlas-hive-table.png" alt="Sqoop导入Hive血缘关系"></p>
-<p>接下来我们配置Hive钩子来导入Hive中的表</p>
-<h3 id="Hive-钩子"><a href="#Hive-钩子" class="headerlink" title="Hive 钩子"></a>Hive 钩子</h3><ul>
-<li>配置hive-site.xml</li>
-</ul>
-<p>在里面加入</p>
-<pre><code>&lt;property&gt;
-    &lt;name&gt;hive.exec.post.hooks&lt;/name&gt;
-      &lt;value&gt;org.apache.atlas.hive.hook.HiveHook&lt;/value&gt;
-  &lt;/property&gt;
-</code></pre><ul>
-<li>解压 hive-hook包</li>
-</ul>
-<p>如：<code>tar xzvf apache-atlas-2.0.0-hive-hook.tar.gz</code></p>
-<ul>
-<li>复制到atlas中</li>
-</ul>
-<p>如：<code>cp -r ../../apache-atlas-2.0.0-hive-hook/apache-atlas-hive-hook-2.0.0/hook/hive hook/</code></p>
-<ul>
-<li>配置Hive环境变量</li>
-</ul>
-<p>在<code>hive-env.sh</code>中加入<code>&#39;export HIVE_AUX_JARS_PATH=&lt;atlas package&gt;/hook/hiv</code></p>
-<ul>
-<li>给创建软链接</li>
-</ul>
-<p>像前面一样创建一个<code>atlas-application.properties</code>软链接到<code>hive/conf</code>目录下<br>如：<code>ln -s /home/zhanglun/github/apache-atlas-sources-2.0.0/distro/target/apache-atlas-2.0.0-server/apache-atlas-2.0.0/conf/atlas-application.properties /opt/apache-hive-2.3.4-bin/conf</code></p>
-<ul>
-<li>复制Hive包到Hook</li>
-</ul>
-<p><code>import-hive.sh</code>依赖<code>Hive</code>的<code>jackson</code>一些包（报<code>java.lang.NoSuchMethodError: com.fasterxml.jackson.databind.util.BeanUtil.okNameForGetter</code>错误），把Hive的依赖包复制到钩子的包目录下面<br>如：<code>cp $HIVE_HOME/lib/jackson-* ../hook/hive/atlas-hive-plugin-impl/</code></p>
-<p>现在我们尝试执行<code>hook-bin/import-hive.sh</code>(在<code>apache-atlas-2.0.0-hive-hook/apache-atlas-hive-hook-2.0.0</code>目录下）</p>
-<p><img src="/images/apache-atlas-hive-hook.png" alt="hive导入的表"></p>
-<p>现在Atlas里面有两张表，不过一张是Sqoop导入的，一张是Hive导入的，查看Hive导入的血缘关系时候我们发现，他只有自己的一张表（源表）</p>
-<p>其他Kafka和Storm的钩子比较简单我就不介绍详细过程了</p>
-]]></content>
-      <categories>
-        <category>软件</category>
-      </categories>
-  </entry>
-  <entry>
     <title>如何真正精通</title>
     <url>/2019/10/05/summary/%E5%A6%82%E4%BD%95%E7%9C%9F%E6%AD%A3%E7%B2%BE%E9%80%9A/</url>
     <content><![CDATA[<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
@@ -4293,179 +4488,6 @@ public SexInfo{
 </code></pre><p>Person里面的主键我改成了long型，然而外键PersonID却是int型，出现这个错误是对外键的认识还不够，外键其实就是主键的“分身”,主键是long型，外键必须也是long型，同理主键是int型外键也必须是ing型，</p>
 <h4 id="ps：导航属性是指对象，比如说Person类实例person，而外键是指存贮在数据库里面的一个特殊的列名。"><a href="#ps：导航属性是指对象，比如说Person类实例person，而外键是指存贮在数据库里面的一个特殊的列名。" class="headerlink" title="ps：导航属性是指对象，比如说Person类实例person，而外键是指存贮在数据库里面的一个特殊的列名。"></a>ps：导航属性是指对象，比如说Person类实例person，而外键是指存贮在数据库里面的一个特殊的列名。</h4><hr>
 <h3 id="充分认识导航属性和外键是搭建一个扎实的数据库结构的基础，在学习和应用EF的过程中也是了解数据库的结构的学习过程，EF或许在运行速度方法上比一般的SQL语句要慢，但是用EF我们可以更加方便的搭建一个好的数据体系，搭建一个好的数据体系可以让你在完成项目的时候事半功倍。"><a href="#充分认识导航属性和外键是搭建一个扎实的数据库结构的基础，在学习和应用EF的过程中也是了解数据库的结构的学习过程，EF或许在运行速度方法上比一般的SQL语句要慢，但是用EF我们可以更加方便的搭建一个好的数据体系，搭建一个好的数据体系可以让你在完成项目的时候事半功倍。" class="headerlink" title="充分认识导航属性和外键是搭建一个扎实的数据库结构的基础，在学习和应用EF的过程中也是了解数据库的结构的学习过程，EF或许在运行速度方法上比一般的SQL语句要慢，但是用EF我们可以更加方便的搭建一个好的数据体系，搭建一个好的数据体系可以让你在完成项目的时候事半功倍。"></a>充分认识导航属性和外键是搭建一个扎实的数据库结构的基础，在学习和应用EF的过程中也是了解数据库的结构的学习过程，EF或许在运行速度方法上比一般的SQL语句要慢，但是用EF我们可以更加方便的搭建一个好的数据体系，搭建一个好的数据体系可以让你在完成项目的时候事半功倍。</h3>]]></content>
-  </entry>
-  <entry>
-    <title>从MNIST了解卷积神经网络</title>
-    <url>/2018/04/24/ai/%E4%BB%8EMNIST%E4%BA%86%E8%A7%A3%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</url>
-    <content><![CDATA[<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
-<p>本文是学习Tensorflow<a href="http://www.tensorfly.cn/tfdoc/tutorials/mnist_pros.html" target="_blank" rel="noopener">官方文档</a>的过程中的一点感悟，本文假设你对矩阵运算有一定的了解，具体可以看看下面<a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html" target="_blank" rel="noopener">资料</a></p>
-</blockquote>
-<h2 id="加载数据"><a href="#加载数据" class="headerlink" title="加载数据"></a>加载数据</h2><blockquote>
-<p>首先我们得先把数据下载下来，Tensorflow给我们提供了一个函数来进行下载，这个<a href="https://github.com/tensorflow/tensorflow/blob/master/tensorflow/contrib/learn/python/learn/datasets/mnist.py" target="_blank" rel="noopener">函数</a>为<a href="https://github.com/tensorflow/tensorflow/blob/master/tensorflow/contrib/learn/python/learn/datasets/mnist.py" target="_blank" rel="noopener">read_data_sets</a></p>
-</blockquote>
-<p>这个函数<code>read_data_sets</code>函数很简单，查看在目录下面有没有文件没有就去下载，有就解析加载，一方面方便我们获取数据，一方面方便我们直接开箱即食，但是由于这个默认下载地址是需要翻墙，所以我这里提供一个不需要翻墙的<a href="http://yann.lecun.com/exdb/mnist/" target="_blank" rel="noopener">地址</a>，你只需要加载下面的函数</p>
-<pre><code>from tensorflow.examples.tutorials.mnist import input_data
-mnist = input_data.read_data_sets(&quot;input/&quot;, one_hot=True, source_url=&quot;http://yann.lecun.com/exdb/mnist/&quot;)
-</code></pre><p>等几分钟，数据就会下载到当前目录的<code>input</code>文件夹中，这样你下次运行就能直接本地文件夹中加载图片数据了</p>
-<h2 id="观察数据"><a href="#观察数据" class="headerlink" title="观察数据"></a>观察数据</h2><p>首先我们看看下载了什么数据，打开<code>input</code>文件夹，我们可以看到，Tensorflow给我下载好了四个文件，分为两组，一组训练集一组测试集，每组里面2个文件，一个是手写图片文件，一个标签文件（每张手写的图片代表的数字）</p>
-<p>加载图片数据对于新手来说挺麻烦的，为了让我们专注于模型而不是编程，Tensorflow直接帮我们做好了加载数据的事情，我们上面得到的<code>mnist</code>变量里面就存贮了我们这个项目所需要的数据，我们来看看这个<code>mnist</code>有什么</p>
-<p>我们最关心的就是<code>mnist</code>里面训练数据，这里推荐使用<code>notebook</code>来操作这个数据集，我们首先<code>mnist</code>的训练数据是什么</p>
-<p><img src="/images/mnist-nums.png" alt="mnist数据来源网络"></p>
-<p><code>mnist</code>数据就是上面这些图片，我们把图片把每个像素的二值化，然后把他们放到一个数组中，每张图片对应一个数组</p>
-<p>mnist训练数据存贮在这两个变量中</p>
-<pre><code>mnist.train.labels
-mnist.train.images
-</code></pre><p>其中<code>mnist.train.images</code>是一个<code>(55000, 784)</code>的二维数组，其中<code>mnist.train.labels.shape</code>是一个<code>(55000, 10)</code>的二维数组，现在摆在我们面前的其实很简单，通过<code>55000</code>个图片像素值来训练我们模型，以便能让模型能给一张图片像素值来预测图片代表的数字</p>
-<p>这些数字在人看来非常容易辨认，但是怎么能让电脑也能辨别他呢，这就要用到卷积神经网络的力量，通过卷积神经网络，电脑的准确率能到99%，这就非常恐怖了，我们人有时候也会看走眼呢。</p>
-<p>在谈卷积之前我们先谈谈我们以前的做法，这样通过对比就能知道卷积到底做了什么优化</p>
-<h2 id="传统做法"><a href="#传统做法" class="headerlink" title="传统做法"></a>传统做法</h2><p>其实从传统的角度来看，其实图像识别也就是通过图片的特征值来判断图片代表的含义，但是图片这个东西又很特殊，相比于其他机器学习问题，他的特征值很多，这里我们使用28X28的图片就有784个特征，如果我们图片尺寸再大，这个特征值会变得非常巨大，而且我们知道机器学习需要大量数据才能大展身手，然而每个图片如此巨大，训练巨大的数据集电脑也吃不消</p>
-<p>所以我们必须要将数据进行降维，机器学习里面有很多降维的方法，比如PCA，LDA这些，但是这些方法都有一个问题他们必须把一个图片看做一个整体输入，也就是前面的将28X28转换成一个784的数组，这个数组我们知道，他丧失了一个非常重要的东西维度，我们仔细观察上面的图片</p>
-<p><img src="/images/mnist-nums.png" alt="mnist数据来源网络"></p>
-<p>每个图片其实我们关注的都是数字的二维分布，我们通过闭合的圆的个数来区分8和0，我们通过中间的空白部分来区分0和1，所以我们希望能使用一种新的方法来确定图片特征，一方面能够保存图片的空间信息，一方面能最终数据一维的结果（图片代表的数字），这个就是卷积的引入了，卷积从二维的角度来提取图片的特征，相比于传统的一维提取，它能最大程度保留图片的信息，并且进行深度降维</p>
-<h2 id="从项目了解卷积"><a href="#从项目了解卷积" class="headerlink" title="从项目了解卷积"></a>从项目了解卷积</h2><blockquote>
-<p>一开始学习深度学习卷积神经网络，看了很多资料，但是总是感觉并没有很深的理解，至到接触这个项目，从代码的层次上再去理解卷积才给我恍然大悟的感觉</p>
-</blockquote>
-<p>首先先谈一谈Tensorflow这个库的基础知识，由于Python速度有点慢，所以Tensorflow的后端全部由C++写的，你可以这样理解Tensorflow，Python相当于一个客户端，你可以使用一个session（回话）与服务器（C++）进行交互，这样的话，我们在客户端可以享受Python的方便快捷，也可以享受C++运行的高效性，但是这个也带来一个麻烦，原来Python是一个所见即所得的，现在运行一些东西必须使用session来通知服务器来运行，我们很多中间过程就没法知道，只能通过返回的结果来进行推断了。在官方教程并没有讲太多中间过程，只是一笔带过，所以为了更好的理解卷积神经网络，我们将会以一种很难看的方法运行Tensorflow，但是我们能从这个过程中对卷积的理解更加深刻</p>
-<p><strong>所以接下来我们基本上每个操作都会让后端运行并且分析返回结果，为了方便叙述，我们假设你在运行<code>session.run</code>之前都会运行这个<code>session.run(tf.global_variables_initializer())</code>来初始化所以的变量</strong></p>
-<p>PS：之所以要运行这个，因为我们使用session与<code>C++</code>进行交互，如果我们“不声明”变量，c++会报错的</p>
-<p>下面我们就从这个项目一行一行讲起</p>
-<h3 id="准备数据"><a href="#准备数据" class="headerlink" title="准备数据"></a>准备数据</h3><p>前面我们知道，卷积就是要从二维空间中来提取我们想要的特征，首先我们把数据还原成二维的</p>
-<pre><code>x_image = tf.reshape(x, [-1,28,28,1])
-</code></pre><p>x是上面我们输入的数据，来我们来检测一下，首先我们声明一个<code>session</code></p>
-<pre><code>session = tf.Session()
-</code></pre><p>再从数据集中掏出50张图</p>
-<pre><code>data = mnist.train.next_batch(50)[0]
-</code></pre><p>接下来我们看看这个<code>x_image</code>变成了什么</p>
-<pre><code>session.run(tf.global_variables_initializer())
-
-x_image_data = session.run(x_image, feed_dict={x: data})
-</code></pre><p>我们输入两者的<code>shape</code></p>
-<pre><code>data.shape, x_image_data.shape
-(50, 784) (50, 28, 28, 1)
-</code></pre><p>我们很清楚的看到，我们成功将一维的数组图像（784）变成了二维的数组图像（28X28），其实我们生成了三维（28 X 28 X 1），但是由于我们只有有些图片还会有多个色道（RGB），所以我们为了兼容，声明成28 X 28 X 1</p>
-<p>好的，现在我们成功将一维图片还原成二维的，接下来就是将他们卷起来的时候了</p>
-<h3 id="第一层"><a href="#第一层" class="headerlink" title="第一层"></a>第一层</h3><p>如果你学过一些信号处理你会发现，深度学习使用的卷积其实并不是原始意义上的卷积，他没有“旋转180”的操作，但是他的形式其实是类似的。这个“积”的操作主要是通过矩阵运算来实现的，为了更好的理解卷这个操作，我从网上找了前辈们辛苦做的动图</p>
-<p><img src="/images/Tensorflow-mult.gif" alt="卷积操作-来源网络"></p>
-<p>PS： 这个图与我们数据有点不同，我们每张只有一个色道，这个有三个色道，这张图有两个卷积核，但是我们这个第一层会使用32个，但是其实原理都一样，如果你实在理解不过来，你可以先值看最上面那一排</p>
-<p>我们回到这种图，最左边就是图像输入，中间是卷积核，最后右边是输出，我们可以从图中可以很清楚的看到卷积的与我们平常操作不同，首先输入上我们是二维数据，通过二维的卷积核进行矩阵运算，最后我们输出二维结果，这就是卷积的强大之处，不但保留了原来的二维信息而且能够使用高效的矩阵运算来加速提取特征</p>
-<p>现在我们回到代码</p>
-<p>首先是要声明卷积核，我们可以使用简单的方法，将卷积核全部声明为全0矩阵，但是这个有可能造成0梯度，所以我们加入一点噪音，我们看看加入噪音的卷积核是什么值</p>
-<pre><code>initial = tf.truncated_normal([5, 5, 1, 32], stddev=0.1)
-W_conv1 = tf.Variable(initial)
-session.run(tf.global_variables_initializer())
-
-W_conv1_value = session.run(W_conv1)
-
-W_conv1_value.mean(), W_conv1_value.std()
-(0.001365028, 0.08744488)
-</code></pre><p>我们使用<code>tf.truncated_normal</code>函数声明了32个5X5X1的随机卷积核，看起来随机性还挺不错哦</p>
-<p>PS：前面（5，5，1）代表输入长、宽、色道，后面代表输出输出数量当然我说它是32个它不一点为32个矩阵，应该是（色道X输出数量）个卷积核，但是我们这里只有一个色道，所以只有32个，我们可以通过<code>W_conv1_value.shape</code>查看真实的维度（当前的维度为（5， 5， 1， 32））</p>
-<p>这个卷积核就对应上面图中间的小矩阵，他的长宽都为5，图中长宽都为3，当然我们可以把这个长宽修改，使用5是我们的经验值，通过这个大小的卷积核能够在模型表现能力更好。</p>
-<p>接下来我们就进行最重要的卷积操作了，由上面图可知，要进行卷积必须要有三维的数据与对应的卷积核进行相卷，其实我们在图中还可以看到一个重要的东西，卷积的步长也就是每个框移动的位置（图中的步长为2）</p>
-<p>还有一个较隐秘的知识，你有没有注意到图中的数据原来是7X7的数据，通过卷积核转换之后就变成了3X3了，影响卷积后图像尺寸不但有步长还有框子的大小，假如你的框是7，那图中只剩下一个值了，所以我们避免尺寸减少，我们使用周围填充0来使最边缘的位置卷积也成为到框子的中心，一方面避免边缘数据流失，一方面也能突出边缘数据（周边全为0）</p>
-<p>Tensorflow为我们封装好了上面所以的方法，我们只要通过传参过去就能改变部长，改变填充方式，好了现在就开始来正式“卷”了</p>
-<pre><code>session.run(tf.global_variables_initializer())
-
-v = session.run(tf.nn.conv2d(x_image, W_conv1, strides=[1, 1, 1, 1], padding=&apos;SAME&apos;), feed_dict={x: data})
-</code></pre><p>现在我们来看看卷完后<code>v</code>的<code>shape</code></p>
-<pre><code>   v.shape
-(50, 28, 28, 32)
-</code></pre><p>50代表50个数据，（28、28）代表图片维度，这个32就是卷积核数，50和32这两个应该是固定的，不难理解，我们现在来看看为什么通过卷积核的“卷”，图片还是保持28X28的，这个也是在知乎上涉及到的一个<a href="https://www.zhihu.com/question/46889310" target="_blank" rel="noopener">问题</a>，现在我们从实验上来解决一下</p>
-<p>首先我们看<code>tf.nn.conv2d</code>函数，他接受四个参数，第一个图片、第二个卷积核、第三个步长，第四个卷积方式</p>
-<p>首先问题是觉得，卷完之后应该是变成24 X 24，这个理解是没错的，我们将pading的值改成VALID再次运行</p>
-<pre><code>session.run(tf.global_variables_initializer())
-
-v = session.run(tf.nn.conv2d(x_image, W_conv1, strides=[1, 1, 1, 1], padding=&apos;VALID&apos;), feed_dict={x: data})
-
-v.shape
-(50, 24, 24, 32)
-</code></pre><p>我们得到了24 X 24的图片，这个SAME和VALID有什么区别呢，这个区别就是填充0没有填充0的原因，SAME在图像周边填0这样就能得到28 X 28</p>
-<p>我们也发现，这个还有一个参数strides，这个就是前面填的步长，步长的长宽就是中间两位设置的（最边上两位跟输入有关，第一个是输入图片数量，最后一个是图片的色道），我们在这里使用使用1步长，我们来试试2步长试试</p>
-<pre><code>v = session.run(tf.nn.conv2d(x_image, W_conv1, strides=[1, 2, 2, 1], padding=&apos;SAME&apos;), feed_dict={x: data})
-
-v.shape
-(50, 14, 14, 32)
-</code></pre><p>果然输出的图像变成28的1/2了</p>
-<p>接下来我们就要把卷积的值丢到神经元函数里面去了，为了符合实际，我们加入一个偏置量<code>b_conv1</code></p>
-<pre><code>def bias_variable(shape):
-  initial = tf.constant(0.1, shape=shape)
-  return tf.Variable(initial)
-b_conv1 = bias_variable([32])
-</code></pre><p>这里我们使用0.1来初始化偏置量，接下来就是丢到神经元函数，这里我们使用numpy 的array的传播性，将b_conv1传递给所有的28X28的维度</p>
-<pre><code>h_conv1 = tf.nn.relu(tf.nn.conv2d(x_image, W_conv1, strides=[1, 1, 1, 1], padding=&apos;SAME&apos;) + b_conv1)
-
-v = session.run(h_conv1,  feed_dict={x: data})
-
-v.shape
-(50, 28, 28, 32)
-</code></pre><p>我们可以看到卷积完后从神经元函数生成的数据是（50X28X28X32）的，最后维度由1变成32，所有我们得使用点方法来缩减数据维度，这里我们使用卷积池的方法</p>
-<p><img src="/images/tensorflow_pool.png" alt="卷积池"></p>
-<p>由上面可以看到，其实很简单就是把最大的挑出来</p>
-<pre><code>h_pool1 = tf.nn.max_pool(h_conv1, ksize=[1, 2, 2, 1],
-                    strides=[1, 2, 2, 1], padding=&apos;SAME&apos;)
-</code></pre><p>这里的参数很简单我就不介绍，这样“瘦身”之后，数据的维度由(50, 28, 28, 32)变成(50, 14, 14, 32)，减少4倍</p>
-<p>到这里我们的第一层卷积就结束了，接下来就是第二层卷积，为什么要多卷一次呢，因为前一层学到的还是太少了，要加强学习，这层和第一层没什么差别，所以我们就跳过这层</p>
-<p>直接贴代码（函数就不复制了，文档里面有）</p>
-<pre><code>W_conv2 = weight_variable([5, 5, 32, 64])
-b_conv2 = bias_variable([64])
-
-h_conv2 = tf.nn.relu(conv2d(h_pool1, W_conv2) + b_conv2)
-h_pool2 = max_pool_2x2(h_conv2)
-</code></pre><h3 id="全连接层"><a href="#全连接层" class="headerlink" title="全连接层"></a>全连接层</h3><p>当我们完成两层卷积之后，我们的数据变成了（50，7,7，64）的四维数组了，我们知道我们传统的机器学习其实最后都是采用二维数组来当做训练数据（X代表特征，Y代表样本），所以全连接层就是把卷积给“反卷”过来，这样后面你方便对接传统机器学习，而且最后我们需要的数据也是输出的也是二维的（对一堆数据统一进行预测，所以这里称二维），但是这里要注意全连接层不是输出层，所以我们可以随意设置输出的维度，最后输出层对接再进行一次全连接层类似操作就能输出我们想输出的维度，这里我们看看全连接层权值变量</p>
-<pre><code>W_fc1 = weight_variable([7 * 7 * 64, 1024])
-b_fc1 = bias_variable([1024])
-</code></pre><p>这里我们声明全连接层的权值变量<code>W_fc1</code>和偏置量<code>b_fc1</code>，我们可以看看<code>W_fc1</code>的<code>shape</code>是多少</p>
-<pre><code>session.run(tf.global_variables_initializer())
-
-session.run(W_fc1).shape
-(3136, 1024)
-</code></pre><p>我们可以看到其实就是一个二维数组维度为（3136,1024），第一个维度跟输入有关，第二个维度影响输出维度，前面我们使用<code>tf.nn.conv2d</code>卷积操作来转换图片，在全连接层我们要使用矩阵运算来转换我们的维度</p>
-<p>矩阵运算非常有趣，我们在前面其实也提到过一点，就是降维的实现PCA就是使用矩阵运算来进行降维，我们把数据分为X（特征），Y（数量），经过一次矩阵运算我们可以实现数量不变，而特征改变，这个就非常强大了，我们可以随便修改矩阵参数来动态修改我们特征数量</p>
-<p>但是矩阵运算也有一定局限性，就是两个运算的矩阵必须是前者长与后者的宽想同，这个跟矩阵运算特性有关，具体可以看看矩阵运算相关<a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html" target="_blank" rel="noopener">资料</a></p>
-<p>所以为了进行矩阵运算我们第一件事就是改变输入的<code>shape</code>，让它由四维变成二维，以便能够与我们权值矩阵<code>W_fc1</code>进行运算</p>
-<pre><code>h_pool2_flat = tf.reshape(h_pool2, [-1, 7*7*64])
-</code></pre><p>我们简单的使用<code>tf.reshape</code>就能把第二层卷积后的输出变量转换成（50，7<em>7</em>64）的维度，这样我们就能直接与权值矩阵<code>W_fc1</code>进行运算</p>
-<pre><code>h_fc1 = tf.nn.relu(tf.matmul(h_pool2_flat, W_fc1) + b_fc1)
-</code></pre><p>我们这里直接将运算后的值放到激活函数里面去完成全连接层的功能</p>
-<h3 id="输出层"><a href="#输出层" class="headerlink" title="输出层"></a>输出层</h3><p>其实输出层同全连接层很类似，我们就是把前面的变量转换成我们想输出的维度，在进行这个输出层之前，我们得先搞一层<code>Dropout</code>层，这个能有效的避免神经网络的过拟合问题，具体可以看看这篇<a href="http://jmlr.org/papers/volume15/srivastava14a.old/srivastava14a.pdf" target="_blank" rel="noopener">论文</a></p>
-<pre><code>keep_prob = tf.placeholder(&quot;float&quot;)
-h_fc1_drop = tf.nn.dropout(h_fc1, keep_prob)
-</code></pre><p>因为同全连接层原理类似，输出层我就不就不详细介绍了</p>
-<pre><code>W_fc2 = weight_variable([1024, 10])
-b_fc2 = bias_variable([10])
-
-y_conv=tf.nn.softmax(tf.matmul(h_fc1_drop, W_fc2) + b_fc2)
-</code></pre><p>我们可以看看最后我们输出是什么</p>
-<pre><code>session.run(tf.global_variables_initializer())
-
-session.run(y_conv, feed_dict={x:data, keep_prob:0.5}).shape
-(50, 10)
-</code></pre><p>ok，我们最后得到一个二维数组，50个预测结果（输出采用OneHot方法）</p>
-<h3 id="反向传播"><a href="#反向传播" class="headerlink" title="反向传播"></a>反向传播</h3><p>在前面我们得到了在初始话随机权值下得到输出结果，但是这个结果肯定是错误的，我们必须通过修改每层的权值来修正模型，使模型越来越聪明，所以第一步，我们必须“自我反省”，了解自己与真实结果差距多少</p>
-<pre><code>y_ = tf.placeholder(&quot;float&quot;, [None, 10])
-cross_entropy = -tf.reduce_sum(y_*tf.log(y_conv))
-</code></pre><p>我们引入<code>y_</code>作为实际值（我们模型预测值为<code>y</code>），我们这里使用交叉熵来评判预测准确性，但是单单知道“自己错了”没有什么卵用，我们必须要“改正”，这里我们使用<code>AdamOptimizer</code>优化算法来反向传播我们误差，让模型好好“反省改正”</p>
-<pre><code>train_step = tf.train.AdamOptimizer(1e-4).minimize(cross_entropy)
-</code></pre><p>到这里基本上差不多了，我们已经形成了一个闭环，预测-&gt;评估-&gt;改正-&gt;预测-&gt;……，只有让它不断的训练下去直到我们能接受他的误差我们的模型就训练好了</p>
-<pre><code>correct_prediction = tf.equal(tf.argmax(y_conv,1), tf.argmax(y_,1))
-accuracy = tf.reduce_mean(tf.cast(correct_prediction, &quot;float&quot;))
-session.run(tf.initialize_all_variables())
-for i in range(18000):
-  batch = mnist.train.next_batch(50)
-  if i%100 == 0:
-    train_accuracy = accuracy.eval(feed_dict={
-        x:batch[0], y_: batch[1], keep_prob: 1.0}, session=session)
-    print(&quot;step %d, training accuracy %g&quot;%(i, train_accuracy))
-    if abs(train_accuracy - 1) &lt; 0.01:
-        break
-  train_step.run(feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5}, session=session)
-</code></pre><p>由于我们使用<code>OneHot</code>方法来输出预测变量，所以我们要使用<code>tf.argmax</code>来得到我们想要的真实数字，经过20000轮训练我们正确率可以达到99%，至此卷积神经网络发挥他的威力。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>卷积神经网络是深度学习的一个很重要的组成部分，了解卷积必须要知道为什么要用卷积，用了有什么好处。总而言之，卷积并不是一个很新奇的东西，很早在信号处理中就有应用，但是在图像处理上由于他能保留图像维度信息从而在深度学习领域大放异彩，这也可以看做“是金子总会发光吧”</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="http://www.tensorfly.cn/tfdoc/tutorials/mnist_pros.html" target="_blank" rel="noopener">http://www.tensorfly.cn/tfdoc/tutorials/mnist_pros.html</a><br><a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html" target="_blank" rel="noopener">矩阵运算</a><br><a href="https://blog.csdn.net/v_july_v/article/details/51812459" target="_blank" rel="noopener">通俗理解卷积神经网络</a><br><a href="http://jmlr.org/papers/volume15/srivastava14a.old/srivastava14a.pdf" target="_blank" rel="noopener">Dropout</a></p>
-]]></content>
-      <categories>
-        <category>人工智能</category>
-      </categories>
   </entry>
   <entry>
     <title>天池大赛-口碑预测参赛感想</title>
@@ -4799,75 +4821,6 @@ class ListForm(forms.models.ModelForm):
       </tags>
   </entry>
   <entry>
-    <title>内存分页设计</title>
-    <url>/2018/02/05/algorithm/mit6_828/%E5%86%85%E5%AD%98%E5%88%86%E9%A1%B5%E8%AE%BE%E8%AE%A1/</url>
-    <content><![CDATA[<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>前面已经通过lab1的这篇<a href="/2018/01/03/内存分页设计/">博文</a>了解了内存分页的实现细节，接下来就谈谈如何具体实现内存分页</p>
-<h2 id="物理载体"><a href="#物理载体" class="headerlink" title="物理载体"></a>物理载体</h2><p>通过了解<a href="/2018/02/19/KERNBASE对操作系统的影响/">KERNBASE对操作系统的影响</a>这篇博文我们知道，其实内存分页就是完成对物理存在的一种分割和隔离，所以我们在完成内存分页系统设计之前必须要构建一个载体，完成对物理存在的一种表示。</p>
-<p>在xv6中声明一个动态数组来代表物理内存，每一个值代表一块4k的内存页。我们主要通过<code>offset - base</code>得到偏移倍数，每个偏移量为<code>4K</code>，也就是通过<code>(offset - base )  &lt;&lt; 12</code>得到物理地址，我们看一下这个数组成员：PageInfo结构体</p>
-<pre><code>struct PageInfo {
-    struct PageInfo *pp_link;
-    uint16_t pp_ref;
-};
-</code></pre><p>主要存在两个值：一个为下一个可用的地址指针，一个为引用次数。</p>
-<p>引用次数比较好理解，但是这个<code>pp_link</code>有什么用呢。其实你可用把这个结构体看做成一个由链表组成的堆栈，我们只需要保留栈顶值（page_free_list)，由于它保存下一个值地址，这样通过不断的push、pop，就能维持一个可用物理内存栈。</p>
-<h2 id="二级指针的妙用"><a href="#二级指针的妙用" class="headerlink" title="二级指针的妙用"></a>二级指针的妙用</h2><p>由于前面的博客原理已经介绍的很详细了，我就不再累赘了，在这里我提一下源码中二级指针的妙用，虽然它只有短短几行，但是运行的结果却是让人大开眼界，体会到指针的神奇威力。</p>
-<p>这段代码出现在<code>kern/pmap.c</code>的<code>check_page_free_list</code>函数中</p>
-<pre><code>if (only_low_memory) {
-    // Move pages with lower addresses first in the free
-    // list, since entry_pgdir does not map all pages.
-    struct PageInfo *pp1, *pp2;
-    struct PageInfo **tp[2] = { &amp;pp1, &amp;pp2 };
-    for (pp = page_free_list; pp; pp = pp-&gt;pp_link) {
-        int pagetype = PDX(page2pa(pp)) &gt;= pdx_limit;
-        *tp[pagetype] = pp;
-        tp[pagetype] = &amp;pp-&gt;pp_link;
-    }
-    *tp[1] = 0;
-    *tp[0] = pp2;
-    page_free_list = pp1;
-}
-</code></pre><p>主要的作用是将“栈底”的元素移到“栈顶”，首先它使用了两个一级指针（pp1、pp2），还有两个二级指针分别指向（pp1、pp2）</p>
-<p> 首先<code>int pagetype = PDX(page2pa(pp)) &gt;= pdx_limit;</code>判断物理地址是否为大于4M还是小于4M，我们把物理内存页分成两组</p>
-<ul>
-<li>小于4M A组</li>
-<li>大于4M B组</li>
-</ul>
-<p>对于小于4M的组，分两种情况</p>
-<ol>
-<li>第一个小于4M的内存页（page1）</li>
-</ol>
-<blockquote>
-<ol>
-<li>*tp[0] (也就是pp1） 存贮了pp的值，也就是pp1 = page1</li>
-<li>tp[0] 存贮了pp -&gt; link 的地址（这个没有什么用）</li>
-</ol>
-</blockquote>
-<ol start="2">
-<li>A组第二个以及以后的内存页（page2）</li>
-</ol>
-<blockquote>
-<ol>
-<li>上一个地址的值等于pp（没什么用）</li>
-<li>tp[0] 存贮了下一个空闲地址的值</li>
-</ol>
-</blockquote>
-<p>对于B组来说也是一样的，最重要的是<code>for</code>循环结束后实现的交换</p>
-<pre><code>*tp[1] = 0; 
-</code></pre><p>B组最后一个的<code>pp_link</code>地址地址设置为NULL，也就相当于把他放到栈底</p>
-<pre><code>*tp[0] = pp2;
-</code></pre><p>A组最后一个变成<code>pp_link</code>地址设置pp2，也就是B组的第一个接到了A组的最后面去了</p>
-<pre><code>page_free_list = pp1;
-</code></pre><p>栈顶变成A组第一个，通过这样的“乾坤大挪移”术就将A组部分移到B组前面去了，也就实现了先使用低地址的物理内存的作用</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>理解内存分页必须要了解背后的原理，了解了原理看具体实现的时候才能事半功倍。</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2>]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>MOOC</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>引导和操作系统的交互</title>
     <url>/2018/01/31/algorithm/mit6_828/%E5%BC%95%E5%AF%BC%E5%92%8C%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E4%BA%A4%E4%BA%92/</url>
     <content><![CDATA[<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本来自己查了很多资料，想自己写出来，结果下笔的时候发现别人已经把我想写的部分全部写出来了，而且比我想的还要具体，所以我就不写了，把链接放出了，顺便我补充一些</p>
@@ -4924,6 +4877,350 @@ ELF Header:
 <h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/" target="_blank" rel="noopener">http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/</a></p>
 <p><a href="https://my.oschina.net/u/864891/blog/87965" target="_blank" rel="noopener">https://my.oschina.net/u/864891/blog/87965</a></p>
 <p><a href="http://bochs.sourceforge.net/techspec/PORTS.LST" target="_blank" rel="noopener">端口信息</a></p>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>MOOC</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>唯品会预测和携程房屋预测总结</title>
+    <url>/2017/08/09/ai/competition/vip_ctrip_competitions_summary/</url>
+    <content><![CDATA[<blockquote>
+<p>最近打了两个比赛，一直忙着工作和打比赛，没有时间总结，今天抽空好好总结一番</p>
+</blockquote>
+<p>先说一下比赛结果吧，队名全为<code>OfferGo</code><a href="https://www.datafountain.cn/competitions/260/details" target="_blank" rel="noopener">唯品会购买预测</a>第五名，<a href="https://www.kesci.com/apps/home/#!/competition/597172316a1cd9104c2df248/leaderboard/0" target="_blank" rel="noopener">携程房屋预测复赛</a>第六名,两个比赛打的都不算太好,只能算勉强及格,虽然离大神的距离还有十万八千米，不过总算可以称的上入了门，现在来总结一下我入门的经验吧。</p>
+<h2 id="观察数据"><a href="#观察数据" class="headerlink" title="观察数据"></a>观察数据</h2><blockquote>
+<p>我参加过很多群,发现很多新手缺乏观察数据的能力,他们每次进入一个群总是嚷嚷这让大神发<code>baseline</code></p>
+</blockquote>
+<p>这一点对于新手来说很不利的，比赛考的就是你对数据的掌握能力,你对数据把握的越好，你的比赛成绩就越好，要真正掌握数据就要从观察数据入手</p>
+<hr>
+<p>在我看来观察数据主要从四个方面来，我总结为<code>望闻问切</code></p>
+<h3 id="望"><a href="#望" class="headerlink" title="望"></a>望</h3><p>观察数据缺失值，缺失值对数据影响很大，有时候我们能够从缺失值里面了解很多信息,而且对于缺失值，后期我们对不同的缺失值要采取不同的手段，比如补全、统计占比、丢弃等等。</p>
+<p>对于缺失值我一般从两个方面来观察</p>
+<ul>
+<li>全局观察</li>
+<li><ul>
+<li>一般采用<code>datafram.info(null_counts=True, verbose=True)</code>方法来观察全局数据缺失情况</li>
+</ul>
+</li>
+<li>局部观察</li>
+<li><ul>
+<li>一般采用<code>series.isnull().count()</code>和<code>series.loc[series.notnull()]</code>观察单一列表缺失情况</li>
+</ul>
+</li>
+</ul>
+<p>这个阶段我们主要从大的方向远远的<code>望</code>一下数据，主要建立对数据的全局观。</p>
+<h3 id="闻"><a href="#闻" class="headerlink" title="闻"></a>闻</h3><blockquote>
+<p>对于数据来说，一般分为三种，一种为数值型数据（整数、浮点数、时间等），一种为字符型，最后一种为图像型，三种类型数据处理难度依次增强</p>
+</blockquote>
+<p>对于大多数比赛都是设计前两种数据，第三种只有牵扯到图像处理才能遇到。对于前两种数据，我们在闻的阶段，主要是探查数据分布情况，了解数据分布情况，我们才能对症下药。</p>
+<p>了解数据分布情况有两种方法</p>
+<ol>
+<li>图像观察</li>
+<li>数学统计观察</li>
+</ol>
+<p>图像观察主要使用<code>Pandas</code>的<code>Matplotlib</code>绘图接口，或者使用<code>seaborn</code>（一个友好的封装了<code>Matplotlib</code>的包），一般我们可以从直方图、饼图、频率图方向来观察数据</p>
+<p>数学统计我们主要采用<code>Pandas</code>的<code>describe</code>方法，对于数值型数据，主要从平均值（<code>mean</code>）、中位数（<code>50%</code>）、标准差（<code>std</code>）、最大（<code>max</code>）、最小（<code>min</code>）、非空总数（<code>count</code>）来探测数据，对于字符型我们主要从最频繁的值（<code>top</code>）、最频繁的值的个数（<code>freq</code>），非空总数（<code>count</code>）、不相同的值（<code>unique</code>）。</p>
+<p>通过上面两种方法，我们能够从数据分布的角度大致勾画出数据的轮廓。</p>
+<h3 id="问"><a href="#问" class="headerlink" title="问"></a>问</h3><blockquote>
+<p>比赛的目的就是找到最优解，而最优解的跟相关特征紧密联系的，你的特征对结果影响越大，你就要审<code>问</code>这个特征</p>
+</blockquote>
+<p>举个例子，我们要预测三组数据</p>
+<ul>
+<li>1 1.8  2</li>
+<li>2 3.5  4</li>
+<li>3  5.4  16</li>
+</ul>
+<p>第一行为我们要训练的值，我们发现第二行的数据是第一行的1.8倍，而第三行只是2的次方，对于这两个特征来说，第二个特征就是最好的特征，我们只要建立一个映射，准确率能接近100%，而第三个特征对预测结果毫无联系，这个特征不但对结果没有作用，而且有时候会起到反作用</p>
+<p>当然在这里我们举这么一个例子在实际中不可能遇到，我们遇到是更多数据，而数据之间的联系并不是这么简单的线性关系，但是线性关系有的时候能让我察觉到特征与预测值的关联，毕竟如果特征值是随机值那么与预测值之间的相关性是非常低的。</p>
+<p>在<code>Python</code>里面探测线性关系最简单的方法是调用特征值和预测值的相关性系数（<code>corr</code>），我们可以简单的使用<code>df[[&#39;feature&#39;, &#39;target&#39;]].corr()</code>就可以得到线性相关系数，这个数的绝对值越接近1，相关性越大，一般来说相关性越大和越好对结果都不好，最好的特征相关性处于中间位置。</p>
+<p>相关性低我们可以理解，为什么相关性高反而不好呢，因为数据比赛里面给我们的数据大部分都是不平衡的数据，正负样本失衡，一般相关性很高的值一般为分类同预测值相同，比如一个二分类问题，预测值为0和1，给的样本正负比为1000:1，那么如果有一个特征全为0或者其他，那么他与预测值的相关性会达到90%以上，然而这个值是毫无作用的。</p>
+<p>所以我们通过简单的相关系数并不能很好的观察特征真正相关性，一般我们要辅助图像法和统计法。</p>
+<p>图像法就是通过将特征值分布与预测值相关性图表画在同一个图表里，具体可以参考<a href="https://www.kaggle.com/benhamner/d/uciml/iris/python-data-visualizations" target="_blank" rel="noopener">可视化特征</a></p>
+<p>统计法类似图标，使用统计方法观察，特征值与预测值的相关性，一般使用<code>groupby</code>方法对两个特征进行统计就可以进行简单的观察</p>
+<p><code>问</code>只是一个简单的手段，一般我们在大量添加特征的时候，为了节省模型训练时间，在将特征放入管道之前进行一个简单的过滤删除的工作，真正重要的步骤在<code>切</code>这个方面</p>
+<h3 id="切"><a href="#切" class="headerlink" title="切"></a>切</h3><blockquote>
+<p><code>切</code>这个步骤放在最后是因为，这个步骤也是我们一趟循环下来的最后一步</p>
+</blockquote>
+<p>数据比赛中前期大家最喜欢用的模型是树模型，比如随机森林、<code>Xgboost</code>，<code>LightBoost</code>等，这些模型属于弱学习器组合模型，我们最后可以从训练结果得到每个特征在模型占的比重</p>
+<p>对于这个比重，是非常重要的，他代表了每个特征对应在模型中占的权重，也可以理解特征与结果的相关性</p>
+<p>对于相关性很强的不同的特征，我们可以将他们组合，有时候这种强强组合生成出来的特征会比原来母特征相关性更强，当然组合的方法有千种万种，如何验证他们有效就要从头开始对数据进行<code>望闻问切</code>了</p>
+<h4 id="总结：-数据比赛就如同问诊，我们不断对特征进行望闻问切，对于高手来说他们能很快的从原始特征中挑选出病根，对症下药，而新手的话，一阵摸瞎，经常会碰到在比赛中期做出一个很好的结果，接下来很长一段时间都没有进步的情况。掌握科学有效的挑选特征方法需要一个“医者心”，必须学会对特征“负责”，要学会望闻问切。"><a href="#总结：-数据比赛就如同问诊，我们不断对特征进行望闻问切，对于高手来说他们能很快的从原始特征中挑选出病根，对症下药，而新手的话，一阵摸瞎，经常会碰到在比赛中期做出一个很好的结果，接下来很长一段时间都没有进步的情况。掌握科学有效的挑选特征方法需要一个“医者心”，必须学会对特征“负责”，要学会望闻问切。" class="headerlink" title="总结： 数据比赛就如同问诊，我们不断对特征进行望闻问切，对于高手来说他们能很快的从原始特征中挑选出病根，对症下药，而新手的话，一阵摸瞎，经常会碰到在比赛中期做出一个很好的结果，接下来很长一段时间都没有进步的情况。掌握科学有效的挑选特征方法需要一个“医者心”，必须学会对特征“负责”，要学会望闻问切。"></a>总结： 数据比赛就如同问诊，我们不断对特征进行<code>望闻问切</code>，对于高手来说他们能很快的从原始特征中挑选出<code>病根</code>，对症下药，而新手的话，一阵摸瞎，经常会碰到在比赛中期做出一个很好的结果，接下来很长一段时间都没有进步的情况。掌握科学有效的挑选特征方法需要一个“医者心”，必须学会对特征“负责”，要学会<code>望闻问切</code>。</h4><h2 id="并行化算法"><a href="#并行化算法" class="headerlink" title="并行化算法"></a>并行化算法</h2><blockquote>
+<p>由于<code>Python</code>本身对多核利用不好，如何利用多核加快特征生成对于比赛来说意义重大</p>
+</blockquote>
+<p>就拿我来举例子，我每天下班打比赛的时间不超过8个小时，前期算法没有并行化的时候，走一遍管道要四个小时，这意味着我一天只能跑两次，而进行并行化优化以后，我跑一遍四线程全开（笔记本双核四线程）只要十分钟就能跑完，每次生成新特征只有10分钟就能拿到特征相关性数据，来验证特征的好坏。</p>
+<p>下面我从三个方面来谈谈怎么实现并行话算法</p>
+<h3 id="1-使用系统自带函数，拒绝for循环"><a href="#1-使用系统自带函数，拒绝for循环" class="headerlink" title="1 . 使用系统自带函数，拒绝for循环"></a>1 . 使用系统自带函数，拒绝<code>for</code>循环</h3><p>举个例子，作为新手，实现对两个个特征求平均，一般采用<code>for</code>循环将每一行两个特征值加起来然后除以2，假如有1000万行，每行加法和除法运算花0.001ms，那1000万也要10秒钟，只是进行一个最简单的求平均，你就花掉10秒钟，上百个特征你得运行几天</p>
+<p>学过矩阵的都知道，矩阵就是一种高效的并行化结构，它将集合统一进行计算，可能一个大矩阵运算要比单一计算要慢，但是单一计算要1000万次的话，大矩阵运算只需要两次就够了，这个效率比就出来了</p>
+<p>而<code>Python</code>由于是一门解释性语言，比其他静态语音速度要慢许多，你一方面使用<code>for</code>循环加大运算次数，一方面执行一次时间长，这相重叠加你的算法会跑的比蜗牛还慢</p>
+<p>所以我们避免使用我们写的函数，尽量使用库系统函数，因为库系统函数底层是使用<code>C</code>或<code>C++</code>实现的，而且他们在底层进行使用矩阵话运算代替单一浮点计算，我们使用库的函数（比如<code>mean</code>，<code>groupby</code>等）一方面能底层能使用C加快速度，一方面使用矩阵运算加快速度，两个叠加你的算法跑的比飞机还快。</p>
+<h3 id="2-使用多进程，充分发挥使用多核性能"><a href="#2-使用多进程，充分发挥使用多核性能" class="headerlink" title="2 . 使用多进程，充分发挥使用多核性能"></a>2 . 使用多进程，充分发挥使用多核性能</h3><p>由于<code>Python</code>的<code>GIL</code>锁，使得<code>Python</code>无法利用多核进行计算，所以我们只能使用多个进程来充分利用多核</p>
+<p>实现多进程有两个要点（具体可以参考我携程比赛代码 <a href="https://www.github.com/mrzhangboss" target="_blank" rel="noopener">Github地址</a>)</p>
+<ul>
+<li>特征提取模块化</li>
+<li>进程池的搭建和维护</li>
+</ul>
+<p>我在携程比赛中的<code>mult_run.ipynb</code>中搭建了一个进程池，通过第三方调度和监控进程内存CPU等信息，达到充分“榨干”每个核的功效</p>
+<h3 id="3-压缩数据，让矩阵运算更快"><a href="#3-压缩数据，让矩阵运算更快" class="headerlink" title="3 . 压缩数据，让矩阵运算更快"></a>3 . 压缩数据，让矩阵运算更快</h3><p>由于在对特征进行提取过程中，<code>Python</code>会自动将低位制值转换成高位制值，比如<code>float16</code>在进行一次<code>groupby</code>之后就会转换成<code>float64</code>，由于在矩阵运算时候，高进制值会占更多内存和运行时间，所以为了加快算法运行，我们要将其压缩，一方面节省内存，一方面能够让算法运行的更快</p>
+<p>在携程的比赛中，原始数据有一个G，我将其压缩之后只占用300M内存空间，这为我后面在一台12G内存的笔记本实现并行化算法提供了巨大帮助，当然我每次在生成新特征的时候也会进行压缩，具体可以参考我携程的<code>utils.py</code>文件</p>
+<h3 id="总结：-这两次比赛，我从菜鸟出发慢慢的从一个程序员变成了数据挖掘机，在模块化和并行化方面，我觉得我的进步不错，但是在数据特征挖掘方面我与大神之间的差距还是巨大的，这也是我止步于前五的主要原因，接下来我要加强对数据方向的锻炼，希望能够在工作和比赛之中得到更好的进步"><a href="#总结：-这两次比赛，我从菜鸟出发慢慢的从一个程序员变成了数据挖掘机，在模块化和并行化方面，我觉得我的进步不错，但是在数据特征挖掘方面我与大神之间的差距还是巨大的，这也是我止步于前五的主要原因，接下来我要加强对数据方向的锻炼，希望能够在工作和比赛之中得到更好的进步" class="headerlink" title="总结： 这两次比赛，我从菜鸟出发慢慢的从一个程序员变成了数据挖掘机，在模块化和并行化方面，我觉得我的进步不错，但是在数据特征挖掘方面我与大神之间的差距还是巨大的，这也是我止步于前五的主要原因，接下来我要加强对数据方向的锻炼，希望能够在工作和比赛之中得到更好的进步"></a>总结： 这两次比赛，我从菜鸟出发慢慢的从一个程序员变成了数据挖掘机，在模块化和并行化方面，我觉得我的进步不错，但是在数据特征挖掘方面我与大神之间的差距还是巨大的，这也是我止步于前五的主要原因，接下来我要加强对数据方向的锻炼，希望能够在工作和比赛之中得到更好的进步</h3><h4 id="在最下面贴一下我的携程比赛代码（基于Notebook）"><a href="#在最下面贴一下我的携程比赛代码（基于Notebook）" class="headerlink" title="在最下面贴一下我的携程比赛代码（基于Notebook）"></a>在最下面贴一下我的携程比赛代码（基于Notebook）</h4><p><a href="https://www.github.com/mrzhangboss/ctrip_room_predict" target="_blank" rel="noopener">https://www.github.com/mrzhangboss/ctrip_room_predict</a></p>
+]]></content>
+      <categories>
+        <category>人工智能</category>
+      </categories>
+      <tags>
+        <tag>比赛</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>如何搭建自动生成上万特征的管道</title>
+    <url>/2017/06/13/ai/competition/%E5%A4%A7%E8%88%AA%E6%9D%AF%E2%80%9C%E6%99%BA%E9%80%A0%E6%89%AC%E4%B8%AD%E2%80%9D%E7%94%B5%E5%8A%9BAI%E5%A4%A7%E8%B5%9B%E5%8F%82%E8%B5%9B%E7%BB%8F%E9%AA%8C/</url>
+    <content><![CDATA[<p>基于:大航杯“智造扬中”电力AI大赛参赛经验</p>
+<p><img src="/images/electric_power_ai.jpg" alt="大航杯AI大赛"></p>
+<p>赛题背景</p>
+<blockquote>
+<p> 主办方为大航集团提供21个月江苏省杨中市1454家企业日用电量,来估计下一个月日总用电量</p>
+</blockquote>
+<p>从给的数据分析,这次给的数据只有历史企业日用电量,用来估计日总用电量,是一个典型的时域分析问题</p>
+<p>但是这同我们以往的时序问题不一样,向往常时序问题预测的是每个企业的未来每日的用电量,而这个比赛却是求全部企业的总数.</p>
+<p>由于我报名比赛时候比较晚,比赛已经接近尾声,比赛5月18号开始,6月8号中午切换数据,13号截止,我6月8号晚上下载数据,由于我以前已经做了几个类似的比赛,但是一直没有系统的做一个,抱着锻炼的自己的态度,决定系统做一次,权当练手.</p>
+<p>首先分析一下提交的结果,预测一个月的日总用电量,总共为31个数据,给的历史数据只有21个月的,按月的比例来看,只有21个值去训练值去预测一个值,根据往常的比赛经验来看,这种比赛适合使用规则方法来做,然而我剩下的验证机会不多了,只能用模型,但是过拟合的危险非常大,如果不能找到一个好的方法克服过拟合,复赛都进不去.</p>
+<p>当然最后还是没有找到一个很好的办法,止步于复赛,不过这次比赛让我学到很多,主要通过这次比赛自己琢磨出来自己如何搭建基于<code>IPython Notebook</code>的管道结构,这个管道帮我自动生成上万特征.</p>
+<h2 id="管道"><a href="#管道" class="headerlink" title="管道"></a>管道</h2><blockquote>
+<p>什么是管道,在数据挖掘比赛中很多大神都着重讲了一定要搭建一个自动化的架构,我们暂且称他为”管道”,这个”管道”我们要能够把数据倒进去,结果倒出来.</p>
+</blockquote>
+<p>这个管道用专业的术语来看要有以下几个功能</p>
+<ul>
+<li>能够自由添加<code>Feture</code></li>
+<li>能够自动评判得到添加的<code>Feture</code>的效果</li>
+<li>管道能够自己选择合适的参数训练模型</li>
+<li>能够输出结果</li>
+</ul>
+<p>其实简单来说,我们要做的是一个能够非常方便的扩展的脚手架,我们不可以第一次就把所以的特征全部找出来,所以我们要搭建一个能够实时添加<code>Feture</code>的框架.</p>
+<p>其实很早以前就看过类似文章,也有很多人推荐<a href="https://github.com/ChenglongChen/Kaggle_HomeDepot" target="_blank" rel="noopener">大神开源的一个脚手架</a>,然而找到的大多是用<code>python</code>实现</p>
+<p>我因为一开始就是使用<code>Notebook</code>进行数据挖掘,主要<code>Notebook</code>能够提供一个实时的反馈,而纯<code>python</code>,对于复杂多变的数据来说,显得非常笨重,你经常有个好想法想验证一下,又得重新跑一遍,尤其是对于我的机器配置来说,重新跑一边的时间都够我喝杯茶了.而且<code>notebook</code>有个特点,可视化特别方便,有时候从数据上看不到,可以画个图表</p>
+<p>好了,夸了这么久,现在就来仔细讲讲脚手架如何搭建.</p>
+<p>我们先回到赛题,第一步审题,当时我看到日平均两个字,直接把日字省略,看成平均用电量,结果白白浪费了两个验证机会…..</p>
+<p>审完了题我们来看我们要提交的数据,换数据后要预测十月日用电总量.我们来看看给我们数据,只有一份数据,表头如下</p>
+<pre><code>record_date,user_id,power_consumption
+2015/1/1,1,1135
+2015/1/2,1,570
+2015/1/3,1,3418
+2015/1/4,1,3968
+2015/1/5,1,3986
+</code></pre><p>解释一下字段,<code>record_date</code>–日期,<code>user_id</code>–企业id, <code>power_consumption</code>–日用电量<br>非常简单,就这么简单单单的数据,我现在要教大家怎么从这么简单的数据上抽取6000维度的</p>
+<p>我把代码已经推到<code>Github</code>上了(由于数据比较少,我把数据也推上去了,方便大家本地跑跑,看完如果对你有帮助的话,请不要吝啬你的star哦),我就对照我的代码解释如何搭建一个可以跑出上万维度的脚手架</p>
+<h2 id="数据划分-split-samples-ipynb"><a href="#数据划分-split-samples-ipynb" class="headerlink" title="数据划分(split_samples.ipynb)"></a>数据划分(<code>split_samples.ipynb</code>)</h2><p>首先要搭建本地预测集,也就是线下样本(这个很重要,有时候线下的结果很大程度对应你线上的结果)</p>
+<p>给的数据要我们从前面21个月预测下一个月的日总用电量,我们很容易就能想到,那我们用前面20个月预测第21个月来做线下测试,但是这样我们就只有30个训练样本,要来预测30个,99.999%过拟合啊,首先我们要扩大样本,我们采用滑动移窗的方法把预测的样本按照月份推移,也就是分别预测9月8月7月等等</p>
+<p>这种方法在实现<code>Notebook</code>有几个难点,首先你划分了预测集,那么就也要划分训练集,就相当于把一份数据切分成好几份,切分完之后有个问题,你必须要隔离每个部分</p>
+<p>举个例子,我们把训练集划分成为2份,1月到7月预测8月,2月到8月预测9月,训练1-7月数据集的时候,我们不能让这个训练集接触到2月到8月的数据,因为8月对于前一个训练集来说是未知的,<br>如果我们让第一个训练集接触倒第二个训练集我们称为信息泄露,很影响线上的结果</p>
+<p>我们知道这个问题之后,我们就要用巧妙的方法来解决,首先我们要考虑我们代码的复杂度,以前我的解决训练集隔离的方法采用的是循环法,使用一个列表存贮所以训练集,然后使用<code>for</code>循环分别传参到函数里面,这个方法能解决隔离训练集,但是有几个问题</p>
+<p>在单个<code>ipy</code>文件中训练所以的样本,在测试的时候跑起来太慢,而且要把数据全部加载在内存里面,这次数据量还算小,但是对于某些小内存的电脑来说,这种方法时不时就得报<code>Memory Error</code>,而且感觉调试起来特别麻烦,所以一直在寻找更好的解决方案.</p>
+<p>这次想到了一种巧妙的方法,虽然有点取巧但是效果我很满意.</p>
+<p>我们先看到<code>split_samples.ipynb</code>文件,首先我把数据划分为9个样本,一个预测样本.分别放入不同文件夹进行物理隔离.但是名字相同.</p>
+<p>再其次我让<code>ipy</code>能够获取参数,这样我通过外部参数就能更换数据集,平常添加<code>Feture</code>的时候默认选取一个训练集,这样我开发的时候调试就非常方便,而且可以丢掉<code>for</code>循环,还我一个清新脱俗的<code>ipy</code>.</p>
+<p>这里说一个小细节,因为我传参必须要外部调用这种,对于运行<code>ipy</code>我使用了<code>runipy</code>这个工具,然后我死活没有找到,如何使用<code>runipy</code>把参数传倒<code>ipy</code>里面去的方法(如果找到了请告诉我),我一拍脑袋那就转换成<code>py</code>文件传过去,通过<code>sys.argv</code>很轻松就能获取到,所以我又用<code>jupyter nbconvert</code>的工具把<code>ipy</code>转换成<code>py</code>文件</p>
+<p>所以绕了一圈最后又回到了<code>py</code>上(手动滑稽).不过我们工作还是在<code>ipy</code>上进行,生成的<code>py</code>文件我好像没打开过….</p>
+<h2 id="特征提取-extract-fetures-ipynb"><a href="#特征提取-extract-fetures-ipynb" class="headerlink" title="特征提取(extract_fetures.ipynb)"></a>特征提取(<code>extract_fetures.ipynb</code>)</h2><p>聊完如何划分数据集,现在我们进入如何特征提取,我们可以看到这次数据其实就三个特征:时间-企业-用电量.由于企业的信息只有一个<code>id</code>,所以我首先提取的是时序的特征,首先把时间分解为八个维度</p>
+<ul>
+<li>dayofweek</li>
+<li>dayofyear</li>
+<li>days_in_month</li>
+<li>quarter</li>
+<li>week</li>
+<li>weekofyear</li>
+<li>month</li>
+<li>year</li>
+</ul>
+<p>我们可以通过<code>pandas</code>轻松提取出来</p>
+<p>然后我们再从两个方向来看,第一个就是我们日总用电量特征,从全部企业日总用电量</p>
+<p>第二个就是日用电量特征,从每个企业日用电量来看,这些特征我们使用简单统计又可以得到10个维度数据(mean,std,等等)</p>
+<p>看完这些之后我们又可以从多个时间维度来看这些特征,比如30天前,90天前等等(我划分了30,60, 90,180,360五个),</p>
+<p>这样我们就有了 <code>8 * 2 * 5 * 10</code>个特征,但是这远远达不到我们说的上万维度,</p>
+<p>现在我们从业务逻辑上来思考,因为我们知道,其实我们中国节假日和周末,天气这些对用电量影响非常大(我们老家打雷就停电…..)</p>
+<p>所以我们要引入外部数据集,我采用两个爬虫分别是<code>weather_crawl,holiday_crawl</code>爬取了天气和节假日的数据</p>
+<p>我们按照前面的思路,从天气节假日的角度又可以划分出n多特征(这时候我的特征已经达到3000了)</p>
+<p>完了这些基础特征后,我发现有些特征重要性特别大(使用<code>Randomforest</code>得到),这时候我们又要请出我们第二大神器,交叉特征,比如月和假期的特征融合,这一波操作直接让我的特征到了6000+维度(如果将窗口扩大轻轻松松上万)</p>
+<p>在这里要介绍一个特征生成的方法,有时候我们特征少,我们会采用自己命名的,自己生成,然后这个由于规律性比较大,<br>如果我们自己手动一个一个写的话,这上万<code>Fetures</code>够你写的,所以要让他自己生成特征,我们只要建好模子就行,由于这次<br>时间仓促,基本上我没有自己手动命名<code>feture</code>,全部都由程序生成,省掉很多代码量,具体可以看看代码实现,原理很简单.</p>
+<h1 id="训练模型-train-model-ipynb"><a href="#训练模型-train-model-ipynb" class="headerlink" title="训练模型(train_model.ipynb)"></a>训练模型(<code>train_model.ipynb</code>)</h1><p>训练模型的话,一般比赛都推荐先使用树模型,一方面速度快,第二个可以看到<code>feture</code>的重要性,这对于你挑选交叉特征非常有用,模型调参的我这里就不讲,一方面我自己也不是很懂,第二个方面也网上教程也多,我讲的不一定比他好</p>
+<p>这里要推荐一个发现有趣的包,<code>mlxtend</code>,我用他来进行<code>stacking</code>特别方便,有意思的时,我用他融合了四个模型,最后我的训练结果竟然为1,完全拟合了……</p>
+<p>这个包可以很简单的进行模型的<code>stacking</code>,然而这个比赛我没有把他用好(手动滑稽)</p>
+<p>通过训练模型后我们把模型存到<code>pkl</code>文件中,然后在用他来预测数据,这样在文件夹里转一圈的原因,因为原来打过部分比赛数据量太大,训练模型后内存不足,只能先<code>del</code>,清空内存,再预测,存到文件夹后,结束进程,清空内存,这样就能省下空间来读取下一步数据.</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>其实在这个脚手架上可以扩展很多东西,比如最后搏一搏单车变摩托的时候,我就在分割数据和训练数据之间加了一个过滤清洗数据层,在训练模型和融合特征之间加了一个降维的中间层.</p>
+<p>建立一个好的脚手架只是能让你在增添特征,选择特征时更加轻松,其实比赛看的还是你对数据的一种掌控力,建立这个脚手架主要是为了节省更多时间给提取特征、选择特征上.特征决定你的上限.</p>
+<p>这次比赛比较特殊,模型在这个比赛效果可能没有规则好,因为数据量太小,我<code>stacking</code>一下直接完全拟合了.可惜验证的次数还是<br>太少,除去前面两次错误的提交,我只有三次验证机会,如果次数多一点的话,选择特征降维或者模型调参一下遏制拟合结果可能会好很多吧.</p>
+<p>但是这次比赛自己学到了如何搭一个<code>ipy</code>的管道和增加了一些特征调参、特征降维的经验。因为以前看到的搭建管道资料都是基于<code>py</code>,很少基于<code>ipy</code>的,所以把自己搭建<code>ipy</code>管道经验分享出来,也希望自己写的这篇博文能够抛砖引玉,帮助大家搭建自己的完美管道.</p>
+<p>附上我的<a href="https://github.com/mrzhangboss/electricAI" target="_blank" rel="noopener">开源示例</a>:  <a href="https://github.com/mrzhangboss/electricAI" target="_blank" rel="noopener">https://github.com/mrzhangboss/electricAI</a><br>大家觉得有帮助就给我点个star吧</p>
+]]></content>
+      <categories>
+        <category>人工智能</category>
+      </categories>
+      <tags>
+        <tag>比赛</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>什么是操作系统</title>
+    <url>/2018/01/29/algorithm/mit6_828/%E4%BB%80%E4%B9%88%E6%98%AF%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</url>
+    <content><![CDATA[<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本文是基于mit6.828 的lab1对操作系统的思考，网上有不少关于lab1的博客，大部分都是介绍如何完成lab1的问题，介绍的比较详细的有这个<a href="http://www.cnblogs.com/fatsheep9146/category/769143.html" target="_blank" rel="noopener">博客</a>，在这里我就不从问题出发，建议大家看完上面的博客在看我这篇博文，我这篇博文就是从把我遇到的疑惑提炼出知识点，然后再把这些知识点串起来</p>
+<h2 id="实验目的"><a href="#实验目的" class="headerlink" title="实验目的"></a>实验目的</h2><p>作为操作系统的第一个实验，在完成lab1我们主要目的就是要了解什么是操作系统，后面的lab都是在这个基础上搭建完善好系统的各种功能，就好像你画一幅画，第一步你先把人物的轮廓外形画出来，接下来你在把人的鼻子耳朵眼睛等等慢慢画出来，所以第一个实验非常重要，如果不把骨架搭好，你的操作系统再怎么豪华强大也是空中楼阁，所以我们在这个lab上一定要花上很多时间，万事开头难，只要攻克了这个，操作系统也就离你不远了</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>谈操作系统之前必须得谈谈什么是计算机，因为我们的操作系统是运行在计算机上面的，操作系统与计算机关系密切，我们可以用一个很贴切的比方，假如你想了解手套为什么长成那么奇怪，那么你得先举起你的双手看看。</p>
+<p>闲话不多说，进入正题，计算机最核心部分就是CPU，记得电脑刚发明出来的时候，编程只能通过穿孔卡片，当然计算机发明这么久，CPU的核心功能基本上没有变，还是只能通过“穿孔卡片”，只不过我们编程语音将我们的使用的语音如C，Python等变成“穿孔卡片”，这里有个非常重要的概念：<strong>指令</strong>。也就是每个CPU的是每次只能执行一条指令。当然第二个重要的就是内存了，前面说了CPU是必须要通过”穿孔卡片“来编程的，但是随着程序愈来愈大，我们必须要使用一个东西来存贮“卡片”，所以内存孕育而生了，其实很多感叹电脑这个词实在是太贴切了，人脑可以处理问题，电脑也可以处理问题，人脑有短期记忆长期记录，电脑有寄存器（短期记忆）内存（长期记忆）。</p>
+<p>简单的谈了谈计算机，我们提出两个重要的前提</p>
+<ul>
+<li>计算机通过顺序读取一条一条指令来工作</li>
+<li>计算机从内存获取指令</li>
+</ul>
+<p>所以操作系统的就是在内存上面运行自己并帮助其他程序的一个大程序，总的来说它就是内存上面的一段程序，当然它的功能就是好好在它一亩三分地上面“分封诸侯”，维护自己的“王位”。</p>
+<p>由于一开始它只是待在软盘或者磁盘等存贮设备上的一段程序，接下来我们就看操作系统如何“上位”内存的“宫斗大戏”。</p>
+<h2 id="上位篇"><a href="#上位篇" class="headerlink" title="上位篇"></a>上位篇</h2><p>在操作系统“上位”之前，其实计算机还进行了一个小操作系统（BIOS）运行，具体的流程可以看这篇<a href="http://www.ruanyifeng.com/blog/2013/02/booting.html" title="操作系统启动" target="_blank" rel="noopener">文章</a>，如果把电脑看做人的话，BIOS就是我们的脊髓，它控制我们的身体四肢（硬件），但是却无法灵活的操作他们（比如非条件反射的膝跳反射），但是它却不可少，少了它就成植物人了。BIOS的作用总结起来就是感知硬件，调控硬件（比如CPU电压，内存频率）。</p>
+<p>BIOS与操作系统最密切的一个地方就是设置启动盘，大家可能大多时候都是听文件文件比较多，但是文件这个概念其实是操作系统的，在没有操作系统之前是没有文件这个概念的，只有盘这个概念，比如一块硬盘、一张软盘、一个U盘，所以BIOS的一个重要工作就是选定一个存储硬盘，然后读取上面的程序运行。</p>
+<p>所以我们从这时候可以得到一个结论，安装操作系统，只需要按照BIOS的规定把程序放到某一个存贮设备（磁盘、U盘、软盘）专门位置上（一般是头部开始），开机后然后就静等BIOS把程序加载到内存，就完成了“上位”过程。</p>
+<p>我们已经知道操作系统的外部条件，接下来分析一个操作系统到底该有啥</p>
+<h2 id="操作系统结构"><a href="#操作系统结构" class="headerlink" title="操作系统结构"></a>操作系统结构</h2><p>首先我们要回顾一下操作系统的发家史，刚开始是没有操作系统的这个概念的，随着在电脑上要运行的越来越多，每个程序都要写大量底层代码来操作硬件这样无疑每个程序越来越来臃肿，所以我们需要让操作系统管理来管理硬件，这样不但能够提供程序兼容性（一次编译、到处运行），而且能高效利用硬件（操作系统专供）。所以操作系统也就是程序的分工的产物</p>
+<p>接下来我们看看操作系统的发展历史，大家都知道汇编语言是除了机器语言最接近底层的一种语言，第一个Unix系统一开始也就是使用汇编编写的。但是汇编语言不易于维护，所以1973年汤普逊和里奇用C重构了Unix，但是部分与硬件接触太大的地方还是必须使用汇编（in、out端口，操纵指定寄存器等），所以现代操作系统还是用C与汇编混合编写的（C占大部分），当然最后都会编译成机器码，所以我们从机器码角度来看，最后的结果都是相同的，不同的是我们使用不同的工具来生成机器码</p>
+<p>前面我们介绍了启动盘，其实BIOS给我们只是从启动盘上面取了一小段数据（第一个扇形区）放到内存上面（512B），然后执行那小段上面的机器码，所以接下来就有一个问题，随着我们的操作系统功能越来越完善，取出来的代码肯定不是全部代码，代码只有放到内存上面才能跑，所以前人就把代码分成两部分，一部分称作引导，另一部分才是核心代码，引导作用就是把核心代码放到内存上面去</p>
+<p>所以操作系统被分成两部分</p>
+<ul>
+<li>引导</li>
+<li>核心</li>
+</ul>
+<p>这里比较有意思的地方就是引导和核心如何交换程序控制权，由于要讲解必须要牵扯代码，所以我把这部分分离出来，放到这篇<a href="/2018/01/31/引导和操作系统的交互/">博客</a>上面，要了解细节可以看这篇博客。</p>
+<p>现在我们假设你已经知道引导将核心代码加载在了内存上面，现在我们就从这里开始分析，堆栈作为程序的基础，首先我们要提一下堆栈</p>
+<h3 id="堆栈"><a href="#堆栈" class="headerlink" title="堆栈"></a>堆栈</h3><p>什么是堆栈呢？看下面这张图</p>
+<p><img src="/images/stack.png" alt="堆栈"></p>
+<p>堆顶为大地址，我们使用的时候只要不断把栈顶往下推，就能将线性内存变成一个数据结构。当然有个问题，我们必须要知道什么地方是栈顶，现在我们想想操作系统必须要放到内存的某一个地方，假如放到低位置，那么我必须要记住操作系统的最高位置，如果不这样做当堆栈顶到操作系统的存贮地址，那么操作系统就被破坏了。所以我们只能把操作系统放到高的内存地址，这样我们既能安全的使用堆栈，而且保证了操作系统的安全</p>
+<p>所以我们接下来就谈谈由于这个设定引发的一系列问题</p>
+<h2 id="操作系统的高地址"><a href="#操作系统的高地址" class="headerlink" title="操作系统的高地址"></a>操作系统的高地址</h2><p>在lab1中，操作系统的起始代码被设定为<code>0xF0100000</code>的高位</p>
+<p>从这个地址我们可以分析出来什么<code>0xF0100000</code>，因为我们知道32位操作系统最高只能有4G内存，也就是2的32次方内存，这个地址代表的是系统最后面的255M内存的空间，也就是操作系统给自己留了255M剩余内存，给前面保留了（4G-255M）空间</p>
+<p>操作系统这个设计是非常好的，不仅给自己留下扩展空间，也给其他代码带来便利，就是从0-(4G-255M）这部分内存随便用，怎么改都不会出问题</p>
+<p>从现在角度来看，个人电脑随便都是2G、4G内存，但是在70\80年代，几M内存都很很大的存在，如果我内存没有4G这么大，那么这个操作系统就无法使用了，而且你留下256M给操作系统，有的时候我整个电脑内存都没有这么大，留下那么多，就是浪费</p>
+<p>所以最后他们想出来一个办法，就是现实和理想之间放一个转换器（MMU），也就是动态内存管理。操作系统也不管你机主有多大内存了，我假设你有4G，当你用一块，无论是什么位置，我从空余的地方给你取出来，假如你没有4G，我就把一部分不常用内存值的放到磁盘上面，这样通过这样这样的操作的实现内存的高效利用。</p>
+<p>操作系统对内存这种骚操作就相当于在更高的维度上建立了一种抽象，不论底层硬件怎么变（内存大小不同），我高层都不需要变，只需要底层把根据实际情况依次映射，这样无论你换多大内存，我都不需要重装系统。</p>
+<p>这种映射不通过代码很难将清楚，所以我这里也不提太多，如果你想知道怎么映射，硬件如何配合，你可以看我这篇<a href="/2018/01/31/内存分页/">博客</a>，详细介绍了内存分页的骚操作。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>至处到这里我们的操作系统之旅就结束了，我们成功在引导帮助下上了内存，也使用了提高操作系统的地址保证了堆栈的正常使用，接下来就是操作系统的各种附加功能，我们也会在接下来的lab中继续讲解。</p>
+<p>lab1不止介绍了这两个地方，但是在lab1中我觉得最重要的地方就是要知道操作系统是什么，它从哪里来，它要到哪里去，操作系统毕竟牵涉到硬件，很多硬件知识我们不一定能搞懂，比如说要切换哪几个位到保护模式，怎么输出端口才能读取扇形区，但是我们必须要搞懂他这样做的原因，这也是我在这篇里面谈了很多操作系统历史的原因，希望在理解操作系统上面能给大家带来一点启发。</p>
+<p>在最后的话，我谈一谈我对入门这门课的感受吧，我算编程基础还算比较扎实，但是在一开始学习的过程中一脸懵逼，C语言的各种骚操作，汇编与C疯狂混合，看惯了脚本语言的我，对这种改一下就编译不过的“硬骨头”异常难受，一开始根本看不下去，有的时候看几行代码，查资料好几个小时，而且资料特别难找，你不知道这种骚操作有啥意思，在这里还得感谢学习过这门课的学长学姐们，在网上无私的把自己的感受分享出来，慢慢的根据他们的资料和自己的调试还有自己找资料，慢慢的把这个代码一行一行搞懂，搞懂之后特别感慨，其实也不是很难，难的是要把你知道的所以知识点串起来，然后你就能搞懂为什么要这么做，所以我推荐大家还是多看代码，多去思考为什么要这么做，必须要自己的思考在里面，如果单纯的知识为了完成实验其实很简单，但是难就难在把这门课琢磨透，搞懂他们为什么要这样考你，毕竟大家最后的目的都是自己做出自己的操作系统，只有了解的透彻，才能“破而后立”搞出自己的创新，而不是复制他们的壳子，所以加油把每一行代码都搞懂，多思考，不要骄傲，毕竟这只是教学类的操作系统，要想自己写出来还得不懈努力。</p>
+<p>接下来还有6个lab需要完成，终于迈出的第一步，希望在年前能够完成所有的实验吧！！！加油！！！</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://buweilv.github.io/2017/06/10/jos-bootstrap-3/" target="_blank" rel="noopener">“C语言虚拟内存表”</a></p>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>MOOC</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>用户空间隔离</title>
+    <url>/2018/02/20/algorithm/mit6_828/%E7%94%A8%E6%88%B7%E7%A9%BA%E9%97%B4%E9%9A%94%E7%A6%BB/</url>
+    <content><![CDATA[<blockquote>
+<p>通过前面的学习我们知道，在前两个实验中最主要的程序就是<code>kern/init.c</code>文件中<code>i386_init</code>函数，但是我们看到最后却是一个<code>while</code>循环结束。</p>
+</blockquote>
+<pre><code>while (1)
+    monitor(NULL);
+</code></pre><p>这个<code>monitor</code>就是简单读取用户输入然后通过字符串调用给定的几个函数。我们可以把这个函数看做<code>i386_init</code>的子函数，也就是程序一直在<code>i386_init</code>中运行，也就是一直以内核形式运行。实验三就开始完成一个正常的操作系统的用户模式的建立，以及两者直接转换。</p>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>什么是用户呢，我们把内核当做一个大程序，用户就是小程序，两者基本上没有差别，但是为了让众多用户和内核平稳运行，我们必须要区别对待用户和内核</p>
+<p>首先我们要相信内核，内核是我们精心设计的，相反用户我们不能相信它，任何人都可以犯错误，我们知道计算机程序其实非常精巧，当他们完整的时候，他们可以完成你无法想象的工作，但他们有时候少掉一行指令时，他们就会瞬间崩溃，所以我们必须要保证就算用户怎么折腾都不会把内核搞垮</p>
+<p>所以我们来考虑一下怎么来限制用户不影响整个系统，第一用户不能动内核在内存上的程序，甚至连查看的资格都没有，这就是为什么前面我们已经绞尽脑汁把内核放到高地址上确保其“高高在上”；第二个用户不能在CPU一直跑，假如它有权限一直在CPU上跑，那么内核就废了，没有CPU可以用相当于“断了胳膊”；第三用户必须要有一些内核的权限，比如说申请一些内存啥的。</p>
+<p>接下来我们就从这几个问题出发来探索一下xv6为什么要这样设计用户空间。</p>
+<h2 id="用户是个程序？"><a href="#用户是个程序？" class="headerlink" title="用户是个程序？"></a>用户是个程序？</h2><p>在完成用户设计之前，首先我们先做个实验，来验证一下用户是个程序。首先我们在<code>kern/init.c</code>文件中<code>i386_init</code> 的头部加上<code>#include &lt;inc/elf.h&gt;</code>然后在<code>#if defined(TEST)</code>代码前加入几行代码</p>
+<pre><code>extern uint8_t _binary_obj_user_hello_start[];
+struct Elf* header = ((struct Elf *) _binary_obj_user_hello_start);
+assert(header-&gt;e_magic == ELF_MAGIC);
+((void (*)(void)) (header-&gt;e_entry))();
+</code></pre><p>这段代码你如果仔细观察过前面操作系统载入的源码（<code>boot/main.c</code>中)你会发现基本上差不多。首先我们声明了<code>_binary_obj_user_hello_start</code>外部变量，这个变量是通过<code>ld</code>编译器将内核中用户程序<code>hello.c</code>的起始地址定义来的，由于我们现在没有文件系统，内核就把用户程序一股脑链接到自己身上，在以后有了文件系统就不需要了。但是它给了我们一个便利，我们现在可以直接在内存上运行它</p>
+<p>当然虽然它的确是个程序（assert那不会出错），但是它还是跑不起来，因为它的虚拟地址不在内核内存上，必须要像前面映射内存物理空间才能运行，但是他的确是一个程序，从这里我们得到一个结论，用户其实也就是一段程序，接下来我们就看看如何用软件与硬件的结合的设计解决上面的问题。</p>
+<h2 id="权限"><a href="#权限" class="headerlink" title="权限"></a>权限</h2><p>首先我们来看看权限问题，<code>x86</code>系统硬件给我们提供了一个分段式权限功能，在开启内存分页后，<code>CS</code>寄存器16位里面拿出两位来当做权限管理，分为四级（<code>0b00、0b01、0b10、0b11</code>），最小的权限最大，当然xv6只用了两级，如下图所示</p>
+<p><img src="/images/systemring.png" alt="系统环来源网络"></p>
+<p>PS：当然<code>CS</code>寄存器拿出来三位来当权限管理，但是xv6将第三位用户和内核都设置为1，所以我们也不介绍这一位</p>
+<p>我们在<code>CS</code>寄存器的这两位称为CPL，用来区分权限。在<a href="/2018/01/31/引导和操作系统的交互/">引导和操作系统的交互</a>这篇博客我们知道，在<code>x86</code>系统中，这个<code>CS</code>寄存器是标志段选择子，在<code>GDT</code>表中每个表项也有两位用来标志权限，我们称他们为<code>DPL</code>，他们的意义也就是<code>CS</code>寄存器选择这个段时他们最低拥有的权限。</p>
+<p>当然在<code>GDT</code>表中的段选择子也有一个表示权限的称作<code>RPL</code>，这三者的关系在这<a href="https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86" target="_blank" rel="noopener">里面</a>介绍的很详细，<code>RPL</code>是历史遗留问题但是操作系统基本上没有使用这个功能，所以这里我们也不解释，感兴趣可以看一下<a href="https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86" target="_blank" rel="noopener">前面</a>的介绍。</p>
+<p>在<code>kern/env.c</code>的<code>结构体gdt</code>我们声明了一个<code>GDT</code>表，并且声明了一个系统段和用户段。</p>
+<p>这两个段就是我们权限的基础我们接下来通过实验来验证权限位对操作系统的保护</p>
+<p>我们首先在<code>user/badsegment.c</code>中加入一句汇编</p>
+<pre><code>asm volatile(&quot;ljmp %0,$1f\n 1:\n&quot; :: &quot;i&quot; (0x08)); // 将CS设置为0x08
+</code></pre><p>我们尝试将<code>CS</code>设置为<code>0x08</code>（内核段）结果直接引发一个<code>General Protection</code>的异常，但是当我们尝试执行这句</p>
+<pre><code>asm volatile(&quot;ljmp %0,$1f\n 1:\n&quot; :: &quot;i&quot; (0x18));  // 将CS设置为0x18
+</code></pre><p>我们发现程序没有引发异常（这段的含义是跳转到用户段，由于已经在用户段，所以没有触发异常），这说明<code>x86</code>通过<code>CS</code>寄存器很好的实现了内核和用户的保护（用户不能直接跳到内核去执行代码）</p>
+<p>在<code>user/faultwritekernl.c</code>和<code>user/faultreadkernl</code>中我们发现尝试写入或者读取内核也失败了，这是通过前面章节的内存分页权限实现的，这里就不介绍了。</p>
+<p>现在我们知道，通过我们不懈努力内核和用户直接存在一个鸿沟，但是这时候摆在我们面前很大的问题，内核拥有一些非常重要的权限比如申请内存，如果用户没有这个权限那么功能非常受限，所以我们就要提到一个内核和用户交互的手段：Trap。</p>
+<h2 id="Trap"><a href="#Trap" class="headerlink" title="Trap"></a>Trap</h2><p>其实这个Trap包括内部中断、软中断、异常。但是xv6统一将他们叫做陷阱（Trap），这个Trap主要完成从用户到内核的一种跳转，我们就不介绍内部中断和异常，因为这些都是系统完成，我们来介绍了一下软中断，这个我们人为可以操作，而且我们可以把其他中断、异常当做系统去帮我们调用这个指令</p>
+<pre><code>int $n
+</code></pre><p>很简单x86共定义了256个中断向量，存在物理内存<code>0x000</code>-<code>0x3ff</code>之间，每个存贮一个<code>cs</code>值一个<code>eip</code>的值，这个n只要是在256直接就行，当调用这个的时候我们直接调到那里读取<code>cs</code>和<code>eip</code>的值。</p>
+<p>在正式介绍<code>Trap</code>之前我们要简单的介绍一下两个知识点</p>
+<h3 id="IRET"><a href="#IRET" class="headerlink" title="IRET"></a>IRET</h3><p>这是<code>iret</code>是一个机器码，我们前面介绍了无论是操作系统还是用户没有办法直接跳段（会引发<code>General Protection fault</code>），而且我们知道前面只是测试了跳代码段，我们知道两个不同的程序，不仅仅是代码段不同，堆栈段也要不同，才能保证各个程序的独立。所以系统为了解决这个问题，直接提供一个<code>iret</code>指令，这个全名应该叫<code>中断返回</code>，它的功能其实很简单，就是实现上面的跳代码段和堆栈段还有恢复<code>EFLAGS</code>寄存器值，这个主要应用在从系统跳转到用户上面。</p>
+<p>感兴趣的可以看看这个详细<a href="https://stackoverflow.com/questions/6892421/switching-to-user-mode-using-iret" target="_blank" rel="noopener">资料</a>，接下来我们看看在<code>xv6</code>里面如何使用<code>iret</code>来实现跳段</p>
+<p>在<code>kern/env.c</code>的<code>env_pop_tf</code>函数实现了切换程序段的功能</p>
+<pre><code>asm volatile(
+        &quot;\tmovl %0,%%esp\n&quot;
+        &quot;\tpopal\n&quot;
+        &quot;\tpopl %%es\n&quot;
+        &quot;\tpopl %%ds\n&quot;
+        &quot;\taddl $0x8,%%esp\n&quot; 
+        &quot;\tiret&quot;
+        : : &quot;g&quot; (tf) : &quot;memory&quot;);
+</code></pre><p>首先第一个就是把tf指针指向的值赋给<code>esp</code>寄存器，要想知道这个操作的意思就必须知道，一个结构体其实在程序里面就是一块连续的内存值，所以这里就是把<code>esp</code>的值指向<code>tf</code>代表的<code>Trapframe</code>结构体的开始位置，所以我们得看看这个<code>Trapframe</code>组成是什么</p>
+<pre><code>struct Trapframe {
+    struct PushRegs tf_regs;
+    uint16_t tf_es;
+    uint16_t tf_padding1;
+    uint16_t tf_ds;
+    uint16_t tf_padding2;
+    uint32_t tf_trapno;
+    /* below here defined by x86 hardware */
+    uint32_t tf_err;
+    uintptr_t tf_eip;
+    uint16_t tf_cs;
+    uint16_t tf_padding3;
+    uint32_t tf_eflags;
+    /* below here only when crossing rings, such as from user to kernel */
+    uintptr_t tf_esp;
+    uint16_t tf_ss;
+    uint16_t tf_padding4;
+} __attribute__((packed));
+</code></pre><p>第一个是<code>PushRegs</code>结构体，这个对应我们第一个操作<code>popal</code>，将<code>PushRegs</code>所有值全部从堆栈中取出，我们发现当到<code>iret</code>操作时，正好对应取出代码段还有堆栈段和<code>EFLAGS</code>寄存器，所以其实<code>iret</code>的操作非常简单，只是将三个取出指令和成了一个。</p>
+<h3 id="TSS"><a href="#TSS" class="headerlink" title="TSS"></a>TSS</h3><p>前面我们捋了捋从系统跳转到用户，因为我们给用户的都是刚新建的值，所以这个并没有什么问题，但是你要想一想，当用户想跳转到系统的时候，这个时候它也必须要切换堆栈，因为用户可以还没有准备好（有时候可以是因为堆栈内存不够，如果把寄存器值强行插值到用户堆栈会引发二次异常）。但是假如使用操作系统的堆栈，在我们切换之前系统必须要知道内核堆栈在哪</p>
+<p>所以x86提供了一个<code>tr</code>寄存器给我们使用，这个寄存器的位数为16位，专门存贮一个选择子（类似前面段选择子），这个选择子<code>base</code>地址必须指向一块空余空间。前面知道我们要想从用户跳操作系统，必须知道操作系统的堆栈（中断向量表提供了代码段cs：ip），所以x86干脆规定了这个空间名字为<code>TSS</code>，并声明了一大串寄存器的值备用，当然这些是硬件规定的，软件用不用无所谓，但是硬件会在跳转的时候，读取里面固定位置的值，也就是我们需要的堆栈段<code>ss：esp</code>，在<code>inc/mmu.h</code>的<code>Taskstate</code>结构体中声明了这段内存规定的字段</p>
+<p>所以我们在<code>kern/trap.c</code>中声明了（ss：esp）</p>
+<pre><code>   ts.ts_esp0 = KSTACKTOP;
+ts.ts_ss0 = GD_KD;
+</code></pre><p>这样我们在跳转的时候就能获取到内核的堆栈段，从而进入内核模式，当然硬件设定<code>TSS</code>的作用一开始为了考虑任务切换，它也提供了相应的指令，但是需要200左右时钟周期来完成，所以我们<code>xv6</code>嫌弃其速度太慢，只是使用了其保存内核堆栈地址的作用，所以在<code>xv6</code>中<code>TSS</code>只是一个“数据库”而已。</p>
+<hr>
+<p>介绍完前面的基础知识之后，接下来的就是这个<code>Trap</code>，前面我们知道在得到<code>int</code>这个指令时候这个时候就开始一个<code>Trap</code>开始。</p>
+<p>这个时候硬件接管程序控制，你也可以认为跳转到硬件代码去了。在给的<a href="https://pdos.csail.mit.edu/6.828/2016/xv6/book-rev9.pdf" target="_blank" rel="noopener">资料</a>第三章的<code>X86 Protection</code>里面介绍了这个过程，我们将前面几个步骤很我们前面给的资料联系起来</p>
+<blockquote>
+<p>后面推寄存器值就不解释了，同<code>Trapframe</code>的反向结构相同，之所以会这样，是因为堆栈地址是向下生长，而程序地址是向上生长的</p>
+</blockquote>
+<p>硬件这部分操作为</p>
+<ul>
+<li>获取中断向量表第n个的地址（n为<code>int</code>后面整数）</li>
+</ul>
+<p>然后开始权限检查，这个也是为什么程序不能随意调用系统资源的原因</p>
+<ul>
+<li>检测DPL与CPL的大小关系</li>
+</ul>
+<p>这个<code>DPL</code>不是前面<code>GDT</code>里面的，这个是存贮在中断向量表中<code>CS</code>里面的值，这个设置可以让我们给每个中断向量设置一个权限，看它允许是用户调用还是系统调用，如果只允许系统调用，那么用户调用直接引发<code>General Protection Fault</code>（13号中断），在我们的xv6中，我们只允许用户调用<code>Debug</code>和<code>System Call</code>中断，其他只能由系统调用</p>
+<ul>
+<li>判断保留<code>esp</code>和<code>ss</code>，检测目标的段与当前段</li>
+</ul>
+<p>当我们在操作系统中出现中断的时候，如果硬件还傻乎乎的将操作系统的堆栈归位那么就进入死循环了，所以这个目的就是避免同属一个段的时候不会切换堆栈</p>
+<ul>
+<li>当跳段的时候，从<code>TSS</code>中取到<code>esp</code>和<code>ss</code>切换堆栈段</li>
+</ul>
+<p>这个就是前面弹到的<code>TSS</code>的功能，接下来我们所以推出去的值全部存贮在要跳的段的堆栈上面了。</p>
+<p>推完<code>Trap</code>程序的寄存器值，保留好“犯罪现场”后，就可以进入内核进行处理这个异常了。</p>
+<p>至此我们介绍完了严格有序的处理从用户到内核的跳转，当我们处理完后就可以通过<code>iret</code>回到用户程序，这样就完成了用户拥有内核权限的设计。</p>
+<hr>
+<h2 id="用户时间控制"><a href="#用户时间控制" class="headerlink" title="用户时间控制"></a>用户时间控制</h2><p>接下来的用户使用CPU时间设置也是通过这个这个<code>Trap</code>的中断实现，你可以理解为硬件在每个CPU上在每隔个<code>10ms</code>的时候就触发一个中断。这样到内核的时候，内核发现是时间中断，就保留用户的寄存器值到用户自己空间（<code>Env</code>里面有一个<code>env_tf</code>变量可以存贮这些信息），然后调用其他或者这个程序，这样的话，我们就实现了一个时间控制。</p>
+<p>PS：这里我们提一下这个<code>Env</code>结构体，内核初始化了1024个这个结构体，这说明我们可以同时拥有1024个用户程序运行，这个结构体就是用户环境，也就是我们在<code>Unix</code>系统上输入<code>ps</code>中的<code>pid</code>（每个<code>pid</code>代表一个程序）</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>至今我们介绍了通过一个简简单单的<code>Trap</code>操作就实现了复杂的权限管理和空间隔离，虽然操作系统看起来非常复杂，但其实都是由简单干练的概念搭建起来的，因为<code>Unix</code>的哲学就是<code>简单至上</code>。</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://stackoverflow.com/questions/6892421/switching-to-user-mode-using-iret" target="_blank" rel="noopener">https://stackoverflow.com/questions/6892421/switching-to-user-mode-using-iret</a></p>
+<p><a href="https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86" target="_blank" rel="noopener">https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86</a></p>
+<p><a href="https://en.wikipedia.org/wiki/Task_state_segment" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Task_state_segment</a></p>
 ]]></content>
       <categories>
         <category>算法</category>
@@ -5403,6 +5700,75 @@ print(resp.read())
       </categories>
   </entry>
   <entry>
+    <title>内存分页设计</title>
+    <url>/2018/02/05/algorithm/mit6_828/%E5%86%85%E5%AD%98%E5%88%86%E9%A1%B5%E8%AE%BE%E8%AE%A1/</url>
+    <content><![CDATA[<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>前面已经通过lab1的这篇<a href="/2018/01/03/内存分页设计/">博文</a>了解了内存分页的实现细节，接下来就谈谈如何具体实现内存分页</p>
+<h2 id="物理载体"><a href="#物理载体" class="headerlink" title="物理载体"></a>物理载体</h2><p>通过了解<a href="/2018/02/19/KERNBASE对操作系统的影响/">KERNBASE对操作系统的影响</a>这篇博文我们知道，其实内存分页就是完成对物理存在的一种分割和隔离，所以我们在完成内存分页系统设计之前必须要构建一个载体，完成对物理存在的一种表示。</p>
+<p>在xv6中声明一个动态数组来代表物理内存，每一个值代表一块4k的内存页。我们主要通过<code>offset - base</code>得到偏移倍数，每个偏移量为<code>4K</code>，也就是通过<code>(offset - base )  &lt;&lt; 12</code>得到物理地址，我们看一下这个数组成员：PageInfo结构体</p>
+<pre><code>struct PageInfo {
+    struct PageInfo *pp_link;
+    uint16_t pp_ref;
+};
+</code></pre><p>主要存在两个值：一个为下一个可用的地址指针，一个为引用次数。</p>
+<p>引用次数比较好理解，但是这个<code>pp_link</code>有什么用呢。其实你可用把这个结构体看做成一个由链表组成的堆栈，我们只需要保留栈顶值（page_free_list)，由于它保存下一个值地址，这样通过不断的push、pop，就能维持一个可用物理内存栈。</p>
+<h2 id="二级指针的妙用"><a href="#二级指针的妙用" class="headerlink" title="二级指针的妙用"></a>二级指针的妙用</h2><p>由于前面的博客原理已经介绍的很详细了，我就不再累赘了，在这里我提一下源码中二级指针的妙用，虽然它只有短短几行，但是运行的结果却是让人大开眼界，体会到指针的神奇威力。</p>
+<p>这段代码出现在<code>kern/pmap.c</code>的<code>check_page_free_list</code>函数中</p>
+<pre><code>if (only_low_memory) {
+    // Move pages with lower addresses first in the free
+    // list, since entry_pgdir does not map all pages.
+    struct PageInfo *pp1, *pp2;
+    struct PageInfo **tp[2] = { &amp;pp1, &amp;pp2 };
+    for (pp = page_free_list; pp; pp = pp-&gt;pp_link) {
+        int pagetype = PDX(page2pa(pp)) &gt;= pdx_limit;
+        *tp[pagetype] = pp;
+        tp[pagetype] = &amp;pp-&gt;pp_link;
+    }
+    *tp[1] = 0;
+    *tp[0] = pp2;
+    page_free_list = pp1;
+}
+</code></pre><p>主要的作用是将“栈底”的元素移到“栈顶”，首先它使用了两个一级指针（pp1、pp2），还有两个二级指针分别指向（pp1、pp2）</p>
+<p> 首先<code>int pagetype = PDX(page2pa(pp)) &gt;= pdx_limit;</code>判断物理地址是否为大于4M还是小于4M，我们把物理内存页分成两组</p>
+<ul>
+<li>小于4M A组</li>
+<li>大于4M B组</li>
+</ul>
+<p>对于小于4M的组，分两种情况</p>
+<ol>
+<li>第一个小于4M的内存页（page1）</li>
+</ol>
+<blockquote>
+<ol>
+<li>*tp[0] (也就是pp1） 存贮了pp的值，也就是pp1 = page1</li>
+<li>tp[0] 存贮了pp -&gt; link 的地址（这个没有什么用）</li>
+</ol>
+</blockquote>
+<ol start="2">
+<li>A组第二个以及以后的内存页（page2）</li>
+</ol>
+<blockquote>
+<ol>
+<li>上一个地址的值等于pp（没什么用）</li>
+<li>tp[0] 存贮了下一个空闲地址的值</li>
+</ol>
+</blockquote>
+<p>对于B组来说也是一样的，最重要的是<code>for</code>循环结束后实现的交换</p>
+<pre><code>*tp[1] = 0; 
+</code></pre><p>B组最后一个的<code>pp_link</code>地址地址设置为NULL，也就相当于把他放到栈底</p>
+<pre><code>*tp[0] = pp2;
+</code></pre><p>A组最后一个变成<code>pp_link</code>地址设置pp2，也就是B组的第一个接到了A组的最后面去了</p>
+<pre><code>page_free_list = pp1;
+</code></pre><p>栈顶变成A组第一个，通过这样的“乾坤大挪移”术就将A组部分移到B组前面去了，也就实现了先使用低地址的物理内存的作用</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>理解内存分页必须要了解背后的原理，了解了原理看具体实现的时候才能事半功倍。</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>MOOC</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>触摸Python的GIL</title>
     <url>/2018/09/15/python/%E8%A7%A6%E6%91%B8Python%E7%9A%84GIL/</url>
     <content><![CDATA[<blockquote>
@@ -5670,358 +6036,6 @@ for i in range(100):
       </categories>
   </entry>
   <entry>
-    <title>唯品会预测和携程房屋预测总结</title>
-    <url>/2017/08/09/ai/competition/vip_ctrip_competitions_summary/</url>
-    <content><![CDATA[<blockquote>
-<p>最近打了两个比赛，一直忙着工作和打比赛，没有时间总结，今天抽空好好总结一番</p>
-</blockquote>
-<p>先说一下比赛结果吧，队名全为<code>OfferGo</code><a href="https://www.datafountain.cn/competitions/260/details" target="_blank" rel="noopener">唯品会购买预测</a>第五名，<a href="https://www.kesci.com/apps/home/#!/competition/597172316a1cd9104c2df248/leaderboard/0" target="_blank" rel="noopener">携程房屋预测复赛</a>第六名,两个比赛打的都不算太好,只能算勉强及格,虽然离大神的距离还有十万八千米，不过总算可以称的上入了门，现在来总结一下我入门的经验吧。</p>
-<h2 id="观察数据"><a href="#观察数据" class="headerlink" title="观察数据"></a>观察数据</h2><blockquote>
-<p>我参加过很多群,发现很多新手缺乏观察数据的能力,他们每次进入一个群总是嚷嚷这让大神发<code>baseline</code></p>
-</blockquote>
-<p>这一点对于新手来说很不利的，比赛考的就是你对数据的掌握能力,你对数据把握的越好，你的比赛成绩就越好，要真正掌握数据就要从观察数据入手</p>
-<hr>
-<p>在我看来观察数据主要从四个方面来，我总结为<code>望闻问切</code></p>
-<h3 id="望"><a href="#望" class="headerlink" title="望"></a>望</h3><p>观察数据缺失值，缺失值对数据影响很大，有时候我们能够从缺失值里面了解很多信息,而且对于缺失值，后期我们对不同的缺失值要采取不同的手段，比如补全、统计占比、丢弃等等。</p>
-<p>对于缺失值我一般从两个方面来观察</p>
-<ul>
-<li>全局观察</li>
-<li><ul>
-<li>一般采用<code>datafram.info(null_counts=True, verbose=True)</code>方法来观察全局数据缺失情况</li>
-</ul>
-</li>
-<li>局部观察</li>
-<li><ul>
-<li>一般采用<code>series.isnull().count()</code>和<code>series.loc[series.notnull()]</code>观察单一列表缺失情况</li>
-</ul>
-</li>
-</ul>
-<p>这个阶段我们主要从大的方向远远的<code>望</code>一下数据，主要建立对数据的全局观。</p>
-<h3 id="闻"><a href="#闻" class="headerlink" title="闻"></a>闻</h3><blockquote>
-<p>对于数据来说，一般分为三种，一种为数值型数据（整数、浮点数、时间等），一种为字符型，最后一种为图像型，三种类型数据处理难度依次增强</p>
-</blockquote>
-<p>对于大多数比赛都是设计前两种数据，第三种只有牵扯到图像处理才能遇到。对于前两种数据，我们在闻的阶段，主要是探查数据分布情况，了解数据分布情况，我们才能对症下药。</p>
-<p>了解数据分布情况有两种方法</p>
-<ol>
-<li>图像观察</li>
-<li>数学统计观察</li>
-</ol>
-<p>图像观察主要使用<code>Pandas</code>的<code>Matplotlib</code>绘图接口，或者使用<code>seaborn</code>（一个友好的封装了<code>Matplotlib</code>的包），一般我们可以从直方图、饼图、频率图方向来观察数据</p>
-<p>数学统计我们主要采用<code>Pandas</code>的<code>describe</code>方法，对于数值型数据，主要从平均值（<code>mean</code>）、中位数（<code>50%</code>）、标准差（<code>std</code>）、最大（<code>max</code>）、最小（<code>min</code>）、非空总数（<code>count</code>）来探测数据，对于字符型我们主要从最频繁的值（<code>top</code>）、最频繁的值的个数（<code>freq</code>），非空总数（<code>count</code>）、不相同的值（<code>unique</code>）。</p>
-<p>通过上面两种方法，我们能够从数据分布的角度大致勾画出数据的轮廓。</p>
-<h3 id="问"><a href="#问" class="headerlink" title="问"></a>问</h3><blockquote>
-<p>比赛的目的就是找到最优解，而最优解的跟相关特征紧密联系的，你的特征对结果影响越大，你就要审<code>问</code>这个特征</p>
-</blockquote>
-<p>举个例子，我们要预测三组数据</p>
-<ul>
-<li>1 1.8  2</li>
-<li>2 3.5  4</li>
-<li>3  5.4  16</li>
-</ul>
-<p>第一行为我们要训练的值，我们发现第二行的数据是第一行的1.8倍，而第三行只是2的次方，对于这两个特征来说，第二个特征就是最好的特征，我们只要建立一个映射，准确率能接近100%，而第三个特征对预测结果毫无联系，这个特征不但对结果没有作用，而且有时候会起到反作用</p>
-<p>当然在这里我们举这么一个例子在实际中不可能遇到，我们遇到是更多数据，而数据之间的联系并不是这么简单的线性关系，但是线性关系有的时候能让我察觉到特征与预测值的关联，毕竟如果特征值是随机值那么与预测值之间的相关性是非常低的。</p>
-<p>在<code>Python</code>里面探测线性关系最简单的方法是调用特征值和预测值的相关性系数（<code>corr</code>），我们可以简单的使用<code>df[[&#39;feature&#39;, &#39;target&#39;]].corr()</code>就可以得到线性相关系数，这个数的绝对值越接近1，相关性越大，一般来说相关性越大和越好对结果都不好，最好的特征相关性处于中间位置。</p>
-<p>相关性低我们可以理解，为什么相关性高反而不好呢，因为数据比赛里面给我们的数据大部分都是不平衡的数据，正负样本失衡，一般相关性很高的值一般为分类同预测值相同，比如一个二分类问题，预测值为0和1，给的样本正负比为1000:1，那么如果有一个特征全为0或者其他，那么他与预测值的相关性会达到90%以上，然而这个值是毫无作用的。</p>
-<p>所以我们通过简单的相关系数并不能很好的观察特征真正相关性，一般我们要辅助图像法和统计法。</p>
-<p>图像法就是通过将特征值分布与预测值相关性图表画在同一个图表里，具体可以参考<a href="https://www.kaggle.com/benhamner/d/uciml/iris/python-data-visualizations" target="_blank" rel="noopener">可视化特征</a></p>
-<p>统计法类似图标，使用统计方法观察，特征值与预测值的相关性，一般使用<code>groupby</code>方法对两个特征进行统计就可以进行简单的观察</p>
-<p><code>问</code>只是一个简单的手段，一般我们在大量添加特征的时候，为了节省模型训练时间，在将特征放入管道之前进行一个简单的过滤删除的工作，真正重要的步骤在<code>切</code>这个方面</p>
-<h3 id="切"><a href="#切" class="headerlink" title="切"></a>切</h3><blockquote>
-<p><code>切</code>这个步骤放在最后是因为，这个步骤也是我们一趟循环下来的最后一步</p>
-</blockquote>
-<p>数据比赛中前期大家最喜欢用的模型是树模型，比如随机森林、<code>Xgboost</code>，<code>LightBoost</code>等，这些模型属于弱学习器组合模型，我们最后可以从训练结果得到每个特征在模型占的比重</p>
-<p>对于这个比重，是非常重要的，他代表了每个特征对应在模型中占的权重，也可以理解特征与结果的相关性</p>
-<p>对于相关性很强的不同的特征，我们可以将他们组合，有时候这种强强组合生成出来的特征会比原来母特征相关性更强，当然组合的方法有千种万种，如何验证他们有效就要从头开始对数据进行<code>望闻问切</code>了</p>
-<h4 id="总结：-数据比赛就如同问诊，我们不断对特征进行望闻问切，对于高手来说他们能很快的从原始特征中挑选出病根，对症下药，而新手的话，一阵摸瞎，经常会碰到在比赛中期做出一个很好的结果，接下来很长一段时间都没有进步的情况。掌握科学有效的挑选特征方法需要一个“医者心”，必须学会对特征“负责”，要学会望闻问切。"><a href="#总结：-数据比赛就如同问诊，我们不断对特征进行望闻问切，对于高手来说他们能很快的从原始特征中挑选出病根，对症下药，而新手的话，一阵摸瞎，经常会碰到在比赛中期做出一个很好的结果，接下来很长一段时间都没有进步的情况。掌握科学有效的挑选特征方法需要一个“医者心”，必须学会对特征“负责”，要学会望闻问切。" class="headerlink" title="总结： 数据比赛就如同问诊，我们不断对特征进行望闻问切，对于高手来说他们能很快的从原始特征中挑选出病根，对症下药，而新手的话，一阵摸瞎，经常会碰到在比赛中期做出一个很好的结果，接下来很长一段时间都没有进步的情况。掌握科学有效的挑选特征方法需要一个“医者心”，必须学会对特征“负责”，要学会望闻问切。"></a>总结： 数据比赛就如同问诊，我们不断对特征进行<code>望闻问切</code>，对于高手来说他们能很快的从原始特征中挑选出<code>病根</code>，对症下药，而新手的话，一阵摸瞎，经常会碰到在比赛中期做出一个很好的结果，接下来很长一段时间都没有进步的情况。掌握科学有效的挑选特征方法需要一个“医者心”，必须学会对特征“负责”，要学会<code>望闻问切</code>。</h4><h2 id="并行化算法"><a href="#并行化算法" class="headerlink" title="并行化算法"></a>并行化算法</h2><blockquote>
-<p>由于<code>Python</code>本身对多核利用不好，如何利用多核加快特征生成对于比赛来说意义重大</p>
-</blockquote>
-<p>就拿我来举例子，我每天下班打比赛的时间不超过8个小时，前期算法没有并行化的时候，走一遍管道要四个小时，这意味着我一天只能跑两次，而进行并行化优化以后，我跑一遍四线程全开（笔记本双核四线程）只要十分钟就能跑完，每次生成新特征只有10分钟就能拿到特征相关性数据，来验证特征的好坏。</p>
-<p>下面我从三个方面来谈谈怎么实现并行话算法</p>
-<h3 id="1-使用系统自带函数，拒绝for循环"><a href="#1-使用系统自带函数，拒绝for循环" class="headerlink" title="1 . 使用系统自带函数，拒绝for循环"></a>1 . 使用系统自带函数，拒绝<code>for</code>循环</h3><p>举个例子，作为新手，实现对两个个特征求平均，一般采用<code>for</code>循环将每一行两个特征值加起来然后除以2，假如有1000万行，每行加法和除法运算花0.001ms，那1000万也要10秒钟，只是进行一个最简单的求平均，你就花掉10秒钟，上百个特征你得运行几天</p>
-<p>学过矩阵的都知道，矩阵就是一种高效的并行化结构，它将集合统一进行计算，可能一个大矩阵运算要比单一计算要慢，但是单一计算要1000万次的话，大矩阵运算只需要两次就够了，这个效率比就出来了</p>
-<p>而<code>Python</code>由于是一门解释性语言，比其他静态语音速度要慢许多，你一方面使用<code>for</code>循环加大运算次数，一方面执行一次时间长，这相重叠加你的算法会跑的比蜗牛还慢</p>
-<p>所以我们避免使用我们写的函数，尽量使用库系统函数，因为库系统函数底层是使用<code>C</code>或<code>C++</code>实现的，而且他们在底层进行使用矩阵话运算代替单一浮点计算，我们使用库的函数（比如<code>mean</code>，<code>groupby</code>等）一方面能底层能使用C加快速度，一方面使用矩阵运算加快速度，两个叠加你的算法跑的比飞机还快。</p>
-<h3 id="2-使用多进程，充分发挥使用多核性能"><a href="#2-使用多进程，充分发挥使用多核性能" class="headerlink" title="2 . 使用多进程，充分发挥使用多核性能"></a>2 . 使用多进程，充分发挥使用多核性能</h3><p>由于<code>Python</code>的<code>GIL</code>锁，使得<code>Python</code>无法利用多核进行计算，所以我们只能使用多个进程来充分利用多核</p>
-<p>实现多进程有两个要点（具体可以参考我携程比赛代码 <a href="https://www.github.com/mrzhangboss" target="_blank" rel="noopener">Github地址</a>)</p>
-<ul>
-<li>特征提取模块化</li>
-<li>进程池的搭建和维护</li>
-</ul>
-<p>我在携程比赛中的<code>mult_run.ipynb</code>中搭建了一个进程池，通过第三方调度和监控进程内存CPU等信息，达到充分“榨干”每个核的功效</p>
-<h3 id="3-压缩数据，让矩阵运算更快"><a href="#3-压缩数据，让矩阵运算更快" class="headerlink" title="3 . 压缩数据，让矩阵运算更快"></a>3 . 压缩数据，让矩阵运算更快</h3><p>由于在对特征进行提取过程中，<code>Python</code>会自动将低位制值转换成高位制值，比如<code>float16</code>在进行一次<code>groupby</code>之后就会转换成<code>float64</code>，由于在矩阵运算时候，高进制值会占更多内存和运行时间，所以为了加快算法运行，我们要将其压缩，一方面节省内存，一方面能够让算法运行的更快</p>
-<p>在携程的比赛中，原始数据有一个G，我将其压缩之后只占用300M内存空间，这为我后面在一台12G内存的笔记本实现并行化算法提供了巨大帮助，当然我每次在生成新特征的时候也会进行压缩，具体可以参考我携程的<code>utils.py</code>文件</p>
-<h3 id="总结：-这两次比赛，我从菜鸟出发慢慢的从一个程序员变成了数据挖掘机，在模块化和并行化方面，我觉得我的进步不错，但是在数据特征挖掘方面我与大神之间的差距还是巨大的，这也是我止步于前五的主要原因，接下来我要加强对数据方向的锻炼，希望能够在工作和比赛之中得到更好的进步"><a href="#总结：-这两次比赛，我从菜鸟出发慢慢的从一个程序员变成了数据挖掘机，在模块化和并行化方面，我觉得我的进步不错，但是在数据特征挖掘方面我与大神之间的差距还是巨大的，这也是我止步于前五的主要原因，接下来我要加强对数据方向的锻炼，希望能够在工作和比赛之中得到更好的进步" class="headerlink" title="总结： 这两次比赛，我从菜鸟出发慢慢的从一个程序员变成了数据挖掘机，在模块化和并行化方面，我觉得我的进步不错，但是在数据特征挖掘方面我与大神之间的差距还是巨大的，这也是我止步于前五的主要原因，接下来我要加强对数据方向的锻炼，希望能够在工作和比赛之中得到更好的进步"></a>总结： 这两次比赛，我从菜鸟出发慢慢的从一个程序员变成了数据挖掘机，在模块化和并行化方面，我觉得我的进步不错，但是在数据特征挖掘方面我与大神之间的差距还是巨大的，这也是我止步于前五的主要原因，接下来我要加强对数据方向的锻炼，希望能够在工作和比赛之中得到更好的进步</h3><h4 id="在最下面贴一下我的携程比赛代码（基于Notebook）"><a href="#在最下面贴一下我的携程比赛代码（基于Notebook）" class="headerlink" title="在最下面贴一下我的携程比赛代码（基于Notebook）"></a>在最下面贴一下我的携程比赛代码（基于Notebook）</h4><p><a href="https://www.github.com/mrzhangboss/ctrip_room_predict" target="_blank" rel="noopener">https://www.github.com/mrzhangboss/ctrip_room_predict</a></p>
-]]></content>
-      <categories>
-        <category>人工智能</category>
-      </categories>
-      <tags>
-        <tag>比赛</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>如何搭建自动生成上万特征的管道</title>
-    <url>/2017/06/13/ai/competition/%E5%A4%A7%E8%88%AA%E6%9D%AF%E2%80%9C%E6%99%BA%E9%80%A0%E6%89%AC%E4%B8%AD%E2%80%9D%E7%94%B5%E5%8A%9BAI%E5%A4%A7%E8%B5%9B%E5%8F%82%E8%B5%9B%E7%BB%8F%E9%AA%8C/</url>
-    <content><![CDATA[<p>基于:大航杯“智造扬中”电力AI大赛参赛经验</p>
-<p><img src="/images/electric_power_ai.jpg" alt="大航杯AI大赛"></p>
-<p>赛题背景</p>
-<blockquote>
-<p> 主办方为大航集团提供21个月江苏省杨中市1454家企业日用电量,来估计下一个月日总用电量</p>
-</blockquote>
-<p>从给的数据分析,这次给的数据只有历史企业日用电量,用来估计日总用电量,是一个典型的时域分析问题</p>
-<p>但是这同我们以往的时序问题不一样,向往常时序问题预测的是每个企业的未来每日的用电量,而这个比赛却是求全部企业的总数.</p>
-<p>由于我报名比赛时候比较晚,比赛已经接近尾声,比赛5月18号开始,6月8号中午切换数据,13号截止,我6月8号晚上下载数据,由于我以前已经做了几个类似的比赛,但是一直没有系统的做一个,抱着锻炼的自己的态度,决定系统做一次,权当练手.</p>
-<p>首先分析一下提交的结果,预测一个月的日总用电量,总共为31个数据,给的历史数据只有21个月的,按月的比例来看,只有21个值去训练值去预测一个值,根据往常的比赛经验来看,这种比赛适合使用规则方法来做,然而我剩下的验证机会不多了,只能用模型,但是过拟合的危险非常大,如果不能找到一个好的方法克服过拟合,复赛都进不去.</p>
-<p>当然最后还是没有找到一个很好的办法,止步于复赛,不过这次比赛让我学到很多,主要通过这次比赛自己琢磨出来自己如何搭建基于<code>IPython Notebook</code>的管道结构,这个管道帮我自动生成上万特征.</p>
-<h2 id="管道"><a href="#管道" class="headerlink" title="管道"></a>管道</h2><blockquote>
-<p>什么是管道,在数据挖掘比赛中很多大神都着重讲了一定要搭建一个自动化的架构,我们暂且称他为”管道”,这个”管道”我们要能够把数据倒进去,结果倒出来.</p>
-</blockquote>
-<p>这个管道用专业的术语来看要有以下几个功能</p>
-<ul>
-<li>能够自由添加<code>Feture</code></li>
-<li>能够自动评判得到添加的<code>Feture</code>的效果</li>
-<li>管道能够自己选择合适的参数训练模型</li>
-<li>能够输出结果</li>
-</ul>
-<p>其实简单来说,我们要做的是一个能够非常方便的扩展的脚手架,我们不可以第一次就把所以的特征全部找出来,所以我们要搭建一个能够实时添加<code>Feture</code>的框架.</p>
-<p>其实很早以前就看过类似文章,也有很多人推荐<a href="https://github.com/ChenglongChen/Kaggle_HomeDepot" target="_blank" rel="noopener">大神开源的一个脚手架</a>,然而找到的大多是用<code>python</code>实现</p>
-<p>我因为一开始就是使用<code>Notebook</code>进行数据挖掘,主要<code>Notebook</code>能够提供一个实时的反馈,而纯<code>python</code>,对于复杂多变的数据来说,显得非常笨重,你经常有个好想法想验证一下,又得重新跑一遍,尤其是对于我的机器配置来说,重新跑一边的时间都够我喝杯茶了.而且<code>notebook</code>有个特点,可视化特别方便,有时候从数据上看不到,可以画个图表</p>
-<p>好了,夸了这么久,现在就来仔细讲讲脚手架如何搭建.</p>
-<p>我们先回到赛题,第一步审题,当时我看到日平均两个字,直接把日字省略,看成平均用电量,结果白白浪费了两个验证机会…..</p>
-<p>审完了题我们来看我们要提交的数据,换数据后要预测十月日用电总量.我们来看看给我们数据,只有一份数据,表头如下</p>
-<pre><code>record_date,user_id,power_consumption
-2015/1/1,1,1135
-2015/1/2,1,570
-2015/1/3,1,3418
-2015/1/4,1,3968
-2015/1/5,1,3986
-</code></pre><p>解释一下字段,<code>record_date</code>–日期,<code>user_id</code>–企业id, <code>power_consumption</code>–日用电量<br>非常简单,就这么简单单单的数据,我现在要教大家怎么从这么简单的数据上抽取6000维度的</p>
-<p>我把代码已经推到<code>Github</code>上了(由于数据比较少,我把数据也推上去了,方便大家本地跑跑,看完如果对你有帮助的话,请不要吝啬你的star哦),我就对照我的代码解释如何搭建一个可以跑出上万维度的脚手架</p>
-<h2 id="数据划分-split-samples-ipynb"><a href="#数据划分-split-samples-ipynb" class="headerlink" title="数据划分(split_samples.ipynb)"></a>数据划分(<code>split_samples.ipynb</code>)</h2><p>首先要搭建本地预测集,也就是线下样本(这个很重要,有时候线下的结果很大程度对应你线上的结果)</p>
-<p>给的数据要我们从前面21个月预测下一个月的日总用电量,我们很容易就能想到,那我们用前面20个月预测第21个月来做线下测试,但是这样我们就只有30个训练样本,要来预测30个,99.999%过拟合啊,首先我们要扩大样本,我们采用滑动移窗的方法把预测的样本按照月份推移,也就是分别预测9月8月7月等等</p>
-<p>这种方法在实现<code>Notebook</code>有几个难点,首先你划分了预测集,那么就也要划分训练集,就相当于把一份数据切分成好几份,切分完之后有个问题,你必须要隔离每个部分</p>
-<p>举个例子,我们把训练集划分成为2份,1月到7月预测8月,2月到8月预测9月,训练1-7月数据集的时候,我们不能让这个训练集接触到2月到8月的数据,因为8月对于前一个训练集来说是未知的,<br>如果我们让第一个训练集接触倒第二个训练集我们称为信息泄露,很影响线上的结果</p>
-<p>我们知道这个问题之后,我们就要用巧妙的方法来解决,首先我们要考虑我们代码的复杂度,以前我的解决训练集隔离的方法采用的是循环法,使用一个列表存贮所以训练集,然后使用<code>for</code>循环分别传参到函数里面,这个方法能解决隔离训练集,但是有几个问题</p>
-<p>在单个<code>ipy</code>文件中训练所以的样本,在测试的时候跑起来太慢,而且要把数据全部加载在内存里面,这次数据量还算小,但是对于某些小内存的电脑来说,这种方法时不时就得报<code>Memory Error</code>,而且感觉调试起来特别麻烦,所以一直在寻找更好的解决方案.</p>
-<p>这次想到了一种巧妙的方法,虽然有点取巧但是效果我很满意.</p>
-<p>我们先看到<code>split_samples.ipynb</code>文件,首先我把数据划分为9个样本,一个预测样本.分别放入不同文件夹进行物理隔离.但是名字相同.</p>
-<p>再其次我让<code>ipy</code>能够获取参数,这样我通过外部参数就能更换数据集,平常添加<code>Feture</code>的时候默认选取一个训练集,这样我开发的时候调试就非常方便,而且可以丢掉<code>for</code>循环,还我一个清新脱俗的<code>ipy</code>.</p>
-<p>这里说一个小细节,因为我传参必须要外部调用这种,对于运行<code>ipy</code>我使用了<code>runipy</code>这个工具,然后我死活没有找到,如何使用<code>runipy</code>把参数传倒<code>ipy</code>里面去的方法(如果找到了请告诉我),我一拍脑袋那就转换成<code>py</code>文件传过去,通过<code>sys.argv</code>很轻松就能获取到,所以我又用<code>jupyter nbconvert</code>的工具把<code>ipy</code>转换成<code>py</code>文件</p>
-<p>所以绕了一圈最后又回到了<code>py</code>上(手动滑稽).不过我们工作还是在<code>ipy</code>上进行,生成的<code>py</code>文件我好像没打开过….</p>
-<h2 id="特征提取-extract-fetures-ipynb"><a href="#特征提取-extract-fetures-ipynb" class="headerlink" title="特征提取(extract_fetures.ipynb)"></a>特征提取(<code>extract_fetures.ipynb</code>)</h2><p>聊完如何划分数据集,现在我们进入如何特征提取,我们可以看到这次数据其实就三个特征:时间-企业-用电量.由于企业的信息只有一个<code>id</code>,所以我首先提取的是时序的特征,首先把时间分解为八个维度</p>
-<ul>
-<li>dayofweek</li>
-<li>dayofyear</li>
-<li>days_in_month</li>
-<li>quarter</li>
-<li>week</li>
-<li>weekofyear</li>
-<li>month</li>
-<li>year</li>
-</ul>
-<p>我们可以通过<code>pandas</code>轻松提取出来</p>
-<p>然后我们再从两个方向来看,第一个就是我们日总用电量特征,从全部企业日总用电量</p>
-<p>第二个就是日用电量特征,从每个企业日用电量来看,这些特征我们使用简单统计又可以得到10个维度数据(mean,std,等等)</p>
-<p>看完这些之后我们又可以从多个时间维度来看这些特征,比如30天前,90天前等等(我划分了30,60, 90,180,360五个),</p>
-<p>这样我们就有了 <code>8 * 2 * 5 * 10</code>个特征,但是这远远达不到我们说的上万维度,</p>
-<p>现在我们从业务逻辑上来思考,因为我们知道,其实我们中国节假日和周末,天气这些对用电量影响非常大(我们老家打雷就停电…..)</p>
-<p>所以我们要引入外部数据集,我采用两个爬虫分别是<code>weather_crawl,holiday_crawl</code>爬取了天气和节假日的数据</p>
-<p>我们按照前面的思路,从天气节假日的角度又可以划分出n多特征(这时候我的特征已经达到3000了)</p>
-<p>完了这些基础特征后,我发现有些特征重要性特别大(使用<code>Randomforest</code>得到),这时候我们又要请出我们第二大神器,交叉特征,比如月和假期的特征融合,这一波操作直接让我的特征到了6000+维度(如果将窗口扩大轻轻松松上万)</p>
-<p>在这里要介绍一个特征生成的方法,有时候我们特征少,我们会采用自己命名的,自己生成,然后这个由于规律性比较大,<br>如果我们自己手动一个一个写的话,这上万<code>Fetures</code>够你写的,所以要让他自己生成特征,我们只要建好模子就行,由于这次<br>时间仓促,基本上我没有自己手动命名<code>feture</code>,全部都由程序生成,省掉很多代码量,具体可以看看代码实现,原理很简单.</p>
-<h1 id="训练模型-train-model-ipynb"><a href="#训练模型-train-model-ipynb" class="headerlink" title="训练模型(train_model.ipynb)"></a>训练模型(<code>train_model.ipynb</code>)</h1><p>训练模型的话,一般比赛都推荐先使用树模型,一方面速度快,第二个可以看到<code>feture</code>的重要性,这对于你挑选交叉特征非常有用,模型调参的我这里就不讲,一方面我自己也不是很懂,第二个方面也网上教程也多,我讲的不一定比他好</p>
-<p>这里要推荐一个发现有趣的包,<code>mlxtend</code>,我用他来进行<code>stacking</code>特别方便,有意思的时,我用他融合了四个模型,最后我的训练结果竟然为1,完全拟合了……</p>
-<p>这个包可以很简单的进行模型的<code>stacking</code>,然而这个比赛我没有把他用好(手动滑稽)</p>
-<p>通过训练模型后我们把模型存到<code>pkl</code>文件中,然后在用他来预测数据,这样在文件夹里转一圈的原因,因为原来打过部分比赛数据量太大,训练模型后内存不足,只能先<code>del</code>,清空内存,再预测,存到文件夹后,结束进程,清空内存,这样就能省下空间来读取下一步数据.</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>其实在这个脚手架上可以扩展很多东西,比如最后搏一搏单车变摩托的时候,我就在分割数据和训练数据之间加了一个过滤清洗数据层,在训练模型和融合特征之间加了一个降维的中间层.</p>
-<p>建立一个好的脚手架只是能让你在增添特征,选择特征时更加轻松,其实比赛看的还是你对数据的一种掌控力,建立这个脚手架主要是为了节省更多时间给提取特征、选择特征上.特征决定你的上限.</p>
-<p>这次比赛比较特殊,模型在这个比赛效果可能没有规则好,因为数据量太小,我<code>stacking</code>一下直接完全拟合了.可惜验证的次数还是<br>太少,除去前面两次错误的提交,我只有三次验证机会,如果次数多一点的话,选择特征降维或者模型调参一下遏制拟合结果可能会好很多吧.</p>
-<p>但是这次比赛自己学到了如何搭一个<code>ipy</code>的管道和增加了一些特征调参、特征降维的经验。因为以前看到的搭建管道资料都是基于<code>py</code>,很少基于<code>ipy</code>的,所以把自己搭建<code>ipy</code>管道经验分享出来,也希望自己写的这篇博文能够抛砖引玉,帮助大家搭建自己的完美管道.</p>
-<p>附上我的<a href="https://github.com/mrzhangboss/electricAI" target="_blank" rel="noopener">开源示例</a>:  <a href="https://github.com/mrzhangboss/electricAI" target="_blank" rel="noopener">https://github.com/mrzhangboss/electricAI</a><br>大家觉得有帮助就给我点个star吧</p>
-]]></content>
-      <categories>
-        <category>人工智能</category>
-      </categories>
-      <tags>
-        <tag>比赛</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>什么是操作系统</title>
-    <url>/2018/01/29/algorithm/mit6_828/%E4%BB%80%E4%B9%88%E6%98%AF%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</url>
-    <content><![CDATA[<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本文是基于mit6.828 的lab1对操作系统的思考，网上有不少关于lab1的博客，大部分都是介绍如何完成lab1的问题，介绍的比较详细的有这个<a href="http://www.cnblogs.com/fatsheep9146/category/769143.html" target="_blank" rel="noopener">博客</a>，在这里我就不从问题出发，建议大家看完上面的博客在看我这篇博文，我这篇博文就是从把我遇到的疑惑提炼出知识点，然后再把这些知识点串起来</p>
-<h2 id="实验目的"><a href="#实验目的" class="headerlink" title="实验目的"></a>实验目的</h2><p>作为操作系统的第一个实验，在完成lab1我们主要目的就是要了解什么是操作系统，后面的lab都是在这个基础上搭建完善好系统的各种功能，就好像你画一幅画，第一步你先把人物的轮廓外形画出来，接下来你在把人的鼻子耳朵眼睛等等慢慢画出来，所以第一个实验非常重要，如果不把骨架搭好，你的操作系统再怎么豪华强大也是空中楼阁，所以我们在这个lab上一定要花上很多时间，万事开头难，只要攻克了这个，操作系统也就离你不远了</p>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>谈操作系统之前必须得谈谈什么是计算机，因为我们的操作系统是运行在计算机上面的，操作系统与计算机关系密切，我们可以用一个很贴切的比方，假如你想了解手套为什么长成那么奇怪，那么你得先举起你的双手看看。</p>
-<p>闲话不多说，进入正题，计算机最核心部分就是CPU，记得电脑刚发明出来的时候，编程只能通过穿孔卡片，当然计算机发明这么久，CPU的核心功能基本上没有变，还是只能通过“穿孔卡片”，只不过我们编程语音将我们的使用的语音如C，Python等变成“穿孔卡片”，这里有个非常重要的概念：<strong>指令</strong>。也就是每个CPU的是每次只能执行一条指令。当然第二个重要的就是内存了，前面说了CPU是必须要通过”穿孔卡片“来编程的，但是随着程序愈来愈大，我们必须要使用一个东西来存贮“卡片”，所以内存孕育而生了，其实很多感叹电脑这个词实在是太贴切了，人脑可以处理问题，电脑也可以处理问题，人脑有短期记忆长期记录，电脑有寄存器（短期记忆）内存（长期记忆）。</p>
-<p>简单的谈了谈计算机，我们提出两个重要的前提</p>
-<ul>
-<li>计算机通过顺序读取一条一条指令来工作</li>
-<li>计算机从内存获取指令</li>
-</ul>
-<p>所以操作系统的就是在内存上面运行自己并帮助其他程序的一个大程序，总的来说它就是内存上面的一段程序，当然它的功能就是好好在它一亩三分地上面“分封诸侯”，维护自己的“王位”。</p>
-<p>由于一开始它只是待在软盘或者磁盘等存贮设备上的一段程序，接下来我们就看操作系统如何“上位”内存的“宫斗大戏”。</p>
-<h2 id="上位篇"><a href="#上位篇" class="headerlink" title="上位篇"></a>上位篇</h2><p>在操作系统“上位”之前，其实计算机还进行了一个小操作系统（BIOS）运行，具体的流程可以看这篇<a href="http://www.ruanyifeng.com/blog/2013/02/booting.html" title="操作系统启动" target="_blank" rel="noopener">文章</a>，如果把电脑看做人的话，BIOS就是我们的脊髓，它控制我们的身体四肢（硬件），但是却无法灵活的操作他们（比如非条件反射的膝跳反射），但是它却不可少，少了它就成植物人了。BIOS的作用总结起来就是感知硬件，调控硬件（比如CPU电压，内存频率）。</p>
-<p>BIOS与操作系统最密切的一个地方就是设置启动盘，大家可能大多时候都是听文件文件比较多，但是文件这个概念其实是操作系统的，在没有操作系统之前是没有文件这个概念的，只有盘这个概念，比如一块硬盘、一张软盘、一个U盘，所以BIOS的一个重要工作就是选定一个存储硬盘，然后读取上面的程序运行。</p>
-<p>所以我们从这时候可以得到一个结论，安装操作系统，只需要按照BIOS的规定把程序放到某一个存贮设备（磁盘、U盘、软盘）专门位置上（一般是头部开始），开机后然后就静等BIOS把程序加载到内存，就完成了“上位”过程。</p>
-<p>我们已经知道操作系统的外部条件，接下来分析一个操作系统到底该有啥</p>
-<h2 id="操作系统结构"><a href="#操作系统结构" class="headerlink" title="操作系统结构"></a>操作系统结构</h2><p>首先我们要回顾一下操作系统的发家史，刚开始是没有操作系统的这个概念的，随着在电脑上要运行的越来越多，每个程序都要写大量底层代码来操作硬件这样无疑每个程序越来越来臃肿，所以我们需要让操作系统管理来管理硬件，这样不但能够提供程序兼容性（一次编译、到处运行），而且能高效利用硬件（操作系统专供）。所以操作系统也就是程序的分工的产物</p>
-<p>接下来我们看看操作系统的发展历史，大家都知道汇编语言是除了机器语言最接近底层的一种语言，第一个Unix系统一开始也就是使用汇编编写的。但是汇编语言不易于维护，所以1973年汤普逊和里奇用C重构了Unix，但是部分与硬件接触太大的地方还是必须使用汇编（in、out端口，操纵指定寄存器等），所以现代操作系统还是用C与汇编混合编写的（C占大部分），当然最后都会编译成机器码，所以我们从机器码角度来看，最后的结果都是相同的，不同的是我们使用不同的工具来生成机器码</p>
-<p>前面我们介绍了启动盘，其实BIOS给我们只是从启动盘上面取了一小段数据（第一个扇形区）放到内存上面（512B），然后执行那小段上面的机器码，所以接下来就有一个问题，随着我们的操作系统功能越来越完善，取出来的代码肯定不是全部代码，代码只有放到内存上面才能跑，所以前人就把代码分成两部分，一部分称作引导，另一部分才是核心代码，引导作用就是把核心代码放到内存上面去</p>
-<p>所以操作系统被分成两部分</p>
-<ul>
-<li>引导</li>
-<li>核心</li>
-</ul>
-<p>这里比较有意思的地方就是引导和核心如何交换程序控制权，由于要讲解必须要牵扯代码，所以我把这部分分离出来，放到这篇<a href="/2018/01/31/引导和操作系统的交互/">博客</a>上面，要了解细节可以看这篇博客。</p>
-<p>现在我们假设你已经知道引导将核心代码加载在了内存上面，现在我们就从这里开始分析，堆栈作为程序的基础，首先我们要提一下堆栈</p>
-<h3 id="堆栈"><a href="#堆栈" class="headerlink" title="堆栈"></a>堆栈</h3><p>什么是堆栈呢？看下面这张图</p>
-<p><img src="/images/stack.png" alt="堆栈"></p>
-<p>堆顶为大地址，我们使用的时候只要不断把栈顶往下推，就能将线性内存变成一个数据结构。当然有个问题，我们必须要知道什么地方是栈顶，现在我们想想操作系统必须要放到内存的某一个地方，假如放到低位置，那么我必须要记住操作系统的最高位置，如果不这样做当堆栈顶到操作系统的存贮地址，那么操作系统就被破坏了。所以我们只能把操作系统放到高的内存地址，这样我们既能安全的使用堆栈，而且保证了操作系统的安全</p>
-<p>所以我们接下来就谈谈由于这个设定引发的一系列问题</p>
-<h2 id="操作系统的高地址"><a href="#操作系统的高地址" class="headerlink" title="操作系统的高地址"></a>操作系统的高地址</h2><p>在lab1中，操作系统的起始代码被设定为<code>0xF0100000</code>的高位</p>
-<p>从这个地址我们可以分析出来什么<code>0xF0100000</code>，因为我们知道32位操作系统最高只能有4G内存，也就是2的32次方内存，这个地址代表的是系统最后面的255M内存的空间，也就是操作系统给自己留了255M剩余内存，给前面保留了（4G-255M）空间</p>
-<p>操作系统这个设计是非常好的，不仅给自己留下扩展空间，也给其他代码带来便利，就是从0-(4G-255M）这部分内存随便用，怎么改都不会出问题</p>
-<p>从现在角度来看，个人电脑随便都是2G、4G内存，但是在70\80年代，几M内存都很很大的存在，如果我内存没有4G这么大，那么这个操作系统就无法使用了，而且你留下256M给操作系统，有的时候我整个电脑内存都没有这么大，留下那么多，就是浪费</p>
-<p>所以最后他们想出来一个办法，就是现实和理想之间放一个转换器（MMU），也就是动态内存管理。操作系统也不管你机主有多大内存了，我假设你有4G，当你用一块，无论是什么位置，我从空余的地方给你取出来，假如你没有4G，我就把一部分不常用内存值的放到磁盘上面，这样通过这样这样的操作的实现内存的高效利用。</p>
-<p>操作系统对内存这种骚操作就相当于在更高的维度上建立了一种抽象，不论底层硬件怎么变（内存大小不同），我高层都不需要变，只需要底层把根据实际情况依次映射，这样无论你换多大内存，我都不需要重装系统。</p>
-<p>这种映射不通过代码很难将清楚，所以我这里也不提太多，如果你想知道怎么映射，硬件如何配合，你可以看我这篇<a href="/2018/01/31/内存分页/">博客</a>，详细介绍了内存分页的骚操作。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>至处到这里我们的操作系统之旅就结束了，我们成功在引导帮助下上了内存，也使用了提高操作系统的地址保证了堆栈的正常使用，接下来就是操作系统的各种附加功能，我们也会在接下来的lab中继续讲解。</p>
-<p>lab1不止介绍了这两个地方，但是在lab1中我觉得最重要的地方就是要知道操作系统是什么，它从哪里来，它要到哪里去，操作系统毕竟牵涉到硬件，很多硬件知识我们不一定能搞懂，比如说要切换哪几个位到保护模式，怎么输出端口才能读取扇形区，但是我们必须要搞懂他这样做的原因，这也是我在这篇里面谈了很多操作系统历史的原因，希望在理解操作系统上面能给大家带来一点启发。</p>
-<p>在最后的话，我谈一谈我对入门这门课的感受吧，我算编程基础还算比较扎实，但是在一开始学习的过程中一脸懵逼，C语言的各种骚操作，汇编与C疯狂混合，看惯了脚本语言的我，对这种改一下就编译不过的“硬骨头”异常难受，一开始根本看不下去，有的时候看几行代码，查资料好几个小时，而且资料特别难找，你不知道这种骚操作有啥意思，在这里还得感谢学习过这门课的学长学姐们，在网上无私的把自己的感受分享出来，慢慢的根据他们的资料和自己的调试还有自己找资料，慢慢的把这个代码一行一行搞懂，搞懂之后特别感慨，其实也不是很难，难的是要把你知道的所以知识点串起来，然后你就能搞懂为什么要这么做，所以我推荐大家还是多看代码，多去思考为什么要这么做，必须要自己的思考在里面，如果单纯的知识为了完成实验其实很简单，但是难就难在把这门课琢磨透，搞懂他们为什么要这样考你，毕竟大家最后的目的都是自己做出自己的操作系统，只有了解的透彻，才能“破而后立”搞出自己的创新，而不是复制他们的壳子，所以加油把每一行代码都搞懂，多思考，不要骄傲，毕竟这只是教学类的操作系统，要想自己写出来还得不懈努力。</p>
-<p>接下来还有6个lab需要完成，终于迈出的第一步，希望在年前能够完成所有的实验吧！！！加油！！！</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://buweilv.github.io/2017/06/10/jos-bootstrap-3/" target="_blank" rel="noopener">“C语言虚拟内存表”</a></p>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>MOOC</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>MySQL Group By 还可以用来去重</title>
-    <url>/2021/04/05/java/mysql/GroupByAsSort/</url>
-    <content><![CDATA[<blockquote>
-<p>最近在接手老项目的时候，看到一个SQL： <code>select * from xx group by id</code>，<br>当时一看到这句就感觉，这个group by是不是多余的，既然select 全部了，那去掉其实也无所谓，<br>然后询问上一个接手的同事才知道这个是用来去重了，好家伙，以前一直用来分组统计的语句竟然可以用来<br>去重，涨知识了</p>
-</blockquote>
-<h2 id="Group-By-到底可不可以去重呢"><a href="#Group-By-到底可不可以去重呢" class="headerlink" title="Group By 到底可不可以去重呢"></a>Group By 到底可不可以去重呢</h2><p>首先我们新建一个测试表，并插入一些测试数据</p>
-<pre><code>CREATE TABLE test.student (
-  `sno` varchar(20) NOT NULL,
-  `sname` varchar(20) DEFAULT NULL,
-  `ssex` varchar(20) DEFAULT NULL,
-  `sage` int(11) DEFAULT NULL,
-  `sdept` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`sno`)
-);
-INSERT INTO test.student (sno, sname, ssex, sage, sdept) VALUES (&apos;201215121&apos;, &apos;李勇&apos;, &apos;男&apos;, 20, &apos;CS&apos;);
-INSERT INTO test.student (sno, sname, ssex, sage, sdept) VALUES (&apos;201215122&apos;, &apos;刘晨&apos;, &apos;女&apos;, 19, &apos;CS&apos;);
-INSERT INTO test.student (sno, sname, ssex, sage, sdept) VALUES (&apos;201215123&apos;, &apos;王敏&apos;, &apos;女&apos;, 18, &apos;MA&apos;);
-INSERT INTO test.student (sno, sname, ssex, sage, sdept) VALUES (&apos;201215124&apos;, &apos;张立&apos;, &apos;男&apos;, 19, &apos;IS&apos;);
-INSERT INTO test.student (sno, sname, ssex, sage, sdept) VALUES (&apos;201215125&apos;, &apos;张立&apos;, &apos;男&apos;, 19, &apos;IS&apos;);
-</code></pre><p>然后我们测试一些是否可以去重</p>
-<pre><code>mysql&gt; SELECT * from test.student GROUP BY ssex ;
-ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column &apos;test.student.sno&apos; which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
-</code></pre><p>哎呀出错了，意思是不支持，因为我们<code>sql_mode</code> 设置了<code>only_full_group_by</code>这个，我们来看看我们<code>sql_mode</code>里面有啥</p>
-<pre><code>mysql&gt; SELECT @@SESSION.sql_mode \G;
-*************************** 1. row ***************************
-@@SESSION.sql_mode: ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
-1 row in set (0.00 sec)
-</code></pre><p>的确我们<code>sql_mode</code>是设置了<code>ONLY_FULL_GROUP_BY</code>这个值，这个<code>sql_mode</code>是啥呢，首先我们知道<br>MySQL只是SQL一种实现软件，他为了和其他SQL兼容，就设置了这个变量，你可以通过<br>修改这个值来修改他的语法支持</p>
-<p>其实<code>group by</code>本来的意图就是一个聚合函数，正常来说，我们一般是使用下面的语法</p>
-<pre><code>select a, count(*) from xxx group by a
-</code></pre><p>但是<code>MySQL</code>非常开放，它允许你使用非group by 字段，在5.7之前都是默认允许的，但是5.7之后，它默认关闭了<br>但是你可以修改关闭</p>
-<p>接下来我们临时关闭掉这个，怎么关闭呢，非常简单，把<code>ONLY_FULL_GROUP_BY</code>在<code>sql_mode</code> 删除就好了<br>接下面执行下面语句</p>
-<pre><code>set sql_mode =(SELECT replace(@@SESSION.sql_mode, &apos;ONLY_FULL_GROUP_BY,&apos;, &apos;&apos;));
-</code></pre><p>然后我们再执行上面<code>sql</code></p>
-<pre><code>mysql&gt; SELECT * from test.student GROUP BY ssex ;
-+-----------+--------+------+------+-------+
-| sno       | sname  | ssex | sage | sdept |
-+-----------+--------+------+------+-------+
-| 201215122 | 刘晨   | 女   |   19 | CS    |
-| 201215121 | 李勇   | 男   |   20 | CS    |
-+-----------+--------+------+------+-------+
-2 rows in set (0.00 sec)
-</code></pre><p>o了，我们再看看我们目前的<code>sql_mode</code></p>
-<pre><code>mysql&gt; SELECT @@SESSION.sql_mode;
-+------------------------------------------------------------------------------------------------------------------------+
-| @@SESSION.sql_mode                                                                                                     |
-+------------------------------------------------------------------------------------------------------------------------+
-| STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION |
-+------------------------------------------------------------------------------------------------------------------------+
-</code></pre><p>的确目前看到<code>ONLY_FULL_GROUP_BY</code>这个了，而且我们发现的确去重了</p>
-<h2 id="Distinct和Group-By"><a href="#Distinct和Group-By" class="headerlink" title="Distinct和Group By"></a>Distinct和Group By</h2><p>通过上面的实验我们知道了，<code>Group By</code>的确可以去重，但是我们去重一般使用<code>Distinct</code>来，<br><code>Distinct</code>原理很简单</p>
-<p>我们执行下面语句</p>
-<pre><code>mysql&gt; explain SELECT distinct ssex from test.student ;
-+----+-------------+---------+------------+------+---------------+------+---------+------+------+----------+-----------------+
-| id | select_type | table   | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra           |
-+----+-------------+---------+------------+------+---------------+------+---------+------+------+----------+-----------------+
-|  1 | SIMPLE      | student | NULL       | ALL  | NULL          | NULL | NULL    | NULL |    5 |   100.00 | Using temporary |
-+----+-------------+---------+------------+------+---------------+------+---------+------+------+----------+-----------------+
-</code></pre><p>我们可以看到<code>Using temporary</code>告诉我们，就是创建一个临时表，然后把<br><code>Distinct</code>的字段从表里取出来，然后返回给客户端就好了</p>
-<p>我们看看<code>Group By</code>的原理</p>
-<pre><code>mysql&gt; explain SELECT * from test.student GROUP BY ssex ;
-+----+-------------+---------+------------+------+---------------+------+---------+------+------+----------+---------------------------------+
-| id | select_type | table   | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra                           |
-+----+-------------+---------+------------+------+---------------+------+---------+------+------+----------+---------------------------------+
-|  1 | SIMPLE      | student | NULL       | ALL  | NULL          | NULL | NULL    | NULL |    5 |   100.00 | Using temporary; Using filesort |
-+----+-------------+---------+------------+------+---------------+------+---------+------+------+----------+---------------------------------+
-</code></pre><p>我们也看到了<code>Using temporary;</code>，其实<code>Group By</code>底层也是用到临时表，把你<code>Group By</code>的值当<br>做主键，而且我们看到默认它会取第一个出现的值作为最终的值<br>这个是为什么呢</p>
-<h2 id="Group-By-原理解析"><a href="#Group-By-原理解析" class="headerlink" title="Group By 原理解析"></a>Group By 原理解析</h2><p>我们前面知道，<code>Group By</code> 一开始只是用来做聚合函数的，所以底层上最开始设计的时候就是</p>
-<ul>
-<li>首先建一张临时表，把<code>Group By</code>字段作为唯一主键（下面称作key）</li>
-<li>然后把原始表中所有数据按照key进行分组</li>
-<li>对分组内数据一个一个进行聚合，比如执行<code>count</code>, <code>avg</code> 等等函数，最后每组跟随主键key产生最终的一列值</li>
-<li>最后对临时表进行排序返回</li>
-</ul>
-<p>所以其实当时为了支持，不在主键内的值，MySQL只是简单的把组内第一个出现值赋值进去</p>
-<p>那为什么不把最后组内最后一个值赋值进去呢，首先是如果实现这个功能，想当于组内数据要全部执行一遍，<br>效率太低了，那有没有办法能实现去重的时候取组内最后一个呢</p>
-<p>首先说目前是不支持的，不过能通过下面两种方式来实现</p>
-<p><strong>方法一：</strong></p>
-<p>首先把你想要的数据进行排序</p>
-<pre><code>create temporary table test.tt as SELECT * from test.student order by sno desc;
-</code></pre><p>然后我们看正常来按照年龄排序</p>
-<pre><code>mysql&gt; SELECT * from test.student GROUP BY sage;
-+-----------+--------+------+------+-------+
-| sno       | sname  | ssex | sage | sdept |
-+-----------+--------+------+------+-------+
-| 201215123 | 王敏   | 女   |   18 | MA    |
-| 201215122 | 刘晨   | 女   |   19 | CS    |
-| 201215121 | 李勇   | 男   |   20 | CS    |
-+-----------+--------+------+------+-------+
-3 rows in set (0.00 sec)
-</code></pre><p>接下来我们再看看我们去重取最后一个出现的，我们看到<code>19</code>的<code>张立</code>取代了第一个出现的<code>刘晨</code></p>
-<pre><code>mysql&gt; SELECT * from test.tt GROUP BY sage;
-+-----------+--------+------+------+-------+
-| sno       | sname  | ssex | sage | sdept |
-+-----------+--------+------+------+-------+
-| 201215123 | 王敏   | 女   |   18 | MA    |
-| 201215125 | 张立   | 男   |   19 | IS    |
-| 201215121 | 李勇   | 男   |   20 | CS    |
-+-----------+--------+------+------+-------+
-3 rows in set (0.00 sec)
-</code></pre><p><strong>方法二：</strong></p>
-<p>第二种方法其实把上面两个步骤合成一个，首先我们把原始数据进行排序，然后取出组内第一个</p>
-<pre><code>select sno, sname, sage, sdept
-from (SELECT @i := if(@sage &lt;&gt; sage, 0, @i + 1) as i, @sage := sage, a.*
-from (select * from test.student order by sage, sno desc) a) a
-where i = 0
-order by sage;
-</code></pre><p>我们用上面这行函数模仿了，<code>Group By</code>去重，我们可以看到我们在末尾加了一个<code>order by sage</code><br>语句，这是因为默认<code>Group By</code>会按照<code>Group By</code>的键值给我们排序，<br>所以如果你想优化<code>Group By</code>性能，当你对组排序顺序无所谓的时候，你可以在<br><code>Group By</code> 末尾加上<code>order by null</code>关闭排序功能</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><code>Group By</code>去重功能在<code>5.7</code>之后就默认关闭了，所以其实大家用来做去重还是慎用，不过通过这个功能去探索<br>底层原理对你数据库性能优化还是非常有帮助的</p>
-<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ul>
-<li><a href="https://blog.csdn.net/Dax1n/article/details/86581472" title="MySQL中的Group By是否允许SELECT非聚合列的总结" target="_blank" rel="noopener">MySQL中的Group By是否允许SELECT非聚合列的总结</a></li>
-<li><a href="https://dev.mysql.com/doc/refman/5.7/en/sql-mode.html#sqlmode_only_full_group_by" title="mysql5.7文档" target="_blank" rel="noopener">mysql5.7官方文档</a></li>
-<li><a href="https://www.itzhai.com/articles/how-sql-works-understand-the-essence-of-tuning-by-the-execution-principle.html" title="SQL运行内幕：从执行原理看调优的本质" target="_blank" rel="noopener">SQL运行内幕：从执行原理看调优的本质</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>Java</category>
-      </categories>
-      <tags>
-        <tag>MySQL SQL</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>从例子里解Spring IOC</title>
     <url>/2018/05/28/java/springboot/%E4%BB%8E%E4%BE%8B%E5%AD%90%E9%87%8C%E8%A7%A3SpringIOC/</url>
     <content><![CDATA[<h2 id="Spring的IOC理解"><a href="#Spring的IOC理解" class="headerlink" title="Spring的IOC理解"></a>Spring的IOC理解</h2><h2 id="什么是IOC"><a href="#什么是IOC" class="headerlink" title="什么是IOC"></a>什么是IOC</h2><p>在这里我们不谈Spring的基础知识,我们知道谈到Spring就会谈到IOC,这个IOC是什么呢,中文名叫控制反转，这个东西是伴随着一些编程思想出现,其实同Java的本身也有关</p>
@@ -6233,6 +6247,129 @@ Car running...
       </tags>
   </entry>
   <entry>
+    <title>MySQL Group By 还可以用来去重</title>
+    <url>/2021/04/05/java/mysql/GroupByAsSort/</url>
+    <content><![CDATA[<blockquote>
+<p>最近在接手老项目的时候，看到一个SQL： <code>select * from xx group by id</code>，<br>当时一看到这句就感觉，这个group by是不是多余的，既然select 全部了，那去掉其实也无所谓，<br>然后询问上一个接手的同事才知道这个是用来去重了，好家伙，以前一直用来分组统计的语句竟然可以用来<br>去重，涨知识了</p>
+</blockquote>
+<h2 id="Group-By-到底可不可以去重呢"><a href="#Group-By-到底可不可以去重呢" class="headerlink" title="Group By 到底可不可以去重呢"></a>Group By 到底可不可以去重呢</h2><p>首先我们新建一个测试表，并插入一些测试数据</p>
+<pre><code>CREATE TABLE test.student (
+  `sno` varchar(20) NOT NULL,
+  `sname` varchar(20) DEFAULT NULL,
+  `ssex` varchar(20) DEFAULT NULL,
+  `sage` int(11) DEFAULT NULL,
+  `sdept` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`sno`)
+);
+INSERT INTO test.student (sno, sname, ssex, sage, sdept) VALUES (&apos;201215121&apos;, &apos;李勇&apos;, &apos;男&apos;, 20, &apos;CS&apos;);
+INSERT INTO test.student (sno, sname, ssex, sage, sdept) VALUES (&apos;201215122&apos;, &apos;刘晨&apos;, &apos;女&apos;, 19, &apos;CS&apos;);
+INSERT INTO test.student (sno, sname, ssex, sage, sdept) VALUES (&apos;201215123&apos;, &apos;王敏&apos;, &apos;女&apos;, 18, &apos;MA&apos;);
+INSERT INTO test.student (sno, sname, ssex, sage, sdept) VALUES (&apos;201215124&apos;, &apos;张立&apos;, &apos;男&apos;, 19, &apos;IS&apos;);
+INSERT INTO test.student (sno, sname, ssex, sage, sdept) VALUES (&apos;201215125&apos;, &apos;张立&apos;, &apos;男&apos;, 19, &apos;IS&apos;);
+</code></pre><p>然后我们测试一些是否可以去重</p>
+<pre><code>mysql&gt; SELECT * from test.student GROUP BY ssex ;
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column &apos;test.student.sno&apos; which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+</code></pre><p>哎呀出错了，意思是不支持，因为我们<code>sql_mode</code> 设置了<code>only_full_group_by</code>这个，我们来看看我们<code>sql_mode</code>里面有啥</p>
+<pre><code>mysql&gt; SELECT @@SESSION.sql_mode \G;
+*************************** 1. row ***************************
+@@SESSION.sql_mode: ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
+1 row in set (0.00 sec)
+</code></pre><p>的确我们<code>sql_mode</code>是设置了<code>ONLY_FULL_GROUP_BY</code>这个值，这个<code>sql_mode</code>是啥呢，首先我们知道<br>MySQL只是SQL一种实现软件，他为了和其他SQL兼容，就设置了这个变量，你可以通过<br>修改这个值来修改他的语法支持</p>
+<p>其实<code>group by</code>本来的意图就是一个聚合函数，正常来说，我们一般是使用下面的语法</p>
+<pre><code>select a, count(*) from xxx group by a
+</code></pre><p>但是<code>MySQL</code>非常开放，它允许你使用非group by 字段，在5.7之前都是默认允许的，但是5.7之后，它默认关闭了<br>但是你可以修改关闭</p>
+<p>接下来我们临时关闭掉这个，怎么关闭呢，非常简单，把<code>ONLY_FULL_GROUP_BY</code>在<code>sql_mode</code> 删除就好了<br>接下面执行下面语句</p>
+<pre><code>set sql_mode =(SELECT replace(@@SESSION.sql_mode, &apos;ONLY_FULL_GROUP_BY,&apos;, &apos;&apos;));
+</code></pre><p>然后我们再执行上面<code>sql</code></p>
+<pre><code>mysql&gt; SELECT * from test.student GROUP BY ssex ;
++-----------+--------+------+------+-------+
+| sno       | sname  | ssex | sage | sdept |
++-----------+--------+------+------+-------+
+| 201215122 | 刘晨   | 女   |   19 | CS    |
+| 201215121 | 李勇   | 男   |   20 | CS    |
++-----------+--------+------+------+-------+
+2 rows in set (0.00 sec)
+</code></pre><p>o了，我们再看看我们目前的<code>sql_mode</code></p>
+<pre><code>mysql&gt; SELECT @@SESSION.sql_mode;
++------------------------------------------------------------------------------------------------------------------------+
+| @@SESSION.sql_mode                                                                                                     |
++------------------------------------------------------------------------------------------------------------------------+
+| STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION |
++------------------------------------------------------------------------------------------------------------------------+
+</code></pre><p>的确目前看到<code>ONLY_FULL_GROUP_BY</code>这个了，而且我们发现的确去重了</p>
+<h2 id="Distinct和Group-By"><a href="#Distinct和Group-By" class="headerlink" title="Distinct和Group By"></a>Distinct和Group By</h2><p>通过上面的实验我们知道了，<code>Group By</code>的确可以去重，但是我们去重一般使用<code>Distinct</code>来，<br><code>Distinct</code>原理很简单</p>
+<p>我们执行下面语句</p>
+<pre><code>mysql&gt; explain SELECT distinct ssex from test.student ;
++----+-------------+---------+------------+------+---------------+------+---------+------+------+----------+-----------------+
+| id | select_type | table   | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra           |
++----+-------------+---------+------------+------+---------------+------+---------+------+------+----------+-----------------+
+|  1 | SIMPLE      | student | NULL       | ALL  | NULL          | NULL | NULL    | NULL |    5 |   100.00 | Using temporary |
++----+-------------+---------+------------+------+---------------+------+---------+------+------+----------+-----------------+
+</code></pre><p>我们可以看到<code>Using temporary</code>告诉我们，就是创建一个临时表，然后把<br><code>Distinct</code>的字段从表里取出来，然后返回给客户端就好了</p>
+<p>我们看看<code>Group By</code>的原理</p>
+<pre><code>mysql&gt; explain SELECT * from test.student GROUP BY ssex ;
++----+-------------+---------+------------+------+---------------+------+---------+------+------+----------+---------------------------------+
+| id | select_type | table   | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra                           |
++----+-------------+---------+------------+------+---------------+------+---------+------+------+----------+---------------------------------+
+|  1 | SIMPLE      | student | NULL       | ALL  | NULL          | NULL | NULL    | NULL |    5 |   100.00 | Using temporary; Using filesort |
++----+-------------+---------+------------+------+---------------+------+---------+------+------+----------+---------------------------------+
+</code></pre><p>我们也看到了<code>Using temporary;</code>，其实<code>Group By</code>底层也是用到临时表，把你<code>Group By</code>的值当<br>做主键，而且我们看到默认它会取第一个出现的值作为最终的值<br>这个是为什么呢</p>
+<h2 id="Group-By-原理解析"><a href="#Group-By-原理解析" class="headerlink" title="Group By 原理解析"></a>Group By 原理解析</h2><p>我们前面知道，<code>Group By</code> 一开始只是用来做聚合函数的，所以底层上最开始设计的时候就是</p>
+<ul>
+<li>首先建一张临时表，把<code>Group By</code>字段作为唯一主键（下面称作key）</li>
+<li>然后把原始表中所有数据按照key进行分组</li>
+<li>对分组内数据一个一个进行聚合，比如执行<code>count</code>, <code>avg</code> 等等函数，最后每组跟随主键key产生最终的一列值</li>
+<li>最后对临时表进行排序返回</li>
+</ul>
+<p>所以其实当时为了支持，不在主键内的值，MySQL只是简单的把组内第一个出现值赋值进去</p>
+<p>那为什么不把最后组内最后一个值赋值进去呢，首先是如果实现这个功能，想当于组内数据要全部执行一遍，<br>效率太低了，那有没有办法能实现去重的时候取组内最后一个呢</p>
+<p>首先说目前是不支持的，不过能通过下面两种方式来实现</p>
+<p><strong>方法一：</strong></p>
+<p>首先把你想要的数据进行排序</p>
+<pre><code>create temporary table test.tt as SELECT * from test.student order by sno desc;
+</code></pre><p>然后我们看正常来按照年龄排序</p>
+<pre><code>mysql&gt; SELECT * from test.student GROUP BY sage;
++-----------+--------+------+------+-------+
+| sno       | sname  | ssex | sage | sdept |
++-----------+--------+------+------+-------+
+| 201215123 | 王敏   | 女   |   18 | MA    |
+| 201215122 | 刘晨   | 女   |   19 | CS    |
+| 201215121 | 李勇   | 男   |   20 | CS    |
++-----------+--------+------+------+-------+
+3 rows in set (0.00 sec)
+</code></pre><p>接下来我们再看看我们去重取最后一个出现的，我们看到<code>19</code>的<code>张立</code>取代了第一个出现的<code>刘晨</code></p>
+<pre><code>mysql&gt; SELECT * from test.tt GROUP BY sage;
++-----------+--------+------+------+-------+
+| sno       | sname  | ssex | sage | sdept |
++-----------+--------+------+------+-------+
+| 201215123 | 王敏   | 女   |   18 | MA    |
+| 201215125 | 张立   | 男   |   19 | IS    |
+| 201215121 | 李勇   | 男   |   20 | CS    |
++-----------+--------+------+------+-------+
+3 rows in set (0.00 sec)
+</code></pre><p><strong>方法二：</strong></p>
+<p>第二种方法其实把上面两个步骤合成一个，首先我们把原始数据进行排序，然后取出组内第一个</p>
+<pre><code>select sno, sname, sage, sdept
+from (SELECT @i := if(@sage &lt;&gt; sage, 0, @i + 1) as i, @sage := sage, a.*
+from (select * from test.student order by sage, sno desc) a) a
+where i = 0
+order by sage;
+</code></pre><p>我们用上面这行函数模仿了，<code>Group By</code>去重，我们可以看到我们在末尾加了一个<code>order by sage</code><br>语句，这是因为默认<code>Group By</code>会按照<code>Group By</code>的键值给我们排序，<br>所以如果你想优化<code>Group By</code>性能，当你对组排序顺序无所谓的时候，你可以在<br><code>Group By</code> 末尾加上<code>order by null</code>关闭排序功能</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><code>Group By</code>去重功能在<code>5.7</code>之后就默认关闭了，所以其实大家用来做去重还是慎用，不过通过这个功能去探索<br>底层原理对你数据库性能优化还是非常有帮助的</p>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ul>
+<li><a href="https://blog.csdn.net/Dax1n/article/details/86581472" title="MySQL中的Group By是否允许SELECT非聚合列的总结" target="_blank" rel="noopener">MySQL中的Group By是否允许SELECT非聚合列的总结</a></li>
+<li><a href="https://dev.mysql.com/doc/refman/5.7/en/sql-mode.html#sqlmode_only_full_group_by" title="mysql5.7文档" target="_blank" rel="noopener">mysql5.7官方文档</a></li>
+<li><a href="https://www.itzhai.com/articles/how-sql-works-understand-the-essence-of-tuning-by-the-execution-principle.html" title="SQL运行内幕：从执行原理看调优的本质" target="_blank" rel="noopener">SQL运行内幕：从执行原理看调优的本质</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>MySQL SQL</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>HTTP复用</title>
     <url>/2017/10/10/software/http/HTTP%E5%A4%8D%E7%94%A8/</url>
     <content><![CDATA[<blockquote>
@@ -6431,121 +6568,6 @@ Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
       </categories>
       <tags>
         <tag>HTTP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>用户空间隔离</title>
-    <url>/2018/02/20/algorithm/mit6_828/%E7%94%A8%E6%88%B7%E7%A9%BA%E9%97%B4%E9%9A%94%E7%A6%BB/</url>
-    <content><![CDATA[<blockquote>
-<p>通过前面的学习我们知道，在前两个实验中最主要的程序就是<code>kern/init.c</code>文件中<code>i386_init</code>函数，但是我们看到最后却是一个<code>while</code>循环结束。</p>
-</blockquote>
-<pre><code>while (1)
-    monitor(NULL);
-</code></pre><p>这个<code>monitor</code>就是简单读取用户输入然后通过字符串调用给定的几个函数。我们可以把这个函数看做<code>i386_init</code>的子函数，也就是程序一直在<code>i386_init</code>中运行，也就是一直以内核形式运行。实验三就开始完成一个正常的操作系统的用户模式的建立，以及两者直接转换。</p>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>什么是用户呢，我们把内核当做一个大程序，用户就是小程序，两者基本上没有差别，但是为了让众多用户和内核平稳运行，我们必须要区别对待用户和内核</p>
-<p>首先我们要相信内核，内核是我们精心设计的，相反用户我们不能相信它，任何人都可以犯错误，我们知道计算机程序其实非常精巧，当他们完整的时候，他们可以完成你无法想象的工作，但他们有时候少掉一行指令时，他们就会瞬间崩溃，所以我们必须要保证就算用户怎么折腾都不会把内核搞垮</p>
-<p>所以我们来考虑一下怎么来限制用户不影响整个系统，第一用户不能动内核在内存上的程序，甚至连查看的资格都没有，这就是为什么前面我们已经绞尽脑汁把内核放到高地址上确保其“高高在上”；第二个用户不能在CPU一直跑，假如它有权限一直在CPU上跑，那么内核就废了，没有CPU可以用相当于“断了胳膊”；第三用户必须要有一些内核的权限，比如说申请一些内存啥的。</p>
-<p>接下来我们就从这几个问题出发来探索一下xv6为什么要这样设计用户空间。</p>
-<h2 id="用户是个程序？"><a href="#用户是个程序？" class="headerlink" title="用户是个程序？"></a>用户是个程序？</h2><p>在完成用户设计之前，首先我们先做个实验，来验证一下用户是个程序。首先我们在<code>kern/init.c</code>文件中<code>i386_init</code> 的头部加上<code>#include &lt;inc/elf.h&gt;</code>然后在<code>#if defined(TEST)</code>代码前加入几行代码</p>
-<pre><code>extern uint8_t _binary_obj_user_hello_start[];
-struct Elf* header = ((struct Elf *) _binary_obj_user_hello_start);
-assert(header-&gt;e_magic == ELF_MAGIC);
-((void (*)(void)) (header-&gt;e_entry))();
-</code></pre><p>这段代码你如果仔细观察过前面操作系统载入的源码（<code>boot/main.c</code>中)你会发现基本上差不多。首先我们声明了<code>_binary_obj_user_hello_start</code>外部变量，这个变量是通过<code>ld</code>编译器将内核中用户程序<code>hello.c</code>的起始地址定义来的，由于我们现在没有文件系统，内核就把用户程序一股脑链接到自己身上，在以后有了文件系统就不需要了。但是它给了我们一个便利，我们现在可以直接在内存上运行它</p>
-<p>当然虽然它的确是个程序（assert那不会出错），但是它还是跑不起来，因为它的虚拟地址不在内核内存上，必须要像前面映射内存物理空间才能运行，但是他的确是一个程序，从这里我们得到一个结论，用户其实也就是一段程序，接下来我们就看看如何用软件与硬件的结合的设计解决上面的问题。</p>
-<h2 id="权限"><a href="#权限" class="headerlink" title="权限"></a>权限</h2><p>首先我们来看看权限问题，<code>x86</code>系统硬件给我们提供了一个分段式权限功能，在开启内存分页后，<code>CS</code>寄存器16位里面拿出两位来当做权限管理，分为四级（<code>0b00、0b01、0b10、0b11</code>），最小的权限最大，当然xv6只用了两级，如下图所示</p>
-<p><img src="/images/systemring.png" alt="系统环来源网络"></p>
-<p>PS：当然<code>CS</code>寄存器拿出来三位来当权限管理，但是xv6将第三位用户和内核都设置为1，所以我们也不介绍这一位</p>
-<p>我们在<code>CS</code>寄存器的这两位称为CPL，用来区分权限。在<a href="/2018/01/31/引导和操作系统的交互/">引导和操作系统的交互</a>这篇博客我们知道，在<code>x86</code>系统中，这个<code>CS</code>寄存器是标志段选择子，在<code>GDT</code>表中每个表项也有两位用来标志权限，我们称他们为<code>DPL</code>，他们的意义也就是<code>CS</code>寄存器选择这个段时他们最低拥有的权限。</p>
-<p>当然在<code>GDT</code>表中的段选择子也有一个表示权限的称作<code>RPL</code>，这三者的关系在这<a href="https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86" target="_blank" rel="noopener">里面</a>介绍的很详细，<code>RPL</code>是历史遗留问题但是操作系统基本上没有使用这个功能，所以这里我们也不解释，感兴趣可以看一下<a href="https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86" target="_blank" rel="noopener">前面</a>的介绍。</p>
-<p>在<code>kern/env.c</code>的<code>结构体gdt</code>我们声明了一个<code>GDT</code>表，并且声明了一个系统段和用户段。</p>
-<p>这两个段就是我们权限的基础我们接下来通过实验来验证权限位对操作系统的保护</p>
-<p>我们首先在<code>user/badsegment.c</code>中加入一句汇编</p>
-<pre><code>asm volatile(&quot;ljmp %0,$1f\n 1:\n&quot; :: &quot;i&quot; (0x08)); // 将CS设置为0x08
-</code></pre><p>我们尝试将<code>CS</code>设置为<code>0x08</code>（内核段）结果直接引发一个<code>General Protection</code>的异常，但是当我们尝试执行这句</p>
-<pre><code>asm volatile(&quot;ljmp %0,$1f\n 1:\n&quot; :: &quot;i&quot; (0x18));  // 将CS设置为0x18
-</code></pre><p>我们发现程序没有引发异常（这段的含义是跳转到用户段，由于已经在用户段，所以没有触发异常），这说明<code>x86</code>通过<code>CS</code>寄存器很好的实现了内核和用户的保护（用户不能直接跳到内核去执行代码）</p>
-<p>在<code>user/faultwritekernl.c</code>和<code>user/faultreadkernl</code>中我们发现尝试写入或者读取内核也失败了，这是通过前面章节的内存分页权限实现的，这里就不介绍了。</p>
-<p>现在我们知道，通过我们不懈努力内核和用户直接存在一个鸿沟，但是这时候摆在我们面前很大的问题，内核拥有一些非常重要的权限比如申请内存，如果用户没有这个权限那么功能非常受限，所以我们就要提到一个内核和用户交互的手段：Trap。</p>
-<h2 id="Trap"><a href="#Trap" class="headerlink" title="Trap"></a>Trap</h2><p>其实这个Trap包括内部中断、软中断、异常。但是xv6统一将他们叫做陷阱（Trap），这个Trap主要完成从用户到内核的一种跳转，我们就不介绍内部中断和异常，因为这些都是系统完成，我们来介绍了一下软中断，这个我们人为可以操作，而且我们可以把其他中断、异常当做系统去帮我们调用这个指令</p>
-<pre><code>int $n
-</code></pre><p>很简单x86共定义了256个中断向量，存在物理内存<code>0x000</code>-<code>0x3ff</code>之间，每个存贮一个<code>cs</code>值一个<code>eip</code>的值，这个n只要是在256直接就行，当调用这个的时候我们直接调到那里读取<code>cs</code>和<code>eip</code>的值。</p>
-<p>在正式介绍<code>Trap</code>之前我们要简单的介绍一下两个知识点</p>
-<h3 id="IRET"><a href="#IRET" class="headerlink" title="IRET"></a>IRET</h3><p>这是<code>iret</code>是一个机器码，我们前面介绍了无论是操作系统还是用户没有办法直接跳段（会引发<code>General Protection fault</code>），而且我们知道前面只是测试了跳代码段，我们知道两个不同的程序，不仅仅是代码段不同，堆栈段也要不同，才能保证各个程序的独立。所以系统为了解决这个问题，直接提供一个<code>iret</code>指令，这个全名应该叫<code>中断返回</code>，它的功能其实很简单，就是实现上面的跳代码段和堆栈段还有恢复<code>EFLAGS</code>寄存器值，这个主要应用在从系统跳转到用户上面。</p>
-<p>感兴趣的可以看看这个详细<a href="https://stackoverflow.com/questions/6892421/switching-to-user-mode-using-iret" target="_blank" rel="noopener">资料</a>，接下来我们看看在<code>xv6</code>里面如何使用<code>iret</code>来实现跳段</p>
-<p>在<code>kern/env.c</code>的<code>env_pop_tf</code>函数实现了切换程序段的功能</p>
-<pre><code>asm volatile(
-        &quot;\tmovl %0,%%esp\n&quot;
-        &quot;\tpopal\n&quot;
-        &quot;\tpopl %%es\n&quot;
-        &quot;\tpopl %%ds\n&quot;
-        &quot;\taddl $0x8,%%esp\n&quot; 
-        &quot;\tiret&quot;
-        : : &quot;g&quot; (tf) : &quot;memory&quot;);
-</code></pre><p>首先第一个就是把tf指针指向的值赋给<code>esp</code>寄存器，要想知道这个操作的意思就必须知道，一个结构体其实在程序里面就是一块连续的内存值，所以这里就是把<code>esp</code>的值指向<code>tf</code>代表的<code>Trapframe</code>结构体的开始位置，所以我们得看看这个<code>Trapframe</code>组成是什么</p>
-<pre><code>struct Trapframe {
-    struct PushRegs tf_regs;
-    uint16_t tf_es;
-    uint16_t tf_padding1;
-    uint16_t tf_ds;
-    uint16_t tf_padding2;
-    uint32_t tf_trapno;
-    /* below here defined by x86 hardware */
-    uint32_t tf_err;
-    uintptr_t tf_eip;
-    uint16_t tf_cs;
-    uint16_t tf_padding3;
-    uint32_t tf_eflags;
-    /* below here only when crossing rings, such as from user to kernel */
-    uintptr_t tf_esp;
-    uint16_t tf_ss;
-    uint16_t tf_padding4;
-} __attribute__((packed));
-</code></pre><p>第一个是<code>PushRegs</code>结构体，这个对应我们第一个操作<code>popal</code>，将<code>PushRegs</code>所有值全部从堆栈中取出，我们发现当到<code>iret</code>操作时，正好对应取出代码段还有堆栈段和<code>EFLAGS</code>寄存器，所以其实<code>iret</code>的操作非常简单，只是将三个取出指令和成了一个。</p>
-<h3 id="TSS"><a href="#TSS" class="headerlink" title="TSS"></a>TSS</h3><p>前面我们捋了捋从系统跳转到用户，因为我们给用户的都是刚新建的值，所以这个并没有什么问题，但是你要想一想，当用户想跳转到系统的时候，这个时候它也必须要切换堆栈，因为用户可以还没有准备好（有时候可以是因为堆栈内存不够，如果把寄存器值强行插值到用户堆栈会引发二次异常）。但是假如使用操作系统的堆栈，在我们切换之前系统必须要知道内核堆栈在哪</p>
-<p>所以x86提供了一个<code>tr</code>寄存器给我们使用，这个寄存器的位数为16位，专门存贮一个选择子（类似前面段选择子），这个选择子<code>base</code>地址必须指向一块空余空间。前面知道我们要想从用户跳操作系统，必须知道操作系统的堆栈（中断向量表提供了代码段cs：ip），所以x86干脆规定了这个空间名字为<code>TSS</code>，并声明了一大串寄存器的值备用，当然这些是硬件规定的，软件用不用无所谓，但是硬件会在跳转的时候，读取里面固定位置的值，也就是我们需要的堆栈段<code>ss：esp</code>，在<code>inc/mmu.h</code>的<code>Taskstate</code>结构体中声明了这段内存规定的字段</p>
-<p>所以我们在<code>kern/trap.c</code>中声明了（ss：esp）</p>
-<pre><code>   ts.ts_esp0 = KSTACKTOP;
-ts.ts_ss0 = GD_KD;
-</code></pre><p>这样我们在跳转的时候就能获取到内核的堆栈段，从而进入内核模式，当然硬件设定<code>TSS</code>的作用一开始为了考虑任务切换，它也提供了相应的指令，但是需要200左右时钟周期来完成，所以我们<code>xv6</code>嫌弃其速度太慢，只是使用了其保存内核堆栈地址的作用，所以在<code>xv6</code>中<code>TSS</code>只是一个“数据库”而已。</p>
-<hr>
-<p>介绍完前面的基础知识之后，接下来的就是这个<code>Trap</code>，前面我们知道在得到<code>int</code>这个指令时候这个时候就开始一个<code>Trap</code>开始。</p>
-<p>这个时候硬件接管程序控制，你也可以认为跳转到硬件代码去了。在给的<a href="https://pdos.csail.mit.edu/6.828/2016/xv6/book-rev9.pdf" target="_blank" rel="noopener">资料</a>第三章的<code>X86 Protection</code>里面介绍了这个过程，我们将前面几个步骤很我们前面给的资料联系起来</p>
-<blockquote>
-<p>后面推寄存器值就不解释了，同<code>Trapframe</code>的反向结构相同，之所以会这样，是因为堆栈地址是向下生长，而程序地址是向上生长的</p>
-</blockquote>
-<p>硬件这部分操作为</p>
-<ul>
-<li>获取中断向量表第n个的地址（n为<code>int</code>后面整数）</li>
-</ul>
-<p>然后开始权限检查，这个也是为什么程序不能随意调用系统资源的原因</p>
-<ul>
-<li>检测DPL与CPL的大小关系</li>
-</ul>
-<p>这个<code>DPL</code>不是前面<code>GDT</code>里面的，这个是存贮在中断向量表中<code>CS</code>里面的值，这个设置可以让我们给每个中断向量设置一个权限，看它允许是用户调用还是系统调用，如果只允许系统调用，那么用户调用直接引发<code>General Protection Fault</code>（13号中断），在我们的xv6中，我们只允许用户调用<code>Debug</code>和<code>System Call</code>中断，其他只能由系统调用</p>
-<ul>
-<li>判断保留<code>esp</code>和<code>ss</code>，检测目标的段与当前段</li>
-</ul>
-<p>当我们在操作系统中出现中断的时候，如果硬件还傻乎乎的将操作系统的堆栈归位那么就进入死循环了，所以这个目的就是避免同属一个段的时候不会切换堆栈</p>
-<ul>
-<li>当跳段的时候，从<code>TSS</code>中取到<code>esp</code>和<code>ss</code>切换堆栈段</li>
-</ul>
-<p>这个就是前面弹到的<code>TSS</code>的功能，接下来我们所以推出去的值全部存贮在要跳的段的堆栈上面了。</p>
-<p>推完<code>Trap</code>程序的寄存器值，保留好“犯罪现场”后，就可以进入内核进行处理这个异常了。</p>
-<p>至此我们介绍完了严格有序的处理从用户到内核的跳转，当我们处理完后就可以通过<code>iret</code>回到用户程序，这样就完成了用户拥有内核权限的设计。</p>
-<hr>
-<h2 id="用户时间控制"><a href="#用户时间控制" class="headerlink" title="用户时间控制"></a>用户时间控制</h2><p>接下来的用户使用CPU时间设置也是通过这个这个<code>Trap</code>的中断实现，你可以理解为硬件在每个CPU上在每隔个<code>10ms</code>的时候就触发一个中断。这样到内核的时候，内核发现是时间中断，就保留用户的寄存器值到用户自己空间（<code>Env</code>里面有一个<code>env_tf</code>变量可以存贮这些信息），然后调用其他或者这个程序，这样的话，我们就实现了一个时间控制。</p>
-<p>PS：这里我们提一下这个<code>Env</code>结构体，内核初始化了1024个这个结构体，这说明我们可以同时拥有1024个用户程序运行，这个结构体就是用户环境，也就是我们在<code>Unix</code>系统上输入<code>ps</code>中的<code>pid</code>（每个<code>pid</code>代表一个程序）</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>至今我们介绍了通过一个简简单单的<code>Trap</code>操作就实现了复杂的权限管理和空间隔离，虽然操作系统看起来非常复杂，但其实都是由简单干练的概念搭建起来的，因为<code>Unix</code>的哲学就是<code>简单至上</code>。</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://stackoverflow.com/questions/6892421/switching-to-user-mode-using-iret" target="_blank" rel="noopener">https://stackoverflow.com/questions/6892421/switching-to-user-mode-using-iret</a></p>
-<p><a href="https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86" target="_blank" rel="noopener">https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86</a></p>
-<p><a href="https://en.wikipedia.org/wiki/Task_state_segment" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Task_state_segment</a></p>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>MOOC</tag>
       </tags>
   </entry>
 </search>

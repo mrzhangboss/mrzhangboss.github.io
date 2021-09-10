@@ -211,6 +211,352 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/09/15/python/触摸Python的GIL/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/meAndMyGirlfriend.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/09/15/python/触摸Python的GIL/" class="post-title-link" itemprop="url">触摸Python的GIL</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-09-15 00:00:00" itemprop="dateCreated datePublished" datetime="2018-09-15T00:00:00+08:00">2018-09-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:05:18" itemprop="dateModified" datetime="2021-03-09T20:05:18+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>11k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>10 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>Python的<code>GIL</code>一直是被大家攻击其语言的一个弊端，每次在讨论语言特性的时候这点总是会被人们提起，但是这个东西好像就一个“污点”，大家都知道，但是大家都不了解为什么。本片博客就是好好的探索一下GIL，让我们不再畏惧它</p>
+</blockquote>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
+<p>其实一开始并没有想到研究GIL，但是在研究<a href="/2018/09/12/如何让你的Python像C++一样快/">如何让你的Python更快</a>的过程中发现我们可以通过这种方式解决掉GIL，让我们的代码不被<code>Python</code>拖累</p>
+</blockquote>
+<p>这篇博客相比于上面的博客更注重于代码的讲解，我们通过使用<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pybind11</a>从一个<code>Python</code>调用<code>C++</code>的demo出发介绍如何让<code>Python</code>调用<code>C++</code>并且丢弃GIL</p>
+<h2 id="GIL简介"><a href="#GIL简介" class="headerlink" title="GIL简介"></a>GIL简介</h2><p>首先我们要知道什么是<code>GIL</code>，为什么它会拖累<code>Python</code>，首先我们看一下<code>Python</code>历史，<code>Python</code>是Guido van Rossum 在1989年发布的，那个时候计算机的主频还没有达到1G，程序全部都是运行在单核计算机上面，直到2005年多核处理器才被Intel开发出来</p>
+<p>多核处理器意味着什么呢，就好比一个工厂，你原来只有一个工人干活，现在有很多个了，一开始设计出来只是为了能在每个核心上跑不同的应用，但是随着大家对多核计算机的使用，大家发现有的时候计算器其实很空闲，大部分CPU都在休息，假如只在一个核上跑一个应用的话，那么其他CPU就浪费了，所以大家就开始设计怎么并行在多个CPU上跑同样的任务</p>
+<p>现在我们来考虑一下怎么能让CPU力往一处使，我们用数据库来做比方，假设我们计算机上安装一个银行数据库，为了让这个“银行”能够服务更多的人，我们把对钱的操作（增删查改）放到每个CPU上运行。假如我们的顾客一个一个排着队来取钱存钱，我们每个CPU查询都是唯一的，存取也是唯一的，那么我们的“银行”就能正常工作</p>
+<p>但是现实的环境往往不是这样的，顾客它可能会因为网络原因个人原因同时进行多个操作，假如它同时取1千万的两次操作（它账号只有1千万），每个CPU上的程序查询时候正好都是账号有一千万，然后依次进行数据的更新，最后我们发现用户的账号变成了0，但是用户却取了两千万出来，你的银行损失了一千万，所以并行任务最重要的就是数据共享</p>
+<p>怎么解决这个共享问题呢，很简单加“锁”，我们给需要共享的东西上个锁，每次你想用的时候你就把锁锁上，然后对共享的东西进行操作，当有别人想动这个东西的时候，他一看哎呀有人在用，那我等会。这样就不会造成上面的冲突了，但是这个也造成了一个问题由于我上了一把锁，每次我们想操作的时候，必须去看一下这个锁有没有被人锁上，假如没有我就锁上，有就等待，这一来一去就会造成一个效率问题（感觉这个也是国企的通病，权利依次掌握在领导上，要想完成工作得不断的进行开“锁”、关“锁”，有时候还会造成“死锁”），所以并行的4个任务运行速度不一定是一个任务的四倍，所以我们经常看到一些库在运行说明里面双核速度会比单核加速一点几倍，之说以达不到双倍就是因为这些“锁”的存在</p>
+<p>“锁”帮我们能让单任务拆分成子任务并行化加速，但是在一定程度上拖累了运行速度，我们回到<code>Python</code>，因为多核是在2005年才出现的，但是在并行化上面，一个比多核更早出现的概率就是：<code>线程</code>和<code>进程</code></p>
+<p>在还没有多核处理器的时候，操作系统为了让程序并行化跑，就创造了进程和线程的概率。用通俗的话来讲，进程就是一家大工厂，而线程就是工人，为了提高生产力，我们可以开很多家工厂，当然我们也可以开一家工厂，招很多工人。但是线程这个东西相比于进程要消耗的少的多，因为它“原材料”都是从“工厂”里面拿的，假如说工厂少了几个工人还可以生产，但是上万个工人没有工厂他们也办法工作。</p>
+<p>所以对于<code>Python</code>来说首先得支持线程和进程的概率，对于进程来说很简单，就是多开几家工厂(多开几个<code>Python</code>程序)罢了，但是对于线程来说，由于<code>Python</code>是一门脚本语言，它需要一个<code>解释器</code>来执行代码，我们知道这个解释器它可以当做大一个共享变量，假如在不同的线程里面用“锁”来限制一下的话，环境变量就会乱了套</p>
+<p>所以<code>Python</code>对于线程的支持就是给他加一个锁，也就是我们俗称的<code>GIL</code>，由于在操作系统在运行单核的时候就支持线程，一个工人加一个锁其实也没有什么，无非就是多了一点开锁关锁的时间，所以<code>Python</code>在2005前一直没有<code>GIL</code>这个概率，到了2005大家发现<code>Python</code>使用多线程竟然只能使用一个核，完全浪费了其他核，因为虽然<code>Python</code>的线程可以分配到不同的核上运行，但是当他们运行的时候发现这个锁没有被释放，所以每个核上的线程都傻乎乎的在等待，结果最后查看效果多线程比单线程速度还慢（要等<code>GIL</code>释放）</p>
+<p><code>Python</code>社区逐渐发现这个问题，他们也做了很多挽救工作，比如在线程睡觉（sleep）、等待连接的时候让线程主动释放<code>GIL</code>，这样就能让其他线程继续执行，但是对于纯粹的运算代码而不是IO密集代码总也避不开这个锁的存在，如果允许<code>GIL</code>释放，由于历史遗留问题很多代码都会乱了套（理论上其实就是需要重新修改锁的设计，可以参考MySQL的代码去掉<a href="https://dev.mysql.com/worklog/task/?id=8423" target="_blank" rel="noopener">“锁”</a>花了5年时间），考虑到<code>Python</code>本来就运行的慢，<code>Python</code>开发者觉得假如你觉得代码很慢，你可以放到<code>C/C++</code>里面执行，所以对于这个<code>GIL</code>就没有继续啃下去，而是把中心放在<code>Python</code>调用<code>C/C++</code>中，提供了一些很方便的方式让我们在<code>C/C++</code>中控制<code>GIL</code>的释放以及获取</p>
+<p>所以我们接下来通过一个来学习<code>Python</code>调用<code>C++</code>代码，来了解<code>Python</code>如何调用<code>C++</code>，并且通过一些实验来验证线程、进程和<code>GIL</code></p>
+<h2 id="测试GIL的存在"><a href="#测试GIL的存在" class="headerlink" title="测试GIL的存在"></a>测试GIL的存在</h2><p>首先我们要做的第一件事就是测试GIL的存在，现在基本上主流电脑都是多核CPU，所以我们这个实验可以很轻松的在多核下进行</p>
+<p>首先我们得安装一些环境：<code>Python3</code>，<code>gcc</code>，<code>htop</code>（在Windows可以用下任务管理器代替）</p>
+<p>首先我得提一下我的一个认识误区，在以前我不太清楚线程、进程与多核直接的关系的时候我有一个误区，我以为<code>C</code>能在单线程里面使用多核（我也不清楚为什么我会这么想，可能是因为了解很少），而<code>Python</code>却不能，后面通过我实验我才发现，无论是<code>C</code>和<code>Python</code>只要你的代码不使用线程、进程那么你的代码只能同时运行在同一个核上</p>
+<p>怎么来测试呢，我们可以在<code>Python</code>的解释器里面输入</p>
+<pre><code>while True:
+  pass
+</code></pre><p>然后我们打开<code>htop</code>，我们可以发现某一个<code>CPU</code>始终保持在100%（这个CPU可能会变化，因为操作系统控制每个进程切换CPU时间），假如你没有其他任务过多使用<code>CPU</code>的话，你其他的核心一直保持在很低的利用率，当你<code>ctrl-c</code>你的代码后，那个100%的CUP会立马降下来</p>
+<p>然后你在编译一个<code>C</code>程序，使用<code>gcc a.c &amp;&amp; ./a.out</code>命令编译下面代码然后运行</p>
+<pre><code>// a.c
+int main(){while(1){};}
+</code></pre><p>你会发现<code>C</code>也只能消耗一个CPU，这就印证了我们前面说过得，如果我们不主动使用线程或进程来，同时只能有一个在运行</p>
+<p>接下来我们看看在多进程的基础上，使用<code>Python</code>来使用多核</p>
+<pre><code>from concurrent.futures import ProcessPoolExecutor
+
+def f(a):
+    while 1:
+        pass
+if __name__ == &apos;__main__&apos;:
+    pool = ProcessPoolExecutor()
+    pool.map(f, range(100))
+</code></pre><p>当我们运行上面代码的时候，我们会发现所有<code>CPU</code>会运行到100%，我们只要简单声明一个进程池（<code>ProcessPoolExecutor</code>），<code>Python</code>自动帮我们生成你CPU核数相同的进程，然后我们只要把任务分配到池中就能重复的并行化任务，把所有的核心都用起来。</p>
+<p>然后我们来测试一下线程池，要使用<code>Python</code>线程池只需要初始化<code>ThreadPoolExecutor</code>就行</p>
+<pre><code>from concurrent.futures import ThreadPoolExecutor
+
+def f(a):
+    while 1:
+        pass
+if __name__ == &apos;__main__&apos;:
+    pool = ThreadPoolExecutor()
+    pool.map(f, range(100))
+</code></pre><p>我们从<code>htop</code>可以看到在<code>Python</code>线程中，只有一个能达到100%，这就是<code>GIL</code>的“威力”，它让我们多线程没有发挥多线程的力量，重复使用到多核CPU</p>
+<p>接下来我们看看在<code>C++</code>里面使用多线程是否能够发挥多核的威力</p>
+<pre><code>// run.cpp
+#include &lt;thread&gt;
+using namespace std;
+
+#define NUM_THREADS 50
+
+void f(){
+    while(1){};
+}
+void run_dead(){
+
+    std::thread threads[NUM_THREADS];
+    for(int i = 0; i &lt; NUM_THREADS; ++i)
+    {
+        threads[i] = std::thread(f);
+    }
+
+
+    for (int i = 0; i &lt; NUM_THREADS; ++i) {
+        threads[i].join();
+
+    }
+};
+int main(void){
+    run_dead();
+}
+</code></pre><p>我们使用<code>g++ -pthread -std=c++11 run.cpp &amp;&amp; ./a.out</code>运行上面的<code>C++</code>程序，我们在htop里面能够发现，<code>C++</code>的多线程能够完全发挥多核的威力</p>
+<p>上面的程序都很简单，但是具备一个多线程运行的基本构造，我们可以修改我们的调用的子任务来完成实际的任务，当然你程序越复杂也涉及到了各种锁的使用，这里我们就不谈了</p>
+<p>从上面的程序我们可以知道<code>C++</code>的多线程能够充分使用多核，而<code>Python</code>的不行，接下来我们就开始探索<code>Python</code>调用<code>C++</code></p>
+<h2 id="Python调用C"><a href="#Python调用C" class="headerlink" title="Python调用C++"></a>Python调用C++</h2><p>在上面的<a href="/2018/09/12/如何让你的Python像C++一样快/">博客</a>我总结了<code>Python</code>调用<code>C++</code>的方式，总的来说<code>Cython</code>是控制能力最好的，效率也是最高的，但是由于存在一个学习新语言的难度，所以我这里就不提了，改天再写一篇关于<code>Cython</code>的博客，我们这里使用<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pybind11</a>这个库作为介绍</p>
+<p>安装非常简单<code>pip install pybind11</code>就行，接下来我们使用github上这个<a href="https://github.com/pybind/python_example" target="_blank" rel="noopener">官方例子</a>做介绍，最后我们以一个实际的<code>C++</code>项目为例子，看看如何在实际的项目使用</p>
+<p>首先我们先把项目下载下来</p>
+<pre><code>git clone https://github.com/pybind/python_example.git
+</code></pre><p>然后我们新建一个环境（避免安装到我们系统的环境，方便删除）</p>
+<pre><code>python -m venv venv
+</code></pre><p>PS: 当前<code>Python</code>版本默认为py3.5以上（你可以使用pyenv安装Python多个版本，目前我在自己使用Python版本，但主要使用3.6以上）</p>
+<pre><code>source venv/bin/activate
+</code></pre><p>然后我们激活我们的环境，我们顺便安装一下我们接下来要安装的<code>Python</code>包</p>
+<pre><code>pip install ipython
+</code></pre><p>然后我们进入项目<code>cd python_example</code>，假如你用<code>Pycharm</code>的话，你可以在项目目录下生成<code>venv</code>环境，然后在<code>Pycharm</code>里面打开会自动设定为默认环境</p>
+<p>然后我们先测试一下代码可以不可以用</p>
+<pre><code>pip install .
+</code></pre><p>假如我们安装成功了，恭喜你，我们的环境已经准备好了，打开<code>ipython</code>，我们先测试一下这个<code>C++</code>代码的速度</p>
+<pre><code>In [1]: import python_example
+
+In [2]: python_example.add(1, 1)
+Out[2]: 2
+</code></pre><p>很好，代码运行正常，就是一个简单的加法运算，我们测试一下平均时间</p>
+<pre><code>In [3]: %timeit python_example.add(1, 1)
+313 ns ± 3.03 ns per loop (mean ± std. dev. of 7 runs, 1000000 loops each)
+</code></pre><p>很好，我们的<code>C</code>代码还是跑到很快，313纳秒就跑完了，接下来我们看看纯粹的<code>Python</code>代码速度</p>
+<pre><code>In [4]: def add(a, b):
+   ...:     return a + b
+   ...: 
+   ...: 
+
+In [5]: %timeit add(1, 1)
+113 ns ± 9.04 ns per loop (mean ± std. dev. of 7 runs, 10000000 loops each)
+</code></pre><p>什么竟然比<code>C++</code>还要快，快了近3倍，记得我当时第一次运行出来的这个结果的时候的震惊，说好的快呢，你骗我。</p>
+<p>接下来我们就来分析一下出现这个的原因，会不会是因为类型转换出现问题呢，因为<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pyblind11</a>使用了很多自动转换的技术来帮我们转换，我们看看原函数（在src/main.cpp)</p>
+<pre><code>int add(int i, int j) {
+    return i + j;
+}
+</code></pre><p>首先<code>Python</code>调用它，要把第一个参数由<code>Python</code>的<code>int</code>对象转换成<code>C++</code>的<code>int</code>基本类型，<code>C++</code>运行完之后，又得转换将<code>C++</code>基本<code>int</code>类型转换成<code>Python</code>的<code>int</code>对象，这一来一回就得多花三个操作，为了验证我们猜想，我们插入一个<code>nothing</code>函数在<code>add</code>函数后面</p>
+<pre><code>void nothing(){
+}
+</code></pre><p>然后模仿<code>m.def</code>仿照写一行插入<code>nothing</code>函数（你会发现语法特别简单，这也是我喜欢<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pyblind11</a>的原因）</p>
+<pre><code>m.def(&quot;nothing&quot;, &amp;nothing, R&quot;pbdoc(
+        do nothing
+    )pbdoc&quot;);
+</code></pre><p>接下来我们安装一下我们的新库<code>pip install .</code></p>
+<p>然后我们再开一个新的<code>ipython</code>（你可以用<code>importlib</code>来重新加载库）</p>
+<pre><code>In [1]: import python_example
+
+In [2]: %timeit python_example.nothing()
+125 ns ± 0.6 ns per loop (mean ± std. dev. of 7 runs, 10000000 loops each)
+</code></pre><p>125ns，我们的猜想成功了，类型转换的确拖累了<code>C++</code>运行的速度，我们再看看原生的速度如何</p>
+<pre><code>In [4]: def nothing():
+   ...:     pass
+   ...: 
+   ...: 
+
+In [5]: %timeit nothing()
+85.1 ns ± 0.262 ns per loop (mean ± std. dev. of 7 runs, 10000000 loops each)
+</code></pre><p>竟然还是比<code>C++</code>快，虽然没有上面那么夸张，但是快了25%，我们再来分析原因，首先现在没有类型转换所以理论上那只能是代码运行问题，我们知道<code>Python</code>优化里面提过一句，少用<code>.</code>，因为<code>Python</code>要搜寻很多东西才能获得到对象的属性、方法等，所以我们这边使用了<code>python_example.nothing</code>来调用<code>nothing</code>函数，假如我们去掉<code>.</code>速度会不会提高呢</p>
+<p>怎么去掉呢，用局部变量</p>
+<pre><code>In [6]: pn = python_example.nothing
+
+In [7]: %timeit pn()
+90 ns ± 0.761 ns per loop (mean ± std. dev. of 7 runs, 10000000 loops each)
+</code></pre><p>从上面可以看到的确，<code>.</code>“害人不浅”，我们的速度又快了一大截，基本上同原生没有太多差距了，一开始我以为是概率问题，运行了多次但是结果都是一样，原生就是比<code>C++</code>快了5ns，可能是<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pyblind11</a>“偷偷”的在哪个地方偷跑了一条语句吧，或者有可能是<code>C++</code>比<code>C</code>（<code>Python</code>是<code>C</code>写的）稍微慢了一点</p>
+<p>一开始我以为<code>C++</code>一定会比<code>Python</code>快，但是我们从上面测试可以看出来，在“起跑”阶段，<code>C++</code>甚至比<code>Python</code>要慢，我们使用<code>C++</code>主要是为了加速大段<code>Python</code>代码，只要在这场“长征”中<code>C++</code>能够胜出，那么我们的努力就没白费，那好我们继续测试，看看在长征过程中<code>C++</code>表现如何</p>
+<p>首先我们把<code>add</code>函数魔改一下，我们让他进行100次运算</p>
+<pre><code>int add(int i, int j) {
+    int s = 0, x = 0;
+    for(;x&lt;100;x++){
+        s = s + i + j;
+    }
+    return s;
+}
+</code></pre><p>我们再把模块给安装一下<code>pip install .</code>，重新打开新的<code>ipython</code></p>
+<pre><code>In [1]: import python_example
+
+In [2]: python_example.add(1,2)
+Out[2]: 300
+
+In [3]: padd = python_example.add
+
+In [4]: %timeit padd(1,1)
+282 ns ± 3.9 ns per loop (mean ± std. dev. of 7 runs, 1000000 loops each)
+
+In [5]: %timeit python_example.add(1,1)
+316 ns ± 3.78 ns per loop (mean ± std. dev. of 7 runs, 1000000 loops each)
+</code></pre><p>我们这次重要见到了<code>C++</code>的威力，我们进行100次运算，相比于上面一次运算，我们只增加了<code>4ns</code>的平均时间，我们来看看原生<code>Python</code>的表现如何</p>
+<pre><code>In [6]: def add(a, b):
+   ...:     s = 0
+   ...:     for i in range(100):
+   ...:         s += a + b
+   ...:     return s
+   ...: 
+   ...: 
+
+In [7]: add(1, 2)
+Out[7]: 300
+
+In [8]: %timeit add(1, 1)
+4.74 µs ± 40.5 ns per loop (mean ± std. dev. of 7 runs, 100000 loops each)
+</code></pre><p><code>C++</code>完爆<code>Python</code>，<code>4.74us = 4750ns</code>，<code>Python</code>用时是<code>C++</code>的10倍多，只还只是100次运算，假如我们上万次运算，那结果更加夸张，<code>C++</code>在长征的过程中胜利了，但是我们也不能说<code>Python</code>是慢毕竟<code>us</code>的单位其实非常小，<code>1us=1000ms=1000000s</code>，在1s内可以执行上面函数几十万次，只能说<code>C++</code>速度太可怕了</p>
+<h3 id="调用总结"><a href="#调用总结" class="headerlink" title="调用总结"></a>调用总结</h3><p>我们从上面可以看到，虽然<code>Python</code>调用<code>C++</code>在类型转换上会有速度损失，但是在进入到函数提内运行过程中的速度是不影响的，假如我们的运算量够大，完全可以弥补那一点点性能影响，所以要想重复利用<code>C++</code>的速度，尽量少调用<code>C++</code>，把计算结果竟然一次性返回，而不是我们多次进行交互，这样就能最大化利用<code>C++</code></p>
+<h2 id="在C-线程中测试GIL"><a href="#在C-线程中测试GIL" class="headerlink" title="在C++线程中测试GIL"></a>在<code>C++</code>线程中测试GIL</h2><p>接下来我们来考虑这么一个问题，前面我们测试了<code>C++</code>的线程能使用多核，我们假如在让<code>Python</code>在调用<code>C++</code>的代码中中使用线程，那么我们的<code>C++</code>的线程能不能使用多核呢进而解除GIL的作用</p>
+<p>我们把<code>nothing</code>函数改成多线程</p>
+<pre><code>#include &lt;thread&gt;
+#define NUM_THREADS 50
+using namespace std;
+
+void f(){
+    while(1){};
+}
+
+void nothing(){
+    std::thread threads[NUM_THREADS];
+    for(int i = 0; i &lt; NUM_THREADS; ++i)
+    {
+        threads[i] = std::thread(f);
+    }
+
+
+    for (int i = 0; i &lt; NUM_THREADS; ++i) {
+        threads[i].join();
+
+    }
+}
+</code></pre><p>然后我们再重新编译一下<code>pip install .</code>，我们来跑一下我们这个多线程的<code>nothing</code>函数</p>
+<pre><code>In [1]: import python_example
+
+In [2]: python_example.nothing()
+</code></pre><p>我们在<code>htop</code>里面可以看到在单线程的<code>Python</code>程序中，成功的将所有核心都利用上了，也就是是说假如我们在<code>C++</code>扩展中使用线程的话，是不会被<code>GIL</code>影响的</p>
+<p>说实话当我第一次运行的时候我直觉是还是会被<code>GIL</code>影响，结果最后跑出来的结果大吃我一惊，现在我们分析为什么不会被受影响，因为<code>GIL</code>锁的是<code>Python</code>解释器，当我们的代码进入到<code>C++</code>中的时候，我们已经不在<code>Python</code>解释器中了，这样即使我在<code>C++</code>中声明线程，那也是<code>C++</code>的线程，所以就不会造成无法使用多核的情况</p>
+<p>这里我们学到一点，如果我们想摆脱<code>GIL</code>可以把线程放到<code>C++</code>中，这样线程的不再依赖<code>Python</code>解释器，前面我们知道其实<code>Python</code>底层是用<code>C</code>写的，所以基本上所以的语法都是基于<code>C</code>代码实现加上语法糖来完成的，<code>Python</code>线程也就是<code>C</code>线程，我们能不能模拟一下<code>Python</code>来构建这个<code>GIL</code></p>
+<p>首先我们知道<code>GIL</code>是一把锁，所以我们第一件事就是查看这把锁，在这里我们通过<code>Python</code>的<code>C</code>头文件来引入一个函数<code>PyGILState_Check</code>这个函数会返回一个<code>1</code>和<code>0</code>值，假如是<code>1</code>那么意思该线程拿着<code>GIL</code>锁，反之。</p>
+<p>所以我们先在头部加上<code>#include &quot;Python.h&quot;</code>，在Linux系统上要安装<code>python-dev</code>或者<code>python-devel</code>开发包才有这个头文件，接下来我们在<code>nothing</code>函数加上这个检测状态</p>
+<pre><code>cout &lt;&lt; &quot;GIL is &quot; &lt;&lt;  ((PyGILState_Check() == 1) ? &quot;hold&quot; : &quot;not hold&quot;)&lt;&lt;endl;
+</code></pre><p>提一句为了使用<code>cout</code>，我们得在头部加上<code>C++</code>输出库<code>#include &lt;iostream&gt;</code></p>
+<p>先在我们重新安装一下并运行<code>nothing</code>函数，程序会输出<code>GIL is hold</code>，为什么会出现这个情况呢，因为<code>Python</code>默认会锁住<code>GIL</code>当运行<code>C++</code>或者<code>C</code>代码的时候，但是为什么我们虽然锁住了<code>GIL</code>但是我们还是能够使用<code>C++</code>的线程来运行多核呢，其实很简单因为我们的线程没有像<code>Python</code>一样每次运行的时候去获取这个<code>GIL</code>锁，为了证明这一点，我们来做个实验</p>
+<p>首先我们得在<code>nothing</code>函数里面释放<code>GIL</code>，然后让线程去获取<code>GIL</code>（如果<code>nothing</code>主函数不释放<code>GIL</code>，会造成死锁，线程无法运行，一直获取不了<code>GIL</code>锁），我们可以用<code>Python</code>的<code>C</code>头文件的函数来释放<code>GIL</code>锁，但是<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pybind11</a>提供了一个更加方便的函数让我们来释放<code>GIL</code>锁，我们把<code>nothing</code>函数定义修改一下，在后面添加一条语句<code>py::call_guard&lt;py::gil_scoped_release&gt;()</code></p>
+<pre><code>//    m.def(&quot;nothing&quot;, &amp;nothing);
+    m.def(&quot;nothing&quot;, &amp;nothing, py::call_guard&lt;py::gil_scoped_release&gt;());
+</code></pre><p>然后我们在重新编译安装运行一下代码，我们的结果就会是<code>GIL is not hold</code>，我们通过简单的一条语句就释放<code>GIL</code>锁，接下来我们来测试在线程中获取<code>GIL</code>锁来模拟<code>Python</code>的情况</p>
+<p>要想获取<code>GIL</code>锁，<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pybind11</a>也提供了一个非常简单的方法来实现这个：<code>py::gil_scoped_acquire acquire;</code></p>
+<p>我们接下来把<code>f</code>函数改成下面的</p>
+<pre><code>void f(){
+    cout &lt;&lt; &quot;entner F: GIL is &quot; &lt;&lt;  ((PyGILState_Check() == 1) ? &quot;hold&quot; : &quot;not hold&quot;)&lt;&lt;endl;
+    py::gil_scoped_acquire acquire;
+    cout &lt;&lt; &quot;GIL is &quot; &lt;&lt;  ((PyGILState_Check() == 1) ? &quot;hold&quot; : &quot;not hold&quot;) &lt;&lt; &quot; now is runing &quot;&lt;&lt;endl;
+    while(1) {
+    };
+
+}
+</code></pre><p>我们在获取<code>GIL</code>前后，添加了一些输出，方便我们调试，接下来我们再运行我们的代码，我们发现程序输出50个进入<code>entner F: GIL is not hold</code>（在我的电脑上，因为线程同时运行，获取<code>GIL</code>锁需要时间，所以在我电脑上每次运行<code>f</code>函数时锁都打开着），但是只有一行<code>GIL is hold now is runing</code>，因为当一个线程获取到<code>GIL</code>后，其他线程就没法获取到了，而且看<code>htop</code>我们也能发现只有一个核到了<code>100</code>，在我们强行模拟下<code>C++</code>也没能使用多核</p>
+<p>其实从这里我们可以看出来，<code>GIL</code>问题其实就是一个死锁的问题，线程获取后不释放锁，导致所有线程相互竞争，用一个谚语来说就是：一个和尚挑水喝、两个和尚抬水喝、三个和尚没水喝。</p>
+<p>那么我们怎么来解决这个问题呢，很简单就是在你不需要的锁的时候去释放它，接下来我们来模拟一下怎么释放这个锁达到多线程“和平共处”，首先我们引入<code>C++</code>时间库来使用<code>sleep</code>函数(<code>#include &lt;unistd.h&gt;</code>)，接下来我们引入<code>Python</code>的<code>C</code>头文件中的宏来释放<code>GIL</code>，我们把<code>f</code>函数改成下面的形式</p>
+<pre><code>void f(){
+    cout &lt;&lt; &quot;entner F: GIL is &quot; &lt;&lt;  ((PyGILState_Check() == 1) ? &quot;hold&quot; : &quot;not hold&quot;)&lt;&lt;endl;
+    py::gil_scoped_acquire acquire;
+    cout &lt;&lt; &quot;GIL is &quot; &lt;&lt;  ((PyGILState_Check() == 1) ? &quot;hold&quot; : &quot;not hold&quot;) &lt;&lt; &quot; now is runing &quot;&lt;&lt;endl;
+    Py_BEGIN_ALLOW_THREADS
+
+    while(1){
+    };
+    Py_END_ALLOW_THREADS
+}
+</code></pre><p>我们使用<code>Py_BEGIN_ALLOW_THREADS</code>和<code>Py_END_ALLOW_THREADS</code>这一对宏来释放<code>GIL</code>，这样我们重新编译运行<code>nothing</code>函数我们就能看到50个<code>enter</code>和50个<code>runing</code>，而且在<code>htop</code>中我们也能发现<code>C++</code>的线程再次使用所有的核心了（利用率达到不了100%，不知道是因为宏的“副作用”还是其他原因，但是每个核还是能够到70%作用），这种在一个函数中获取和释放<code>GIL</code>锁还是不推荐的，最好在函数一开始的时候释放<code>GIL</code>，在函数结束的时候获取<code>GIL</code>返回到<code>Python</code>解释器中（假如你需要与<code>Python</code>进行交互的话），毕竟获取一次锁的成本还是挺大的，而且一不小心就会造成死锁</p>
+<h2 id="在Python线程中测试GIL"><a href="#在Python线程中测试GIL" class="headerlink" title="在Python线程中测试GIL"></a>在<code>Python</code>线程中测试GIL</h2><p>接下来我们来看看一个已经存在的问题，就是如何解决掉使用<code>Python</code>线程时遇到的<code>GIL</code>问题，其实我们在上面的<code>C++</code>线程已经模拟出来了，解决这个问题的关键就是释放<code>GIL</code>锁，我们先测试一下在<code>GIL</code>锁下，线程调用<code>C++</code>代码的速度</p>
+<p>我们首先添加一个新死循环函数</p>
+<pre><code>void run_dead(){
+    while(1){};
+}
+</code></pre><p>然后在后面加上<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pybind11</a>的定义</p>
+<pre><code>m.def(&quot;run_dead&quot;, &amp;run_dead);
+</code></pre><p>接着我们运行下面函数</p>
+<pre><code>from concurrent.futures import ThreadPoolExecutor
+import python_example
+
+pool = ThreadPoolExecutor()
+
+for i in range(100):
+    pool.submit(python_example.run_dead)
+</code></pre><p>在这个函数里面我们声明了一个线程池，并且向池蕾加入了100函数，接着我们在<code>htop</code>里面查看CPU利用率，我们可以看到只有1个CPU能够跑满100%，其实从前面的实验我们就能猜到这个结果，解决方案其实前面也给了，有两种方法，第一种就是使用<code>Python</code>的C的头文件函数宏<br>：<code>Py_BEGIN_ALLOW_THREADS</code>和<code>Py_END_ALLOW_THREADS</code>，第二种就是在函数声明的地方使用<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pybind11</a>提供的<code>py::call_guard&lt;py::gil_scoped_release&gt;()</code>来释放<code>GIL</code>，两种方法都可以，但是第二种更加简单一点，在这里我就不测试释放<code>GIL</code>之后的性能了，前面已经做过了</p>
+<h2 id="GIL总结"><a href="#GIL总结" class="headerlink" title="GIL总结"></a><code>GIL</code>总结</h2><p>通过前面我们的测试，<code>GIL</code>这个东西其实只是一把锁，我们经常能听到很多人抨击<code>Python</code>关于<code>GIL</code>问题，这就给人一种错觉<code>Python</code>这种语言在设计上有弊端，在前面测试我们也发现了就算是<code>C++</code>或者<code>C</code>假如不正确的使用锁其实也会有这个<code>GIL</code>问题，<code>GIL</code>的问题的并不是“编程语言”的锅，主要是我们自己的代码造成的死锁，所以面对<code>GIL</code>的时候，不需要困惑，它就是一把“锁”，把它打开，而不是碰到它就跑，你会发现它也就是一把“锁”而已。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/09/12/python/如何让你的Python像C一样快/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1646,197 +1992,6 @@ VERBOSE  [简X]  --------------神器,会无视代码中的注释空格和换行
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/02/20/algorithm/mit6_828/用户空间隔离/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/meAndMyGirlfriend.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/02/20/algorithm/mit6_828/用户空间隔离/" class="post-title-link" itemprop="url">用户空间隔离</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-02-20 00:00:00" itemprop="dateCreated datePublished" datetime="2018-02-20T00:00:00+08:00">2018-02-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>5.6k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>5 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>通过前面的学习我们知道，在前两个实验中最主要的程序就是<code>kern/init.c</code>文件中<code>i386_init</code>函数，但是我们看到最后却是一个<code>while</code>循环结束。</p>
-</blockquote>
-<pre><code>while (1)
-    monitor(NULL);
-</code></pre><p>这个<code>monitor</code>就是简单读取用户输入然后通过字符串调用给定的几个函数。我们可以把这个函数看做<code>i386_init</code>的子函数，也就是程序一直在<code>i386_init</code>中运行，也就是一直以内核形式运行。实验三就开始完成一个正常的操作系统的用户模式的建立，以及两者直接转换。</p>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>什么是用户呢，我们把内核当做一个大程序，用户就是小程序，两者基本上没有差别，但是为了让众多用户和内核平稳运行，我们必须要区别对待用户和内核</p>
-<p>首先我们要相信内核，内核是我们精心设计的，相反用户我们不能相信它，任何人都可以犯错误，我们知道计算机程序其实非常精巧，当他们完整的时候，他们可以完成你无法想象的工作，但他们有时候少掉一行指令时，他们就会瞬间崩溃，所以我们必须要保证就算用户怎么折腾都不会把内核搞垮</p>
-<p>所以我们来考虑一下怎么来限制用户不影响整个系统，第一用户不能动内核在内存上的程序，甚至连查看的资格都没有，这就是为什么前面我们已经绞尽脑汁把内核放到高地址上确保其“高高在上”；第二个用户不能在CPU一直跑，假如它有权限一直在CPU上跑，那么内核就废了，没有CPU可以用相当于“断了胳膊”；第三用户必须要有一些内核的权限，比如说申请一些内存啥的。</p>
-<p>接下来我们就从这几个问题出发来探索一下xv6为什么要这样设计用户空间。</p>
-<h2 id="用户是个程序？"><a href="#用户是个程序？" class="headerlink" title="用户是个程序？"></a>用户是个程序？</h2><p>在完成用户设计之前，首先我们先做个实验，来验证一下用户是个程序。首先我们在<code>kern/init.c</code>文件中<code>i386_init</code> 的头部加上<code>#include &lt;inc/elf.h&gt;</code>然后在<code>#if defined(TEST)</code>代码前加入几行代码</p>
-<pre><code>extern uint8_t _binary_obj_user_hello_start[];
-struct Elf* header = ((struct Elf *) _binary_obj_user_hello_start);
-assert(header-&gt;e_magic == ELF_MAGIC);
-((void (*)(void)) (header-&gt;e_entry))();
-</code></pre><p>这段代码你如果仔细观察过前面操作系统载入的源码（<code>boot/main.c</code>中)你会发现基本上差不多。首先我们声明了<code>_binary_obj_user_hello_start</code>外部变量，这个变量是通过<code>ld</code>编译器将内核中用户程序<code>hello.c</code>的起始地址定义来的，由于我们现在没有文件系统，内核就把用户程序一股脑链接到自己身上，在以后有了文件系统就不需要了。但是它给了我们一个便利，我们现在可以直接在内存上运行它</p>
-<p>当然虽然它的确是个程序（assert那不会出错），但是它还是跑不起来，因为它的虚拟地址不在内核内存上，必须要像前面映射内存物理空间才能运行，但是他的确是一个程序，从这里我们得到一个结论，用户其实也就是一段程序，接下来我们就看看如何用软件与硬件的结合的设计解决上面的问题。</p>
-<h2 id="权限"><a href="#权限" class="headerlink" title="权限"></a>权限</h2><p>首先我们来看看权限问题，<code>x86</code>系统硬件给我们提供了一个分段式权限功能，在开启内存分页后，<code>CS</code>寄存器16位里面拿出两位来当做权限管理，分为四级（<code>0b00、0b01、0b10、0b11</code>），最小的权限最大，当然xv6只用了两级，如下图所示</p>
-<p><img src="/images/systemring.png" alt="系统环来源网络"></p>
-<p>PS：当然<code>CS</code>寄存器拿出来三位来当权限管理，但是xv6将第三位用户和内核都设置为1，所以我们也不介绍这一位</p>
-<p>我们在<code>CS</code>寄存器的这两位称为CPL，用来区分权限。在<a href="/2018/01/31/引导和操作系统的交互/">引导和操作系统的交互</a>这篇博客我们知道，在<code>x86</code>系统中，这个<code>CS</code>寄存器是标志段选择子，在<code>GDT</code>表中每个表项也有两位用来标志权限，我们称他们为<code>DPL</code>，他们的意义也就是<code>CS</code>寄存器选择这个段时他们最低拥有的权限。</p>
-<p>当然在<code>GDT</code>表中的段选择子也有一个表示权限的称作<code>RPL</code>，这三者的关系在这<a href="https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86" target="_blank" rel="noopener">里面</a>介绍的很详细，<code>RPL</code>是历史遗留问题但是操作系统基本上没有使用这个功能，所以这里我们也不解释，感兴趣可以看一下<a href="https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86" target="_blank" rel="noopener">前面</a>的介绍。</p>
-<p>在<code>kern/env.c</code>的<code>结构体gdt</code>我们声明了一个<code>GDT</code>表，并且声明了一个系统段和用户段。</p>
-<p>这两个段就是我们权限的基础我们接下来通过实验来验证权限位对操作系统的保护</p>
-<p>我们首先在<code>user/badsegment.c</code>中加入一句汇编</p>
-<pre><code>asm volatile(&quot;ljmp %0,$1f\n 1:\n&quot; :: &quot;i&quot; (0x08)); // 将CS设置为0x08
-</code></pre><p>我们尝试将<code>CS</code>设置为<code>0x08</code>（内核段）结果直接引发一个<code>General Protection</code>的异常，但是当我们尝试执行这句</p>
-<pre><code>asm volatile(&quot;ljmp %0,$1f\n 1:\n&quot; :: &quot;i&quot; (0x18));  // 将CS设置为0x18
-</code></pre><p>我们发现程序没有引发异常（这段的含义是跳转到用户段，由于已经在用户段，所以没有触发异常），这说明<code>x86</code>通过<code>CS</code>寄存器很好的实现了内核和用户的保护（用户不能直接跳到内核去执行代码）</p>
-<p>在<code>user/faultwritekernl.c</code>和<code>user/faultreadkernl</code>中我们发现尝试写入或者读取内核也失败了，这是通过前面章节的内存分页权限实现的，这里就不介绍了。</p>
-<p>现在我们知道，通过我们不懈努力内核和用户直接存在一个鸿沟，但是这时候摆在我们面前很大的问题，内核拥有一些非常重要的权限比如申请内存，如果用户没有这个权限那么功能非常受限，所以我们就要提到一个内核和用户交互的手段：Trap。</p>
-<h2 id="Trap"><a href="#Trap" class="headerlink" title="Trap"></a>Trap</h2><p>其实这个Trap包括内部中断、软中断、异常。但是xv6统一将他们叫做陷阱（Trap），这个Trap主要完成从用户到内核的一种跳转，我们就不介绍内部中断和异常，因为这些都是系统完成，我们来介绍了一下软中断，这个我们人为可以操作，而且我们可以把其他中断、异常当做系统去帮我们调用这个指令</p>
-<pre><code>int $n
-</code></pre><p>很简单x86共定义了256个中断向量，存在物理内存<code>0x000</code>-<code>0x3ff</code>之间，每个存贮一个<code>cs</code>值一个<code>eip</code>的值，这个n只要是在256直接就行，当调用这个的时候我们直接调到那里读取<code>cs</code>和<code>eip</code>的值。</p>
-<p>在正式介绍<code>Trap</code>之前我们要简单的介绍一下两个知识点</p>
-<h3 id="IRET"><a href="#IRET" class="headerlink" title="IRET"></a>IRET</h3><p>这是<code>iret</code>是一个机器码，我们前面介绍了无论是操作系统还是用户没有办法直接跳段（会引发<code>General Protection fault</code>），而且我们知道前面只是测试了跳代码段，我们知道两个不同的程序，不仅仅是代码段不同，堆栈段也要不同，才能保证各个程序的独立。所以系统为了解决这个问题，直接提供一个<code>iret</code>指令，这个全名应该叫<code>中断返回</code>，它的功能其实很简单，就是实现上面的跳代码段和堆栈段还有恢复<code>EFLAGS</code>寄存器值，这个主要应用在从系统跳转到用户上面。</p>
-<p>感兴趣的可以看看这个详细<a href="https://stackoverflow.com/questions/6892421/switching-to-user-mode-using-iret" target="_blank" rel="noopener">资料</a>，接下来我们看看在<code>xv6</code>里面如何使用<code>iret</code>来实现跳段</p>
-<p>在<code>kern/env.c</code>的<code>env_pop_tf</code>函数实现了切换程序段的功能</p>
-<pre><code>asm volatile(
-        &quot;\tmovl %0,%%esp\n&quot;
-        &quot;\tpopal\n&quot;
-        &quot;\tpopl %%es\n&quot;
-        &quot;\tpopl %%ds\n&quot;
-        &quot;\taddl $0x8,%%esp\n&quot; 
-        &quot;\tiret&quot;
-        : : &quot;g&quot; (tf) : &quot;memory&quot;);
-</code></pre><p>首先第一个就是把tf指针指向的值赋给<code>esp</code>寄存器，要想知道这个操作的意思就必须知道，一个结构体其实在程序里面就是一块连续的内存值，所以这里就是把<code>esp</code>的值指向<code>tf</code>代表的<code>Trapframe</code>结构体的开始位置，所以我们得看看这个<code>Trapframe</code>组成是什么</p>
-<pre><code>struct Trapframe {
-    struct PushRegs tf_regs;
-    uint16_t tf_es;
-    uint16_t tf_padding1;
-    uint16_t tf_ds;
-    uint16_t tf_padding2;
-    uint32_t tf_trapno;
-    /* below here defined by x86 hardware */
-    uint32_t tf_err;
-    uintptr_t tf_eip;
-    uint16_t tf_cs;
-    uint16_t tf_padding3;
-    uint32_t tf_eflags;
-    /* below here only when crossing rings, such as from user to kernel */
-    uintptr_t tf_esp;
-    uint16_t tf_ss;
-    uint16_t tf_padding4;
-} __attribute__((packed));
-</code></pre><p>第一个是<code>PushRegs</code>结构体，这个对应我们第一个操作<code>popal</code>，将<code>PushRegs</code>所有值全部从堆栈中取出，我们发现当到<code>iret</code>操作时，正好对应取出代码段还有堆栈段和<code>EFLAGS</code>寄存器，所以其实<code>iret</code>的操作非常简单，只是将三个取出指令和成了一个。</p>
-<h3 id="TSS"><a href="#TSS" class="headerlink" title="TSS"></a>TSS</h3><p>前面我们捋了捋从系统跳转到用户，因为我们给用户的都是刚新建的值，所以这个并没有什么问题，但是你要想一想，当用户想跳转到系统的时候，这个时候它也必须要切换堆栈，因为用户可以还没有准备好（有时候可以是因为堆栈内存不够，如果把寄存器值强行插值到用户堆栈会引发二次异常）。但是假如使用操作系统的堆栈，在我们切换之前系统必须要知道内核堆栈在哪</p>
-<p>所以x86提供了一个<code>tr</code>寄存器给我们使用，这个寄存器的位数为16位，专门存贮一个选择子（类似前面段选择子），这个选择子<code>base</code>地址必须指向一块空余空间。前面知道我们要想从用户跳操作系统，必须知道操作系统的堆栈（中断向量表提供了代码段cs：ip），所以x86干脆规定了这个空间名字为<code>TSS</code>，并声明了一大串寄存器的值备用，当然这些是硬件规定的，软件用不用无所谓，但是硬件会在跳转的时候，读取里面固定位置的值，也就是我们需要的堆栈段<code>ss：esp</code>，在<code>inc/mmu.h</code>的<code>Taskstate</code>结构体中声明了这段内存规定的字段</p>
-<p>所以我们在<code>kern/trap.c</code>中声明了（ss：esp）</p>
-<pre><code>   ts.ts_esp0 = KSTACKTOP;
-ts.ts_ss0 = GD_KD;
-</code></pre><p>这样我们在跳转的时候就能获取到内核的堆栈段，从而进入内核模式，当然硬件设定<code>TSS</code>的作用一开始为了考虑任务切换，它也提供了相应的指令，但是需要200左右时钟周期来完成，所以我们<code>xv6</code>嫌弃其速度太慢，只是使用了其保存内核堆栈地址的作用，所以在<code>xv6</code>中<code>TSS</code>只是一个“数据库”而已。</p>
-<hr>
-<p>介绍完前面的基础知识之后，接下来的就是这个<code>Trap</code>，前面我们知道在得到<code>int</code>这个指令时候这个时候就开始一个<code>Trap</code>开始。</p>
-<p>这个时候硬件接管程序控制，你也可以认为跳转到硬件代码去了。在给的<a href="https://pdos.csail.mit.edu/6.828/2016/xv6/book-rev9.pdf" target="_blank" rel="noopener">资料</a>第三章的<code>X86 Protection</code>里面介绍了这个过程，我们将前面几个步骤很我们前面给的资料联系起来</p>
-<blockquote>
-<p>后面推寄存器值就不解释了，同<code>Trapframe</code>的反向结构相同，之所以会这样，是因为堆栈地址是向下生长，而程序地址是向上生长的</p>
-</blockquote>
-<p>硬件这部分操作为</p>
-<ul>
-<li>获取中断向量表第n个的地址（n为<code>int</code>后面整数）</li>
-</ul>
-<p>然后开始权限检查，这个也是为什么程序不能随意调用系统资源的原因</p>
-<ul>
-<li>检测DPL与CPL的大小关系</li>
-</ul>
-<p>这个<code>DPL</code>不是前面<code>GDT</code>里面的，这个是存贮在中断向量表中<code>CS</code>里面的值，这个设置可以让我们给每个中断向量设置一个权限，看它允许是用户调用还是系统调用，如果只允许系统调用，那么用户调用直接引发<code>General Protection Fault</code>（13号中断），在我们的xv6中，我们只允许用户调用<code>Debug</code>和<code>System Call</code>中断，其他只能由系统调用</p>
-<ul>
-<li>判断保留<code>esp</code>和<code>ss</code>，检测目标的段与当前段</li>
-</ul>
-<p>当我们在操作系统中出现中断的时候，如果硬件还傻乎乎的将操作系统的堆栈归位那么就进入死循环了，所以这个目的就是避免同属一个段的时候不会切换堆栈</p>
-<ul>
-<li>当跳段的时候，从<code>TSS</code>中取到<code>esp</code>和<code>ss</code>切换堆栈段</li>
-</ul>
-<p>这个就是前面弹到的<code>TSS</code>的功能，接下来我们所以推出去的值全部存贮在要跳的段的堆栈上面了。</p>
-<p>推完<code>Trap</code>程序的寄存器值，保留好“犯罪现场”后，就可以进入内核进行处理这个异常了。</p>
-<p>至此我们介绍完了严格有序的处理从用户到内核的跳转，当我们处理完后就可以通过<code>iret</code>回到用户程序，这样就完成了用户拥有内核权限的设计。</p>
-<hr>
-<h2 id="用户时间控制"><a href="#用户时间控制" class="headerlink" title="用户时间控制"></a>用户时间控制</h2><p>接下来的用户使用CPU时间设置也是通过这个这个<code>Trap</code>的中断实现，你可以理解为硬件在每个CPU上在每隔个<code>10ms</code>的时候就触发一个中断。这样到内核的时候，内核发现是时间中断，就保留用户的寄存器值到用户自己空间（<code>Env</code>里面有一个<code>env_tf</code>变量可以存贮这些信息），然后调用其他或者这个程序，这样的话，我们就实现了一个时间控制。</p>
-<p>PS：这里我们提一下这个<code>Env</code>结构体，内核初始化了1024个这个结构体，这说明我们可以同时拥有1024个用户程序运行，这个结构体就是用户环境，也就是我们在<code>Unix</code>系统上输入<code>ps</code>中的<code>pid</code>（每个<code>pid</code>代表一个程序）</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>至今我们介绍了通过一个简简单单的<code>Trap</code>操作就实现了复杂的权限管理和空间隔离，虽然操作系统看起来非常复杂，但其实都是由简单干练的概念搭建起来的，因为<code>Unix</code>的哲学就是<code>简单至上</code>。</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://stackoverflow.com/questions/6892421/switching-to-user-mode-using-iret" target="_blank" rel="noopener">https://stackoverflow.com/questions/6892421/switching-to-user-mode-using-iret</a></p>
-<p><a href="https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86" target="_blank" rel="noopener">https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86</a></p>
-<p><a href="https://en.wikipedia.org/wiki/Task_state_segment" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Task_state_segment</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1909,7 +2064,7 @@ ts.ts_ss0 = GD_KD;
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">121</span>
+          <span class="site-state-item-count">122</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1989,7 +2144,7 @@ ts.ts_ss0 = GD_KD;
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:04</span>
+    <span title="站点阅读时长">4:05</span>
 </div>
 
         

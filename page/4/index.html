@@ -211,6 +211,111 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2020/12/31/software/http/Tomcat高并发浅析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/meAndMyGirlfriend.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/12/31/software/http/Tomcat高并发浅析/" class="post-title-link" itemprop="url">Tomcat高并发浅析</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-12-31 00:00:00" itemprop="dateCreated datePublished" datetime="2020-12-31T00:00:00+08:00">2020-12-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:08:07" itemprop="dateModified" datetime="2021-03-09T20:08:07+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/软件/" itemprop="url" rel="index">
+                    <span itemprop="name">软件</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>1.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>Tomcat作为Java老牌web服务器，所以研究Tomcat就能搞懂高并发，本文是查阅大量资料总结的自己对于web高并发服务器的理解，有可能部分理解是错误的，欢迎来纠错，本文尽量不使用代码，网上查到的都是一大段一大段代码，让人看的头痛</p>
+</blockquote>
+<p>一个最简单的web服务器长啥样呢，就是一个echo服务期</p>
+<ul>
+<li>监听端口</li>
+<li>新TCP请求进来，建立TCP链接</li>
+<li>向TCP链接发送响应</li>
+</ul>
+<p>所以我们扩展一下，一台高并发服务器最重要的就是接受成千上万的新请求，以及管理已经建立的请求，虽然说起来很简单，虽然说起来很简单，但是做起来很复杂</p>
+<p>首先我们从用户端看一次完整的HTTP请求是咋样的，我们用吃饭来打比方，首先用户先想好他去哪里吃饭（构建url，比如abc.com)，然后他通过百度去查这个饭店在哪（查询DNS abc.com 的IP地址是什么），百度告诉他这家餐馆搬到他家附件2公里外（得到IP地址 127.0.0.1），然后用户就按照地图找到了这家店，然后他想了半天决定吃鱼（发起HTTP请求<code>/fish</code>）</p>
+<p>现在用户已经决定好了他要干什么了，接下来就是看这家餐馆的操作了，首先用户会发起一个TCP请求建立连接，因为他得确定这家店今天开不开张，不开张人家也不会卖他鱼吃，接下来我们来看看Tomcat是怎么把这家餐馆给经营好的</p>
+<p>首先他要根据他自己后厨的规模，也就是同时可以做多少个菜（并发线程数），以及做一个菜要花多少时间（TPS性能），来决定他餐馆可以放多少椅子（最大连接数），因为这个餐馆一直有人吃饱就走，所以他也特意搞了个叫号系统，允许顾客来了排个队等一等（也就是Tomcat的排队队列来控制）</p>
+<p>那我们来分几种情况来讨论一下，第一种今天没多少顾客，那么大家来了之后就有椅子做（建立好TCP链接），第二种做满了但是门口还有地方站一站（也建立链接TCP放进排队队列），最后一种是门口都站不下了，为了不影响其他顾客，我们只能说客满了，您不一定能吃上，您去别处看看吧，那么用户就会得到一个拒绝连接的错误（Connection refused）</p>
+<p>接下来我们再看看坐在店里的顾客了（建立好了TCP连接），这个时候顾客都知道今天能吃上就安安静静的等了，餐馆呢就把顾客点好菜发给后厨（Tomcat把HTTP请求发给Servlet容器），有的菜烧得快有的菜烧得慢（每个请求耗时不同），菜好了就端上去了，客户呢觉得吃饱了那就走了（关闭TCP连接），觉得没吃饱就继续叫（继续发送HTTP请求），假如有时候叫了一道特别难的菜，后厨做了很久都没端上来，假如你不急那就慢慢等，假如你急的化那你可以直接走（抛出一个Read timed out错误）</p>
+<p>现在我们总结一下，从用户角度上来看，他碰到的问题就是两种，第一种就是餐馆人太多了，没法吃（拒绝连接），第二种就是餐馆上菜太慢（读取超时）。从餐馆角度上来看，为了服务好用户他首先得安排好足够的椅子，第二个就是要让后台上菜速度要快，上菜快可以通过增加厨师（增大最大线程数），你也可以针对做菜某些步骤慢的地方多派人手（SQL调优、缓存优化等等）</p>
+<p>PS: 这篇文章还有一个重要的问题没有提，用户进了餐馆（建立了TCP连接），他什么时候叫菜（发送HTTP请求）我们是不知道，我们怎么来实现一个高效的系统来服务客户，来满足成千上万的顾客有求必应，我会在另外一篇博客来专门谈这个东西【Select和epoll浅析】</p>
+<h3 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h3><p><a href="https://qiankunli.github.io/2019/11/26/tomcat_source.html" target="_blank" rel="noopener">https://qiankunli.github.io/2019/11/26/tomcat_source.html</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2020/12/30/software/http/Select和epoll浅析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1292,128 +1397,6 @@ atlas.kafka.bootstrap.servers=localhost:9092
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2019/10/05/summary/如何真正精通/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/meAndMyGirlfriend.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/10/05/summary/如何真正精通/" class="post-title-link" itemprop="url">如何真正精通</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-10-05 00:00:00" itemprop="dateCreated datePublished" datetime="2019-10-05T00:00:00+08:00">2019-10-05</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:15:01" itemprop="dateModified" datetime="2021-03-09T20:15:01+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/随想/" itemprop="url" rel="index">
-                    <span itemprop="name">随想</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>3.5k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>3 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
-<p>写这篇博客是因为自己从去年就开始学习大数据，但是当自己入了门之后，虽然懂得一点皮毛，但是总觉得自己没有真正掌握这个，尝试了很多方法（做了不少项目，读了几个月源代码），但是总感觉不得要领，或者来说进步缓慢，下面是自己的一些思考</p>
-</blockquote>
-<p>进步最快的是做项目，但是做项目其实也有下面的问题：</p>
-<ul>
-<li>项目参杂业务</li>
-<li>项目只涉及到大数据某个部分</li>
-</ul>
-<p>比如以我前面数据转存HBase的项目为例，我遇到的问题是Spark内存不足，以及优化HBase存贮，在解决问题的过程中我的确查了不少资料，学了不少东西，但是通过这个项目之后我只能说我对上面的问题有一定的经验，谈不上精通</p>
-<p>从理论上讲你想真正精通就是不停的使用它，但是对于每个人来说，并不是都有机会去在每个项目中应用它，比如我上个项目Flink SQL管理系统，虽然它是跟Flink有关，但是它大部分都是和前端以及动态编译有关，随着项目越来越多你会发现你越来越熟练某个东西，但是不是精通</p>
-<p>那怎么才能真正的精通某个东西呢，接下来我就下面几点谈谈我的体会</p>
-<h2 id="心态"><a href="#心态" class="headerlink" title="心态"></a>心态</h2><p>心态这个东西非常的重要，一开始我接触大数据，我飞快的过了一遍大数据的各个软件，把tutorial都运行了一遍，整个人是一种完成任务的心态把所以大数据组件给过了一遍，做完之后感觉大数据也就那么回事，但是其实你只是会运行几个软件而已，就好比一个会用遥控器的猴子，你会看电视不是你有多聪明，而是发明遥控器的人的聪明才让你能那么轻松的看电视</p>
-<p>所以我们要想深入精通某个东西第一个就是摆正自己的心态，心态这个东西怎么端正呢，其实我觉得第一件事就是让自己变成一个“演员”</p>
-<p>这里我插一句，其实我们这一代虽然压力很大，但是有很大一部分年轻人比如我会有一种“佛系”心态，无欲无求，这种心态可能会让你心态变得更加平静，你不会思考那么多问题（为什么我工资没有他高、为什么我买不起房），但是这种心态也会让你丧失变得更加优秀的可能，比如前面我们提到我们要想精通必须端正心态，把这件事放在你心上，作为一个“佛系”看到这可能会想，为什么要把它放到心上，不就是精通嘛多花点时间就可以了</p>
-<p>这种心态就像在一间教室了，你和你同学都在认真听课，你同学被叫起来回答问题，你的心态非常平静，老师提出的问题你根本不会用心去想，你内心只有这个起来讲的傻蛋会怎么出丑，而对于站起来回答问题的那个同学他会精神高度紧张，他会用100%的精力会放在这个“问题”上</p>
-<p>我们回到前面，前面我们提了“演员”这个概念，我们端正心态的具体方法就是把自己变成一个“演员”，或许学这个东西对于你来说只是一个给自己充一下电，在你心中，玩一把LOL、刷一会抖音和充一下电的地位是一样。</p>
-<p><em>所以第一步就是“假装”你非常热爱这个东西</em></p>
-<p>为什么要说是假装呢，就以我们自己举例，我们从小到大爱过学习吗？我敢说一万个里面只有一个会说我好爱学习，那个人很有可能是如果他不学习他爸就叫他下地干活，其实我们从小到大一直在被强迫着学习，如果没有老师布置作业我们很有可能一下课就把书包丢到看不到的地方，打开电视机，假如没有考试要求我们背诵课文，我们可能不会把一段又丑又长的文章读了一遍又一遍，等我们到了社会，我们又被领导用工资压着我们做一些内心厌据的工作</p>
-<p>我还好毕业之后从事的是我喜欢做的，所以我经常下班之后会呆在电脑旁，与之相反我有一个建筑朋友，他也是做电脑设计这方面的，他很好奇我每天下班都待在电脑旁边不打游戏就坐在那编程，对于他来说，他下班之后再也不想打开电脑，因为他觉得平常在公司已经非常辛苦了，为什么还要折磨自己。对于他来说工作只是一个维持生活的手段</p>
-<p>其实对于我来说，编程也没有上升到热爱那一个层次，只是比游戏稍微高那么一点而已，这也可以解释有的时候我敲着敲着代码敲累了又打开了虎牙看起直播来了，热爱这个东西就好比打游戏，你越打越开心，而不会越来越累</p>
-<p><em>所以其实对于我们大部分年轻人来说，第一件事就是把“佛系”心态收起来，变成一个“演员”，假装我们热爱这个东西</em></p>
-<p>其实李笑来也提到过类似观点，他提过他是学习英语的窍门，他“假装”他背一个单词可以挣5块钱，所以他单词越背越多，最后英语也越来越好，对于我们每个人来说如果你真的想精通某个东西，找到一种能够刺激你的方法去“热爱”它</p>
-<p>插一句，为什么我在这个心态这里用了很多“演员”、“假装”这些词汇，因为从小到大我没有看到一个人真正的热爱某个东西，无论是工作还是学习大家似乎都是一种“妥协”的态度，因为钱而工作，因为击杀的快感而打游戏，很少能看到一个人因为热爱而沉浸在一件事上一辈子，这也可以解释为什么大师那么少，大部分太“博爱”，无法选择出自己最喜爱的</p>
-<p>把人生当做登山，我们面前有很多座山，大部分人登了一会就觉得这座山不是自己的菜，厌倦了，从头开始换另一座山登，而对于我们来说，最好的方法是登了一会虽然觉得厌倦了，“假装”热爱，拼命往上登，到了山顶，视野广阔才能真正的看到自己想要的，这个时候不是随便换个山登，而是“跳”到那座山去。</p>
-<p>大道理我们也不多说了，现在我们面前只有一个朱丽叶，接下来我们谈谈一些我觉得很重要的“术”来帮助我们维持这个心态</p>
-<h2 id="精通的手段"><a href="#精通的手段" class="headerlink" title="精通的手段"></a>精通的手段</h2><h3 id="问自己问题"><a href="#问自己问题" class="headerlink" title="问自己问题"></a>问自己问题</h3><p>帮住我们精通某个东西的最重要的方法的是问问题，比如你想精通Hadoop，这个时候你就问自己，什么是Hadoop，为什么叫Hadoop，它有啥用….</p>
-<p>这些问题你可以记录下来，在回答过程中你必须要像对待孩子一样对待这些问题，你要充分激发你的求知欲，其实这个同打游戏是一个道理，假如你喜欢打LOL，你会去尝试各种符文天赋，尝试各种英雄各种套路，你拿到一个盲僧你总会问自己，盲僧装备啥符文最强，R闪会不会撞墙。</p>
-<p>问自己问题还有一个关键就是：打破砂锅问到底。接着Hadoop那个问题，当你回答到Hadoop的组成的时候，提到了Namenode，然后在问自己Namenode是什么，如果文件过多会怎么样，高可用和Namenode有什么关系，如果Namenode挂掉会怎么样….</p>
-<p>问问题的过程不但是是一个不断了解的过程，也是一个学习的工程，你在学习的过程中遇到的问题越多说明你的短板也越多，我们就像一个修补匠不断对一艘船修修补补，最终它能坚固的如军舰一般</p>
-<h3 id="系统总结"><a href="#系统总结" class="headerlink" title="系统总结"></a>系统总结</h3><p>不断的提出新的问题就像不断的在一个树枝上分叉，但是假如你一直问下去，你有可能会在寻找问题的过程中迷失自己，或者偏离主航道，比如问大数据最后深入到硬件最后深入到化学方向去了，所以一个系统的归纳总结也非常有帮助</p>
-<p>方法有很多，你可以像我一样写博客，画画思维导图，甚至手写都可以，一切能够帮助你总结归纳都可以</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这篇博客简单的介绍了一下我对于怎么精通的个人体会，我个人也还在路上，之所以写这篇也是自己在摸索的过程中磕磕碰碰走了很多弯路，这里谈一下对以前学习过程中的反思吧，我一开始心态就不对，飞快的过了大数据的组件，然后开始做了些项目，但是做完之后也只是熟练的编程而已，接着开始研究源代码，虽然代码都能看懂，但是不知道怎么去看，好像是为了看源代码而看源代码而已，自己对整个系统一窍不通</p>
-<p>后面突然看到一下大数据的面试题，我尝试回答但是好像都模模糊糊，这个时候我才意识到我的问题的关键：“心态”。我自己一直没有摆正自己的心态，我只是把他当做一个工具来用了，就好比电视遥控器，我只是一只会按遥控器的monkey而已。摆正心态说难也难说容易也容易，假如明天马云跟我说你把Hadoop搞精通我给你1000万，那我心态不需要“假装”，我们需要一种手段帮助我们端正心态，每个人可以采取不同的手段来帮助自己，对于我这个佛系青年来说，上面的方法是最好的。</p>
-<p>其实我记得好像小学的时候我就有过这种思考，当初我妈和我姐聊天说为什么同一个妈生的，一个成绩好一个成绩差，我当时直接就说了假如你想成绩好那必须要热爱它，后面我也用这个办法帮我自己学习一些东西，但是苦于没有想到怎么精通的“术”，所以虽然一开始保持100分的热情但是坚持坚持着就放弃了，所以心态不但重要，后面的精通的“术”也非常重要，就像太极，一阴一阳，光有热情没有行动没有用，只有行动没有热情，你也领悟不到精髓。</p>
-<p>PS：其实回头想想这篇博客也非常简单，很多前辈或者先人已经提出来过，不外乎是：端正心态、多问问题、多总结。我自己一开始也想过别人都写过，自己何必多此一举，但是想想虽然这些问题都是老生常谈，但是我们来说，我们都是第一次做人，每个人都是不一样，对于我来说，端正心态怎么端，为什么要端正，端正后干什么这些都是不一样。其实我这篇博客最主要的想谈一下心态，就以我们健身房为例，一遍健身一遍玩手机的都是没有什么肌肉的，那些肌肉大的都是训练的时候拼尽全力，假如你抱着来健身房玩一玩的心态，你永远没法把你的肌肉练出来，而那些为每次动作拼尽全力的人他们的肌肉是最强壮的。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1486,7 +1469,7 @@ atlas.kafka.bootstrap.servers=localhost:9092
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">121</span>
+          <span class="site-state-item-count">122</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1566,7 +1549,7 @@ atlas.kafka.bootstrap.servers=localhost:9092
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:04</span>
+    <span title="站点阅读时长">4:05</span>
 </div>
 
         

@@ -211,6 +211,112 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/03/27/java/dubbo/dubbo浅探/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/meAndMyGirlfriend.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/03/27/java/dubbo/dubbo浅探/" class="post-title-link" itemprop="url">Dubbo浅探</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-27 21:27:53" itemprop="dateCreated datePublished" datetime="2021-03-27T21:27:53+08:00">2021-03-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-28 16:17:45" itemprop="dateModified" datetime="2021-03-28T16:17:45+08:00">2021-03-28</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>1.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>繁忙的一周终于过去了，加入小影第一周主要是熟悉后端架构，同事们都挺好，自己的基础还是有点弱，前段时间简单的把Spring<br>Cloud 和 Dubbo学习了一下，但是其实对于工作来说，之前学的都是最新的版本，但是其实公司用的版本很老了，所以需要时间去学习老版本</p>
+</blockquote>
+<h2 id="历史"><a href="#历史" class="headerlink" title="历史"></a>历史</h2><p>首先我们来看看Dubbo的历史，看Dubbo的历史的时候我们得先看看<a href="https://www.jianshu.com/p/cad51a09d0c2" title="Dubbo发展史" target="_blank" rel="noopener">Spring的历史</a>,2004年就出来了Spring1.0，随着<br>一些网站越做越大，例如淘宝，随着用户量越来越大，单一Spring无法支持他们的体量，<br>所以淘宝基于Spring开发了Dubbo这个架构</p>
+<p>Dubbo和Spring有什么不同，Dubbo其实是基于Spring开发的，只不过他和普通的Spring程序不一样，它提供的是<br>分布式服务框架</p>
+<p>原来的Spring程序放进Tomcat里面就可以跑了，但是Dubbo是将一堆Spring程序组合起来做一个分布式系统，<br>他提供了什么呢，总结起来就是Spring程序的互识和通信</p>
+<p><img src="/images/dubbo-struct.png" alt="Dubbo架构图"></p>
+<p>Dubbo使用起来非常简单，复杂的注册和监控已经帮你写了，你只要启动提供者（Provider）和消费者（Consumer）实例就好了</p>
+<h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><p>其实仔细看看整个架构，什么是提供者和消费者，之前我们写web，很简单一个url对应一个接口</p>
+<p>但是想想随着公司越来越大，小公司用户量不大直接发布新代码上线就好了，大公司需要24小时提供服务，所以Dubbo首先<br>做的就是将后端分层，逻辑需要经常变动的给独立开来，我们把原来的接口分成两个一个是提供者和一个是消费者</p>
+<p>提供者负责承担真正的代码逻辑，消费者只是提供调用的接口，这样每次代码上线的时候，只需要把新提供者注册进注册中心，<br>然后把老提供者下线，这样就无感知的将新版本替换成老版本了</p>
+<h2 id="微服务区别"><a href="#微服务区别" class="headerlink" title="微服务区别"></a>微服务区别</h2><p>随着Spring Cloud从2016年的兴起，微服务的风潮开始兴起，那么Dubbo和Spring Cloud有什么不同呢，首先<br>Dubbo和Spring Cloud的设计理念是不一样的</p>
+<p>首先Dubbo它想做的是一个Rpc框架，它提供Spring 消费者和提供者之间的通信，借此打造分布式集群，而<br>Spring Cloud做的是一种切分，它将系统切分成每个小的服务，每个服务负责的部分都不一样</p>
+<p>简单来说就是，Spring Cloud提供的积木，你可以自己组装一个系统，它也不关心你用不用什么组件，单独来看，<br>每个Spring Cloud服务都是一个网站，他们之间用HTTP进行通信</p>
+<p>Dubbo呢，考虑的更多是各个服务之间高效的通信，你可以理解为Dubbo是做一层网络中间件，这给他自己带来了一定的限制<br>而Spring Cloud本质上还是一个个网站，所以你可以很容易在里面搭建配置中心，网关，服务跟踪等等</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Dubbo出生在2011年，那个时候云服务还没有兴起，网络流量还很贵，Spring Cloud出生在2016年，正是云、Docker、K8S这些组件的大热的时候，<br>大家发现在一个系统中流量是最不值钱的，反而一个系统更加灵活更加好调试才更符合</p>
+<p>但是很多老系统都在使用Dubbo作为系统架构， 所以阿里推出了Spring Cloud Alibaba，即可以兼容原来的Dubbo系统，也可以很轻松将原来的Dubbo架构<br>迁移到Spring Cloud的架构</p>
+<p>##　资料</p>
+<p><a href="https://www.jianshu.com/p/cad51a09d0c2" title="Dubbo发展史" target="_blank" rel="noopener">Spring的历史</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/03/27/secret/人生浅思/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -855,6 +961,118 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/01/07/summary/技术如何深入/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/meAndMyGirlfriend.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/07/summary/技术如何深入/" class="post-title-link" itemprop="url">技术如何深入</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-01-07 00:00:00" itemprop="dateCreated datePublished" datetime="2021-01-07T00:00:00+08:00">2021-01-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:15:01" itemprop="dateModified" datetime="2021-03-09T20:15:01+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/随想/" itemprop="url" rel="index">
+                    <span itemprop="name">随想</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>993</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>为什么会有这篇博客呢，因为随着你阅历的增长，以及各种你即将面临的问题，比如婚姻、跳槽这种，你会有一种焦虑感，你一直在原地踏步，你怎么面对你的未来呢</p>
+</blockquote>
+<p>所以这篇博客其实很大程度是一种反思</p>
+<p>首先要明确一点就是你是一个什么样的人，自我反思，其实我算一个矛盾的人，做事情急着做完，但是要实现一些我自己的想法的时候又很拖延</p>
+<p>所以其实阻止我继续前进的一个东西就是拖延，其实毫不自夸的来讲我是一个解决问题能力很强的人，但是我不是一个行动力很强的人。</p>
+<p>有的时候我在想，我就像一只牛，假如给我一个红旗，我会卯足了劲往那个地方去，吃饭想，睡觉想，无时无刻不在思考这个。但假如不给我目标，我就像一只猫，只想安静的躺着</p>
+<p>就是这种性格，导致我现在什么都懂，但是什么都不精</p>
+<p>所以技术深入也非常简单，就是找到几个目标，一直钻，但是钻完了你还得思考，下一步往哪里钻，钻这个收获了什么，必须抛弃以前那种，完成了就结束了</p>
+<p>说完了怎么深入，现在来谈谈最主要的这么找目标。我也很迷茫，查找了很多资料，看看前人怎么做的，但是他们只是给了很多知识给你，让你去了解，当然在新手阶段，这个挺实用，但是对于那些懂了的来说，这些知识点都知道，只是不精</p>
+<p>怎么才能精呢？这个问题我想了很久，一直没有答案。后来我回顾我技术生涯，我有了一个比较简单的解决方法</p>
+<p>其实这个好多前辈也说过，就是想深一点</p>
+<p>其实技术这个东西基本功能大家都会，hello world，谁都会写。</p>
+<p>用做网站来打比方，你做一个网站，其实新手也可以做，你设计的时候可能就想着照顾好你自己这个用户就好了，各种框架一把嗦。但是假如你想深一点，假设你的1万个用户用你的网站怎么办，或者假如我们要新增一些东西怎么办</p>
+<p>就带着这些想法，去大胆的写你的代码，去验证你的想法，在实现你的目的去看看大家怎么解决的，然后继续学习你能不能用他们的想法做</p>
+<p>所以概括起来也很简单：</p>
+<ul>
+<li>要“多虑”，想事情想深一点</li>
+<li>要“大胆”，想到就大胆的去做</li>
+<li>要“虚心”，做完不能沾沾自喜，去看看别人怎么做的</li>
+<li>要“总结”，要把你做的这方面形成一个系统</li>
+</ul>
+<p>其实仔细回头看，自己其实也有大部分都有的拖延症，其实很早就知道该怎么做，但是总是拖着，被历史的惯性拖着</p>
+<p>这里分享一个 中国比特币第一人 李笑来的一个技巧，就是他以前背单词也是，知道背单词对自己有好处，但是总是拖延，后面他就给自己暗示，背一个单词10块钱，就是这种激励让他打败拖延症，成为新东方的一名非常强的英语老师。</p>
+<p>⛽️</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/01/07/java/浅析微服务/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1058,223 +1276,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/01/07/summary/技术如何深入/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/meAndMyGirlfriend.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/01/07/summary/技术如何深入/" class="post-title-link" itemprop="url">技术如何深入</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-01-07 00:00:00" itemprop="dateCreated datePublished" datetime="2021-01-07T00:00:00+08:00">2021-01-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:15:01" itemprop="dateModified" datetime="2021-03-09T20:15:01+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/随想/" itemprop="url" rel="index">
-                    <span itemprop="name">随想</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>993</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>为什么会有这篇博客呢，因为随着你阅历的增长，以及各种你即将面临的问题，比如婚姻、跳槽这种，你会有一种焦虑感，你一直在原地踏步，你怎么面对你的未来呢</p>
-</blockquote>
-<p>所以这篇博客其实很大程度是一种反思</p>
-<p>首先要明确一点就是你是一个什么样的人，自我反思，其实我算一个矛盾的人，做事情急着做完，但是要实现一些我自己的想法的时候又很拖延</p>
-<p>所以其实阻止我继续前进的一个东西就是拖延，其实毫不自夸的来讲我是一个解决问题能力很强的人，但是我不是一个行动力很强的人。</p>
-<p>有的时候我在想，我就像一只牛，假如给我一个红旗，我会卯足了劲往那个地方去，吃饭想，睡觉想，无时无刻不在思考这个。但假如不给我目标，我就像一只猫，只想安静的躺着</p>
-<p>就是这种性格，导致我现在什么都懂，但是什么都不精</p>
-<p>所以技术深入也非常简单，就是找到几个目标，一直钻，但是钻完了你还得思考，下一步往哪里钻，钻这个收获了什么，必须抛弃以前那种，完成了就结束了</p>
-<p>说完了怎么深入，现在来谈谈最主要的这么找目标。我也很迷茫，查找了很多资料，看看前人怎么做的，但是他们只是给了很多知识给你，让你去了解，当然在新手阶段，这个挺实用，但是对于那些懂了的来说，这些知识点都知道，只是不精</p>
-<p>怎么才能精呢？这个问题我想了很久，一直没有答案。后来我回顾我技术生涯，我有了一个比较简单的解决方法</p>
-<p>其实这个好多前辈也说过，就是想深一点</p>
-<p>其实技术这个东西基本功能大家都会，hello world，谁都会写。</p>
-<p>用做网站来打比方，你做一个网站，其实新手也可以做，你设计的时候可能就想着照顾好你自己这个用户就好了，各种框架一把嗦。但是假如你想深一点，假设你的1万个用户用你的网站怎么办，或者假如我们要新增一些东西怎么办</p>
-<p>就带着这些想法，去大胆的写你的代码，去验证你的想法，在实现你的目的去看看大家怎么解决的，然后继续学习你能不能用他们的想法做</p>
-<p>所以概括起来也很简单：</p>
-<ul>
-<li>要“多虑”，想事情想深一点</li>
-<li>要“大胆”，想到就大胆的去做</li>
-<li>要“虚心”，做完不能沾沾自喜，去看看别人怎么做的</li>
-<li>要“总结”，要把你做的这方面形成一个系统</li>
-</ul>
-<p>其实仔细回头看，自己其实也有大部分都有的拖延症，其实很早就知道该怎么做，但是总是拖着，被历史的惯性拖着</p>
-<p>这里分享一个 中国比特币第一人 李笑来的一个技巧，就是他以前背单词也是，知道背单词对自己有好处，但是总是拖延，后面他就给自己暗示，背一个单词10块钱，就是这种激励让他打败拖延症，成为新东方的一名非常强的英语老师。</p>
-<p>⛽️</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2020/12/31/software/http/Tomcat高并发浅析/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/meAndMyGirlfriend.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/12/31/software/http/Tomcat高并发浅析/" class="post-title-link" itemprop="url">Tomcat高并发浅析</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-12-31 00:00:00" itemprop="dateCreated datePublished" datetime="2020-12-31T00:00:00+08:00">2020-12-31</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:08:07" itemprop="dateModified" datetime="2021-03-09T20:08:07+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/软件/" itemprop="url" rel="index">
-                    <span itemprop="name">软件</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>1.4k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>Tomcat作为Java老牌web服务器，所以研究Tomcat就能搞懂高并发，本文是查阅大量资料总结的自己对于web高并发服务器的理解，有可能部分理解是错误的，欢迎来纠错，本文尽量不使用代码，网上查到的都是一大段一大段代码，让人看的头痛</p>
-</blockquote>
-<p>一个最简单的web服务器长啥样呢，就是一个echo服务期</p>
-<ul>
-<li>监听端口</li>
-<li>新TCP请求进来，建立TCP链接</li>
-<li>向TCP链接发送响应</li>
-</ul>
-<p>所以我们扩展一下，一台高并发服务器最重要的就是接受成千上万的新请求，以及管理已经建立的请求，虽然说起来很简单，虽然说起来很简单，但是做起来很复杂</p>
-<p>首先我们从用户端看一次完整的HTTP请求是咋样的，我们用吃饭来打比方，首先用户先想好他去哪里吃饭（构建url，比如abc.com)，然后他通过百度去查这个饭店在哪（查询DNS abc.com 的IP地址是什么），百度告诉他这家餐馆搬到他家附件2公里外（得到IP地址 127.0.0.1），然后用户就按照地图找到了这家店，然后他想了半天决定吃鱼（发起HTTP请求<code>/fish</code>）</p>
-<p>现在用户已经决定好了他要干什么了，接下来就是看这家餐馆的操作了，首先用户会发起一个TCP请求建立连接，因为他得确定这家店今天开不开张，不开张人家也不会卖他鱼吃，接下来我们来看看Tomcat是怎么把这家餐馆给经营好的</p>
-<p>首先他要根据他自己后厨的规模，也就是同时可以做多少个菜（并发线程数），以及做一个菜要花多少时间（TPS性能），来决定他餐馆可以放多少椅子（最大连接数），因为这个餐馆一直有人吃饱就走，所以他也特意搞了个叫号系统，允许顾客来了排个队等一等（也就是Tomcat的排队队列来控制）</p>
-<p>那我们来分几种情况来讨论一下，第一种今天没多少顾客，那么大家来了之后就有椅子做（建立好TCP链接），第二种做满了但是门口还有地方站一站（也建立链接TCP放进排队队列），最后一种是门口都站不下了，为了不影响其他顾客，我们只能说客满了，您不一定能吃上，您去别处看看吧，那么用户就会得到一个拒绝连接的错误（Connection refused）</p>
-<p>接下来我们再看看坐在店里的顾客了（建立好了TCP连接），这个时候顾客都知道今天能吃上就安安静静的等了，餐馆呢就把顾客点好菜发给后厨（Tomcat把HTTP请求发给Servlet容器），有的菜烧得快有的菜烧得慢（每个请求耗时不同），菜好了就端上去了，客户呢觉得吃饱了那就走了（关闭TCP连接），觉得没吃饱就继续叫（继续发送HTTP请求），假如有时候叫了一道特别难的菜，后厨做了很久都没端上来，假如你不急那就慢慢等，假如你急的化那你可以直接走（抛出一个Read timed out错误）</p>
-<p>现在我们总结一下，从用户角度上来看，他碰到的问题就是两种，第一种就是餐馆人太多了，没法吃（拒绝连接），第二种就是餐馆上菜太慢（读取超时）。从餐馆角度上来看，为了服务好用户他首先得安排好足够的椅子，第二个就是要让后台上菜速度要快，上菜快可以通过增加厨师（增大最大线程数），你也可以针对做菜某些步骤慢的地方多派人手（SQL调优、缓存优化等等）</p>
-<p>PS: 这篇文章还有一个重要的问题没有提，用户进了餐馆（建立了TCP连接），他什么时候叫菜（发送HTTP请求）我们是不知道，我们怎么来实现一个高效的系统来服务客户，来满足成千上万的顾客有求必应，我会在另外一篇博客来专门谈这个东西【Select和epoll浅析】</p>
-<h3 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h3><p><a href="https://qiankunli.github.io/2019/11/26/tomcat_source.html" target="_blank" rel="noopener">https://qiankunli.github.io/2019/11/26/tomcat_source.html</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1347,7 +1348,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">121</span>
+          <span class="site-state-item-count">122</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1427,7 +1428,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:04</span>
+    <span title="站点阅读时长">4:05</span>
 </div>
 
         
