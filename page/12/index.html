@@ -211,7 +211,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/python/PIL/">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/software/富文本编辑器CKEditor配置CKFinder/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/meAndMyGirlfriend.jpg">
@@ -225,7 +225,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2016/07/18/python/PIL/" class="post-title-link" itemprop="url">PIL （Pillow）</a>
+            <a href="/2016/07/18/software/富文本编辑器CKEditor配置CKFinder/" class="post-title-link" itemprop="url">富文本编辑器CKEditor配置CKFinder</a>
         </h1>
 
         <div class="post-meta">
@@ -242,7 +242,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:04:03" itemprop="dateModified" datetime="2021-03-09T20:04:03+08:00">2021-03-09</time>
+                <time title="修改时间：2021-03-09 20:08:28" itemprop="dateModified" datetime="2021-03-09T20:08:28+08:00">2021-03-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -250,8 +250,8 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
+                  <a href="/categories/软件/" itemprop="url" rel="index">
+                    <span itemprop="name">软件</span>
                   </a>
                 </span>
             </span>
@@ -261,7 +261,7 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span>1.8k</span>
+              <span>2.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -279,38 +279,158 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>Pillow 是 PIL的对Python3支持的另外一个分支，当然他对Python2也兼容，由于PIL安装起来比较烦，而使用pip可以很轻松的安装Pillow，所以我选择Pillow使用，但是其核心还是PIL库的。</p>
-<hr>
-<p>Python的图形处理库如PIL一直很强大，但是要想使用好它必须对图片有一定的知识储备。<br>使用起来很简单</p>
-<pre><code>from PIL import Image
-</code></pre><p>引用Image包</p>
-<pre><code>im = Image.open(&apos;1.png&apos;)
-</code></pre><p>打开图片，得到一个im对象，我们接下来就可以对这个对象进行操作（前提有这个1.png图片）</p>
-<p>我们先看一下他的一些属性</p>
-<pre><code>&gt;&gt;&gt; print im.format, im.size, im.mode
-PNG (83, 81) RGB
-</code></pre><p>第一个我们输出图片的格式，图片有很多种格式，常用的有jpg、png还有gif动图啊，PIL支持很多种格式，我们可以使用PIL轻松的将格式转换，<code>im.save(&#39;1.jpg&#39;)</code>,当然你可以选择格式假如你没选好后缀名的话，im.size就是图片大小，他返回的是一个元组第一个长度第二个是宽度，单位是像素。<br>现在就谈谈 这三个属性对应的关系吧<br> 首先我们使用一张像素图来说吧</p>
-<p><img src="http://img1.imgtn.bdimg.com/it/u=214288124,4080808149&amp;fm=21&amp;gp=0.jpg" alt></p>
-<p>我们存贮图片的时候是将整个图像分成很多个相同的小方块，每个小方块我们称为像素，当然一张图片分的越小，像素越多，那么图片就越接近真实图片，上面的<code>im.size</code>属性就告诉我们，这张图片分成了，长为83px，宽为81px的图片，那么一共有83*81=6723个像素点，每个像素点里面存什么呢，这就是<code>im.mode</code>属性告诉我们的，贴一下属性有什么吧</p>
+          <blockquote>
+<p>由于网站要实现图片和文字的混排的上传<br>所以在网上找了富文本编辑器的插件，发现<a href="http://ckeditor.com/download" target="_blank" rel="noopener">CKEditor</a>这款还不错的插件</p>
+</blockquote>
+<h3 id="我用的是4-5-1这个版本，的确很好用，只是引用了一个js文件就可以实现。"><a href="#我用的是4-5-1这个版本，的确很好用，只是引用了一个js文件就可以实现。" class="headerlink" title="我用的是4.5.1这个版本，的确很好用，只是引用了一个js文件就可以实现。"></a>我用的是<strong>4.5.1</strong>这个版本，的确很好用，只是引用了一个<strong>js</strong>文件就可以实现。</h3><hr>
 <ol>
-<li>1 (1-bit pixels, black and white, stored with one pixel per byte)</li>
-<li>L (8-bit pixels, black and white)</li>
-<li>P (8-bit pixels, mapped to any other mode using a color palette)</li>
-<li>RGB (3x8-bit pixels, true color)</li>
-<li>RGBA (4x8-bit pixels, true color with transparency mask)</li>
-<li>CMYK (4x8-bit pixels, color separation)</li>
-<li>YCbCr (3x8-bit pixels, color video format)</li>
-<li>I (32-bit signed integer pixels)</li>
-<li>F (32-bit floating point pixels)</li>
+<li>将网上下的CKEditor包解压放在根目录下</li>
+<li><p>在页面上引用CKEditor的核心包<strong>ckeditor.js</strong></p>
+<pre><code>&lt;script src=&quot;ckeditor/ckeditor.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;;
+</code></pre></li>
+<li><p>在页面添加一个输入框<strong>textarea</strong></p>
+<pre><code>&lt;textarea name=&quot;individual&quot; id=&quot;individual&quot; runat=&quot;server&quot;&gt;&lt;/textarea&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+ CKEDITOR.replace(&apos;individual&apos;);
+ &lt;/script&gt;
+</code></pre></li>
 </ol>
-<p>像素存贮就是涉及到颜色的存贮，在早期的黑白游戏机，只有黑和白两种，那么每个像素点就只有1位颜色来存贮，1位只能存贮两种颜色，八位色就能存256种颜色，像八位我们能用256个油漆桶/256色调色板来形容，像上面我们使用的RGB是由三种三原色红绿蓝混合而成，我们知道大自然所有的颜色都可以用红绿蓝三种颜色调配出来，所以RGB又被称为真彩（true color），每种颜色我们都分成256种，所以我们一共有256<em>256</em>256=16777216种颜色可以调配，像素的其他模式我们不介绍太多，有兴趣的可以自己钻研。<br>那么我们知道每个像素占多少字节，又知道共有多少个像素，那我们是不是就可以直接计算出来图片大小，来验证一下</p>
-<p>以第一张图片为例，共有83<em>81=6723个像素点，用RGB模式，每个像素三个字节，共有6723</em>3=20667b=20kb，但是我这张图片只有11.6kb，误差太大了吧，这时候我们就要介绍一下上面那个<code>im.format</code>属性了，这张图片采用png格式，我们先尝试一下把他转成JPG格式吧</p>
-<pre><code>im.save(&apos;1.jpg&apos;)
-</code></pre><p>我们再查看一下这个<code>1.jpg</code>的大小，只有2.24kb了，我们用PIL打开这张图片</p>
-<pre><code>&gt;&gt;&gt; im2 = Image.open(&apos;1.jpg&apos;)
-&gt;&gt;&gt; print im2.format, im2.size, im2.mode 
-JPEG (83, 81) RGB
-</code></pre><p>图片大小没有改变，但是format变成了JPEG，而且文件大小变成原来的1/5,<br>JPEG和GIF和PNG是三种图片压缩技术，他们使用压缩算法把图片压缩成很小，当我们打开图片时，解密算法把他还原出来，所以我们算出来的大小与压缩后的大小是不一样的。<br>有了这些概念我们就能更好的使用PIL提供给我们的magic方法，下次在谈我对PIL的高级应用吧。</p>
+<hr>
+<h3 id="只要通过上面上面几个步骤就能实现富文本编辑器，但是点开图片上传功能，发现只有上传url的功能，并不能本地上传图片，百度了一下发现由于安全性问题CKEditor没有上传功能，只有安上CKFinder才能实现上传功能，于是我在官网下了ckfinder-aspnet-2-5-0-1-同CKEditor一样引用JS文件（只要引用ckfinder-js"><a href="#只要通过上面上面几个步骤就能实现富文本编辑器，但是点开图片上传功能，发现只有上传url的功能，并不能本地上传图片，百度了一下发现由于安全性问题CKEditor没有上传功能，只有安上CKFinder才能实现上传功能，于是我在官网下了ckfinder-aspnet-2-5-0-1-同CKEditor一样引用JS文件（只要引用ckfinder-js" class="headerlink" title="只要通过上面上面几个步骤就能实现富文本编辑器，但是点开图片上传功能，发现只有上传url的功能，并不能本地上传图片，百度了一下发现由于安全性问题CKEditor没有上传功能，只有安上CKFinder才能实现上传功能，于是我在官网下了ckfinder__aspnet_2.5.0.1,同CKEditor一样引用JS文件（只要引用ckfinder.js)"></a>只要通过上面上面几个步骤就能实现富文本编辑器，但是点开图片上传功能，发现只有上传url的功能，并不能本地上传图片，百度了一下发现由于安全性问题<strong>CKEditor</strong>没有上传功能，只有安上<a href="http://ckfinder.com/download" title="CKFinder" target="_blank" rel="noopener">CKFinder</a>才能实现上传功能，于是我在官网下了<strong>ckfinder__aspnet_2.5.0.1</strong>,同CKEditor一样引用JS文件（只要引用ckfinder.js)</h3><pre><code>&lt;script src=&quot;ckfinder/ckfinder.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+</code></pre><ul>
+<li>由于我是MVC的网站基于.net4.5，在官方给的包里面有一个asp.net网站实例放在<strong>_source</strong>文件夹里面，里面有一个基于.net2的示例网站，一运行就报找不到 <strong>System.Web.UI.Design</strong>这个命名空间的错，所以我把它从项目中排除，把项目中bin中debug文件夹下的<strong>CKFinder.dll</strong>复制出来，引用到我自己的项目中。<h3 id="接下来要配置CKEditor来让CKFinder引用进来，在CKEditor文件夹下config-js在CKEDITOR-editorConfig-function-config-方法中添加如下代码："><a href="#接下来要配置CKEditor来让CKFinder引用进来，在CKEditor文件夹下config-js在CKEDITOR-editorConfig-function-config-方法中添加如下代码：" class="headerlink" title="接下来要配置CKEditor来让CKFinder引用进来，在CKEditor文件夹下config.js在CKEDITOR.editorConfig = function (config) {};方法中添加如下代码："></a>接下来要配置<strong>CKEditor</strong>来让CKFinder引用进来，在CKEditor文件夹下config.js在CKEDITOR.editorConfig = function (config) {};方法中添加如下代码：</h3>   config.filebrowserImageBrowseUrl = ‘ckfinder/ckfinder.html?Type=Images’;<br>   config.filebrowserFlashBrowseUrl = ‘ckfinder/ckfinder.html?Type=Flash’;<pre><code>config.filebrowserUploadUrl = &apos;ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&amp;type=Files&apos;;
+</code></pre>  config.filebrowserImageUploadUrl = ‘ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&amp;type=Images’;<br>  config.filebrowserFlashUploadUrl = ‘ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&amp;type=Flash’;<br>  config.filebrowserWindowWidth = ‘800’;  //“浏览服务器”弹出框的size设置<br>  config.filebrowserWindowHeight = ‘500’;</li>
+</ul>
+<hr>
+<h4 id="注意在配置Url的时候要修改成相对于网站本地网站磁盘文件路径，比如说，你的网址是http-example-com-cn-你把ckfinder文件夹放在Admin下的Editor文件夹，那么所有url要改成下面类似的格式"><a href="#注意在配置Url的时候要修改成相对于网站本地网站磁盘文件路径，比如说，你的网址是http-example-com-cn-你把ckfinder文件夹放在Admin下的Editor文件夹，那么所有url要改成下面类似的格式" class="headerlink" title="注意在配置Url的时候要修改成相对于网站本地网站磁盘文件路径，比如说，你的网址是http://example.com.cn ,你把ckfinder文件夹放在Admin下的Editor文件夹，那么所有url要改成下面类似的格式"></a>注意在配置Url的时候要修改成相对于网站本地网站磁盘文件路径，比如说，你的网址是<a href="http://example.com.cn" target="_blank" rel="noopener">http://example.com.cn</a> ,你把ckfinder文件夹放在Admin下的Editor文件夹，那么所有url要改成下面类似的格式</h4><pre><code>config.filebrowserImageBrowseUrl =&apos;/Admin/Editor/ckfinder/ckfinder.html?Type=Images&apos;;
+</code></pre><h4 id="否则会报404错误，"><a href="#否则会报404错误，" class="headerlink" title="否则会报404错误，"></a>否则会报404错误，</h4><h4 id="最后一步是修改一个函数让所有人能看到服务器上传文件夹里面的文件，在ckfinder文件夹下面的cofig-ascx文件，找到-CheckAuthentication函数将返回值改成true"><a href="#最后一步是修改一个函数让所有人能看到服务器上传文件夹里面的文件，在ckfinder文件夹下面的cofig-ascx文件，找到-CheckAuthentication函数将返回值改成true" class="headerlink" title="最后一步是修改一个函数让所有人能看到服务器上传文件夹里面的文件，在ckfinder文件夹下面的cofig.ascx文件，找到 CheckAuthentication函数将返回值改成true"></a>最后一步是修改一个函数让所有人能看到服务器上传文件夹里面的文件，在ckfinder文件夹下面的cofig.ascx文件，找到 CheckAuthentication函数将返回值改成true</h4><p>当然如果你想修改上传文件的地址，你可以在上面方法里面找到SetConfig()方法，找到BaseUrl，修改为你想上传的地址，</p>
+<hr>
+<hr>
+<h3 id="PS："><a href="#PS：" class="headerlink" title="PS："></a>PS：</h3><h4 id="我是在在VS里面进行调试的，由于VS的IIS在调试的时候不允许对磁盘文件的路由地址访问，就是CKFinder通过ckfinder-html这个html来实现上传图片的功能，但是这个在调试的时候VS无法访问这个文件，所以一直报404错误，可以修改IIS来允许IIS访问磁盘文件，步骤如下："><a href="#我是在在VS里面进行调试的，由于VS的IIS在调试的时候不允许对磁盘文件的路由地址访问，就是CKFinder通过ckfinder-html这个html来实现上传图片的功能，但是这个在调试的时候VS无法访问这个文件，所以一直报404错误，可以修改IIS来允许IIS访问磁盘文件，步骤如下：" class="headerlink" title="我是在在VS里面进行调试的，由于VS的IIS在调试的时候不允许对磁盘文件的路由地址访问，就是CKFinder通过ckfinder.html这个html来实现上传图片的功能，但是这个在调试的时候VS无法访问这个文件，所以一直报404错误，可以修改IIS来允许IIS访问磁盘文件，步骤如下："></a>我是在在VS里面进行调试的，由于VS的IIS在调试的时候不允许对磁盘文件的路由地址访问，就是CKFinder通过<strong>ckfinder.html</strong>这个html来实现上传图片的功能，但是这个在调试的时候VS无法访问这个文件，所以一直报404错误，可以修改IIS来允许IIS访问磁盘文件，步骤如下：</h4><ol>
+<li>右键点击IIS Express，选择显示所有应用程序</li>
+<li>找到运行网站的配置，进入applicationhost.config文件夹</li>
+<li>ctrl+f 寻找UrlRoutingModule</li>
+<li><p>将preCodition设置为空字符</p>
+<pre><code>&lt;add name=&quot;UrlRoutingModule-4.0&quot; type=&quot;System.Web.Routing.UrlRoutingModule&quot; preCondition=&quot;&quot; /&gt;
+</code></pre></li>
+</ol>
+<hr>
+<h3 id="如果你是用MVC进行表单传值的话，你必须在post方法上面添加-ValidateInput-false-属性，如果不这样的话就会报下面的错"><a href="#如果你是用MVC进行表单传值的话，你必须在post方法上面添加-ValidateInput-false-属性，如果不这样的话就会报下面的错" class="headerlink" title="如果你是用MVC进行表单传值的话，你必须在post方法上面添加 [ValidateInput(false)] 属性，如果不这样的话就会报下面的错"></a>如果你是用MVC进行表单传值的话，你必须在post方法上面添加 <strong>[ValidateInput(false)]</strong> 属性，如果不这样的话就会报下面的错</h3><pre><code>“/”应用程序中的服务器错误。
+从客户端(content=&quot;&lt;p&gt;sdfsdafwewo shdfh...&quot;)中检测到有潜在危险的 Request.Form 值。
+</code></pre>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/useless/EF搭建可扩展菜单/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/meAndMyGirlfriend.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/07/18/useless/EF搭建可扩展菜单/" class="post-title-link" itemprop="url">EF搭建可扩展菜单</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-07-18 16:07:36" itemprop="dateCreated datePublished" datetime="2016-07-18T16:07:36+08:00">2016-07-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:34:28" itemprop="dateModified" datetime="2021-03-09T20:34:28+08:00">2021-03-09</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>1.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+</blockquote>
+<h3 id="由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。"><a href="#由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。" class="headerlink" title="由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。"></a>由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。</h3><h4 id="由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF-Code-First更是坑了我一把，我想把我碰到坑给大家分享一下。"><a href="#由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF-Code-First更是坑了我一把，我想把我碰到坑给大家分享一下。" class="headerlink" title="由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF Code First更是坑了我一把，我想把我碰到坑给大家分享一下。"></a>由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF Code First更是坑了我一把，我想把我碰到坑给大家分享一下。</h4><h2 id="1-类库的实现"><a href="#1-类库的实现" class="headerlink" title="1.类库的实现"></a>1.类库的实现</h2><h3 id="首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个bool类型IsFoot来定义是否为根菜单，每个Menus有一个父级菜单Menus，有一群子菜单，下面是我定义的Menu库。"><a href="#首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个bool类型IsFoot来定义是否为根菜单，每个Menus有一个父级菜单Menus，有一群子菜单，下面是我定义的Menu库。" class="headerlink" title="首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个bool类型IsFoot来定义是否为根菜单，每个Menus有一个父级菜单Menus，有一群子菜单，下面是我定义的Menu库。"></a>首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个<code>bool</code>类型<strong>IsFoot</strong>来定义是否为根菜单，每个Menus有一个父级菜单Menus，有一群子菜单，下面是我定义的Menu库。</h3><pre><code>  [Description(&quot;菜单&quot;)]
+public class Menus
+{
+    [Key]
+    [Display(Name=&quot;菜单ID&quot;)]
+    public int MenusID { get; set; }
+    [Required]
+    [Display(Name=&quot;是否为根节点&quot;)]
+    public bool IsFoot { get; set; }
+    [Required]
+    [StringLength(25)]
+    [Display(Name=&quot;目录名字&quot;)]
+    public string Name { get; set; }
+    [Display(Name=&quot;是否删除&quot;)]
+    public bool IsDelete { get; set; }
+    [Display(Name=&quot;包含的文章&quot;)]
+    public virtual List&lt;Article&gt; articles { get; set; }
+    [Display(Name = &quot;父级菜单&quot;)]
+    public virtual Menus fatherMenus { get; set; }
+    [Display(Name = &quot;子菜单&quot;)]
+    public virtual List&lt;Menus&gt; sonList { get; set; }
+
+
+}
+</code></pre><h3 id="每个Menus都包含了一个文章集合-虽然有些菜单不一定有文章但是EF可以允许我们0对多，或1对多。"><a href="#每个Menus都包含了一个文章集合-虽然有些菜单不一定有文章但是EF可以允许我们0对多，或1对多。" class="headerlink" title="每个Menus都包含了一个文章集合,虽然有些菜单不一定有文章但是EF可以允许我们0对多，或1对多。"></a>每个Menus都包含了一个文章集合,虽然有些菜单不一定有文章但是EF可以允许我们0对多，或1对多。</h3><h2 id="2-生成数据库"><a href="#2-生成数据库" class="headerlink" title="2.  生成数据库"></a>2.  生成数据库</h2><hr>
+<p>EF比较人性化的是，当我们数据库里面没有我们想要生成的表时，我们不需要多余的代码，只要当成数据库有表，像平时一样添加数据然后EF会帮我们自动在数据库里面建好表，当然你如果有相同名字的表话它报错，会提醒你数据库里面有如果想保存数据要做好数据迁移工作，数据迁移不是我们的重点，如果想了解的话，<a href="http://www.cnblogs.com/guomingfeng/archive/2013/06/15/mvc-ef-configuration-migration.html" target="_blank" rel="noopener">点击这里</a></p>
+<h3 id="生成的数据库包含两个表，一个Menus表，一个是Article表（PS：上面没有给出Article的类型定义，想要的可以自己写），对于这个来说，我们并没有在表里面定义外键属性，只是用来一个引用属性，引用属性是一种“虚属性”，我们通过这个属性来建立起两个对象的虚拟联系，比如说父与子，这种关系是虚拟的对于两者之间的联系是通过血缘来联系的，这个血缘是存在的，相对应就是数据库里面的外键联系，外键也可以看做是表中的一个字段，它记录了一种关系。"><a href="#生成的数据库包含两个表，一个Menus表，一个是Article表（PS：上面没有给出Article的类型定义，想要的可以自己写），对于这个来说，我们并没有在表里面定义外键属性，只是用来一个引用属性，引用属性是一种“虚属性”，我们通过这个属性来建立起两个对象的虚拟联系，比如说父与子，这种关系是虚拟的对于两者之间的联系是通过血缘来联系的，这个血缘是存在的，相对应就是数据库里面的外键联系，外键也可以看做是表中的一个字段，它记录了一种关系。" class="headerlink" title="生成的数据库包含两个表，一个Menus表，一个是Article表（PS：上面没有给出Article的类型定义，想要的可以自己写），对于这个来说，我们并没有在表里面定义外键属性，只是用来一个引用属性，引用属性是一种“虚属性”，我们通过这个属性来建立起两个对象的虚拟联系，比如说父与子，这种关系是虚拟的对于两者之间的联系是通过血缘来联系的，这个血缘是存在的，相对应就是数据库里面的外键联系，外键也可以看做是表中的一个字段，它记录了一种关系。"></a>生成的数据库包含两个表，一个Menus表，一个是Article表（PS：上面没有给出Article的类型定义，想要的可以自己写），对于这个来说，我们并没有在表里面定义外键属性，只是用来一个引用属性，引用属性是一种“虚属性”，我们通过这个属性来建立起两个对象的虚拟联系，比如说父与子，这种关系是虚拟的对于两者之间的联系是通过血缘来联系的，这个血缘是存在的，相对应就是数据库里面的外键联系，外键也可以看做是表中的一个字段，它记录了一种关系。</h3><h4 id="由于EF的智能关系，当我们Code-First时，他会帮我们自动建好外键如果我们不定义的话，当我们使用EF的时候是不需要考虑外键的值的初始化，如果我们没有给他赋值EF会自动给他赋值。"><a href="#由于EF的智能关系，当我们Code-First时，他会帮我们自动建好外键如果我们不定义的话，当我们使用EF的时候是不需要考虑外键的值的初始化，如果我们没有给他赋值EF会自动给他赋值。" class="headerlink" title="由于EF的智能关系，当我们Code First时，他会帮我们自动建好外键如果我们不定义的话，当我们使用EF的时候是不需要考虑外键的值的初始化，如果我们没有给他赋值EF会自动给他赋值。"></a>由于EF的智能关系，当我们Code First时，他会帮我们自动建好外键如果我们不定义的话，当我们使用EF的时候是不需要考虑外键的值的初始化，如果我们没有给他赋值EF会自动给他赋值。</h4><hr>
+<p>讲完了EF的建立，现在就谈谈使用Code First在项目中遇到的问题。</p>
+<hr>
+<p>这个问题主要出在给创建子菜单上，当我们创建子菜单时，我们用的是我们自己的类库代码进行初始化数据库，我们先得到菜单的ID然后在EF里面查询这个菜单，我们查询到这个实体，然后在菜单实体里面添加子菜单，在SaveChange()时候就报错了，EF称检测到有循环赋值的可能，让我们添加外键以避免冲突，我不记得看到的那篇博客看到有人也遇到相同的问题，如果只是普通的一对多（假如是A对1，2，3，4···），当我们给A那个新建一个5时，这个外键的位置是知道的，我们只要在5的外键位置存贮A的主键，然而当我们建立这种父级菜单时，每个菜单里面的外键可以是存贮父级的主键，也可以是子集的主键，所以EF并不能解决冲突，解决这个问题的方法有两种一种是在表中添加外键<br>如：</p>
+<pre><code>       [ForeignKey(&quot;sonList&quot;)]
+public int sonListMenusID{get;set;}
+</code></pre><p>或者用Fluent API 在继承的方法 onModelCreate中添加</p>
+<pre><code>modelBuilder.Entity&lt;Menus&gt;().HasRequired(p=&gt;p.sonList).WithMany(l=&gt;l.Menus).HasForeignKey(p=&gt;p.sonListMenusID)
+</code></pre><p>通过这种创建方式当我们创建子集菜单时我们就可以成功利用EF特性帮我们自动添加上外键，以及建立好实体关系。</p>
+<p>关于更详细的外键知识可以点击<a href="http://www.cnblogs.com/Gyoung/archive/2013/01/22/2869782.html" target="_blank" rel="noopener">这里</a></p>
 
       
     </div>
@@ -483,6 +603,131 @@ public SexInfo{
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/useless/泛型继承的理解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/meAndMyGirlfriend.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/07/18/useless/泛型继承的理解/" class="post-title-link" itemprop="url">泛型继承的理解</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-07-18 16:07:36" itemprop="dateCreated datePublished" datetime="2016-07-18T16:07:36+08:00">2016-07-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:34:28" itemprop="dateModified" datetime="2021-03-09T20:34:28+08:00">2021-03-09</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>901</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="泛型对于解决面对对象编程的算法设计可以提高其运算速度，但是对于引用类型来说还是没什么差别，因为引用类型只是指针的地址的调用，简单来说泛型还是挺好理解的，但是对于泛型、非泛型、继承和接口的融合就有些迷惑了。"><a href="#泛型对于解决面对对象编程的算法设计可以提高其运算速度，但是对于引用类型来说还是没什么差别，因为引用类型只是指针的地址的调用，简单来说泛型还是挺好理解的，但是对于泛型、非泛型、继承和接口的融合就有些迷惑了。" class="headerlink" title="泛型对于解决面对对象编程的算法设计可以提高其运算速度，但是对于引用类型来说还是没什么差别，因为引用类型只是指针的地址的调用，简单来说泛型还是挺好理解的，但是对于泛型、非泛型、继承和接口的融合就有些迷惑了。"></a>泛型对于解决面对对象编程的算法设计可以提高其运算速度，但是对于引用类型来说还是没什么差别，因为引用类型只是指针的地址的调用，简单来说泛型还是挺好理解的，但是对于泛型、非泛型、继承和接口的融合就有些迷惑了。</h3><h5 id="比如说这种接口"><a href="#比如说这种接口" class="headerlink" title="比如说这种接口"></a>比如说这种接口</h5><pre><code>public interface IEnumeratot&lt;T&gt;:IDisposable,IEnumerator,ICompare&lt;T&gt;
+</code></pre><h4 id="这个泛型接口继承了两个非泛型接口，和一个泛型接口。"><a href="#这个泛型接口继承了两个非泛型接口，和一个泛型接口。" class="headerlink" title="这个泛型接口继承了两个非泛型接口，和一个泛型接口。"></a>这个泛型接口继承了两个非泛型接口，和一个泛型接口。</h4><hr>
+<h3 id="我一开始理解泛型就是一个个模型，只要我们把类型一个参数赋给他，他就能生成一个标准的类型，他缺少的只是一个参数而已，我们引用的时候感觉就像我们引用一个“全体方法”，把参数赋给类型后就可以一直调用类中的方法了，但是对于接口的继承如何理解？"><a href="#我一开始理解泛型就是一个个模型，只要我们把类型一个参数赋给他，他就能生成一个标准的类型，他缺少的只是一个参数而已，我们引用的时候感觉就像我们引用一个“全体方法”，把参数赋给类型后就可以一直调用类中的方法了，但是对于接口的继承如何理解？" class="headerlink" title="我一开始理解泛型就是一个个模型，只要我们把类型一个参数赋给他，他就能生成一个标准的类型，他缺少的只是一个参数而已，我们引用的时候感觉就像我们引用一个“全体方法”，把参数赋给类型后就可以一直调用类中的方法了，但是对于接口的继承如何理解？"></a>我一开始理解泛型就是一个个模型，只要我们把类型一个参数赋给他，他就能生成一个标准的类型，他缺少的只是一个参数而已，我们引用的时候感觉就像我们引用一个“全体方法”，把参数赋给类型后就可以一直调用类中的方法了，但是对于接口的继承如何理解？</h3><p>对于泛型类的继承，继承的类必须实现泛型的参数或者保留泛型的参数，比如下面</p>
+<pre><code>  public class A&lt;T&gt;
+{
+    public T tt;
+}
+public class C&lt;T&gt; : A&lt;T&gt;
+{
+    public T tt;
+}
+</code></pre><p>或者是这样</p>
+<pre><code>  public class A&lt;T&gt;
+{
+    public T tt;
+}
+public class C : A&lt;string&gt;
+{
+    C cc;
+}
+</code></pre><p>对于泛型继承非泛型类，比如下面</p>
+<pre><code>public class A 
+{
+     A aa;
+ }
+
+ public class B&lt;T&gt;:A
+{
+    B&lt;T&gt; bb;
+}
+</code></pre><p>基类是非泛型，而继承的是泛型类，我感觉这种构造就是让泛型类多了一种<strong>包容性</strong>,比如下面的链表实现的代码，让基类是非泛型，而继承是泛型，就能让链表可以连起很多种类型的数据，而本身的类型安全没有丢失。</p>
+<pre><code>public class Node
+{
+        pretected Node next;
+          public Node(Node next){
+            this.next=next;
+            }
+}
+public class TypeNode&lt;T&gt;:Node
+{
+    public T data ;
+    public TypeNode(T data):this(data ,null){
+        }
+    public TypeNode(T data,Node next):base(next){
+        this.data=data;
+        }
+
+    }
+</code></pre><p>泛型的约束</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/python/Numpy的简析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -620,231 +865,6 @@ array([ 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/software/富文本编辑器CKEditor配置CKFinder/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/meAndMyGirlfriend.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/07/18/software/富文本编辑器CKEditor配置CKFinder/" class="post-title-link" itemprop="url">富文本编辑器CKEditor配置CKFinder</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-07-18 16:07:36" itemprop="dateCreated datePublished" datetime="2016-07-18T16:07:36+08:00">2016-07-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:08:28" itemprop="dateModified" datetime="2021-03-09T20:08:28+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/软件/" itemprop="url" rel="index">
-                    <span itemprop="name">软件</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>2.5k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>2 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>由于网站要实现图片和文字的混排的上传<br>所以在网上找了富文本编辑器的插件，发现<a href="http://ckeditor.com/download" target="_blank" rel="noopener">CKEditor</a>这款还不错的插件</p>
-</blockquote>
-<h3 id="我用的是4-5-1这个版本，的确很好用，只是引用了一个js文件就可以实现。"><a href="#我用的是4-5-1这个版本，的确很好用，只是引用了一个js文件就可以实现。" class="headerlink" title="我用的是4.5.1这个版本，的确很好用，只是引用了一个js文件就可以实现。"></a>我用的是<strong>4.5.1</strong>这个版本，的确很好用，只是引用了一个<strong>js</strong>文件就可以实现。</h3><hr>
-<ol>
-<li>将网上下的CKEditor包解压放在根目录下</li>
-<li><p>在页面上引用CKEditor的核心包<strong>ckeditor.js</strong></p>
-<pre><code>&lt;script src=&quot;ckeditor/ckeditor.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;;
-</code></pre></li>
-<li><p>在页面添加一个输入框<strong>textarea</strong></p>
-<pre><code>&lt;textarea name=&quot;individual&quot; id=&quot;individual&quot; runat=&quot;server&quot;&gt;&lt;/textarea&gt;
-&lt;script type=&quot;text/javascript&quot;&gt;
- CKEDITOR.replace(&apos;individual&apos;);
- &lt;/script&gt;
-</code></pre></li>
-</ol>
-<hr>
-<h3 id="只要通过上面上面几个步骤就能实现富文本编辑器，但是点开图片上传功能，发现只有上传url的功能，并不能本地上传图片，百度了一下发现由于安全性问题CKEditor没有上传功能，只有安上CKFinder才能实现上传功能，于是我在官网下了ckfinder-aspnet-2-5-0-1-同CKEditor一样引用JS文件（只要引用ckfinder-js"><a href="#只要通过上面上面几个步骤就能实现富文本编辑器，但是点开图片上传功能，发现只有上传url的功能，并不能本地上传图片，百度了一下发现由于安全性问题CKEditor没有上传功能，只有安上CKFinder才能实现上传功能，于是我在官网下了ckfinder-aspnet-2-5-0-1-同CKEditor一样引用JS文件（只要引用ckfinder-js" class="headerlink" title="只要通过上面上面几个步骤就能实现富文本编辑器，但是点开图片上传功能，发现只有上传url的功能，并不能本地上传图片，百度了一下发现由于安全性问题CKEditor没有上传功能，只有安上CKFinder才能实现上传功能，于是我在官网下了ckfinder__aspnet_2.5.0.1,同CKEditor一样引用JS文件（只要引用ckfinder.js)"></a>只要通过上面上面几个步骤就能实现富文本编辑器，但是点开图片上传功能，发现只有上传url的功能，并不能本地上传图片，百度了一下发现由于安全性问题<strong>CKEditor</strong>没有上传功能，只有安上<a href="http://ckfinder.com/download" title="CKFinder" target="_blank" rel="noopener">CKFinder</a>才能实现上传功能，于是我在官网下了<strong>ckfinder__aspnet_2.5.0.1</strong>,同CKEditor一样引用JS文件（只要引用ckfinder.js)</h3><pre><code>&lt;script src=&quot;ckfinder/ckfinder.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
-</code></pre><ul>
-<li>由于我是MVC的网站基于.net4.5，在官方给的包里面有一个asp.net网站实例放在<strong>_source</strong>文件夹里面，里面有一个基于.net2的示例网站，一运行就报找不到 <strong>System.Web.UI.Design</strong>这个命名空间的错，所以我把它从项目中排除，把项目中bin中debug文件夹下的<strong>CKFinder.dll</strong>复制出来，引用到我自己的项目中。<h3 id="接下来要配置CKEditor来让CKFinder引用进来，在CKEditor文件夹下config-js在CKEDITOR-editorConfig-function-config-方法中添加如下代码："><a href="#接下来要配置CKEditor来让CKFinder引用进来，在CKEditor文件夹下config-js在CKEDITOR-editorConfig-function-config-方法中添加如下代码：" class="headerlink" title="接下来要配置CKEditor来让CKFinder引用进来，在CKEditor文件夹下config.js在CKEDITOR.editorConfig = function (config) {};方法中添加如下代码："></a>接下来要配置<strong>CKEditor</strong>来让CKFinder引用进来，在CKEditor文件夹下config.js在CKEDITOR.editorConfig = function (config) {};方法中添加如下代码：</h3>   config.filebrowserImageBrowseUrl = ‘ckfinder/ckfinder.html?Type=Images’;<br>   config.filebrowserFlashBrowseUrl = ‘ckfinder/ckfinder.html?Type=Flash’;<pre><code>config.filebrowserUploadUrl = &apos;ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&amp;type=Files&apos;;
-</code></pre>  config.filebrowserImageUploadUrl = ‘ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&amp;type=Images’;<br>  config.filebrowserFlashUploadUrl = ‘ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&amp;type=Flash’;<br>  config.filebrowserWindowWidth = ‘800’;  //“浏览服务器”弹出框的size设置<br>  config.filebrowserWindowHeight = ‘500’;</li>
-</ul>
-<hr>
-<h4 id="注意在配置Url的时候要修改成相对于网站本地网站磁盘文件路径，比如说，你的网址是http-example-com-cn-你把ckfinder文件夹放在Admin下的Editor文件夹，那么所有url要改成下面类似的格式"><a href="#注意在配置Url的时候要修改成相对于网站本地网站磁盘文件路径，比如说，你的网址是http-example-com-cn-你把ckfinder文件夹放在Admin下的Editor文件夹，那么所有url要改成下面类似的格式" class="headerlink" title="注意在配置Url的时候要修改成相对于网站本地网站磁盘文件路径，比如说，你的网址是http://example.com.cn ,你把ckfinder文件夹放在Admin下的Editor文件夹，那么所有url要改成下面类似的格式"></a>注意在配置Url的时候要修改成相对于网站本地网站磁盘文件路径，比如说，你的网址是<a href="http://example.com.cn" target="_blank" rel="noopener">http://example.com.cn</a> ,你把ckfinder文件夹放在Admin下的Editor文件夹，那么所有url要改成下面类似的格式</h4><pre><code>config.filebrowserImageBrowseUrl =&apos;/Admin/Editor/ckfinder/ckfinder.html?Type=Images&apos;;
-</code></pre><h4 id="否则会报404错误，"><a href="#否则会报404错误，" class="headerlink" title="否则会报404错误，"></a>否则会报404错误，</h4><h4 id="最后一步是修改一个函数让所有人能看到服务器上传文件夹里面的文件，在ckfinder文件夹下面的cofig-ascx文件，找到-CheckAuthentication函数将返回值改成true"><a href="#最后一步是修改一个函数让所有人能看到服务器上传文件夹里面的文件，在ckfinder文件夹下面的cofig-ascx文件，找到-CheckAuthentication函数将返回值改成true" class="headerlink" title="最后一步是修改一个函数让所有人能看到服务器上传文件夹里面的文件，在ckfinder文件夹下面的cofig.ascx文件，找到 CheckAuthentication函数将返回值改成true"></a>最后一步是修改一个函数让所有人能看到服务器上传文件夹里面的文件，在ckfinder文件夹下面的cofig.ascx文件，找到 CheckAuthentication函数将返回值改成true</h4><p>当然如果你想修改上传文件的地址，你可以在上面方法里面找到SetConfig()方法，找到BaseUrl，修改为你想上传的地址，</p>
-<hr>
-<hr>
-<h3 id="PS："><a href="#PS：" class="headerlink" title="PS："></a>PS：</h3><h4 id="我是在在VS里面进行调试的，由于VS的IIS在调试的时候不允许对磁盘文件的路由地址访问，就是CKFinder通过ckfinder-html这个html来实现上传图片的功能，但是这个在调试的时候VS无法访问这个文件，所以一直报404错误，可以修改IIS来允许IIS访问磁盘文件，步骤如下："><a href="#我是在在VS里面进行调试的，由于VS的IIS在调试的时候不允许对磁盘文件的路由地址访问，就是CKFinder通过ckfinder-html这个html来实现上传图片的功能，但是这个在调试的时候VS无法访问这个文件，所以一直报404错误，可以修改IIS来允许IIS访问磁盘文件，步骤如下：" class="headerlink" title="我是在在VS里面进行调试的，由于VS的IIS在调试的时候不允许对磁盘文件的路由地址访问，就是CKFinder通过ckfinder.html这个html来实现上传图片的功能，但是这个在调试的时候VS无法访问这个文件，所以一直报404错误，可以修改IIS来允许IIS访问磁盘文件，步骤如下："></a>我是在在VS里面进行调试的，由于VS的IIS在调试的时候不允许对磁盘文件的路由地址访问，就是CKFinder通过<strong>ckfinder.html</strong>这个html来实现上传图片的功能，但是这个在调试的时候VS无法访问这个文件，所以一直报404错误，可以修改IIS来允许IIS访问磁盘文件，步骤如下：</h4><ol>
-<li>右键点击IIS Express，选择显示所有应用程序</li>
-<li>找到运行网站的配置，进入applicationhost.config文件夹</li>
-<li>ctrl+f 寻找UrlRoutingModule</li>
-<li><p>将preCodition设置为空字符</p>
-<pre><code>&lt;add name=&quot;UrlRoutingModule-4.0&quot; type=&quot;System.Web.Routing.UrlRoutingModule&quot; preCondition=&quot;&quot; /&gt;
-</code></pre></li>
-</ol>
-<hr>
-<h3 id="如果你是用MVC进行表单传值的话，你必须在post方法上面添加-ValidateInput-false-属性，如果不这样的话就会报下面的错"><a href="#如果你是用MVC进行表单传值的话，你必须在post方法上面添加-ValidateInput-false-属性，如果不这样的话就会报下面的错" class="headerlink" title="如果你是用MVC进行表单传值的话，你必须在post方法上面添加 [ValidateInput(false)] 属性，如果不这样的话就会报下面的错"></a>如果你是用MVC进行表单传值的话，你必须在post方法上面添加 <strong>[ValidateInput(false)]</strong> 属性，如果不这样的话就会报下面的错</h3><pre><code>“/”应用程序中的服务器错误。
-从客户端(content=&quot;&lt;p&gt;sdfsdafwewo shdfh...&quot;)中检测到有潜在危险的 Request.Form 值。
-</code></pre>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/software/在Linux下玩转Vim/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/meAndMyGirlfriend.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/07/18/software/在Linux下玩转Vim/" class="post-title-link" itemprop="url">在Linux下玩转Vim</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-07-18 16:07:36" itemprop="dateCreated datePublished" datetime="2016-07-18T16:07:36+08:00">2016-07-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:08:28" itemprop="dateModified" datetime="2021-03-09T20:08:28+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/软件/" itemprop="url" rel="index">
-                    <span itemprop="name">软件</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>1.2k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="学了鸟哥的书前面基础后，突然想在Linux下用gcc玩C语言，然后了解到了Vim这个神一样的编译器，接下来经过超长时间虐心的安装无数插件无数依赖包，突然有种打自己一顿的感觉，还好终于把Vim装的和VS差不多了，接下来我介绍我安装Vim的经验吧。"><a href="#学了鸟哥的书前面基础后，突然想在Linux下用gcc玩C语言，然后了解到了Vim这个神一样的编译器，接下来经过超长时间虐心的安装无数插件无数依赖包，突然有种打自己一顿的感觉，还好终于把Vim装的和VS差不多了，接下来我介绍我安装Vim的经验吧。" class="headerlink" title="学了鸟哥的书前面基础后，突然想在Linux下用gcc玩C语言，然后了解到了Vim这个神一样的编译器，接下来经过超长时间虐心的安装无数插件无数依赖包，突然有种打自己一顿的感觉，还好终于把Vim装的和VS差不多了，接下来我介绍我安装Vim的经验吧。"></a>学了鸟哥的书前面基础后，突然想在Linux下用gcc玩C语言，然后了解到了Vim这个神一样的编译器，接下来经过超长时间虐心的安装无数插件无数依赖包，突然有种打自己一顿的感觉，还好终于把Vim装的和VS差不多了，接下来我介绍我安装Vim的经验吧。</h4><h3 id="我虚拟机下的Linux原来是红旗6的，但是我改了一下yum的包源成CentOS的并且全部update一下后就神奇的变成了CentOS6，虽然他们两个是同一家公司，但是总给我一种由盗版成了正版的感觉。。"><a href="#我虚拟机下的Linux原来是红旗6的，但是我改了一下yum的包源成CentOS的并且全部update一下后就神奇的变成了CentOS6，虽然他们两个是同一家公司，但是总给我一种由盗版成了正版的感觉。。" class="headerlink" title="我虚拟机下的Linux原来是红旗6的，但是我改了一下yum的包源成CentOS的并且全部update一下后就神奇的变成了CentOS6，虽然他们两个是同一家公司，但是总给我一种由盗版成了正版的感觉。。"></a>我虚拟机下的Linux原来是红旗6的，但是我改了一下yum的包源成CentOS的并且全部update一下后就神奇的变成了CentOS6，虽然他们两个是同一家公司，但是总给我一种由盗版成了正版的感觉。。</h3><h2 id="闲话不多说，刚开始装第一个插件是Ctags"><a href="#闲话不多说，刚开始装第一个插件是Ctags" class="headerlink" title="闲话不多说，刚开始装第一个插件是Ctags"></a>闲话不多说，刚开始装第一个插件是Ctags</h2><p>刚开始装的时候我是在X-Windows里面的<a href="http://ctags.sourceforge.net" target="_blank" rel="noopener">这里</a>下载再转回shell敲</p>
-<pre><code>$ tar -xzvf ctags-5.6.tar.gz
-$ cd ctags-5.6
-$ make
-</code></pre><h1 id="make-install"><a href="#make-install" class="headerlink" title="make install"></a>make install</h1><h6 id="后来我发现不用这么复杂直接在X-Window下面复制到Terminal里面就可以了，毕竟后面安装的代码都是十几行，根本扛不住。。。。"><a href="#后来我发现不用这么复杂直接在X-Window下面复制到Terminal里面就可以了，毕竟后面安装的代码都是十几行，根本扛不住。。。。" class="headerlink" title="后来我发现不用这么复杂直接在X-Window下面复制到Terminal里面就可以了，毕竟后面安装的代码都是十几行，根本扛不住。。。。"></a>后来我发现不用这么复杂直接在X-Window下面复制到Terminal里面就可以了，毕竟后面安装的代码都是十几行，根本扛不住。。。。</h6><p>装完三个感觉整个我太苦逼，简直是辛苦啊，不是说好的敲几下键盘就可以吗。<br>后来了解到linux有几个软件可以帮忙安装而且解决依赖性，比如ubuntu的apt-get，redhat的rmp，yum，但是问题来了，我的黄狗（yum：yellow dog）怎么没用啊，全都装不上，一查错误提示，原来我没用被授权，原来RedHat更新软件是要收钱的，但是CentOS不用，然后我就用了CentOS的源，当时我就想只想装个git，然后就没用然后了。终于全部更新完了，yum也可以用了，用yum果然爽多了，直接</p>
-<pre><code>yum install git    
-</code></pre><p>git就装好了。如果想知道怎么改源，<a href="http://blog.chinaunix.net/uid-23683795-id-3477603.html" target="_blank" rel="noopener">点击这里</a></p>
-<hr>
-<p>好了装好了源接下来装软件就敲一敲代码就行，不用去网上找包下载再安装。</p>
-<p>装好一些热门的插件后，我碰到了第一个最难装的插件YouCompleteMe(YCM)，装完之后感觉就是神器一般的存在，但是装完之前一直在感慨，我去怎么没个卵用啊，而且装llvm（安装YCM必须先安装的软件)时，我用编译安装方法因为一些库的缺失一直报错，后面采用二进制安装方法安装完llvm才成功按上YCM。<br>推荐新手采用二进制安装方法安装llvm，想知道怎么安装YCM这些<a href="http://www.linuxzen.com/vim-dai-ma-bu-quan-he-jian-cha-youcompleteme-syntastic.html" target="_blank" rel="noopener">点击这里</a></p>
-<h2 id="安上一些实用的插件后，最后安装调试神器gdb，有三种方式使vim可以调试程序（与gdb一起工作），"><a href="#安上一些实用的插件后，最后安装调试神器gdb，有三种方式使vim可以调试程序（与gdb一起工作），" class="headerlink" title="安上一些实用的插件后，最后安装调试神器gdb，有三种方式使vim可以调试程序（与gdb一起工作），"></a>安上一些实用的插件后，最后安装调试神器gdb，有三种方式使vim可以调试程序（与gdb一起工作），</h2><p>vimgdb，pyclewn，clewn，三个我都试了，第一个要编译一下vim，我失败了，第二个要用python2.4+支持，我python2.6然并卵，每次都说不支持python2，第三个是用c写的，终于成功，安装非常简单，<br><a href="http://blog.csdn.net/linlianghui2004/article/details/7676792" target="_blank" rel="noopener">点击这里</a>了解详情.<br>装完了，我终于可以使用clewn打开gdb和gvim，然并卵，我写的程序并不能在gdb里面运行，一直说无法识别。。。。。。搜了一下原来是编译的时候的问题，用gcc编译的程序要带上<code>-g</code>参数才能在gdb里面用（我还以为我clewn没装好）<br>例如</p>
-<pre><code>gcc -g test.c -o test
-</code></pre><p>加上<code>-g</code>参数就行了。终于我的vim可以用了。。。。。。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/software/GitHubEducationPack/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -926,6 +946,125 @@ $ make
 <p>这个不错我们可以有五个私有项目,一直可以用到你毕业.</p>
 </blockquote>
 <p>这个不错哦,妈妈再也不怕我写的stupid代码被人看到了 O(∩_∩)O哈哈~.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/python/PIL/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/meAndMyGirlfriend.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/07/18/python/PIL/" class="post-title-link" itemprop="url">PIL （Pillow）</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-07-18 16:07:36" itemprop="dateCreated datePublished" datetime="2016-07-18T16:07:36+08:00">2016-07-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:04:03" itemprop="dateModified" datetime="2021-03-09T20:04:03+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>1.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Pillow 是 PIL的对Python3支持的另外一个分支，当然他对Python2也兼容，由于PIL安装起来比较烦，而使用pip可以很轻松的安装Pillow，所以我选择Pillow使用，但是其核心还是PIL库的。</p>
+<hr>
+<p>Python的图形处理库如PIL一直很强大，但是要想使用好它必须对图片有一定的知识储备。<br>使用起来很简单</p>
+<pre><code>from PIL import Image
+</code></pre><p>引用Image包</p>
+<pre><code>im = Image.open(&apos;1.png&apos;)
+</code></pre><p>打开图片，得到一个im对象，我们接下来就可以对这个对象进行操作（前提有这个1.png图片）</p>
+<p>我们先看一下他的一些属性</p>
+<pre><code>&gt;&gt;&gt; print im.format, im.size, im.mode
+PNG (83, 81) RGB
+</code></pre><p>第一个我们输出图片的格式，图片有很多种格式，常用的有jpg、png还有gif动图啊，PIL支持很多种格式，我们可以使用PIL轻松的将格式转换，<code>im.save(&#39;1.jpg&#39;)</code>,当然你可以选择格式假如你没选好后缀名的话，im.size就是图片大小，他返回的是一个元组第一个长度第二个是宽度，单位是像素。<br>现在就谈谈 这三个属性对应的关系吧<br> 首先我们使用一张像素图来说吧</p>
+<p><img src="http://img1.imgtn.bdimg.com/it/u=214288124,4080808149&amp;fm=21&amp;gp=0.jpg" alt></p>
+<p>我们存贮图片的时候是将整个图像分成很多个相同的小方块，每个小方块我们称为像素，当然一张图片分的越小，像素越多，那么图片就越接近真实图片，上面的<code>im.size</code>属性就告诉我们，这张图片分成了，长为83px，宽为81px的图片，那么一共有83*81=6723个像素点，每个像素点里面存什么呢，这就是<code>im.mode</code>属性告诉我们的，贴一下属性有什么吧</p>
+<ol>
+<li>1 (1-bit pixels, black and white, stored with one pixel per byte)</li>
+<li>L (8-bit pixels, black and white)</li>
+<li>P (8-bit pixels, mapped to any other mode using a color palette)</li>
+<li>RGB (3x8-bit pixels, true color)</li>
+<li>RGBA (4x8-bit pixels, true color with transparency mask)</li>
+<li>CMYK (4x8-bit pixels, color separation)</li>
+<li>YCbCr (3x8-bit pixels, color video format)</li>
+<li>I (32-bit signed integer pixels)</li>
+<li>F (32-bit floating point pixels)</li>
+</ol>
+<p>像素存贮就是涉及到颜色的存贮，在早期的黑白游戏机，只有黑和白两种，那么每个像素点就只有1位颜色来存贮，1位只能存贮两种颜色，八位色就能存256种颜色，像八位我们能用256个油漆桶/256色调色板来形容，像上面我们使用的RGB是由三种三原色红绿蓝混合而成，我们知道大自然所有的颜色都可以用红绿蓝三种颜色调配出来，所以RGB又被称为真彩（true color），每种颜色我们都分成256种，所以我们一共有256<em>256</em>256=16777216种颜色可以调配，像素的其他模式我们不介绍太多，有兴趣的可以自己钻研。<br>那么我们知道每个像素占多少字节，又知道共有多少个像素，那我们是不是就可以直接计算出来图片大小，来验证一下</p>
+<p>以第一张图片为例，共有83<em>81=6723个像素点，用RGB模式，每个像素三个字节，共有6723</em>3=20667b=20kb，但是我这张图片只有11.6kb，误差太大了吧，这时候我们就要介绍一下上面那个<code>im.format</code>属性了，这张图片采用png格式，我们先尝试一下把他转成JPG格式吧</p>
+<pre><code>im.save(&apos;1.jpg&apos;)
+</code></pre><p>我们再查看一下这个<code>1.jpg</code>的大小，只有2.24kb了，我们用PIL打开这张图片</p>
+<pre><code>&gt;&gt;&gt; im2 = Image.open(&apos;1.jpg&apos;)
+&gt;&gt;&gt; print im2.format, im2.size, im2.mode 
+JPEG (83, 81) RGB
+</code></pre><p>图片大小没有改变，但是format变成了JPEG，而且文件大小变成原来的1/5,<br>JPEG和GIF和PNG是三种图片压缩技术，他们使用压缩算法把图片压缩成很小，当我们打开图片时，解密算法把他还原出来，所以我们算出来的大小与压缩后的大小是不一样的。<br>有了这些概念我们就能更好的使用PIL提供给我们的magic方法，下次在谈我对PIL的高级应用吧。</p>
 
       
     </div>
@@ -1038,7 +1177,7 @@ $ make
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/useless/EF搭建可扩展菜单/">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/python/字符串处理/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/meAndMyGirlfriend.jpg">
@@ -1052,7 +1191,7 @@ $ make
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2016/07/18/useless/EF搭建可扩展菜单/" class="post-title-link" itemprop="url">EF搭建可扩展菜单</a>
+            <a href="/2016/07/18/python/字符串处理/" class="post-title-link" itemprop="url">字符串处理</a>
         </h1>
 
         <div class="post-meta">
@@ -1069,121 +1208,7 @@ $ make
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:34:28" itemprop="dateModified" datetime="2021-03-09T20:34:28+08:00">2021-03-09</time>
-              </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>1.9k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>2 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-</blockquote>
-<h3 id="由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。"><a href="#由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。" class="headerlink" title="由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。"></a>由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。</h3><h4 id="由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF-Code-First更是坑了我一把，我想把我碰到坑给大家分享一下。"><a href="#由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF-Code-First更是坑了我一把，我想把我碰到坑给大家分享一下。" class="headerlink" title="由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF Code First更是坑了我一把，我想把我碰到坑给大家分享一下。"></a>由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF Code First更是坑了我一把，我想把我碰到坑给大家分享一下。</h4><h2 id="1-类库的实现"><a href="#1-类库的实现" class="headerlink" title="1.类库的实现"></a>1.类库的实现</h2><h3 id="首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个bool类型IsFoot来定义是否为根菜单，每个Menus有一个父级菜单Menus，有一群子菜单，下面是我定义的Menu库。"><a href="#首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个bool类型IsFoot来定义是否为根菜单，每个Menus有一个父级菜单Menus，有一群子菜单，下面是我定义的Menu库。" class="headerlink" title="首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个bool类型IsFoot来定义是否为根菜单，每个Menus有一个父级菜单Menus，有一群子菜单，下面是我定义的Menu库。"></a>首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个<code>bool</code>类型<strong>IsFoot</strong>来定义是否为根菜单，每个Menus有一个父级菜单Menus，有一群子菜单，下面是我定义的Menu库。</h3><pre><code>  [Description(&quot;菜单&quot;)]
-public class Menus
-{
-    [Key]
-    [Display(Name=&quot;菜单ID&quot;)]
-    public int MenusID { get; set; }
-    [Required]
-    [Display(Name=&quot;是否为根节点&quot;)]
-    public bool IsFoot { get; set; }
-    [Required]
-    [StringLength(25)]
-    [Display(Name=&quot;目录名字&quot;)]
-    public string Name { get; set; }
-    [Display(Name=&quot;是否删除&quot;)]
-    public bool IsDelete { get; set; }
-    [Display(Name=&quot;包含的文章&quot;)]
-    public virtual List&lt;Article&gt; articles { get; set; }
-    [Display(Name = &quot;父级菜单&quot;)]
-    public virtual Menus fatherMenus { get; set; }
-    [Display(Name = &quot;子菜单&quot;)]
-    public virtual List&lt;Menus&gt; sonList { get; set; }
-
-
-}
-</code></pre><h3 id="每个Menus都包含了一个文章集合-虽然有些菜单不一定有文章但是EF可以允许我们0对多，或1对多。"><a href="#每个Menus都包含了一个文章集合-虽然有些菜单不一定有文章但是EF可以允许我们0对多，或1对多。" class="headerlink" title="每个Menus都包含了一个文章集合,虽然有些菜单不一定有文章但是EF可以允许我们0对多，或1对多。"></a>每个Menus都包含了一个文章集合,虽然有些菜单不一定有文章但是EF可以允许我们0对多，或1对多。</h3><h2 id="2-生成数据库"><a href="#2-生成数据库" class="headerlink" title="2.  生成数据库"></a>2.  生成数据库</h2><hr>
-<p>EF比较人性化的是，当我们数据库里面没有我们想要生成的表时，我们不需要多余的代码，只要当成数据库有表，像平时一样添加数据然后EF会帮我们自动在数据库里面建好表，当然你如果有相同名字的表话它报错，会提醒你数据库里面有如果想保存数据要做好数据迁移工作，数据迁移不是我们的重点，如果想了解的话，<a href="http://www.cnblogs.com/guomingfeng/archive/2013/06/15/mvc-ef-configuration-migration.html" target="_blank" rel="noopener">点击这里</a></p>
-<h3 id="生成的数据库包含两个表，一个Menus表，一个是Article表（PS：上面没有给出Article的类型定义，想要的可以自己写），对于这个来说，我们并没有在表里面定义外键属性，只是用来一个引用属性，引用属性是一种“虚属性”，我们通过这个属性来建立起两个对象的虚拟联系，比如说父与子，这种关系是虚拟的对于两者之间的联系是通过血缘来联系的，这个血缘是存在的，相对应就是数据库里面的外键联系，外键也可以看做是表中的一个字段，它记录了一种关系。"><a href="#生成的数据库包含两个表，一个Menus表，一个是Article表（PS：上面没有给出Article的类型定义，想要的可以自己写），对于这个来说，我们并没有在表里面定义外键属性，只是用来一个引用属性，引用属性是一种“虚属性”，我们通过这个属性来建立起两个对象的虚拟联系，比如说父与子，这种关系是虚拟的对于两者之间的联系是通过血缘来联系的，这个血缘是存在的，相对应就是数据库里面的外键联系，外键也可以看做是表中的一个字段，它记录了一种关系。" class="headerlink" title="生成的数据库包含两个表，一个Menus表，一个是Article表（PS：上面没有给出Article的类型定义，想要的可以自己写），对于这个来说，我们并没有在表里面定义外键属性，只是用来一个引用属性，引用属性是一种“虚属性”，我们通过这个属性来建立起两个对象的虚拟联系，比如说父与子，这种关系是虚拟的对于两者之间的联系是通过血缘来联系的，这个血缘是存在的，相对应就是数据库里面的外键联系，外键也可以看做是表中的一个字段，它记录了一种关系。"></a>生成的数据库包含两个表，一个Menus表，一个是Article表（PS：上面没有给出Article的类型定义，想要的可以自己写），对于这个来说，我们并没有在表里面定义外键属性，只是用来一个引用属性，引用属性是一种“虚属性”，我们通过这个属性来建立起两个对象的虚拟联系，比如说父与子，这种关系是虚拟的对于两者之间的联系是通过血缘来联系的，这个血缘是存在的，相对应就是数据库里面的外键联系，外键也可以看做是表中的一个字段，它记录了一种关系。</h3><h4 id="由于EF的智能关系，当我们Code-First时，他会帮我们自动建好外键如果我们不定义的话，当我们使用EF的时候是不需要考虑外键的值的初始化，如果我们没有给他赋值EF会自动给他赋值。"><a href="#由于EF的智能关系，当我们Code-First时，他会帮我们自动建好外键如果我们不定义的话，当我们使用EF的时候是不需要考虑外键的值的初始化，如果我们没有给他赋值EF会自动给他赋值。" class="headerlink" title="由于EF的智能关系，当我们Code First时，他会帮我们自动建好外键如果我们不定义的话，当我们使用EF的时候是不需要考虑外键的值的初始化，如果我们没有给他赋值EF会自动给他赋值。"></a>由于EF的智能关系，当我们Code First时，他会帮我们自动建好外键如果我们不定义的话，当我们使用EF的时候是不需要考虑外键的值的初始化，如果我们没有给他赋值EF会自动给他赋值。</h4><hr>
-<p>讲完了EF的建立，现在就谈谈使用Code First在项目中遇到的问题。</p>
-<hr>
-<p>这个问题主要出在给创建子菜单上，当我们创建子菜单时，我们用的是我们自己的类库代码进行初始化数据库，我们先得到菜单的ID然后在EF里面查询这个菜单，我们查询到这个实体，然后在菜单实体里面添加子菜单，在SaveChange()时候就报错了，EF称检测到有循环赋值的可能，让我们添加外键以避免冲突，我不记得看到的那篇博客看到有人也遇到相同的问题，如果只是普通的一对多（假如是A对1，2，3，4···），当我们给A那个新建一个5时，这个外键的位置是知道的，我们只要在5的外键位置存贮A的主键，然而当我们建立这种父级菜单时，每个菜单里面的外键可以是存贮父级的主键，也可以是子集的主键，所以EF并不能解决冲突，解决这个问题的方法有两种一种是在表中添加外键<br>如：</p>
-<pre><code>       [ForeignKey(&quot;sonList&quot;)]
-public int sonListMenusID{get;set;}
-</code></pre><p>或者用Fluent API 在继承的方法 onModelCreate中添加</p>
-<pre><code>modelBuilder.Entity&lt;Menus&gt;().HasRequired(p=&gt;p.sonList).WithMany(l=&gt;l.Menus).HasForeignKey(p=&gt;p.sonListMenusID)
-</code></pre><p>通过这种创建方式当我们创建子集菜单时我们就可以成功利用EF特性帮我们自动添加上外键，以及建立好实体关系。</p>
-<p>关于更详细的外键知识可以点击<a href="http://www.cnblogs.com/Gyoung/archive/2013/01/22/2869782.html" target="_blank" rel="noopener">这里</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/software/阿里云服务器初体验/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/meAndMyGirlfriend.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/07/18/software/阿里云服务器初体验/" class="post-title-link" itemprop="url">阿里云服务器初体验</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-07-18 16:07:36" itemprop="dateCreated datePublished" datetime="2016-07-18T16:07:36+08:00">2016-07-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 08:41:07" itemprop="dateModified" datetime="2021-03-09T08:41:07+08:00">2021-03-09</time>
+                <time title="修改时间：2021-03-09 20:05:18" itemprop="dateModified" datetime="2021-03-09T20:05:18+08:00">2021-03-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1191,8 +1216,8 @@ public int sonListMenusID{get;set;}
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/软件/" itemprop="url" rel="index">
-                    <span itemprop="name">软件</span>
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
                   </a>
                 </span>
             </span>
@@ -1202,7 +1227,7 @@ public int sonListMenusID{get;set;}
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span>466</span>
+              <span>605</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -1220,12 +1245,35 @@ public int sonListMenusID{get;set;}
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。"><a href="#申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。" class="headerlink" title="申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。"></a>申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。</h3><h3 id="1-用户名和密码"><a href="#1-用户名和密码" class="headerlink" title="1.用户名和密码"></a>1.用户名和密码</h3><p>找了半天没有找到那个是用户名，试了实例的id，没有用，最后终于在登录帮助名里面找到了，用户名竟然是<code>root</code>！！！！,我用的是Ubuntu系统，说好的Ubuntu不提供root权限的呢，阿里还真会改造Linux系统<br>，但是我觉得用root登录还是不安全，我觉得新建一个用户吧</p>
-<p>在root权限下</p>
-<pre><code>useradd -s /bin/bash -r -m yourname
-</code></pre><p>解释一下，本来直接<code>useradd yourname</code> 就可以新建一个<code>yourname</code>账号，但是如果用你新建的用户登录的话，你无法使用Tab键和上下左右键 ，你键入 <code>echo $SHELL</code>，会发现是<code>/bin/sh</code>，因为Ubuntu默认创建账号使用<code>/bin/sh</code>，假如你没加这个可以删掉 用这个<code>userdel yourname</code>重新来一遍，搞完这个只是创建了一个普通用户，你使用不了sudo获取最高权限，这个怎么办，很简单在<code>/etc/sudoers</code>里面找到<br>        root ALL=(ALL:ALL) ALL</p>
-<p>模仿它加上自己的账号名就可以</p>
-
+          <hr>
+<h1 id="string"><a href="#string" class="headerlink" title="string"></a>string</h1><blockquote>
+<p>原来的很多函数都逐渐迁移到<code>str</code>和<code>unicode</code>对象上去了,<br>不过有两个函数没有迁移出去</p>
+</blockquote>
+<hr>
+<p>第一个是<code>capwords</code></p>
+<blockquote>
+<p>个人觉得没什么卵用<br>就是将英文单词首字母大写</p>
+</blockquote>
+<p>比如</p>
+<pre><code>string.capwords(&apos;this are some words&apos;)
+</code></pre><p>输出为 <code>This Are Some Words</code></p>
+<hr>
+<p>第二个我觉得挺有趣,他可以帮你把对应的文字换成你设定的</p>
+<p>我们可以用它来设计出莫斯密码’=’.</p>
+<pre><code>&quot;&quot;&quot;create a table&quot;&quot;&quot;
+table = string.maketrans(&apos;abc&apos;,&apos;123&apos;)
+print &apos;abc123&apos;.translate(table)
+</code></pre><p>输出为<code>123123</code>成功把abc转成了123</p>
+<hr>
+<p>string还有一个模板类型<code>Template</code><br>这个类型同我们转义差不多(%),不过能够实现的<br>更加自主化<br>我们可以继承这个类来修改模板类的具体实现<br>而且这个模板类有一个</p>
+<hr>
+<h1 id="textwrap"><a href="#textwrap" class="headerlink" title="textwrap"></a>textwrap</h1><blockquote>
+<p>由于sublime输出一个很长的字符串很卡,这个格式化字符串的类能够帮我们<br>解决很多问题</p>
+</blockquote>
+<p>我一般去除整体缩进然后去填充字符串</p>
+<pre><code>dedented_text = textwrap.dedent(&apos;...a long word...&apos;)
+print textwrap.fill(dedented_text, width=50)
+</code></pre>
       
     </div>
 
@@ -1412,7 +1460,7 @@ public int sonListMenusID{get;set;}
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">122</span>
+          <span class="site-state-item-count">123</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1487,7 +1535,7 @@ public int sonListMenusID{get;set;}
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">269k</span>
+    <span title="站点总字数">270k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
