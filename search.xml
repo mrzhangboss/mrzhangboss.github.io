@@ -6592,4 +6592,26 @@ Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
         <tag>信</tag>
       </tags>
   </entry>
+  <entry>
+    <title>第十五封信</title>
+    <url>/2021/09/12/letter/15/</url>
+    <content><![CDATA[<div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="抱歉, 这个密码看着不太对, 请再试试." data-whm="抱歉, 这个文章不能被校验, 不过您还是能看看解密后的内容.">
+  <script id="hbeData" type="hbeData" data-hmacdigest="d81665bd5bc0638a610cccc9c2686c741474f404646f3f0e80b8d60e35668f38">a57307f02e4def6707adf4a4b54e4f1ff57c8d85803ad596a7901c39eaa20702a473476c15079de2ea8459d1ce62f83579831555ea4892d0e0801acdf2598121eba1a1b273d45bc7efd8ba8739685af25d5d23596787247c70c8b1a10715868295ff5fd4f2f7557ce2c04b3a5d52401de202781d937502ff72354167ba179d4ff5d26044971a32c3f342d43fbe3d5d99c4380f574e9bde9edbc8d21adfb47a5136bae98a68cb1c554278732c1ca07396bb9d44ad5d3cc107909b2b48e1c23afdb792f98dd1bc3bed88f2aa6afb1b074839c4c426c3f249437a68907166f558455ecca9e31d15b2987a3fd1367b08cc82177cd58cfe212347128f583d6ca4981673d4f3b230097290072f2647bddc2b96f315456168d0fa1065c3d2631df6f58ba2443baea9c25362a384a9eec2be6e874700b552413a3dbf93d93eaeb7c1f1819fa97b92e5c37c016424e20d03207242981bd7ec69d63e8811b301ba39f809a7df599837e92aac2669ecf3de6e4d60e56d836e25fb5edf857a2d0ccbe3b92862c800509d33c5c5da1e5b2a7178b1bebef618f0fdd04e41e2399cc3a997c68e6e9da475e49b7383aa7cb1629c3b7b373933bc33dcaf891de0aa7f6d265b619dfee2a8f21bda4e967375533befc7a791da5e8f4b381c98523b847e7ec2acae9bf2</script>
+  <div class="hbe hbe-content">
+    <div class="hbe hbe-input hbe-input-default">
+      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
+      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">
+        <span class="hbe hbe-input-label-content hbe-input-label-content-default">您好, 这里需要密码！</span>
+      </label>
+    </div>
+  </div>
+</div>
+<script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">]]></content>
+      <categories>
+        <category>恋爱日记</category>
+      </categories>
+      <tags>
+        <tag>信</tag>
+      </tags>
+  </entry>
 </search>

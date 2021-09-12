@@ -211,7 +211,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/01/07/java/springboot/浅析Spring/">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/01/07/summary/技术如何深入/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/meAndMyGirlfriend.jpg">
@@ -225,7 +225,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2021/01/07/java/springboot/浅析Spring/" class="post-title-link" itemprop="url">浅析Spring</a>
+            <a href="/2021/01/07/summary/技术如何深入/" class="post-title-link" itemprop="url">技术如何深入</a>
         </h1>
 
         <div class="post-meta">
@@ -242,7 +242,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:10:03" itemprop="dateModified" datetime="2021-03-09T20:10:03+08:00">2021-03-09</time>
+                <time title="修改时间：2021-03-09 20:15:01" itemprop="dateModified" datetime="2021-03-09T20:15:01+08:00">2021-03-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -250,8 +250,8 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index">
-                    <span itemprop="name">Java</span>
+                  <a href="/categories/随想/" itemprop="url" rel="index">
+                    <span itemprop="name">随想</span>
                   </a>
                 </span>
             </span>
@@ -261,7 +261,7 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span>1.2k</span>
+              <span>993</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -280,18 +280,137 @@
 
       
           <blockquote>
-<p>Spring核心就是IoC（依赖注入）AoP（面向切面）本篇就基于一个开源项目 tiny-spring 来分析Spring框架到底给我们提供了什么东西</p>
+<p>为什么会有这篇博客呢，因为随着你阅历的增长，以及各种你即将面临的问题，比如婚姻、跳槽这种，你会有一种焦虑感，你一直在原地踏步，你怎么面对你的未来呢</p>
 </blockquote>
-<p>依赖注入是什么呢，说起来非常简单就是系统帮你把依赖组装好，我们来举个简单例子</p>
-<pre><code>class People { Hand hand;};
-</code></pre><p>上面是一个非常简单的类，Spring把这个类叫做Bean，这个People 的 Bean 依赖一个Hand的类，我们来看一下这个Hand类</p>
-<pre><code>class Hand { Finger finger; int num};
-</code></pre><p>  上面的Hand又依赖一个Finger类，而且提供了一个属性：手的num（数目），假如你要使用这个People类，你得新建3个类，而且得把代码写死，而Spring就是通过xml或者注解来帮你把这些类自动创建，所以才叫依赖注入，其实原理也非常简单</p>
-<p>为啥要提供这个功能呢，因为我们希望通过配置这些xml就能实现不同的xml来实现不同的功能类，而不用修改代码重新编译，你可以理解为就是代码是高度松耦合，我们可以提供很多相同接口的组件给用户用，用户用的时候只需要修改配置文件就能实现灵活组合不同模块的功能</p>
-<p>我们知道对于一个HTTP服务器，我们希望调用这个接口方法之前能对用户发的东西做一个核验，就像拦截器一样，但是Java里面怎么实现呢，就是调用一个方法之前调用一个特定方法，我们有两种方法，第一种就是定死类名，在调用所有方法之前就调用这个东西，第二张就是重新继承这个方法，在调用父方法之前或者之后在调用我们想调用的方法</p>
-<p>显然第一种太蠢了，我们得先判断这个方法不存在，第二种可以使用Java Proxy类来实现（当然有局限只能是接口，可以用动态生成的类比如Cglib来做），我们而且可以把那个想注入的方法也看作一个特殊的bean（默认在普通的bean之前就做好），这样最终我们把普通的bean使用IoC容器给初始化，然后在用代理类把这个bean继承出来</p>
-<p>这样我们就实现了一个高度控制的类方法，而Spring最主要就是要组装一个Servlet类来处理不同路径下面的请求，网络处理那些事情都交给Tomcat来处理了，所以其实Spring的职责也很简单，就是组装，最后根据组装模块来响应Tomcat发过来的request，返回一个response,因为Spring需要生成很多类，而且假如你使用为了支持注解，Spring还得使用反射来获取所有类的注解，反射速度也是非常慢的，所有Spring启动一般需要一点时间，甚至比其他框架比如Python还要慢，不过这些类的生成都是一次性的（不是单例除外），生成完之后就可以直接使用这些生成好的类的方法来响应Tomcat请求了</p>
-<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><p><a href="https://github.com/code4craft/tiny-spring/blob/master/changelog.md" target="_blank" rel="noopener">https://github.com/code4craft/tiny-spring/blob/master/changelog.md</a></p>
+<p>所以这篇博客其实很大程度是一种反思</p>
+<p>首先要明确一点就是你是一个什么样的人，自我反思，其实我算一个矛盾的人，做事情急着做完，但是要实现一些我自己的想法的时候又很拖延</p>
+<p>所以其实阻止我继续前进的一个东西就是拖延，其实毫不自夸的来讲我是一个解决问题能力很强的人，但是我不是一个行动力很强的人。</p>
+<p>有的时候我在想，我就像一只牛，假如给我一个红旗，我会卯足了劲往那个地方去，吃饭想，睡觉想，无时无刻不在思考这个。但假如不给我目标，我就像一只猫，只想安静的躺着</p>
+<p>就是这种性格，导致我现在什么都懂，但是什么都不精</p>
+<p>所以技术深入也非常简单，就是找到几个目标，一直钻，但是钻完了你还得思考，下一步往哪里钻，钻这个收获了什么，必须抛弃以前那种，完成了就结束了</p>
+<p>说完了怎么深入，现在来谈谈最主要的这么找目标。我也很迷茫，查找了很多资料，看看前人怎么做的，但是他们只是给了很多知识给你，让你去了解，当然在新手阶段，这个挺实用，但是对于那些懂了的来说，这些知识点都知道，只是不精</p>
+<p>怎么才能精呢？这个问题我想了很久，一直没有答案。后来我回顾我技术生涯，我有了一个比较简单的解决方法</p>
+<p>其实这个好多前辈也说过，就是想深一点</p>
+<p>其实技术这个东西基本功能大家都会，hello world，谁都会写。</p>
+<p>用做网站来打比方，你做一个网站，其实新手也可以做，你设计的时候可能就想着照顾好你自己这个用户就好了，各种框架一把嗦。但是假如你想深一点，假设你的1万个用户用你的网站怎么办，或者假如我们要新增一些东西怎么办</p>
+<p>就带着这些想法，去大胆的写你的代码，去验证你的想法，在实现你的目的去看看大家怎么解决的，然后继续学习你能不能用他们的想法做</p>
+<p>所以概括起来也很简单：</p>
+<ul>
+<li>要“多虑”，想事情想深一点</li>
+<li>要“大胆”，想到就大胆的去做</li>
+<li>要“虚心”，做完不能沾沾自喜，去看看别人怎么做的</li>
+<li>要“总结”，要把你做的这方面形成一个系统</li>
+</ul>
+<p>其实仔细回头看，自己其实也有大部分都有的拖延症，其实很早就知道该怎么做，但是总是拖着，被历史的惯性拖着</p>
+<p>这里分享一个 中国比特币第一人 李笑来的一个技巧，就是他以前背单词也是，知道背单词对自己有好处，但是总是拖延，后面他就给自己暗示，背一个单词10块钱，就是这种激励让他打败拖延症，成为新东方的一名非常强的英语老师。</p>
+<p>⛽️</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/01/07/java/浅析微服务/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/meAndMyGirlfriend.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/07/java/浅析微服务/" class="post-title-link" itemprop="url">浅析微服务</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-01-07 00:00:00" itemprop="dateCreated datePublished" datetime="2021-01-07T00:00:00+08:00">2021-01-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:02:26" itemprop="dateModified" datetime="2021-03-09T20:02:26+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>2.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>这篇博客主要是从web技术发展来探索微服务的起源</p>
+</blockquote>
+<p>要想了解微服务是什么得从web框架出来之后开始讲起，大部分可能不知道微服务，一定知道写web服务的框架，懂Java的可以用Spring Boot一把梭，懂Python的Flask、Django、Tornado也写的飞起</p>
+<p>微服务也就是在这些框架出来后才慢慢出现的，首先我们就不谈MVC模式的兴起（主要就是把前端和后端解耦合），我们谈谈在MVC后要面临的问题</p>
+<p>第一个就是接口越来越多，用户也越来越多，面临的第一个问题就是某些接口请求非常频繁，面临第二个问题就是某些接口我想升级怎么办，我们知道使用上面那些框架你要是想修改接口得把代码重新发布一下，然而线上就得暂停服务一会等服务升级</p>
+<p>针对上面的问题，就开启了微服务的热潮，解决方法和MVC一样，我们把后端和后端进行解耦合，一个后端系统专门负责认证，一个后端系统专门负责订单，两者之间使用token来确认同一个用户，登录的请求接口不是很频繁，就用2台机子，订单非常频繁双十一的时候还会爆炸，就用10台机子，实现上非常简单，就是把在每台机子上面启动单独后端程序，再使用nginx作为负载均衡这样流量就均匀的打到每台机子上面去了，这样不管你是用Java还是Python都OK</p>
+<p>这种解决方案能扛起很高的并发，但是还是有个问题，升级起来非常麻烦，要是想升级系统，得把每台机子的后端程序单独升级，管理起来非常麻烦</p>
+<p>然后大家开始研究，大家把接口抽象起来，其实作为用户来说，他只是想调这个接口，能不能使用一个中间层把用户想调的接口和后端真正的提供的服务连接起来，这个就是中间件兴起的源头</p>
+<p>让我们想想中间件的职责是什么，其实想想也很简单就是一个后端接口管理系统，能够实现注册接口的功能，并且打通接口和后端的接口，当然说起来简单，但是要实现一个高可用的中间件也是不容易的，具体可以去看看Spring Cloud、Dubbo这些中间件框架</p>
+<p>我们想想这些中间件框架优缺点，优点也很明确，就是性能非常强，每个小模块只负责自己的接口，当业务量大起来的时候能迅速启动上万个进程来分流大流量，但是缺点也有就是只限定了自己的编程语言（Spring Cloud和Dobbo这些只能用Java写），而且随着接口越来越多，管理也越来越麻烦，调用链也越来越长了，有的时候你想加一个接口得涉及很多道调用链，先去请求用户信息，再去查询用户银行卡信息，再去查询商品信息，虽然分模块很爽，但是有些东西越分越累，模块越来越多，实现功能也越来越散</p>
+<p>模块越来越多带来的一个副作用是测试调试越来越难了，而且随着摩尔定律，我们现在的内存越来越大了、CPU也越来越多了，以前写微服务为的就是省点内存，现在大家发现其实他也没有那么省内存，为了保证服务高可用，我们得用上百台机器来搭一个集群，但是大部分时间，业务量没有那么大，其实大部分时间那么大内存都放在那里浪费了，而且当业务量万一突然起来了，然而固定集群却没法承受这么大流量</p>
+<p>后面随着Docker、K8S的兴起，大家慢慢的发现容器化能够解决上面的问题，当业务量小的时候启动少量容器，业务量大的时候启动多一点容器，而且可以实现动态扩容，所以这时候提出了一个Service Mesh模式</p>
+<p>什么是Service Mesh，其实就是我们前面提到的nginx的负载均衡方案类似，就是使用一个nginx来把请求打在后端上面，但是不同点在于，原来nginx是写死在配置里面的，现在k8s里面的nginx（目前主流的方案是Istio）把接过来的请求打到容器网络上面去，而且当流量大的时候会自动新建新的实例来负载新的请求</p>
+<p>兜兜转转我们又回到了最初的样子，你也不用学习什么后端中间件使用，你只要会写一个提供web接口的服务，打包成个容器，在k8s配置一下，轻轻松松就能扛着上千万并发，扛不住加实例就够了</p>
+<p>现在我们来谈谈Service Mesh的原理，其实很简单，就是蚁群的思想，每一个容器都是一只小蚂蚁，功能齐全啥都能干，一只蚂蚁搬不动一座大山，但是上亿只蚂蚁可以搬的起，Service Mesh的思想有点像大数据分而治之的理论，当你的容器能服务1千人，那你1万个容器就能服务1亿个人，所以对于开发者来说，你只需要写好一个能服务1千个人的小web，你不需要去考虑当你要服务1万个人的时候，代码需要怎么改动，对于开发者来说，测试和开发都变得异常轻松，自己也不用去写原来的Dubbo那种大体量代码，你所有的接口都在一个项目中，测试开发都变得异常轻松，而且你也不用思考怎么使用Java调用Python的机器学习框架等等，你可以用Python写，用Go写，甚至可以用C来写，容器不在拘束于语言，你只要能对外提供服务就好了</p>
+<p>总之在K8S容器化兴起之后，我们也不用再怎么思考如何解耦合代码，套上各种中间件把我们各个接口都打散，实现一套高并发系统，我们只需要写一个网站，能服务上千的用户，当我们业务量大起来的时候交给K8S，让它帮我们启动上万个相同网站，把流量给消化掉，所以在一定的程度上，在现在技术发展下，高并发的门槛越来越低，原来一个高并发专家得学会好多框架，dubbo各种组件，现在随便叫来一个小白随便把它从网上复制的代码拷拷，搭起来一个小网站，放到K8S上面，马上就可以服务上千万甚至上亿用户</p>
+<p>所以说技术发展真的是快啊，记得以前一个架构师的道路是慢慢从学习各种nginx负载均衡Redis集群搭建，搭建起一套复杂的系统，你得去学习各种组件使用，现在呢，一个小白，网上拷拷代码，使用上内存作为缓存，使用MySQL当数据库，并发也就上个千，然后数据库配置一下把内存换成redis，MySQL换成Kudu，放进K8S里面并发就能上千万，高并发问题就解决了，原来一个百万年薪才能做的高并发技术专家在新的技术降纬打击下一个月薪1万的菜鸟也能搞定了</p>
+<p>总而言之，高并发随着技术发展会越来越简单，微服务的提出有人说就是干掉架构师，所以有时候也会想，随着技术的发展，是不是不会有工程师这个职位了，的确技术在不断发展，但是只要抱着一个不断学习的心也就不怕了，技术不断推成出新，但是本质是不变的，所以也不用害怕。</p>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><p><a href="https://philcalcado.com/2017/08/03/pattern_service_mesh.html" target="_blank" rel="noopener">https://philcalcado.com/2017/08/03/pattern_service_mesh.html</a></p>
 
       
     </div>
@@ -1110,282 +1229,6 @@ where a.id = b.id;
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2019/10/12/software/ApacheAtlas部署实践/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/meAndMyGirlfriend.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/10/12/software/ApacheAtlas部署实践/" class="post-title-link" itemprop="url">Apache Atlas 2.0.0部署实践</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-10-12 00:00:00" itemprop="dateCreated datePublished" datetime="2019-10-12T00:00:00+08:00">2019-10-12</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:08:07" itemprop="dateModified" datetime="2021-03-09T20:08:07+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/软件/" itemprop="url" rel="index">
-                    <span itemprop="name">软件</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>6.3k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>6 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>Atlas 是一个可扩展和可扩展的核心基础治理服务集 - 使企业能够有效地和高效地满足 Hadoop 中的合规性要求，并允许与整个企业数据生态系统的集成。[来自百科]</p>
-</blockquote>
-<p><img src="/images/apache-atlas-formwork.png" alt="架构图-来源网络"></p>
-<p>现在我们就基于最新版2.0.0介绍一下部署细节</p>
-<h2 id="Server安装"><a href="#Server安装" class="headerlink" title="Server安装"></a>Server安装</h2><ol>
-<li>源码安装</li>
-</ol>
-<blockquote>
-<p>首先在<a href="https://www.apache.org/dyn/closer.cgi/atlas/2.0.0/apache-atlas-2.0.0-sources.tar.gz" target="_blank" rel="noopener">https://www.apache.org/dyn/closer.cgi/atlas/2.0.0/apache-atlas-2.0.0-sources.tar.gz</a>下载2.0.0源码</p>
-</blockquote>
-<p>解压源码</p>
-<ol start="2">
-<li>选择Atlas架构</li>
-</ol>
-<p>Atlas支持多种架构作为后端</p>
-<ul>
-<li>HBase + Solr</li>
-<li>Cassandra + Solr</li>
-</ul>
-<p>你可以选择多种，这里我们采用集成<code>HBase + Solr</code>方式编译</p>
-<pre><code>mvn clean -DskipTests package -Pdist,embedded-hbase-solr
-</code></pre><p>执行代码即可（推荐使用阿里云的maven源加速编译）</p>
-<ol start="3">
-<li>修改环境变量</li>
-</ol>
-<p>编译完之后在<code>/distro/target</code>下面有很多tar.gz包，我们需要的是<code>apache-atlas-2.0.0-server.tar.gz</code>包，解压到当前目录</p>
-<p>3.1 修改配置文件<code>conf/atlas-env.sh</code></p>
-<pre><code>export JAVA_HOME=/your/java/install
-
-export MANAGE_LOCAL_HBASE=false
-
-export MANAGE_LOCAL_SOLR=false
-</code></pre><p>我们设定<code>Solr</code>和<code>HBase</code>手动开启，方便我们发现哪个部分启动异常</p>
-<p>3.2 修改admin密码：</p>
-<p>系统默认会生成一个密码给我们，但是官网我也没看到说这个密码，所以我们自己生成一个，然后修改上去</p>
-<pre><code>echo -n &quot;password&quot; | sha256sum
-</code></pre><p>使用上面命令生成一个<code>sha256</code>加密字符（你可以把password改成你想要的密码），复制生成的字符串（不需要<code>-</code>），例如<code>5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8</code><br>修改<code>conf/users-credentials.properties</code> 改成</p>
-<pre><code>admin=ADMIN::5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8
-</code></pre><p>3.3 修改HBase配置(需要提前安装好java和Zookeeper和Hadoop）</p>
-<p>进入<code>hbase</code>目录夹</p>
-<p>修改 <code>conf/hbase-env.sh</code></p>
-<pre><code>export JAVA_HOME=/your/java/install
-export HBASE_MANAGES_ZK=false
-</code></pre><p>复制Hadoop配置到HBase中</p>
-<pre><code>cp $HADOOP_HOME/etc/hadoop/core-site.xml $HBASE_HOME/conf/
-cp $HADOOP_HOME/etc/hadoop/hdfs-site.xml $HBASE_HOME/conf/
-</code></pre><p>在<code>hbase-site.xml</code>中加入</p>
-<pre><code>      &lt;property&gt;
-         &lt;name&gt;hbase.cluster.distributed&lt;/name&gt;
-         &lt;value&gt;true&lt;/value&gt;
-    &lt;/property&gt;
-             &lt;property&gt;
-        &lt;name&gt;hbase.rootdir&lt;/name&gt;
-         &lt;value&gt;/hbase&lt;/value&gt; 
-    &lt;/property&gt;
-    &lt;property&gt;
-
-    &lt;name&gt;hbase.zookeeper.quorum&lt;/name&gt;
-
-    &lt;value&gt;localhost&lt;/value&gt;
-
-    &lt;/property&gt;
-    &lt;property&gt;
-    &lt;name&gt;hbase.zookeeper.property.clientPort&lt;/name&gt;
-&lt;value&gt;2181&lt;/value&gt;
-    &lt;/property&gt;
-</code></pre><p>启动安装好的Zookeeper，使用<code>./bin/start-hbase.sh</code>启动<code>HBase</code></p>
-<p>使用<code>jps</code>应该能看到<code>HMaster</code>和<code>HRegionServer</code>启动了</p>
-<p>测试HBase安装是否完成，使用<code>./bin/hbase shell</code> 进入<code>HBase</code> 命令行，如果<code>status</code>命令返回正确的话，那么你的HBase就安装好了</p>
-<p>3.4 启动Solr</p>
-<p>进入<code>solr</code>目录，启动<code>solr</code></p>
-<pre><code>./bin/solr -c -z localhost:2181 -p 8983
-</code></pre><p>打开<code>http://localhost:8983/solr/#/</code>如果能看到正常页面，那么Solr就启动好了</p>
-<p>在<code>apache-atlas-2.0.0</code>目录下创建索引</p>
-<pre><code>./solr/bin/solr create -c vertex_index -d conf/solr -shards 1 -replicationFactor 1
-./solr/bin/solr create -c edge_index -d conf/solr -shards 1 -replicationFactor 1
-./solr/bin/solr create -c fulltext_index -d conf/solr -shards 1 -replicationFactor 1
-</code></pre><p>3.5 启动Atlas</p>
-<p>在<code>apache-atlas-2.0.0</code>目录下启动Atlas</p>
-<p>使用<code>bin/atlas_start.py</code>  或者 <code>/usr/bin/python2.7 bin/atlas_start.py</code></p>
-<p>PS：第一次启动比较慢，如果前面的HBase和Solr都安装好了的话，一般都没有什么大问题，可以查看<code>logs/application.log</code>查看系统运行情况，等到初始化完成后打开<code>localhost:21000</code>使用<code>admin:password</code>即可登录上去</p>
-<p><img src="/images/apache-atlas-index.png" alt="登录后的页面"></p>
-<p>当然我们现在系统空空如也，现在我们来使用Hook导入数据到Atlas里面去吧<br>我测试通过的版本是：Hadoop2.8.1 + Zookeeper 3.4.10 ，其他的都是用的默认Atlas 集成的版本</p>
-<h2 id="Hook安装"><a href="#Hook安装" class="headerlink" title="Hook安装"></a>Hook安装</h2><p><code>Atlas</code>最强大的的地方就是能够把Hive，Sqoop，Kafka这些大数据组件的血缘关系给自动抽取出来，所以钩子的安装至关重要</p>
-<h3 id="Sqoop钩子"><a href="#Sqoop钩子" class="headerlink" title="Sqoop钩子"></a>Sqoop钩子</h3><blockquote>
-<p>Sqoop 我用的是<code>1.4.7</code>版本</p>
-</blockquote>
-<ul>
-<li>配置Sqoop钩子</li>
-</ul>
-<p>首先在<code>conf/sqoop-site.xml</code>中添加</p>
-<pre><code> &lt;property&gt;
-  &lt;name&gt;sqoop.job.data.publish.class&lt;/name&gt;
-  &lt;value&gt;org.apache.atlas.sqoop.hook.SqoopHook&lt;/value&gt;
-&lt;/property&gt;
-</code></pre><ul>
-<li>复制必要的包</li>
-</ul>
-<p>解压<code>distro/target</code>的<code>apache-atlas-2.0.0-sqoop-hook.tar.gz</code>，复制<code>apache-atlas-2.0.0-sqoop-hook/apache-atlas-sqoop-hook-2.0.0/hook/sqoop/</code>目录到 <code>&lt;atlas package&gt;/hook/sqoop</code></p>
-<p>如：</p>
-<pre><code>cd /where/your/untar/atlas
-cp -r ../../apache-atlas-2.0.0-sqoop-hook/apache-atlas-sqoop-hook-2.0.0/hook .
-</code></pre><p>创建软链接<code>&lt;atlas-conf&gt;/atlas-application.properties</code>到<code>&lt;sqoop-conf&gt;/</code></p>
-<p>如：</p>
-<pre><code>ln -s ln -s /home/zhanglun/github/apache-atlas-sources-2.0.0/distro/target/apache-atlas-2.0.0-server/apache-atlas-2.0.0/conf/atlas-application.properties /opt/sqoop-1.4.7.bin__hadoop-2.6.0/conf
-</code></pre><p>将<code>&lt;atlas package&gt;/hook/sqoop/*.jar</code> 复制到<code>sqoop</code> <code>lib</code>目录</p>
-<p>如：</p>
-<pre><code>cp hook/sqoop/*.jar /opt/sqoop-1.4.7.bin__hadoop-2.6.0/lib
-cp hook/sqoop/atlas-sqoop-plugin-impl/*.jar /opt/sqoop-1.4.7.bin__hadoop-2.6.0/lib
-</code></pre><ul>
-<li>测试Sqoop 导入Hive中</li>
-</ul>
-<p>sqoop import –connect jdbc:mysql://localhost:3306/sqoop<br>–username root<br>-P<br>–split-by id<br>–table root<br>–hive-import<br>–create-hive-table<br>–hive-table db.auth_user</p>
-<p>不出意外应该会报错 </p>
-<pre><code>Caused by: java.lang.NullPointerException
-at org.apache.atlas.hook.AtlasHook
-</code></pre><p>因为我们还没有配置好Sqoop钩子，接下来我们来配置Sqoop钩子</p>
-<ul>
-<li>配置Atlas</li>
-</ul>
-<p>前面我们创建了软链接，现在我们只要修改<code>conf/atlas-application.properties</code>这个配置即可</p>
-<p>首先我们得配置关闭<code>Kafka</code>作为发送消息缓冲，因为Atlas默认使用<code>Kafka</code>作为消息缓冲，然后我们修改下面的配置（这个后期可以打开，你再配置好kafka的地址）</p>
-<pre><code>atlas.notification.embedded=false  # 不往kafka里面发送
-atlas.graph.index.search.backend=solr5 
-</code></pre><ul>
-<li><p>异常一： Caused by: java.lang.ClassNotFoundException: org.json.JSONObject</p>
-<p>包缺失，下载<a href="http://www.java2s.com/Code/Jar/j/Downloadjavajsonjar.htm" target="_blank" rel="noopener">java-json.jar</a> 到<code>Sqoop</code>文件夹</p>
-<ul>
-<li>异常二：<code>Import failed: java.io.IOException: java.lang.ClassNotFoundException: org.apache.hadoop.hive.conf.HiveConf 
-Could not load org.apache.hadoop.hive.conf.HiveConf. Make sure HIVE_CONF_DIR is set correctly</code></li>
-</ul>
-</li>
-</ul>
-<p>环境变量没有设置对，设置<code>HIVE_CONF_DIR</code>在<code>conf/sqoop-env.sh</code>（确保<code>HADOOP_HOME</code>和<code>HIVE_HOME</code>不是空值）</p>
-<pre><code>export HADOOP_CLASSPATH=&quot;`$HADOOP_HOME/bin/hadoop classpath`:$HIVE_HOME/lib/*&quot;
-</code></pre><ul>
-<li>异常三： <code>Error when removing metric from org.apache.kafka.common.metrics.JmxReporter
-java.security.AccessControlException: access denied (&quot;javax.management.MBeanTrustPermission&quot; &quot;register&quot;)</code></li>
-</ul>
-<p>根据<a href="https://stackoverflow.com/questions/12195868/java-security-accesscontrolexception-when-using-ant-but-runs-ok-when-invoking-j" target="_blank" rel="noopener">stackoverflow</a> 解决</p>
-<ul>
-<li>异常四：<code>java.lang.NoSuchMethodError: com.fasterxml.jackson.databind.ObjectMapper.readerFor</code></li>
-</ul>
-<p>Hive包版本和Sqoop包版本冲突（我的Hive版本是2.3.4），可以先备份<code>Sqoop</code>的lib，文件再进行下面操作：</p>
-<pre><code>cp -r lib lib_back
-rm lib/jackson-*
-cp $HIVE_HOME/lib/jackson-* lib/
-</code></pre><ul>
-<li>异常五：<code>Connection to node -1 could not be established</code></li>
-</ul>
-<p>你在<code>conf/atlas-application.properties</code>没有修改<code>atlas.notification.embedded</code>成false，那么你必须配置好<code>kafka</code>地址</p>
-<pre><code>atlas.kafka.zookeeper.connect=localhost:2181
-atlas.kafka.bootstrap.servers=localhost:9092
-</code></pre><p>PS：每次出现异常，你必须先删掉Hadoop上面的文件，再执行导入，你可以直接安装我的流程进行修复，因为这些都是我在配置的时候顺序出现的问题，走到这里我们就配置好了<code>Sqoop</code>和<code>Hive</code>的导入Hook，如果运行成功，你会看到下面界面</p>
-<p><img src="images/apache-atlas-hive-table.png" alt="Sqoop导入Hive血缘关系"></p>
-<p>接下来我们配置Hive钩子来导入Hive中的表</p>
-<h3 id="Hive-钩子"><a href="#Hive-钩子" class="headerlink" title="Hive 钩子"></a>Hive 钩子</h3><ul>
-<li>配置hive-site.xml</li>
-</ul>
-<p>在里面加入</p>
-<pre><code>&lt;property&gt;
-    &lt;name&gt;hive.exec.post.hooks&lt;/name&gt;
-      &lt;value&gt;org.apache.atlas.hive.hook.HiveHook&lt;/value&gt;
-  &lt;/property&gt;
-</code></pre><ul>
-<li>解压 hive-hook包</li>
-</ul>
-<p>如：<code>tar xzvf apache-atlas-2.0.0-hive-hook.tar.gz</code></p>
-<ul>
-<li>复制到atlas中</li>
-</ul>
-<p>如：<code>cp -r ../../apache-atlas-2.0.0-hive-hook/apache-atlas-hive-hook-2.0.0/hook/hive hook/</code></p>
-<ul>
-<li>配置Hive环境变量</li>
-</ul>
-<p>在<code>hive-env.sh</code>中加入<code>&#39;export HIVE_AUX_JARS_PATH=&lt;atlas package&gt;/hook/hiv</code></p>
-<ul>
-<li>给创建软链接</li>
-</ul>
-<p>像前面一样创建一个<code>atlas-application.properties</code>软链接到<code>hive/conf</code>目录下<br>如：<code>ln -s /home/zhanglun/github/apache-atlas-sources-2.0.0/distro/target/apache-atlas-2.0.0-server/apache-atlas-2.0.0/conf/atlas-application.properties /opt/apache-hive-2.3.4-bin/conf</code></p>
-<ul>
-<li>复制Hive包到Hook</li>
-</ul>
-<p><code>import-hive.sh</code>依赖<code>Hive</code>的<code>jackson</code>一些包（报<code>java.lang.NoSuchMethodError: com.fasterxml.jackson.databind.util.BeanUtil.okNameForGetter</code>错误），把Hive的依赖包复制到钩子的包目录下面<br>如：<code>cp $HIVE_HOME/lib/jackson-* ../hook/hive/atlas-hive-plugin-impl/</code></p>
-<p>现在我们尝试执行<code>hook-bin/import-hive.sh</code>(在<code>apache-atlas-2.0.0-hive-hook/apache-atlas-hive-hook-2.0.0</code>目录下）</p>
-<p><img src="/images/apache-atlas-hive-hook.png" alt="hive导入的表"></p>
-<p>现在Atlas里面有两张表，不过一张是Sqoop导入的，一张是Hive导入的，查看Hive导入的血缘关系时候我们发现，他只有自己的一张表（源表）</p>
-<p>其他Kafka和Storm的钩子比较简单我就不介绍详细过程了</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1458,7 +1301,7 @@ atlas.kafka.bootstrap.servers=localhost:9092
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">123</span>
+          <span class="site-state-item-count">124</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

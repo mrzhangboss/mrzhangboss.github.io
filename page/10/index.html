@@ -211,6 +211,128 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2017/04/04/python/爬虫分布式总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/meAndMyGirlfriend.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/04/04/python/爬虫分布式总结/" class="post-title-link" itemprop="url">爬虫分布式总结</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-04-04 16:03:55" itemprop="dateCreated datePublished" datetime="2017-04-04T16:03:55+08:00">2017-04-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:05:18" itemprop="dateModified" datetime="2021-03-09T20:05:18+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>1.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>由于最近在一家数据服务公司实习，项目需要了解分布式，所以在这里基于<code>scrapy</code>的分布式总结一下爬虫的分布式实习</p>
+</blockquote>
+<h1 id="分布式起因"><a href="#分布式起因" class="headerlink" title="分布式起因"></a>分布式起因</h1><blockquote>
+<p>单机无法完成全部工作任务所以要使用集群加速完成工作任务</p>
+</blockquote>
+<p>分布式有点像蚁群，一只蚂蚁举不起一只卡壳虫，但是几百只就能轻松的把他运回家</p>
+<p>但是分布式设计必须科学，否则就像下面一样，一个和尚挑水，其他和尚围观</p>
+<p><img src="/images/timg.jpg" alt="分工不合理，来源网络"></p>
+<h1 id="分布式设计"><a href="#分布式设计" class="headerlink" title="分布式设计"></a>分布式设计</h1><p>分布式设计原理在于<strong>分工</strong></p>
+<p>首先我们来看看爬虫怎么进行分工，单个爬虫运行根据<code>url</code>获取响应报文，然后通过解析报文返回结果或者下一次爬取目标，如果单个爬虫我们只要在内存维持一个<code>set</code>变量记住爬取过的<code>url</code>，这就是<code>scrapy</code>默认的方法。</p>
+<p>但是我们无数个爬虫由于不在同一个进程，无法共享变量，所以我们只要让一个“<code>variable</code>（变量）”能够被被所以爬虫共享到就完成了主要功能</p>
+<p>现在我们来完善具体细节<br>要求：</p>
+<ul>
+<li>爬虫能够轻松读取所以已爬取变量</li>
+<li>爬虫能够加入已读取变量</li>
+<li>爬虫能够获取下一次请求具体参数</li>
+</ul>
+<p>原则上我们可以使用内存映射来构建这个变量，但是读取，修改都不便利，所以可以先使用<code>redis</code>作为存贮变量的地方，使用<code>redis</code>提供的<code>set</code>我们替代<code>scrapy</code>框架的<code>set</code>变量。</p>
+<p>现在我们已经决定我们要使用什么容器来存贮变量，接下来我们要考虑存什么变量。</p>
+<p>我们先看<code>scrapy-redis</code>存贮了什么，分析源代码可知，<code>scrapy-redis</code>将返回的<code>Request</code>pickle话存入数据库，并且计算这个<code>Request</code>的32位hash值存入<code>redis</code>的<code>set</code>中过滤列表。</p>
+<p><code>scrapy-redis</code>通过修改<code>scrapy</code>的调度器（scheduler）让其当爬虫没有<code>Request</code>需要处理时在<code>redis</code>中提取<code>Request</code>，实现分布式。</p>
+<p>我们来分析一下这种方法，爬虫在爬取的过程中从<code>master</code>端获取<code>Request</code>，并不断生成<code>Request</code>到<code>master</code>端，<code>master</code>只是一个<code>redis</code>数据库，负责对<code>url</code>去重，分发任务。</p>
+<p>我们来比较一下直接存取<code>url</code>这种方法，这种方法好处在于，<code>slaver</code>能够从上一个<code>Request</code>中获取全部信息，假如上一个<code>Request</code>需要存取获取的表单提取地址，我们下一次爬虫发起<code>Request</code>就能从上一个<code>Request</code>中获取参数。</p>
+<p>当然由于我们存贮的是<code>Request</code>，一个<code>Request</code> <code>pickle</code>化之后的字符串比较长，当我们的任务列表里面有很多<code>Request</code>的时候，<code>redis</code>占用的内存会非常巨大。</p>
+<p>当然如果爬虫启动的够多，生成一个就能把任务被调度下去，那么这个任务列表就能稳定在一个可控的范围。</p>
+<p> <strong>总结</strong></p>
+<p>每个爬虫即负责爬取数据，又负责生成下一个任务，即无主次之分，我们可以一次性在<code>docker</code>中启动上百个实例，我们只是用<code>redis</code>充当一个存放<code>变量</code>的地方。</p>
+<p>但是这种方法也有一个缺点，我们不能自由的添加初始<code>url</code>，要想添加新的爬取任务，必须新建一个爬虫更新初始<code>url</code>，我们如果是想搭建一个自由添加<code>url</code>的爬虫，这种实现方式不大优雅。</p>
+<h1 id="分布式改良"><a href="#分布式改良" class="headerlink" title="分布式改良"></a>分布式改良</h1><p>我们要修改程序框架，达到随时可以添加要爬取新任务，然而不影响爬虫集群</p>
+<p><img src="/images/distribute_crawl.png" alt="爬虫框架"></p>
+<p>我们独立出来<code>master</code>，<code>master</code>负责生成<code>Request</code>去重以及任务调度，而<code>slaver</code>只负责从<code>master</code>获取任务爬取。</p>
+<p>这种方法我们可以很轻松对<code>master</code>改良而不影响<code>slaver</code>，通过让<code>master</code>定时从<code>数据库</code>中获取新的任务生成到任务列表，我们可以轻松添加新的任务到<code>slaver</code>集群中去。</p>
+<p>下一步我们就介绍如何修改<code>scrapy-redis</code>达到我们新框架需要</p>
+<h1 id="重构scrapy-redis"><a href="#重构scrapy-redis" class="headerlink" title="重构scrapy-redis"></a>重构<code>scrapy-redis</code></h1><p>参考：<br><a href="http://blog.csdn.net/bone_ace/article/details/50989104" target="_blank" rel="noopener">基于Redis的三种分布式爬虫策略</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2017/03/15/python/协程解决递归错误/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1478,156 +1600,6 @@ f(n) ={           1                   n= 2
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/08/21/algorithm/TDD/TDD-byexample-transform/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/meAndMyGirlfriend.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/08/21/algorithm/TDD/TDD-byexample-transform/" class="post-title-link" itemprop="url">用例子学TDD</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-08-21 09:14:18" itemprop="dateCreated datePublished" datetime="2016-08-21T09:14:18+08:00">2016-08-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:00:25" itemprop="dateModified" datetime="2021-03-09T20:00:25+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>1.7k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>2 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>翻译自<strong>TDD-byexample</strong><br>作者<strong>Kent Beck, Three Rivers Institute</strong><br>有删减</p>
-</blockquote>
-<h2 id="表现"><a href="#表现" class="headerlink" title="表现"></a>表现</h2><h3 id="测试驱动开发核心"><a href="#测试驱动开发核心" class="headerlink" title="测试驱动开发核心:"></a>测试驱动开发核心:</h3><ol>
-<li>除非你有失败的自动化测试千万不要写一行新代码</li>
-<li>拒绝重复</li>
-</ol>
-<p>这两个的简单原则构成了<code>TDD</code>的核心,但是他能规划一个复杂的项目乃至一个团队.这里有一些<code>TDD</code>的建议.</p>
-<ul>
-<li>你的项目设计不能太过全面,只要有一个模型或者相应的功能,然后你让你的测试代码测试你模型,通过反馈来完善你设计.</li>
-<li>你必须自己写测试代码,你不能依靠别人来每天帮你修改无数次测试</li>
-<li>你的开发环境必须能监控到代码的微小的变化</li>
-<li>你测试代码必须要非常简单,复杂的测试代码说明你的程序有问题</li>
-</ul>
-<p>根据核心我们总结了一种具体的测试方法:<strong>红绿重构法</strong></p>
-<pre><code>红 --- 写一段测试代码让他无法通过,有时候可以编译都通过不了
-绿 --- 写尽可能少的代码让测试代码通过,通过后保存一下系统状态
-重构 ----删掉所以重复的代码只要让测试代码还能通过
-</code></pre><p>红绿重构法是<code>TDD</code>最高作战计划,他看起来很笼统,其实他具体到了每一行代码.</p>
-<p>如果我们按照<code>TDD</code>这种开发模式,我们会有什么好处呢</p>
-<ul>
-<li>如果我们新功能出了问题,质检部门能很快的将新代码回归到上一个稳定代码,尽快避免损失</li>
-<li>如果代码的测试能将”惊喜”挖的差不多的话,项目经理能更准确的知道客户在使用过程中碰到的各种奇葩问题</li>
-<li>如果我们的测试能够让各种技术交流变得更加清晰,我们能更快的进行技术排错</li>
-<li>如果我们项目的bug更少的话,我们的项目能变得更加灵活,我们可以很轻松的添加新功能呈现给我们顾客</li>
-</ul>
-<p>这些概念看起来很简单,但是我们的动机呢?为什么我要在写代码过程添加自动测试?为什么我要每次迈小小的一步在我能够做到更多的情况下?两个字:<strong>担忧</strong></p>
-<h2 id="担忧"><a href="#担忧" class="headerlink" title="担忧"></a>担忧</h2><blockquote>
-<p>测试驱动开发是一种管理你担忧的一种编程方式,担忧也不是说就是坏东西,自信过头也不好,但是恐惧给你一种在项目开头时,”我看不到这个项目的能够完成”,这种感觉,</p>
-</blockquote>
-<p>假如说痛给你一个”停下来”的信号,担忧给你一个”要认真”的提醒信号,但是与之而来的,担忧带来一些你消极的影响</p>
-<ul>
-<li>让你变得迟疑</li>
-<li>让你开始抱怨</li>
-<li>让你开始不愿交流</li>
-<li>让你开始不想接受反馈</li>
-</ul>
-<p>这些没有一个对你编程有帮助,尤其是当你在编一个比较复杂的软件的时候,所以你怎么来面对这些呢</p>
-<ul>
-<li>抛弃迟疑,学习快速有效的编程</li>
-<li>不要拖沓,跟别人交流思路要清晰</li>
-<li>不要拒绝反馈,去寻找更多有帮助的反馈</li>
-</ul>
-<p>想象一下编程就是你提桶着水过河,当你水桶很小的时候,你轻微的震动没什么影响,但是当你的水桶很大,而且水很满的时候,你会很累,你无时无刻不在担心你的水是否会撒掉.</p>
-<p>这个时候你需要一个运水的管道,每当你用水桶打一点水,你可以把他放进管道,确保这点水安全到达对面,继续打水.</p>
-<p>这个测试驱动开发中的测试就是运水的管道,一旦你的测试通过,你就知道水已经送过去了,不需要担心水到不到对岸了,你就这样一步一步让所以的工作正常进行,但你测试失败的时候,专注于让他通过,这样下一个下一个,慢慢的我们接触到了编程难题,你的测试慢慢覆盖到整个项目.</p>
-<p><code>TDD</code>给你一种控制的能力.当年在外面开车碰到下雪,你可以迅速停车去做其他琐事,当雪停了,你可以继续开车.</p>
-<p>所以很多人说他们使用<code>TDD</code>对于项目的变化更有控制力.</p>
-<p>接下来我会用一个例子来详细的介绍<code>TDD</code>开发的流程.</p>
-<blockquote>
-<p>由于原作者是用<code>java</code>来介绍的,本人用<code>Python</code>较多,所以就用自己写的一个项目<code>sample</code>来做介绍,<a href="/2016/08/18/hookman-development-blog/">详细链接</a><br>接下来翻译一下书后面关于<code>TDD</code>的一些答疑</p>
-</blockquote>
-<h2 id="TDD答疑"><a href="#TDD答疑" class="headerlink" title="TDD答疑"></a><code>TDD</code>答疑</h2><blockquote>
-<p>我希望在这里提出一些或大或小问题帮助你思考如何将<code>TDD</code>引入到你的个人实践里面</p>
-</blockquote>
-<h3 id="你的测试步伐到底该多大"><a href="#你的测试步伐到底该多大" class="headerlink" title="你的测试步伐到底该多大?"></a>你的测试步伐到底该多大?</h3><p>这里有两个引申过来的问题</p>
-<ul>
-<li>每个测试覆盖范围该多大</li>
-<li>当你重构时到底有要迈多大步伐</li>
-</ul>
-<p>你的测试可以覆盖到你写的每一行代码和你每下一构,你的测试也可以覆盖你上百行代码和你几个小时后的重构,但是哪个才是我们该写的测试呢.</p>
-<p>从某方面来看,你应该要能做到其中一个测试,虽然<code>TDD</code>宗旨就是每一步都非常清晰,每一步伐都要求非常小,但是我们对软件驱动开发的经验会使这个步伐或多或少产生影响.</p>
-<p>当你开始重构的时候,你应该准备好将一个重构分成很多小的步伐.重构很有可能会发生错误,你把坑都踩一遍然后填上,然后你接下来重构的可能性就会小很多.一旦你完成每次用多个小步伐的一个重构,你可以试试遗漏一些步骤.</p>
-<h2 id="你需要多少反馈"><a href="#你需要多少反馈" class="headerlink" title="你需要多少反馈"></a>你需要多少反馈</h2>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1700,7 +1672,7 @@ f(n) ={           1                   n= 2
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">123</span>
+          <span class="site-state-item-count">124</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

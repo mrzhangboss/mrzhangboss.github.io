@@ -211,6 +211,121 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/01/06/summary/2018新年展望/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/meAndMyGirlfriend.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/01/06/summary/2018新年展望/" class="post-title-link" itemprop="url">新年展望</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-01-06 00:00:00" itemprop="dateCreated datePublished" datetime="2018-01-06T00:00:00+08:00">2018-01-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:15:01" itemprop="dateModified" datetime="2021-03-09T20:15:01+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/随想/" itemprop="url" rel="index">
+                    <span itemprop="name">随想</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>1.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
+<p>最近逛知乎的时候看到一篇<a href="https://www.zhihu.com/question/36149122/answer/66366304" target="_blank" rel="noopener">知乎回答</a>很有趣，也给了很深的感触，自己对于操作系统、数据库、HTTP用的都非常熟练，但是也从来没有去想怎么怎么实现或者背后深层次的原理</p>
+</blockquote>
+<p>以前刚开始学习的时候自己也看过很多关于操作系统、数据库的书，但是就像走马观花一样，很多书就是过了一遍脑子，然后就没有了，在2017年下半年自己也开始尝试把自己以前只是了解只是会用的东西拿出来咀嚼咀嚼，并在这个过程中写出一些自己觉得还是有点干货的博文。而且我也比较享受把复杂的问题简单话的过程。</p>
+<p>操作系统、计算机、数据库、编程原理在我看来都是非常复杂庞大的东西，在2018年，希望能够将上面这些复杂的东西搞的简单一点，当然在这个同时我也会将我将问题简单话的过程中分享出来。</p>
+<p>当然这些东西都太过宽泛，比如操作系统。很多人刚开始学习编程了解了操作系统概念，还有听到很多牛人都说自己写了一个操作系统都会在心里暗暗的立下一个Flag，自己也要做一个操作系统，但是很多人的热情慢慢的被无数的复杂概念慢慢磨掉，最后能坚持到做出一个完整的系统没有几个。作为一个普通人，我们没法一口吃下一个很大的“饼”，当然你如果叫爱因斯坦给你造一个原子弹，它也只能拍拍手跟你说我只能证明它能造出来。所以有效的解决问题的方法是将问题分解，或许最终我们最终造不出操作系统，但是我们对操作系统也能更深一步了解。</p>
+<h2 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h2><p>首先谈谈操作系统，其实我们对操作系统的理解大致都停留在开关机。我们要分解的问题就是我们对这个“黑盒子”的疑问</p>
+<ul>
+<li>操作系统如何管理硬件，比如说鼠标移动点击、键盘输入</li>
+<li>操作系统如何让多用户使用</li>
+<li>操作系统如何在多用户的情况下区分每个用户</li>
+<li>操作系统如何分配内存，如何限制用户的内存</li>
+<li>操作系统如何管理文件，如何避免文件被同时写入</li>
+<li>…..</li>
+</ul>
+<p>当然我这里只是列举了一些直观的问题，在解答这些问题的时候，我们会逐渐衍生出各种问题，最终我希望所有的问题都能被简单话</p>
+<h2 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h2><p>数据库我算使用的比较多了，但是对数据库背后的机制也是懵懵懂懂，只知道他能保证这些功能，比如事务的原子性、一致性、分离性、持久性。</p>
+<p>我觉得了解数据库就是要了解它是如何实现这些特性的，当然这个问题也很宽泛，我们可以尝试分解成</p>
+<ul>
+<li>数据库如何将输入复杂的查询分解成为数据库的操作</li>
+<li>数据库如何避免死锁</li>
+<li>数据对于插入删除异常如何解决</li>
+<li>…..</li>
+</ul>
+<p>其实在我看来数据库可以分解成两大块，一个是编程语音解析（SQL），一个是高效的存贮（Database）</p>
+<p>所以了解数据库也可以尝试了解编译原理，了解如何实现解析SQL，所以接下来我就不提编译原理了</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>其实想想自己的这种把复杂问题简单话就是华罗庚先生曾说的一句话：“把书由薄变厚，再把书由厚变薄”，首先我们得把这些看起来很简单的问题复杂话，最后慢慢的把这个复杂的问题简单话，这样你才能真正的把这个问题给搞懂。</p>
+<p>对于我来说，从小或许受应试教育的影响，自己只学会了复杂问题给解决，但是不懂得解决后再把复杂问题简单话，所以看起来我懂很多复杂问题，但是其实换一个场景，换一个问题就一知半解了。所以自己慢慢的开始改变自己的方法，不满足于解决问题，而着重于简化问题，希望自己的一点经验也能给后来人一点启发。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/01/05/algorithm/红黑树实现原理/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1598,136 +1713,6 @@ sudo python3.5 manage.py scan --vps
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2017/11/20/software/http/代理的前世今生/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/meAndMyGirlfriend.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/11/20/software/http/代理的前世今生/" class="post-title-link" itemprop="url">代理的前世今生</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-11-20 00:00:00" itemprop="dateCreated datePublished" datetime="2017-11-20T00:00:00+08:00">2017-11-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:08:06" itemprop="dateModified" datetime="2021-03-09T20:08:06+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/软件/" itemprop="url" rel="index">
-                    <span itemprop="name">软件</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>2.7k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>2 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
-<p>自己对代理认识不深，也只是会使用而已，由于最近想做一个代理池，于是查了很多资料，发现代理这个东西还是非常有趣的</p>
-</blockquote>
-<h2 id="代理是什么？"><a href="#代理是什么？" class="headerlink" title="代理是什么？"></a>代理是什么？</h2><p>从编程上来看，<code>requests</code>只需要在请求里面加上<code>proxies</code>参数例如<code>requests.get(&#39;http://www.baidu.com&#39;, proxies={&#39;http&#39;: &#39;127.0.0.1:3128&#39;})</code>，我们就能连上代理进行访问，由于<code>requests</code>包装了太多细节，我们无法知道用了代理和没有用代理的区别</p>
-<p>接下来我们来看一下Python3的内库是如何使用代理的</p>
-<ul>
-<li><p>首先要申请一个<code>ProxyHandler</code></p>
-<p>  from urllib import request<br>  proxy = request.ProxyHandler({‘http’: ‘127.0.0.1:3128’})</p>
-</li>
-</ul>
-<p>然后我们通过这个<code>proxy</code>创建一个<code>opener</code>，然后用<code>opener</code>打开页面，最后输出结果。</p>
-<pre><code>opener = request.build_opener(proxy)
-resp = opener.open(&apos;http://www.baidu.com&apos;)
-print(resp.read())
-</code></pre><p>然后我们看一下如果没有使用代理的请求是什么</p>
-<pre><code>resp = request.urlopen(&apos;http://www.baidu.com&apos;)
-print(resp.read())
-</code></pre><p>你可以很清楚的看到，如果我们不需要代理，之前打开<code>url</code>就行，也就是说我们的请求，其实全部发给代理，交给代理了</p>
-<p>这里就稍稍谈点感想了，以前经常在书上看到人歌颂互联网的伟大，但是自己一直不明白这个伟大在哪，以前一直从表象感受互联网，有了互联网，不用打开电视就可以看影片，不用去图书馆就可以看书，感觉互联网神奇的地方就是给自己带来方便，但是没有去互联网本身的架构的伟大，通过一根根网线交换器，无数主机“连”在了一起，构成了宏大的互联网，或许你通过浏览器打开的网站主机离你几百公里，但是你不要做飞机轮船，你直接在家里就能通过层层代理传递你的请求将千里之外的“敌将首级” 探入囊中。</p>
-<p>互联网神奇的地方就是看起来各个部分非常分散，但是他们却能通过一根一根线紧密的联系起来，只有有“距离”的时候你才能感受到他的美丽</p>
-<p>以前刚学习网站的时候，在本地调试的时候，你在本地跑一个web，直接打开浏览器访问，这时候我就有一种错觉，web就是两端，客户端和服务器端，在本地调试可以这样理解，但是一旦拿到互联网，这就是不完整的，完整的应该是客户端-代理端-服务器端，当然我们的代理端有时候可能是网关、路由器、交换机等等。</p>
-<p>了解这些有什么用呢，因为我自己以前一直对代理没有什么很深理解，用爬虫的时候使用代理就不会被封IP，感觉代理是很BUG的东西，但其实代理很普通，而且无处不在，我们要想真正理解代理，就必须把它拖下圣坛。</p>
-<h2 id="代理其实很普通"><a href="#代理其实很普通" class="headerlink" title="代理其实很普通"></a>代理其实很普通</h2><p>前面我们知道代理其实很普通，但是要深入了解代理必须要先了解IP，IP是什么呢，IP就是互联网的身份证，要想在互联网上“混”，必须要有“身份”</p>
-<p>那为什么我们要用代理呢，比如说假如你是未满18岁的小朋友，你想要买上网，你必须要借一张大人的身份证去上网，这个时候代理的作用就是帮用它的身份证帮你干事。</p>
-<p>我觉得中国文化博大精深，其实一听代理这个词，我们就能知道代理是干什么用的。其实把代理吹得神乎其神没什么用，那些作用都是它的他自己瞎几把搞的，从我们客户端来看，<strong>代理就是服务端</strong>，了解这点非常重要，因为他能让我们把所以的事情都简化，而且从客户端来看，代理就是这样的</p>
-<h2 id="客户端、代理、-服务器三者之间的关系"><a href="#客户端、代理、-服务器三者之间的关系" class="headerlink" title="客户端、代理、 服务器三者之间的关系"></a>客户端、代理、 服务器三者之间的关系</h2><p>前面我们已经谈了客户端和代理之间的关系，对于客户端来说，代理就是服务器端，我们啥都不管，把请求发给代理，相信它就是我们请求的服务器</p>
-<p>对于代理来说，其实它自己最清楚，自己就是个代理，它必须要把请求转发给服务器，然后在把服务器的响应发给客户端，代理就是一个中介人，有的时候我们也可以把它看做一个双向中继，把请求传递一下，再传回来，所以在这三者之间，只有代理是个明白人，它必须清楚这次任务所以细节，所以有时候虽然说代理是安全的，但其实它也不安全，只要把代理攻克了就能了解到底是哪个家伙干的坏事，所以网上干坏事的人，一般都用很多个代理，层层代理，就算你攻克了一个，也找不到坏人</p>
-<p>对于服务器来说，代理就是客户端，它只负责响应就行，对于代理和客户端来说都是一样的策略。但是时候很奇怪，服务器为什么知道你是个代理，原来全是代理自己的锅，我们细谈一下代理的分类</p>
-<h3 id="代理的分类"><a href="#代理的分类" class="headerlink" title="代理的分类"></a>代理的分类</h3><p>代理也分很多种，有的时候代理也不老实，把客户信息暴露了，这个时候我们就说它是小透明（透明代理），有的时候它不告诉你客户信息，但是告诉服务器我是个代理，我们就说它是匿名代理，但是有时候它连它自己是啥都不告诉你，它伪装成它是客户端，这个时候我们称它为高匿代理，所以这些代理根据暴露信息的不同可以分为这三种</p>
-<ul>
-<li>透明代理</li>
-<li>匿名代理</li>
-<li>高匿代理</li>
-</ul>
-<p>当然我们最喜欢高匿代理，你可以把它当做你的分身，除了身份证不一样，两个人长得一模一样。</p>
-<p>所以我们判断一个代理的类别，必须要检测它向服务器发的报文，所以在我项目<code>FastProxyScan</code>，我搭建了一个服务器，返回客户端向服务器请求头，主要是<code>HTTP_X_FORWARDED_FOR</code>和<code>HTTP_VIA</code>头来分别暴露客户端信息和代理端信息，所以我们只要请求头检测有没有这两个字段就可以完成检测，原理非常简单</p>
-<p>在这里我介绍用Nginx高效返回检测信息</p>
-<pre><code>  location ~ ^/ip {
-      default_type application/json;
-      return 200 &apos;{&quot;REMOTE_ADDR&quot;:&quot;$remote_addr&quot;,&quot;HTTP_VIA&quot;:&quot;$http_via&quot;, &quot;HTTP_X_FORWARDED_FOR&quot;: &quot;$http_x_forwarded_for&quot;}&apos;;
-}
-</code></pre><p>在Nginx配置里面加上这个端口，我们只有请求<code>/ip</code>，就能直接从Nginx返回请求头信息，速度贼快</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>当然网上还有很多对代理的分类，缓存代理，正向代理，反向代理，但是这些都是代理自己的额外功能，我们前面介绍的代理都是傻呼呼，客户端要什么，它就做什么，这些如缓存代理高级的代理就是很聪明，它的目的就是最快返回客户端需求，比如说虽然说这个傻客户端傻乎乎一个请求请求了几十遍还没记住，代理自己拿个小本子记好，你下次来，正好对上号，直接抄给你，不用再跑几千里去拿了。但是其实本质上它还是逃不出上面的分类，只不过它有的自己的不同罢了。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1800,7 +1785,7 @@ print(resp.read())
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">123</span>
+          <span class="site-state-item-count">124</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
