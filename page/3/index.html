@@ -211,6 +211,199 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/04/05/java/mysql/GroupByAsSort/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/meAndMyGirlfriend.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/04/05/java/mysql/GroupByAsSort/" class="post-title-link" itemprop="url">MySQL Group By 还可以用来去重</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-04-05 10:29:00 / 修改时间：11:43:41" itemprop="dateCreated datePublished" datetime="2021-04-05T10:29:00+08:00">2021-04-05</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>5.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>最近在接手老项目的时候，看到一个SQL： <code>select * from xx group by id</code>，<br>当时一看到这句就感觉，这个group by是不是多余的，既然select 全部了，那去掉其实也无所谓，<br>然后询问上一个接手的同事才知道这个是用来去重了，好家伙，以前一直用来分组统计的语句竟然可以用来<br>去重，涨知识了</p>
+</blockquote>
+<h2 id="Group-By-到底可不可以去重呢"><a href="#Group-By-到底可不可以去重呢" class="headerlink" title="Group By 到底可不可以去重呢"></a>Group By 到底可不可以去重呢</h2><p>首先我们新建一个测试表，并插入一些测试数据</p>
+<pre><code>CREATE TABLE test.student (
+  `sno` varchar(20) NOT NULL,
+  `sname` varchar(20) DEFAULT NULL,
+  `ssex` varchar(20) DEFAULT NULL,
+  `sage` int(11) DEFAULT NULL,
+  `sdept` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`sno`)
+);
+INSERT INTO test.student (sno, sname, ssex, sage, sdept) VALUES (&apos;201215121&apos;, &apos;李勇&apos;, &apos;男&apos;, 20, &apos;CS&apos;);
+INSERT INTO test.student (sno, sname, ssex, sage, sdept) VALUES (&apos;201215122&apos;, &apos;刘晨&apos;, &apos;女&apos;, 19, &apos;CS&apos;);
+INSERT INTO test.student (sno, sname, ssex, sage, sdept) VALUES (&apos;201215123&apos;, &apos;王敏&apos;, &apos;女&apos;, 18, &apos;MA&apos;);
+INSERT INTO test.student (sno, sname, ssex, sage, sdept) VALUES (&apos;201215124&apos;, &apos;张立&apos;, &apos;男&apos;, 19, &apos;IS&apos;);
+INSERT INTO test.student (sno, sname, ssex, sage, sdept) VALUES (&apos;201215125&apos;, &apos;张立&apos;, &apos;男&apos;, 19, &apos;IS&apos;);
+</code></pre><p>然后我们测试一些是否可以去重</p>
+<pre><code>mysql&gt; SELECT * from test.student GROUP BY ssex ;
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column &apos;test.student.sno&apos; which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+</code></pre><p>哎呀出错了，意思是不支持，因为我们<code>sql_mode</code> 设置了<code>only_full_group_by</code>这个，我们来看看我们<code>sql_mode</code>里面有啥</p>
+<pre><code>mysql&gt; SELECT @@SESSION.sql_mode \G;
+*************************** 1. row ***************************
+@@SESSION.sql_mode: ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
+1 row in set (0.00 sec)
+</code></pre><p>的确我们<code>sql_mode</code>是设置了<code>ONLY_FULL_GROUP_BY</code>这个值，这个<code>sql_mode</code>是啥呢，首先我们知道<br>MySQL只是SQL一种实现软件，他为了和其他SQL兼容，就设置了这个变量，你可以通过<br>修改这个值来修改他的语法支持</p>
+<p>其实<code>group by</code>本来的意图就是一个聚合函数，正常来说，我们一般是使用下面的语法</p>
+<pre><code>select a, count(*) from xxx group by a
+</code></pre><p>但是<code>MySQL</code>非常开放，它允许你使用非group by 字段，在5.7之前都是默认允许的，但是5.7之后，它默认关闭了<br>但是你可以修改关闭</p>
+<p>接下来我们临时关闭掉这个，怎么关闭呢，非常简单，把<code>ONLY_FULL_GROUP_BY</code>在<code>sql_mode</code> 删除就好了<br>接下面执行下面语句</p>
+<pre><code>set sql_mode =(SELECT replace(@@SESSION.sql_mode, &apos;ONLY_FULL_GROUP_BY,&apos;, &apos;&apos;));
+</code></pre><p>然后我们再执行上面<code>sql</code></p>
+<pre><code>mysql&gt; SELECT * from test.student GROUP BY ssex ;
++-----------+--------+------+------+-------+
+| sno       | sname  | ssex | sage | sdept |
++-----------+--------+------+------+-------+
+| 201215122 | 刘晨   | 女   |   19 | CS    |
+| 201215121 | 李勇   | 男   |   20 | CS    |
++-----------+--------+------+------+-------+
+2 rows in set (0.00 sec)
+</code></pre><p>o了，我们再看看我们目前的<code>sql_mode</code></p>
+<pre><code>mysql&gt; SELECT @@SESSION.sql_mode;
++------------------------------------------------------------------------------------------------------------------------+
+| @@SESSION.sql_mode                                                                                                     |
++------------------------------------------------------------------------------------------------------------------------+
+| STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION |
++------------------------------------------------------------------------------------------------------------------------+
+</code></pre><p>的确目前看到<code>ONLY_FULL_GROUP_BY</code>这个了，而且我们发现的确去重了</p>
+<h2 id="Distinct和Group-By"><a href="#Distinct和Group-By" class="headerlink" title="Distinct和Group By"></a>Distinct和Group By</h2><p>通过上面的实验我们知道了，<code>Group By</code>的确可以去重，但是我们去重一般使用<code>Distinct</code>来，<br><code>Distinct</code>原理很简单</p>
+<p>我们执行下面语句</p>
+<pre><code>mysql&gt; explain SELECT distinct ssex from test.student ;
++----+-------------+---------+------------+------+---------------+------+---------+------+------+----------+-----------------+
+| id | select_type | table   | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra           |
++----+-------------+---------+------------+------+---------------+------+---------+------+------+----------+-----------------+
+|  1 | SIMPLE      | student | NULL       | ALL  | NULL          | NULL | NULL    | NULL |    5 |   100.00 | Using temporary |
++----+-------------+---------+------------+------+---------------+------+---------+------+------+----------+-----------------+
+</code></pre><p>我们可以看到<code>Using temporary</code>告诉我们，就是创建一个临时表，然后把<br><code>Distinct</code>的字段从表里取出来，然后返回给客户端就好了</p>
+<p>我们看看<code>Group By</code>的原理</p>
+<pre><code>mysql&gt; explain SELECT * from test.student GROUP BY ssex ;
++----+-------------+---------+------------+------+---------------+------+---------+------+------+----------+---------------------------------+
+| id | select_type | table   | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra                           |
++----+-------------+---------+------------+------+---------------+------+---------+------+------+----------+---------------------------------+
+|  1 | SIMPLE      | student | NULL       | ALL  | NULL          | NULL | NULL    | NULL |    5 |   100.00 | Using temporary; Using filesort |
++----+-------------+---------+------------+------+---------------+------+---------+------+------+----------+---------------------------------+
+</code></pre><p>我们也看到了<code>Using temporary;</code>，其实<code>Group By</code>底层也是用到临时表，把你<code>Group By</code>的值当<br>做主键，而且我们看到默认它会取第一个出现的值作为最终的值<br>这个是为什么呢</p>
+<h2 id="Group-By-原理解析"><a href="#Group-By-原理解析" class="headerlink" title="Group By 原理解析"></a>Group By 原理解析</h2><p>我们前面知道，<code>Group By</code> 一开始只是用来做聚合函数的，所以底层上最开始设计的时候就是</p>
+<ul>
+<li>首先建一张临时表，把<code>Group By</code>字段作为唯一主键（下面称作key）</li>
+<li>然后把原始表中所有数据按照key进行分组</li>
+<li>对分组内数据一个一个进行聚合，比如执行<code>count</code>, <code>avg</code> 等等函数，最后每组跟随主键key产生最终的一列值</li>
+<li>最后对临时表进行排序返回</li>
+</ul>
+<p>所以其实当时为了支持，不在主键内的值，MySQL只是简单的把组内第一个出现值赋值进去</p>
+<p>那为什么不把最后组内最后一个值赋值进去呢，首先是如果实现这个功能，想当于组内数据要全部执行一遍，<br>效率太低了，那有没有办法能实现去重的时候取组内最后一个呢</p>
+<p>首先说目前是不支持的，不过能通过下面两种方式来实现</p>
+<p><strong>方法一：</strong></p>
+<p>首先把你想要的数据进行排序</p>
+<pre><code>create temporary table test.tt as SELECT * from test.student order by sno desc;
+</code></pre><p>然后我们看正常来按照年龄排序</p>
+<pre><code>mysql&gt; SELECT * from test.student GROUP BY sage;
++-----------+--------+------+------+-------+
+| sno       | sname  | ssex | sage | sdept |
++-----------+--------+------+------+-------+
+| 201215123 | 王敏   | 女   |   18 | MA    |
+| 201215122 | 刘晨   | 女   |   19 | CS    |
+| 201215121 | 李勇   | 男   |   20 | CS    |
++-----------+--------+------+------+-------+
+3 rows in set (0.00 sec)
+</code></pre><p>接下来我们再看看我们去重取最后一个出现的，我们看到<code>19</code>的<code>张立</code>取代了第一个出现的<code>刘晨</code></p>
+<pre><code>mysql&gt; SELECT * from test.tt GROUP BY sage;
++-----------+--------+------+------+-------+
+| sno       | sname  | ssex | sage | sdept |
++-----------+--------+------+------+-------+
+| 201215123 | 王敏   | 女   |   18 | MA    |
+| 201215125 | 张立   | 男   |   19 | IS    |
+| 201215121 | 李勇   | 男   |   20 | CS    |
++-----------+--------+------+------+-------+
+3 rows in set (0.00 sec)
+</code></pre><p><strong>方法二：</strong></p>
+<p>第二种方法其实把上面两个步骤合成一个，首先我们把原始数据进行排序，然后取出组内第一个</p>
+<pre><code>select sno, sname, sage, sdept
+from (SELECT @i := if(@sage &lt;&gt; sage, 0, @i + 1) as i, @sage := sage, a.*
+from (select * from test.student order by sage, sno desc) a) a
+where i = 0
+order by sage;
+</code></pre><p>我们用上面这行函数模仿了，<code>Group By</code>去重，我们可以看到我们在末尾加了一个<code>order by sage</code><br>语句，这是因为默认<code>Group By</code>会按照<code>Group By</code>的键值给我们排序，<br>所以如果你想优化<code>Group By</code>性能，当你对组排序顺序无所谓的时候，你可以在<br><code>Group By</code> 末尾加上<code>order by null</code>关闭排序功能</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><code>Group By</code>去重功能在<code>5.7</code>之后就默认关闭了，所以其实大家用来做去重还是慎用，不过通过这个功能去探索<br>底层原理对你数据库性能优化还是非常有帮助的</p>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ul>
+<li><a href="https://blog.csdn.net/Dax1n/article/details/86581472" title="MySQL中的Group By是否允许SELECT非聚合列的总结" target="_blank" rel="noopener">MySQL中的Group By是否允许SELECT非聚合列的总结</a></li>
+<li><a href="https://dev.mysql.com/doc/refman/5.7/en/sql-mode.html#sqlmode_only_full_group_by" title="mysql5.7文档" target="_blank" rel="noopener">mysql5.7官方文档</a></li>
+<li><a href="https://www.itzhai.com/articles/how-sql-works-understand-the-essence-of-tuning-by-the-execution-principle.html" title="SQL运行内幕：从执行原理看调优的本质" target="_blank" rel="noopener">SQL运行内幕：从执行原理看调优的本质</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/04/04/summary/stage/how2writewell/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1156,106 +1349,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/01/07/java/springboot/浅析Spring/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/meAndMyGirlfriend.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/01/07/java/springboot/浅析Spring/" class="post-title-link" itemprop="url">浅析Spring</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-01-07 00:00:00" itemprop="dateCreated datePublished" datetime="2021-01-07T00:00:00+08:00">2021-01-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:10:03" itemprop="dateModified" datetime="2021-03-09T20:10:03+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index">
-                    <span itemprop="name">Java</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>1.2k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>Spring核心就是IoC（依赖注入）AoP（面向切面）本篇就基于一个开源项目 tiny-spring 来分析Spring框架到底给我们提供了什么东西</p>
-</blockquote>
-<p>依赖注入是什么呢，说起来非常简单就是系统帮你把依赖组装好，我们来举个简单例子</p>
-<pre><code>class People { Hand hand;};
-</code></pre><p>上面是一个非常简单的类，Spring把这个类叫做Bean，这个People 的 Bean 依赖一个Hand的类，我们来看一下这个Hand类</p>
-<pre><code>class Hand { Finger finger; int num};
-</code></pre><p>  上面的Hand又依赖一个Finger类，而且提供了一个属性：手的num（数目），假如你要使用这个People类，你得新建3个类，而且得把代码写死，而Spring就是通过xml或者注解来帮你把这些类自动创建，所以才叫依赖注入，其实原理也非常简单</p>
-<p>为啥要提供这个功能呢，因为我们希望通过配置这些xml就能实现不同的xml来实现不同的功能类，而不用修改代码重新编译，你可以理解为就是代码是高度松耦合，我们可以提供很多相同接口的组件给用户用，用户用的时候只需要修改配置文件就能实现灵活组合不同模块的功能</p>
-<p>我们知道对于一个HTTP服务器，我们希望调用这个接口方法之前能对用户发的东西做一个核验，就像拦截器一样，但是Java里面怎么实现呢，就是调用一个方法之前调用一个特定方法，我们有两种方法，第一种就是定死类名，在调用所有方法之前就调用这个东西，第二张就是重新继承这个方法，在调用父方法之前或者之后在调用我们想调用的方法</p>
-<p>显然第一种太蠢了，我们得先判断这个方法不存在，第二种可以使用Java Proxy类来实现（当然有局限只能是接口，可以用动态生成的类比如Cglib来做），我们而且可以把那个想注入的方法也看作一个特殊的bean（默认在普通的bean之前就做好），这样最终我们把普通的bean使用IoC容器给初始化，然后在用代理类把这个bean继承出来</p>
-<p>这样我们就实现了一个高度控制的类方法，而Spring最主要就是要组装一个Servlet类来处理不同路径下面的请求，网络处理那些事情都交给Tomcat来处理了，所以其实Spring的职责也很简单，就是组装，最后根据组装模块来响应Tomcat发过来的request，返回一个response,因为Spring需要生成很多类，而且假如你使用为了支持注解，Spring还得使用反射来获取所有类的注解，反射速度也是非常慢的，所有Spring启动一般需要一点时间，甚至比其他框架比如Python还要慢，不过这些类的生成都是一次性的（不是单例除外），生成完之后就可以直接使用这些生成好的类的方法来响应Tomcat请求了</p>
-<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><p><a href="https://github.com/code4craft/tiny-spring/blob/master/changelog.md" target="_blank" rel="noopener">https://github.com/code4craft/tiny-spring/blob/master/changelog.md</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1328,7 +1421,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">124</span>
+          <span class="site-state-item-count">125</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1408,7 +1501,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:05</span>
+    <span title="站点阅读时长">4:06</span>
 </div>
 
         
