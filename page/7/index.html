@@ -211,6 +211,293 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/05/28/java/springboot/从例子里解SpringIOC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/05/28/java/springboot/从例子里解SpringIOC/" class="post-title-link" itemprop="url">从例子里解Spring IOC</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-05-28 00:00:00" itemprop="dateCreated datePublished" datetime="2018-05-28T00:00:00+08:00">2018-05-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:10:03" itemprop="dateModified" datetime="2021-03-09T20:10:03+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>5.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Spring的IOC理解"><a href="#Spring的IOC理解" class="headerlink" title="Spring的IOC理解"></a>Spring的IOC理解</h2><h2 id="什么是IOC"><a href="#什么是IOC" class="headerlink" title="什么是IOC"></a>什么是IOC</h2><p>在这里我们不谈Spring的基础知识,我们知道谈到Spring就会谈到IOC,这个IOC是什么呢,中文名叫控制反转，这个东西是伴随着一些编程思想出现,其实同Java的本身也有关</p>
+<p>就好比我熟悉的Python就是一个鸭子语言,你可以随便把一个值丢掉函数里面去,只要他满足一些特性就能正常运行,但是Java是一种强类型语言,你函数给什么参数,必须传什么参数</p>
+<p>这里就不讨论两张语言的设计优劣呢,Java这种特性也做了一些妥协,我们肯定得为语言的扩展性做点事,谁也不知道未来会发生什么,Java里面使用多态来实现这种扩展,只要他是函数参数的家族成员,他就能上去运行</p>
+<p>这个多态是实现IOC的基础,但是造成他出现的原因是因为设计模式里面的单一职责原则,这个要求我们类功能要单一,我们这里给一个例子来说明这个问题</p>
+<pre><code>class Car {
+    void run() {
+        System.out.println(&quot;Car running...&quot;);
+    }
+}
+</code></pre><p>首先我们有一个<code>Car</code>的类,一开始我们只让他有<code>run</code>这个属性,很好,接下来我们想知道是谁驾驶这辆车,于是我们便给这个类加一个字段<code>driver</code></p>
+<pre><code>public class Car {
+    String driver;
+    public Car(String driver) {
+        this.driver = driver;
+    }
+    void run() {
+        System.out.println(&quot;Driver :&quot; + driver);
+        System.out.println(&quot;Car running...&quot;);
+    }
+}
+</code></pre><p>很好我们知道驾驶这辆车的人,接着我们又想知道这个驾驶人的驾龄,如果我们继续给<code>Car</code>加入字段,这样我们就违背了<code>单一职责原则</code>,<code>Car</code>类不但承担了车的功能还承担了人的功能</p>
+<p>于是我们就把驾驶人隔离出来</p>
+<pre><code>class Driver{
+    String name;
+    String age;
+    public Driver(String name, String age) {
+        this.name = name;
+        this.age = age;
+    }
+}
+
+
+class Car {
+    Driver driver;
+    public Car(Driver driver) {
+        this.driver = driver;
+    }
+    void run() {
+        System.out.println(&quot;Driver age:&quot; + driver.age + &quot;name: &quot; + driver.name);
+        System.out.println(&quot;Car running...&quot;);
+    }
+}
+</code></pre><p>我们重新将类分成两个类来实现了这个问题,但是这个时候又来了一个问题,我们有一个飞行员的也想驾驶这辆车,但是这辆车只能司机来驾驶,但是飞行员和司机开车的动作步骤是一样的,为了复用<code>run</code>这个函数,你开始揪起了你的头发.</p>
+<p>你想呀想突然想到,Java的多态,假如我们声明一个<code>IDriver</code>的接口,让飞行员和司机都继承这个类这样我们只要给车一个<code>IDriver</code>对象就能复用<code>run</code>函数</p>
+<pre><code>//IDriver.java
+public interface IDriver{
+    String getName();
+    void setName(String name);
+    int getAge();
+    void setAge(int age);
+}
+
+// Driver.java
+public class Driver implements IDriver{
+    String name;
+    int age;
+
+
+    @Override
+    public String getName() {
+        return this.name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public int getAge() {
+        return this.age;
+    }
+
+    @Override
+    public void setAge(int age) {
+        this.age = age;
+    }
+}
+
+
+
+// Aviator.java
+public class Aviator implements IDriver{
+    String name;
+    int age;
+
+
+    @Override
+    public String getName() {
+        return null;
+    }
+
+    @Override
+    public void setName(String name) {
+
+    }
+
+    @Override
+    public int getAge() {
+        return 0;
+    }
+
+    @Override
+    public void setAge(int age) {
+
+    }
+}
+
+
+//Car.java
+public class Car {
+    private IDriver driver;
+
+    public void setDriver(IDriver driver) {
+        this.driver = driver;
+    }
+
+    void run() {
+        System.out.println(&quot;Driver age: &quot; + driver.getAge() + &quot; name: &quot; + driver.getName());
+        System.out.println(&quot;Car running...&quot;);
+    }
+}
+</code></pre><p>我们重构代码把<code>Driver</code>抽象为接口,然后让司机和飞行员都继承它,这样不管我们再添加什么其他的人就能适配这辆车.这个就是依赖倒置(DI)的思想</p>
+<p>网上大部分教程就停留到这里了,这里我们继续探索下去,看看Spring是如何让这个DI更加简单的</p>
+<p>首先我们反思一下,我们使用接口参数让我们的代码符合了设计模式,但是也带来了一些繁琐,我们来用代码”开”这辆车</p>
+<pre><code>IDriver driver = new Driver();
+driver.setName(&quot;allen&quot;);
+driver.setAge(18);
+Car car = new Car();
+car.setDriver(driver);
+car.run();
+</code></pre><p><strong>PS：当然可以把赋值放到构造器中减少代码，但是由于<code>Bean</code>依赖方法接口来赋值，所以为了后面讲解<code>Bean</code>这里就不采用构造器来减少代码</strong></p>
+<p>代码有2行变成了6行，而且我们发现这个代码现在带来两个问题：</p>
+<ol>
+<li>每次运行都得创建一个实现<code>IDriver</code>的对象</li>
+<li>每次我们想换人开车的时候都得修改源代码</li>
+</ol>
+<p>而且这些工作都很繁琐，作为一个偷懒的程序员，我可不想给每个用户都重新写一套代码，我们的想法很简单，我们希望这个<code>Car</code>能够开箱即用，其实前面我们已经实现了控制反转了，现在就是要解决控制反转带来的“负面影响”</p>
+<p>而且我们发现了一个问题，假如我们把上面函数放到一个代码里面，每次我们“开车”都得创建一个司机，然而我们还是相信“老司机”的手艺，所以我们也希望是否能够”记住“司机，只让一个老司机开车</p>
+<p>接下来就是隆重介绍<code>Spring</code>的<code>Bean</code>的用法了，前面我们知道我们需要某种机制来去除”IOC“的弊端，我们把每个<code>Car</code>当做一个对象，其实我们需要一个配置文件来记录<code>IDriver</code>这些依赖对象，对象的其实在Java里面表现就是一棵树，所以通俗来讲我们需一个”树结构“数据来存贮依赖关系</p>
+<p>我们程序在运行的时候解析这个树结构，然后依次给对象注入你想给他实例话的对象（比如你把”IDriver“设置为飞行员），这样的话，我们把依赖关系成功放到了配置文件中</p>
+<p>这样带来两个好处：</p>
+<ol>
+<li>想给不同用户使用软件时候，源代码不需要改变，只要给他们不同的配置文件就行</li>
+<li>我们可以保存依赖实现”老司机“的复用</li>
+</ol>
+<p>所以现在我们理理思路，我们需要的有两个东西</p>
+<ol>
+<li>配置文件</li>
+<li>一个加载配置文件并保存依赖的对象</li>
+</ol>
+<p>在<code>Spring</code>的<code>Bean</code>中这两个分别对应<code>xml文件</code>和实现<code>ResourceLoader</code>接口对象（有多种实现）</p>
+<p>为了更好的理解<code>Bean</code>，接下来我们就从代码出发来测试这个<code>Bean</code></p>
+<h2 id="最简单的实现"><a href="#最简单的实现" class="headerlink" title="最简单的实现"></a>最简单的实现</h2><p>首先我们新建一个<code>Spring</code>项目，无论你是用<code>IntelliJ</code>还是<code>Eslipse</code>都没关系，只能你能引用到<code>Spring</code>库就行，我们复用前面的代码，看看使用<code>Spring</code> <code>Bean</code>来如何解决掉IOC的”副作用“</p>
+<p>我们把前面的类分别放到同一路径不同的文件夹中，接下来我们先创建一个<code>xml</code>文件，什么名字不重要，我们这里先命名为<code>driver.xml</code></p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+       xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;
+
+
+    &lt;bean id=&quot;car&quot; class=&quot;Car&quot;&gt;
+        &lt;property name=&quot;driver&quot;&gt;
+            &lt;bean class=&quot;Driver&quot;&gt;
+                &lt;property name=&quot;name&quot; value=&quot;Allen&quot;&gt;&lt;/property&gt;
+                &lt;property name=&quot;age&quot; value=&quot;18&quot;&gt;&lt;/property&gt;
+            &lt;/bean&gt;
+        &lt;/property&gt;
+
+    &lt;/bean&gt;
+&lt;/beans&gt;
+</code></pre><p>写入这些东西，接下来我们看看是否能够通过这个<code>xml</code>文件来直接得到一个配置好司机<code>Allen</code>的车</p>
+<p>随便新建一个类在上面的路径中,我们这里就新建一个<code>Main</code>吧</p>
+<pre><code>import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+
+public class Main {
+    public static void main(String[] args) {
+        ApplicationContext context = new ClassPathXmlApplicationContext(&quot;driver.xml&quot;);
+        Car car  = context.getBean(&quot;car&quot;, Car.class);
+        car.run();
+
+    }
+}
+</code></pre><p>输出为</p>
+<pre><code>Driver age:18 name: Allen
+Car running...
+</code></pre><p>我们成功通过一个<code>xml</code>配置文件和一个<code>ApplicationContext</code>对象实现了一个即开即走的车，而且假如我们想换个司机，我们可以修改配置文件把<code>class</code>换成“飞行员”，而且我们可以发现我们得到的司机都是一样的，验证方法很简单，我就不写代码了，假如我们想换司机怎么办，简单在<code>bean</code>里面加上<code>scope=“prototype”</code>就行（默认值为<code>singleton</code>）</p>
+<p>接下来我们又有一个疑问，假如我们有一辆特别宝马车，我们希望只有某一种加上员能能开（假设只有飞行员），也就是是说，我们其实即不想放弃IOC，但是又不想将这个配置写到<code>Bean</code>里面去，有办法能够解决吗？</p>
+<p>当然有，<code>Spring</code>2.5就支持注解来写<code>Bean</code>配置，对于一些固定的类，我们可以把依赖关系用代码写到类中，这样一方面能够保证<code>IOC</code>，一方面又能实现<code>Bean xml</code>文件瘦身</p>
+<p>由于<code>Spring</code>默认不会去扫描注解，所以有三种方式，第一种是在<code>xml</code>里面用加上一个</p>
+<pre><code>&lt;context:component-scan base-package=&quot;....&quot;&gt;&lt;/context:component-scan&gt;
+</code></pre><p>第二种是使用<code>AnnotationConfigApplicationContext</code>来对象来进行扫描，第三种就是<code>SpringApplication</code>来运行<code>Spring</code>程序自动扫描</p>
+<p>这三种方式假如你最后要做一个<code>web</code>程序的话，第三种是非常方便的，这里我们就不谈怎么使用注解来代替<code>xml</code>文件了，本质上是一样的，其实在我没有理解<code>Bean</code>的强大之前，我比较推崇使用注解来写<code>Bean</code>，但是随着对<code>Bean</code>的探索，我发现<code>xml</code>文件才是最佳选择，他将程序依赖与代码分离开来，假如我们还想用程序依赖写在代码里面，那就违背了<code>Bean</code>的设计初衷</p>
+<p>如果你想了解怎么使用注解可以阅读这篇<a href="https://blog.csdn.net/sinat_34596644/article/details/53080026" target="_blank" rel="noopener">博客</a></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>至此，我们从问题的出现到问题的解决探索了IOC背后的故事，但是你可能会有一个疑问，为什么<code>Spring</code>里面会有<code>IOC</code>问题。</p>
+<p>其实这个也跟<code>Web</code>的发展有关，我们知道从Web的发展，一开始是没有前端的，只有后端，慢慢的后端分离出来前端，Web端页面也被分离出视图层和数据层，随着逐渐分离，也就出现我们前面举到的例子，类越来越多，比如视图层依赖数据层，数据层依赖控制层…..</p>
+<p>这种层层依赖的问题延生出来的IOC的提出，也就慢慢的促进了<code>Bean</code>这个库的开发，也正是因为<code>Bean</code>我们才能享受静态强类型语言的低耦合的酸爽。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/04/24/ai/从MNIST了解卷积神经网络/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1208,100 +1495,6 @@ ts.ts_ss0 = GD_KD;
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/01/31/algorithm/mit6_828/内存分页/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/01/31/algorithm/mit6_828/内存分页/" class="post-title-link" itemprop="url">内存分页</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-01-31 00:00:00" itemprop="dateCreated datePublished" datetime="2018-01-31T00:00:00+08:00">2018-01-31</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>731</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本来自己查了很多资料，想自己写出来，结果下笔的时候发现别人已经把我想写的部分全部写出来了，而且比我想的还要具体，所以我就不写了，把链接放出了，顺便我补充一些</p>
-<p><a href="http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan/" target="_blank" rel="noopener">http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan/</a></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>由于内存分页在后面的lab2中也会设计，而且给出的资料写的非常详细，所以我就不多提了。这里提一下为了更好的理解什么内存分页的段选择子与CS的关系，我写了一篇<a href="/2018/01/30/从CS寄存器看段的前世今生/">关于CS寄存器的发展史</a></p>
-<p>最后我提一下<code>kern/entrypgdir.c</code>手写的内存分页表</p>
-<p>第一个<code>entry_pgdir</code>是页目录，第二个<code>entry_pgtable</code>页表，而且注意<code>entry_pgtable</code>是代表0-4M物理内存可写可读的真实内存地址</p>
-<p>前面知道了目录和页表的作用，在现实系统中，一个目录下有1024个页表，但是这只有一个页表，而且它代表从0-4M连续的内存空间</p>
-<p>PS：后面12位是权限位，只看前三位，可以知道是从（000-3ff）的高20位物理地址，由于我们声明了<code>__attribute__((__aligned__(PGSIZE)))</code>（地址4K对齐，其实意思是它真实物理地址后12位一定全部为0），所以直接取<code>(uintptr_t)entry_pgtable</code>地址就是页表地址，虽然后面加上权限位<code>PTE_P + PTE_W</code>，但是在寻找真实地址时都会屏蔽（只取前20位如），当初想了很久感觉取不到页表的真实地址，还以为有什么神奇的编译设定，后面查了很久资料才明白，所以这里提个醒后面我们会在lab2中正式接触内存分页技术，这里只是相当于设定了一个“常数”，后面会将器扩展变成“函数”。</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/01/31/algorithm/mit6_828/引导和操作系统的交互/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1443,6 +1636,100 @@ ELF Header:
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/01/31/algorithm/mit6_828/内存分页/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/01/31/algorithm/mit6_828/内存分页/" class="post-title-link" itemprop="url">内存分页</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-01-31 00:00:00" itemprop="dateCreated datePublished" datetime="2018-01-31T00:00:00+08:00">2018-01-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>731</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本来自己查了很多资料，想自己写出来，结果下笔的时候发现别人已经把我想写的部分全部写出来了，而且比我想的还要具体，所以我就不写了，把链接放出了，顺便我补充一些</p>
+<p><a href="http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan/" target="_blank" rel="noopener">http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan/</a></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>由于内存分页在后面的lab2中也会设计，而且给出的资料写的非常详细，所以我就不多提了。这里提一下为了更好的理解什么内存分页的段选择子与CS的关系，我写了一篇<a href="/2018/01/30/从CS寄存器看段的前世今生/">关于CS寄存器的发展史</a></p>
+<p>最后我提一下<code>kern/entrypgdir.c</code>手写的内存分页表</p>
+<p>第一个<code>entry_pgdir</code>是页目录，第二个<code>entry_pgtable</code>页表，而且注意<code>entry_pgtable</code>是代表0-4M物理内存可写可读的真实内存地址</p>
+<p>前面知道了目录和页表的作用，在现实系统中，一个目录下有1024个页表，但是这只有一个页表，而且它代表从0-4M连续的内存空间</p>
+<p>PS：后面12位是权限位，只看前三位，可以知道是从（000-3ff）的高20位物理地址，由于我们声明了<code>__attribute__((__aligned__(PGSIZE)))</code>（地址4K对齐，其实意思是它真实物理地址后12位一定全部为0），所以直接取<code>(uintptr_t)entry_pgtable</code>地址就是页表地址，虽然后面加上权限位<code>PTE_P + PTE_W</code>，但是在寻找真实地址时都会屏蔽（只取前20位如），当初想了很久感觉取不到页表的真实地址，还以为有什么神奇的编译设定，后面查了很久资料才明白，所以这里提个醒后面我们会在lab2中正式接触内存分页技术，这里只是相当于设定了一个“常数”，后面会将器扩展变成“函数”。</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/01/30/algorithm/mit6_828/从CS寄存器看段的前世今生/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1537,134 +1824,6 @@ ELF Header:
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/01/29/algorithm/mit6_828/什么是操作系统/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/01/29/algorithm/mit6_828/什么是操作系统/" class="post-title-link" itemprop="url">什么是操作系统</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-01-29 00:00:00" itemprop="dateCreated datePublished" datetime="2018-01-29T00:00:00+08:00">2018-01-29</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>3.8k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>3 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本文是基于mit6.828 的lab1对操作系统的思考，网上有不少关于lab1的博客，大部分都是介绍如何完成lab1的问题，介绍的比较详细的有这个<a href="http://www.cnblogs.com/fatsheep9146/category/769143.html" target="_blank" rel="noopener">博客</a>，在这里我就不从问题出发，建议大家看完上面的博客在看我这篇博文，我这篇博文就是从把我遇到的疑惑提炼出知识点，然后再把这些知识点串起来</p>
-<h2 id="实验目的"><a href="#实验目的" class="headerlink" title="实验目的"></a>实验目的</h2><p>作为操作系统的第一个实验，在完成lab1我们主要目的就是要了解什么是操作系统，后面的lab都是在这个基础上搭建完善好系统的各种功能，就好像你画一幅画，第一步你先把人物的轮廓外形画出来，接下来你在把人的鼻子耳朵眼睛等等慢慢画出来，所以第一个实验非常重要，如果不把骨架搭好，你的操作系统再怎么豪华强大也是空中楼阁，所以我们在这个lab上一定要花上很多时间，万事开头难，只要攻克了这个，操作系统也就离你不远了</p>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>谈操作系统之前必须得谈谈什么是计算机，因为我们的操作系统是运行在计算机上面的，操作系统与计算机关系密切，我们可以用一个很贴切的比方，假如你想了解手套为什么长成那么奇怪，那么你得先举起你的双手看看。</p>
-<p>闲话不多说，进入正题，计算机最核心部分就是CPU，记得电脑刚发明出来的时候，编程只能通过穿孔卡片，当然计算机发明这么久，CPU的核心功能基本上没有变，还是只能通过“穿孔卡片”，只不过我们编程语音将我们的使用的语音如C，Python等变成“穿孔卡片”，这里有个非常重要的概念：<strong>指令</strong>。也就是每个CPU的是每次只能执行一条指令。当然第二个重要的就是内存了，前面说了CPU是必须要通过”穿孔卡片“来编程的，但是随着程序愈来愈大，我们必须要使用一个东西来存贮“卡片”，所以内存孕育而生了，其实很多感叹电脑这个词实在是太贴切了，人脑可以处理问题，电脑也可以处理问题，人脑有短期记忆长期记录，电脑有寄存器（短期记忆）内存（长期记忆）。</p>
-<p>简单的谈了谈计算机，我们提出两个重要的前提</p>
-<ul>
-<li>计算机通过顺序读取一条一条指令来工作</li>
-<li>计算机从内存获取指令</li>
-</ul>
-<p>所以操作系统的就是在内存上面运行自己并帮助其他程序的一个大程序，总的来说它就是内存上面的一段程序，当然它的功能就是好好在它一亩三分地上面“分封诸侯”，维护自己的“王位”。</p>
-<p>由于一开始它只是待在软盘或者磁盘等存贮设备上的一段程序，接下来我们就看操作系统如何“上位”内存的“宫斗大戏”。</p>
-<h2 id="上位篇"><a href="#上位篇" class="headerlink" title="上位篇"></a>上位篇</h2><p>在操作系统“上位”之前，其实计算机还进行了一个小操作系统（BIOS）运行，具体的流程可以看这篇<a href="http://www.ruanyifeng.com/blog/2013/02/booting.html" title="操作系统启动" target="_blank" rel="noopener">文章</a>，如果把电脑看做人的话，BIOS就是我们的脊髓，它控制我们的身体四肢（硬件），但是却无法灵活的操作他们（比如非条件反射的膝跳反射），但是它却不可少，少了它就成植物人了。BIOS的作用总结起来就是感知硬件，调控硬件（比如CPU电压，内存频率）。</p>
-<p>BIOS与操作系统最密切的一个地方就是设置启动盘，大家可能大多时候都是听文件文件比较多，但是文件这个概念其实是操作系统的，在没有操作系统之前是没有文件这个概念的，只有盘这个概念，比如一块硬盘、一张软盘、一个U盘，所以BIOS的一个重要工作就是选定一个存储硬盘，然后读取上面的程序运行。</p>
-<p>所以我们从这时候可以得到一个结论，安装操作系统，只需要按照BIOS的规定把程序放到某一个存贮设备（磁盘、U盘、软盘）专门位置上（一般是头部开始），开机后然后就静等BIOS把程序加载到内存，就完成了“上位”过程。</p>
-<p>我们已经知道操作系统的外部条件，接下来分析一个操作系统到底该有啥</p>
-<h2 id="操作系统结构"><a href="#操作系统结构" class="headerlink" title="操作系统结构"></a>操作系统结构</h2><p>首先我们要回顾一下操作系统的发家史，刚开始是没有操作系统的这个概念的，随着在电脑上要运行的越来越多，每个程序都要写大量底层代码来操作硬件这样无疑每个程序越来越来臃肿，所以我们需要让操作系统管理来管理硬件，这样不但能够提供程序兼容性（一次编译、到处运行），而且能高效利用硬件（操作系统专供）。所以操作系统也就是程序的分工的产物</p>
-<p>接下来我们看看操作系统的发展历史，大家都知道汇编语言是除了机器语言最接近底层的一种语言，第一个Unix系统一开始也就是使用汇编编写的。但是汇编语言不易于维护，所以1973年汤普逊和里奇用C重构了Unix，但是部分与硬件接触太大的地方还是必须使用汇编（in、out端口，操纵指定寄存器等），所以现代操作系统还是用C与汇编混合编写的（C占大部分），当然最后都会编译成机器码，所以我们从机器码角度来看，最后的结果都是相同的，不同的是我们使用不同的工具来生成机器码</p>
-<p>前面我们介绍了启动盘，其实BIOS给我们只是从启动盘上面取了一小段数据（第一个扇形区）放到内存上面（512B），然后执行那小段上面的机器码，所以接下来就有一个问题，随着我们的操作系统功能越来越完善，取出来的代码肯定不是全部代码，代码只有放到内存上面才能跑，所以前人就把代码分成两部分，一部分称作引导，另一部分才是核心代码，引导作用就是把核心代码放到内存上面去</p>
-<p>所以操作系统被分成两部分</p>
-<ul>
-<li>引导</li>
-<li>核心</li>
-</ul>
-<p>这里比较有意思的地方就是引导和核心如何交换程序控制权，由于要讲解必须要牵扯代码，所以我把这部分分离出来，放到这篇<a href="/2018/01/31/引导和操作系统的交互/">博客</a>上面，要了解细节可以看这篇博客。</p>
-<p>现在我们假设你已经知道引导将核心代码加载在了内存上面，现在我们就从这里开始分析，堆栈作为程序的基础，首先我们要提一下堆栈</p>
-<h3 id="堆栈"><a href="#堆栈" class="headerlink" title="堆栈"></a>堆栈</h3><p>什么是堆栈呢？看下面这张图</p>
-<p><img src="/images/stack.png" alt="堆栈"></p>
-<p>堆顶为大地址，我们使用的时候只要不断把栈顶往下推，就能将线性内存变成一个数据结构。当然有个问题，我们必须要知道什么地方是栈顶，现在我们想想操作系统必须要放到内存的某一个地方，假如放到低位置，那么我必须要记住操作系统的最高位置，如果不这样做当堆栈顶到操作系统的存贮地址，那么操作系统就被破坏了。所以我们只能把操作系统放到高的内存地址，这样我们既能安全的使用堆栈，而且保证了操作系统的安全</p>
-<p>所以我们接下来就谈谈由于这个设定引发的一系列问题</p>
-<h2 id="操作系统的高地址"><a href="#操作系统的高地址" class="headerlink" title="操作系统的高地址"></a>操作系统的高地址</h2><p>在lab1中，操作系统的起始代码被设定为<code>0xF0100000</code>的高位</p>
-<p>从这个地址我们可以分析出来什么<code>0xF0100000</code>，因为我们知道32位操作系统最高只能有4G内存，也就是2的32次方内存，这个地址代表的是系统最后面的255M内存的空间，也就是操作系统给自己留了255M剩余内存，给前面保留了（4G-255M）空间</p>
-<p>操作系统这个设计是非常好的，不仅给自己留下扩展空间，也给其他代码带来便利，就是从0-(4G-255M）这部分内存随便用，怎么改都不会出问题</p>
-<p>从现在角度来看，个人电脑随便都是2G、4G内存，但是在70\80年代，几M内存都很很大的存在，如果我内存没有4G这么大，那么这个操作系统就无法使用了，而且你留下256M给操作系统，有的时候我整个电脑内存都没有这么大，留下那么多，就是浪费</p>
-<p>所以最后他们想出来一个办法，就是现实和理想之间放一个转换器（MMU），也就是动态内存管理。操作系统也不管你机主有多大内存了，我假设你有4G，当你用一块，无论是什么位置，我从空余的地方给你取出来，假如你没有4G，我就把一部分不常用内存值的放到磁盘上面，这样通过这样这样的操作的实现内存的高效利用。</p>
-<p>操作系统对内存这种骚操作就相当于在更高的维度上建立了一种抽象，不论底层硬件怎么变（内存大小不同），我高层都不需要变，只需要底层把根据实际情况依次映射，这样无论你换多大内存，我都不需要重装系统。</p>
-<p>这种映射不通过代码很难将清楚，所以我这里也不提太多，如果你想知道怎么映射，硬件如何配合，你可以看我这篇<a href="/2018/01/31/内存分页/">博客</a>，详细介绍了内存分页的骚操作。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>至处到这里我们的操作系统之旅就结束了，我们成功在引导帮助下上了内存，也使用了提高操作系统的地址保证了堆栈的正常使用，接下来就是操作系统的各种附加功能，我们也会在接下来的lab中继续讲解。</p>
-<p>lab1不止介绍了这两个地方，但是在lab1中我觉得最重要的地方就是要知道操作系统是什么，它从哪里来，它要到哪里去，操作系统毕竟牵涉到硬件，很多硬件知识我们不一定能搞懂，比如说要切换哪几个位到保护模式，怎么输出端口才能读取扇形区，但是我们必须要搞懂他这样做的原因，这也是我在这篇里面谈了很多操作系统历史的原因，希望在理解操作系统上面能给大家带来一点启发。</p>
-<p>在最后的话，我谈一谈我对入门这门课的感受吧，我算编程基础还算比较扎实，但是在一开始学习的过程中一脸懵逼，C语言的各种骚操作，汇编与C疯狂混合，看惯了脚本语言的我，对这种改一下就编译不过的“硬骨头”异常难受，一开始根本看不下去，有的时候看几行代码，查资料好几个小时，而且资料特别难找，你不知道这种骚操作有啥意思，在这里还得感谢学习过这门课的学长学姐们，在网上无私的把自己的感受分享出来，慢慢的根据他们的资料和自己的调试还有自己找资料，慢慢的把这个代码一行一行搞懂，搞懂之后特别感慨，其实也不是很难，难的是要把你知道的所以知识点串起来，然后你就能搞懂为什么要这么做，所以我推荐大家还是多看代码，多去思考为什么要这么做，必须要自己的思考在里面，如果单纯的知识为了完成实验其实很简单，但是难就难在把这门课琢磨透，搞懂他们为什么要这样考你，毕竟大家最后的目的都是自己做出自己的操作系统，只有了解的透彻，才能“破而后立”搞出自己的创新，而不是复制他们的壳子，所以加油把每一行代码都搞懂，多思考，不要骄傲，毕竟这只是教学类的操作系统，要想自己写出来还得不懈努力。</p>
-<p>接下来还有6个lab需要完成，终于迈出的第一步，希望在年前能够完成所有的实验吧！！！加油！！！</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://buweilv.github.io/2017/06/10/jos-bootstrap-3/" target="_blank" rel="noopener">“C语言虚拟内存表”</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1737,7 +1896,7 @@ ELF Header:
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">125</span>
+          <span class="site-state-item-count">126</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1750,7 +1909,7 @@ ELF Header:
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1812,12 +1971,12 @@ ELF Header:
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">270k</span>
+    <span title="站点总字数">272k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:06</span>
+    <span title="站点阅读时长">4:07</span>
 </div>
 
         

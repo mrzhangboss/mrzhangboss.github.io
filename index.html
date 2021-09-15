@@ -211,6 +211,111 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/09/15/java/mybatis/mybatis二级缓存/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/09/15/java/mybatis/mybatis二级缓存/" class="post-title-link" itemprop="url">mybatis二级Redis缓存</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-09-15 22:15:51 / 修改时间：23:33:58" itemprop="dateCreated datePublished" datetime="2021-09-15T22:15:51+08:00">2021-09-15</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>1.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>这篇文章不是介绍mybatis二级缓存，而是基于我们目前业务一些痛点，思考如何使用mybatis二级Redis缓存，首先mybatis也提供了一个Redis缓存类，但是那个类并不能解决我们目前业务痛点</p>
+</blockquote>
+<h2 id="一、业务痛点"><a href="#一、业务痛点" class="headerlink" title="一、业务痛点"></a>一、业务痛点</h2><p>首先我来介绍一下我们目前的两个业务痛点，第一个就是热key问题，由于我们一个服务全部使用Redis作为缓存，当业务量大起来之后，发现Redis内存占用量不大，但是程序卡顿丢包，一查发现原来是Redis带宽跑满</p>
+<p>这个解决方法有两种，一种是内存做一层缓存热key，第二种就是减少网络包传输大小，可以采取新的序列号算法（目前我们使用的是JSON）如google的 protocolBuffer，后面我们采用的是第一种解决方法</p>
+<p>我们第二个业务痛点就是缓存失效的峰刺，当大量key失效的时候，同一时间大量相同的请求打到数据库，虽然目前还没有压垮，但是等后面业务量大起来其实这个也是个瓶颈</p>
+<h2 id="二、MyBatis缓存介绍"><a href="#二、MyBatis缓存介绍" class="headerlink" title="二、MyBatis缓存介绍"></a>二、MyBatis缓存介绍</h2><p>我们这里简单介绍一下Mybatis缓存，它分两张，一种是基于session的一级缓存，一种是基于mapper的namespace二级缓存（也就是全局缓存），一级缓存只能对同一个请求有用，所以其实对于我们目前业务来说用处不大</p>
+<p>mybatis二级缓存是个好东西，你可以理解为单个实例共享的cache，它是基于内存的，非常快，基本上没有延迟</p>
+<p>mybatis默认没有开始缓存，你可以简单的在<code>mapper</code>的xml文件里面加个<code>&lt;cache&gt;&lt;/cache&gt;</code>就开启了或者使用<code>@CacheNamespace</code>注解</p>
+<p>但是目前mybatis提供的全部是基于内存缓存，当数据量大的情况下，很容易内存溢出</p>
+<h2 id="三、实现Redis二级缓存"><a href="#三、实现Redis二级缓存" class="headerlink" title="三、实现Redis二级缓存"></a>三、实现Redis二级缓存</h2><p>mybatis官方实现了一个基于<a href="https://github.com/mybatis/redis-cache" target="_blank" rel="noopener">redis二级缓存</a>，这个缓存目前对于我们两个痛点来说，只能解决第二个，只需要在二级缓存中配置<code>blocking=true</code>我们就可以在更新缓存的时候锁住所有线程，避免大量请求数据库</p>
+<p>所以我基于官方实现做了下面修改:</p>
+<ol>
+<li>继承原始cache类，可以兼容使用LRU这些插件</li>
+<li>使用普通redis值替换原来的哈希表，支持插入时候添加失效时间</li>
+<li>当删除的时候，将数据放置到Redis</li>
+<li>读取时候先读内存，在读Redis，假如Redis读到了，再更新到内存</li>
+</ol>
+<p>通过上面4个修改，就很能实现第一个痛点，而且通过第四步，你可以解决掉Lru扫表问题<br>PS： 扫表，假如使用Lru你把所有Key都扫一遍，热key会被删除到Redis上去，假如你不更新到缓存，热key永远在redis上面，导致热key还是会对Redis造成压力</p>
+<h2 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h2><p>当然这种实现目前还有下面两个弊端，不过这两个弊端现在看也很难解决</p>
+<ol>
+<li>使用Java自带序列化对Redis消耗大（理论上使用google的 protocolBuffer是最优的）但是目前除非你能知道Redis键值，否则也是难，目前我测试在20个属性下，使用JSON要比原生序列号小，但是超过这个值其实两者开始拉近，在大量属性下原生序列号还是要比Json要省空间</li>
+<li>在执行更新插入删除的时候，会把内存缓存清空，但是不会清空redis，这个会导致丢失部分实时性，但是目前我们使用场景可以在保证业务可靠性情况下，两三分钟的缓存时延</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/09/12/letter/16/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1026,101 +1131,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/09/05/letter/7/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/09/05/letter/7/" class="post-title-link" itemprop="url">第七封信</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-09-05 12:55:00" itemprop="dateCreated datePublished" datetime="2021-09-05T12:55:00+08:00">2021-09-05</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-09-07 09:40:40" itemprop="dateModified" datetime="2021-09-07T09:40:40+08:00">2021-09-07</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/恋爱日记/" itemprop="url" rel="index">
-                    <span itemprop="name">恋爱日记</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>5k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>5 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          觉悟
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/09/05/letter/7/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1193,7 +1203,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">125</span>
+          <span class="site-state-item-count">126</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1206,7 +1216,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1268,12 +1278,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">270k</span>
+    <span title="站点总字数">272k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:06</span>
+    <span title="站点阅读时长">4:07</span>
 </div>
 
         
