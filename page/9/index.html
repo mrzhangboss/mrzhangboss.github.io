@@ -211,6 +211,152 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2017/12/14/software/http/漫谈网络/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/12/14/software/http/漫谈网络/" class="post-title-link" itemprop="url">从子网到“互联网”</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-12-14 00:00:00" itemprop="dateCreated datePublished" datetime="2017-12-14T00:00:00+08:00">2017-12-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:08:06" itemprop="dateModified" datetime="2021-03-09T20:08:06+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/软件/" itemprop="url" rel="index">
+                    <span itemprop="name">软件</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>4.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>最近重温《TCP/IP协议簇》，读到子网这个部分，概念都能弄懂，但是不明白子网存在的目的，很多资料都说有两个好处，一是能够判断IP存在局域网还是远程网，另外一个将大的网段分成多个小子网。</p>
+<p>这样就搞得我一头雾水，原来我对互联网的认识是从TCP、HTTP高层协议理解的，我原来对互联网信息传递的理解就像<a href="https://www.zhihu.com/question/20717354/answer/15968282" target="_blank" rel="noopener">这篇回答</a>，网络就像一个神奇的大网，你只需要把电话线插到“网”中就能同别人连起来。原来我对这个解释并没有什么疑问，但是我越来越深入“互联网”，我就我对“互联网”越来越疑惑。</p>
+<p>举个例子，我们知道这个IPV4理论上总共有<code>4294967296（256*256*256*256）</code>个，按照当前的理论，过几年就要分配完了，那意味这至少有50%已经分配好了，也就是说至少有20亿根“网线”要连到一起，我们知道局域网只要交换机就能搭起来，假设我们一个交换机能插20根网线，那么要搭这个20亿“网线”，至少要用一个亿的交换机，你能想象一个亿的交换机堆在一起组成“互联网”吗？就算假如我们使用数字信号，作为一个程序员，我也很难想象原先的程序员是在有限的内存和硬盘，如何设计强大计算机有条不紊的处理20亿的并发。</p>
+<p>所以这篇文章就要从OSI底层协议出发让我们从底部掀一掀“互联网”的老底，将一个有血有肉的“互联网”展现在我们面前。</p>
+<h2 id="触摸“网”"><a href="#触摸“网”" class="headerlink" title="触摸“网”"></a>触摸“网”</h2><p>我们一直在说着互联网、互联网，由于无数在前人的不懈努力下，其实很多时候我们根本感受不到这张网的存在，比如打开浏览器，输入<code>www.baidu.com</code>，我们直接就能连上千里之外的服务器，其实在浏览器后面，我们发的“包”正沿着网跨越千山万水到达一个机房的服务器中。</p>
+<p>所以为了触摸到网这个东西，我们得用一些工具，我们就在打开的百度中输入<code>traceroute</code>，根据你的操作系统安装好，然后我们打开命令行输入<code>traceroute  -I www.baidu.com</code></p>
+<pre><code>traceroute to www.baidu.com (14.215.177.38), 30 hops max, 60 byte packets
+ 1  192.168.1.1 (192.168.1.1)  
+ 2  182.96.180.1 (182.96.180.1) 
+ 3  68.248.177.220.broad.nc.jx.dynamic.163data.com.cn (220.177.248.68)  
+ 4  53.251.177.220.broad.nc.jx.dynamic.163data.com.cn (220.177.251.53)  
+ 5  182.98.159.73 (182.98.159.73)  
+ 6  202.97.75.117 (202.97.75.117)  
+ 7  113.108.208.194 (113.108.208.194) 
+ 8  * * *
+ 9  14.29.121.194 (14.29.121.194)  
+10  * * *
+11  * * *
+12  14.215.177.38 (14.215.177.38) 
+</code></pre><p>由于百度存在负载均衡，所以你们看到的最终IP地址可能不会同我一样（PS：我去掉了时间），虽然中间还有一些<code>***</code>的存在，但是不管怎么我们终于触摸到这个网的存在。</p>
+<p>我第一次看到这个非常震惊，原来在我的心中，“网”上最多有两个端，一个是我们的客户端，一个是服务器端，现在突然冒充这么多个“中间人”，这些东西是什么呢？</p>
+<p>接下来我们通过回答下面两个问题来慢慢了解互联网的构造。</p>
+<ol>
+<li>为什么第一个IP是局域网内的IP（内网）？</li>
+<li>为什么中间有那么多IP端，他们的作用是什么？</li>
+</ol>
+<h2 id="内网与外网的区别"><a href="#内网与外网的区别" class="headerlink" title="内网与外网的区别"></a>内网与外网的区别</h2><p>解答第一个问题前，我们必须要知道什么是内网什么是外网。</p>
+<p>从IP的角度上来看，刚开始创建以太网时，由于避免连在一起的电脑认错人，就用IP用来做每个电脑的“身份证”，一开始要连在电脑比较少，组织只需要拿个小本本记住哪台服务器对于的IP，但是随着想连在一起的电脑越来越多，这个小本本满满的一本快写满了，虽然可以在多买几本本子记住他们，但是本子越多每次要查他们的IP的时候消耗的时间越多，所以他们决定不再一个一个分IP了，于是他们把40亿IP分成A、B、C、D几类。</p>
+<p>这样组织成功用一个小本子记录了几十亿的IP分配，这里组织指的是因特网协会（ICANN），协会自己分好IP后开始发本子，找到下面的运营商，让他们自己搭网线光钎把他们自己负责的国家区域连起来，但由于地方太多，一个本子也记不下来，所以他们又把组织发给他们的本子分发到地区运营商，这样慢慢缩小，最终每个地区的局域网的本子都不会太大，这样查起来速度快而且网络的压力也平摊下去，但是摆在我们面前有一个问题</p>
+<blockquote>
+<p>假设小明和小华分别住在同一条大街的街头和街尾，小明想给小华写信，小明然后写了一封信信放到邮箱，然后邮递员过来把信取走，在邮局分配再让邮递员送到小华家，本来两个人住在同一条街，邮递员只需要把信从街头送到街尾这次传递就结束了，但是由于不知道小明和小华住在同一条街，这封信绕了一个很大的圈才到小华手中。</p>
+</blockquote>
+<p>从这个故事告诉我们，要解决不必要的传输，我们必须要提供一种机制让“邮递员”知道这封“信”是直接“送”还是发到总部发出去，这种机制就是确定是否是内网还是和外网。</p>
+<p>大家回头看一下IP，假如我们按照组织（ICANN）的本子来分内网还是外网，那会造成极大的浪费，比如说A类，从1.0.0.0 到126.255.255.255，共分了126个，每个分类下有1658万台电脑，可能现在最大的云服务商都没有几千万台机器，假如你就几十台电脑，你申请一个B类IP（子网可以容纳6万多台），那么子网的利用率约为为20/6000，这么大一个网段却只有几个IP有效，这是对IP的极大的浪费，所以我们需要再次切片，将一个IP段智能的切分成很多块。</p>
+<p>有没有什么好的方法能够切分IP呢，我们知道在TCP、HTTP这些高层协议栈中并没有子网这个概念，他们只负责连接和解析，所以我们得从数据链路层里面查看，在这层有一个非常重要的概念：<strong>子网掩码</strong></p>
+<h3 id="子网掩码"><a href="#子网掩码" class="headerlink" title="子网掩码"></a>子网掩码</h3><p>首先我们要了解一个概念：<strong>路由表</strong></p>
+<p>这个就是我们前面提到过的“小本本”，这个路由表就记载了我们主机上面有关子网划分的重要数据，我们可以通过在<code>Linux</code>上的<code>route -n</code>命令显示电脑上的路由表</p>
+<pre><code>Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+0.0.0.0         192.168.1.1     0.0.0.0         UG    0      0        0 wlan0
+192.168.1.0     0.0.0.0         255.255.255.0   U     9      0        0 wlan0
+</code></pre><p>在我的电脑的得到的结果是这样的，这里有两个很重要的参数，<code>Gateway（网关）</code>，<code>Genmask（掩码）</code>，网关和掩码是什么呢？网关就是我们连接上外网的关键，掩码就是区分内网外网的钥匙。</p>
+<p>子网是什么呢？你可以看做是IP与掩码的按位与运算得到新IP，比如说我们上面第一个<code>192.168.1.1</code>与<code>0.0.0.0</code>的运算结果是为<code>0.0.0.0</code>，而且你会发现所以的IP跟<code>0.0.0.0</code>得到结果都是一样的<code>0.0.0.0</code>，这说明对于网关来说，所有的外网IP都是属于同一子网，接下来我们看看第二行，这个网关为<code>0.0.0.0</code>说明这个是局域网，当我们的IP与这个局域网掩码运算后得到的地址与这个局域网IP相同时，说明这个IP属于局域网，我们可以看到我们子网大小为256，由于我用的是路由器，所以说明这个路由器最多可以允许254(.255为广播地址）台设备连接</p>
+<p>接下来我们看看在我的云服务器上的路由表</p>
+<pre><code>Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+0.0.0.0         10.10.6.1     0.0.0.0         UG    0      0        0 eth0
+10.15.6.0     0.0.0.0         255.255.192.0   U     0      0        0 eth0
+</code></pre><p>你可以清楚的看到在第二行我们的内网的大小约为<code>16128=256*(255-192)</code>，如果你感兴趣对子网计算，可以看看我下面引用，在这里我就不解释太多计算细节，你可以看到，通过改变内网掩码，我们可以轻轻松松的将局域网分成不同的大小。</p>
+<p>由于IPV4数量较少，所以在局域网内每个主机并不能都分到单独的独立IP，只有网关需要一个独立IP来访问互联网，在局域网内我们一般使用本地局域网IP（组织特地保留下来不分配给运营商，只在局域网内使用）。所以我们这就能解释第一个问题，<code>traceroute</code>第一个发送的地址不是我们单独IP（路由器IP），而是发送给局域网上的网关。</p>
+<h2 id="包的逐级转发"><a href="#包的逐级转发" class="headerlink" title="包的逐级转发"></a>包的逐级转发</h2><p>解决上面第一个问题之后，我们知道在一个局域网内我们能够通过子网掩码知道当前局域网的子网范围，接下来的包的“旅途”是什么呢，为什么在<code>traceroute</code>的路径中发现那么多IP地址呢。</p>
+<p>回答这个问题前，我们从物理角度上先了解互联网是怎么搭建起来的。</p>
+<blockquote>
+<p>当第一台计算机出现的时候，我们不需要互联网，但是随着计算机原来越多，我们想把计算机都用网线连接起来，一开始电脑都放在一起，只需要找一些长长的网线把他们连接起来，但是随着全球各地的人都有个人电脑，这时候只能靠网络运营商，也就是比如电信、移动、联通这些运营商，他们埋光钎搭网线，慢慢的将网络在各地连接起来，最后将子网络连接到骨干网，最后互联网就这么连接起来了</p>
+</blockquote>
+<p>但是就像送信举的例子一样，如果邮递员能够直接把信从街头送到街尾，那么直接节省了很长一段在路上的花的时间。所以运营商就在各个分支网络搭建大大小小的“局域网”，就一层层代理一样，当一个包请求过来，首先先查看这个IP是否属于当前地区的局域网，如果是就查表找到地址发送过去，如果没有就发送到它的更高一级代理（网关），最终这个IP包到达机房区域的局域网的主机上。</p>
+<p>所以我们能在<code>traceroute</code>查看到一个IP包要传递的那么多的IP地址，那些IP地址都是勤劳的网关，不过相比我们第一个网关，也就是我们在网上冲浪的IP地址，那些网关更像一个一个交通指挥员，指导着我们的发送的“信”一步一步走到指定地点。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>互联网就像一个乐高拼成的巨人，刚开始不了解它，远远的观察它，它就像文明遗迹一样让人赞不绝口，等到你慢慢走进它，你就会发现它的组成其实也很普通，也就是一个一个乐高模块组成，但就是这种无数普通搭建我们的“万里长城”，这或许就是互联网的伟大之处。</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="http://www.cnblogs.com/JuneWang/p/3917697.html" target="_blank" rel="noopener">子网</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2017/11/25/software/巧用Git钩子/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1552,172 +1698,6 @@ name text
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2017/08/09/ai/competition/vip_ctrip_competitions_summary/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/08/09/ai/competition/vip_ctrip_competitions_summary/" class="post-title-link" itemprop="url">唯品会预测和携程房屋预测总结</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-08-09 19:21:40" itemprop="dateCreated datePublished" datetime="2017-08-09T19:21:40+08:00">2017-08-09</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 19:55:16" itemprop="dateModified" datetime="2021-03-09T19:55:16+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/" itemprop="url" rel="index">
-                    <span itemprop="name">人工智能</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>3.6k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>3 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>最近打了两个比赛，一直忙着工作和打比赛，没有时间总结，今天抽空好好总结一番</p>
-</blockquote>
-<p>先说一下比赛结果吧，队名全为<code>OfferGo</code><a href="https://www.datafountain.cn/competitions/260/details" target="_blank" rel="noopener">唯品会购买预测</a>第五名，<a href="https://www.kesci.com/apps/home/#!/competition/597172316a1cd9104c2df248/leaderboard/0" target="_blank" rel="noopener">携程房屋预测复赛</a>第六名,两个比赛打的都不算太好,只能算勉强及格,虽然离大神的距离还有十万八千米，不过总算可以称的上入了门，现在来总结一下我入门的经验吧。</p>
-<h2 id="观察数据"><a href="#观察数据" class="headerlink" title="观察数据"></a>观察数据</h2><blockquote>
-<p>我参加过很多群,发现很多新手缺乏观察数据的能力,他们每次进入一个群总是嚷嚷这让大神发<code>baseline</code></p>
-</blockquote>
-<p>这一点对于新手来说很不利的，比赛考的就是你对数据的掌握能力,你对数据把握的越好，你的比赛成绩就越好，要真正掌握数据就要从观察数据入手</p>
-<hr>
-<p>在我看来观察数据主要从四个方面来，我总结为<code>望闻问切</code></p>
-<h3 id="望"><a href="#望" class="headerlink" title="望"></a>望</h3><p>观察数据缺失值，缺失值对数据影响很大，有时候我们能够从缺失值里面了解很多信息,而且对于缺失值，后期我们对不同的缺失值要采取不同的手段，比如补全、统计占比、丢弃等等。</p>
-<p>对于缺失值我一般从两个方面来观察</p>
-<ul>
-<li>全局观察</li>
-<li><ul>
-<li>一般采用<code>datafram.info(null_counts=True, verbose=True)</code>方法来观察全局数据缺失情况</li>
-</ul>
-</li>
-<li>局部观察</li>
-<li><ul>
-<li>一般采用<code>series.isnull().count()</code>和<code>series.loc[series.notnull()]</code>观察单一列表缺失情况</li>
-</ul>
-</li>
-</ul>
-<p>这个阶段我们主要从大的方向远远的<code>望</code>一下数据，主要建立对数据的全局观。</p>
-<h3 id="闻"><a href="#闻" class="headerlink" title="闻"></a>闻</h3><blockquote>
-<p>对于数据来说，一般分为三种，一种为数值型数据（整数、浮点数、时间等），一种为字符型，最后一种为图像型，三种类型数据处理难度依次增强</p>
-</blockquote>
-<p>对于大多数比赛都是设计前两种数据，第三种只有牵扯到图像处理才能遇到。对于前两种数据，我们在闻的阶段，主要是探查数据分布情况，了解数据分布情况，我们才能对症下药。</p>
-<p>了解数据分布情况有两种方法</p>
-<ol>
-<li>图像观察</li>
-<li>数学统计观察</li>
-</ol>
-<p>图像观察主要使用<code>Pandas</code>的<code>Matplotlib</code>绘图接口，或者使用<code>seaborn</code>（一个友好的封装了<code>Matplotlib</code>的包），一般我们可以从直方图、饼图、频率图方向来观察数据</p>
-<p>数学统计我们主要采用<code>Pandas</code>的<code>describe</code>方法，对于数值型数据，主要从平均值（<code>mean</code>）、中位数（<code>50%</code>）、标准差（<code>std</code>）、最大（<code>max</code>）、最小（<code>min</code>）、非空总数（<code>count</code>）来探测数据，对于字符型我们主要从最频繁的值（<code>top</code>）、最频繁的值的个数（<code>freq</code>），非空总数（<code>count</code>）、不相同的值（<code>unique</code>）。</p>
-<p>通过上面两种方法，我们能够从数据分布的角度大致勾画出数据的轮廓。</p>
-<h3 id="问"><a href="#问" class="headerlink" title="问"></a>问</h3><blockquote>
-<p>比赛的目的就是找到最优解，而最优解的跟相关特征紧密联系的，你的特征对结果影响越大，你就要审<code>问</code>这个特征</p>
-</blockquote>
-<p>举个例子，我们要预测三组数据</p>
-<ul>
-<li>1 1.8  2</li>
-<li>2 3.5  4</li>
-<li>3  5.4  16</li>
-</ul>
-<p>第一行为我们要训练的值，我们发现第二行的数据是第一行的1.8倍，而第三行只是2的次方，对于这两个特征来说，第二个特征就是最好的特征，我们只要建立一个映射，准确率能接近100%，而第三个特征对预测结果毫无联系，这个特征不但对结果没有作用，而且有时候会起到反作用</p>
-<p>当然在这里我们举这么一个例子在实际中不可能遇到，我们遇到是更多数据，而数据之间的联系并不是这么简单的线性关系，但是线性关系有的时候能让我察觉到特征与预测值的关联，毕竟如果特征值是随机值那么与预测值之间的相关性是非常低的。</p>
-<p>在<code>Python</code>里面探测线性关系最简单的方法是调用特征值和预测值的相关性系数（<code>corr</code>），我们可以简单的使用<code>df[[&#39;feature&#39;, &#39;target&#39;]].corr()</code>就可以得到线性相关系数，这个数的绝对值越接近1，相关性越大，一般来说相关性越大和越好对结果都不好，最好的特征相关性处于中间位置。</p>
-<p>相关性低我们可以理解，为什么相关性高反而不好呢，因为数据比赛里面给我们的数据大部分都是不平衡的数据，正负样本失衡，一般相关性很高的值一般为分类同预测值相同，比如一个二分类问题，预测值为0和1，给的样本正负比为1000:1，那么如果有一个特征全为0或者其他，那么他与预测值的相关性会达到90%以上，然而这个值是毫无作用的。</p>
-<p>所以我们通过简单的相关系数并不能很好的观察特征真正相关性，一般我们要辅助图像法和统计法。</p>
-<p>图像法就是通过将特征值分布与预测值相关性图表画在同一个图表里，具体可以参考<a href="https://www.kaggle.com/benhamner/d/uciml/iris/python-data-visualizations" target="_blank" rel="noopener">可视化特征</a></p>
-<p>统计法类似图标，使用统计方法观察，特征值与预测值的相关性，一般使用<code>groupby</code>方法对两个特征进行统计就可以进行简单的观察</p>
-<p><code>问</code>只是一个简单的手段，一般我们在大量添加特征的时候，为了节省模型训练时间，在将特征放入管道之前进行一个简单的过滤删除的工作，真正重要的步骤在<code>切</code>这个方面</p>
-<h3 id="切"><a href="#切" class="headerlink" title="切"></a>切</h3><blockquote>
-<p><code>切</code>这个步骤放在最后是因为，这个步骤也是我们一趟循环下来的最后一步</p>
-</blockquote>
-<p>数据比赛中前期大家最喜欢用的模型是树模型，比如随机森林、<code>Xgboost</code>，<code>LightBoost</code>等，这些模型属于弱学习器组合模型，我们最后可以从训练结果得到每个特征在模型占的比重</p>
-<p>对于这个比重，是非常重要的，他代表了每个特征对应在模型中占的权重，也可以理解特征与结果的相关性</p>
-<p>对于相关性很强的不同的特征，我们可以将他们组合，有时候这种强强组合生成出来的特征会比原来母特征相关性更强，当然组合的方法有千种万种，如何验证他们有效就要从头开始对数据进行<code>望闻问切</code>了</p>
-<h4 id="总结：-数据比赛就如同问诊，我们不断对特征进行望闻问切，对于高手来说他们能很快的从原始特征中挑选出病根，对症下药，而新手的话，一阵摸瞎，经常会碰到在比赛中期做出一个很好的结果，接下来很长一段时间都没有进步的情况。掌握科学有效的挑选特征方法需要一个“医者心”，必须学会对特征“负责”，要学会望闻问切。"><a href="#总结：-数据比赛就如同问诊，我们不断对特征进行望闻问切，对于高手来说他们能很快的从原始特征中挑选出病根，对症下药，而新手的话，一阵摸瞎，经常会碰到在比赛中期做出一个很好的结果，接下来很长一段时间都没有进步的情况。掌握科学有效的挑选特征方法需要一个“医者心”，必须学会对特征“负责”，要学会望闻问切。" class="headerlink" title="总结： 数据比赛就如同问诊，我们不断对特征进行望闻问切，对于高手来说他们能很快的从原始特征中挑选出病根，对症下药，而新手的话，一阵摸瞎，经常会碰到在比赛中期做出一个很好的结果，接下来很长一段时间都没有进步的情况。掌握科学有效的挑选特征方法需要一个“医者心”，必须学会对特征“负责”，要学会望闻问切。"></a>总结： 数据比赛就如同问诊，我们不断对特征进行<code>望闻问切</code>，对于高手来说他们能很快的从原始特征中挑选出<code>病根</code>，对症下药，而新手的话，一阵摸瞎，经常会碰到在比赛中期做出一个很好的结果，接下来很长一段时间都没有进步的情况。掌握科学有效的挑选特征方法需要一个“医者心”，必须学会对特征“负责”，要学会<code>望闻问切</code>。</h4><h2 id="并行化算法"><a href="#并行化算法" class="headerlink" title="并行化算法"></a>并行化算法</h2><blockquote>
-<p>由于<code>Python</code>本身对多核利用不好，如何利用多核加快特征生成对于比赛来说意义重大</p>
-</blockquote>
-<p>就拿我来举例子，我每天下班打比赛的时间不超过8个小时，前期算法没有并行化的时候，走一遍管道要四个小时，这意味着我一天只能跑两次，而进行并行化优化以后，我跑一遍四线程全开（笔记本双核四线程）只要十分钟就能跑完，每次生成新特征只有10分钟就能拿到特征相关性数据，来验证特征的好坏。</p>
-<p>下面我从三个方面来谈谈怎么实现并行话算法</p>
-<h3 id="1-使用系统自带函数，拒绝for循环"><a href="#1-使用系统自带函数，拒绝for循环" class="headerlink" title="1 . 使用系统自带函数，拒绝for循环"></a>1 . 使用系统自带函数，拒绝<code>for</code>循环</h3><p>举个例子，作为新手，实现对两个个特征求平均，一般采用<code>for</code>循环将每一行两个特征值加起来然后除以2，假如有1000万行，每行加法和除法运算花0.001ms，那1000万也要10秒钟，只是进行一个最简单的求平均，你就花掉10秒钟，上百个特征你得运行几天</p>
-<p>学过矩阵的都知道，矩阵就是一种高效的并行化结构，它将集合统一进行计算，可能一个大矩阵运算要比单一计算要慢，但是单一计算要1000万次的话，大矩阵运算只需要两次就够了，这个效率比就出来了</p>
-<p>而<code>Python</code>由于是一门解释性语言，比其他静态语音速度要慢许多，你一方面使用<code>for</code>循环加大运算次数，一方面执行一次时间长，这相重叠加你的算法会跑的比蜗牛还慢</p>
-<p>所以我们避免使用我们写的函数，尽量使用库系统函数，因为库系统函数底层是使用<code>C</code>或<code>C++</code>实现的，而且他们在底层进行使用矩阵话运算代替单一浮点计算，我们使用库的函数（比如<code>mean</code>，<code>groupby</code>等）一方面能底层能使用C加快速度，一方面使用矩阵运算加快速度，两个叠加你的算法跑的比飞机还快。</p>
-<h3 id="2-使用多进程，充分发挥使用多核性能"><a href="#2-使用多进程，充分发挥使用多核性能" class="headerlink" title="2 . 使用多进程，充分发挥使用多核性能"></a>2 . 使用多进程，充分发挥使用多核性能</h3><p>由于<code>Python</code>的<code>GIL</code>锁，使得<code>Python</code>无法利用多核进行计算，所以我们只能使用多个进程来充分利用多核</p>
-<p>实现多进程有两个要点（具体可以参考我携程比赛代码 <a href="https://www.github.com/mrzhangboss" target="_blank" rel="noopener">Github地址</a>)</p>
-<ul>
-<li>特征提取模块化</li>
-<li>进程池的搭建和维护</li>
-</ul>
-<p>我在携程比赛中的<code>mult_run.ipynb</code>中搭建了一个进程池，通过第三方调度和监控进程内存CPU等信息，达到充分“榨干”每个核的功效</p>
-<h3 id="3-压缩数据，让矩阵运算更快"><a href="#3-压缩数据，让矩阵运算更快" class="headerlink" title="3 . 压缩数据，让矩阵运算更快"></a>3 . 压缩数据，让矩阵运算更快</h3><p>由于在对特征进行提取过程中，<code>Python</code>会自动将低位制值转换成高位制值，比如<code>float16</code>在进行一次<code>groupby</code>之后就会转换成<code>float64</code>，由于在矩阵运算时候，高进制值会占更多内存和运行时间，所以为了加快算法运行，我们要将其压缩，一方面节省内存，一方面能够让算法运行的更快</p>
-<p>在携程的比赛中，原始数据有一个G，我将其压缩之后只占用300M内存空间，这为我后面在一台12G内存的笔记本实现并行化算法提供了巨大帮助，当然我每次在生成新特征的时候也会进行压缩，具体可以参考我携程的<code>utils.py</code>文件</p>
-<h3 id="总结：-这两次比赛，我从菜鸟出发慢慢的从一个程序员变成了数据挖掘机，在模块化和并行化方面，我觉得我的进步不错，但是在数据特征挖掘方面我与大神之间的差距还是巨大的，这也是我止步于前五的主要原因，接下来我要加强对数据方向的锻炼，希望能够在工作和比赛之中得到更好的进步"><a href="#总结：-这两次比赛，我从菜鸟出发慢慢的从一个程序员变成了数据挖掘机，在模块化和并行化方面，我觉得我的进步不错，但是在数据特征挖掘方面我与大神之间的差距还是巨大的，这也是我止步于前五的主要原因，接下来我要加强对数据方向的锻炼，希望能够在工作和比赛之中得到更好的进步" class="headerlink" title="总结： 这两次比赛，我从菜鸟出发慢慢的从一个程序员变成了数据挖掘机，在模块化和并行化方面，我觉得我的进步不错，但是在数据特征挖掘方面我与大神之间的差距还是巨大的，这也是我止步于前五的主要原因，接下来我要加强对数据方向的锻炼，希望能够在工作和比赛之中得到更好的进步"></a>总结： 这两次比赛，我从菜鸟出发慢慢的从一个程序员变成了数据挖掘机，在模块化和并行化方面，我觉得我的进步不错，但是在数据特征挖掘方面我与大神之间的差距还是巨大的，这也是我止步于前五的主要原因，接下来我要加强对数据方向的锻炼，希望能够在工作和比赛之中得到更好的进步</h3><h4 id="在最下面贴一下我的携程比赛代码（基于Notebook）"><a href="#在最下面贴一下我的携程比赛代码（基于Notebook）" class="headerlink" title="在最下面贴一下我的携程比赛代码（基于Notebook）"></a>在最下面贴一下我的携程比赛代码（基于Notebook）</h4><p><a href="https://www.github.com/mrzhangboss/ctrip_room_predict" target="_blank" rel="noopener">https://www.github.com/mrzhangboss/ctrip_room_predict</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1790,20 +1770,20 @@ name text
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">126</span>
+          <span class="site-state-item-count">127</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-count">16</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1870,7 +1850,7 @@ name text
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:07</span>
+    <span title="站点阅读时长">4:08</span>
 </div>
 
         

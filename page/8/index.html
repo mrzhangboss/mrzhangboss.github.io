@@ -211,6 +211,104 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/01/30/algorithm/mit6_828/从CS寄存器看段的前世今生/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/01/30/algorithm/mit6_828/从CS寄存器看段的前世今生/" class="post-title-link" itemprop="url">从CS寄存器看段的前世今生</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-01-30 00:00:00" itemprop="dateCreated datePublished" datetime="2018-01-30T00:00:00+08:00">2018-01-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>931</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>Intel作为作为微处理器的航头老大，一直引导CPU的进步发展，也正是因为Intel是一个有着历史包袱的企业，所以站在现代CPU看起来，有一些非常奇葩的设计遗留下来，这些设计一开始是为了兼容，慢慢的将这种兼容又发展成新的功能，把“包袱”转换成“亮点”，段设计就是其中的一个很重要的代表，要想搞懂这个设计在不同的CPU的如何保持兼容和强化，我们必须要慢慢的把CPU的历史给捋顺。</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>我们要介绍第一个CPU是8086，虽然Intel前面也生产了4004、8008、8080微处理器，但是8086基本上后面所以现代化CPU始祖，Intel后面生产的CPU都对8086兼容，所以可以说段这个“祸端”就是从8086种下来的</p>
+<p>8086作为第一款的16位处理器，由于技术的问题，出现了一个严重问题寄存器只有16位，而地址总线却有20位，要想只通过一个寄存器表达地址的值显示无法实现，所以8086采用了一个段寄存器，segment × 16+offset（CS:IP），采用这个方式就能实现20位地址索引</p>
+<h2 id="段设计对程序影响"><a href="#段设计对程序影响" class="headerlink" title="段设计对程序影响"></a>段设计对程序影响</h2><p>前面简单的介绍了段设计的原因，现在我们来看看这个设计的对16位程序的影响。</p>
+<h3 id="兼容性"><a href="#兼容性" class="headerlink" title="兼容性"></a>兼容性</h3><p>由于段的存在，我们设计程序的时候可以更加自由，我们可以假设我们是在任何低16位置的内存上，只有到时切换程序时候切换段就可以</p>
+<h3 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h3><p>我们可以用相同的低地址存代码和数据，只需要切换段就行，而且我们也不需要考虑数据要多少空间，代码要多少空间，以便设定跳转地址</p>
+<blockquote>
+<p>可以说段设计是16位程序的一个很优雅的做法，但是到了３２位的时候程序不行了</p>
+</blockquote>
+<h2 id="32位处理器的改变"><a href="#32位处理器的改变" class="headerlink" title="32位处理器的改变"></a>32位处理器的改变</h2><p>我们知道32位处理器的诞生带来了两件事,第一个就是寄存器有32位了,说明最大内存地址可以到4G了(<code>0x000000-0xffffff</code>),而且总线地址也有32位了。这个时候就很尴尬了，原来的段设计到这里就成鸡肋了。但是为了兼容，我们还是给他一个功能，段选择子，当然现代Unix操作系统没有用这个东西，只是在初始化的时候意思意思一下，具体可以看一下这篇<a href="http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/" target="_blank" rel="noopener">博客</a>的<code>GDB</code>表</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>最近学操作系统感觉有很多疑惑，了解很多知识，总想好好总结一下细节，结果发现总有大神们早就写出来了，而且非常详细，我就不班门弄釜了，把下面的lab好好思考，提炼出自己的知识。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/01/29/algorithm/mit6_828/什么是操作系统/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -645,6 +743,104 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/01/04/algorithm/AVL树实现原理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/01/04/algorithm/AVL树实现原理/" class="post-title-link" itemprop="url">AVL树实现原理</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-01-04 00:00:00" itemprop="dateCreated datePublished" datetime="2018-01-04T00:00:00+08:00">2018-01-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>709</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>本篇博客主要基于这篇<a href="/2017/12/27/浅谈树这种数据结构/">博客</a>的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍AVL树的实现原理，完整代码在<a href="https://github.com/mrzhangboss/trees" target="_blank" rel="noopener">github</a>的<code>avl.go</code>文件中</p>
+</blockquote>
+<p><a href="/2017/12/27/浅谈树这种数据结构/">浅谈”树”这种数据结构</a><br><a href="https://github.com/mrzhangboss/trees" title="github" target="_blank" rel="noopener">Github</a><br><a href="http://www.cs.usfca.edu/~galles/visualization/AVLtree.html" target="_blank" rel="noopener">可视化页面</a></p>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>AVL树是在对二叉搜索树的一种优化，通过构造一棵高度平衡的二叉搜索树从而实现提高空间利用率，所以在了解如何实现之前，必须了解如何构造一棵二叉搜索树，你可以阅读我的这篇<a href="/2018/01/04/二叉搜索树实现原理/">博客</a>了解如何构建一棵二叉搜索树，虽然我是用Go来实现的，但是不必了解太多Go方面的知识，我在博客中尽量使用图片的方式来介绍实现原理</p>
+<p><a href="/2018/01/04/二叉搜索树实现原理/">二叉搜索树实现原理</a></p>
+<p>由于AVL树本质上也是一棵二叉搜索树，查找并不会改变树的性质，所以AVL的查找也是同二叉搜索树的查询相同，所以这里就重点介绍如何实现“增”和“删”</p>
+<h3 id="树的字段"><a href="#树的字段" class="headerlink" title="树的字段"></a>树的字段</h3><p>在开始介绍如何实现“增”、“删”之前，我想提一下AVL树的存贮字段，在wiki上面的AVL和很多资料上面，AVL的树结构分别由下面四个组成： Val、 Left*、Right*、Parent*。</p>
+<p>Val代表树存贮的值，Left、Right、Parent代表三个指针，分别指向左子树，右子树，父亲，而在我的实现中，我去掉了父亲指针，对于讲解来说，使用一个父指针能很好的解决从子遍历到父亲的经过，但在实际的应用中，我们完全可以使用一个列表存贮从父亲到儿子之间的值，这样的话，能实现一样的功能，而且能节省存贮空间（每个子树都少了一个父指针），但是相应的程序也变得比较复杂起来。</p>
+<p>虽然我在讲解的过程中会直接获取节点的父节点，但是在实际的代码实现中，是通过获取从列表中获取该节点的父节点。</p>
+<h2 id="AVL树的“增”"><a href="#AVL树的“增”" class="headerlink" title="AVL树的“增”"></a>AVL树的“增”</h2><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://en.wikipedia.org/wiki/AVL_tree" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/AVL_tree</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/01/04/algorithm/二叉搜索树实现原理/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -753,104 +949,6 @@
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>总的来说，二叉搜索树的插入是最容易理解的，但是删除的话要考虑不同四种的情况所以还是稍微需要点时间理解一下的，小小的一个二叉搜索树也花了近200行代码实现，但是相比后面的AVL树、红黑树的近千行代码来说，二叉搜索树还是比较简单的，而且后面实现的高级树结构基本上都是依赖二叉搜索树的实现（必须要按照二叉树的增删满足二叉搜索树的原则），所以我们对二叉搜索树的增删必须理解透彻。</p>
 <p>引用：</p>
 <p><a href="https://en.wikipedia.org/wiki/Binary_search_tree" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Binary_search_tree</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/01/04/algorithm/AVL树实现原理/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/01/04/algorithm/AVL树实现原理/" class="post-title-link" itemprop="url">AVL树实现原理</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-01-04 00:00:00" itemprop="dateCreated datePublished" datetime="2018-01-04T00:00:00+08:00">2018-01-04</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>709</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>本篇博客主要基于这篇<a href="/2017/12/27/浅谈树这种数据结构/">博客</a>的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍AVL树的实现原理，完整代码在<a href="https://github.com/mrzhangboss/trees" target="_blank" rel="noopener">github</a>的<code>avl.go</code>文件中</p>
-</blockquote>
-<p><a href="/2017/12/27/浅谈树这种数据结构/">浅谈”树”这种数据结构</a><br><a href="https://github.com/mrzhangboss/trees" title="github" target="_blank" rel="noopener">Github</a><br><a href="http://www.cs.usfca.edu/~galles/visualization/AVLtree.html" target="_blank" rel="noopener">可视化页面</a></p>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>AVL树是在对二叉搜索树的一种优化，通过构造一棵高度平衡的二叉搜索树从而实现提高空间利用率，所以在了解如何实现之前，必须了解如何构造一棵二叉搜索树，你可以阅读我的这篇<a href="/2018/01/04/二叉搜索树实现原理/">博客</a>了解如何构建一棵二叉搜索树，虽然我是用Go来实现的，但是不必了解太多Go方面的知识，我在博客中尽量使用图片的方式来介绍实现原理</p>
-<p><a href="/2018/01/04/二叉搜索树实现原理/">二叉搜索树实现原理</a></p>
-<p>由于AVL树本质上也是一棵二叉搜索树，查找并不会改变树的性质，所以AVL的查找也是同二叉搜索树的查询相同，所以这里就重点介绍如何实现“增”和“删”</p>
-<h3 id="树的字段"><a href="#树的字段" class="headerlink" title="树的字段"></a>树的字段</h3><p>在开始介绍如何实现“增”、“删”之前，我想提一下AVL树的存贮字段，在wiki上面的AVL和很多资料上面，AVL的树结构分别由下面四个组成： Val、 Left*、Right*、Parent*。</p>
-<p>Val代表树存贮的值，Left、Right、Parent代表三个指针，分别指向左子树，右子树，父亲，而在我的实现中，我去掉了父亲指针，对于讲解来说，使用一个父指针能很好的解决从子遍历到父亲的经过，但在实际的应用中，我们完全可以使用一个列表存贮从父亲到儿子之间的值，这样的话，能实现一样的功能，而且能节省存贮空间（每个子树都少了一个父指针），但是相应的程序也变得比较复杂起来。</p>
-<p>虽然我在讲解的过程中会直接获取节点的父节点，但是在实际的代码实现中，是通过获取从列表中获取该节点的父节点。</p>
-<h2 id="AVL树的“增”"><a href="#AVL树的“增”" class="headerlink" title="AVL树的“增”"></a>AVL树的“增”</h2><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://en.wikipedia.org/wiki/AVL_tree" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/AVL_tree</a></p>
 
       
     </div>
@@ -1478,152 +1576,6 @@ def f(n, map):
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2017/12/14/software/http/漫谈网络/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/12/14/software/http/漫谈网络/" class="post-title-link" itemprop="url">从子网到“互联网”</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-12-14 00:00:00" itemprop="dateCreated datePublished" datetime="2017-12-14T00:00:00+08:00">2017-12-14</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:08:06" itemprop="dateModified" datetime="2021-03-09T20:08:06+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/软件/" itemprop="url" rel="index">
-                    <span itemprop="name">软件</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>4.2k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>4 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>最近重温《TCP/IP协议簇》，读到子网这个部分，概念都能弄懂，但是不明白子网存在的目的，很多资料都说有两个好处，一是能够判断IP存在局域网还是远程网，另外一个将大的网段分成多个小子网。</p>
-<p>这样就搞得我一头雾水，原来我对互联网的认识是从TCP、HTTP高层协议理解的，我原来对互联网信息传递的理解就像<a href="https://www.zhihu.com/question/20717354/answer/15968282" target="_blank" rel="noopener">这篇回答</a>，网络就像一个神奇的大网，你只需要把电话线插到“网”中就能同别人连起来。原来我对这个解释并没有什么疑问，但是我越来越深入“互联网”，我就我对“互联网”越来越疑惑。</p>
-<p>举个例子，我们知道这个IPV4理论上总共有<code>4294967296（256*256*256*256）</code>个，按照当前的理论，过几年就要分配完了，那意味这至少有50%已经分配好了，也就是说至少有20亿根“网线”要连到一起，我们知道局域网只要交换机就能搭起来，假设我们一个交换机能插20根网线，那么要搭这个20亿“网线”，至少要用一个亿的交换机，你能想象一个亿的交换机堆在一起组成“互联网”吗？就算假如我们使用数字信号，作为一个程序员，我也很难想象原先的程序员是在有限的内存和硬盘，如何设计强大计算机有条不紊的处理20亿的并发。</p>
-<p>所以这篇文章就要从OSI底层协议出发让我们从底部掀一掀“互联网”的老底，将一个有血有肉的“互联网”展现在我们面前。</p>
-<h2 id="触摸“网”"><a href="#触摸“网”" class="headerlink" title="触摸“网”"></a>触摸“网”</h2><p>我们一直在说着互联网、互联网，由于无数在前人的不懈努力下，其实很多时候我们根本感受不到这张网的存在，比如打开浏览器，输入<code>www.baidu.com</code>，我们直接就能连上千里之外的服务器，其实在浏览器后面，我们发的“包”正沿着网跨越千山万水到达一个机房的服务器中。</p>
-<p>所以为了触摸到网这个东西，我们得用一些工具，我们就在打开的百度中输入<code>traceroute</code>，根据你的操作系统安装好，然后我们打开命令行输入<code>traceroute  -I www.baidu.com</code></p>
-<pre><code>traceroute to www.baidu.com (14.215.177.38), 30 hops max, 60 byte packets
- 1  192.168.1.1 (192.168.1.1)  
- 2  182.96.180.1 (182.96.180.1) 
- 3  68.248.177.220.broad.nc.jx.dynamic.163data.com.cn (220.177.248.68)  
- 4  53.251.177.220.broad.nc.jx.dynamic.163data.com.cn (220.177.251.53)  
- 5  182.98.159.73 (182.98.159.73)  
- 6  202.97.75.117 (202.97.75.117)  
- 7  113.108.208.194 (113.108.208.194) 
- 8  * * *
- 9  14.29.121.194 (14.29.121.194)  
-10  * * *
-11  * * *
-12  14.215.177.38 (14.215.177.38) 
-</code></pre><p>由于百度存在负载均衡，所以你们看到的最终IP地址可能不会同我一样（PS：我去掉了时间），虽然中间还有一些<code>***</code>的存在，但是不管怎么我们终于触摸到这个网的存在。</p>
-<p>我第一次看到这个非常震惊，原来在我的心中，“网”上最多有两个端，一个是我们的客户端，一个是服务器端，现在突然冒充这么多个“中间人”，这些东西是什么呢？</p>
-<p>接下来我们通过回答下面两个问题来慢慢了解互联网的构造。</p>
-<ol>
-<li>为什么第一个IP是局域网内的IP（内网）？</li>
-<li>为什么中间有那么多IP端，他们的作用是什么？</li>
-</ol>
-<h2 id="内网与外网的区别"><a href="#内网与外网的区别" class="headerlink" title="内网与外网的区别"></a>内网与外网的区别</h2><p>解答第一个问题前，我们必须要知道什么是内网什么是外网。</p>
-<p>从IP的角度上来看，刚开始创建以太网时，由于避免连在一起的电脑认错人，就用IP用来做每个电脑的“身份证”，一开始要连在电脑比较少，组织只需要拿个小本本记住哪台服务器对于的IP，但是随着想连在一起的电脑越来越多，这个小本本满满的一本快写满了，虽然可以在多买几本本子记住他们，但是本子越多每次要查他们的IP的时候消耗的时间越多，所以他们决定不再一个一个分IP了，于是他们把40亿IP分成A、B、C、D几类。</p>
-<p>这样组织成功用一个小本子记录了几十亿的IP分配，这里组织指的是因特网协会（ICANN），协会自己分好IP后开始发本子，找到下面的运营商，让他们自己搭网线光钎把他们自己负责的国家区域连起来，但由于地方太多，一个本子也记不下来，所以他们又把组织发给他们的本子分发到地区运营商，这样慢慢缩小，最终每个地区的局域网的本子都不会太大，这样查起来速度快而且网络的压力也平摊下去，但是摆在我们面前有一个问题</p>
-<blockquote>
-<p>假设小明和小华分别住在同一条大街的街头和街尾，小明想给小华写信，小明然后写了一封信信放到邮箱，然后邮递员过来把信取走，在邮局分配再让邮递员送到小华家，本来两个人住在同一条街，邮递员只需要把信从街头送到街尾这次传递就结束了，但是由于不知道小明和小华住在同一条街，这封信绕了一个很大的圈才到小华手中。</p>
-</blockquote>
-<p>从这个故事告诉我们，要解决不必要的传输，我们必须要提供一种机制让“邮递员”知道这封“信”是直接“送”还是发到总部发出去，这种机制就是确定是否是内网还是和外网。</p>
-<p>大家回头看一下IP，假如我们按照组织（ICANN）的本子来分内网还是外网，那会造成极大的浪费，比如说A类，从1.0.0.0 到126.255.255.255，共分了126个，每个分类下有1658万台电脑，可能现在最大的云服务商都没有几千万台机器，假如你就几十台电脑，你申请一个B类IP（子网可以容纳6万多台），那么子网的利用率约为为20/6000，这么大一个网段却只有几个IP有效，这是对IP的极大的浪费，所以我们需要再次切片，将一个IP段智能的切分成很多块。</p>
-<p>有没有什么好的方法能够切分IP呢，我们知道在TCP、HTTP这些高层协议栈中并没有子网这个概念，他们只负责连接和解析，所以我们得从数据链路层里面查看，在这层有一个非常重要的概念：<strong>子网掩码</strong></p>
-<h3 id="子网掩码"><a href="#子网掩码" class="headerlink" title="子网掩码"></a>子网掩码</h3><p>首先我们要了解一个概念：<strong>路由表</strong></p>
-<p>这个就是我们前面提到过的“小本本”，这个路由表就记载了我们主机上面有关子网划分的重要数据，我们可以通过在<code>Linux</code>上的<code>route -n</code>命令显示电脑上的路由表</p>
-<pre><code>Kernel IP routing table
-Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
-0.0.0.0         192.168.1.1     0.0.0.0         UG    0      0        0 wlan0
-192.168.1.0     0.0.0.0         255.255.255.0   U     9      0        0 wlan0
-</code></pre><p>在我的电脑的得到的结果是这样的，这里有两个很重要的参数，<code>Gateway（网关）</code>，<code>Genmask（掩码）</code>，网关和掩码是什么呢？网关就是我们连接上外网的关键，掩码就是区分内网外网的钥匙。</p>
-<p>子网是什么呢？你可以看做是IP与掩码的按位与运算得到新IP，比如说我们上面第一个<code>192.168.1.1</code>与<code>0.0.0.0</code>的运算结果是为<code>0.0.0.0</code>，而且你会发现所以的IP跟<code>0.0.0.0</code>得到结果都是一样的<code>0.0.0.0</code>，这说明对于网关来说，所有的外网IP都是属于同一子网，接下来我们看看第二行，这个网关为<code>0.0.0.0</code>说明这个是局域网，当我们的IP与这个局域网掩码运算后得到的地址与这个局域网IP相同时，说明这个IP属于局域网，我们可以看到我们子网大小为256，由于我用的是路由器，所以说明这个路由器最多可以允许254(.255为广播地址）台设备连接</p>
-<p>接下来我们看看在我的云服务器上的路由表</p>
-<pre><code>Kernel IP routing table
-Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
-0.0.0.0         10.10.6.1     0.0.0.0         UG    0      0        0 eth0
-10.15.6.0     0.0.0.0         255.255.192.0   U     0      0        0 eth0
-</code></pre><p>你可以清楚的看到在第二行我们的内网的大小约为<code>16128=256*(255-192)</code>，如果你感兴趣对子网计算，可以看看我下面引用，在这里我就不解释太多计算细节，你可以看到，通过改变内网掩码，我们可以轻轻松松的将局域网分成不同的大小。</p>
-<p>由于IPV4数量较少，所以在局域网内每个主机并不能都分到单独的独立IP，只有网关需要一个独立IP来访问互联网，在局域网内我们一般使用本地局域网IP（组织特地保留下来不分配给运营商，只在局域网内使用）。所以我们这就能解释第一个问题，<code>traceroute</code>第一个发送的地址不是我们单独IP（路由器IP），而是发送给局域网上的网关。</p>
-<h2 id="包的逐级转发"><a href="#包的逐级转发" class="headerlink" title="包的逐级转发"></a>包的逐级转发</h2><p>解决上面第一个问题之后，我们知道在一个局域网内我们能够通过子网掩码知道当前局域网的子网范围，接下来的包的“旅途”是什么呢，为什么在<code>traceroute</code>的路径中发现那么多IP地址呢。</p>
-<p>回答这个问题前，我们从物理角度上先了解互联网是怎么搭建起来的。</p>
-<blockquote>
-<p>当第一台计算机出现的时候，我们不需要互联网，但是随着计算机原来越多，我们想把计算机都用网线连接起来，一开始电脑都放在一起，只需要找一些长长的网线把他们连接起来，但是随着全球各地的人都有个人电脑，这时候只能靠网络运营商，也就是比如电信、移动、联通这些运营商，他们埋光钎搭网线，慢慢的将网络在各地连接起来，最后将子网络连接到骨干网，最后互联网就这么连接起来了</p>
-</blockquote>
-<p>但是就像送信举的例子一样，如果邮递员能够直接把信从街头送到街尾，那么直接节省了很长一段在路上的花的时间。所以运营商就在各个分支网络搭建大大小小的“局域网”，就一层层代理一样，当一个包请求过来，首先先查看这个IP是否属于当前地区的局域网，如果是就查表找到地址发送过去，如果没有就发送到它的更高一级代理（网关），最终这个IP包到达机房区域的局域网的主机上。</p>
-<p>所以我们能在<code>traceroute</code>查看到一个IP包要传递的那么多的IP地址，那些IP地址都是勤劳的网关，不过相比我们第一个网关，也就是我们在网上冲浪的IP地址，那些网关更像一个一个交通指挥员，指导着我们的发送的“信”一步一步走到指定地点。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>互联网就像一个乐高拼成的巨人，刚开始不了解它，远远的观察它，它就像文明遗迹一样让人赞不绝口，等到你慢慢走进它，你就会发现它的组成其实也很普通，也就是一个一个乐高模块组成，但就是这种无数普通搭建我们的“万里长城”，这或许就是互联网的伟大之处。</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="http://www.cnblogs.com/JuneWang/p/3917697.html" target="_blank" rel="noopener">子网</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1696,20 +1648,20 @@ Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">126</span>
+          <span class="site-state-item-count">127</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-count">16</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1776,7 +1728,7 @@ Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:07</span>
+    <span title="站点阅读时长">4:08</span>
 </div>
 
         
