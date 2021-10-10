@@ -6375,4 +6375,27 @@ Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
         <tag>信</tag>
       </tags>
   </entry>
+  <entry>
+    <title>压测心得</title>
+    <url>/2021/10/10/java/%E5%8E%8B%E6%B5%8B%E5%BF%83%E5%BE%97/</url>
+    <content><![CDATA[<blockquote>
+<p>最近在做一个接口的压测，一开始以为自己优化后的代码应该没得问题，没想到中途遇到不少问题</p>
+</blockquote>
+<h1 id="0x1"><a href="#0x1" class="headerlink" title="0x1"></a>0x1</h1><p>碰到第一个问题就是，压测前几分钟正常，后几分钟直线下降，且QPS出现诡异的下降，而且响应时间平均4s</p>
+<blockquote>
+<p>根据Cat的监控显示是数据库响应慢，但是DBA说没有慢SQL，这就很尴尬了</p>
+</blockquote>
+<p>怀疑是因为我们用的数据库连接池给定的活跃连接数太少了（20），我们使用是Tomcat默认开启200个线程，假如都在同时请求的话那么会有部分等待</p>
+<p>但是尝试加到200，依旧是这个诡异的情况，我们数据库后端使用MyCat分库分表，我这个时候猜想是不是因为MyCat原因</p>
+<p>我单元测试将数据库改成我本地的数据库测试，发现QPS很高，不会像压测结果那么诡异，我开始怀疑是不是MyCat网络有问题，进入MyCat宿主机想装一个监控</p>
+<p>但是发现宿主机磁盘满了，经过DBA确认是因为MyCat日志打满了导致的，清楚磁盘空间后这个情况就消失了</p>
+<h1 id="0x2-QPS抖动"><a href="#0x2-QPS抖动" class="headerlink" title="0x2 QPS抖动"></a>0x2 QPS抖动</h1><p>我们压测是连续压测15分钟，但是很神奇的是会存在偶发性情况，QPS一直很稳定，突然一抖动直接降为0，然后过了20秒又恢复了</p>
+<p>根据Cat监控和Skywalking监控发现，部分长请求会在请求Redis之前卡一下，但是Redis执行很慢，这个时候猜想是因为我们使用Jedis连接池，由于每个请求进来都会查询一下Redis</p>
+<p>这个导致都得向Jedis连接池申请连接（超时时间1s），但是由于我们Tomcat线程是200，我们给Jedis最大活跃连接数是100，导致有一半都在等，我们尝试把Jedis最大活跃连接数调到200之后这个情况就消失了，QPS一直很稳定</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>这次压测让我知道，业务代码看起来很简单，但是当极限压力下，我们必须清楚各个组件在干什么，这样才能做到不仅仅只是一个CRUD boy</p>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+  </entry>
 </search>

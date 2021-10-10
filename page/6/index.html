@@ -211,6 +211,131 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/04/19/software/Ubuntu14安装Tensorflow的CPU优化/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/04/19/software/Ubuntu14安装Tensorflow的CPU优化/" class="post-title-link" itemprop="url">Ubuntu16.04安装Tensorflow的CPU优化</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-04-19 00:00:00" itemprop="dateCreated datePublished" datetime="2018-04-19T00:00:00+08:00">2018-04-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:08:28" itemprop="dateModified" datetime="2021-03-09T20:08:28+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/软件/" itemprop="url" rel="index">
+                    <span itemprop="name">软件</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>1.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>由于我的笔记本是农卡，没法安装CUDA加速，而且我的显卡只有2G显存，安装OpenCL费力不讨好，而且由于我有一个Google云的300美元的体验，所以可以在Google云上使用TPU来进行加速，所以我就干脆不安装显卡加速，但是Tensorflow提供了指令集优化，由于默认使用pip安装没有提供这个功能，所以只能手动编译安装</p>
+</blockquote>
+<p>假如你是用<code>pip</code>安装的Tensorflow你可以会得到下面警告</p>
+<pre><code>the tensorflow library wasn&apos;t compiled to use sse4.1 instructions
+</code></pre><h2 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h2><p><del>1. 首先你得先看看你CPU支持什么指令集</del></p>
+<p> <del>cat /proc/cpuinfo|grep flags</del></p>
+<p><del>执行这个指令就能看到你所支持的指令集</del></p>
+<p>最新的<code>tensorflow</code>1.12不需要这步，可以根据你的CPU进行推测</p>
+<p>~~2. 然后安装<code>bazel</code></p>
+<p><del>由于直接从源代码安装比较简单，所以直接从<a href="https://github.com/bazelbuild/bazel/releases" target="_blank" rel="noopener">github</a>上面下载<code>0.18.1</code>相对应的版本就行（最好不要使用最新版，最新版没法编译）</del></p>
+<p><del>3. 安装完之后下载<code>tensorflow</code>源码</del></p>
+<pre><code>mkdir github &amp;&amp; cd github
+git clone --recurse-submodules https://github.com/tensorflow/tensorflow
+cd tensorflow
+./configure  
+</code></pre><p><del>接下来一路选择<code>N</code>就行</del></p>
+<p><del>4. 生成<code>whl</code>文件</del></p>
+<p><del>bazel build -c opt –copt=-msse3 –copt=-msse4.1 –copt=-msse4.2 –copt=-mavx –copt=-mavx2 –copt=-mfma //tensorflow/tools/pip_package:build_pip_package</del></p>
+<p><del>在源码处开始编译，注意<code>copt</code>命令主要是添加指令集支持，这里你要看看上面的指令集（去掉m就是你的指令集，如-msse3指令集为sse3）你的CPU是否支持（一般都支持我的I5 4200U都支持），如果不支持删掉那个就行</del></p>
+<p><del>这里你安装的时间比较长，要看你的CPU了</del></p>
+<p><del>最新版不需要这么复杂了，直接</del></p>
+<pre><code>bazel build --config=opt //tensorflow/tools/pip_package:build_pip_package
+</code></pre><p><del>当然如果你想开启<code>MKL</code>也可以在<code>opt</code>加上改成<code>--config mkl</code></del></p>
+<p>最新版使用<code>bazel</code>编译由于依赖网络下载，而我大天朝的网络一直报check-sum错误，官方说是我们网络的问题，我在我香港服务器尝试了一下，相同的环境下使用<code>bazel</code>是能安装的，但是由于安装到后面<code>bazel</code>需要太多内存了，所以直接爆照，而我本地内存大然而尝试了N多方法（尝试使用<code>proxychain</code>由于安装时需要连接本地<code>bazel</code>服务器，而设置过滤本地网络又没有用，也尝试使用全局代理也绕不过去），最终没有办法只能安装一个别人已经编译好的CPU的加速的。现在放出地址</p>
+<p><a href="https://github.com/mind/wheels/releases" target="_blank" rel="noopener">github tensorflow 编译好的版本下载</a></p>
+<p>你找一个你操作系统对应以及和你Python版本对应的下载下来用<code>pip</code>安装一下就可以了。</p>
+<ol start="5">
+<li>验证</li>
+</ol>
+<p>退出安装目录运行<code>python</code></p>
+<p>执行下面两句</p>
+<pre><code>    import tensorflow as tf;sess = tf.Session(config=tf.ConfigProto(log_device_placement=True))
+
+
+bazel --host_jvm_args=&quot;-Dhttp.proxyHost=localhost -Dhttp.proxyPort=8123 -Dhttps.proxyHost=localhost -Dhttps.proxyPort=8123&quot;    build --config=mkl //tensorflow/tools/pip_package:build_pip_package
+</code></pre><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><del>如果没有报上面的不支持指令集的warning，那么你的CPU指令集优化版就安装好了，当然这个加速效果因CPU而异，对于Xeon SP系列（100核心以上）已经能加速到50倍，同GPU差距也就2倍了（原来可是100倍），但是对于我的笔记本来说，加速效果可能就在30%左右（核心少），所以当前加速性价比最高的还是GPU加速，骚年还是买个好一点的GPU吧，没事还可以吃吃鸡。</del></p>
+<p>经过我测试在<code>I7 9700K</code>下相同的<code>mnist</code>数据下运行，不使用CPU指令优化比使用CPU指令优化下速度还要更快，所以在高版本下的Tensorflow CPU版其实优不优化都无所谓，推荐还是使用GPU加速</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/03/17/python/正则表达式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1388,121 +1513,6 @@ ELF Header:
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/01/06/summary/2018新年展望/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/01/06/summary/2018新年展望/" class="post-title-link" itemprop="url">新年展望</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-01-06 00:00:00" itemprop="dateCreated datePublished" datetime="2018-01-06T00:00:00+08:00">2018-01-06</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:15:01" itemprop="dateModified" datetime="2021-03-09T20:15:01+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/随想/" itemprop="url" rel="index">
-                    <span itemprop="name">随想</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>1.3k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
-<p>最近逛知乎的时候看到一篇<a href="https://www.zhihu.com/question/36149122/answer/66366304" target="_blank" rel="noopener">知乎回答</a>很有趣，也给了很深的感触，自己对于操作系统、数据库、HTTP用的都非常熟练，但是也从来没有去想怎么怎么实现或者背后深层次的原理</p>
-</blockquote>
-<p>以前刚开始学习的时候自己也看过很多关于操作系统、数据库的书，但是就像走马观花一样，很多书就是过了一遍脑子，然后就没有了，在2017年下半年自己也开始尝试把自己以前只是了解只是会用的东西拿出来咀嚼咀嚼，并在这个过程中写出一些自己觉得还是有点干货的博文。而且我也比较享受把复杂的问题简单话的过程。</p>
-<p>操作系统、计算机、数据库、编程原理在我看来都是非常复杂庞大的东西，在2018年，希望能够将上面这些复杂的东西搞的简单一点，当然在这个同时我也会将我将问题简单话的过程中分享出来。</p>
-<p>当然这些东西都太过宽泛，比如操作系统。很多人刚开始学习编程了解了操作系统概念，还有听到很多牛人都说自己写了一个操作系统都会在心里暗暗的立下一个Flag，自己也要做一个操作系统，但是很多人的热情慢慢的被无数的复杂概念慢慢磨掉，最后能坚持到做出一个完整的系统没有几个。作为一个普通人，我们没法一口吃下一个很大的“饼”，当然你如果叫爱因斯坦给你造一个原子弹，它也只能拍拍手跟你说我只能证明它能造出来。所以有效的解决问题的方法是将问题分解，或许最终我们最终造不出操作系统，但是我们对操作系统也能更深一步了解。</p>
-<h2 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h2><p>首先谈谈操作系统，其实我们对操作系统的理解大致都停留在开关机。我们要分解的问题就是我们对这个“黑盒子”的疑问</p>
-<ul>
-<li>操作系统如何管理硬件，比如说鼠标移动点击、键盘输入</li>
-<li>操作系统如何让多用户使用</li>
-<li>操作系统如何在多用户的情况下区分每个用户</li>
-<li>操作系统如何分配内存，如何限制用户的内存</li>
-<li>操作系统如何管理文件，如何避免文件被同时写入</li>
-<li>…..</li>
-</ul>
-<p>当然我这里只是列举了一些直观的问题，在解答这些问题的时候，我们会逐渐衍生出各种问题，最终我希望所有的问题都能被简单话</p>
-<h2 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h2><p>数据库我算使用的比较多了，但是对数据库背后的机制也是懵懵懂懂，只知道他能保证这些功能，比如事务的原子性、一致性、分离性、持久性。</p>
-<p>我觉得了解数据库就是要了解它是如何实现这些特性的，当然这个问题也很宽泛，我们可以尝试分解成</p>
-<ul>
-<li>数据库如何将输入复杂的查询分解成为数据库的操作</li>
-<li>数据库如何避免死锁</li>
-<li>数据对于插入删除异常如何解决</li>
-<li>…..</li>
-</ul>
-<p>其实在我看来数据库可以分解成两大块，一个是编程语音解析（SQL），一个是高效的存贮（Database）</p>
-<p>所以了解数据库也可以尝试了解编译原理，了解如何实现解析SQL，所以接下来我就不提编译原理了</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>其实想想自己的这种把复杂问题简单话就是华罗庚先生曾说的一句话：“把书由薄变厚，再把书由厚变薄”，首先我们得把这些看起来很简单的问题复杂话，最后慢慢的把这个复杂的问题简单话，这样你才能真正的把这个问题给搞懂。</p>
-<p>对于我来说，从小或许受应试教育的影响，自己只学会了复杂问题给解决，但是不懂得解决后再把复杂问题简单话，所以看起来我懂很多复杂问题，但是其实换一个场景，换一个问题就一知半解了。所以自己慢慢的开始改变自己的方法，不满足于解决问题，而着重于简化问题，希望自己的一点经验也能给后来人一点启发。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1575,7 +1585,7 @@ ELF Header:
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">113</span>
+          <span class="site-state-item-count">114</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1650,7 +1660,7 @@ ELF Header:
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">273k</span>
+    <span title="站点总字数">274k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>

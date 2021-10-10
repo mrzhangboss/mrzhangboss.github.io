@@ -211,6 +211,136 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2017/11/20/software/http/代理的前世今生/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/11/20/software/http/代理的前世今生/" class="post-title-link" itemprop="url">代理的前世今生</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-11-20 00:00:00" itemprop="dateCreated datePublished" datetime="2017-11-20T00:00:00+08:00">2017-11-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:08:06" itemprop="dateModified" datetime="2021-03-09T20:08:06+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/软件/" itemprop="url" rel="index">
+                    <span itemprop="name">软件</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>2.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
+<p>自己对代理认识不深，也只是会使用而已，由于最近想做一个代理池，于是查了很多资料，发现代理这个东西还是非常有趣的</p>
+</blockquote>
+<h2 id="代理是什么？"><a href="#代理是什么？" class="headerlink" title="代理是什么？"></a>代理是什么？</h2><p>从编程上来看，<code>requests</code>只需要在请求里面加上<code>proxies</code>参数例如<code>requests.get(&#39;http://www.baidu.com&#39;, proxies={&#39;http&#39;: &#39;127.0.0.1:3128&#39;})</code>，我们就能连上代理进行访问，由于<code>requests</code>包装了太多细节，我们无法知道用了代理和没有用代理的区别</p>
+<p>接下来我们来看一下Python3的内库是如何使用代理的</p>
+<ul>
+<li><p>首先要申请一个<code>ProxyHandler</code></p>
+<p>  from urllib import request<br>  proxy = request.ProxyHandler({‘http’: ‘127.0.0.1:3128’})</p>
+</li>
+</ul>
+<p>然后我们通过这个<code>proxy</code>创建一个<code>opener</code>，然后用<code>opener</code>打开页面，最后输出结果。</p>
+<pre><code>opener = request.build_opener(proxy)
+resp = opener.open(&apos;http://www.baidu.com&apos;)
+print(resp.read())
+</code></pre><p>然后我们看一下如果没有使用代理的请求是什么</p>
+<pre><code>resp = request.urlopen(&apos;http://www.baidu.com&apos;)
+print(resp.read())
+</code></pre><p>你可以很清楚的看到，如果我们不需要代理，之前打开<code>url</code>就行，也就是说我们的请求，其实全部发给代理，交给代理了</p>
+<p>这里就稍稍谈点感想了，以前经常在书上看到人歌颂互联网的伟大，但是自己一直不明白这个伟大在哪，以前一直从表象感受互联网，有了互联网，不用打开电视就可以看影片，不用去图书馆就可以看书，感觉互联网神奇的地方就是给自己带来方便，但是没有去互联网本身的架构的伟大，通过一根根网线交换器，无数主机“连”在了一起，构成了宏大的互联网，或许你通过浏览器打开的网站主机离你几百公里，但是你不要做飞机轮船，你直接在家里就能通过层层代理传递你的请求将千里之外的“敌将首级” 探入囊中。</p>
+<p>互联网神奇的地方就是看起来各个部分非常分散，但是他们却能通过一根一根线紧密的联系起来，只有有“距离”的时候你才能感受到他的美丽</p>
+<p>以前刚学习网站的时候，在本地调试的时候，你在本地跑一个web，直接打开浏览器访问，这时候我就有一种错觉，web就是两端，客户端和服务器端，在本地调试可以这样理解，但是一旦拿到互联网，这就是不完整的，完整的应该是客户端-代理端-服务器端，当然我们的代理端有时候可能是网关、路由器、交换机等等。</p>
+<p>了解这些有什么用呢，因为我自己以前一直对代理没有什么很深理解，用爬虫的时候使用代理就不会被封IP，感觉代理是很BUG的东西，但其实代理很普通，而且无处不在，我们要想真正理解代理，就必须把它拖下圣坛。</p>
+<h2 id="代理其实很普通"><a href="#代理其实很普通" class="headerlink" title="代理其实很普通"></a>代理其实很普通</h2><p>前面我们知道代理其实很普通，但是要深入了解代理必须要先了解IP，IP是什么呢，IP就是互联网的身份证，要想在互联网上“混”，必须要有“身份”</p>
+<p>那为什么我们要用代理呢，比如说假如你是未满18岁的小朋友，你想要买上网，你必须要借一张大人的身份证去上网，这个时候代理的作用就是帮用它的身份证帮你干事。</p>
+<p>我觉得中国文化博大精深，其实一听代理这个词，我们就能知道代理是干什么用的。其实把代理吹得神乎其神没什么用，那些作用都是它的他自己瞎几把搞的，从我们客户端来看，<strong>代理就是服务端</strong>，了解这点非常重要，因为他能让我们把所以的事情都简化，而且从客户端来看，代理就是这样的</p>
+<h2 id="客户端、代理、-服务器三者之间的关系"><a href="#客户端、代理、-服务器三者之间的关系" class="headerlink" title="客户端、代理、 服务器三者之间的关系"></a>客户端、代理、 服务器三者之间的关系</h2><p>前面我们已经谈了客户端和代理之间的关系，对于客户端来说，代理就是服务器端，我们啥都不管，把请求发给代理，相信它就是我们请求的服务器</p>
+<p>对于代理来说，其实它自己最清楚，自己就是个代理，它必须要把请求转发给服务器，然后在把服务器的响应发给客户端，代理就是一个中介人，有的时候我们也可以把它看做一个双向中继，把请求传递一下，再传回来，所以在这三者之间，只有代理是个明白人，它必须清楚这次任务所以细节，所以有时候虽然说代理是安全的，但其实它也不安全，只要把代理攻克了就能了解到底是哪个家伙干的坏事，所以网上干坏事的人，一般都用很多个代理，层层代理，就算你攻克了一个，也找不到坏人</p>
+<p>对于服务器来说，代理就是客户端，它只负责响应就行，对于代理和客户端来说都是一样的策略。但是时候很奇怪，服务器为什么知道你是个代理，原来全是代理自己的锅，我们细谈一下代理的分类</p>
+<h3 id="代理的分类"><a href="#代理的分类" class="headerlink" title="代理的分类"></a>代理的分类</h3><p>代理也分很多种，有的时候代理也不老实，把客户信息暴露了，这个时候我们就说它是小透明（透明代理），有的时候它不告诉你客户信息，但是告诉服务器我是个代理，我们就说它是匿名代理，但是有时候它连它自己是啥都不告诉你，它伪装成它是客户端，这个时候我们称它为高匿代理，所以这些代理根据暴露信息的不同可以分为这三种</p>
+<ul>
+<li>透明代理</li>
+<li>匿名代理</li>
+<li>高匿代理</li>
+</ul>
+<p>当然我们最喜欢高匿代理，你可以把它当做你的分身，除了身份证不一样，两个人长得一模一样。</p>
+<p>所以我们判断一个代理的类别，必须要检测它向服务器发的报文，所以在我项目<code>FastProxyScan</code>，我搭建了一个服务器，返回客户端向服务器请求头，主要是<code>HTTP_X_FORWARDED_FOR</code>和<code>HTTP_VIA</code>头来分别暴露客户端信息和代理端信息，所以我们只要请求头检测有没有这两个字段就可以完成检测，原理非常简单</p>
+<p>在这里我介绍用Nginx高效返回检测信息</p>
+<pre><code>  location ~ ^/ip {
+      default_type application/json;
+      return 200 &apos;{&quot;REMOTE_ADDR&quot;:&quot;$remote_addr&quot;,&quot;HTTP_VIA&quot;:&quot;$http_via&quot;, &quot;HTTP_X_FORWARDED_FOR&quot;: &quot;$http_x_forwarded_for&quot;}&apos;;
+}
+</code></pre><p>在Nginx配置里面加上这个端口，我们只有请求<code>/ip</code>，就能直接从Nginx返回请求头信息，速度贼快</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>当然网上还有很多对代理的分类，缓存代理，正向代理，反向代理，但是这些都是代理自己的额外功能，我们前面介绍的代理都是傻呼呼，客户端要什么，它就做什么，这些如缓存代理高级的代理就是很聪明，它的目的就是最快返回客户端需求，比如说虽然说这个傻客户端傻乎乎一个请求请求了几十遍还没记住，代理自己拿个小本子记好，你下次来，正好对上号，直接抄给你，不用再跑几千里去拿了。但是其实本质上它还是逃不出上面的分类，只不过它有的自己的不同罢了。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2017/11/12/algorithm/漫谈排序算法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1542,128 +1672,6 @@ name text
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2017/04/04/python/爬虫分布式总结/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/04/04/python/爬虫分布式总结/" class="post-title-link" itemprop="url">爬虫分布式总结</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-04-04 16:03:55" itemprop="dateCreated datePublished" datetime="2017-04-04T16:03:55+08:00">2017-04-04</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:05:18" itemprop="dateModified" datetime="2021-03-09T20:05:18+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>1.5k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>由于最近在一家数据服务公司实习，项目需要了解分布式，所以在这里基于<code>scrapy</code>的分布式总结一下爬虫的分布式实习</p>
-</blockquote>
-<h1 id="分布式起因"><a href="#分布式起因" class="headerlink" title="分布式起因"></a>分布式起因</h1><blockquote>
-<p>单机无法完成全部工作任务所以要使用集群加速完成工作任务</p>
-</blockquote>
-<p>分布式有点像蚁群，一只蚂蚁举不起一只卡壳虫，但是几百只就能轻松的把他运回家</p>
-<p>但是分布式设计必须科学，否则就像下面一样，一个和尚挑水，其他和尚围观</p>
-<p><img src="/images/timg.jpg" alt="分工不合理，来源网络"></p>
-<h1 id="分布式设计"><a href="#分布式设计" class="headerlink" title="分布式设计"></a>分布式设计</h1><p>分布式设计原理在于<strong>分工</strong></p>
-<p>首先我们来看看爬虫怎么进行分工，单个爬虫运行根据<code>url</code>获取响应报文，然后通过解析报文返回结果或者下一次爬取目标，如果单个爬虫我们只要在内存维持一个<code>set</code>变量记住爬取过的<code>url</code>，这就是<code>scrapy</code>默认的方法。</p>
-<p>但是我们无数个爬虫由于不在同一个进程，无法共享变量，所以我们只要让一个“<code>variable</code>（变量）”能够被被所以爬虫共享到就完成了主要功能</p>
-<p>现在我们来完善具体细节<br>要求：</p>
-<ul>
-<li>爬虫能够轻松读取所以已爬取变量</li>
-<li>爬虫能够加入已读取变量</li>
-<li>爬虫能够获取下一次请求具体参数</li>
-</ul>
-<p>原则上我们可以使用内存映射来构建这个变量，但是读取，修改都不便利，所以可以先使用<code>redis</code>作为存贮变量的地方，使用<code>redis</code>提供的<code>set</code>我们替代<code>scrapy</code>框架的<code>set</code>变量。</p>
-<p>现在我们已经决定我们要使用什么容器来存贮变量，接下来我们要考虑存什么变量。</p>
-<p>我们先看<code>scrapy-redis</code>存贮了什么，分析源代码可知，<code>scrapy-redis</code>将返回的<code>Request</code>pickle话存入数据库，并且计算这个<code>Request</code>的32位hash值存入<code>redis</code>的<code>set</code>中过滤列表。</p>
-<p><code>scrapy-redis</code>通过修改<code>scrapy</code>的调度器（scheduler）让其当爬虫没有<code>Request</code>需要处理时在<code>redis</code>中提取<code>Request</code>，实现分布式。</p>
-<p>我们来分析一下这种方法，爬虫在爬取的过程中从<code>master</code>端获取<code>Request</code>，并不断生成<code>Request</code>到<code>master</code>端，<code>master</code>只是一个<code>redis</code>数据库，负责对<code>url</code>去重，分发任务。</p>
-<p>我们来比较一下直接存取<code>url</code>这种方法，这种方法好处在于，<code>slaver</code>能够从上一个<code>Request</code>中获取全部信息，假如上一个<code>Request</code>需要存取获取的表单提取地址，我们下一次爬虫发起<code>Request</code>就能从上一个<code>Request</code>中获取参数。</p>
-<p>当然由于我们存贮的是<code>Request</code>，一个<code>Request</code> <code>pickle</code>化之后的字符串比较长，当我们的任务列表里面有很多<code>Request</code>的时候，<code>redis</code>占用的内存会非常巨大。</p>
-<p>当然如果爬虫启动的够多，生成一个就能把任务被调度下去，那么这个任务列表就能稳定在一个可控的范围。</p>
-<p> <strong>总结</strong></p>
-<p>每个爬虫即负责爬取数据，又负责生成下一个任务，即无主次之分，我们可以一次性在<code>docker</code>中启动上百个实例，我们只是用<code>redis</code>充当一个存放<code>变量</code>的地方。</p>
-<p>但是这种方法也有一个缺点，我们不能自由的添加初始<code>url</code>，要想添加新的爬取任务，必须新建一个爬虫更新初始<code>url</code>，我们如果是想搭建一个自由添加<code>url</code>的爬虫，这种实现方式不大优雅。</p>
-<h1 id="分布式改良"><a href="#分布式改良" class="headerlink" title="分布式改良"></a>分布式改良</h1><p>我们要修改程序框架，达到随时可以添加要爬取新任务，然而不影响爬虫集群</p>
-<p><img src="/images/distribute_crawl.png" alt="爬虫框架"></p>
-<p>我们独立出来<code>master</code>，<code>master</code>负责生成<code>Request</code>去重以及任务调度，而<code>slaver</code>只负责从<code>master</code>获取任务爬取。</p>
-<p>这种方法我们可以很轻松对<code>master</code>改良而不影响<code>slaver</code>，通过让<code>master</code>定时从<code>数据库</code>中获取新的任务生成到任务列表，我们可以轻松添加新的任务到<code>slaver</code>集群中去。</p>
-<p>下一步我们就介绍如何修改<code>scrapy-redis</code>达到我们新框架需要</p>
-<h1 id="重构scrapy-redis"><a href="#重构scrapy-redis" class="headerlink" title="重构scrapy-redis"></a>重构<code>scrapy-redis</code></h1><p>参考：<br><a href="http://blog.csdn.net/bone_ace/article/details/50989104" target="_blank" rel="noopener">基于Redis的三种分布式爬虫策略</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1736,7 +1744,7 @@ name text
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">113</span>
+          <span class="site-state-item-count">114</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1811,7 +1819,7 @@ name text
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">273k</span>
+    <span title="站点总字数">274k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>

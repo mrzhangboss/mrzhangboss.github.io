@@ -211,6 +211,102 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/10/10/java/压测心得/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/10/10/java/压测心得/" class="post-title-link" itemprop="url">压测心得</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-10-10 16:47:06 / 修改时间：17:13:17" itemprop="dateCreated datePublished" datetime="2021-10-10T16:47:06+08:00">2021-10-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>738</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>最近在做一个接口的压测，一开始以为自己优化后的代码应该没得问题，没想到中途遇到不少问题</p>
+</blockquote>
+<h1 id="0x1"><a href="#0x1" class="headerlink" title="0x1"></a>0x1</h1><p>碰到第一个问题就是，压测前几分钟正常，后几分钟直线下降，且QPS出现诡异的下降，而且响应时间平均4s</p>
+<blockquote>
+<p>根据Cat的监控显示是数据库响应慢，但是DBA说没有慢SQL，这就很尴尬了</p>
+</blockquote>
+<p>怀疑是因为我们用的数据库连接池给定的活跃连接数太少了（20），我们使用是Tomcat默认开启200个线程，假如都在同时请求的话那么会有部分等待</p>
+<p>但是尝试加到200，依旧是这个诡异的情况，我们数据库后端使用MyCat分库分表，我这个时候猜想是不是因为MyCat原因</p>
+<p>我单元测试将数据库改成我本地的数据库测试，发现QPS很高，不会像压测结果那么诡异，我开始怀疑是不是MyCat网络有问题，进入MyCat宿主机想装一个监控</p>
+<p>但是发现宿主机磁盘满了，经过DBA确认是因为MyCat日志打满了导致的，清楚磁盘空间后这个情况就消失了</p>
+<h1 id="0x2-QPS抖动"><a href="#0x2-QPS抖动" class="headerlink" title="0x2 QPS抖动"></a>0x2 QPS抖动</h1><p>我们压测是连续压测15分钟，但是很神奇的是会存在偶发性情况，QPS一直很稳定，突然一抖动直接降为0，然后过了20秒又恢复了</p>
+<p>根据Cat监控和Skywalking监控发现，部分长请求会在请求Redis之前卡一下，但是Redis执行很慢，这个时候猜想是因为我们使用Jedis连接池，由于每个请求进来都会查询一下Redis</p>
+<p>这个导致都得向Jedis连接池申请连接（超时时间1s），但是由于我们Tomcat线程是200，我们给Jedis最大活跃连接数是100，导致有一半都在等，我们尝试把Jedis最大活跃连接数调到200之后这个情况就消失了，QPS一直很稳定</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>这次压测让我知道，业务代码看起来很简单，但是当极限压力下，我们必须清楚各个组件在干什么，这样才能做到不仅仅只是一个CRUD boy</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/09/19/java/LinkedHashMap实现LRU/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1219,104 +1315,6 @@ order by sage;
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/04/04/summary/stage/how2writewell/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/04/04/summary/stage/how2writewell/" class="post-title-link" itemprop="url">从因材施教的角度来看写博客</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-04-04 14:32:35 / 修改时间：17:37:34" itemprop="dateCreated datePublished" datetime="2021-04-04T14:32:35+08:00">2021-04-04</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/随想/" itemprop="url" rel="index">
-                    <span itemprop="name">随想</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>1k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>一开始本来想写一篇反思自己最近文章比较浅显的博客，但是想着想着突然发现其实这样的<br>反思我已经写过很多篇了，但是效果不好，这篇博客从另外一种角度来思考如何让自己<br>写出好博客</p>
-</blockquote>
-<h2 id="什么是因材施教"><a href="#什么是因材施教" class="headerlink" title="什么是因材施教"></a>什么是因材施教</h2><p>目前我们的教育算不上是因材施教，每个人上的同样的课本，同一老师传道受业</p>
-<p>我上学的那会经常上课开小差，倒不是因为听不懂老师的内容，而是因为老师讲的我都会了，我的思维要比<br>一般的人来的要活跃一点</p>
-<p>但是那个时候老师只是告诉我们，上课开小差是不对的</p>
-<p>假如我回到过去，给自己上课，我会引导自己思考更多，这道题为什么这样做，还能怎么做，而不是单纯的给<br>我一个答案，说这道题就是这么做</p>
-<p>其实因材施教就是顺势而为，思维活跃的就是给他们更大的挑战，让他们自己去钻研原理</p>
-<h2 id="反思"><a href="#反思" class="headerlink" title="反思"></a>反思</h2><p>其实回到现在，我们仍然还是处于学生状态，可能因为我们受了很多年的素质教育，所以<br>当我们自己开始当自己的老师的时候，去自学，还是延续当初自己的学习状态</p>
-<p>那怎么才能做到因材施教呢，其实很简单，找到一种自己最喜欢的学习方式，而不是强迫自己<br>去学习，去听课，去学新的东西</p>
-<p>对于我来说，最好的学习方式是激起我的好奇心，学新东西的时候，有些部分可能之前学过，你可以<br>不断的给自己“抬杠”，激发自己的好奇心，去探究，但是还有一个非常重要的一点就是<br>得及时把自己拉回来，避免一条路走到黑，因为有的时候你会发现随着你”钻“牛角尖越来越深，<br>你会精疲力竭，你得稍作休息，这个时候做个总结，总结自己所得，以及评估继续钻下去是否<br>值得</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这段时间其实自己一直处于一种很焦虑的状态，很想一口气吃成大胖子，因为自己目前其实算是转行吧，之前一直在做<br>数据分析、大数据，目前转成后端，对于我来说我想在这个行业闯出一番事业来</p>
-<p>之前一直以被动的学习姿态去重新学习后端，搞的自己非常压抑，这段时间休息好好思考了一下，有的时候我就像对自己<br>实施了”棍棒教育“，强迫自己努力学习，但是大可不必，自己本来是喜欢这个行业的，自己这种强势的思想反而会<br>让我产生不想去学的态度，其实把学习当做一个有挑战性的事，快乐的学习比啥都重要</p>
-<h2 id="反思-1"><a href="#反思-1" class="headerlink" title="反思"></a>反思</h2><p>其实我自己反思，自己最大的一个问题就是犯了一个年轻人经常犯“好高骛远”</p>
-<p>回看我自己从大学到现在，自己一直在拼命的学，自己一直在给自己定目标，碰到新东西一定要把它<br>快速掌握</p>
-<p>甚至到现在，我还是这样，自己想成为后端专家，所以自己一直在“催促”自己抓紧把知识点掌握，<br>在知乎上看了很多后端专家需要掌握的知识点，自己为了快速掌握，催促自己赶快把这篇文章给<br>看懂</p>
-<p>其实最大的一个问题就是我太急了，无论学什么东西都是囫囵吞枣</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1389,7 +1387,7 @@ order by sage;
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">113</span>
+          <span class="site-state-item-count">114</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1464,7 +1462,7 @@ order by sage;
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">273k</span>
+    <span title="站点总字数">274k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>

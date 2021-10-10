@@ -211,6 +211,327 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/10/14/software/BuildHadoopClusterinOneComputer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/10/14/software/BuildHadoopClusterinOneComputer/" class="post-title-link" itemprop="url">Build Hadoop Cluster in One Computer</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-10-14 00:00:00" itemprop="dateCreated datePublished" datetime="2018-10-14T00:00:00+08:00">2018-10-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:08:06" itemprop="dateModified" datetime="2021-03-09T20:08:06+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/软件/" itemprop="url" rel="index">
+                    <span itemprop="name">软件</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>11k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>10 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>If you are hadoop novice, I strongly suggest you beginning your study from single node building,you can learn from this <a href="https://www.tutorialspoint.com/hadoop/" target="_blank" rel="noopener">website</a>, after you having finshed build one single node, then you can reading my blog to learn how to run a N-node clusters just in your computer.</p>
+</blockquote>
+<h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>This blog is introduce using one computer to build a N-node clusters.I suggest you use ubuntu to build. You can also use Windows, but you’d better install virtualbox to install one desktop ubuntu  as your base server.In this blog, we will try two different way to build hadoop clusters in one computer.</p>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>Before you start learning, you can download these required softwares from Intelnet.</p>
+<ul>
+<li>JDK8(optional)</li>
+</ul>
+<p>we can also install it by apt tool, but may be slow in China.So you’d better download it from website.</p>
+<p><a href="https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="noopener">https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html</a></p>
+<p>choose “jdk-8u181-linux-x64.tar.gz” to download.You can alse install in your master computer later, you can read from this <a href="https://websiteforstudents.com/how-to-install-oracle-java-jdk8-on-ubuntu-16-04-17-10-18-04-desktops/" target="_blank" rel="noopener">blog</a></p>
+<ul>
+<li>Hadoop(2.85)</li>
+</ul>
+<p>I choose latest 2.85 version, you can download from this website.</p>
+<p><a href="https://www.apache.org/dyn/closer.cgi/hadoop/common/hadoop-2.8.5/hadoop-2.8.5-src.tar.gz" target="_blank" rel="noopener">https://www.apache.org/dyn/closer.cgi/hadoop/common/hadoop-2.8.5/hadoop-2.8.5-src.tar.gz</a></p>
+<ul>
+<li>Ubuntu Image</li>
+</ul>
+<p>In this trip, we choose Ubuntu16.04 server for build clusters.You can use 163 mirrors to speed up your download.</p>
+<p><a href="http://mirrors.163.com/ubuntu-releases/16.04.5/ubuntu-16.04.5-server-amd64.iso" target="_blank" rel="noopener">http://mirrors.163.com/ubuntu-releases/16.04.5/ubuntu-16.04.5-server-amd64.iso</a></p>
+<ul>
+<li><p>Virtualbox</p>
+<p>we need <code>virtualbox</code> to create our clusters. It’s easy for you to install virtualbox in ubuntu. You can read this <a href="https://tecadmin.net/install-oracle-virtualbox-on-ubuntu/" target="_blank" rel="noopener">article</a> to install virtualbox-5.2</p>
+<ul>
+<li>Docker</li>
+</ul>
+</li>
+</ul>
+<p>we will try use docker build our clusters, it’s easy install in ubuntu.The install tutorials is <a href="https://docs.docker.com/install/linux/docker-ce/ubuntu/#uninstall-old-versions" target="_blank" rel="noopener">https://docs.docker.com/install/linux/docker-ce/ubuntu/#uninstall-old-versions</a></p>
+<h2 id="Clusters-On-VirtualBox"><a href="#Clusters-On-VirtualBox" class="headerlink" title="Clusters On VirtualBox"></a>Clusters On VirtualBox</h2><p>Now I assuming you’re working on a ubuntu16.04 desktop OS.Now let’s begining our trip.</p>
+<p>First,let’s init a master, after we install required software in master, we can use virtualbox <code>clone</code> function to easy to build slave.</p>
+<h3 id="Build-Ubuntu-VMS"><a href="#Build-Ubuntu-VMS" class="headerlink" title="Build Ubuntu VMS"></a>Build Ubuntu VMS</h3><ul>
+<li>new a machine named master</li>
+</ul>
+<p><img src="/images/vm-create1.png" alt></p>
+<ul>
+<li>Choose 2G RAM, VDI </li>
+</ul>
+<p>then run this image, load the iso file you downloaded.Pay attention to make true install ssh server( Or you can install after installing os by <code>apt</code>)</p>
+<blockquote>
+<p>Before we start install hadoop and java skd, let me tell you something about the internet require.</p>
+</blockquote>
+<p>For our clusters runing, we need a connected internet between master and slaves.If we have many computers, it’s simple, we just need they both have public IP or private IP in one LAN.But if we just in one computer, how can we have independent IP for our master and slaves.</p>
+<p>This is why we install <code>virtualbox</code>, <code>virtualbox</code> provide our independent computers in just one computer.Moreover, it can provide a simulate NIC for each computer.By using that, each computer can have they own private IP in LAN. </p>
+<p>So the key our cluster running is the <code>bridge</code></p>
+<p><img src="/images/vm-net-adapter.png" alt></p>
+<p>we need choose the <code>bridged adapter</code> to make master and slaves just in same LAN.Pay attention to make true you need choose your real NIC.In ubuntu you just run <code>ifconfig</code> and find out have one line <code>inet addr:192.168.1.12</code> .Usually it’s <code>eth0</code> in ubuntu.</p>
+<p>When you have finished OS installment.You can login in and start installing hadoop clusters.</p>
+<blockquote>
+<p>Step 1. Configure Static IP</p>
+</blockquote>
+<p>In your virtual machine, your IP is changeable when reboot.Because ubuntu use DHCP for init your IP from gateway.We need make true our  master and slaves have changeless IP to protect their connection.</p>
+<p>To do this, first you need make true your installment is ok. Try <code>ping  baidu.com</code> to check you connected Internet or not.Then we need know our gateway address.Try run <code>route</code> in shell, you can find a table, in the row <code>Gateway</code>, you can find one or more static IP like <code>192.168.0.1</code> , this is your gateway.Now we open our internet settings.</p>
+<pre><code>cat /etc/network/interfaces    
+</code></pre><p>you can see something like this</p>
+<pre><code>auto eth0
+iface eth0 inet dhcp
+</code></pre><p><code>eth0</code> is your NIC(yours maybe different). and we use <code>dhcp</code> to get IP. Now we need change it to static.</p>
+<pre><code>auto eth0
+iface eth0 inet static
+address 192.168.0.105
+netmask 255.255.255.0
+gateway 192.168.0.1
+</code></pre><p>PS: make true, you need change the <code>eth0</code> and <code>gateway</code> IP to yours.The address <code>IP</code> must be subnet of gateway under the control of netmast.eg, you can’t set you ip address to 10.1.1.1 if your gateway is 192.168.0.1.The easiest way is set by <code>dhcp</code> format.And just change the last number.If you still can’t connect the Internet.Try add one line <code>dns-nameservers 8.8.8.8</code> .</p>
+<pre><code>ifdown eth0
+ifup  eth0
+</code></pre><p>now run upper commands in your vm(<code>eth0</code> need your NIC name).If run <code>ifconfig</code> again, you can see our IP address chage to <code>192.168.0.105</code> now!</p>
+<blockquote>
+<p>Step 2. Add Hostname alias</p>
+</blockquote>
+<p>Becase hadoop need hostname to identify their ID, so now we add <code>Hostname-IP</code> pair to smooth our connection.</p>
+<p>Just edit <code>/etc/hosts/</code> and add three line below</p>
+<pre><code>192.168.0.105 master
+192.168.0.104 slave1
+192.168.0.103 slave2
+</code></pre><blockquote>
+<p>Step 3. Make SSH Login</p>
+</blockquote>
+<p>Becase hadoop need login by root with <code>SSH</code> , so we need make <code>root</code> can login in in ubuntu.Open <code>/etc/ssh/sshd_config</code> and change line <code>PermitRootLogin prohibit-password</code> to <code>PermitRootLogin yes</code>, then <code>service ssh restart</code> .</p>
+<p>Also you need use your <code>sudo</code> to set password for root</p>
+<pre><code>sudo passwd root
+</code></pre><p>now check you can login in with <code>root</code></p>
+<pre><code>ssh root@127.0.0.1
+</code></pre><blockquote>
+<p>Step 4. Set Hadoop Env</p>
+</blockquote>
+<p>First, we need install <code>JDK</code> for hadoop, now back to your host computer. And use <code>scp</code> to upload <code>JDK</code> to vm.You can add below to <code>/etc/hosts</code> in your host machine.</p>
+<pre><code>192.168.0.105 master
+192.168.0.104 slave1
+192.168.0.103 slave2
+</code></pre><p>then you can easy upload your <code>JDK</code> and <code>Hadoop</code> to your vm(you need unpack this tar.gz file first)</p>
+<pre><code>scp -r /path/your/jdk root@master:/usr/lib/jvm/java-8-oracle
+
+scp -r /path/your/hadooproot@master:/usr/local/hadoop
+</code></pre><p>PS: you can also install <code>Java8</code> by <code>apt</code></p>
+<p>Now, we installed <code>JDK</code> and <code>Hadoop</code> in our VM.Then we back to VM and initialize our <code>Hadoop</code>.</p>
+<ul>
+<li>Set JDK Home</li>
+</ul>
+<p>edit <code>hadoop-env.sh</code>(in <code>/usr/local/hadoop/etc/hadoop/</code>) file add <code>export JAVA_HOME=/usr/lib/jvm/java-8-oracle</code> to tell <code>Hadoop</code> JDK local address.</p>
+<ul>
+<li>Set Core IP</li>
+</ul>
+<p>We need a boss to handle all employer.So edit <code>core-site.xml</code>(in <code>/usr/local/hadoop/etc/hadoop/</code>) and add a property in <code>configuration</code></p>
+<pre><code>&lt;property&gt;
+    &lt;name&gt;fs.defaultFS&lt;/name&gt;
+    &lt;value&gt;hdfs://master:9000/&lt;/value&gt;
+&lt;/property&gt;
+</code></pre><p>each cluster will send heartbeat to <code>master:9000</code>.</p>
+<ul>
+<li>Set <code>HDFS</code> replication and file dir</li>
+</ul>
+<p>The hadoop basement is <code>HDFS</code>, edit <code>hdfs-site.xml</code> and add three property </p>
+<pre><code>&lt;property&gt;
+        &lt;name&gt;dfs.replication&lt;/name&gt;
+        &lt;value&gt;2&lt;/value&gt;
+    &lt;/property&gt;
+
+ &lt;property&gt;
+        &lt;name&gt;dfs.namenode.name.dir&lt;/name&gt;
+        &lt;value&gt;file:///root/hdfs/namenode&lt;/value&gt;
+
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;dfs.datanode.data.dir&lt;/name&gt;
+        &lt;value&gt;file:///root/hdfs/datanode&lt;/value&gt;
+
+    &lt;/property&gt;
+</code></pre><p>The <code>dfs.replication</code> meaning the backups of <code>HDFS</code>, <code>dfs.namenode.name.dir</code> and <code>dfs.datanode.data.dir</code> is optional.If you not set this, it will store under <code>/tmp</code> (when reboot ,it will delete).</p>
+<ul>
+<li>Set <code>Yarn</code> for <code>MapReduce</code></li>
+</ul>
+<p>In hadoop2, we use <code>Yarn</code> to manage our <code>MapReduce</code>, run <code>cp mapred-site.xml.template mapred-site.xml</code> and then add property to set <code>Yarn</code> as our <code>MapReduce</code> framework</p>
+<pre><code>&lt;property&gt;
+    &lt;name&gt;mapreduce.framework.name&lt;/name&gt;
+    &lt;value&gt;yarn&lt;/value&gt;
+&lt;/property&gt;
+</code></pre><p>and we also need tell <code>yarn</code> the <code>master</code> of the clusters and our need open <code>MapReduce</code> <code>Shuffle</code> Fuction effective our <code>MapReduce</code>, edit <code>yarn-site.xml</code>, and add two property</p>
+<pre><code>&lt;property&gt;
+    &lt;name&gt;yarn.nodemanager.aux-services&lt;/name&gt;
+    &lt;value&gt;mapreduce_shuffle&lt;/value&gt;
+&lt;/property&gt;
+
+&lt;property&gt;
+    &lt;name&gt;yarn.resourcemanager.hostname&lt;/name&gt;
+    &lt;value&gt;master&lt;/value&gt;
+&lt;/property&gt;
+</code></pre><p><code>yarn.nodemanager.aux-services</code> open <code>shuffle</code>, and <code>yarn.resourcemanager.hostname</code> set <code>ResourceManager</code> hostname.</p>
+<hr>
+<p>Now we complete the base <code>Hadoop</code> settings, now we can try run <code>hadoop</code> on <code>master</code></p>
+<pre><code>cd /usr/local/hadoop/
+bin/hadoop namenode -format
+sbin/start-dfs.sh
+</code></pre><p>We try format our namenode, and start dfs server, now run <code>jps</code>, you  can see <code>NameNode</code> and <code>SecondaryNameNode</code> server started.</p>
+<p>Now we try start <code>Yarn</code> to start <code>MapReduce FrameWork</code>.</p>
+<pre><code>sbin/start-yarn.sh
+</code></pre><p>Now, rerun <code>jps</code>, you can see <code>ResourceManager</code> running.You can also try <code>netstat -tuplen|grep 8088</code>, you will find the <code>ResourceManager</code> open some tcp port like 8080,8031,8033,etc.And the <code>8088</code> is the website of  managing clusters.You can open <a href="http://master:8088" target="_blank" rel="noopener">http://master:8088</a> to see the <code>clusters</code> status.Now you can only see blank node in clusters, for we have not started one slave yet.</p>
+<p>Congratulation, our master is starting, in the running, we need input our password when start, after complete all slave building, we can use ssh-key to autologin.</p>
+<blockquote>
+<p>Now let’s build our slaves.</p>
+</blockquote>
+<p>Use <code>virtualbox</code> clone function, we clone <code>master</code> to a new VM named <code>slave1</code>.</p>
+<p>Because we clone every thing to the <code>slave1</code>, so we need close <code>master</code> and goto <code>slave1</code> change  its hostname and static IP make it to be a <code>slave</code></p>
+<p>First we need do is rename the VM,edit <code>/etc/hostname</code> change it to <code>slave1</code>,  then we need do is setting <code>slave1</code> Static IP, we do like upper.Just replace IP to <code>192.168.0.104</code>, and then we reboot and start <code>master</code> and <code>slave1</code> at meatime.</p>
+<p>Now let’s check master to start our <code>slave1</code>, in our <code>master</code> VM, we edit <code>/usr/local/hadoop/etc/hadoop/slaves</code> file, and one line </p>
+<pre><code>slave1
+</code></pre><p>and make true you have add slaves’ hostname alias in <code>master</code> VM.<br>Then we try start our <code>Cluster</code></p>
+<pre><code> cd /usr/local/hadoop
+bin/hadoop datanode -format
+sbin/start-dfs.sh &amp;&amp; sbin/start-yarn.sh
+</code></pre><p>After running these command, check <a href="http://master:8088" target="_blank" rel="noopener">http://master:8088</a>  to find the master have one slave online named <code>slave1</code>.</p>
+<p>PS: Now you can generate ssh-key for your login in slaves, just run <code>ssh-keygen -t rsa &amp;&amp; ssh-copy-id slave1</code>, you don’t need input your password to start your clusters.</p>
+<p>Now we have one node clusters, if you want more, you can add more slaves repeatting upper produce.</p>
+<p>After you build your N-Clusters , you can now run those commands to check the hadoop working or not.</p>
+<pre><code># create input files
+
+mkdir input
+echo &quot;Hello Docker&quot; &gt;input/file2.txt
+echo &quot;Hello Hadoop&quot; &gt;input/file1.txt
+
+# create input directory on HDFS
+hadoop fs -mkdir -p input
+
+# put input files to HDFS
+hdfs dfs -put ./input/* input
+
+
+# run wordcount 
+cd /usr/local/hadoop/bin
+hadoop jar ../share/hadoop/mapreduce/sources/hadoop-mapreduce-examples-*-sources.jar org.apache.hadoop.examples.WordCount input output
+
+# print the input files
+echo -e &quot;\ninput file1.txt:&quot;
+hdfs dfs -cat input/file1.txt
+
+echo -e &quot;\ninput file2.txt:&quot;
+hdfs dfs -cat input/file2.txt
+
+# print the output of wordcount
+echo -e &quot;\nwordcount output:&quot;
+hdfs dfs -cat output/part-r-00000
+</code></pre><p>PS: By the way, if you want to running this clusters for a long time, you can try use <code>vboxmanage</code> to manage the vm. You can simple use <code>vboxmanage startvm master --type headless</code> to start master background(change <code>master</code> to other VM name can start them too)</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>The difficult of build a clusters in virtualbox is know how master and slaves connecting each other.If you set a right network, it’s easy to running the cluster.But there’re some problem in <code>virtualbox</code>, we can’t share our network in the host LAN with virtualbox <code>bridge</code>. So we will introduce you build clusters in <code>Docker</code> and we can run our clusters in a swarm clusters in a real envirment.</p>
+<h2 id="Clusters-On-Docker"><a href="#Clusters-On-Docker" class="headerlink" title="Clusters On Docker"></a>Clusters On Docker</h2><p>Building clusters is much easily in docker, for docker provide a easy network bride in sigle computer or in a swarm clusters.</p>
+<p>we use <code>kiwenlau/hadoop:1.0</code> image to our test(which hadoop version is 2.7).Just run</p>
+<pre><code>sudo docker pull kiwenlau/hadoop:1.0
+</code></pre><p>After few minutes, we can have a hadoop images, now we need set our private LAN Net just use this(If you want to run a swarm clusters above many computers, just change <code>bridge</code> to <code>overlay</code>, powerful, isn’t it)</p>
+<pre><code>sudo docker network create --driver=bridge hadoop
+</code></pre><p>Now let start our master server</p>
+<pre><code>sudo docker run -itd \
+                --net=hadoop \
+                -p 50070:50070 \
+                -p 8088:8088 \
+                --name hadoop-master \
+                --hostname hadoop-master \
+                kiwenlau/hadoop:1.0 &amp;&gt; /dev/null
+</code></pre><p>In the command, we set the master hostname to <code>hadoop-master</code>.and we needn’t change <code>/etc/hosts</code> to add it like in <code>virtualbox</code>, docker will do it for us.</p>
+<p>Now we start our slaves</p>
+<pre><code>sudo docker run -itd \
+                --net=hadoop \
+                --name hadoop-slave1 \
+                --hostname hadoop-slave1 \
+                kiwenlau/hadoop:1.0 &amp;&gt; /dev/null
+
+sudo docker run -itd \
+                --net=hadoop \
+                --name hadoop-slave2 \
+                --hostname hadoop-slave2 \
+                kiwenlau/hadoop:1.0 &amp;&gt; /dev/null
+</code></pre><p>After doing that, we have finshed all softwares build.Now just run<code>sudo docker exec -it hadoop-master bash</code> into <code>master</code>, and then start our clusters <code>bash start-hadoop.sh</code>.</p>
+<p>Now you can enjoy your clusters in few minutes, open <a href="http://127.0.0.1:8088/" target="_blank" rel="noopener">http://127.0.0.1:8088/</a> to see our clusters running happily.</p>
+<h2 id="Conclusion-1"><a href="#Conclusion-1" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>After introducing two way to build a hadoop clusters, you will find it’s easy to build a clusters if you know how they work together.In a word, we kind of like using <code>Docker</code> to running hadoop clusters, we can easy move add more <code>Hadoop</code> slaves in just one command.Meantime we can use <code>bridge</code> or <code>overlay</code> network for us building a more safe hadoop clusters.</p>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><p><a href="https://github.com/kiwenlau/hadoop-cluster-docker" target="_blank" rel="noopener">https://github.com/kiwenlau/hadoop-cluster-docker</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/10/13/useless/StartingUsingEnglishInMyBlog/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1805,131 +2126,6 @@ for i in range(18000):
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/04/19/software/Ubuntu14安装Tensorflow的CPU优化/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/04/19/software/Ubuntu14安装Tensorflow的CPU优化/" class="post-title-link" itemprop="url">Ubuntu16.04安装Tensorflow的CPU优化</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-04-19 00:00:00" itemprop="dateCreated datePublished" datetime="2018-04-19T00:00:00+08:00">2018-04-19</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:08:28" itemprop="dateModified" datetime="2021-03-09T20:08:28+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/软件/" itemprop="url" rel="index">
-                    <span itemprop="name">软件</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>1.9k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>2 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>由于我的笔记本是农卡，没法安装CUDA加速，而且我的显卡只有2G显存，安装OpenCL费力不讨好，而且由于我有一个Google云的300美元的体验，所以可以在Google云上使用TPU来进行加速，所以我就干脆不安装显卡加速，但是Tensorflow提供了指令集优化，由于默认使用pip安装没有提供这个功能，所以只能手动编译安装</p>
-</blockquote>
-<p>假如你是用<code>pip</code>安装的Tensorflow你可以会得到下面警告</p>
-<pre><code>the tensorflow library wasn&apos;t compiled to use sse4.1 instructions
-</code></pre><h2 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h2><p><del>1. 首先你得先看看你CPU支持什么指令集</del></p>
-<p> <del>cat /proc/cpuinfo|grep flags</del></p>
-<p><del>执行这个指令就能看到你所支持的指令集</del></p>
-<p>最新的<code>tensorflow</code>1.12不需要这步，可以根据你的CPU进行推测</p>
-<p>~~2. 然后安装<code>bazel</code></p>
-<p><del>由于直接从源代码安装比较简单，所以直接从<a href="https://github.com/bazelbuild/bazel/releases" target="_blank" rel="noopener">github</a>上面下载<code>0.18.1</code>相对应的版本就行（最好不要使用最新版，最新版没法编译）</del></p>
-<p><del>3. 安装完之后下载<code>tensorflow</code>源码</del></p>
-<pre><code>mkdir github &amp;&amp; cd github
-git clone --recurse-submodules https://github.com/tensorflow/tensorflow
-cd tensorflow
-./configure  
-</code></pre><p><del>接下来一路选择<code>N</code>就行</del></p>
-<p><del>4. 生成<code>whl</code>文件</del></p>
-<p><del>bazel build -c opt –copt=-msse3 –copt=-msse4.1 –copt=-msse4.2 –copt=-mavx –copt=-mavx2 –copt=-mfma //tensorflow/tools/pip_package:build_pip_package</del></p>
-<p><del>在源码处开始编译，注意<code>copt</code>命令主要是添加指令集支持，这里你要看看上面的指令集（去掉m就是你的指令集，如-msse3指令集为sse3）你的CPU是否支持（一般都支持我的I5 4200U都支持），如果不支持删掉那个就行</del></p>
-<p><del>这里你安装的时间比较长，要看你的CPU了</del></p>
-<p><del>最新版不需要这么复杂了，直接</del></p>
-<pre><code>bazel build --config=opt //tensorflow/tools/pip_package:build_pip_package
-</code></pre><p><del>当然如果你想开启<code>MKL</code>也可以在<code>opt</code>加上改成<code>--config mkl</code></del></p>
-<p>最新版使用<code>bazel</code>编译由于依赖网络下载，而我大天朝的网络一直报check-sum错误，官方说是我们网络的问题，我在我香港服务器尝试了一下，相同的环境下使用<code>bazel</code>是能安装的，但是由于安装到后面<code>bazel</code>需要太多内存了，所以直接爆照，而我本地内存大然而尝试了N多方法（尝试使用<code>proxychain</code>由于安装时需要连接本地<code>bazel</code>服务器，而设置过滤本地网络又没有用，也尝试使用全局代理也绕不过去），最终没有办法只能安装一个别人已经编译好的CPU的加速的。现在放出地址</p>
-<p><a href="https://github.com/mind/wheels/releases" target="_blank" rel="noopener">github tensorflow 编译好的版本下载</a></p>
-<p>你找一个你操作系统对应以及和你Python版本对应的下载下来用<code>pip</code>安装一下就可以了。</p>
-<ol start="5">
-<li>验证</li>
-</ol>
-<p>退出安装目录运行<code>python</code></p>
-<p>执行下面两句</p>
-<pre><code>    import tensorflow as tf;sess = tf.Session(config=tf.ConfigProto(log_device_placement=True))
-
-
-bazel --host_jvm_args=&quot;-Dhttp.proxyHost=localhost -Dhttp.proxyPort=8123 -Dhttps.proxyHost=localhost -Dhttps.proxyPort=8123&quot;    build --config=mkl //tensorflow/tools/pip_package:build_pip_package
-</code></pre><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><del>如果没有报上面的不支持指令集的warning，那么你的CPU指令集优化版就安装好了，当然这个加速效果因CPU而异，对于Xeon SP系列（100核心以上）已经能加速到50倍，同GPU差距也就2倍了（原来可是100倍），但是对于我的笔记本来说，加速效果可能就在30%左右（核心少），所以当前加速性价比最高的还是GPU加速，骚年还是买个好一点的GPU吧，没事还可以吃吃鸡。</del></p>
-<p>经过我测试在<code>I7 9700K</code>下相同的<code>mnist</code>数据下运行，不使用CPU指令优化比使用CPU指令优化下速度还要更快，所以在高版本下的Tensorflow CPU版其实优不优化都无所谓，推荐还是使用GPU加速</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -2002,7 +2198,7 @@ bazel --host_jvm_args=&quot;-Dhttp.proxyHost=localhost -Dhttp.proxyPort=8123 -Dh
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">113</span>
+          <span class="site-state-item-count">114</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -2077,7 +2273,7 @@ bazel --host_jvm_args=&quot;-Dhttp.proxyHost=localhost -Dhttp.proxyPort=8123 -Dh
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">273k</span>
+    <span title="站点总字数">274k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
