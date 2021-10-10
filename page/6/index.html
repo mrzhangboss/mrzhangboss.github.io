@@ -211,7 +211,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2019/03/13/summary/book/代码整洁之道-总结/">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/03/17/python/正则表达式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/myself.jpg">
@@ -225,7 +225,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2019/03/13/summary/book/代码整洁之道-总结/" class="post-title-link" itemprop="url">代码整洁之道-总结</a>
+            <a href="/2018/03/17/python/正则表达式/" class="post-title-link" itemprop="url">Python正则表达式</a>
         </h1>
 
         <div class="post-meta">
@@ -235,7 +235,1188 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2019-03-13 00:00:00" itemprop="dateCreated datePublished" datetime="2019-03-13T00:00:00+08:00">2019-03-13</time>
+              <time title="创建时间：2018-03-17 00:00:00" itemprop="dateCreated datePublished" datetime="2018-03-17T00:00:00+08:00">2018-03-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:05:18" itemprop="dateModified" datetime="2021-03-09T20:05:18+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>2.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <hr>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
+<p>这篇博客其实写于2016年，最近在重新学了一下正则表达之后，觉得有必要重新整理一下正则的用法</p>
+</blockquote>
+<blockquote>
+<p>Python对正则匹配的库是<code>re</code>，re是基于Perl所用的正则表达式,并有<br>一定的改进.</p>
+</blockquote>
+<p>正则本质就是搜索所需的文本,正则里面有三种搜索方式</p>
+<ol>
+<li>第一种是知道文本内容直接使用普通字符搜索出来,比如要从<code>abcdefg</code>中搜到<code>cd</code></li>
+<li>第二种就是模糊查询,比如我想从英文中找一个数字,一般借助特殊符号(<code>.+*?</code>)或者转义符号(<code>\w\d</code>等)</li>
+<li>第三种就是结合前两种,比如我记得一个单词的前两个字母想把那个单词搜出来.</li>
+</ol>
+<p>这里不介绍正则基本知识,你想知道可以<a href="http://www.regexlab.com/zh/regref.htm" target="_blank" rel="noopener">点这里</a></p>
+<p>ps: 由于在python里面也是用反斜杠做转义字符,所以比如<code>\\</code>和<code>\b</code>这两个特殊字符必须用<code>\\\\</code>和<code>\\b</code>来代替.但是python提供了一个元字符支持re模块,只要字符前面加上r比如<code>r&#39; regex &#39;</code>就能不关闭python的转义.</p>
+<h5 id="正则里面我觉得很重要的一个概念就是组概念-当我们的文本比较复杂的时候将其分成多个小组是利于我们正则的后期维护和改进"><a href="#正则里面我觉得很重要的一个概念就是组概念-当我们的文本比较复杂的时候将其分成多个小组是利于我们正则的后期维护和改进" class="headerlink" title="正则里面我觉得很重要的一个概念就是组概念,当我们的文本比较复杂的时候将其分成多个小组是利于我们正则的后期维护和改进"></a>正则里面我觉得很重要的一个概念就是组概念,当我们的文本比较复杂的时候将其分成多个小组是利于我们正则的后期维护和改进</h5><blockquote>
+<p>正则里面使用一个括号来表示组比如<code>(a)(b)</code>就分成了两个组</p>
+</blockquote>
+<p>re函数里面<code>search</code>和<code>finall</code>都支持组查询,而且<code>findall</code>方法假如里面有组分布会只显示组成员.</p>
+<p>re库支持搜索选项,这几个选项对于正则有时候非常有用</p>
+<pre><code>DOTALL [简S]-------------允许点字符匹配换行符
+IGNORECASE [简I] --------忽悠大小写
+LOCALE  [简L]  ----------支持本地化字符
+MULTILINE [简M] ---------多行,每行都支持锚点
+UNICODE [简U]  ----------支持Unicode,\w也可以是Unicode了
+VERBOSE  [简X]  --------------神器,会无视代码中的注释空格和换行
+</code></pre><p>我们也可以在正则的组里面使用这些搜索选项,只要用上面的简称的小写比如<code>(?is)</code>就可以在组里面使用这些规则.</p>
+<hr>
+<p>正则里面还有一些比较有趣的函数,同string里面的translate函数,sub函数可以替换找到的变量<br>    bold = re.compile(r’*{2}(.<em>?)\</em>{2}’)<br>    bold.sub(r’<b>\1</b>‘, ‘this <strong>foo</strong> and <strong>ok</strong>‘)</p>
+<blockquote>
+<p><code>\1</code>代表第一组变量也就是foo和ok<br>输出为<code>&#39;this &lt;b&gt;foo&lt;/b&gt; and &lt;b&gt;ok&lt;/b&gt;&#39;</code>我们使用成功用加粗了foo和ok,同<code>translate</code>不同这个方法不需要知道要替换的是什么.</p>
+</blockquote>
+<hr>
+<h3 id="正则的断言"><a href="#正则的断言" class="headerlink" title="正则的断言"></a>正则的断言</h3><blockquote>
+<p>我们可以使用一些特殊的符号来执行一些程序判断选择,比如说判断是否特殊字符,如果有<br>的话就不匹配,这就是断言</p>
+</blockquote>
+<p>断言有两种一种是前向,一种是后向</p>
+<blockquote>
+<p>前向是指判断语句在前面,这种就相当于一个if语句,而后向是匹配后判断,由于已经匹配好了文字所以<br>匹配的字符必须是固定长度的(不能使用*.?).</p>
+</blockquote>
+<p>前向就是在判断后面匹配的表达式必须与规定相同,比如一个邮箱地址我们要匹配可以用&lt;&gt;包起来的,但是不匹配只要一个的我们就可以在前面加上这个<code>^(?=(&lt;.*&gt;$)|([^&lt;].*[^&gt;]$))</code>通过使用<code>?=</code>来断言后面必须是用&lt;&gt;包起来或者没有&lt;&gt;,我们使用前向断言可以通过正则直接过滤掉不符合的(当然你可以用多个简单正则来做但是效率没有这个高),还有否定前向就是通过<code>?!</code>来声明.<br>相对应后向断言就是很简单了,直接在匹配后面使用一个<code>?&lt;=</code>(肯定后向)或<code>?&lt;!</code>(否定后向),不过要注意这个是判断前面匹配是否满足的.</p>
+<blockquote>
+<p>断言只是限定我们想选的文本的范围,他并不会被选择.<br>断言的一个有趣的应用就是选择字符间的空格,我们知道python其实假设每个字符间都一个空格(这就是我们有时候会选出一些空字符出来的原因),这个空格不是我们自己打上去的.</p>
+</blockquote>
+<h4 id="举个例子"><a href="#举个例子" class="headerlink" title="举个例子"></a>举个例子</h4><h3 id="两个字符串a1和a-1-第一个我们称为A-第二个我们称他为B-假如我们想把数字和字母分出来-对于B来说-很简单因为数字和字母之间有一个空格-我们可以直接使用字符自带的split就行-但是对于A来说-就不那么简单了"><a href="#两个字符串a1和a-1-第一个我们称为A-第二个我们称他为B-假如我们想把数字和字母分出来-对于B来说-很简单因为数字和字母之间有一个空格-我们可以直接使用字符自带的split就行-但是对于A来说-就不那么简单了" class="headerlink" title="两个字符串a1和a 1,第一个我们称为A,第二个我们称他为B,假如我们想把数字和字母分出来,对于B来说,很简单因为数字和字母之间有一个空格,我们可以直接使用字符自带的split就行,但是对于A来说,就不那么简单了."></a>两个字符串<code>a1</code>和<code>a 1</code>,第一个我们称为A,第二个我们称他为B,假如我们想把数字和字母分出来,对于B来说,很简单因为数字和字母之间有一个空格,我们可以直接使用字符自带的<code>split</code>就行,但是对于A来说,就不那么简单了.</h3><h4 id="字母a和数字1中间没有字符-我们必须把字母和数字之间的”空格”给选择出来-这时候就可以用到断言了"><a href="#字母a和数字1中间没有字符-我们必须把字母和数字之间的”空格”给选择出来-这时候就可以用到断言了" class="headerlink" title="字母a和数字1中间没有字符,我们必须把字母和数字之间的”空格”给选择出来,这时候就可以用到断言了."></a>字母a和数字1中间没有字符,我们必须把字母和数字之间的”空格”给选择出来,这时候就可以用到断言了.</h4><pre><code>r = re.compile(r&apos;(?&lt;=[a-z])(?=\d)&apos;) 
+</code></pre><p>这个<code>r</code>就可以字母和数字直接的隐形空格给选择出来了</p>
+<h3 id="遗憾的是由于python的正则并不把隐形的空格当做字符-所以我们不能简单的使用正则的re-split方法-选择字符分割-直接将字符串分解开"><a href="#遗憾的是由于python的正则并不把隐形的空格当做字符-所以我们不能简单的使用正则的re-split方法-选择字符分割-直接将字符串分解开" class="headerlink" title="遗憾的是由于python的正则并不把隐形的空格当做字符,所以我们不能简单的使用正则的re.split方法(选择字符分割)直接将字符串分解开."></a>遗憾的是由于python的正则并不把隐形的空格当做字符,所以我们不能简单的使用正则的<code>re.split</code>方法(选择字符分割)直接将字符串分解开.</h3><h4 id="我们就得写几步"><a href="#我们就得写几步" class="headerlink" title="我们就得写几步"></a>我们就得写几步</h4><h3 id="第一先把空格换成-或其他"><a href="#第一先把空格换成-或其他" class="headerlink" title="第一先把空格换成 $$$(或其他)"></a>第一先把空格换成 $$$(或其他)</h3><pre><code>&gt;&gt;&gt; s = r.sub(&apos;$$$&apos;, &apos;a1&apos;)
+&gt;&gt;&gt; print(s)
+&apos;a$$$1&apos;
+</code></pre><h3 id="然后在分割"><a href="#然后在分割" class="headerlink" title="然后在分割"></a>然后在分割</h3><pre><code>&gt;&gt;&gt; s.split(&apos;$$$&apos;)
+&gt;&gt;&gt; [&apos;a&apos;, &apos;1&apos;]
+</code></pre><p>成功分割好了,当然这个只能处理字母在前数字在后的”隐形空格”,只要加一个<code>&quot;|&quot;</code>在把前向改成后向,后向改成前向就可以选择任意字母和数字直接的”隐形空格”了.</p>
+<hr>
+<h3 id="正则的变量"><a href="#正则的变量" class="headerlink" title="正则的变量"></a>正则的变量</h3><blockquote>
+<p>我们可以使用?P<name>来声明一个组(用括号,当然其实我们每使用一个括号re自动帮我们将组取一个<br>名,依次从1-n</name></p>
+</blockquote>
+<p>有时候我们可以要求上面的匹配组,下面也要相应匹配组,我们就可以通过两种方法来引用这个变量,假如你没有使用<code>&lt;?P&lt;name&gt;</code>来声明组你只能通过<code>\n</code>来引用,n是这个变量的序号,第二种是通过<code>(?P=name)</code><br>来引用这个变量,name为你自己定义的组的名字</p>
+<p>re还提供了一种机制来让你修正你的正则,简单来说就是能判断一个组存不存在来约束匹配,语法为</p>
+<pre><code>(?(id)yes-expression|no-expression)
+</code></pre><p>id为组的编号或者name.</p>
+<h2 id="正则的起源"><a href="#正则的起源" class="headerlink" title="正则的起源"></a>正则的起源</h2><p>正则这个东西其实很简单，我们</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/02/20/algorithm/mit6_828/用户空间隔离/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/02/20/algorithm/mit6_828/用户空间隔离/" class="post-title-link" itemprop="url">用户空间隔离</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-02-20 00:00:00" itemprop="dateCreated datePublished" datetime="2018-02-20T00:00:00+08:00">2018-02-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>5.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>通过前面的学习我们知道，在前两个实验中最主要的程序就是<code>kern/init.c</code>文件中<code>i386_init</code>函数，但是我们看到最后却是一个<code>while</code>循环结束。</p>
+</blockquote>
+<pre><code>while (1)
+    monitor(NULL);
+</code></pre><p>这个<code>monitor</code>就是简单读取用户输入然后通过字符串调用给定的几个函数。我们可以把这个函数看做<code>i386_init</code>的子函数，也就是程序一直在<code>i386_init</code>中运行，也就是一直以内核形式运行。实验三就开始完成一个正常的操作系统的用户模式的建立，以及两者直接转换。</p>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>什么是用户呢，我们把内核当做一个大程序，用户就是小程序，两者基本上没有差别，但是为了让众多用户和内核平稳运行，我们必须要区别对待用户和内核</p>
+<p>首先我们要相信内核，内核是我们精心设计的，相反用户我们不能相信它，任何人都可以犯错误，我们知道计算机程序其实非常精巧，当他们完整的时候，他们可以完成你无法想象的工作，但他们有时候少掉一行指令时，他们就会瞬间崩溃，所以我们必须要保证就算用户怎么折腾都不会把内核搞垮</p>
+<p>所以我们来考虑一下怎么来限制用户不影响整个系统，第一用户不能动内核在内存上的程序，甚至连查看的资格都没有，这就是为什么前面我们已经绞尽脑汁把内核放到高地址上确保其“高高在上”；第二个用户不能在CPU一直跑，假如它有权限一直在CPU上跑，那么内核就废了，没有CPU可以用相当于“断了胳膊”；第三用户必须要有一些内核的权限，比如说申请一些内存啥的。</p>
+<p>接下来我们就从这几个问题出发来探索一下xv6为什么要这样设计用户空间。</p>
+<h2 id="用户是个程序？"><a href="#用户是个程序？" class="headerlink" title="用户是个程序？"></a>用户是个程序？</h2><p>在完成用户设计之前，首先我们先做个实验，来验证一下用户是个程序。首先我们在<code>kern/init.c</code>文件中<code>i386_init</code> 的头部加上<code>#include &lt;inc/elf.h&gt;</code>然后在<code>#if defined(TEST)</code>代码前加入几行代码</p>
+<pre><code>extern uint8_t _binary_obj_user_hello_start[];
+struct Elf* header = ((struct Elf *) _binary_obj_user_hello_start);
+assert(header-&gt;e_magic == ELF_MAGIC);
+((void (*)(void)) (header-&gt;e_entry))();
+</code></pre><p>这段代码你如果仔细观察过前面操作系统载入的源码（<code>boot/main.c</code>中)你会发现基本上差不多。首先我们声明了<code>_binary_obj_user_hello_start</code>外部变量，这个变量是通过<code>ld</code>编译器将内核中用户程序<code>hello.c</code>的起始地址定义来的，由于我们现在没有文件系统，内核就把用户程序一股脑链接到自己身上，在以后有了文件系统就不需要了。但是它给了我们一个便利，我们现在可以直接在内存上运行它</p>
+<p>当然虽然它的确是个程序（assert那不会出错），但是它还是跑不起来，因为它的虚拟地址不在内核内存上，必须要像前面映射内存物理空间才能运行，但是他的确是一个程序，从这里我们得到一个结论，用户其实也就是一段程序，接下来我们就看看如何用软件与硬件的结合的设计解决上面的问题。</p>
+<h2 id="权限"><a href="#权限" class="headerlink" title="权限"></a>权限</h2><p>首先我们来看看权限问题，<code>x86</code>系统硬件给我们提供了一个分段式权限功能，在开启内存分页后，<code>CS</code>寄存器16位里面拿出两位来当做权限管理，分为四级（<code>0b00、0b01、0b10、0b11</code>），最小的权限最大，当然xv6只用了两级，如下图所示</p>
+<p><img src="/images/systemring.png" alt="系统环来源网络"></p>
+<p>PS：当然<code>CS</code>寄存器拿出来三位来当权限管理，但是xv6将第三位用户和内核都设置为1，所以我们也不介绍这一位</p>
+<p>我们在<code>CS</code>寄存器的这两位称为CPL，用来区分权限。在<a href="/2018/01/31/引导和操作系统的交互/">引导和操作系统的交互</a>这篇博客我们知道，在<code>x86</code>系统中，这个<code>CS</code>寄存器是标志段选择子，在<code>GDT</code>表中每个表项也有两位用来标志权限，我们称他们为<code>DPL</code>，他们的意义也就是<code>CS</code>寄存器选择这个段时他们最低拥有的权限。</p>
+<p>当然在<code>GDT</code>表中的段选择子也有一个表示权限的称作<code>RPL</code>，这三者的关系在这<a href="https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86" target="_blank" rel="noopener">里面</a>介绍的很详细，<code>RPL</code>是历史遗留问题但是操作系统基本上没有使用这个功能，所以这里我们也不解释，感兴趣可以看一下<a href="https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86" target="_blank" rel="noopener">前面</a>的介绍。</p>
+<p>在<code>kern/env.c</code>的<code>结构体gdt</code>我们声明了一个<code>GDT</code>表，并且声明了一个系统段和用户段。</p>
+<p>这两个段就是我们权限的基础我们接下来通过实验来验证权限位对操作系统的保护</p>
+<p>我们首先在<code>user/badsegment.c</code>中加入一句汇编</p>
+<pre><code>asm volatile(&quot;ljmp %0,$1f\n 1:\n&quot; :: &quot;i&quot; (0x08)); // 将CS设置为0x08
+</code></pre><p>我们尝试将<code>CS</code>设置为<code>0x08</code>（内核段）结果直接引发一个<code>General Protection</code>的异常，但是当我们尝试执行这句</p>
+<pre><code>asm volatile(&quot;ljmp %0,$1f\n 1:\n&quot; :: &quot;i&quot; (0x18));  // 将CS设置为0x18
+</code></pre><p>我们发现程序没有引发异常（这段的含义是跳转到用户段，由于已经在用户段，所以没有触发异常），这说明<code>x86</code>通过<code>CS</code>寄存器很好的实现了内核和用户的保护（用户不能直接跳到内核去执行代码）</p>
+<p>在<code>user/faultwritekernl.c</code>和<code>user/faultreadkernl</code>中我们发现尝试写入或者读取内核也失败了，这是通过前面章节的内存分页权限实现的，这里就不介绍了。</p>
+<p>现在我们知道，通过我们不懈努力内核和用户直接存在一个鸿沟，但是这时候摆在我们面前很大的问题，内核拥有一些非常重要的权限比如申请内存，如果用户没有这个权限那么功能非常受限，所以我们就要提到一个内核和用户交互的手段：Trap。</p>
+<h2 id="Trap"><a href="#Trap" class="headerlink" title="Trap"></a>Trap</h2><p>其实这个Trap包括内部中断、软中断、异常。但是xv6统一将他们叫做陷阱（Trap），这个Trap主要完成从用户到内核的一种跳转，我们就不介绍内部中断和异常，因为这些都是系统完成，我们来介绍了一下软中断，这个我们人为可以操作，而且我们可以把其他中断、异常当做系统去帮我们调用这个指令</p>
+<pre><code>int $n
+</code></pre><p>很简单x86共定义了256个中断向量，存在物理内存<code>0x000</code>-<code>0x3ff</code>之间，每个存贮一个<code>cs</code>值一个<code>eip</code>的值，这个n只要是在256直接就行，当调用这个的时候我们直接调到那里读取<code>cs</code>和<code>eip</code>的值。</p>
+<p>在正式介绍<code>Trap</code>之前我们要简单的介绍一下两个知识点</p>
+<h3 id="IRET"><a href="#IRET" class="headerlink" title="IRET"></a>IRET</h3><p>这是<code>iret</code>是一个机器码，我们前面介绍了无论是操作系统还是用户没有办法直接跳段（会引发<code>General Protection fault</code>），而且我们知道前面只是测试了跳代码段，我们知道两个不同的程序，不仅仅是代码段不同，堆栈段也要不同，才能保证各个程序的独立。所以系统为了解决这个问题，直接提供一个<code>iret</code>指令，这个全名应该叫<code>中断返回</code>，它的功能其实很简单，就是实现上面的跳代码段和堆栈段还有恢复<code>EFLAGS</code>寄存器值，这个主要应用在从系统跳转到用户上面。</p>
+<p>感兴趣的可以看看这个详细<a href="https://stackoverflow.com/questions/6892421/switching-to-user-mode-using-iret" target="_blank" rel="noopener">资料</a>，接下来我们看看在<code>xv6</code>里面如何使用<code>iret</code>来实现跳段</p>
+<p>在<code>kern/env.c</code>的<code>env_pop_tf</code>函数实现了切换程序段的功能</p>
+<pre><code>asm volatile(
+        &quot;\tmovl %0,%%esp\n&quot;
+        &quot;\tpopal\n&quot;
+        &quot;\tpopl %%es\n&quot;
+        &quot;\tpopl %%ds\n&quot;
+        &quot;\taddl $0x8,%%esp\n&quot; 
+        &quot;\tiret&quot;
+        : : &quot;g&quot; (tf) : &quot;memory&quot;);
+</code></pre><p>首先第一个就是把tf指针指向的值赋给<code>esp</code>寄存器，要想知道这个操作的意思就必须知道，一个结构体其实在程序里面就是一块连续的内存值，所以这里就是把<code>esp</code>的值指向<code>tf</code>代表的<code>Trapframe</code>结构体的开始位置，所以我们得看看这个<code>Trapframe</code>组成是什么</p>
+<pre><code>struct Trapframe {
+    struct PushRegs tf_regs;
+    uint16_t tf_es;
+    uint16_t tf_padding1;
+    uint16_t tf_ds;
+    uint16_t tf_padding2;
+    uint32_t tf_trapno;
+    /* below here defined by x86 hardware */
+    uint32_t tf_err;
+    uintptr_t tf_eip;
+    uint16_t tf_cs;
+    uint16_t tf_padding3;
+    uint32_t tf_eflags;
+    /* below here only when crossing rings, such as from user to kernel */
+    uintptr_t tf_esp;
+    uint16_t tf_ss;
+    uint16_t tf_padding4;
+} __attribute__((packed));
+</code></pre><p>第一个是<code>PushRegs</code>结构体，这个对应我们第一个操作<code>popal</code>，将<code>PushRegs</code>所有值全部从堆栈中取出，我们发现当到<code>iret</code>操作时，正好对应取出代码段还有堆栈段和<code>EFLAGS</code>寄存器，所以其实<code>iret</code>的操作非常简单，只是将三个取出指令和成了一个。</p>
+<h3 id="TSS"><a href="#TSS" class="headerlink" title="TSS"></a>TSS</h3><p>前面我们捋了捋从系统跳转到用户，因为我们给用户的都是刚新建的值，所以这个并没有什么问题，但是你要想一想，当用户想跳转到系统的时候，这个时候它也必须要切换堆栈，因为用户可以还没有准备好（有时候可以是因为堆栈内存不够，如果把寄存器值强行插值到用户堆栈会引发二次异常）。但是假如使用操作系统的堆栈，在我们切换之前系统必须要知道内核堆栈在哪</p>
+<p>所以x86提供了一个<code>tr</code>寄存器给我们使用，这个寄存器的位数为16位，专门存贮一个选择子（类似前面段选择子），这个选择子<code>base</code>地址必须指向一块空余空间。前面知道我们要想从用户跳操作系统，必须知道操作系统的堆栈（中断向量表提供了代码段cs：ip），所以x86干脆规定了这个空间名字为<code>TSS</code>，并声明了一大串寄存器的值备用，当然这些是硬件规定的，软件用不用无所谓，但是硬件会在跳转的时候，读取里面固定位置的值，也就是我们需要的堆栈段<code>ss：esp</code>，在<code>inc/mmu.h</code>的<code>Taskstate</code>结构体中声明了这段内存规定的字段</p>
+<p>所以我们在<code>kern/trap.c</code>中声明了（ss：esp）</p>
+<pre><code>   ts.ts_esp0 = KSTACKTOP;
+ts.ts_ss0 = GD_KD;
+</code></pre><p>这样我们在跳转的时候就能获取到内核的堆栈段，从而进入内核模式，当然硬件设定<code>TSS</code>的作用一开始为了考虑任务切换，它也提供了相应的指令，但是需要200左右时钟周期来完成，所以我们<code>xv6</code>嫌弃其速度太慢，只是使用了其保存内核堆栈地址的作用，所以在<code>xv6</code>中<code>TSS</code>只是一个“数据库”而已。</p>
+<hr>
+<p>介绍完前面的基础知识之后，接下来的就是这个<code>Trap</code>，前面我们知道在得到<code>int</code>这个指令时候这个时候就开始一个<code>Trap</code>开始。</p>
+<p>这个时候硬件接管程序控制，你也可以认为跳转到硬件代码去了。在给的<a href="https://pdos.csail.mit.edu/6.828/2016/xv6/book-rev9.pdf" target="_blank" rel="noopener">资料</a>第三章的<code>X86 Protection</code>里面介绍了这个过程，我们将前面几个步骤很我们前面给的资料联系起来</p>
+<blockquote>
+<p>后面推寄存器值就不解释了，同<code>Trapframe</code>的反向结构相同，之所以会这样，是因为堆栈地址是向下生长，而程序地址是向上生长的</p>
+</blockquote>
+<p>硬件这部分操作为</p>
+<ul>
+<li>获取中断向量表第n个的地址（n为<code>int</code>后面整数）</li>
+</ul>
+<p>然后开始权限检查，这个也是为什么程序不能随意调用系统资源的原因</p>
+<ul>
+<li>检测DPL与CPL的大小关系</li>
+</ul>
+<p>这个<code>DPL</code>不是前面<code>GDT</code>里面的，这个是存贮在中断向量表中<code>CS</code>里面的值，这个设置可以让我们给每个中断向量设置一个权限，看它允许是用户调用还是系统调用，如果只允许系统调用，那么用户调用直接引发<code>General Protection Fault</code>（13号中断），在我们的xv6中，我们只允许用户调用<code>Debug</code>和<code>System Call</code>中断，其他只能由系统调用</p>
+<ul>
+<li>判断保留<code>esp</code>和<code>ss</code>，检测目标的段与当前段</li>
+</ul>
+<p>当我们在操作系统中出现中断的时候，如果硬件还傻乎乎的将操作系统的堆栈归位那么就进入死循环了，所以这个目的就是避免同属一个段的时候不会切换堆栈</p>
+<ul>
+<li>当跳段的时候，从<code>TSS</code>中取到<code>esp</code>和<code>ss</code>切换堆栈段</li>
+</ul>
+<p>这个就是前面弹到的<code>TSS</code>的功能，接下来我们所以推出去的值全部存贮在要跳的段的堆栈上面了。</p>
+<p>推完<code>Trap</code>程序的寄存器值，保留好“犯罪现场”后，就可以进入内核进行处理这个异常了。</p>
+<p>至此我们介绍完了严格有序的处理从用户到内核的跳转，当我们处理完后就可以通过<code>iret</code>回到用户程序，这样就完成了用户拥有内核权限的设计。</p>
+<hr>
+<h2 id="用户时间控制"><a href="#用户时间控制" class="headerlink" title="用户时间控制"></a>用户时间控制</h2><p>接下来的用户使用CPU时间设置也是通过这个这个<code>Trap</code>的中断实现，你可以理解为硬件在每个CPU上在每隔个<code>10ms</code>的时候就触发一个中断。这样到内核的时候，内核发现是时间中断，就保留用户的寄存器值到用户自己空间（<code>Env</code>里面有一个<code>env_tf</code>变量可以存贮这些信息），然后调用其他或者这个程序，这样的话，我们就实现了一个时间控制。</p>
+<p>PS：这里我们提一下这个<code>Env</code>结构体，内核初始化了1024个这个结构体，这说明我们可以同时拥有1024个用户程序运行，这个结构体就是用户环境，也就是我们在<code>Unix</code>系统上输入<code>ps</code>中的<code>pid</code>（每个<code>pid</code>代表一个程序）</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>至今我们介绍了通过一个简简单单的<code>Trap</code>操作就实现了复杂的权限管理和空间隔离，虽然操作系统看起来非常复杂，但其实都是由简单干练的概念搭建起来的，因为<code>Unix</code>的哲学就是<code>简单至上</code>。</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://stackoverflow.com/questions/6892421/switching-to-user-mode-using-iret" target="_blank" rel="noopener">https://stackoverflow.com/questions/6892421/switching-to-user-mode-using-iret</a></p>
+<p><a href="https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86" target="_blank" rel="noopener">https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86</a></p>
+<p><a href="https://en.wikipedia.org/wiki/Task_state_segment" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Task_state_segment</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/02/19/algorithm/mit6_828/KERNBASE对操作系统的影响/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/02/19/algorithm/mit6_828/KERNBASE对操作系统的影响/" class="post-title-link" itemprop="url">KERNBASE对操作系统的影响</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-02-19 00:00:00" itemprop="dateCreated datePublished" datetime="2018-02-19T00:00:00+08:00">2018-02-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>2.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="概括"><a href="#概括" class="headerlink" title="概括"></a>概括</h2><blockquote>
+<p>这个问题主要在这本<a href="https://pdos.csail.mit.edu/6.828/2016/xv6/book-rev9.pdf" target="_blank" rel="noopener">xv6-ref</a>的第一章的练习题2中提出来</p>
+</blockquote>
+<p>问题如下</p>
+<pre><code>KERNBASE limits the amount of memory a single process can use, which might be irritating on a machine with a full 4 GB of RAM. Would raising KERNBASE allow a process to use more memory?
+</code></pre><p>根据前面的知识可知这个问题翻译过来就是：在32位处理器下，当<code>KERNBASE</code>为<code>0x80000000</code>时用户最多可以用2GB内存，我们是否能够增加<code>KERNBASE</code>让用户使用超过2GB内存呢？</p>
+<p>ps： 下面<code>KERNBASE</code>简写为<code>KE</code></p>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>要想解答这个问题，我们必须要知道xv6是如何分配内存的，以及如何区分用户和内核，以及<code>KE</code>的作用。</p>
+<p>xv6使用内存分页技术，如果你对这个不了解可以看这篇<a href="/2018/01/31/内存分页/">引导中的静态表</a>和这篇<a href="/2018/02/内存分页设计/">内存分页设计细节</a>，了解完这个我们谈谈用户和内核的内存分页应用。</p>
+<p>注意我们所以计算的前提是在32位处理器的条件下</p>
+<h2 id="用户和内核应用内存分页"><a href="#用户和内核应用内存分页" class="headerlink" title="用户和内核应用内存分页"></a>用户和内核应用内存分页</h2><p>其实用户和内核都是程序，对于用户来说内核只有一个，对于内核来说，用户可以有无数个。为了隔离内核和用户我们必须在内存上就进行隔离，所以单一内核和每个用户都拥有一个内存目录。</p>
+<h3 id="内存分页的意义"><a href="#内存分页的意义" class="headerlink" title="内存分页的意义"></a>内存分页的意义</h3><p> 其实我们可以把内存的目录对应的所有内存表看做一张大的内存映射表，我们使用<code>1024 × 1024</code>个表单项代表<code>4GB</code>内存地址，每个代表<code>4K</code>连续的内存空间，当然大部分程序不会使用全部表单（一般就是内存目录一个，一到三个内存表）</p>
+<p> 当然好处有很多，比如任何程序都可以使用相同的虚拟地址但是在实际运行的时候不会相互影响，这个好处就是通过映射来实现的。</p>
+<ul>
+<li>映射就是虚拟地址到物理地址的一种转换，这是一种<code>多对一</code>的映射，也就是一个虚拟地址只能对应一个物理地址，然而物理地址可以对应多个虚拟地址</li>
+</ul>
+<p>这个转换带来了一个问题，给你一个虚拟地址，你可以查表然后得到物理地址，但是如果给你一个物理地址，你除了遍历没有很好的办法获取虚拟地址（而且有可能你会得到多个虚拟地址）。</p>
+<p>这个问题非常重要，因为它影响了我们后面内核与用户切换的时候地址的搜索，接下来我们看看内核初始化后内存是一种什么样的存在。</p>
+<h2 id="内核内存利用"><a href="#内核内存利用" class="headerlink" title="内核内存利用"></a>内核内存利用</h2><p>看xv6源码我们知道，内核这个程序将程序虚拟地址起点定在<code>KE</code>上，我们知道一个程序由三部分组成指令、数据、堆栈。堆栈是向下生长，而数据、指令向上生长。而xv6把堆栈固定为32KB，所以内存只能向上生长，所以理论上内核最大占用空间只有<code>2^32(4G) - KE</code></p>
+<ul>
+<li>当<code>KE</code>为<code>0xf0000000</code>时，只有256M</li>
+<li>当<code>KE</code>为<code>0x80000000</code>，有2G。</li>
+</ul>
+<p>由于用户内存空间不能超过<code>KE</code>（实际系统中为<code>UTOP</code>，值为<code>KE</code>减去一些为系统功能预留的空间，这里我们忽略他们），所以用户所能得到的内存空间最大为<code>KE</code>，也就是</p>
+<ul>
+<li>当<code>KE</code>为<code>0xf0000000</code>时，为 3840M（4G-256M）</li>
+<li>当<code>KE</code>为<code>0x80000000</code>，有2G。</li>
+</ul>
+<p>通过上面简单的理论值我们推断出答案是：</p>
+<ul>
+<li>增大<code>KE</code>可以增大用户内存</li>
+</ul>
+<p>这个结果看起来是正确的，但是我们知道作为一个操作系统不能固定用户的内存，我们接下来就看看在不同的内存下的实际应用以及<code>xv6</code>自身设计问题，由此来探索这个问题的本质</p>
+<p>我们就分两种情况来考虑 </p>
+<h3 id="物理内存小于（4G-KERNBASE）"><a href="#物理内存小于（4G-KERNBASE）" class="headerlink" title="物理内存小于（4G-KERNBASE）"></a>物理内存小于（4G-KERNBASE）</h3><p>这种情况在很早的时候经常出现，我们计算机的内存可能就几M，这个时候内核假如真的占了<code>4G-KE</code>那连内核都跑不起来何况用户程序。</p>
+<p>我们接下来进入源码来看<code>xv6</code>将实际占用的空间体现在内存表中，我们看到<code>kern/kernld.ld</code>配置文件，其中最主要的一行</p>
+<pre><code>PROVIDE(end = .);
+</code></pre><p>这行位置出现在最后一行，它的作用是提供了一个变量<code>end</code>，我们在C中就可以用这个变量代表机器码的最后一行的虚拟地址，有了这个地址之后，我们就获取了一个重要信息内核程序总长度，假如没有这个变量，我们只能人工设定一个操作系统的占用空间，假如定大了就是浪费，定小了程序就可能崩溃（内存溢出）。分配的细节可以看这篇<a href="/2018/02/内存分页设计/">文章</a>，通过这个变量，我们把内核占用的物理空间给腾出来了。接下来的剩余的物理空间就留给用户了，所以用户能用到的内存最大为<code>实际内存 - 操作系统占用的内存</code>。</p>
+<p>而且我们能够知道操作系统还将内核的内存映射直接固定了，将<code>KE：4G</code>的地址映射到<code>0:4G-KE</code>，公式为<code>虚拟内存=物理内存+KERNBASE</code>，这个映射存在于<code>kern/pmap.c</code>的<code>mem_init</code>函数中，这个带来了一个便利，就是程序变得很简单，假如我们得到一个物理内存地址，我们就能知道虚拟内存地址，但是这个也引来一个巨大的问题，就是当内存大于<code>4G - KE</code>的时候。</p>
+<p>PS：关于知道物理内存能知道虚拟地址在源码的好处主要体现在用户内存空间创建的时候，这个时候处于内核态，当我们得到一个空的物理空间页，我们只要简单的使用上面公式就能获取到虚拟地址，然后内核就能在直接通过指针修改程序。假如没有这个映射，我们就后面动态建立，但是这里涉及到一个非常棘手的<code>成本</code>的问题，我们其实只需要一个值映射，然而我们却要浪费4K的连续内存空间，而且给程序带来了很大的复杂性。</p>
+<p>我们接下来考虑系统内存大于那段映射最大值（4G-KE）时候会造成什么情况</p>
+<h2 id="物理内存大于-（4G-KERNBASE）"><a href="#物理内存大于-（4G-KERNBASE）" class="headerlink" title="物理内存大于 （4G-KERNBASE）"></a>物理内存大于 （4G-KERNBASE）</h2><p>在现在大家内存愈来愈大，这种情况比较常见，由于xv6在程序设计中是动态创建用户空间，当用户比较少占用空间比较小的时候，程序不会用到物理地址比较大的空间，但是当物理内存超过这个阀值（4G-E），在这里我们考虑<code>KE=0xf0000000</code>,也就是物理内存地址大于256M的时候，由于内核没有映射到这么高的地址，所以我们用上面那个物理地址转虚拟地址公式就失效了。</p>
+<p>由于xv6只是一个教学系统，所以为了简化系统，降低程序复杂性所以使用了最简单的直接映射的方法来处理内存，也正是由于这个原因提高<code>KE</code>并不能增加用户最大内存，当然解决的方法也有，我想了两种。</p>
+<ul>
+<li>在内核空间中分配用户内存目录空间，这种最为简单，但是会浪费一定的内存空间（必须在内核一开始运行就占用空间）</li>
+<li>在内核空间中映射一段固定的地址来存放用户内存目录地址，这个程序设计比较复杂，但是只需要初始化一个内存表单就行</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过上面的分析，我们得到一个结论：</p>
+<p>由于xv6设计的局限性，增大<code>KERNBASE</code>并不能增大用户最大可用空间，反而会减少。但是如果修改xv6设计可以实现增大<code>KERNBASE</code>增大用户最大可用空间。</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/02/05/algorithm/mit6_828/内存分页设计/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/02/05/algorithm/mit6_828/内存分页设计/" class="post-title-link" itemprop="url">内存分页设计</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-02-05 00:00:00" itemprop="dateCreated datePublished" datetime="2018-02-05T00:00:00+08:00">2018-02-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>1.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>前面已经通过lab1的这篇<a href="/2018/01/03/内存分页设计/">博文</a>了解了内存分页的实现细节，接下来就谈谈如何具体实现内存分页</p>
+<h2 id="物理载体"><a href="#物理载体" class="headerlink" title="物理载体"></a>物理载体</h2><p>通过了解<a href="/2018/02/19/KERNBASE对操作系统的影响/">KERNBASE对操作系统的影响</a>这篇博文我们知道，其实内存分页就是完成对物理存在的一种分割和隔离，所以我们在完成内存分页系统设计之前必须要构建一个载体，完成对物理存在的一种表示。</p>
+<p>在xv6中声明一个动态数组来代表物理内存，每一个值代表一块4k的内存页。我们主要通过<code>offset - base</code>得到偏移倍数，每个偏移量为<code>4K</code>，也就是通过<code>(offset - base )  &lt;&lt; 12</code>得到物理地址，我们看一下这个数组成员：PageInfo结构体</p>
+<pre><code>struct PageInfo {
+    struct PageInfo *pp_link;
+    uint16_t pp_ref;
+};
+</code></pre><p>主要存在两个值：一个为下一个可用的地址指针，一个为引用次数。</p>
+<p>引用次数比较好理解，但是这个<code>pp_link</code>有什么用呢。其实你可用把这个结构体看做成一个由链表组成的堆栈，我们只需要保留栈顶值（page_free_list)，由于它保存下一个值地址，这样通过不断的push、pop，就能维持一个可用物理内存栈。</p>
+<h2 id="二级指针的妙用"><a href="#二级指针的妙用" class="headerlink" title="二级指针的妙用"></a>二级指针的妙用</h2><p>由于前面的博客原理已经介绍的很详细了，我就不再累赘了，在这里我提一下源码中二级指针的妙用，虽然它只有短短几行，但是运行的结果却是让人大开眼界，体会到指针的神奇威力。</p>
+<p>这段代码出现在<code>kern/pmap.c</code>的<code>check_page_free_list</code>函数中</p>
+<pre><code>if (only_low_memory) {
+    // Move pages with lower addresses first in the free
+    // list, since entry_pgdir does not map all pages.
+    struct PageInfo *pp1, *pp2;
+    struct PageInfo **tp[2] = { &amp;pp1, &amp;pp2 };
+    for (pp = page_free_list; pp; pp = pp-&gt;pp_link) {
+        int pagetype = PDX(page2pa(pp)) &gt;= pdx_limit;
+        *tp[pagetype] = pp;
+        tp[pagetype] = &amp;pp-&gt;pp_link;
+    }
+    *tp[1] = 0;
+    *tp[0] = pp2;
+    page_free_list = pp1;
+}
+</code></pre><p>主要的作用是将“栈底”的元素移到“栈顶”，首先它使用了两个一级指针（pp1、pp2），还有两个二级指针分别指向（pp1、pp2）</p>
+<p> 首先<code>int pagetype = PDX(page2pa(pp)) &gt;= pdx_limit;</code>判断物理地址是否为大于4M还是小于4M，我们把物理内存页分成两组</p>
+<ul>
+<li>小于4M A组</li>
+<li>大于4M B组</li>
+</ul>
+<p>对于小于4M的组，分两种情况</p>
+<ol>
+<li>第一个小于4M的内存页（page1）</li>
+</ol>
+<blockquote>
+<ol>
+<li>*tp[0] (也就是pp1） 存贮了pp的值，也就是pp1 = page1</li>
+<li>tp[0] 存贮了pp -&gt; link 的地址（这个没有什么用）</li>
+</ol>
+</blockquote>
+<ol start="2">
+<li>A组第二个以及以后的内存页（page2）</li>
+</ol>
+<blockquote>
+<ol>
+<li>上一个地址的值等于pp（没什么用）</li>
+<li>tp[0] 存贮了下一个空闲地址的值</li>
+</ol>
+</blockquote>
+<p>对于B组来说也是一样的，最重要的是<code>for</code>循环结束后实现的交换</p>
+<pre><code>*tp[1] = 0; 
+</code></pre><p>B组最后一个的<code>pp_link</code>地址地址设置为NULL，也就相当于把他放到栈底</p>
+<pre><code>*tp[0] = pp2;
+</code></pre><p>A组最后一个变成<code>pp_link</code>地址设置pp2，也就是B组的第一个接到了A组的最后面去了</p>
+<pre><code>page_free_list = pp1;
+</code></pre><p>栈顶变成A组第一个，通过这样的“乾坤大挪移”术就将A组部分移到B组前面去了，也就实现了先使用低地址的物理内存的作用</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>理解内存分页必须要了解背后的原理，了解了原理看具体实现的时候才能事半功倍。</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/01/31/algorithm/mit6_828/引导和操作系统的交互/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/01/31/algorithm/mit6_828/引导和操作系统的交互/" class="post-title-link" itemprop="url">引导和操作系统的交互</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-01-31 00:00:00" itemprop="dateCreated datePublished" datetime="2018-01-31T00:00:00+08:00">2018-01-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>2.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本来自己查了很多资料，想自己写出来，结果下笔的时候发现别人已经把我想写的部分全部写出来了，而且比我想的还要具体，所以我就不写了，把链接放出了，顺便我补充一些</p>
+<p><a href="http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/" target="_blank" rel="noopener">http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/</a></p>
+<p><a href="http://leenjewel.github.io/blog/2015/05/26/%5B%28xue-xi-xv6%29%5D-jia-zai-bing-yun-xing-nei-he/" target="_blank" rel="noopener">http://leenjewel.github.io/blog/2015/05/26/%5B%28xue-xi-xv6%29%5D-jia-zai-bing-yun-xing-nei-he/</a></p>
+<h2 id="ELF文件"><a href="#ELF文件" class="headerlink" title="ELF文件"></a>ELF文件</h2><p>首先你要知道什么是ELF，可以看一下这篇<a href="https://my.oschina.net/u/864891/blog/87965" target="_blank" rel="noopener">博客</a>，简单来说就是编译完C后的机器码，前面加了一些数据表记录程序的分布情况</p>
+<p>为了帮助我们逆向分析这些代码有什么，我们必须要借助两个工具</p>
+<ul>
+<li>objdump</li>
+<li>readelf</li>
+</ul>
+<p>我们接下来就用实际例子解读mit6.828里面的引导和核心</p>
+<h2 id="引导"><a href="#引导" class="headerlink" title="引导"></a>引导</h2><p>首先我们查看一下引导文件，在<code>boot/</code>目录下有两个文件</p>
+<ul>
+<li>boot.S</li>
+<li>main.c</li>
+</ul>
+<p>两者是通过gcc编译器将汇编和C编译成为一个<code>elf</code>文件，具体在<code>Makefile</code>文件中（<code>boot/Makefrag</code>)，我将它简单翻译一下</p>
+<pre><code>gcc -N -e start -Ttext 0x7C00 -o boot.out boot.o main.o
+</code></pre><p><code>boot.o</code>和<code>main.o</code>就是<code>boot.S</code>和<code>main.c</code>编译后的文件，<code>-e start</code>意思程序从<code>boot.S</code>的<code>start</code>中开始运行（这样就能从汇编开始执行），<code>-Ttext</code>中<code>text</code>代表代码段，也就是说直接指定代码入口地址为<code>0x7C00</code>，我们可以用<code>readelf</code>验证一下</p>
+<pre><code>mit-6.828-2014 ➤ readelf -h obj/boot/boot.out                         git:lab1*
+ELF Header:
+  Magic:   7f 45 4c 46 01 01 01 00 00 00 00 00 00 00 00 00 
+  Class:                             ELF32
+  Data:                              2&apos;s complement, little endian
+  Version:                           1 (current)
+  OS/ABI:                            UNIX - System V
+  ABI Version:                       0
+  Type:                              EXEC (Executable file)
+  Machine:                           Intel 80386
+  Version:                           0x1
+  Entry point address:               0x7c00
+  Start of program headers:          52 (bytes into file)
+  Start of section headers:          4868 (bytes into file)
+  Flags:                             0x0
+  Size of this header:               52 (bytes)
+  Size of program headers:           32 (bytes)
+  Number of program headers:         2
+  Size of section headers:           40 (bytes)
+  Number of section headers:         9
+  Section header string table index: 6
+</code></pre><p>我们读取了一下生成的<code>elf</code>文件头部，我们可以看到<code>Entry point address</code>这个字段，就是我们设定的<code>0x7c00</code>，要了解这个地址的含义我们必须知道虚拟地址和物理地址的区别，可以看一下这篇<a href="http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/" target="_blank" rel="noopener">博客</a>，接着我们看一下反汇编的汇编代码<code>obj/boot/boot.asm</code>中，我们知道现在<code>0x7c00</code>代表程序把自己当做在内存上的真实内存上面，但是不一定会真的存在这块上，所以我们称它为虚拟的</p>
+<p>首先我们了解一个系统知识，因为电脑启动后会按照启动盘顺序，把每个盘第一个扇形区512B取出来，如果最后两个字节为<code>0xAA55</code>的话就把它放到内存上面的<code>0x7c00</code>上去，我们看一下我们生成的<code>obj/boot/boot</code></p>
+<p>使用<code>hexdump obj/boot/boo</code>可以看到（我把最后一行复制出来）</p>
+<pre><code>00001f0 0000 0000 0000 0000 0000 0000 0000 aa55
+</code></pre><p>最后连个字节为<code>0xaa55</code>，且文件大小刚刚好512B，这时候你可以有一个疑惑了，我们知道<code>gcc</code>我们生成的<code>boot.out</code>的elf文件，但是这个文件还有头部存贮数据，我们如果把整个文件放到磁盘上，当程序在内存<code>0x7c00</code>处执行时，那么文件头部碰到的就是elf头了，所以<br>为了把机器码提取出来并生成合适文件（512B尾部为<code>0xaa55</code>），程序干了两件事</p>
+<ul>
+<li>用objcopy将elf文件中执行代码提取出来（相当于去掉elf头部）</li>
+<li>用脚本修改尾部两字节（在<code>boot/sign.pl</code>用了perl程序来将生成512B且尾部为<code>0xaa55</code>的<code>boot</code>文件）</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>后面将核心加载到内存，上面的给出资料写的很详细，我就不多说，只不过由于当前<code>2014</code>的版本同资料有点不同，这里我提一下</p>
+<p>当前版本是将内核头加载在<code>0x10000</code>上，然后在把内核代码加载到<code>0x100000</code>上（前面4个0，后面5个0，我当初看错了，百思不得其解），并将内核地址映射到<code>f0100000</code>上。</p>
+<p>由于资料给的操作系统与2016的操作系统实现细节有点不同，其中最主要的就是一个很重要的<code>KERNBASE</code>常量值由<code>0x80000000</code>变成<code>0xf0000000</code>，这个变量牵扯到了在给出的<code>book-rev8.pdf</code>资料中第一章的最后一个问题，我就把我对这个问题的思考放到这篇<a href="/2018/02/19/KERNBASE对操作系统的影响/">文章</a>中。</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/" target="_blank" rel="noopener">http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/</a></p>
+<p><a href="https://my.oschina.net/u/864891/blog/87965" target="_blank" rel="noopener">https://my.oschina.net/u/864891/blog/87965</a></p>
+<p><a href="http://bochs.sourceforge.net/techspec/PORTS.LST" target="_blank" rel="noopener">端口信息</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/01/31/algorithm/mit6_828/内存分页/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/01/31/algorithm/mit6_828/内存分页/" class="post-title-link" itemprop="url">内存分页</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-01-31 00:00:00" itemprop="dateCreated datePublished" datetime="2018-01-31T00:00:00+08:00">2018-01-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>731</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本来自己查了很多资料，想自己写出来，结果下笔的时候发现别人已经把我想写的部分全部写出来了，而且比我想的还要具体，所以我就不写了，把链接放出了，顺便我补充一些</p>
+<p><a href="http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan/" target="_blank" rel="noopener">http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan/</a></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>由于内存分页在后面的lab2中也会设计，而且给出的资料写的非常详细，所以我就不多提了。这里提一下为了更好的理解什么内存分页的段选择子与CS的关系，我写了一篇<a href="/2018/01/30/从CS寄存器看段的前世今生/">关于CS寄存器的发展史</a></p>
+<p>最后我提一下<code>kern/entrypgdir.c</code>手写的内存分页表</p>
+<p>第一个<code>entry_pgdir</code>是页目录，第二个<code>entry_pgtable</code>页表，而且注意<code>entry_pgtable</code>是代表0-4M物理内存可写可读的真实内存地址</p>
+<p>前面知道了目录和页表的作用，在现实系统中，一个目录下有1024个页表，但是这只有一个页表，而且它代表从0-4M连续的内存空间</p>
+<p>PS：后面12位是权限位，只看前三位，可以知道是从（000-3ff）的高20位物理地址，由于我们声明了<code>__attribute__((__aligned__(PGSIZE)))</code>（地址4K对齐，其实意思是它真实物理地址后12位一定全部为0），所以直接取<code>(uintptr_t)entry_pgtable</code>地址就是页表地址，虽然后面加上权限位<code>PTE_P + PTE_W</code>，但是在寻找真实地址时都会屏蔽（只取前20位如），当初想了很久感觉取不到页表的真实地址，还以为有什么神奇的编译设定，后面查了很久资料才明白，所以这里提个醒后面我们会在lab2中正式接触内存分页技术，这里只是相当于设定了一个“常数”，后面会将器扩展变成“函数”。</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/01/30/algorithm/mit6_828/从CS寄存器看段的前世今生/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/01/30/algorithm/mit6_828/从CS寄存器看段的前世今生/" class="post-title-link" itemprop="url">从CS寄存器看段的前世今生</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-01-30 00:00:00" itemprop="dateCreated datePublished" datetime="2018-01-30T00:00:00+08:00">2018-01-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>931</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>Intel作为作为微处理器的航头老大，一直引导CPU的进步发展，也正是因为Intel是一个有着历史包袱的企业，所以站在现代CPU看起来，有一些非常奇葩的设计遗留下来，这些设计一开始是为了兼容，慢慢的将这种兼容又发展成新的功能，把“包袱”转换成“亮点”，段设计就是其中的一个很重要的代表，要想搞懂这个设计在不同的CPU的如何保持兼容和强化，我们必须要慢慢的把CPU的历史给捋顺。</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>我们要介绍第一个CPU是8086，虽然Intel前面也生产了4004、8008、8080微处理器，但是8086基本上后面所以现代化CPU始祖，Intel后面生产的CPU都对8086兼容，所以可以说段这个“祸端”就是从8086种下来的</p>
+<p>8086作为第一款的16位处理器，由于技术的问题，出现了一个严重问题寄存器只有16位，而地址总线却有20位，要想只通过一个寄存器表达地址的值显示无法实现，所以8086采用了一个段寄存器，segment × 16+offset（CS:IP），采用这个方式就能实现20位地址索引</p>
+<h2 id="段设计对程序影响"><a href="#段设计对程序影响" class="headerlink" title="段设计对程序影响"></a>段设计对程序影响</h2><p>前面简单的介绍了段设计的原因，现在我们来看看这个设计的对16位程序的影响。</p>
+<h3 id="兼容性"><a href="#兼容性" class="headerlink" title="兼容性"></a>兼容性</h3><p>由于段的存在，我们设计程序的时候可以更加自由，我们可以假设我们是在任何低16位置的内存上，只有到时切换程序时候切换段就可以</p>
+<h3 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h3><p>我们可以用相同的低地址存代码和数据，只需要切换段就行，而且我们也不需要考虑数据要多少空间，代码要多少空间，以便设定跳转地址</p>
+<blockquote>
+<p>可以说段设计是16位程序的一个很优雅的做法，但是到了３２位的时候程序不行了</p>
+</blockquote>
+<h2 id="32位处理器的改变"><a href="#32位处理器的改变" class="headerlink" title="32位处理器的改变"></a>32位处理器的改变</h2><p>我们知道32位处理器的诞生带来了两件事,第一个就是寄存器有32位了,说明最大内存地址可以到4G了(<code>0x000000-0xffffff</code>),而且总线地址也有32位了。这个时候就很尴尬了，原来的段设计到这里就成鸡肋了。但是为了兼容，我们还是给他一个功能，段选择子，当然现代Unix操作系统没有用这个东西，只是在初始化的时候意思意思一下，具体可以看一下这篇<a href="http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/" target="_blank" rel="noopener">博客</a>的<code>GDB</code>表</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>最近学操作系统感觉有很多疑惑，了解很多知识，总想好好总结一下细节，结果发现总有大神们早就写出来了，而且非常详细，我就不班门弄釜了，把下面的lab好好思考，提炼出自己的知识。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/01/29/algorithm/mit6_828/什么是操作系统/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/01/29/algorithm/mit6_828/什么是操作系统/" class="post-title-link" itemprop="url">什么是操作系统</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-01-29 00:00:00" itemprop="dateCreated datePublished" datetime="2018-01-29T00:00:00+08:00">2018-01-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>3.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本文是基于mit6.828 的lab1对操作系统的思考，网上有不少关于lab1的博客，大部分都是介绍如何完成lab1的问题，介绍的比较详细的有这个<a href="http://www.cnblogs.com/fatsheep9146/category/769143.html" target="_blank" rel="noopener">博客</a>，在这里我就不从问题出发，建议大家看完上面的博客在看我这篇博文，我这篇博文就是从把我遇到的疑惑提炼出知识点，然后再把这些知识点串起来</p>
+<h2 id="实验目的"><a href="#实验目的" class="headerlink" title="实验目的"></a>实验目的</h2><p>作为操作系统的第一个实验，在完成lab1我们主要目的就是要了解什么是操作系统，后面的lab都是在这个基础上搭建完善好系统的各种功能，就好像你画一幅画，第一步你先把人物的轮廓外形画出来，接下来你在把人的鼻子耳朵眼睛等等慢慢画出来，所以第一个实验非常重要，如果不把骨架搭好，你的操作系统再怎么豪华强大也是空中楼阁，所以我们在这个lab上一定要花上很多时间，万事开头难，只要攻克了这个，操作系统也就离你不远了</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>谈操作系统之前必须得谈谈什么是计算机，因为我们的操作系统是运行在计算机上面的，操作系统与计算机关系密切，我们可以用一个很贴切的比方，假如你想了解手套为什么长成那么奇怪，那么你得先举起你的双手看看。</p>
+<p>闲话不多说，进入正题，计算机最核心部分就是CPU，记得电脑刚发明出来的时候，编程只能通过穿孔卡片，当然计算机发明这么久，CPU的核心功能基本上没有变，还是只能通过“穿孔卡片”，只不过我们编程语音将我们的使用的语音如C，Python等变成“穿孔卡片”，这里有个非常重要的概念：<strong>指令</strong>。也就是每个CPU的是每次只能执行一条指令。当然第二个重要的就是内存了，前面说了CPU是必须要通过”穿孔卡片“来编程的，但是随着程序愈来愈大，我们必须要使用一个东西来存贮“卡片”，所以内存孕育而生了，其实很多感叹电脑这个词实在是太贴切了，人脑可以处理问题，电脑也可以处理问题，人脑有短期记忆长期记录，电脑有寄存器（短期记忆）内存（长期记忆）。</p>
+<p>简单的谈了谈计算机，我们提出两个重要的前提</p>
+<ul>
+<li>计算机通过顺序读取一条一条指令来工作</li>
+<li>计算机从内存获取指令</li>
+</ul>
+<p>所以操作系统的就是在内存上面运行自己并帮助其他程序的一个大程序，总的来说它就是内存上面的一段程序，当然它的功能就是好好在它一亩三分地上面“分封诸侯”，维护自己的“王位”。</p>
+<p>由于一开始它只是待在软盘或者磁盘等存贮设备上的一段程序，接下来我们就看操作系统如何“上位”内存的“宫斗大戏”。</p>
+<h2 id="上位篇"><a href="#上位篇" class="headerlink" title="上位篇"></a>上位篇</h2><p>在操作系统“上位”之前，其实计算机还进行了一个小操作系统（BIOS）运行，具体的流程可以看这篇<a href="http://www.ruanyifeng.com/blog/2013/02/booting.html" title="操作系统启动" target="_blank" rel="noopener">文章</a>，如果把电脑看做人的话，BIOS就是我们的脊髓，它控制我们的身体四肢（硬件），但是却无法灵活的操作他们（比如非条件反射的膝跳反射），但是它却不可少，少了它就成植物人了。BIOS的作用总结起来就是感知硬件，调控硬件（比如CPU电压，内存频率）。</p>
+<p>BIOS与操作系统最密切的一个地方就是设置启动盘，大家可能大多时候都是听文件文件比较多，但是文件这个概念其实是操作系统的，在没有操作系统之前是没有文件这个概念的，只有盘这个概念，比如一块硬盘、一张软盘、一个U盘，所以BIOS的一个重要工作就是选定一个存储硬盘，然后读取上面的程序运行。</p>
+<p>所以我们从这时候可以得到一个结论，安装操作系统，只需要按照BIOS的规定把程序放到某一个存贮设备（磁盘、U盘、软盘）专门位置上（一般是头部开始），开机后然后就静等BIOS把程序加载到内存，就完成了“上位”过程。</p>
+<p>我们已经知道操作系统的外部条件，接下来分析一个操作系统到底该有啥</p>
+<h2 id="操作系统结构"><a href="#操作系统结构" class="headerlink" title="操作系统结构"></a>操作系统结构</h2><p>首先我们要回顾一下操作系统的发家史，刚开始是没有操作系统的这个概念的，随着在电脑上要运行的越来越多，每个程序都要写大量底层代码来操作硬件这样无疑每个程序越来越来臃肿，所以我们需要让操作系统管理来管理硬件，这样不但能够提供程序兼容性（一次编译、到处运行），而且能高效利用硬件（操作系统专供）。所以操作系统也就是程序的分工的产物</p>
+<p>接下来我们看看操作系统的发展历史，大家都知道汇编语言是除了机器语言最接近底层的一种语言，第一个Unix系统一开始也就是使用汇编编写的。但是汇编语言不易于维护，所以1973年汤普逊和里奇用C重构了Unix，但是部分与硬件接触太大的地方还是必须使用汇编（in、out端口，操纵指定寄存器等），所以现代操作系统还是用C与汇编混合编写的（C占大部分），当然最后都会编译成机器码，所以我们从机器码角度来看，最后的结果都是相同的，不同的是我们使用不同的工具来生成机器码</p>
+<p>前面我们介绍了启动盘，其实BIOS给我们只是从启动盘上面取了一小段数据（第一个扇形区）放到内存上面（512B），然后执行那小段上面的机器码，所以接下来就有一个问题，随着我们的操作系统功能越来越完善，取出来的代码肯定不是全部代码，代码只有放到内存上面才能跑，所以前人就把代码分成两部分，一部分称作引导，另一部分才是核心代码，引导作用就是把核心代码放到内存上面去</p>
+<p>所以操作系统被分成两部分</p>
+<ul>
+<li>引导</li>
+<li>核心</li>
+</ul>
+<p>这里比较有意思的地方就是引导和核心如何交换程序控制权，由于要讲解必须要牵扯代码，所以我把这部分分离出来，放到这篇<a href="/2018/01/31/引导和操作系统的交互/">博客</a>上面，要了解细节可以看这篇博客。</p>
+<p>现在我们假设你已经知道引导将核心代码加载在了内存上面，现在我们就从这里开始分析，堆栈作为程序的基础，首先我们要提一下堆栈</p>
+<h3 id="堆栈"><a href="#堆栈" class="headerlink" title="堆栈"></a>堆栈</h3><p>什么是堆栈呢？看下面这张图</p>
+<p><img src="/images/stack.png" alt="堆栈"></p>
+<p>堆顶为大地址，我们使用的时候只要不断把栈顶往下推，就能将线性内存变成一个数据结构。当然有个问题，我们必须要知道什么地方是栈顶，现在我们想想操作系统必须要放到内存的某一个地方，假如放到低位置，那么我必须要记住操作系统的最高位置，如果不这样做当堆栈顶到操作系统的存贮地址，那么操作系统就被破坏了。所以我们只能把操作系统放到高的内存地址，这样我们既能安全的使用堆栈，而且保证了操作系统的安全</p>
+<p>所以我们接下来就谈谈由于这个设定引发的一系列问题</p>
+<h2 id="操作系统的高地址"><a href="#操作系统的高地址" class="headerlink" title="操作系统的高地址"></a>操作系统的高地址</h2><p>在lab1中，操作系统的起始代码被设定为<code>0xF0100000</code>的高位</p>
+<p>从这个地址我们可以分析出来什么<code>0xF0100000</code>，因为我们知道32位操作系统最高只能有4G内存，也就是2的32次方内存，这个地址代表的是系统最后面的255M内存的空间，也就是操作系统给自己留了255M剩余内存，给前面保留了（4G-255M）空间</p>
+<p>操作系统这个设计是非常好的，不仅给自己留下扩展空间，也给其他代码带来便利，就是从0-(4G-255M）这部分内存随便用，怎么改都不会出问题</p>
+<p>从现在角度来看，个人电脑随便都是2G、4G内存，但是在70\80年代，几M内存都很很大的存在，如果我内存没有4G这么大，那么这个操作系统就无法使用了，而且你留下256M给操作系统，有的时候我整个电脑内存都没有这么大，留下那么多，就是浪费</p>
+<p>所以最后他们想出来一个办法，就是现实和理想之间放一个转换器（MMU），也就是动态内存管理。操作系统也不管你机主有多大内存了，我假设你有4G，当你用一块，无论是什么位置，我从空余的地方给你取出来，假如你没有4G，我就把一部分不常用内存值的放到磁盘上面，这样通过这样这样的操作的实现内存的高效利用。</p>
+<p>操作系统对内存这种骚操作就相当于在更高的维度上建立了一种抽象，不论底层硬件怎么变（内存大小不同），我高层都不需要变，只需要底层把根据实际情况依次映射，这样无论你换多大内存，我都不需要重装系统。</p>
+<p>这种映射不通过代码很难将清楚，所以我这里也不提太多，如果你想知道怎么映射，硬件如何配合，你可以看我这篇<a href="/2018/01/31/内存分页/">博客</a>，详细介绍了内存分页的骚操作。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>至处到这里我们的操作系统之旅就结束了，我们成功在引导帮助下上了内存，也使用了提高操作系统的地址保证了堆栈的正常使用，接下来就是操作系统的各种附加功能，我们也会在接下来的lab中继续讲解。</p>
+<p>lab1不止介绍了这两个地方，但是在lab1中我觉得最重要的地方就是要知道操作系统是什么，它从哪里来，它要到哪里去，操作系统毕竟牵涉到硬件，很多硬件知识我们不一定能搞懂，比如说要切换哪几个位到保护模式，怎么输出端口才能读取扇形区，但是我们必须要搞懂他这样做的原因，这也是我在这篇里面谈了很多操作系统历史的原因，希望在理解操作系统上面能给大家带来一点启发。</p>
+<p>在最后的话，我谈一谈我对入门这门课的感受吧，我算编程基础还算比较扎实，但是在一开始学习的过程中一脸懵逼，C语言的各种骚操作，汇编与C疯狂混合，看惯了脚本语言的我，对这种改一下就编译不过的“硬骨头”异常难受，一开始根本看不下去，有的时候看几行代码，查资料好几个小时，而且资料特别难找，你不知道这种骚操作有啥意思，在这里还得感谢学习过这门课的学长学姐们，在网上无私的把自己的感受分享出来，慢慢的根据他们的资料和自己的调试还有自己找资料，慢慢的把这个代码一行一行搞懂，搞懂之后特别感慨，其实也不是很难，难的是要把你知道的所以知识点串起来，然后你就能搞懂为什么要这么做，所以我推荐大家还是多看代码，多去思考为什么要这么做，必须要自己的思考在里面，如果单纯的知识为了完成实验其实很简单，但是难就难在把这门课琢磨透，搞懂他们为什么要这样考你，毕竟大家最后的目的都是自己做出自己的操作系统，只有了解的透彻，才能“破而后立”搞出自己的创新，而不是复制他们的壳子，所以加油把每一行代码都搞懂，多思考，不要骄傲，毕竟这只是教学类的操作系统，要想自己写出来还得不懈努力。</p>
+<p>接下来还有6个lab需要完成，终于迈出的第一步，希望在年前能够完成所有的实验吧！！！加油！！！</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://buweilv.github.io/2017/06/10/jos-bootstrap-3/" target="_blank" rel="noopener">“C语言虚拟内存表”</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/01/09/algorithm/mit6_828/mit6.828课程总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/01/09/algorithm/mit6_828/mit6.828课程总结/" class="post-title-link" itemprop="url">mit6.828课程总结</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-01-09 00:00:00" itemprop="dateCreated datePublished" datetime="2018-01-09T00:00:00+08:00">2018-01-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>529</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
+<p>一开始想直接做一个操作系统，但是万事开头难，学习操作系统需要太多基础知识了，所以就按照网上推荐先学习mit6.828的课程，先把xvf6操作系统搞懂，然后在来实现自己的操作系统，下面就是学习这个课程的体会，按照各个lab的顺序，介绍自己的心得体会</p>
+</blockquote>
+<p>课程的地址是： <a href="https://pdos.csail.mit.edu/6.828/2016/schedule.html" target="_blank" rel="noopener">mit6.828</a><br>PS：由于<a href="https://pdos.csail.mit.edu/6.828/2016/schedule.html" target="_blank" rel="noopener">mit6.828</a>课程仓库需要翻墙，所以我把clone下来放到我的github仓库，我的<a href="https://github.com/mrzhangboss/mit6.828-2016" target="_blank" rel="noopener">仓库</a>里，大家可以clone下来（我会逐渐完成所以的实验）</p>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="/2018/01/29/什么是操作系统/">什么是操作系统</a> lab1</li>
+<li><a href="/2018/02/05/内存分页设计/">内存分页设计</a> lab2</li>
+<li><a href="/2018/02/20/用户空间隔离/">用户空间隔离</a> lab3</li>
+<li><a href="/2018/02/">并行多核设计</a> lab4</li>
+<li><a href="/2018/02/">文件系统设计</a> lab5</li>
+<li><a href="/2018/02/">网络设计</a> lab6</li>
+</ul>
+<h2 id="课程总结"><a href="#课程总结" class="headerlink" title="课程总结"></a>课程总结</h2><p>学到一半才发现这是一门研究生课程的学习，的确难度非常大，而且每一个实验都可以拿出来大做研究，但是课程给的资料非常详细，基本上每个硬件细节都给出了链接，但是对于最大的困难还是英语资料实在太多，有点“吸收”不过来。不过一路学习下来，感觉还是收获很大，基本上每个实验都环环相扣，每个实现细节都需要反复思考，为什么要这样做，还能怎么做，最终实现的xvf6还有些许跟不上时代的脚步，但是基本上框架已经有了，就是按照这个骨架完善更多细节，所以这个课程还远远没有结束，期待接下来对这个操作系统的进一步改进！！！</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/01/06/summary/2018新年展望/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/01/06/summary/2018新年展望/" class="post-title-link" itemprop="url">新年展望</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-01-06 00:00:00" itemprop="dateCreated datePublished" datetime="2018-01-06T00:00:00+08:00">2018-01-06</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
@@ -261,1359 +1442,13 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span>197</span>
+              <span>1.3k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
               <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>很早就听说过思维导图，但是怎么去画，怎么让它帮助你去学习，我以前不得其道，以为就像记老师讲的笔记一样，尝试几次后感觉无用就弃之高阁了，这次在知乎上看到一篇回答感觉很是在理，就实践了一番</p>
-</blockquote>
-<p>下面是原答案<a href="https://www.zhihu.com/question/20273625/answer/531743073" target="_blank" rel="noopener">思维导图真的有效吗？ - YJango的回答 - 知乎</a></p>
-<p>我按照这个方法重新把&lt;&lt;代码整洁之道&gt;&gt;读了一篇，受益匪浅，下面是我的思维导图</p>
-<p><img src="/images/代码整洁之道-思维导图.png" alt="思维导图"></p>
-<p>一千个人有一千个哈莫雷特，所以我就不写自己的看法了</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2019/01/13/java/如何在Ubuntu上发布ScalaJar包到Maven中央仓库/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/01/13/java/如何在Ubuntu上发布ScalaJar包到Maven中央仓库/" class="post-title-link" itemprop="url">如何在Ubuntu上发布Scala Jar包到Maven中央仓库</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-01-13 00:00:00" itemprop="dateCreated datePublished" datetime="2019-01-13T00:00:00+08:00">2019-01-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:02:26" itemprop="dateModified" datetime="2021-03-09T20:02:26+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index">
-                    <span itemprop="name">Java</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>6.3k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>6 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>由于网上的教程大多数是<code>Windows</code>下的，而且都是介绍怎么打包<code>Java</code>的<code>Jar</code>包，关于<code>Scala</code>相关的比较少，因此我踩了不少坑才成功的把包发布到<code>Maven</code>中央仓库，你们可以才中央仓库里面搜到<a href="https://search.maven.org/artifact/me.zhanglun.ahocorasick/trie/1.0.5/jar" target="_blank" rel="noopener">我的包</a></p>
-</blockquote>
-<p>如何你想直接使用<code>ctrl-c</code> + <code>ctrl-v</code>那么你直接去我的github上的<a href="https://github.com/mrzhangboss/ahocorasick/tree/MiniDeployToSonatypeDemo" target="_blank" rel="noopener">最小化打包版本</a>把<code>pom.xml</code>里面的<code>build</code>给复制下来就可以了（前提是你已经把<code>gpg</code>给配置好了）。</p>
-<p>PS：因为这篇主要是介绍步骤所以就用中文写了</p>
-<h2 id="第一步：选择用什么打包"><a href="#第一步：选择用什么打包" class="headerlink" title="第一步：选择用什么打包"></a>第一步：选择用什么打包</h2><p>由于<code>Scala</code>既可以选择用<code>SBT</code>打包，又可以用<code>maven</code>打包，所以你要先选择使用什么来打包，一开始我使用<code>SBT</code>来尝试进行打包上传，但是一直卡在没法配置好<code>SBT</code>的<code>gpg</code>插件（这个主要是对你的文件进行签名），我甚至到<code>Github</code>去看别人的项目是怎么配置的，但是我搜到的<code>Scala</code>项目大部分都没有选择把包发到<code>sonatype</code>去，有的是自己搭建中央仓库有的是根本没有提供中央仓库下载的。虽然我很想用<code>SBT</code>把<code>Scala</code>打包（毕竟是专门给<code>Scala</code>用的），但是那个<a href="https://www.scala-sbt.org/sbt-pgp/" target="_blank" rel="noopener">插件</a> 实在是卡的死死的，而且文档太少了，官网上的SBT似乎一直是用的0.13.5+，但是我用的是1.2+，在选择低版本还是选择换一种打包方式面前我选择听从大牛的意见，选择使用<code>maven</code>进行对<code>Scala</code>打包（毕竟<code>Scala</code>杀手级应用<code>Spark</code>也是用的<code>maven</code>进行打包）</p>
-<p>而且<code>SBT</code>有一个特别困扰我的地方，虽然我一直用阿里源，但是<code>SBT</code>更新依赖的速度实在是太慢了，无论是新建项目还是增加第三方包，相比<code>maven</code>它的速度都特别慢</p>
-<p>当然我做不到不代表大家做不到，如果有人能够搞定用<code>Maven</code>打包，记得在<code>Github</code>上发个<code>issue</code>告诉我</p>
-<h2 id="第二步：在中央仓库上面新建项目"><a href="#第二步：在中央仓库上面新建项目" class="headerlink" title="第二步：在中央仓库上面新建项目"></a>第二步：在中央仓库上面新建项目</h2><p>为了将包发到<code>maven</code>中央库，我们得借助【sonatype]<a href="https://issues.sonatype.org" target="_blank" rel="noopener">4</a>来帮我们上传，首先你得去上面注册一个用户</p>
-<p>相比于<code>Python</code>发包，<code>Java</code>有一个<code>group</code>的概念，也就是说每个包都属于不同的组织，比如说Java的核心包<code>java.lang</code>也可以看做是一个组织，在<code>Pypi</code>发包你只要不重名就行，但是在<code>maven</code>中央库发包，你可以重名但是不能重复组织名，由于我有个<code>zhanglun.me</code>的域名，所以我就新建了一个<code>me.zhanglun.ahocorasick</code>组织，你也可以理解组织就是一个网址，我新建了一个<code>ahocorasick.zhanglun.me</code>的网址，由于名字我们没法规定重名，但是网址可以，所以在<code>sonatype</code>上新建一个项目后你得要有帮你审核一下这个域名是否是你的（如果你使用<code>com.github.xxx</code>来作为域名的话那就不要审核了）</p>
-<p>随便找篇<a href="https://www.sojson.com/blog/250.html" target="_blank" rel="noopener">教程</a>新建完项目，等你的项目变成<code>Resolved</code>，接下来我们就来配置上传的秘钥</p>
-<h2 id="第三步：-上传配置"><a href="#第三步：-上传配置" class="headerlink" title="第三步： 上传配置"></a>第三步： 上传配置</h2><p>相比于<code>Python</code>直接将打包好的egg包发到<code>pypi</code>，<code>sonatype</code>需要你对你上传的文件都签名以验证安全，怎么签名呢，借助一个开源的<a href="https://www.gnupg.org/" target="_blank" rel="noopener">GnuPG</a>，我们只要自己制作一个秘钥，然后上传到秘钥服务器，然后我们就可以用这个秘钥来对我们的文件进行签名（会产生一个<code>.asc</code> 文件，里面是签名值）</p>
-<p>所以关键就是把这个秘钥产生并且上传到秘钥服务器，在<code>Ubuntu</code>上有两个版本的<code>GnuPG</code>，一个是1.0版一个是2.0版，我试过使用1.0版但是没法传到秘钥服务器上面，所以大家还是最好使用2.0来生成秘钥和上传到服务器。</p>
-<p>首先生成key，全部选择默认进行，填上你的个人信息，最后就会生成一个key</p>
-<pre><code>gpg2 --gen-key 
-</code></pre><p>里面会让你输入一个口令，你记住就行，等你上传的时候会弹出一个框让你输入这个口令</p>
-<p>生成完后使用下面命令列出key</p>
-<pre><code>   gpg2 --list-key
-
-
-
-/home/zhanglun/.gnupg/pubring.gpg
----------------------------------
-pub   rsa2048/47DC71B6 2019-01-12 [SC]
-uid         [ultimate] zhanglun &lt;zhanglun.me@gmail.com&gt;
-sub   rsa2048/985EE474 2019-01-12 [E]
-
-pub   rsa2048/D0516023 2019-01-12 [SC]
-uid         [ultimate] zhanglun &lt;zhanglun.me@gmail.com&gt;
-sub   rsa2048/EE34357C 2019-01-12 [E]
-</code></pre><p>我生成好几个没有关系，随便找到一行pub ，例如第三行的，<code>47DC71B6</code>就是你得公钥</p>
-<p>使用下面命令把秘钥发到秘钥服务器（keyserver你可以在网上随便找一个，只有能用就会同步到全球）</p>
-<pre><code>gpg2 --keyserver pool.sks-keyservers.net --send-keys  47DC71B6
-</code></pre><p>接下来我们就要配置<code>maven</code>来使用这个秘钥，首先在pom.xml里面加上这个插件</p>
-<pre><code>&lt;plugin&gt;
-    &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
-    &lt;artifactId&gt;maven-gpg-plugin&lt;/artifactId&gt;
-    &lt;version&gt;${version.maven.plugin.gpg}&lt;/version&gt;
-    &lt;executions&gt;
-        &lt;execution&gt;
-            &lt;id&gt;sign-artifacts&lt;/id&gt;
-            &lt;phase&gt;verify&lt;/phase&gt;
-            &lt;goals&gt;
-                &lt;goal&gt;sign&lt;/goal&gt;
-            &lt;/goals&gt;
-        &lt;/execution&gt;
-    &lt;/executions&gt;
-&lt;/plugin&gt;
-</code></pre><p>它能自动帮你使用<code>gpg</code>来进行签名（默认使用<code>gpg</code>待会我们得改成<code>gpg2</code>，否则会报错），这里要注意一点假如你计算机上面有很多秘钥，如果你不指定那个秘钥来进行签名那也会报错，我们要在<code>~/.m2/settings.xml</code> 上配置一下（注意不是你项目目录下面）</p>
-<p>在<code>settings.xml</code>的<code>settings/profiles</code>节点下面下面加上配置</p>
-<pre><code>&lt;settings&gt;
-      &lt;profiles&gt;
-            ....
-
-
-            &lt;profile&gt;
-            &lt;id&gt;oss&lt;/id&gt;
-            &lt;activation&gt;
-            &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;
-            &lt;/activation&gt;
-            &lt;properties&gt;
-            &lt;gpg.executable&gt;gpg2&lt;/gpg.executable&gt;
-            &lt;gpg.keyname&gt;47DC71B6&lt;/gpg.keyname&gt;
-            &lt;/properties&gt;
-            &lt;/profile&gt;
-
-
-             .....
- &lt;/profiles&gt;
-&lt;/settings&gt;
-</code></pre><p><code>id</code>就是这个配置的名字，<code>gpg.keyname</code>就是秘钥的名字，<code>gpg.executable</code>就是选择使用<code>gpg2</code>（默认使用1.0版本也就是<code>gpg</code>）</p>
-<p>配置完这个你可以<code>mvn install</code>一下，你可以看到生成的<code>jar</code>都已经有一个<code>.asc</code>文件，接下来就是配置<code>sonatype</code>的账号密码，在<code>pom.xml</code>配置文件里面加上一个</p>
-<pre><code>&lt;distributionManagement&gt;
-    &lt;snapshotRepository&gt;
-        &lt;id&gt;oss&lt;/id&gt;
-        &lt;url&gt;https://oss.sonatype.org/content/repositories/snapshots&lt;/url&gt;
-    &lt;/snapshotRepository&gt;
-    &lt;site&gt;
-        &lt;id&gt;master&lt;/id&gt;
-        &lt;name&gt;Efficient longest keyword string matching&lt;/name&gt;
-        &lt;url&gt;git@github.com:mrzhangboss/ahocorasick.git&lt;/url&gt;
-    &lt;/site&gt;
-    &lt;repository&gt;
-        &lt;id&gt;oss&lt;/id&gt;
-        &lt;url&gt;https://oss.sonatype.org/service/local/staging/deploy/maven2/&lt;/url&gt;
-    &lt;/repository&gt;
-&lt;/distributionManagement&gt;
-</code></pre><p>在这里我们指定了用<code>oss</code>这个作为上传账号，接下啦我们在<code>~/.m2/settings.xml</code> 加上<code>sonatype</code>的用户名和密码</p>
-<pre><code>&lt;settings&gt;
-        &lt;servers&gt;
-            ....
-
-
-            &lt;server&gt;
-              &lt;id&gt;oss&lt;/id&gt;
-              &lt;username&gt;your usename&lt;/username&gt;
-              &lt;password&gt;your password&lt;/password&gt;
-            &lt;/server&gt;
-
-
-            ....
-  &lt;/servers&gt;
-&lt;/settings&gt;
-</code></pre><p>在<code>settings/servers</code>节点下加入一个<code>server</code>节点，填上你的账号密码就ok了，在这里你就可以使用<code>mvn clean deploy</code>进行上传了。</p>
-<h2 id="第四部：发布配置"><a href="#第四部：发布配置" class="headerlink" title="第四部：发布配置"></a>第四部：发布配置</h2><p>前面我们已经能够上传，但是我们现在上传的时候假如我们的版本号上面有<code>SNAPSHOT</code>这个的话，我们是不能把他发布出去的，带有那个代表那个只是实验性质，虽然我们能够把它上传上去但是不能在<code>maven</code>中央仓库里面看到。</p>
-<p>当然这个只是一个要求，为了能够上传你还必须满足两个条件，第一个要把源文件上传上去，第二个就是你的文档上传上去，而且<code>sonatype</code>采用了一个工作流的概念，你要上传中央库必须要进过 上传release-&gt; 关闭release -&gt; 发布release，当然所以的一切都可以用插件来完成，接下啦我们先介绍两个很重要的插件，打包源文件和打包文档。</p>
-<p>由于我们要打包<code>Scala</code>项目，所以第一步就是把<code>Scala</code>编译成<code>Java</code>字节码，这一步我们得借助<code>scala-maven-plugin</code>来完成</p>
-<p>我们在在<code>build</code>里面加入下面的插件</p>
-<pre><code>&lt;plugin&gt;
-    &lt;groupId&gt;net.alchim31.maven&lt;/groupId&gt;
-    &lt;artifactId&gt;scala-maven-plugin&lt;/artifactId&gt;
-    &lt;version&gt;${version.scala.maven.plugin}&lt;/version&gt;
-    &lt;executions&gt;
-        &lt;execution&gt;
-            &lt;goals&gt;
-                &lt;goal&gt;compile&lt;/goal&gt;
-                &lt;goal&gt;testCompile&lt;/goal&gt;
-            &lt;/goals&gt;
-        &lt;/execution&gt;
-        &lt;execution&gt;
-            &lt;id&gt;attach-javadocs&lt;/id&gt;
-            &lt;goals&gt;
-                &lt;goal&gt;doc-jar&lt;/goal&gt;
-            &lt;/goals&gt;
-        &lt;/execution&gt;
-    &lt;/executions&gt;
-&lt;/plugin&gt;
-</code></pre><p>它带了连个命令一个是<code>compile + testCompile</code>（编译），一个是<code>attach-javadocs</code>（打包<code>scaladoc</code>），加入这个插件后你可以试一下<code>mvn install</code> 它会帮你把<code>javadoc.jar</code>生成出来。</p>
-<p>添加<code>source</code>文件的插件就简单了，<code>Java</code>和<code>Scala</code>都可以使用这个插件来生成<code>jar</code>文件（只是简单的复制文件而已）</p>
-<p>加入下面这个插件就能实现打包源文件了</p>
-<pre><code>&lt;plugin&gt;
-    &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
-    &lt;artifactId&gt;maven-source-plugin&lt;/artifactId&gt;
-    &lt;executions&gt;
-        &lt;execution&gt;
-            &lt;id&gt;attach-sources&lt;/id&gt;
-            &lt;goals&gt;
-                &lt;goal&gt;jar&lt;/goal&gt;
-            &lt;/goals&gt;
-        &lt;/execution&gt;
-    &lt;/executions&gt;
-&lt;/plugin&gt;
-</code></pre><p>加上这两个插件你就可以发布<code>release</code>版本了（第一次你得要跟工作人员comment一下才能上传到中央库，以后就不要了）。现在你就可以只要执行<code>mvn clean deploy</code>就能在<a href="https://oss.sonatype.org/#welcome" target="_blank" rel="noopener">管理页面</a>的Staging Repositories下面看到你构件，你只要选择最后一个，然后点击<code>close</code>，<code>close</code>结束之后在点击<code>release</code>就能在<code>maven</code>中央库看到你的开源包了，是不是很激动</p>
-<p>但是每次都要登录上面去点击很繁琐，所以你可以安装下面的插件帮你直接发布，不需要登录网站</p>
-<p>加上下面的插件就能自动帮你发布了</p>
-<pre><code>&lt;plugin&gt;
-    &lt;groupId&gt;org.sonatype.plugins&lt;/groupId&gt;
-    &lt;artifactId&gt;nexus-staging-maven-plugin&lt;/artifactId&gt;
-    &lt;version&gt;${version.maven.plugin.nexus.staging}&lt;/version&gt;
-    &lt;extensions&gt;true&lt;/extensions&gt;
-    &lt;configuration&gt;
-        &lt;serverId&gt;oss&lt;/serverId&gt;
-        &lt;nexusUrl&gt;https://oss.sonatype.org/&lt;/nexusUrl&gt;
-        &lt;autoReleaseAfterClose&gt;true&lt;/autoReleaseAfterClose&gt;
-    &lt;/configuration&gt;
-&lt;/plugin&gt;
-</code></pre><p>PS：我在<a href="https://github.com/mrzhangboss/ahocorasick/tree/MiniDeployToSonatypeDemo" target="_blank" rel="noopener">项目</a>里面把这个插件注释掉了，你们可以把注释取消</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这篇博文主要是把发布涉及到的库以及知识点简单的介绍了一下，其实发布并不难，很多时候我们只是卡在某一步上，只要我们知道原理，就能把钉子拔掉，顺利上路，在这里顺便推广一下我的项目，这个项目基于<code>Aho-corasick</code>自动匹配关键词，使用统计方法来对输出最匹配路径，项目展示的<a href="http://ahocorasick.zhanglun.me/" target="_blank" rel="noopener">Demo</a>在<a href="http://ahocorasick.zhanglun.me/" target="_blank" rel="noopener">http://ahocorasick.zhanglun.me/</a>  ，随意输入地点能够迅速匹配出相关城市，比如打入“樟树”能够找到“江西省-宜春市-樟树市”，假如你服务器内存够的话还可以根据村委会名字来寻找到你的地点，而且搜索的速度只和你的地点名长度有关，不会随着关键词的增长而变慢</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://stackoverflow.com/questions/5901378/what-exactly-is-a-maven-snapshot-and-why-do-we-need-it/5907727" target="_blank" rel="noopener">SNAPSHOT</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/11/07/bigdata/BigDataQuestions/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/11/07/bigdata/BigDataQuestions/" class="post-title-link" itemprop="url">Big Data Questions</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-11-07 00:00:00" itemprop="dateCreated datePublished" datetime="2018-11-07T00:00:00+08:00">2018-11-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:01:40" itemprop="dateModified" datetime="2021-03-09T20:01:40+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/大数据/" itemprop="url" rel="index">
-                    <span itemprop="name">大数据</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>358</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>Recently I found that I’m kind of over talking when I speak with others, so I want to train my conclusion of solving problem. Here are some problems I meet when I read books of Big Data.</p>
-</blockquote>
-<ul>
-<li>No 1. Why <code>Spark</code> does not use map-reduce?</li>
-</ul>
-<p>Disk reading is too slow to complete big data analyze.Map-reduce is a shuffle which meanings parallizing.<code>Spark</code> just use memory to complete parallizing a huge problem.</p>
-<ul>
-<li>No 2. How Hadoop to append data?</li>
-</ul>
-<p>Just use </p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/10/20/java/LearningScalaFromJava/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/10/20/java/LearningScalaFromJava/" class="post-title-link" itemprop="url">Learning Scala From Java</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-10-20 00:00:00" itemprop="dateCreated datePublished" datetime="2018-10-20T00:00:00+08:00">2018-10-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:02:26" itemprop="dateModified" datetime="2021-03-09T20:02:26+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index">
-                    <span itemprop="name">Java</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>4.9k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>4 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>Recently I had finshed reading one book : &lt;&lt; Scala for The Impatient&gt;&gt;, I found a lot intrest thing during reading this book.Cause I had known <code>Python</code> and <code>Java</code> before, I can see  mixed fetures of <code>Scala</code> between <code>Python</code> and <code>Java</code>.This  blog is my thought  of studying a new language from other learned language.</p>
-</blockquote>
-<h2 id="Introudction"><a href="#Introudction" class="headerlink" title="Introudction"></a>Introudction</h2><p>What is <code>Scala</code>, <code>Scala</code> is a new lanuage ? No technically <code>Scala</code> is <code>Java</code>. They both create <code>*.class</code> file, and run on <code>JVM</code>.The most different between them: <code>Scala</code> use <code>.scala</code> as suffix and <code>Java</code> use <code>.java</code> as suffix.</p>
-<p>The difference of two lanuage is the syntax which deeply affectting your coding style.This blog will introuce the most different of two lanuage and we will find out why is it.</p>
-<h2 id="Stronger-Object-Oriented"><a href="#Stronger-Object-Oriented" class="headerlink" title="Stronger Object-Oriented"></a>Stronger Object-Oriented</h2><p><code>Scala</code> and <code>Java</code> both generate <code>Java bytecode</code>(we will call it <code>bytecode</code> later) file, and let it run on the <code>JVM</code>.The <code>bytecode</code> is totally a <code>object-oriented</code> format.</p>
-<p>The basic structure of <code>bytecode</code> is <code>class</code>, but we will see something wrong in <code>Java</code>.For examples.In <code>Java</code> library, they give us two type <code>int</code> and <code>Integer</code>. One is <code>C</code> level data type, Other is a really <code>Object Class</code>.This is a huge problem, do we really need a <code>Object Class</code> like <code>Integer</code>, this <code>Class</code> make a <code>C</code> level data type not so effective (It’s huge than <code>int</code>).The only reason we need it for <code>collection</code> data type like <code>List</code>,<code>Set</code>,<code>Map</code> and so on can only load Class Object.So we not only make it ugly in <code>Java</code> but also we waste lot of time  <code>packing</code> and <code>unpacking</code> between Class-Object and C-level Object.</p>
-<p>This problem is fixed or improve by <code>Scala</code>.In <code>Scala</code> libray, there are no <code>int</code> or <code>long</code> or <code>char</code> anymore.There are all to be <code>Class</code>.And  in <code>Scala</code> offical collection (<code>scala.collection</code>) we can load this Class-Object as a c-level data type undergroud. This trick is done by <code>Manifest</code> type, using <code>reflect</code> to make the collections to save base type like <code>int</code>，<code>char</code> and so on as its’ elements.</p>
-<p>In this way, we not only delete c-level data type, but also delete the un-object-oriented part in a object-oriented lanuage.This is improvement of <code>Scala</code>.We needn’t <code>pack</code>  and <code>unpack</code> again and again.But we share the speed of <code>C</code> level data type without touch it.</p>
-<h2 id="Enhance-Function"><a href="#Enhance-Function" class="headerlink" title="Enhance Function"></a>Enhance Function</h2><p><code>Java8</code> support <code>lambda</code> fuction in 2014,so in a long time if you want use something like <code>function</code>, you can use a anonymous class which implemented some interface.<br>eg:</p>
-<pre><code>Thread thread = new Thread(new Runnable() {
-    @Override
-    public void run() {
-        // do something     
-    }
-});
-</code></pre><p>You can see if we want run a thread we must initialize one object.Actually you only need the <code>run</code> function.</p>
-<p>Let’s see what <code>Python</code> do with function.If you want to call one object as function you only need give a object <code>__call__</code> function.Then you can call as <code>obj(*arg, **kwds)</code>.The <code>Python</code> will transform it to <code>obj.__call__(*arg, **kwds)</code>.</p>
-<p>We can learn it from <code>Python</code>, if <code>Java</code> want to call <code>obj</code> as <code>function</code> so he need use some unnified rule.So when you can write just function and <code>Java</code> will turn it to some Interface.</p>
-<p><code>Scala</code>build 23 generic <code>Class</code> from <code>Function0</code> to <code>Function22</code> to help us write our <code>function</code> as a object.By the way, in <code>Java</code>, you maybe use <code>avoid</code> in a <code>method</code> to announcing no nedd to return.In <code>Scala</code>, you must have a <code>return</code>, if you really don’t need one, just return <code>Unit</code> which is same as <code>void</code>.</p>
-<p>Now you can use <code>fuction</code> as a veriables now in <code>Scala</code></p>
-<pre><code>def rInt(): Int = 1
-val k: () =&gt; Int = rInt _
-</code></pre><p>In upper, we use fuction <code>rInt</code> as a virable of <code>k</code>, <code>() =&gt; Int</code> is tell the <code>Scala</code> the type of <code>function</code>.So when call some thing like <code>k()</code>, it will tranceform to <code>k.applay()</code>.</p>
-<p><code>Scala</code>  build a rule for us like <code>HTTP</code> to <code>Internet</code>.Maybe this is not so meaning just building 23 <code>trait</code> (like <code>interface</code> in <code>Java</code>).But you will a huge power when on the basement.It kind like <code>HTTP</code>, thanks to it, the <code>Internet</code> give a amazing world to us.</p>
-<h2 id="Do-More"><a href="#Do-More" class="headerlink" title="Do More"></a>Do More</h2><p><code>Scala</code> is shorter than <code>Java</code>.In my word, I think <code>Java</code> is kind of wordy.If you want to <code>print</code> some word, you nedd use <code>System.out.println</code>, maybe you can <code>static import</code> to reduce it(use <code>import static System.out</code>).Also there are too mush strict rule in <code>Java</code>.Such as: Only one public class in a file.Your package need use same physcial address.etc.</p>
-<p><code>Java</code> is strict lanuage, you aren’t trust by the compiler.While <code>Scala</code> give us more freedoom.You can save a lot of time in it.</p>
-<p>Let us see what <code>Scala</code> do for us.</p>
-<ul>
-<li>add varies and method in builder</li>
-</ul>
-<p>just use one line like </p>
-<pre><code>class T(var name:String)
-</code></pre><p>it’s equal </p>
-<pre><code>class T{
-private String name;
-public String getName(){
-return this.name;
-}
-public String setName(String name){
-this.name = name;
-}
-public T(String name) {
-this.name = name;
-}
-}
-</code></pre><ul>
-<li>saving brackets</li>
-</ul>
-<p>if a fuction use no params, you can save brackets.It maybe confused if you want a <code>function</code> not just call them.Just add <code>_</code> after your function.<code>Scala</code> will know you just need a function.</p>
-<ul>
-<li>use symbol as your function</li>
-</ul>
-<p>In <code>Java</code>, we are not allowed to use <code>*</code>,<code>/</code>，<code>+=</code> as your class method, <code>Scala</code> open it, you can what you like.Sometimes, <code>+</code> will be more clearly than just <code>add</code>.</p>
-<ul>
-<li>add your patch to other library</li>
-</ul>
-<p>In the your kingdom of <code>Scala</code>, you can simple add any patch to other class without recompiling <code>Java</code> again.</p>
-<pre><code>implicit def addKing(w:String) = new {
-  def king()= println(w + &quot; is my king&quot;)
-}
-
-def say = &quot;Scala&quot; king
-</code></pre><p>just add one rule use <code>implicit</code> to tell <code>Scala</code>, you can add <code>String</code> a new method <code>king</code>.if you run <code>say</code>, it will print <code>Scala is my king</code>.</p>
-<p>Compare <code>Java</code>, <code>Scala</code> more like a human, he will think a lot for your code.If <code>String</code> have no method call <code>king</code>, he will look up in his scope, is there any definenation of a convertion to a new <code>Class</code> which have a method call <code>king</code>.If he find one, he will do it for you, convert the <code>String</code> to the new <code>Class</code> and call the method again.</p>
-<hr>
-<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><p>There are so many secret in <code>Scala</code>, if you realy want to know how <code>Scala</code> do for us, just use <code>scalac</code> to compile to <code>.class</code> file, and use <code>javap</code> to tranceform to <code>Java</code> code.That will help you a lot.There are  also a intresting part in new power <code>switch</code>  in <code>Scala</code>, it’s too important to write a new blog to introducing it.</p>
-<p><code>Scala</code> is a intersting lanuage, if you want to know more about it, you can read the <code>Scala</code> library code .It’s really perfect.</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/10/14/software/BuildHadoopClusterinOneComputer/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/10/14/software/BuildHadoopClusterinOneComputer/" class="post-title-link" itemprop="url">Build Hadoop Cluster in One Computer</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-10-14 00:00:00" itemprop="dateCreated datePublished" datetime="2018-10-14T00:00:00+08:00">2018-10-14</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:08:06" itemprop="dateModified" datetime="2021-03-09T20:08:06+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/软件/" itemprop="url" rel="index">
-                    <span itemprop="name">软件</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>11k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>10 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>If you are hadoop novice, I strongly suggest you beginning your study from single node building,you can learn from this <a href="https://www.tutorialspoint.com/hadoop/" target="_blank" rel="noopener">website</a>, after you having finshed build one single node, then you can reading my blog to learn how to run a N-node clusters just in your computer.</p>
-</blockquote>
-<h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>This blog is introduce using one computer to build a N-node clusters.I suggest you use ubuntu to build. You can also use Windows, but you’d better install virtualbox to install one desktop ubuntu  as your base server.In this blog, we will try two different way to build hadoop clusters in one computer.</p>
-<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>Before you start learning, you can download these required softwares from Intelnet.</p>
-<ul>
-<li>JDK8(optional)</li>
-</ul>
-<p>we can also install it by apt tool, but may be slow in China.So you’d better download it from website.</p>
-<p><a href="https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="noopener">https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html</a></p>
-<p>choose “jdk-8u181-linux-x64.tar.gz” to download.You can alse install in your master computer later, you can read from this <a href="https://websiteforstudents.com/how-to-install-oracle-java-jdk8-on-ubuntu-16-04-17-10-18-04-desktops/" target="_blank" rel="noopener">blog</a></p>
-<ul>
-<li>Hadoop(2.85)</li>
-</ul>
-<p>I choose latest 2.85 version, you can download from this website.</p>
-<p><a href="https://www.apache.org/dyn/closer.cgi/hadoop/common/hadoop-2.8.5/hadoop-2.8.5-src.tar.gz" target="_blank" rel="noopener">https://www.apache.org/dyn/closer.cgi/hadoop/common/hadoop-2.8.5/hadoop-2.8.5-src.tar.gz</a></p>
-<ul>
-<li>Ubuntu Image</li>
-</ul>
-<p>In this trip, we choose Ubuntu16.04 server for build clusters.You can use 163 mirrors to speed up your download.</p>
-<p><a href="http://mirrors.163.com/ubuntu-releases/16.04.5/ubuntu-16.04.5-server-amd64.iso" target="_blank" rel="noopener">http://mirrors.163.com/ubuntu-releases/16.04.5/ubuntu-16.04.5-server-amd64.iso</a></p>
-<ul>
-<li><p>Virtualbox</p>
-<p>we need <code>virtualbox</code> to create our clusters. It’s easy for you to install virtualbox in ubuntu. You can read this <a href="https://tecadmin.net/install-oracle-virtualbox-on-ubuntu/" target="_blank" rel="noopener">article</a> to install virtualbox-5.2</p>
-<ul>
-<li>Docker</li>
-</ul>
-</li>
-</ul>
-<p>we will try use docker build our clusters, it’s easy install in ubuntu.The install tutorials is <a href="https://docs.docker.com/install/linux/docker-ce/ubuntu/#uninstall-old-versions" target="_blank" rel="noopener">https://docs.docker.com/install/linux/docker-ce/ubuntu/#uninstall-old-versions</a></p>
-<h2 id="Clusters-On-VirtualBox"><a href="#Clusters-On-VirtualBox" class="headerlink" title="Clusters On VirtualBox"></a>Clusters On VirtualBox</h2><p>Now I assuming you’re working on a ubuntu16.04 desktop OS.Now let’s begining our trip.</p>
-<p>First,let’s init a master, after we install required software in master, we can use virtualbox <code>clone</code> function to easy to build slave.</p>
-<h3 id="Build-Ubuntu-VMS"><a href="#Build-Ubuntu-VMS" class="headerlink" title="Build Ubuntu VMS"></a>Build Ubuntu VMS</h3><ul>
-<li>new a machine named master</li>
-</ul>
-<p><img src="/images/vm-create1.png" alt></p>
-<ul>
-<li>Choose 2G RAM, VDI </li>
-</ul>
-<p>then run this image, load the iso file you downloaded.Pay attention to make true install ssh server( Or you can install after installing os by <code>apt</code>)</p>
-<blockquote>
-<p>Before we start install hadoop and java skd, let me tell you something about the internet require.</p>
-</blockquote>
-<p>For our clusters runing, we need a connected internet between master and slaves.If we have many computers, it’s simple, we just need they both have public IP or private IP in one LAN.But if we just in one computer, how can we have independent IP for our master and slaves.</p>
-<p>This is why we install <code>virtualbox</code>, <code>virtualbox</code> provide our independent computers in just one computer.Moreover, it can provide a simulate NIC for each computer.By using that, each computer can have they own private IP in LAN. </p>
-<p>So the key our cluster running is the <code>bridge</code></p>
-<p><img src="/images/vm-net-adapter.png" alt></p>
-<p>we need choose the <code>bridged adapter</code> to make master and slaves just in same LAN.Pay attention to make true you need choose your real NIC.In ubuntu you just run <code>ifconfig</code> and find out have one line <code>inet addr:192.168.1.12</code> .Usually it’s <code>eth0</code> in ubuntu.</p>
-<p>When you have finished OS installment.You can login in and start installing hadoop clusters.</p>
-<blockquote>
-<p>Step 1. Configure Static IP</p>
-</blockquote>
-<p>In your virtual machine, your IP is changeable when reboot.Because ubuntu use DHCP for init your IP from gateway.We need make true our  master and slaves have changeless IP to protect their connection.</p>
-<p>To do this, first you need make true your installment is ok. Try <code>ping  baidu.com</code> to check you connected Internet or not.Then we need know our gateway address.Try run <code>route</code> in shell, you can find a table, in the row <code>Gateway</code>, you can find one or more static IP like <code>192.168.0.1</code> , this is your gateway.Now we open our internet settings.</p>
-<pre><code>cat /etc/network/interfaces    
-</code></pre><p>you can see something like this</p>
-<pre><code>auto eth0
-iface eth0 inet dhcp
-</code></pre><p><code>eth0</code> is your NIC(yours maybe different). and we use <code>dhcp</code> to get IP. Now we need change it to static.</p>
-<pre><code>auto eth0
-iface eth0 inet static
-address 192.168.0.105
-netmask 255.255.255.0
-gateway 192.168.0.1
-</code></pre><p>PS: make true, you need change the <code>eth0</code> and <code>gateway</code> IP to yours.The address <code>IP</code> must be subnet of gateway under the control of netmast.eg, you can’t set you ip address to 10.1.1.1 if your gateway is 192.168.0.1.The easiest way is set by <code>dhcp</code> format.And just change the last number.If you still can’t connect the Internet.Try add one line <code>dns-nameservers 8.8.8.8</code> .</p>
-<pre><code>ifdown eth0
-ifup  eth0
-</code></pre><p>now run upper commands in your vm(<code>eth0</code> need your NIC name).If run <code>ifconfig</code> again, you can see our IP address chage to <code>192.168.0.105</code> now!</p>
-<blockquote>
-<p>Step 2. Add Hostname alias</p>
-</blockquote>
-<p>Becase hadoop need hostname to identify their ID, so now we add <code>Hostname-IP</code> pair to smooth our connection.</p>
-<p>Just edit <code>/etc/hosts/</code> and add three line below</p>
-<pre><code>192.168.0.105 master
-192.168.0.104 slave1
-192.168.0.103 slave2
-</code></pre><blockquote>
-<p>Step 3. Make SSH Login</p>
-</blockquote>
-<p>Becase hadoop need login by root with <code>SSH</code> , so we need make <code>root</code> can login in in ubuntu.Open <code>/etc/ssh/sshd_config</code> and change line <code>PermitRootLogin prohibit-password</code> to <code>PermitRootLogin yes</code>, then <code>service ssh restart</code> .</p>
-<p>Also you need use your <code>sudo</code> to set password for root</p>
-<pre><code>sudo passwd root
-</code></pre><p>now check you can login in with <code>root</code></p>
-<pre><code>ssh root@127.0.0.1
-</code></pre><blockquote>
-<p>Step 4. Set Hadoop Env</p>
-</blockquote>
-<p>First, we need install <code>JDK</code> for hadoop, now back to your host computer. And use <code>scp</code> to upload <code>JDK</code> to vm.You can add below to <code>/etc/hosts</code> in your host machine.</p>
-<pre><code>192.168.0.105 master
-192.168.0.104 slave1
-192.168.0.103 slave2
-</code></pre><p>then you can easy upload your <code>JDK</code> and <code>Hadoop</code> to your vm(you need unpack this tar.gz file first)</p>
-<pre><code>scp -r /path/your/jdk root@master:/usr/lib/jvm/java-8-oracle
-
-scp -r /path/your/hadooproot@master:/usr/local/hadoop
-</code></pre><p>PS: you can also install <code>Java8</code> by <code>apt</code></p>
-<p>Now, we installed <code>JDK</code> and <code>Hadoop</code> in our VM.Then we back to VM and initialize our <code>Hadoop</code>.</p>
-<ul>
-<li>Set JDK Home</li>
-</ul>
-<p>edit <code>hadoop-env.sh</code>(in <code>/usr/local/hadoop/etc/hadoop/</code>) file add <code>export JAVA_HOME=/usr/lib/jvm/java-8-oracle</code> to tell <code>Hadoop</code> JDK local address.</p>
-<ul>
-<li>Set Core IP</li>
-</ul>
-<p>We need a boss to handle all employer.So edit <code>core-site.xml</code>(in <code>/usr/local/hadoop/etc/hadoop/</code>) and add a property in <code>configuration</code></p>
-<pre><code>&lt;property&gt;
-    &lt;name&gt;fs.defaultFS&lt;/name&gt;
-    &lt;value&gt;hdfs://master:9000/&lt;/value&gt;
-&lt;/property&gt;
-</code></pre><p>each cluster will send heartbeat to <code>master:9000</code>.</p>
-<ul>
-<li>Set <code>HDFS</code> replication and file dir</li>
-</ul>
-<p>The hadoop basement is <code>HDFS</code>, edit <code>hdfs-site.xml</code> and add three property </p>
-<pre><code>&lt;property&gt;
-        &lt;name&gt;dfs.replication&lt;/name&gt;
-        &lt;value&gt;2&lt;/value&gt;
-    &lt;/property&gt;
-
- &lt;property&gt;
-        &lt;name&gt;dfs.namenode.name.dir&lt;/name&gt;
-        &lt;value&gt;file:///root/hdfs/namenode&lt;/value&gt;
-
-    &lt;/property&gt;
-    &lt;property&gt;
-        &lt;name&gt;dfs.datanode.data.dir&lt;/name&gt;
-        &lt;value&gt;file:///root/hdfs/datanode&lt;/value&gt;
-
-    &lt;/property&gt;
-</code></pre><p>The <code>dfs.replication</code> meaning the backups of <code>HDFS</code>, <code>dfs.namenode.name.dir</code> and <code>dfs.datanode.data.dir</code> is optional.If you not set this, it will store under <code>/tmp</code> (when reboot ,it will delete).</p>
-<ul>
-<li>Set <code>Yarn</code> for <code>MapReduce</code></li>
-</ul>
-<p>In hadoop2, we use <code>Yarn</code> to manage our <code>MapReduce</code>, run <code>cp mapred-site.xml.template mapred-site.xml</code> and then add property to set <code>Yarn</code> as our <code>MapReduce</code> framework</p>
-<pre><code>&lt;property&gt;
-    &lt;name&gt;mapreduce.framework.name&lt;/name&gt;
-    &lt;value&gt;yarn&lt;/value&gt;
-&lt;/property&gt;
-</code></pre><p>and we also need tell <code>yarn</code> the <code>master</code> of the clusters and our need open <code>MapReduce</code> <code>Shuffle</code> Fuction effective our <code>MapReduce</code>, edit <code>yarn-site.xml</code>, and add two property</p>
-<pre><code>&lt;property&gt;
-    &lt;name&gt;yarn.nodemanager.aux-services&lt;/name&gt;
-    &lt;value&gt;mapreduce_shuffle&lt;/value&gt;
-&lt;/property&gt;
-
-&lt;property&gt;
-    &lt;name&gt;yarn.resourcemanager.hostname&lt;/name&gt;
-    &lt;value&gt;master&lt;/value&gt;
-&lt;/property&gt;
-</code></pre><p><code>yarn.nodemanager.aux-services</code> open <code>shuffle</code>, and <code>yarn.resourcemanager.hostname</code> set <code>ResourceManager</code> hostname.</p>
-<hr>
-<p>Now we complete the base <code>Hadoop</code> settings, now we can try run <code>hadoop</code> on <code>master</code></p>
-<pre><code>cd /usr/local/hadoop/
-bin/hadoop namenode -format
-sbin/start-dfs.sh
-</code></pre><p>We try format our namenode, and start dfs server, now run <code>jps</code>, you  can see <code>NameNode</code> and <code>SecondaryNameNode</code> server started.</p>
-<p>Now we try start <code>Yarn</code> to start <code>MapReduce FrameWork</code>.</p>
-<pre><code>sbin/start-yarn.sh
-</code></pre><p>Now, rerun <code>jps</code>, you can see <code>ResourceManager</code> running.You can also try <code>netstat -tuplen|grep 8088</code>, you will find the <code>ResourceManager</code> open some tcp port like 8080,8031,8033,etc.And the <code>8088</code> is the website of  managing clusters.You can open <a href="http://master:8088" target="_blank" rel="noopener">http://master:8088</a> to see the <code>clusters</code> status.Now you can only see blank node in clusters, for we have not started one slave yet.</p>
-<p>Congratulation, our master is starting, in the running, we need input our password when start, after complete all slave building, we can use ssh-key to autologin.</p>
-<blockquote>
-<p>Now let’s build our slaves.</p>
-</blockquote>
-<p>Use <code>virtualbox</code> clone function, we clone <code>master</code> to a new VM named <code>slave1</code>.</p>
-<p>Because we clone every thing to the <code>slave1</code>, so we need close <code>master</code> and goto <code>slave1</code> change  its hostname and static IP make it to be a <code>slave</code></p>
-<p>First we need do is rename the VM,edit <code>/etc/hostname</code> change it to <code>slave1</code>,  then we need do is setting <code>slave1</code> Static IP, we do like upper.Just replace IP to <code>192.168.0.104</code>, and then we reboot and start <code>master</code> and <code>slave1</code> at meatime.</p>
-<p>Now let’s check master to start our <code>slave1</code>, in our <code>master</code> VM, we edit <code>/usr/local/hadoop/etc/hadoop/slaves</code> file, and one line </p>
-<pre><code>slave1
-</code></pre><p>and make true you have add slaves’ hostname alias in <code>master</code> VM.<br>Then we try start our <code>Cluster</code></p>
-<pre><code> cd /usr/local/hadoop
-bin/hadoop datanode -format
-sbin/start-dfs.sh &amp;&amp; sbin/start-yarn.sh
-</code></pre><p>After running these command, check <a href="http://master:8088" target="_blank" rel="noopener">http://master:8088</a>  to find the master have one slave online named <code>slave1</code>.</p>
-<p>PS: Now you can generate ssh-key for your login in slaves, just run <code>ssh-keygen -t rsa &amp;&amp; ssh-copy-id slave1</code>, you don’t need input your password to start your clusters.</p>
-<p>Now we have one node clusters, if you want more, you can add more slaves repeatting upper produce.</p>
-<p>After you build your N-Clusters , you can now run those commands to check the hadoop working or not.</p>
-<pre><code># create input files
-
-mkdir input
-echo &quot;Hello Docker&quot; &gt;input/file2.txt
-echo &quot;Hello Hadoop&quot; &gt;input/file1.txt
-
-# create input directory on HDFS
-hadoop fs -mkdir -p input
-
-# put input files to HDFS
-hdfs dfs -put ./input/* input
-
-
-# run wordcount 
-cd /usr/local/hadoop/bin
-hadoop jar ../share/hadoop/mapreduce/sources/hadoop-mapreduce-examples-*-sources.jar org.apache.hadoop.examples.WordCount input output
-
-# print the input files
-echo -e &quot;\ninput file1.txt:&quot;
-hdfs dfs -cat input/file1.txt
-
-echo -e &quot;\ninput file2.txt:&quot;
-hdfs dfs -cat input/file2.txt
-
-# print the output of wordcount
-echo -e &quot;\nwordcount output:&quot;
-hdfs dfs -cat output/part-r-00000
-</code></pre><p>PS: By the way, if you want to running this clusters for a long time, you can try use <code>vboxmanage</code> to manage the vm. You can simple use <code>vboxmanage startvm master --type headless</code> to start master background(change <code>master</code> to other VM name can start them too)</p>
-<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>The difficult of build a clusters in virtualbox is know how master and slaves connecting each other.If you set a right network, it’s easy to running the cluster.But there’re some problem in <code>virtualbox</code>, we can’t share our network in the host LAN with virtualbox <code>bridge</code>. So we will introduce you build clusters in <code>Docker</code> and we can run our clusters in a swarm clusters in a real envirment.</p>
-<h2 id="Clusters-On-Docker"><a href="#Clusters-On-Docker" class="headerlink" title="Clusters On Docker"></a>Clusters On Docker</h2><p>Building clusters is much easily in docker, for docker provide a easy network bride in sigle computer or in a swarm clusters.</p>
-<p>we use <code>kiwenlau/hadoop:1.0</code> image to our test(which hadoop version is 2.7).Just run</p>
-<pre><code>sudo docker pull kiwenlau/hadoop:1.0
-</code></pre><p>After few minutes, we can have a hadoop images, now we need set our private LAN Net just use this(If you want to run a swarm clusters above many computers, just change <code>bridge</code> to <code>overlay</code>, powerful, isn’t it)</p>
-<pre><code>sudo docker network create --driver=bridge hadoop
-</code></pre><p>Now let start our master server</p>
-<pre><code>sudo docker run -itd \
-                --net=hadoop \
-                -p 50070:50070 \
-                -p 8088:8088 \
-                --name hadoop-master \
-                --hostname hadoop-master \
-                kiwenlau/hadoop:1.0 &amp;&gt; /dev/null
-</code></pre><p>In the command, we set the master hostname to <code>hadoop-master</code>.and we needn’t change <code>/etc/hosts</code> to add it like in <code>virtualbox</code>, docker will do it for us.</p>
-<p>Now we start our slaves</p>
-<pre><code>sudo docker run -itd \
-                --net=hadoop \
-                --name hadoop-slave1 \
-                --hostname hadoop-slave1 \
-                kiwenlau/hadoop:1.0 &amp;&gt; /dev/null
-
-sudo docker run -itd \
-                --net=hadoop \
-                --name hadoop-slave2 \
-                --hostname hadoop-slave2 \
-                kiwenlau/hadoop:1.0 &amp;&gt; /dev/null
-</code></pre><p>After doing that, we have finshed all softwares build.Now just run<code>sudo docker exec -it hadoop-master bash</code> into <code>master</code>, and then start our clusters <code>bash start-hadoop.sh</code>.</p>
-<p>Now you can enjoy your clusters in few minutes, open <a href="http://127.0.0.1:8088/" target="_blank" rel="noopener">http://127.0.0.1:8088/</a> to see our clusters running happily.</p>
-<h2 id="Conclusion-1"><a href="#Conclusion-1" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>After introducing two way to build a hadoop clusters, you will find it’s easy to build a clusters if you know how they work together.In a word, we kind of like using <code>Docker</code> to running hadoop clusters, we can easy move add more <code>Hadoop</code> slaves in just one command.Meantime we can use <code>bridge</code> or <code>overlay</code> network for us building a more safe hadoop clusters.</p>
-<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><p><a href="https://github.com/kiwenlau/hadoop-cluster-docker" target="_blank" rel="noopener">https://github.com/kiwenlau/hadoop-cluster-docker</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/10/13/useless/StartingUsingEnglishInMyBlog/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/10/13/useless/StartingUsingEnglishInMyBlog/" class="post-title-link" itemprop="url">Starting Using English In My Blog</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-10-13 00:00:00" itemprop="dateCreated datePublished" datetime="2018-10-13T00:00:00+08:00">2018-10-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:34:28" itemprop="dateModified" datetime="2021-03-09T20:34:28+08:00">2021-03-09</time>
-              </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>326</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>Happily, I decide to using English for my blog</p>
-</blockquote>
-<p>The reasons why I want to use English to write blog :</p>
-<ul>
-<li>I want to pratice my English writing </li>
-<li>it’s convenient for some tec in IT</li>
-<li>It’s kind of difficult for me in (<code>en</code>and <code>eng</code>,<code>in</code> and <code>ing</code>) as a southern Chinese which is deeply delay my write speed.</li>
-</ul>
-<p>It’s may be kind of difficult for me writing English in my blog, but I will try my best to avoiding stupied mistake.</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/09/15/python/触摸Python的GIL/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/09/15/python/触摸Python的GIL/" class="post-title-link" itemprop="url">触摸Python的GIL</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-09-15 00:00:00" itemprop="dateCreated datePublished" datetime="2018-09-15T00:00:00+08:00">2018-09-15</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:05:18" itemprop="dateModified" datetime="2021-03-09T20:05:18+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>11k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>10 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>Python的<code>GIL</code>一直是被大家攻击其语言的一个弊端，每次在讨论语言特性的时候这点总是会被人们提起，但是这个东西好像就一个“污点”，大家都知道，但是大家都不了解为什么。本片博客就是好好的探索一下GIL，让我们不再畏惧它</p>
-</blockquote>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
-<p>其实一开始并没有想到研究GIL，但是在研究<a href="/2018/09/12/如何让你的Python像C++一样快/">如何让你的Python更快</a>的过程中发现我们可以通过这种方式解决掉GIL，让我们的代码不被<code>Python</code>拖累</p>
-</blockquote>
-<p>这篇博客相比于上面的博客更注重于代码的讲解，我们通过使用<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pybind11</a>从一个<code>Python</code>调用<code>C++</code>的demo出发介绍如何让<code>Python</code>调用<code>C++</code>并且丢弃GIL</p>
-<h2 id="GIL简介"><a href="#GIL简介" class="headerlink" title="GIL简介"></a>GIL简介</h2><p>首先我们要知道什么是<code>GIL</code>，为什么它会拖累<code>Python</code>，首先我们看一下<code>Python</code>历史，<code>Python</code>是Guido van Rossum 在1989年发布的，那个时候计算机的主频还没有达到1G，程序全部都是运行在单核计算机上面，直到2005年多核处理器才被Intel开发出来</p>
-<p>多核处理器意味着什么呢，就好比一个工厂，你原来只有一个工人干活，现在有很多个了，一开始设计出来只是为了能在每个核心上跑不同的应用，但是随着大家对多核计算机的使用，大家发现有的时候计算器其实很空闲，大部分CPU都在休息，假如只在一个核上跑一个应用的话，那么其他CPU就浪费了，所以大家就开始设计怎么并行在多个CPU上跑同样的任务</p>
-<p>现在我们来考虑一下怎么能让CPU力往一处使，我们用数据库来做比方，假设我们计算机上安装一个银行数据库，为了让这个“银行”能够服务更多的人，我们把对钱的操作（增删查改）放到每个CPU上运行。假如我们的顾客一个一个排着队来取钱存钱，我们每个CPU查询都是唯一的，存取也是唯一的，那么我们的“银行”就能正常工作</p>
-<p>但是现实的环境往往不是这样的，顾客它可能会因为网络原因个人原因同时进行多个操作，假如它同时取1千万的两次操作（它账号只有1千万），每个CPU上的程序查询时候正好都是账号有一千万，然后依次进行数据的更新，最后我们发现用户的账号变成了0，但是用户却取了两千万出来，你的银行损失了一千万，所以并行任务最重要的就是数据共享</p>
-<p>怎么解决这个共享问题呢，很简单加“锁”，我们给需要共享的东西上个锁，每次你想用的时候你就把锁锁上，然后对共享的东西进行操作，当有别人想动这个东西的时候，他一看哎呀有人在用，那我等会。这样就不会造成上面的冲突了，但是这个也造成了一个问题由于我上了一把锁，每次我们想操作的时候，必须去看一下这个锁有没有被人锁上，假如没有我就锁上，有就等待，这一来一去就会造成一个效率问题（感觉这个也是国企的通病，权利依次掌握在领导上，要想完成工作得不断的进行开“锁”、关“锁”，有时候还会造成“死锁”），所以并行的4个任务运行速度不一定是一个任务的四倍，所以我们经常看到一些库在运行说明里面双核速度会比单核加速一点几倍，之说以达不到双倍就是因为这些“锁”的存在</p>
-<p>“锁”帮我们能让单任务拆分成子任务并行化加速，但是在一定程度上拖累了运行速度，我们回到<code>Python</code>，因为多核是在2005年才出现的，但是在并行化上面，一个比多核更早出现的概率就是：<code>线程</code>和<code>进程</code></p>
-<p>在还没有多核处理器的时候，操作系统为了让程序并行化跑，就创造了进程和线程的概率。用通俗的话来讲，进程就是一家大工厂，而线程就是工人，为了提高生产力，我们可以开很多家工厂，当然我们也可以开一家工厂，招很多工人。但是线程这个东西相比于进程要消耗的少的多，因为它“原材料”都是从“工厂”里面拿的，假如说工厂少了几个工人还可以生产，但是上万个工人没有工厂他们也办法工作。</p>
-<p>所以对于<code>Python</code>来说首先得支持线程和进程的概率，对于进程来说很简单，就是多开几家工厂(多开几个<code>Python</code>程序)罢了，但是对于线程来说，由于<code>Python</code>是一门脚本语言，它需要一个<code>解释器</code>来执行代码，我们知道这个解释器它可以当做大一个共享变量，假如在不同的线程里面用“锁”来限制一下的话，环境变量就会乱了套</p>
-<p>所以<code>Python</code>对于线程的支持就是给他加一个锁，也就是我们俗称的<code>GIL</code>，由于在操作系统在运行单核的时候就支持线程，一个工人加一个锁其实也没有什么，无非就是多了一点开锁关锁的时间，所以<code>Python</code>在2005前一直没有<code>GIL</code>这个概率，到了2005大家发现<code>Python</code>使用多线程竟然只能使用一个核，完全浪费了其他核，因为虽然<code>Python</code>的线程可以分配到不同的核上运行，但是当他们运行的时候发现这个锁没有被释放，所以每个核上的线程都傻乎乎的在等待，结果最后查看效果多线程比单线程速度还慢（要等<code>GIL</code>释放）</p>
-<p><code>Python</code>社区逐渐发现这个问题，他们也做了很多挽救工作，比如在线程睡觉（sleep）、等待连接的时候让线程主动释放<code>GIL</code>，这样就能让其他线程继续执行，但是对于纯粹的运算代码而不是IO密集代码总也避不开这个锁的存在，如果允许<code>GIL</code>释放，由于历史遗留问题很多代码都会乱了套（理论上其实就是需要重新修改锁的设计，可以参考MySQL的代码去掉<a href="https://dev.mysql.com/worklog/task/?id=8423" target="_blank" rel="noopener">“锁”</a>花了5年时间），考虑到<code>Python</code>本来就运行的慢，<code>Python</code>开发者觉得假如你觉得代码很慢，你可以放到<code>C/C++</code>里面执行，所以对于这个<code>GIL</code>就没有继续啃下去，而是把中心放在<code>Python</code>调用<code>C/C++</code>中，提供了一些很方便的方式让我们在<code>C/C++</code>中控制<code>GIL</code>的释放以及获取</p>
-<p>所以我们接下来通过一个来学习<code>Python</code>调用<code>C++</code>代码，来了解<code>Python</code>如何调用<code>C++</code>，并且通过一些实验来验证线程、进程和<code>GIL</code></p>
-<h2 id="测试GIL的存在"><a href="#测试GIL的存在" class="headerlink" title="测试GIL的存在"></a>测试GIL的存在</h2><p>首先我们要做的第一件事就是测试GIL的存在，现在基本上主流电脑都是多核CPU，所以我们这个实验可以很轻松的在多核下进行</p>
-<p>首先我们得安装一些环境：<code>Python3</code>，<code>gcc</code>，<code>htop</code>（在Windows可以用下任务管理器代替）</p>
-<p>首先我得提一下我的一个认识误区，在以前我不太清楚线程、进程与多核直接的关系的时候我有一个误区，我以为<code>C</code>能在单线程里面使用多核（我也不清楚为什么我会这么想，可能是因为了解很少），而<code>Python</code>却不能，后面通过我实验我才发现，无论是<code>C</code>和<code>Python</code>只要你的代码不使用线程、进程那么你的代码只能同时运行在同一个核上</p>
-<p>怎么来测试呢，我们可以在<code>Python</code>的解释器里面输入</p>
-<pre><code>while True:
-  pass
-</code></pre><p>然后我们打开<code>htop</code>，我们可以发现某一个<code>CPU</code>始终保持在100%（这个CPU可能会变化，因为操作系统控制每个进程切换CPU时间），假如你没有其他任务过多使用<code>CPU</code>的话，你其他的核心一直保持在很低的利用率，当你<code>ctrl-c</code>你的代码后，那个100%的CUP会立马降下来</p>
-<p>然后你在编译一个<code>C</code>程序，使用<code>gcc a.c &amp;&amp; ./a.out</code>命令编译下面代码然后运行</p>
-<pre><code>// a.c
-int main(){while(1){};}
-</code></pre><p>你会发现<code>C</code>也只能消耗一个CPU，这就印证了我们前面说过得，如果我们不主动使用线程或进程来，同时只能有一个在运行</p>
-<p>接下来我们看看在多进程的基础上，使用<code>Python</code>来使用多核</p>
-<pre><code>from concurrent.futures import ProcessPoolExecutor
-
-def f(a):
-    while 1:
-        pass
-if __name__ == &apos;__main__&apos;:
-    pool = ProcessPoolExecutor()
-    pool.map(f, range(100))
-</code></pre><p>当我们运行上面代码的时候，我们会发现所有<code>CPU</code>会运行到100%，我们只要简单声明一个进程池（<code>ProcessPoolExecutor</code>），<code>Python</code>自动帮我们生成你CPU核数相同的进程，然后我们只要把任务分配到池中就能重复的并行化任务，把所有的核心都用起来。</p>
-<p>然后我们来测试一下线程池，要使用<code>Python</code>线程池只需要初始化<code>ThreadPoolExecutor</code>就行</p>
-<pre><code>from concurrent.futures import ThreadPoolExecutor
-
-def f(a):
-    while 1:
-        pass
-if __name__ == &apos;__main__&apos;:
-    pool = ThreadPoolExecutor()
-    pool.map(f, range(100))
-</code></pre><p>我们从<code>htop</code>可以看到在<code>Python</code>线程中，只有一个能达到100%，这就是<code>GIL</code>的“威力”，它让我们多线程没有发挥多线程的力量，重复使用到多核CPU</p>
-<p>接下来我们看看在<code>C++</code>里面使用多线程是否能够发挥多核的威力</p>
-<pre><code>// run.cpp
-#include &lt;thread&gt;
-using namespace std;
-
-#define NUM_THREADS 50
-
-void f(){
-    while(1){};
-}
-void run_dead(){
-
-    std::thread threads[NUM_THREADS];
-    for(int i = 0; i &lt; NUM_THREADS; ++i)
-    {
-        threads[i] = std::thread(f);
-    }
-
-
-    for (int i = 0; i &lt; NUM_THREADS; ++i) {
-        threads[i].join();
-
-    }
-};
-int main(void){
-    run_dead();
-}
-</code></pre><p>我们使用<code>g++ -pthread -std=c++11 run.cpp &amp;&amp; ./a.out</code>运行上面的<code>C++</code>程序，我们在htop里面能够发现，<code>C++</code>的多线程能够完全发挥多核的威力</p>
-<p>上面的程序都很简单，但是具备一个多线程运行的基本构造，我们可以修改我们的调用的子任务来完成实际的任务，当然你程序越复杂也涉及到了各种锁的使用，这里我们就不谈了</p>
-<p>从上面的程序我们可以知道<code>C++</code>的多线程能够充分使用多核，而<code>Python</code>的不行，接下来我们就开始探索<code>Python</code>调用<code>C++</code></p>
-<h2 id="Python调用C"><a href="#Python调用C" class="headerlink" title="Python调用C++"></a>Python调用C++</h2><p>在上面的<a href="/2018/09/12/如何让你的Python像C++一样快/">博客</a>我总结了<code>Python</code>调用<code>C++</code>的方式，总的来说<code>Cython</code>是控制能力最好的，效率也是最高的，但是由于存在一个学习新语言的难度，所以我这里就不提了，改天再写一篇关于<code>Cython</code>的博客，我们这里使用<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pybind11</a>这个库作为介绍</p>
-<p>安装非常简单<code>pip install pybind11</code>就行，接下来我们使用github上这个<a href="https://github.com/pybind/python_example" target="_blank" rel="noopener">官方例子</a>做介绍，最后我们以一个实际的<code>C++</code>项目为例子，看看如何在实际的项目使用</p>
-<p>首先我们先把项目下载下来</p>
-<pre><code>git clone https://github.com/pybind/python_example.git
-</code></pre><p>然后我们新建一个环境（避免安装到我们系统的环境，方便删除）</p>
-<pre><code>python -m venv venv
-</code></pre><p>PS: 当前<code>Python</code>版本默认为py3.5以上（你可以使用pyenv安装Python多个版本，目前我在自己使用Python版本，但主要使用3.6以上）</p>
-<pre><code>source venv/bin/activate
-</code></pre><p>然后我们激活我们的环境，我们顺便安装一下我们接下来要安装的<code>Python</code>包</p>
-<pre><code>pip install ipython
-</code></pre><p>然后我们进入项目<code>cd python_example</code>，假如你用<code>Pycharm</code>的话，你可以在项目目录下生成<code>venv</code>环境，然后在<code>Pycharm</code>里面打开会自动设定为默认环境</p>
-<p>然后我们先测试一下代码可以不可以用</p>
-<pre><code>pip install .
-</code></pre><p>假如我们安装成功了，恭喜你，我们的环境已经准备好了，打开<code>ipython</code>，我们先测试一下这个<code>C++</code>代码的速度</p>
-<pre><code>In [1]: import python_example
-
-In [2]: python_example.add(1, 1)
-Out[2]: 2
-</code></pre><p>很好，代码运行正常，就是一个简单的加法运算，我们测试一下平均时间</p>
-<pre><code>In [3]: %timeit python_example.add(1, 1)
-313 ns ± 3.03 ns per loop (mean ± std. dev. of 7 runs, 1000000 loops each)
-</code></pre><p>很好，我们的<code>C</code>代码还是跑到很快，313纳秒就跑完了，接下来我们看看纯粹的<code>Python</code>代码速度</p>
-<pre><code>In [4]: def add(a, b):
-   ...:     return a + b
-   ...: 
-   ...: 
-
-In [5]: %timeit add(1, 1)
-113 ns ± 9.04 ns per loop (mean ± std. dev. of 7 runs, 10000000 loops each)
-</code></pre><p>什么竟然比<code>C++</code>还要快，快了近3倍，记得我当时第一次运行出来的这个结果的时候的震惊，说好的快呢，你骗我。</p>
-<p>接下来我们就来分析一下出现这个的原因，会不会是因为类型转换出现问题呢，因为<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pyblind11</a>使用了很多自动转换的技术来帮我们转换，我们看看原函数（在src/main.cpp)</p>
-<pre><code>int add(int i, int j) {
-    return i + j;
-}
-</code></pre><p>首先<code>Python</code>调用它，要把第一个参数由<code>Python</code>的<code>int</code>对象转换成<code>C++</code>的<code>int</code>基本类型，<code>C++</code>运行完之后，又得转换将<code>C++</code>基本<code>int</code>类型转换成<code>Python</code>的<code>int</code>对象，这一来一回就得多花三个操作，为了验证我们猜想，我们插入一个<code>nothing</code>函数在<code>add</code>函数后面</p>
-<pre><code>void nothing(){
-}
-</code></pre><p>然后模仿<code>m.def</code>仿照写一行插入<code>nothing</code>函数（你会发现语法特别简单，这也是我喜欢<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pyblind11</a>的原因）</p>
-<pre><code>m.def(&quot;nothing&quot;, &amp;nothing, R&quot;pbdoc(
-        do nothing
-    )pbdoc&quot;);
-</code></pre><p>接下来我们安装一下我们的新库<code>pip install .</code></p>
-<p>然后我们再开一个新的<code>ipython</code>（你可以用<code>importlib</code>来重新加载库）</p>
-<pre><code>In [1]: import python_example
-
-In [2]: %timeit python_example.nothing()
-125 ns ± 0.6 ns per loop (mean ± std. dev. of 7 runs, 10000000 loops each)
-</code></pre><p>125ns，我们的猜想成功了，类型转换的确拖累了<code>C++</code>运行的速度，我们再看看原生的速度如何</p>
-<pre><code>In [4]: def nothing():
-   ...:     pass
-   ...: 
-   ...: 
-
-In [5]: %timeit nothing()
-85.1 ns ± 0.262 ns per loop (mean ± std. dev. of 7 runs, 10000000 loops each)
-</code></pre><p>竟然还是比<code>C++</code>快，虽然没有上面那么夸张，但是快了25%，我们再来分析原因，首先现在没有类型转换所以理论上那只能是代码运行问题，我们知道<code>Python</code>优化里面提过一句，少用<code>.</code>，因为<code>Python</code>要搜寻很多东西才能获得到对象的属性、方法等，所以我们这边使用了<code>python_example.nothing</code>来调用<code>nothing</code>函数，假如我们去掉<code>.</code>速度会不会提高呢</p>
-<p>怎么去掉呢，用局部变量</p>
-<pre><code>In [6]: pn = python_example.nothing
-
-In [7]: %timeit pn()
-90 ns ± 0.761 ns per loop (mean ± std. dev. of 7 runs, 10000000 loops each)
-</code></pre><p>从上面可以看到的确，<code>.</code>“害人不浅”，我们的速度又快了一大截，基本上同原生没有太多差距了，一开始我以为是概率问题，运行了多次但是结果都是一样，原生就是比<code>C++</code>快了5ns，可能是<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pyblind11</a>“偷偷”的在哪个地方偷跑了一条语句吧，或者有可能是<code>C++</code>比<code>C</code>（<code>Python</code>是<code>C</code>写的）稍微慢了一点</p>
-<p>一开始我以为<code>C++</code>一定会比<code>Python</code>快，但是我们从上面测试可以看出来，在“起跑”阶段，<code>C++</code>甚至比<code>Python</code>要慢，我们使用<code>C++</code>主要是为了加速大段<code>Python</code>代码，只要在这场“长征”中<code>C++</code>能够胜出，那么我们的努力就没白费，那好我们继续测试，看看在长征过程中<code>C++</code>表现如何</p>
-<p>首先我们把<code>add</code>函数魔改一下，我们让他进行100次运算</p>
-<pre><code>int add(int i, int j) {
-    int s = 0, x = 0;
-    for(;x&lt;100;x++){
-        s = s + i + j;
-    }
-    return s;
-}
-</code></pre><p>我们再把模块给安装一下<code>pip install .</code>，重新打开新的<code>ipython</code></p>
-<pre><code>In [1]: import python_example
-
-In [2]: python_example.add(1,2)
-Out[2]: 300
-
-In [3]: padd = python_example.add
-
-In [4]: %timeit padd(1,1)
-282 ns ± 3.9 ns per loop (mean ± std. dev. of 7 runs, 1000000 loops each)
-
-In [5]: %timeit python_example.add(1,1)
-316 ns ± 3.78 ns per loop (mean ± std. dev. of 7 runs, 1000000 loops each)
-</code></pre><p>我们这次重要见到了<code>C++</code>的威力，我们进行100次运算，相比于上面一次运算，我们只增加了<code>4ns</code>的平均时间，我们来看看原生<code>Python</code>的表现如何</p>
-<pre><code>In [6]: def add(a, b):
-   ...:     s = 0
-   ...:     for i in range(100):
-   ...:         s += a + b
-   ...:     return s
-   ...: 
-   ...: 
-
-In [7]: add(1, 2)
-Out[7]: 300
-
-In [8]: %timeit add(1, 1)
-4.74 µs ± 40.5 ns per loop (mean ± std. dev. of 7 runs, 100000 loops each)
-</code></pre><p><code>C++</code>完爆<code>Python</code>，<code>4.74us = 4750ns</code>，<code>Python</code>用时是<code>C++</code>的10倍多，只还只是100次运算，假如我们上万次运算，那结果更加夸张，<code>C++</code>在长征的过程中胜利了，但是我们也不能说<code>Python</code>是慢毕竟<code>us</code>的单位其实非常小，<code>1us=1000ms=1000000s</code>，在1s内可以执行上面函数几十万次，只能说<code>C++</code>速度太可怕了</p>
-<h3 id="调用总结"><a href="#调用总结" class="headerlink" title="调用总结"></a>调用总结</h3><p>我们从上面可以看到，虽然<code>Python</code>调用<code>C++</code>在类型转换上会有速度损失，但是在进入到函数提内运行过程中的速度是不影响的，假如我们的运算量够大，完全可以弥补那一点点性能影响，所以要想重复利用<code>C++</code>的速度，尽量少调用<code>C++</code>，把计算结果竟然一次性返回，而不是我们多次进行交互，这样就能最大化利用<code>C++</code></p>
-<h2 id="在C-线程中测试GIL"><a href="#在C-线程中测试GIL" class="headerlink" title="在C++线程中测试GIL"></a>在<code>C++</code>线程中测试GIL</h2><p>接下来我们来考虑这么一个问题，前面我们测试了<code>C++</code>的线程能使用多核，我们假如在让<code>Python</code>在调用<code>C++</code>的代码中中使用线程，那么我们的<code>C++</code>的线程能不能使用多核呢进而解除GIL的作用</p>
-<p>我们把<code>nothing</code>函数改成多线程</p>
-<pre><code>#include &lt;thread&gt;
-#define NUM_THREADS 50
-using namespace std;
-
-void f(){
-    while(1){};
-}
-
-void nothing(){
-    std::thread threads[NUM_THREADS];
-    for(int i = 0; i &lt; NUM_THREADS; ++i)
-    {
-        threads[i] = std::thread(f);
-    }
-
-
-    for (int i = 0; i &lt; NUM_THREADS; ++i) {
-        threads[i].join();
-
-    }
-}
-</code></pre><p>然后我们再重新编译一下<code>pip install .</code>，我们来跑一下我们这个多线程的<code>nothing</code>函数</p>
-<pre><code>In [1]: import python_example
-
-In [2]: python_example.nothing()
-</code></pre><p>我们在<code>htop</code>里面可以看到在单线程的<code>Python</code>程序中，成功的将所有核心都利用上了，也就是是说假如我们在<code>C++</code>扩展中使用线程的话，是不会被<code>GIL</code>影响的</p>
-<p>说实话当我第一次运行的时候我直觉是还是会被<code>GIL</code>影响，结果最后跑出来的结果大吃我一惊，现在我们分析为什么不会被受影响，因为<code>GIL</code>锁的是<code>Python</code>解释器，当我们的代码进入到<code>C++</code>中的时候，我们已经不在<code>Python</code>解释器中了，这样即使我在<code>C++</code>中声明线程，那也是<code>C++</code>的线程，所以就不会造成无法使用多核的情况</p>
-<p>这里我们学到一点，如果我们想摆脱<code>GIL</code>可以把线程放到<code>C++</code>中，这样线程的不再依赖<code>Python</code>解释器，前面我们知道其实<code>Python</code>底层是用<code>C</code>写的，所以基本上所以的语法都是基于<code>C</code>代码实现加上语法糖来完成的，<code>Python</code>线程也就是<code>C</code>线程，我们能不能模拟一下<code>Python</code>来构建这个<code>GIL</code></p>
-<p>首先我们知道<code>GIL</code>是一把锁，所以我们第一件事就是查看这把锁，在这里我们通过<code>Python</code>的<code>C</code>头文件来引入一个函数<code>PyGILState_Check</code>这个函数会返回一个<code>1</code>和<code>0</code>值，假如是<code>1</code>那么意思该线程拿着<code>GIL</code>锁，反之。</p>
-<p>所以我们先在头部加上<code>#include &quot;Python.h&quot;</code>，在Linux系统上要安装<code>python-dev</code>或者<code>python-devel</code>开发包才有这个头文件，接下来我们在<code>nothing</code>函数加上这个检测状态</p>
-<pre><code>cout &lt;&lt; &quot;GIL is &quot; &lt;&lt;  ((PyGILState_Check() == 1) ? &quot;hold&quot; : &quot;not hold&quot;)&lt;&lt;endl;
-</code></pre><p>提一句为了使用<code>cout</code>，我们得在头部加上<code>C++</code>输出库<code>#include &lt;iostream&gt;</code></p>
-<p>先在我们重新安装一下并运行<code>nothing</code>函数，程序会输出<code>GIL is hold</code>，为什么会出现这个情况呢，因为<code>Python</code>默认会锁住<code>GIL</code>当运行<code>C++</code>或者<code>C</code>代码的时候，但是为什么我们虽然锁住了<code>GIL</code>但是我们还是能够使用<code>C++</code>的线程来运行多核呢，其实很简单因为我们的线程没有像<code>Python</code>一样每次运行的时候去获取这个<code>GIL</code>锁，为了证明这一点，我们来做个实验</p>
-<p>首先我们得在<code>nothing</code>函数里面释放<code>GIL</code>，然后让线程去获取<code>GIL</code>（如果<code>nothing</code>主函数不释放<code>GIL</code>，会造成死锁，线程无法运行，一直获取不了<code>GIL</code>锁），我们可以用<code>Python</code>的<code>C</code>头文件的函数来释放<code>GIL</code>锁，但是<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pybind11</a>提供了一个更加方便的函数让我们来释放<code>GIL</code>锁，我们把<code>nothing</code>函数定义修改一下，在后面添加一条语句<code>py::call_guard&lt;py::gil_scoped_release&gt;()</code></p>
-<pre><code>//    m.def(&quot;nothing&quot;, &amp;nothing);
-    m.def(&quot;nothing&quot;, &amp;nothing, py::call_guard&lt;py::gil_scoped_release&gt;());
-</code></pre><p>然后我们在重新编译安装运行一下代码，我们的结果就会是<code>GIL is not hold</code>，我们通过简单的一条语句就释放<code>GIL</code>锁，接下来我们来测试在线程中获取<code>GIL</code>锁来模拟<code>Python</code>的情况</p>
-<p>要想获取<code>GIL</code>锁，<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pybind11</a>也提供了一个非常简单的方法来实现这个：<code>py::gil_scoped_acquire acquire;</code></p>
-<p>我们接下来把<code>f</code>函数改成下面的</p>
-<pre><code>void f(){
-    cout &lt;&lt; &quot;entner F: GIL is &quot; &lt;&lt;  ((PyGILState_Check() == 1) ? &quot;hold&quot; : &quot;not hold&quot;)&lt;&lt;endl;
-    py::gil_scoped_acquire acquire;
-    cout &lt;&lt; &quot;GIL is &quot; &lt;&lt;  ((PyGILState_Check() == 1) ? &quot;hold&quot; : &quot;not hold&quot;) &lt;&lt; &quot; now is runing &quot;&lt;&lt;endl;
-    while(1) {
-    };
-
-}
-</code></pre><p>我们在获取<code>GIL</code>前后，添加了一些输出，方便我们调试，接下来我们再运行我们的代码，我们发现程序输出50个进入<code>entner F: GIL is not hold</code>（在我的电脑上，因为线程同时运行，获取<code>GIL</code>锁需要时间，所以在我电脑上每次运行<code>f</code>函数时锁都打开着），但是只有一行<code>GIL is hold now is runing</code>，因为当一个线程获取到<code>GIL</code>后，其他线程就没法获取到了，而且看<code>htop</code>我们也能发现只有一个核到了<code>100</code>，在我们强行模拟下<code>C++</code>也没能使用多核</p>
-<p>其实从这里我们可以看出来，<code>GIL</code>问题其实就是一个死锁的问题，线程获取后不释放锁，导致所有线程相互竞争，用一个谚语来说就是：一个和尚挑水喝、两个和尚抬水喝、三个和尚没水喝。</p>
-<p>那么我们怎么来解决这个问题呢，很简单就是在你不需要的锁的时候去释放它，接下来我们来模拟一下怎么释放这个锁达到多线程“和平共处”，首先我们引入<code>C++</code>时间库来使用<code>sleep</code>函数(<code>#include &lt;unistd.h&gt;</code>)，接下来我们引入<code>Python</code>的<code>C</code>头文件中的宏来释放<code>GIL</code>，我们把<code>f</code>函数改成下面的形式</p>
-<pre><code>void f(){
-    cout &lt;&lt; &quot;entner F: GIL is &quot; &lt;&lt;  ((PyGILState_Check() == 1) ? &quot;hold&quot; : &quot;not hold&quot;)&lt;&lt;endl;
-    py::gil_scoped_acquire acquire;
-    cout &lt;&lt; &quot;GIL is &quot; &lt;&lt;  ((PyGILState_Check() == 1) ? &quot;hold&quot; : &quot;not hold&quot;) &lt;&lt; &quot; now is runing &quot;&lt;&lt;endl;
-    Py_BEGIN_ALLOW_THREADS
-
-    while(1){
-    };
-    Py_END_ALLOW_THREADS
-}
-</code></pre><p>我们使用<code>Py_BEGIN_ALLOW_THREADS</code>和<code>Py_END_ALLOW_THREADS</code>这一对宏来释放<code>GIL</code>，这样我们重新编译运行<code>nothing</code>函数我们就能看到50个<code>enter</code>和50个<code>runing</code>，而且在<code>htop</code>中我们也能发现<code>C++</code>的线程再次使用所有的核心了（利用率达到不了100%，不知道是因为宏的“副作用”还是其他原因，但是每个核还是能够到70%作用），这种在一个函数中获取和释放<code>GIL</code>锁还是不推荐的，最好在函数一开始的时候释放<code>GIL</code>，在函数结束的时候获取<code>GIL</code>返回到<code>Python</code>解释器中（假如你需要与<code>Python</code>进行交互的话），毕竟获取一次锁的成本还是挺大的，而且一不小心就会造成死锁</p>
-<h2 id="在Python线程中测试GIL"><a href="#在Python线程中测试GIL" class="headerlink" title="在Python线程中测试GIL"></a>在<code>Python</code>线程中测试GIL</h2><p>接下来我们来看看一个已经存在的问题，就是如何解决掉使用<code>Python</code>线程时遇到的<code>GIL</code>问题，其实我们在上面的<code>C++</code>线程已经模拟出来了，解决这个问题的关键就是释放<code>GIL</code>锁，我们先测试一下在<code>GIL</code>锁下，线程调用<code>C++</code>代码的速度</p>
-<p>我们首先添加一个新死循环函数</p>
-<pre><code>void run_dead(){
-    while(1){};
-}
-</code></pre><p>然后在后面加上<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pybind11</a>的定义</p>
-<pre><code>m.def(&quot;run_dead&quot;, &amp;run_dead);
-</code></pre><p>接着我们运行下面函数</p>
-<pre><code>from concurrent.futures import ThreadPoolExecutor
-import python_example
-
-pool = ThreadPoolExecutor()
-
-for i in range(100):
-    pool.submit(python_example.run_dead)
-</code></pre><p>在这个函数里面我们声明了一个线程池，并且向池蕾加入了100函数，接着我们在<code>htop</code>里面查看CPU利用率，我们可以看到只有1个CPU能够跑满100%，其实从前面的实验我们就能猜到这个结果，解决方案其实前面也给了，有两种方法，第一种就是使用<code>Python</code>的C的头文件函数宏<br>：<code>Py_BEGIN_ALLOW_THREADS</code>和<code>Py_END_ALLOW_THREADS</code>，第二种就是在函数声明的地方使用<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pybind11</a>提供的<code>py::call_guard&lt;py::gil_scoped_release&gt;()</code>来释放<code>GIL</code>，两种方法都可以，但是第二种更加简单一点，在这里我就不测试释放<code>GIL</code>之后的性能了，前面已经做过了</p>
-<h2 id="GIL总结"><a href="#GIL总结" class="headerlink" title="GIL总结"></a><code>GIL</code>总结</h2><p>通过前面我们的测试，<code>GIL</code>这个东西其实只是一把锁，我们经常能听到很多人抨击<code>Python</code>关于<code>GIL</code>问题，这就给人一种错觉<code>Python</code>这种语言在设计上有弊端，在前面测试我们也发现了就算是<code>C++</code>或者<code>C</code>假如不正确的使用锁其实也会有这个<code>GIL</code>问题，<code>GIL</code>的问题的并不是“编程语言”的锅，主要是我们自己的代码造成的死锁，所以面对<code>GIL</code>的时候，不需要困惑，它就是一把“锁”，把它打开，而不是碰到它就跑，你会发现它也就是一把“锁”而已。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/09/12/python/如何让你的Python像C一样快/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/09/12/python/如何让你的Python像C一样快/" class="post-title-link" itemprop="url">如何让你的Python更快</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-09-12 00:00:00" itemprop="dateCreated datePublished" datetime="2018-09-12T00:00:00+08:00">2018-09-12</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:05:18" itemprop="dateModified" datetime="2021-03-09T20:05:18+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>5.3k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>5 分钟</span>
             </span>
 
         </div>
@@ -1626,277 +1461,33 @@ for i in range(100):
 
       
           <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
-<p>其实一开始没有想到写关于<code>Python</code>的加速，一开始只想好好了解一下<code>C++</code>这门语言，没想到最后研究来研究去，基本上把所以加速框架都试验了一下，这篇博客就谈谈我对<code>Python</code>加速的看法</p>
+<p>最近逛知乎的时候看到一篇<a href="https://www.zhihu.com/question/36149122/answer/66366304" target="_blank" rel="noopener">知乎回答</a>很有趣，也给了很深的感触，自己对于操作系统、数据库、HTTP用的都非常熟练，但是也从来没有去想怎么怎么实现或者背后深层次的原理</p>
 </blockquote>
-<p> 首先我先谈谈<code>C++</code>，虽然我上大学之前就自学过<code>C</code>，但是对于这个<code>C</code>的升级版还是没有过多的了解，花了几天时间学习，发现<code>C++</code>这门语言还是不错的，至少在兼容性上，它能兼容<code>C</code>还有以前的版本。</p>
-<p>然而作为一个用惯了了脚本语言的人来说，<code>C++</code>最麻烦的就是他的第三方库管理，当然对于类<code>Unix</code>系统有自己带的包管理器（如ubuntu上的<code>apt</code>，CentOS上的<code>yum</code>）可以来安装第三方库（就是我们平常为了安装一些软件，比如要先<code>apt install xxx-dev</code>那些库），由于这些都绑定了平台的，所以你经常能看到有些软件自己编译会列出各个平台下依赖的包，然而对于一些比较新的库（比如<code>googletest</code>，就得去<code>Github</code>上掏下来自己编译安装了。</p>
-<p>吐槽完了<code>C++</code>的缺点之后，我们不得不说<code>C++</code>的优点了，虽然比较难装（相比于脚本语言）但是那个速度真是贼快，用腾讯开源的协程库，单台机器就能开启千万协程而且内存不超过2个G，想我大<code>Python</code>开个一万都很嘚瑟了。<code>C++</code>在性能上真的的碾压的。就是因为<code>C++</code>性能上要求到极致，所以它才会有那么多的前面安装的缺点，因为<code>C++</code>是面对硬件的，对于不同的硬件，<code>C++</code>想做到最快，那么通用的代码就不可能的，通用就代表损失性能。然而让我全用<code>C++</code>写代码是不可能的，脚本语言用的多爽呀。所以了解完了<code>C++</code>的强大之后，我就越发的想了解怎么结合两者的方式来提升｀Python｀速度，最后把所有加速手段都测试了一遍，所以就有了这篇博文。</p>
-<p>PS: 之所以花这么多时间介绍<code>C++</code>是因为<code>LLVM</code>就是使用<code>C++</code>写的，而<code>numba</code>依赖<code>LLVM</code>来动态编译出比<code>C</code>更快的机器码，这个也就<code>Python</code>最后能比<code>C</code>还快的主要原因</p>
-<h2 id="（Python）-（C-）难在哪里"><a href="#（Python）-（C-）难在哪里" class="headerlink" title="（Python）+（C++）难在哪里"></a>（Python）+（C++）难在哪里</h2><p>大家都知道<code>Python</code>有很多实现，我们这里说的<code>Python</code>是<code>CPython</code>也是最常见的实现，它是由<code>C语言</code>编译出来的，我们的目标就是把两种语言给混合起来，<code>C+C++</code>。</p>
-<p>我们看看其他语言，比如<code>Java</code>其实也可以混合<code>C++</code>代码，它是采用<code>JNI</code>的方式来进行交互的，如果你了解这种方式，你会发现也非常麻烦，得先写<code>Java</code>的类，然后再生成<code>C/C++</code>头文件。然后你再写<code>C/C++</code>代码，其实我很讨厌这种方式，我希望能把<code>C/C++</code>和你的语言这两种分离开来，我们能简单通过某种方式桥接一下让两个项目能够连贯起来。</p>
-<p>我们现在来看看<code>Python</code>是如何调用<code>C++</code>的代码。在这之前我先提一下<code>Python</code>与<code>C</code>的关系。</p>
-<p>其实<code>Python</code>和<code>C</code>一直非常友好，相比于其他语言，<code>Python</code>在支持上一直尽最大努力，因为<code>Python</code>开发者也知道<code>Python</code>非常慢（相比于C，C++，而且还有GIL的存在无法使用多线程密集CPU计算），所以<code>Python</code>开发者直接在内库上提供支持：<code>ctypes</code>，一个专为调用<code>C</code>代码的库。你只有编写少量代码就能让<code>Python</code>运行你的<code>C</code>代码。理论上你碰到性能问题直接写<code>C</code>就行了，但是我们为什么还要让<code>Python</code>运行<code>C++</code>来加速呢</p>
-<p>四个字：比<code>C</code>更好，<code>C++</code>由于在性能上与<code>C</code>不相上下，而且比C要高级的多（面对对象等），编写速度与维护上比<code>C</code>更加好，而且要知道现在最流行的Java编辑器都是<code>C++</code>写的，还有很多高性能数据库以及机器学习库都是<code>C++</code>写的，虽然在<code>Python</code>中写<code>C</code>更加简单，但是我们还是希望能够用面对对象的方式来编写代码，毕竟我们主要使用的高级语言也是面对对象的</p>
-<p>也正是因为<code>C++</code>提供了一些<code>C</code>没有的面对对象，以及高级特性，这就让我们融合<code>C</code>和<code>C++</code>带来了一些困难。</p>
-<h2 id="Python为什么能够调用C-代码"><a href="#Python为什么能够调用C-代码" class="headerlink" title="Python为什么能够调用C++代码"></a>Python为什么能够调用C++代码</h2><p>我们从调用顺序来看，我们其实想用<code>C</code>代码（<code>Python</code>本质其实是<code>C</code>代码）调用<code>C++</code>，<code>C++</code>比<code>C</code>要高级，出生的也更晚，所以<code>C</code>其实是不知道<code>C++</code>这门语言的，所以<code>C</code>能调用<code>C++</code>，其实是<code>C++</code>对<code>C</code>的一种兼容，这种兼容是<code>C++</code>提供的</p>
-<p><code>C++</code>作为一门偏底层语言，它最终的目的是生成二进制码，<code>C</code>最终也生成二进制码，这个二进制码能直接在CPU里面运行，大家都知道一个代码复用的概念，在二进制层次上，就有这个<code>链接库</code>概率，反正无论谁是最终调用主体，被调用方只需要提供一个规定好的<code>函数库</code>，那么就能实现跨语言的一种交互。</p>
-<p>但是这个交互存在一个问题，<code>C++</code>比<code>C</code>有着更加特性，比如说类，<code>C</code>没有这个概念，假如<code>C++</code>在动态库里面想让<code>C</code>能够调用一个<code>类</code>方法，<code>C</code>根本不知道怎么用，一个类要使用必须牵扯到类初始化，类析构等等。所以<code>C++</code>提供一个关键字<code>extern &quot;C&quot;</code></p>
-<p>这个关键字就是告诉<code>C++</code>编译器把这个块域里面的东西编译成<code>C</code>可以接受的，当然有个前提条件里面代码声明必须是<code>C</code>式的，也就是只能使用<code>C</code>关键字来声明函数结构体什么的，但是在函数内部你可以调用<code>C++</code>代码，声明一个类什么的，最后返回结果。</p>
-<p>用一句话来总结这个关键词的作用就是：告诉编辑器和用户，里面的函数东西，不管中间过程，只需要在“开头”（函数声明），结尾（结果返回）是<code>C</code>模式的，那么这个函数就能在<code>C</code>里面用</p>
-<p>最后我们总结一下<code>Python</code>能够调用<code>C++</code>的代码的原因：只要<code>C++</code>能够”写”成<code>C</code>代码，我们就能调用。这时候你可能有疑惑了，如果把<code>C++</code>写成<code>C</code>那么我们还不如直接写<code>C</code>代码，何必如此复杂的研究这么久了。但是你有没有想过为什么<code>Python</code>是用<code>C</code>写的，最后却能拥有<code>C++</code>、<code>Java</code>这些语言的一样的类特征这个概念。</p>
-<p>这里我们必须要了解一个名词“语法糖”，在我们看来我们能在<code>Python</code>、<code>Java</code>、<code>Ｃ++</code>中使用一些面对对象的特性，比如类、继承、接口。其实这些都只是一些语法糖而已，在这些实现的底层，比如说<code>Python</code>它就是用<code>C</code>的函数来帮助我们构建这些语法糖，我们看到的一个对象的系统函数，其实它是<code>Python</code>帮助我们把一连串函数绑定在一个<code>module</code>上面，虽然表面上我们新建了一个对象，调用了一个对象函数，其实在<code>C</code>层我们就是调用了一连串的函数来完成一个对象的分配</p>
-<p>我们可以在官方文档中找到这部分<a href="https://docs.python.org/3.8/extending/extending.html#the-module-s-method-table-and-initialization-function" target="_blank" rel="noopener">介绍</a>，官方文档告诉我们只要将列表的函数赋给一个模块（<code>module</code>）我们就让你的<code>C/C++</code>代码给<code>Python</code>一个模块可以使用，从官方文档我们就可以很清楚看到<code>语法糖</code></p>
-<p><code>Python</code>的文档非常丰富，理论上我们能够根据文档完成复杂的<code>C++</code>代码与<code>Python</code>交互，但是我们从文档上可以看到，这个过程是非常繁琐的，相比于调用<code>C</code>的简单，为了实现调用<code>C++</code>的类和数据类型，我们得写很多中间代码进行转换，差不多就重新写了一遍<code>C++</code>的实现</p>
-<p>当然作为以简单为美的<code>Pythoner</code>早就发现这个问题，也就这个问题开发了<code>ctypes</code>、<code>cffi</code>、<code>numba</code>等框架帮助，就连在<code>C++</code>大名鼎鼎的<code>boost</code>库中也提供了<code>boost/python</code>来帮助<code>Python</code>更加简单的调用<code>C++</code>，接下来我就根据我对下面这些库来谈一谈我的看法</p>
-<h2 id="框架简析"><a href="#框架简析" class="headerlink" title="框架简析"></a>框架简析</h2><p>单纯的介绍这些库的功能太枯燥了，我就按照我对这些的库的理解将他们编成历史故事（真实出现的原因可能不是这样的）</p>
-<p>话说在<code>Python</code>作者设计<code>Python</code>之后，它发现<code>Python</code>实在是有点慢，为了能加速它就把<code>Python</code>的<code>C</code>API告诉社区的人让他们自己编写<code>C</code>代码然后让<code>Python</code>去调用它</p>
-<p>但是这个API实在是太繁琐了，要写太多附件的<code>C</code>代码了，有些人就发现这个问题，他们设计了一种脚本程序，你只要把你想调用的<code>C</code>函数包在<code>%{</code>里面就能帮你生成<code>Python</code>API的C代码，这样减少了不少代码量，这个框架叫做<code>Swig</code>。</p>
-<p>大家在使用<code>Swig</code>的时候发现一个问题，这个<code>Swig</code>要生成的一个很大的<code>C</code>函数，<code>C++</code>开发者发现了这个问题，他们跟<code>Python</code>开发者说你们是不是瞧不起<code>C++</code>，这个函数这么不优雅，竟然想跟我们代码混起来，想用<code>C++</code>我们帮你，你要生成什么函数告诉我，我帮你生成你引用一下我这个库就行，这样大名鼎鼎的<code>boost::python</code>就开发出来了</p>
-<p>你开心的用起来<code>boost::python</code>来包装一下代码，这样写完<code>C++</code>代码再引入<code>boost::python</code>把<code>Python</code>需要的函数定义一下，编译，OK，但是<code>Windows</code>用户不开心了，这个<code>boost::python</code>是在<code>boost</code>项目下的一个子项目，为了在<code>Windows</code>安装，还得下几百兆的软件包，要是碰到网络不好得下一天。这个时候<code>Python</code>大牛出来了，啥，这么麻烦，我来开发一个包，把<code>boost::python</code>从<code>boost</code>的掏出来，你只需要<code>pip</code>一下就行</p>
-<p>经过几个”小时”开发，<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pybind11</a>开发出来了，还是原来的配方还是原来的味道，管他<code>Windows</code>还是<code>Unix</code>，直接<code>pip</code>一下就能使用<code>boost::python</code> 一样的语法来用了</p>
-<p>就这样安安稳稳的过了一段时间，大家很开心用<code>Python</code>包轻轻松松解决生成<code>Python</code>C API代码的功能。但是随着大家用的越来越多，大家发现怎么我用<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pybind11</a>调用<code>C++</code>跑的有点慢，<code>Python</code>大牛开始研究，重要他们发现由于<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pybind11</a>由于秉承<code>Python</code>的简单至上，很多东西它都做了”通用性“，比如它帮你自动把<code>C++</code>的<code>Vector</code>的类型转成<code>Python</code>的<code>list</code>，这样程序在编译时候不会报错，但是由于这种类型转换太多了，严重的拖累了<code>C++</code>的速度，所以<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pybind11</a>虽然用的很开心，但是速度却比原生的<code>Python</code> C API要慢</p>
-<p>这个时候精通编译原理、<code>Python</code>、<code>C++</code>的大牛出现了，它发现解决这个问题的办法很简单，创造一门中间语言，这么语言可以详细的定义怎么从<code>C++</code>到<code>Python</code>的中间过程，在<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pybind11</a> 中这个完全是一个黑箱子，只有把这个黑箱子拿出来，这样我们就知道你想怎么调用<code>C++</code>，这样就能设计更加优秀的<code>Python</code>C API的代码。最后<code>Cython</code>出现了，它的出现让那些苛求性能的人闭上了嘴，它自动出来的生成<code>Python</code>C API代码近乎人工编写，在这样强的性能加持下，它的速度近乎原生</p>
-<p>至此在生成代码<code>Python</code>C API的中间代码的三方库尘埃落定，没有人想到有更好的办法来优化这一个方向。但是苛刻的人无处不在，他们攻击不了它的性能，只能攻击它的生成方式</p>
-<p>为了使用<code>Cython</code>必须编译它，要么借用<code>setuptools</code>来简单这个步骤，要么自己手动编译，一些开发者叫嚣着，都说<code>Python</code>是个动态语言，怎么还要编译呀，麻烦死了，这个时候一些开发者就站出来了，他们觉得这是个挑战，他们想解决掉它，于是<code>cffi</code>被开发出来了，你不需要用专门的文件存贮<code>C/C++</code>代码，你可以像调用函数一样把<code>C/C++</code>函数原文作为参数传进去，实现动态加载，但是这种动态性还是付出了代价，速度有了一定影响，虽然还是比<code>Python</code>快，但是远远比不上<code>Cython</code>，有得必有失</p>
-<p>这个时候精通汇编的大佬出现了，他们觉得动态加载这个地方还可以加强，他们觉得不需要我们在<code>Python</code>里面写<code>C</code>或者<code>C++</code>，你写一个<code>Python</code>函数，用一个装饰器包装一下，他们直接从底层出发，反正<code>Python</code>最终会编译成机器码，把<code>Python</code>函数的机器码加上类型（Python函数的参数可以是“鸭子”类型，不是强类型），省掉<code>Python</code>冗余的类型推断，直接从机器码层次上进行优化，最后编译成二进制接口给<code>Python</code>调用（背后使用了LLVM进行编译，这里就不详细介绍了），最终它的运行速度小胜<code>Cython</code>，并且比<code>C</code>还略胜一筹，这个就非常恐怖了，因为<code>C</code>基本上是除了汇编以外的速度标杆，所以懂汇编的大佬不要惹，太恐怖了，这个库的名字叫做<a href="https://numba.pydata.org/" target="_blank" rel="noopener">numba</a>，现在这个库已经开发6年多了，由于涉及到从<code>Python</code>源代码到了机器码实在太复杂了，所以仍然在开发中（主要适应各种硬件以及平台），目前处于<code>0.40.0</code>版本，基本上在主流平台使用是没有问题的。</p>
-<p>对于各个库速度的测试可以看看这篇<a href="https://jakevdp.github.io/blog/2013/06/15/numba-vs-cython-take-2/" target="_blank" rel="noopener">博客</a>，可以看到<code>numba</code>完胜<code>C</code>和<code>Cython</code></p>
-<p>PS: 在这里我没有提<code>ctypes</code>因为它是原生的，而且它对<code>C++</code>支持并不很好</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在速度方面<code>numba</code>加持的<code>Python</code>无疑是No.1，但是它也有几个缺点，一个就是目前还处在开发阶段(目前是0.40版本，还没有1.0版本，而且issue有500个open状态，我在试验的时候也发现存在一些在issue的bug），第二个就是它目前支持能在函数内部运行的库只有<code>numpy</code>（当然这个也是它的设计的一个初衷，就是加速numpy与<code>Python</code>的混合代码）</p>
-<p>当然它的优点完全可以盖过它的缺点，优点有很多，首先第一个它的速度，在<code>LLVM</code>加持下比<code>C</code>更快简直让人震惊，第二个是它调试和维护非常方便，都是由<code>Python</code>编写的，去掉装饰器就是<code>Python</code>代码，直接在IDE里面调试不知道多爽，上线的时候加上注释器跑的飞快（还能丢掉<code>GIL</code>）。目前<code>numba</code>还处于开发过程中，现阶段仍然有很多<code>bug</code>（500个Open的<code>issue</code>），不过正是由于大家都对他非常期望，所以它的<code>issue</code>才那么多，也希望<code>numba</code>能够越来越好，让<code>Python</code>真的起飞。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/09/06/bigdata/千万级数据处理小结/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/09/06/bigdata/千万级数据处理小结/" class="post-title-link" itemprop="url">千万级数据处理小结</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-09-06 00:00:00" itemprop="dateCreated datePublished" datetime="2018-09-06T00:00:00+08:00">2018-09-06</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:01:40" itemprop="dateModified" datetime="2021-03-09T20:01:40+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/大数据/" itemprop="url" rel="index">
-                    <span itemprop="name">大数据</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>4.1k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>4 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
-<p>这两个星期的工作主要是对千万文本数据的处理，由于我以前没有接触过类似的数据量，所以我就把我在处理这千万数据的过程中遇到的问题以及解决的方法总结一下</p>
-</blockquote>
-<h2 id="明确目标"><a href="#明确目标" class="headerlink" title="明确目标"></a>明确目标</h2><p>完成任务之前我们必须要明确自己的目标，首先谈一下数据，数据是两张表，一张是文章列表，一张是文章内容，每篇文章都牵涉到一些人，我们的目标就是给定一些搜索条件然后把最可能相关文章给找出来</p>
-<p>这个任务有点像实现一个搜索引擎，我们通过输入关键词把相关的网页寻找出来，简单点来实现就是直接使用<code>SQL</code>的<code>Like</code>查询，但是这里存在两个很大的问题</p>
+<p>以前刚开始学习的时候自己也看过很多关于操作系统、数据库的书，但是就像走马观花一样，很多书就是过了一遍脑子，然后就没有了，在2017年下半年自己也开始尝试把自己以前只是了解只是会用的东西拿出来咀嚼咀嚼，并在这个过程中写出一些自己觉得还是有点干货的博文。而且我也比较享受把复杂的问题简单话的过程。</p>
+<p>操作系统、计算机、数据库、编程原理在我看来都是非常复杂庞大的东西，在2018年，希望能够将上面这些复杂的东西搞的简单一点，当然在这个同时我也会将我将问题简单话的过程中分享出来。</p>
+<p>当然这些东西都太过宽泛，比如操作系统。很多人刚开始学习编程了解了操作系统概念，还有听到很多牛人都说自己写了一个操作系统都会在心里暗暗的立下一个Flag，自己也要做一个操作系统，但是很多人的热情慢慢的被无数的复杂概念慢慢磨掉，最后能坚持到做出一个完整的系统没有几个。作为一个普通人，我们没法一口吃下一个很大的“饼”，当然你如果叫爱因斯坦给你造一个原子弹，它也只能拍拍手跟你说我只能证明它能造出来。所以有效的解决问题的方法是将问题分解，或许最终我们最终造不出操作系统，但是我们对操作系统也能更深一步了解。</p>
+<h2 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h2><p>首先谈谈操作系统，其实我们对操作系统的理解大致都停留在开关机。我们要分解的问题就是我们对这个“黑盒子”的疑问</p>
 <ul>
-<li>搜索精度不准，假如我们搜<code>张华</code>可能有关<code>张华硕</code>的人也会出来</li>
-<li>搜索耗时太长，在千万级文档中全文搜索速度非常慢</li>
+<li>操作系统如何管理硬件，比如说鼠标移动点击、键盘输入</li>
+<li>操作系统如何让多用户使用</li>
+<li>操作系统如何在多用户的情况下区分每个用户</li>
+<li>操作系统如何分配内存，如何限制用户的内存</li>
+<li>操作系统如何管理文件，如何避免文件被同时写入</li>
+<li>…..</li>
 </ul>
-<p>我们希望我们能精确的实现查询，而且我们希望我们的查询能够实现毫秒级的速度。所以我们就尝试使用<code>ElasticSearch</code>来当我们“数据库”，并且放弃系统默认的分词，自己”手动分词“，来实现精准快速查询</p>
-<p>所以我们的目标很简单，将数据从<code>MySQL</code>“塞”到<code>ElasticSearch</code>中，然后想办法再”取”出来</p>
-<h2 id="第一个拦路虎“MySQL”"><a href="#第一个拦路虎“MySQL”" class="headerlink" title="第一个拦路虎“MySQL”"></a>第一个拦路虎“MySQL”</h2><p>我碰到的第一个拦路虎是数据库的响应速度，为了将数据完整的从数据库里面取出来（新数据还在产生），我按照id从小到大的顺序一小块一小块的从<code>MySQL</code>中获取出来</p>
-<p>一开始程序运行的挺Happy，速度一直很稳定，但是我发现跑了十万之后速度突然慢下来，一开始我以为解析有问题，我开始打断点，调试，找了半天原来是数据库返回数据太慢了。</p>
-<p>我们来分析一下这个<code>SQL</code>为什么这么慢</p>
-<pre><code>select * from a order by id limit 10 offset 100000 
-</code></pre><p>我们虽然限制返回了10个但是后面有个条件我们必须要后面10万个，为了拿到这10个，<code>MySQL</code>必须要扫描10万个数据先，虽然我们是在主键上扫描会快一点，但是十万毕竟很大，即使一次主键扫描花0.01ms，乘以十万也是很大的</p>
-<p>基本上每次解决数据库速度的时候，我们第一考虑点就是索引，那么我们这里就多聊两句：索引为什么快？</p>
-<p>数据库其实就是一堆数据的集合，它提供工具我们快速获取我们想要，用图书馆来打比方，数据库就是图书馆，他们把所以的图书分好类，你想买什么书，按照分类去寻找就行，这样假设你图书馆有一千万本书，你要找《安徒生童话》，你只要按照这个索引（童话书&gt;丹麦&gt;安徒生)就能找到，假如你想找一本《无类》的书你不知道他的分类，你就得把整个图书馆逛一遍才能找到你要的书了，这就是没有索引的下场。</p>
-<p>在程序的世界里也一样，你想快速找到一个记录，如果不用索引，那么就得遍历了，运气好一下子就能找到，运气不好一辈子也找不到。在    <code>MySQL</code>中，索引的背后就是B+树，也就是将数据查找最坏结果降到了一个<code>log2N</code>级。如果你想了解“树”为什么这么快，可以看看我前面写的的<a href="/2017/12/27/浅谈树这种数据结构/">博客</a></p>
-<p>怎么来说明这个索引的作业呢，假设你有一千万数据，你最坏的情况下要进行24次查找，24:1000000 达到惊人的41万倍差距，而且当数据越大这个差距越大，从这里我们就知道索引的威力了。</p>
-<p>我们回到前面，为了使用索引，那么我们只能在<code>id（主键）</code>上做手脚了，我第一个想到的是按照<code>id</code>分块，但是我仔细看了看数据库，<code>id</code>不是全部连续的（可能是因为删除过数据），假如我用<code>id</code>固定的区间来的话，获取到的数据可能部分有部分没有，虽然能够实现但是不够优雅，我还得增加处理空数据的代码。</p>
-<p>这时候我想到了，我们第一次获取的<code>id</code>如果能在后面继续使用，而且更新的话那么我们就能使用上索引了，所以我们只有把每一块数据的最后一个<code>id</code>记住，然后去这个<code>id</code>获取下一批数据，这样就能实现又用索引又不用改太多代码。</p>
-<p>那么我们的<code>SQL</code>就改成下面的语句</p>
-<pre><code>select * from a where id &gt; 1111 order by id limit 10
-</code></pre><p>通过简单的测试原来需要几分钟才能“掏”出来的数据在几毫秒就取出来了，上万倍的差距。至此我们第一个拦路虎就解决了</p>
-<p>PS：在后面看<code>ElasticSearch</code>文档的时候发现他们也提供了一个<code>scroll</code>（全库获取）的超级翻页功能，在他们的参数里面也要提供一个<code>scroll_id</code>，感觉原理应该也是和这个差不多。通过使用索引<code>id</code>来加速“翻页”</p>
-<h2 id="ElasticSearch存贮和排序"><a href="#ElasticSearch存贮和排序" class="headerlink" title="ElasticSearch存贮和排序"></a><code>ElasticSearch</code>存贮和排序</h2><p>接下来我就介绍，我怎么优化存储和编写定制动态<code>DSL</code>来实现我们想要的功能。</p>
-<p>在我介绍之前，我先简单的谈一下我对<code>ElasticSearch</code>的理解</p>
-<h3 id="ElasticSearch简介"><a href="#ElasticSearch简介" class="headerlink" title="ElasticSearch简介"></a>ElasticSearch简介</h3><p>在我没有真正使用<code>ElasticSearch</code>之前，我就在知乎上听过它的大名，<code>ElasticSearch</code>真正让我震惊的是当我把上千万数据导入到它里面去，它能在毫秒级别给你响应，而我在<code>MySQL</code>调用<code>SQL</code>进行查询得花几十分钟</p>
-<p>我们可以把<code>ElasticSearch</code>类比成一个数据库，相比于<code>MySQL</code>它在查询性能上做到了苛刻的，我一开始想好好介绍它是怎么做到的，但是我发现有人已经总结的非常好了，可以看看这份<a href="https://zhuanlan.zhihu.com/p/33671444" target="_blank" rel="noopener">资料</a>，它之所以能做到这么快的原因就是这个：索引+内存+缓存</p>
-<p><code>ElasticSearch</code>使用倒叙索引让查询时间复杂度降到logN级，使用内存让物理查询速度达到极限，加上一些过滤缓存让其在复杂查询还是简单查询都能保持在一个很平稳的速度</p>
-<p><code>ElasticSearch</code>相比与<code>MySQL</code>还有一个特点，就是对大文本搜索的支持，<code>ElasticSearch</code>对文本默认自动进行分词，并且通过一些高级分类算法（TF/IDF，5.0后使用更加先进的BM25算法），对匹配的文本进行打分，依次返回得分高低列表，而<code>MySQL</code>在大文本检索只有一个全文索引支持，从实现上来看就是一个加了索引的<code>Like</code>查询，所以<code>ElasticSearch</code>在设计的特定算法加持下被称为“搜索引擎”</p>
-<p>但是<code>ElasticSearch</code>同现在商业的搜索引擎，比如Google、百度、Bing这些又有些不同，<code>ElasticSearch</code>传入的是纯文本，所以它只能使用一些<code>TF/IDF</code>算法来计算给定关键词与文本的相关项，但是现在商业引擎输入的是网页，所以现在商业引擎比如Google就使用<code>Google Page Rank</code>算法来再次计算文档相关性。当然现代商业引擎不单仅仅使用<code>Google Page Rank</code>算法，他还会考虑更加因素进去（比如百度的竞价排行，Google的恶意影响网页排行检测），但是从本质上来说，无论是<code>ElasticSearch</code>和现代商业引擎都在做同一件事，给匹配项打分，这就是他们与<code>MySQL</code>的全文检索的不同（<code>MySQL</code>没有后面打分排行的概率，他只有<code>order by</code>的这个概率）</p>
-<h3 id="设计思路"><a href="#设计思路" class="headerlink" title="设计思路"></a>设计思路</h3><p>一开始我准备直接使用<code>ElasticSearch</code>的搜索引擎来对<code>文章</code>中的涉及到的人进行检索排序，但是我们来考虑这样一件事，假如文章中存在这么一句话：“刘二能吃两碗饭”（涉及到的人是刘二能）。假如我们使用“刘二”去检索，这篇文章中的”刘二能“也能检索到，而我们的目的就是尽可能返回最可能的结果，对于那些不可能的结果一律不返回</p>
-<p>所以我们就不能让<code>ElasticSearch</code>自动帮我们对文本进行分词，但是我们想利用<code>打分</code>这个机制帮我们完成最可能在最前面返回</p>
-<p>所以我们把每篇文章里面的人物解析出来的属性（姓名，出生年月，民族等）设定为<code>keyword</code>类型，这样<code>ElasticSearch</code>就不会对这个字段进行分词，查询的时候也必须全匹配才能命中，由于一篇文章可能设计到多个人，所以我把它用一个<code>list</code>存到一个<code>document</code>里面</p>
-<p>但是这个又引起了另外一个问题，对与一个<code>document</code>里面的<code>list</code>，<code>ElasticSearch</code>会把它进行转换</p>
-<p>我们用<a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/nested.html" target="_blank" rel="noopener">官方文档的例子</a>解释，我们存入了下面这个<code>document</code></p>
-<pre><code>{
-  &quot;group&quot; : &quot;fans&quot;,
-  &quot;user&quot; : [ 
-    {
-      &quot;first&quot; : &quot;张&quot;,
-      &quot;last&quot; :  &quot;华&quot;
-    },
-    {
-      &quot;first&quot; : &quot;李&quot;,
-      &quot;last&quot; :  &quot;四&quot;
-    }
-  ]
-}
-</code></pre><p><code>ElasticSearch</code>会把它转换成</p>
-<pre><code>{
-  &quot;group&quot; :        &quot;fans&quot;,
-  &quot;user.first&quot; : [ &quot;张&quot;, &quot;李&quot; ],
-  &quot;user.last&quot; :  [ &quot;华&quot;, &quot;四&quot; ]
-}
-</code></pre><p>这样你查询这个人<code>张四</code>，我们发现上面这个文档也返回了（选了<code>user.first</code>列表的第一个值，<code>user.last</code>的第二个值，这个结果明显是错误的，我们怎么才能避免<code>ElasticSearch</code>的“自作聪明”呢，答案很简单我们把<code>user</code>声明为<code>nested</code>对象，这样<code>ElasticSearch</code>就不会把它拆开了而是把它当做两个文档（有些人可能会说这个会不要影响它的速率，恰恰相反，<code>ElasticSearch</code>会经常使用类似技术来加速，详情可以看上面的<a href="https://zhuanlan.zhihu.com/p/33671444" target="_blank" rel="noopener">博文</a>)</p>
-<p>现在我们解决了重重困难终于要到排序的阶段了，然而我们没有使用<code>string</code>类型（支持TF/IDF算法）而使用了<code>keyword</code>类型，导致我们没有办法使用<code>ElasticSearch</code>提供的高级排序算法，所以我们得自己手动进行提分，怎么来提分呢，很简单使用<a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-boost.html" target="_blank" rel="noopener">boost</a></p>
-<p>前面我们提到了我们的文档可能解析出来对象多个属性（姓名、年龄、性别、居住地），但是有些文档也可能没有这些信息，我们查询的时候是有一个信息列表（这个人姓名、年龄、性别等等），所以我们使用<code>boost</code>对命中的信息越多的进行提分，所以我们最终就能完成命中越多信息的排在越前面，当然命中信息少的也会被筛选出来只不过位置稍微靠后</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过这次直面千万数据，让我学习到了不少，虽然一开始目的只想简单搜索出来最匹配的数据，但是在实际过程中，通过不断对产生结果提出问题，最终实现了一个比较满意的产品，整个产品在不断的优化过程中逐渐成型并且稳定，我觉得对我帮助最大就是撰写设计文档，并且在产品成型的过程中把结果反馈上去，最后慢慢迭代一个最好的版本</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/08/25/summary/毕业两月反思/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/08/25/summary/毕业两月反思/" class="post-title-link" itemprop="url">毕业两月反思</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-08-25 00:00:00" itemprop="dateCreated datePublished" datetime="2018-08-25T00:00:00+08:00">2018-08-25</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-11 11:08:34" itemprop="dateModified" datetime="2020-03-11T11:08:34+08:00">2020-03-11</time>
-              </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>1.4k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>毕业近两个月了，然而这两个月对自己的状态不太满意故写下这篇博客反思</p>
-</blockquote>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>大约是去年十一月在室友的带领下走上了健身这条路，说起来也搞笑，当初室友邀请我去健身，然而我每天享受免费操场跑步，反而对于要花钱的健身嗤之以鼻，虽然我知道那些肌肉硕大的大块头都是从健身房出来的，但是我一直没有想过去练出他们一样的肌肉，我运动本身的目的就不是为了炫耀什么的，主要是想要一个健康的身体，然而南昌十一月妖风阵阵，虽然还没到冬天，晚上妖风能让你吹到感觉到冬天的气息，然而中午却非常热，我尝试过早上跑，但是我个人体质太容易出汗了，跑完就需要洗澡，然而早上没有热水（尝试过冷水，差点让我冻僵）</p>
-<p>正好这个时候室友每天去健身，在我的印象里健身房好像有跑步机，于是我一狠心就花了钱办了一张健身卡，刚开始我是奔着跑步机去的，但是我们班长拉住了我开始教我健身动作，我也是在室友和班长的带领下走上了健身这条“不归路”，可怜的跑步机我就没有用过几次，本来一开始是奔着跑步机去的呀。</p>
-<h2 id="为何健体"><a href="#为何健体" class="headerlink" title="为何健体"></a>为何健体</h2><p>到现在自己已经在三个不同的健身房办了卡了，扯远了，健身的确是一件神奇的事，我一直以为运动会让你瘦下来，没想到健身却让我“胖”起来，当我健身到六个月时，我们班长和室友惊奇的告诉我，我的胳膊整整“胖”了一圈，他们还记得我刚来健身房的时候胳膊细的同木棍一样，然而健身对于我来说却并没有很多不同，我只是找到一个地方可以挥洒我的汗水，找到一个地方可以突破自己的极限</p>
-<h2 id="健体而不健心"><a href="#健体而不健心" class="headerlink" title="健体而不健心"></a>健体而不健心</h2><p>健身真的是一件很有成就感的东西，它的成就感不是在于别人夸你的肌肉有多大，而是你能清楚的找到自己的极限，我原来是一个脑洞很大的人，每天大脑天马行空，像一个中二少年一样总想着自己是“超级赛亚人”，能像绿巨人一样发怒把汽车给掀开，一拳把树打倒。当你在健身房，你拿起一个5KG的哑铃，然而你倾尽全身力气却没法做一个标准的动作，你这个时候才知道自己不是”超人“。健身让你更加了解你自己，慢慢的你就接受了这样的自己，健身的成就感也就在于你能慢慢的感受自己的成长。</p>
-<p>也可能是过于关注自己的身体的进步吧，而自己一直忽略了自己心理的进步。自从踏入社会，开始工作。对于工作我一直是打着自己十二分的精力去做，然而对于工作结束后的那段时间自己一直没能够充分利用。主要的原因就是自己的不够自律。一方面也有自己身体的原因，自己健身都是在下班后，健身完之后自己总是筋疲力尽，本来需要充分利用的时间全部被自己的羸弱的意志给消磨掉了，虽然自己一开始能够控制自己，但是一不小心大脑发出疲惫的信号，慢慢的自己就变成“葛优躺”，大把时间就在不经意的打开手机玩上两把，我看一下微信，再看一下QQ，大块时间被手机打碎成一小块一小块，搞得一晚上下来该做的没做，不该做的做了一大堆。</p>
-<p>在这里我必须要深刻的反省，即使是因为身体疲惫的原因，最主要的还是自己不够自律的原因，我其实有很多想法，有很多想做的事情，但是总是在不自律的自己把时间给浪费掉了，毕业之后书自己也很少看了，记得以前在图书馆捧起一本书津津有味的看上一晚上的酸爽。然而现在的自己，即使是看书也要打开电脑，左手拿着手机，右手捧着书，眼镜盯着电脑看一会，书再看一会。书走马观花，看了也是白看。原来经常更新的博客也停下来了。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>自己也不下什么军令状了，我自己不是一个圣人，我会松懈，我会娱乐，但是我需要自己记住不要因为自己身体的虚弱而导致自己内心的失防，过去自己一直在因为自己过分迁就“健体”而忽视”健心“，自己要牢记只有内心强大才能强大。只要未来的自己不要因为过去的蹉跎的后悔就够了。</p>
+<p>当然我这里只是列举了一些直观的问题，在解答这些问题的时候，我们会逐渐衍生出各种问题，最终我希望所有的问题都能被简单话</p>
+<h2 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h2><p>数据库我算使用的比较多了，但是对数据库背后的机制也是懵懵懂懂，只知道他能保证这些功能，比如事务的原子性、一致性、分离性、持久性。</p>
+<p>我觉得了解数据库就是要了解它是如何实现这些特性的，当然这个问题也很宽泛，我们可以尝试分解成</p>
+<ul>
+<li>数据库如何将输入复杂的查询分解成为数据库的操作</li>
+<li>数据库如何避免死锁</li>
+<li>数据对于插入删除异常如何解决</li>
+<li>…..</li>
+</ul>
+<p>其实在我看来数据库可以分解成两大块，一个是编程语音解析（SQL），一个是高效的存贮（Database）</p>
+<p>所以了解数据库也可以尝试了解编译原理，了解如何实现解析SQL，所以接下来我就不提编译原理了</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>其实想想自己的这种把复杂问题简单话就是华罗庚先生曾说的一句话：“把书由薄变厚，再把书由厚变薄”，首先我们得把这些看起来很简单的问题复杂话，最后慢慢的把这个复杂的问题简单话，这样你才能真正的把这个问题给搞懂。</p>
+<p>对于我来说，从小或许受应试教育的影响，自己只学会了复杂问题给解决，但是不懂得解决后再把复杂问题简单话，所以看起来我懂很多复杂问题，但是其实换一个场景，换一个问题就一知半解了。所以自己慢慢的开始改变自己的方法，不满足于解决问题，而着重于简化问题，希望自己的一点经验也能给后来人一点启发。</p>
 
       
     </div>
@@ -1916,7 +1507,7 @@ for i in range(100):
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1984,7 +1575,7 @@ for i in range(100):
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">128</span>
+          <span class="site-state-item-count">113</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -2059,12 +1650,12 @@ for i in range(100):
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">274k</span>
+    <span title="站点总字数">273k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:09</span>
+    <span title="站点阅读时长">4:08</span>
 </div>
 
         

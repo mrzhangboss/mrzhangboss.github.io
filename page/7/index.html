@@ -211,7 +211,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/08/09/python/从关系角度来看XPath/">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/01/05/algorithm/红黑树实现原理/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/myself.jpg">
@@ -225,7 +225,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2018/08/09/python/从关系角度来看XPath/" class="post-title-link" itemprop="url">从关系角度来看XPath</a>
+            <a href="/2018/01/05/algorithm/红黑树实现原理/" class="post-title-link" itemprop="url">红黑树实现原理</a>
         </h1>
 
         <div class="post-meta">
@@ -235,14 +235,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2018-08-09 00:00:00" itemprop="dateCreated datePublished" datetime="2018-08-09T00:00:00+08:00">2018-08-09</time>
+              <time title="创建时间：2018-01-05 00:00:00" itemprop="dateCreated datePublished" datetime="2018-01-05T00:00:00+08:00">2018-01-05</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:05:18" itemprop="dateModified" datetime="2021-03-09T20:05:18+08:00">2021-03-09</time>
+                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -250,8 +250,8 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
                   </a>
                 </span>
             </span>
@@ -261,7 +261,482 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span>3.3k</span>
+              <span>94</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>本篇博客主要基于这篇<a href="/">博客</a>的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍红黑树的实现原理，完整代码在<a href="https://github.com/mrzhangboss/trees" target="_blank" rel="noopener">github</a>的<code>rbtree.go</code>文件中</p>
+</blockquote>
+<p><a href="/">浅谈”树”这种数据结构</a><br><a href="https://github.com/mrzhangboss/trees" title="github" target="_blank" rel="noopener">Github</a><br><a href="http://www.cs.usfca.edu/~galles/visualization/RedBlack.html" target="_blank" rel="noopener">可视化页面</a></p>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/01/04/algorithm/AVL树实现原理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/01/04/algorithm/AVL树实现原理/" class="post-title-link" itemprop="url">AVL树实现原理</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-01-04 00:00:00" itemprop="dateCreated datePublished" datetime="2018-01-04T00:00:00+08:00">2018-01-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>709</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>本篇博客主要基于这篇<a href="/2017/12/27/浅谈树这种数据结构/">博客</a>的扩展，建议阅读前先阅读这篇博文，这篇博文详细介绍AVL树的实现原理，完整代码在<a href="https://github.com/mrzhangboss/trees" target="_blank" rel="noopener">github</a>的<code>avl.go</code>文件中</p>
+</blockquote>
+<p><a href="/2017/12/27/浅谈树这种数据结构/">浅谈”树”这种数据结构</a><br><a href="https://github.com/mrzhangboss/trees" title="github" target="_blank" rel="noopener">Github</a><br><a href="http://www.cs.usfca.edu/~galles/visualization/AVLtree.html" target="_blank" rel="noopener">可视化页面</a></p>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>AVL树是在对二叉搜索树的一种优化，通过构造一棵高度平衡的二叉搜索树从而实现提高空间利用率，所以在了解如何实现之前，必须了解如何构造一棵二叉搜索树，你可以阅读我的这篇<a href="/2018/01/04/二叉搜索树实现原理/">博客</a>了解如何构建一棵二叉搜索树，虽然我是用Go来实现的，但是不必了解太多Go方面的知识，我在博客中尽量使用图片的方式来介绍实现原理</p>
+<p><a href="/2018/01/04/二叉搜索树实现原理/">二叉搜索树实现原理</a></p>
+<p>由于AVL树本质上也是一棵二叉搜索树，查找并不会改变树的性质，所以AVL的查找也是同二叉搜索树的查询相同，所以这里就重点介绍如何实现“增”和“删”</p>
+<h3 id="树的字段"><a href="#树的字段" class="headerlink" title="树的字段"></a>树的字段</h3><p>在开始介绍如何实现“增”、“删”之前，我想提一下AVL树的存贮字段，在wiki上面的AVL和很多资料上面，AVL的树结构分别由下面四个组成： Val、 Left*、Right*、Parent*。</p>
+<p>Val代表树存贮的值，Left、Right、Parent代表三个指针，分别指向左子树，右子树，父亲，而在我的实现中，我去掉了父亲指针，对于讲解来说，使用一个父指针能很好的解决从子遍历到父亲的经过，但在实际的应用中，我们完全可以使用一个列表存贮从父亲到儿子之间的值，这样的话，能实现一样的功能，而且能节省存贮空间（每个子树都少了一个父指针），但是相应的程序也变得比较复杂起来。</p>
+<p>虽然我在讲解的过程中会直接获取节点的父节点，但是在实际的代码实现中，是通过获取从列表中获取该节点的父节点。</p>
+<h2 id="AVL树的“增”"><a href="#AVL树的“增”" class="headerlink" title="AVL树的“增”"></a>AVL树的“增”</h2><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://en.wikipedia.org/wiki/AVL_tree" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/AVL_tree</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/01/04/algorithm/二叉搜索树实现原理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/01/04/algorithm/二叉搜索树实现原理/" class="post-title-link" itemprop="url">二叉搜索树实现原理</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-01-04 00:00:00" itemprop="dateCreated datePublished" datetime="2018-01-04T00:00:00+08:00">2018-01-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>1.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>本篇博客主要基于这篇<a href>博客</a>的扩展，建议阅读前先阅读这篇<a href="/2017/12/27/浅谈树这种数据结构/">博文</a>，这篇博文详细介绍二叉搜索树的实现原理，完整代码在<a href="https://github.com/mrzhangboss/trees" target="_blank" rel="noopener">github</a>的<code>binary.go</code>文件中</p>
+</blockquote>
+<p><a href="/2017/12/27/浅谈树这种数据结构/">浅谈”树”这种数据结构</a><br><a href="https://github.com/mrzhangboss/trees" title="github" target="_blank" rel="noopener">Github</a><br><a href="http://www.cs.usfca.edu/~galles/visualization/BST.html" target="_blank" rel="noopener">可视化页面</a></p>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>之所以使用Go来实现，个人还是比较喜欢Go的，作为一个基础数据结构，Go用来实现这个速度比Java、C++都快，而且相比Java也能节省内存，而且我也不喜欢换使用冒号。</p>
+<h2 id="二叉搜索树的基本功能"><a href="#二叉搜索树的基本功能" class="headerlink" title="二叉搜索树的基本功能"></a>二叉搜索树的基本功能</h2><p>作为一个树结构，主要必须实现三个功能，<strong>查增删</strong>（当然有改，不过改是删和增的结合所以就不算在里面），当然二叉树还能帮我实现一些额外功能，比如寻找最大值最小值等等，实现一颗二叉搜索树必须要保证在“增”和“删”的时候保持树结构不变，也就是保证还是一颗二叉搜索树</p>
+<p>什么二叉树是二叉搜索树呢，二叉搜索树只需要保证一点</p>
+<ul>
+<li>任何一个节点，它的左子树（不为空）所有值小于这个节点值，它的右子树（不为空）所有值大于这个节点值</li>
+</ul>
+<p>所有我们在实现增删的时候必须要牢记这点，而且我们也可以知道在你开始对这颗二叉树进行增删的时候，它一定已经满足了上面这个条件</p>
+<h3 id="查"><a href="#查" class="headerlink" title="查"></a>查</h3><p><img src="/images/bst-1.png" alt="标准的二叉树"></p>
+<p>如何在上面这颗标准的二叉树里面查询到我们想要的值呢？我们知道一颗二叉树只需要知道根节点（上面的10）就能通过遍历得到所以的节点的值，所以我们在实现中声明一个二叉搜索树的时候只保存一个<code>root</code>节点，通过这个节点，我们就可以实现所以的增删查改功能了</p>
+<p>为了找到每个值a，我们依次要在每个节点上对值进行比较，因为每个节点的值代表已经将这堆数据分成两个部分，一堆比这个值大在右边，一堆比这个值小在左边，这样只要最终能找到一个那个值的最小区间的对应值（找到）或者找到一个为空的叶节点（代表没有找到），</p>
+<p>通过最简单的查找，我们可以反推出一个理论，假如我们需要插入一个值，我们只要先尝试去寻找到那个值，假如找到了，因为已经存贮了就不插入，假如没找到就会找到一个为空的叶子节点，那样只要在父节点将这个为空的叶子节点替换成这个值为a的节点，我们就完成了插入</p>
+<p>所以查找和插入是相对的，知道怎么查找就知道怎么插入，接下来我们详细介绍如何删除，这个非常关键，因为它是后面要介绍的高级树实现高效的删除的关键</p>
+<h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><p>我们还是以上面那种图举例子，删除我们最先想到的是删除12,17那些节点，直接删除掉对二叉树没有什么影响，但是如果我们要删除那些带有节点的呢？我们先简化问题，先看一个只有两个节点的树</p>
+<p><img src="/images/bst-2.png" alt="双节点树"></p>
+<p>我们要想删除10，有两种可能</p>
+<p><img src="/images/bst-3.png" alt="左移"></p>
+<p><img src="/images/bst-4.png" alt="右移"></p>
+<p>一种是将左边值移过来，一种是将右边值移过来，这两种都不会破坏二叉树的平衡，现在我们假设我们倾向将左边的值移过来，我们再回到上面那棵标准的二叉树，如果我们要删除掉10节点，我们要把那个值移过来，我们直接在<a href="http://www.cs.usfca.edu/~galles/visualization/BST.html" target="_blank" rel="noopener">可视化界面</a>进行这个操作</p>
+<p><img src="/images/bst-5.png" alt="删除10后的标准二叉树"></p>
+<p>我们发现，我们只需要将7和放到10的位置上就完成了一次删除的操作，而7与10的关系是，7是10左边的那堆值最大的，用一个通俗的话来说，<em>完成改朝换代的关键就是要找一个能镇的住手下的人</em>，由于“10”挂了，在左边只有“7”能镇住左边，所以”7”升官直接跑到“10”的位置了</p>
+<p>根据这个原则我们将情况分成三种</p>
+<ol>
+<li>左右子树都为空，直接删掉</li>
+<li>左边子树或者右边子树有一个为空，将不为空的子树提上来当做删除的节点</li>
+<li>左右子树不为空，将左边最大的值提上来替换删除的节点</li>
+</ol>
+<p>对于第三种情况，为了编程方便，我们考虑一种情况，如果左子树的右节点有没有值（比如说上面的5节点），如果它右节点有值，那么左边的最大值肯定出现在，左子树的右节点上（就像上面左子树出现在5的右节点的7节点上面）。然后我们继续判断“7”节点有没有右子树，这样循环下去，我们总能找到一个节点没有右节点，这样我们就找到左子树的最大值了。</p>
+<p>在上面这种情况下，我们将这情况分成两种</p>
+<ul>
+<li>如果左子树的右节点有值（循环下去找到一个节点右节点没有值）</li>
+<li>如果左子树的右节点没值（那么第一个左子树就是最大值）</li>
+</ul>
+<p>具体的<a href="https://github.com/mrzhangboss/trees" title="github" target="_blank" rel="noopener">代码</a>在<code>binary.go</code>的<code>Delete</code>(寻找节点）方法和<code>delete</code>（删除节点）方法中</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>总的来说，二叉搜索树的插入是最容易理解的，但是删除的话要考虑不同四种的情况所以还是稍微需要点时间理解一下的，小小的一个二叉搜索树也花了近200行代码实现，但是相比后面的AVL树、红黑树的近千行代码来说，二叉搜索树还是比较简单的，而且后面实现的高级树结构基本上都是依赖二叉搜索树的实现（必须要按照二叉树的增删满足二叉搜索树的原则），所以我们对二叉搜索树的增删必须理解透彻。</p>
+<p>引用：</p>
+<p><a href="https://en.wikipedia.org/wiki/Binary_search_tree" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Binary_search_tree</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2017/12/27/algorithm/浅谈树这种数据结构/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/12/27/algorithm/浅谈树这种数据结构/" class="post-title-link" itemprop="url">浅谈"树"这种数据结构</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-12-27 00:00:00" itemprop="dateCreated datePublished" datetime="2017-12-27T00:00:00+08:00">2017-12-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>4.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>一直以来我对树这种数据结构就比较头疼，随便找一个红黑树的博客，大部分都是在谈怎么旋转怎么插入怎么删除，将算法讲的头头是道，但是就算你看懂了也不懂为什么要这样做，所以我们这篇博文就从可视化的角度，慢慢的介绍这些树的来世今生。</p>
+</blockquote>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>首先给大家推荐一个神奇的网站，我们这篇博文很大程度上都是依托这个网站从可视化的角度分析各种树</p>
+<p>网站的网址是<a href="http://www.cs.usfca.edu/~galles/visualization/Algorithms.html" target="_blank" rel="noopener">http://www.cs.usfca.edu/~galles/visualization/Algorithms.html</a></p>
+<p>接下来我们从易到难分别谈谈下面这些树结构</p>
+<ul>
+<li>二叉搜索树</li>
+<li>AVL树</li>
+<li>红黑树</li>
+<li>Splay树</li>
+<li>Trie树</li>
+<li>B树</li>
+<li>B+树</li>
+</ul>
+<p>你可以点击下面高亮的标题尝试这种树结构的可视化操作，当然我在谈的过程中默认你已经打开可视化界面网站。</p>
+<p>在开始介绍各种树结构之前，我们先谈谈为什么我们需要树这种结构。</p>
+<p>假设我们一开始都有一个“柜子”存放东西，当我们东西很少的时候，我找东西的时候只要在柜子里面翻一翻就能找到，当我东西越来越多，在柜子里面找东西消耗的时间越来越多，这时候我就把柜子分类，让每一个柜子的东西都是固定的，这样我们查找时候不会在一个柜子里面寻找很久，这样无论你有多少东西进来，我查找的时间基本不会太长。</p>
+<p>所以树这种数据结构就是为了解决当数据量越来越大的时候相比与线性查找时间基本不会太长。对树查找和线性的区别我们可以看一下这个可视化界面</p>
+<p><a href="http://www.cs.usfca.edu/~galles/visualization/Search.html" target="_blank" rel="noopener">线性搜索与二分查找</a></p>
+<p>通过输入查找344，我们发现线性搜索花了15步才搜索到，而二分查找只需要2步，而且随着数据越来越大，线性搜索花的步数直线上升，而二分查找只会维持用Log(N)的步伐增长。</p>
+<p>树的结构基本上都是基于二分查找，但是在维护这个查找树的方法上各种树有各种优化方法，接下来我们就从可视化角度来依次介绍各种树的原理和优缺点。</p>
+<h2 id="二叉搜索树"><a href="#二叉搜索树" class="headerlink" title="二叉搜索树"></a><a href="http://www.cs.usfca.edu/~galles/visualization/BST.html" target="_blank" rel="noopener">二叉搜索树</a></h2><p>这个树可以称作所以后面变种树的鼻祖，基本上所以后面的树都是基于这个树的不足之处进行改良达到其各自的目的。</p>
+<p>我们现在尝试构造一棵二叉树，我们依次插入<code>3,2,4</code>。然后一棵标准的二叉树就出现在我们面前，在我们插入的过程中，我们可以清晰的看到，第一个插入的变成了母节点，而且插入程序实现的非常简单，首先跟母节点进行比较，如果比母节点大，从母节点右边下滑，然后依次找到最后一个为空的节点把自己插入进去。</p>
+<p> <img src="/images/bst-7.png" alt="单调递增二叉搜索树"></p>
+<p>我们接下来尝试一下如果输入一个连续递增的数组进去，比如<code>1， 2， 3， 4， 5</code>，我们发现这个二叉搜索树会逐渐把所以的值放到右节点上。这时候我们我们尝试搜索一下<code>5</code>，我们发送这个二叉搜索树需要5次查询才能得到最终结果，这个基本上等同与线性搜索。</p>
+<p>这里我们就发现二叉搜索树一个致命缺点，它容易造成一种空间的浪费，虽然这个树看起来很“高”，有5层，但是利用率极低，每层只有一个树，这样不但查找的时候效率不高，而且插入的时候效率也不高（很可能需要“爬”很多层）。</p>
+<p>二叉树搜索树实现起来非常简单，只要用一个<code>while</code>循环就能完成插入查找等功能，但是由于它结构控制太低，它对数据要求要很高，它时候依次插入那些无序数字，而对那些有序数据来说，二叉搜索树等同与一个数组。</p>
+<p>所以我们接下来介绍下面改良树，看看其他树是如何提高的空间利用率的，由于这篇主要是简单的谈一下这些树的优缺点，如果你想了解如何实现这样可以看一下我写的这篇<a href="/2018/01/04/二叉搜索树实现原理/" title="二叉搜索树Go实现">博文</a>，详细介绍了如何使用Go语言实现一个高效的二叉搜索树，如果你想彻底了解下面高级的树的实现，强烈建议一下了解一下二叉搜索树实现的方法，因为后面所以的树实现的前提<strong>必须满足是一个二叉搜索树</strong>，这点非常重要。</p>
+<p><a href="/2018/01/04/二叉搜索树实现原理/" title="二叉搜索树Go实现">二叉搜索树Go实现</a></p>
+<h2 id="AVL树"><a href="#AVL树" class="headerlink" title="AVL树"></a><a href="http://www.cs.usfca.edu/~galles/visualization/AVLtree.html" target="_blank" rel="noopener">AVL树</a></h2><p>1962发明的AVL树现在还生龙活虎的活跃在Windows进程地址空间管理，虽然作为最早的平衡二叉树现在有点干不过后面的年轻的小伙，但是作为前辈，后面小伙很多地方都是借鉴前辈的，所以我们有必要隆重介绍一下这个老前辈。</p>
+<p>首先要说明一下什么是平衡二叉树，前面我们也看到了，二叉搜索树有个弊端，它有可能子树高度不一样，比如说<code>1,2,3,4,5</code>那个母节点<code>1</code>的左子树高度为0，右字数高度为5，平衡二叉树就没有这个问题，它规定所以节点子树高度差不能超过1，这样规定的话我们的树空间利用率就能基本上达到100%了。</p>
+<p>AVL树就是一颗高度平衡二叉树，它的要求也非常简单，就两个</p>
+<ul>
+<li>必须是二叉搜索树</li>
+<li>必须是平衡二叉树</li>
+</ul>
+<p>成为一个二叉查找树非常容易，但是为了必须满足平衡二叉树条件，这里我们给每颗树定义一个高度，默认空为0，这样就可以计算左右子树的高度差是否在-1和1之间判断是否是平衡树。</p>
+<p>了解了这个之后，我们回到web页面，我们输入<code>1,2,3</code>看看AVL树如何避免像二叉搜索树一样过度生长</p>
+<p><img src="/images/avl-1.png" alt="插入前"></p>
+<p><img src="/images/avl-2.png" alt="插入后"></p>
+<p>我们从这两幅图可以看到，插入前AVL树高度为3，经过单旋转后，将2旋转到1的位置，然后让树又满足平衡二叉树的条件和二叉搜索树的条件。让我们思考一下旋转的意义。</p>
+<h3 id="旋转的意义"><a href="#旋转的意义" class="headerlink" title="旋转的意义"></a>旋转的意义</h3><p><strong>第一旋转并没有改变二叉搜索树的特性，我们将二叉树看做一个一个小区间组成的区域，旋转将区间整体移动了，所以我们保持住了区间的稳定，而且我们把旋转的支点看做中心，我们发现通过一次旋转后，支点左右之间的数量发生的变化，其中一方增加一个，其中一个减少一方，通过这种方式，把高度差由<code>2</code>转成<code>0</code></strong></p>
+<p>所以我们在插入和删除的时候造成的高度不平衡可以通过正确的旋转达到一个高度差的减少。而且我们可以很轻松的推断出在插入和删除的时候只需要通过有限的旋转就能实现树的平衡，但是我们也会发现这个平衡是非常严格的，每次插入删除的时候，删除或者增加的那条“路径”（从根节点到修改的节点）的各个节点的高度都会发生变化，所以我们需要检查和更新整条路径上高度差（也称平衡因子）是否满足平衡条件。</p>
+<p>直接纪录每个树的高度并且约束高度差的方法能够很好的规避像上面二叉搜索树造成的空间利用率低问题，但是对于增添和删除操作频繁的数据来说，AVL树并不是一个很好的解决方法，因为每次删除和增加都必须检测路径上的高度差，虽然旋转比较高效，但是每次检测和修改高度会让这个算法花费太多时间在这个严格的条件上面。</p>
+<p>总的来说，AVL树是比较好理解的一种平衡树算法，通过这个树的各种旋转操作，我们能很清晰的发现二叉树是一种很神奇的数据结构，一方面它可能是混乱的（分支混乱），一方面它又是整齐的，通过“扭动”它的身躯，将数据平均的分摊在根节点上面。我非常推荐你在这个<a href="http://www.cs.usfca.edu/~galles/visualization/AVLtree.html" target="_blank" rel="noopener">可视化界面</a>上通过一步一步将单独递增或者递减的数据插入AVL树中，你会发现AVL通过一次一次的“扭动”，将数据向根节点另一个方向传输过去。</p>
+<p>这里我也不详细介绍AVL树实现的具体原理，如果你想了解更底层的实现，可以看我下面这篇<a href="/2018/01/04/AVL树实现原理/" title="AVL树的实现原理">博客</a></p>
+<p><a href="/2018/01/04/AVL树实现原理/" title="AVL树的实现原理">AVL树的实现原理</a></p>
+<h2 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a><a href="http://www.cs.usfca.edu/~galles/visualization/RedBlack.html" target="_blank" rel="noopener">红黑树</a></h2><p>在AVL树发明10年后鲁道夫 贝尔发明了红黑树，直到现在红黑树还依旧在C++的STL、Java的HashMap中发挥着重要作用，只所以要先介绍AVL树再介绍红黑树，因为从我的理解上来看，其实红黑树和AVL树原理都是类似的，只不过红黑树修改了AVL树的缺点并且将AVL的平衡原理进行了抽象话。</p>
+<p>从数据结构上来看，红黑树相比于AVL树来说，只是将存贮高度的值换成了存贮颜色的值，从空间的角度上看，红黑树用一个二进制bool值（1Bit）换掉一个存贮int值（4Bit），节省了3Bit的空间，从增删所需要的操做来看，AVL树旋转可能需要lnN 步操作，而红黑树增不超过2次旋转，删不超高3次旋转，在增删效率上远远优于AVL树。所以我们有一个疑问为什么红黑树能用更少的空间实现更高的效率呢？</p>
+<p>回答这个问题之前，我们再捋捋AVL它的实现原理，前面介绍了AVL实现平衡的原理的就是使的左右子树高度差维持在[-1,1]之间，高度差这个东西，你想想高度这个东西其实它就是母节点到叶子节点的路径，所以高度差我们翻译一下就是左右子树路径差，现在我们把平衡后的AVL树条件更加严格一点，我们规定左右子树路径差为0，也就是左右子树高度一样。</p>
+<p><img src="/images/bst-2.png" alt="满二叉树"></p>
+<p>在上面那个严格的条件下，假如我们要新增一个到树末端，假如它加在像上面这样满二叉树上面，那么左右子树高度就立刻不相同了，但是对于一个AVL树来说，在这颗树上末端插一颗树并不会影响树的平衡，所以我们要想一个办法让插入这个值“不算高度”，这时候我们一想，如果我们把树节点分成两种颜色，一种红色一种黑色，红色不算高度，黑色才算高度，那样虽然我现在条件很苛刻“左右子树高度必须一样”，但是如果插入的是红色，那么就能很轻松的实现上面的条件。</p>
+<p>好了我们通过上面的操作成功的将高度变成了黑高（黑色节点的高度），而且满足了一种更加严格的条件“左右子树黑高必须相同），假如说前面AVL树的高度差为[-1,1]之间都能实现高空间利用率的，那么在这种更加严格的条件下也能满足，但是现在又出现一个问题，我们看下面这棵树</p>
+<p><img src="/images/rbt-1.png" alt="不平衡树"></p>
+<p>当我们插入节点3的时候，由于插入一颗红色你把红色节点不算高度，所以在前面的约束条件下，插入3满足条件，但是实际上这棵树并不是一个平衡AVL树，为了避免这种情况的发生我们必须要做一个约束，我们要约束红色节点不能太多，所以我们就约束红色节点后面只能是黑色节点，这样路径上最少都会有一半都是黑色（红色黑色相同）。</p>
+<p>我们现在得到两个约束，现在我们来说思考一下这两个条件的约束到底给我们带来了什么</p>
+<ul>
+<li>黑高相同</li>
+<li>红后面必须为黑</li>
+</ul>
+<p>首先对于黑色节点来说，这棵树是高度平衡的（假设它只能看到黑色节点），高度差为0，但是对于红色节点来说，这棵树有可能是不平衡的（假设有N个黑节点，红色高度差可能有N-1），所以从整体上来看，红黑树牺牲了一定的平衡性换来了插入删除的高效性</p>
+<p>这个高效性表现在哪呢？第一它不在需要更新所有的高度差，它只需要对受影响的路径上的有限节点进行染色就能实现再次的平衡，其次由于它不在需要高度的平衡，所以它能容忍树上的红色的不平衡现象，来减少旋转变化的次数。</p>
+<p>前面我们分析了AVL树旋转的意义那么对于红黑树来说，旋转的意义是什么呢？</p>
+<h3 id="红黑树的旋转意义"><a href="#红黑树的旋转意义" class="headerlink" title="红黑树的旋转意义"></a>红黑树的旋转意义</h3><p>前面我们知道了在AVL树中每一棵树都是独立的个体，所以每次旋转都是一次运输，将树按照节点扭动，但是对于红黑树来说，它要处理的情况是黑树高度的不同，当需要搬到的也是黑树，它的目的就是将黑树的高度平衡，对于红色的树来说，它更像一种胶水，它能保证当数据不平衡的时候（所以的树不可能全部变成黑树）还能使黑树保持一种平衡，从而使一棵树变得相对平衡。</p>
+<p>所以红黑树的旋转的意义同AVL树是类似的，只不过红黑树在旋转的时候要更加注意，它不但要考虑我们要如何在不平衡的节点上平衡黑高，而且要考虑我们平衡了这个节点的黑高有没有对其父亲的黑高造成影响。</p>
+<p>对于红黑树来说，由于颜色是可变的，所以着色（改变颜色）也是一种手段，而对于AVL树来说高度是固定的，只能通过旋转来改变，所以单独讲红黑树的旋转是没有意义的，或许有的时候只需要通过旋转就能实现黑高的统一，或许通过简单着色也能实现黑高的统一，但是只使用一种手段是不能高效的完成所以的条件。所以在我看来<em>着色和旋转是相辅相成的</em></p>
+<p>也正因为我们多了一个着色的手段，所以红黑树比AVL树在某些方面更加高效，随着而来也是更加复杂难懂，但是总体来说AVL和红黑还是类似的，在这里我就不深谈如何实现红黑树，如果你想了解如何实现红黑树，可以看我这篇<a href="/2018/01/05/红黑树实现原理/">博客</a></p>
+<p><a href="/2018/01/05/红黑树实现原理/">红黑树的实现原理</a></p>
+<h4 id="剩余的四种树的简析会待代码实现后陆续更新"><a href="#剩余的四种树的简析会待代码实现后陆续更新" class="headerlink" title="剩余的四种树的简析会待代码实现后陆续更新"></a>剩余的四种树的简析会待代码实现后陆续更新</h4><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://en.wikipedia.org/wiki/Binary_search_tree" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Binary_search_tree</a></p>
+<p><a href="https://en.wikipedia.org/wiki/AVL_tree" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/AVL_tree</a></p>
+<p><a href="https://www.cnblogs.com/vamei/archive/2013/03/21/2964092.html" target="_blank" rel="noopener">https://www.cnblogs.com/vamei/archive/2013/03/21/2964092.html</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2017/12/26/algorithm/几个有趣的动态规划/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/12/26/algorithm/几个有趣的动态规划/" class="post-title-link" itemprop="url">几个有趣的动态规划</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-12-26 00:00:00" itemprop="dateCreated datePublished" datetime="2017-12-26T00:00:00+08:00">2017-12-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>3.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -280,64 +755,227 @@
 
       
           <blockquote>
-<p>这段时间没有写博客，一个原因是由于刚毕业没了学校的学习动力反而下降，另外一个方面由于花了很长时间研究编译原理，然而自己却对它没有太多理解，所以也就没有整理自己的知识，现在慢慢稳定下来，会继续像以前一样更新博客</p>
+<p>这篇博文是<a href="/2017/12/25/从问题理解动态规划/">从问题理解动态规划</a>的练习篇，通过几个动态规划的问题剖析进一步理解动态规划</p>
 </blockquote>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>为什么要介绍<code>XPath</code>呢，我一直以为我对<code>XPath</code>还是比较了解的，但是随着我对<code>XPath</code>的了解越来越深，我就对它的越来越敬佩，</p>
-<p>简单来说，我以前认为<code>XPath</code>对结构性文档只能是一把“枪”，指哪打哪，没想到它是一个“巡航导弹”，自动追踪目标。</p>
-<p>接下来我们就慢慢从<code>XPath</code>的基础来谈谈其威力</p>
-<h2 id="什么是XPath"><a href="#什么是XPath" class="headerlink" title="什么是XPath"></a>什么是<code>XPath</code></h2><p>首先我们要知道<code>XPath</code>是一种语言，你可以理解它是正则、也可以理解它是<code>SQL</code>，他们的目的都是从数据中找到我们想要的东西。相比于<code>SQL</code>从数据库中获取数据，<code>XPath</code>是从一个<code>XML</code>文件中获取数据。</p>
-<p>好的，我们知道<code>XPath</code>要操作的对象，什么是<code>XML</code>，它是一种结构式文档，我们也可以把它看做一种树结构。</p>
-<pre><code>&lt;root&gt;
-    &lt;son&gt; I&apos; m son &lt;/son&gt;
-&lt;/root&gt;
-</code></pre><p>如上面就是一个简单的<code>XML</code>文档，首先从一个父节点点出发，到最后的一个父节点结束，中间可以有很多子节点，也可以有孙节点，但对于每个节点来说，其父亲只能有一个。</p>
-<p>这种文档的出现是由于我们编码程序中<code>树结构</code>出现而出现的一种数据。相比于正则直接操作文本，<code>XPath</code>要面对的是是一堆有规律的文本，虽然我们也能使用正则来操作<code>XML</code>文档，但是正则无法捕获这种<code>XML</code>的关系，而这个也是<code>XPath</code>最有力的地方。</p>
-<p>在这种关系中，我们最常使用也是最核心的就是父子关系，这个关系简单的通过一个<code>/</code>就能体现，比如现在我们把上面的<code>XML</code>复杂化给他添加一个儿子</p>
-<pre><code>&lt;root&gt;
-        &lt;son id=&quot;1&quot;&gt; I&apos; m son1 &lt;/son&gt;
-        &lt;son id=&quot;2&quot;&gt; I&apos;m son2&lt;/son&gt;
-    &lt;/root&gt;
-</code></pre><p>为了获取第二个儿子我们简单的使用这个<code>XPath</code>语句就能获取到</p>
-<pre><code>/root/son[@id=&apos;1&apos;]
-</code></pre><p>PS: 当然在<code>XPath</code>中我们可以使用<code>//</code>来代表一个泛指，通过<code>//son[@id=&#39;1&#39;]</code>我们可以把儿子找出来而不关心他的父亲，甚至更进一步，我不关心它是谁，只要它的<code>id</code>为<code>1</code>就行，我们用<code>node()</code>函数来替代一个节点，这样只要<code>//node()[@id=&#39;1&#39;]</code>就能拿到<code>id</code>为1的节点了</p>
-<p>我们来看看这个<code>XPath</code>，我们定义了一种关系<code>root</code>和<code>son</code>的父子关系，<code>XPath</code>的威力就是能用很简单的语句来定义一个节点的关系，在这句中，<code>root</code>和<code>son</code>都是节点，我们使用<code>/</code>来约定节点父子关系，使用<code>[]</code>来定义节点与自己内部节点或者属性的直接的关系（<code>@</code>是获取属性）</p>
-<p>要掌握<code>XPath</code>必须要明白，<code>XPath</code>重要的就是“面”和“点”的关系，“面”代表节点，“点”代表属性，对于面来说，它可以包含很多个点，对于点来说，它有可以看做由很多个更小的面组成（微观上）</p>
-<p>就以上面的例子，对于<code>root</code>和<code>son</code>这两个节点，其中<code>root</code>是父节点，我们可以用很多个属性来定义它，比如<code>root[count(son, 2)]</code>（意思是选择有两个<code>son</code>的<code>root</code>），其中对于父节点关系的中<code>son</code>节点来说（有点绕），他又可以用属性来约束比如<code>root[count(son[@id], 2)]</code>(意思是选择有两个<code>son</code>的<code>root</code>,并且每个<code>son</code>都有<code>id</code>这个属性）。从这里我们可以看其实节点和属性是可以相互嵌套的。</p>
-<p>从上面这个小例子我们可以看到，<code>XPath</code>的威力就是它可以用来非常详细的约束节点与其他节点或属性的关系，这种关系可以是绝对的，也可以是相对的，一切取决你的取舍，绝对代表严格，相对代表宽松。</p>
-<p>PS：当然我们这里的<code>属性</code>是一种宽泛的理解，在<code>XPath</code>中节点还包括<code>text</code>值，我们可以把它看做节点的一种<code>text</code>属性。</p>
-<h2 id="XPath的其他关系"><a href="#XPath的其他关系" class="headerlink" title="XPath的其他关系"></a><code>XPath</code>的其他关系</h2><p>前面我们介绍了<code>XPath</code>中最重要的一种关系：父子关系。这个也是我们使用<code>XPath</code>使用的最主要的一种关系，现在基本上网络上的教程都是基于这种关系的，我们这篇博客主要不详细介绍这种关系，你可以在<a href="https://www.w3schools.com/xml/xpath_syntax.asp" target="_blank" rel="noopener">w3cshool</a>上了解更多内容。</p>
-<p>我们先用问题来引入其他的关系，我们再把上面的简单<code>XML</code>进行修改</p>
-<pre><code>&lt;root&gt;
-    &lt;son id=&quot;1&quot;&gt; I&apos; m son1 &lt;/son&gt;
-    &lt;target&gt; son1 target&lt;/target&gt;
-    &lt;son id=&quot;2&quot;&gt; I&apos;m son2&lt;/son&gt;
-    &lt;target&gt; son2 target &lt;/target&gt;
-&lt;/root&gt;
-</code></pre><p> 我们引入两个目标，现在我们想拿到<code>son</code>（id为1）的旁边<code>target</code>，假如我们使用父子关系，使用<code>/root/target[1]</code>(<code>XPath</code>索引从1开始）也可以获取到，但是这里引入了一个约束，必须是<code>root</code>下第一个<code>target</code>节点，假如这个<code>XML</code>它是随机的，<code>son</code>和<code>target</code>是一个集合，但是他们的位置不定，这个时候我们不能仅仅依赖父子关系来确定节点位置。</p>
-<p> 这里我们引入<code>兄弟</code>（sibling）这个概率，<code>son</code>和<code>target</code>是一队兄弟，我们能通过知道<code>son</code>的位置从而定位到<code>target</code>的位置，那个这个<code>XPath</code>该怎么写呢，首先我们要确定<code>son</code>的位置</p>
-<pre><code>/root/son[@id=&apos;1&apos;]
-</code></pre><p>接下来我们通过定位的<code>son</code>来拿到它后面的兄弟（也有前面的兄弟语法）</p>
-<pre><code>/root/son[@id=&apos;1&apos;]/following-sibling::target[1]
-</code></pre><p>在这里<code>/following-sibling</code>代表它要找到接下来的兄弟，后面<code>::target[1]</code>是进一步限定我是要拿到兄弟里面第一个<code>target</code>，我们可以通过这个<a href="https://www.freeformatter.com/xpath-tester.html#ad-output" target="_blank" rel="noopener">网站</a>在线测试一下我们的<code>XPath</code></p>
-<p>当然我们可以通过第二个<code>son</code>来找到它前面的兄弟，对应语法是下面的</p>
-<pre><code>/root/son[@id=&apos;2&apos;]/preceding-sibling::target[1]
-</code></pre><p>在前面我们可以看到这个<code>following-sibling</code>和<code>preceding-sibling</code>他们都是一种寻找兄弟关系的，其实假如我们把<code>-sibling</code>去掉，他们能更加宽泛。</p>
-<p>我们把<code>son</code>和<code>target</code>包起来，这个在现实中可能更常见</p>
-<pre><code>&lt;root&gt;
-&lt;group&gt;
-    &lt;son id=&quot;1&quot;&gt; I&apos; m son1 &lt;/son&gt;
-    &lt;target&gt; son1 target&lt;/target&gt;
-&lt;/group&gt;
-&lt;group&gt;
-    &lt;son id=&quot;2&quot;&gt; I&apos;m son2&lt;/son&gt;
-    &lt;target&gt; son2 target &lt;/target&gt;
-&lt;/group&gt;
-&lt;/root&gt;
-</code></pre><p>假如我们还使用上面的语句，我们会发现，我们没法找到语句，这个时候你把兄弟这个约束去掉</p>
-<pre><code>/root/group/son[@id=&apos;2&apos;]/preceding::target[1]
-</code></pre><p>你会惊奇的发现<code>XPath</code>准确的找到我们的目标，这个令人震惊的是它能实现一种“翻山越岭”的查找。</p>
-<p>假如你使用正则或者普通的父子关系，你必须先找到它的<code>group</code>然后再使用<code>for</code>循环来遍历所以的<code>group</code>找到<code>son</code>….</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我们使用简单一个前后关系就能轻松实现上百行代码，当我以前不了解这个<code>XPath</code>的关系约束前，为了寻找这个约束写过几十行代码才能定位，而现在简简单单一行就搞定，我们不得不佩服前人的智慧，我只想说一句“真香～～～”。</p>
+<h2 id="找零钱练习题"><a href="#找零钱练习题" class="headerlink" title="找零钱练习题"></a>找零钱练习题</h2><ul>
+<li>给定一个零钱数组比如[1, 2, 5],每个值代表一个面额的纸币，给定一个总数(aim)，求换钱有多少种方法（每种面额纸币不限量）</li>
+</ul>
+<blockquote>
+<p>这个问题非常经典，所以我就从最先容易想到的算法出发慢慢推导出动态规划</p>
+</blockquote>
+<h3 id="正向暴力搜索"><a href="#正向暴力搜索" class="headerlink" title="正向暴力搜索"></a>正向暴力搜索</h3><p>面前一大堆钱，分成三堆，我们必须要从这三堆中抽取出来所以可能的方案，看看能够凑到总数。</p>
+<p>我们第一个想到的就是正向暴力搜索，先从第一堆取出0张、1张、2张….，然后递归下去，让取出0张、1张、2张凑剩下的总数，等到取到最后一个钱堆或者总数正好相同的时候递归停止。</p>
+<p>我们可以很轻松的写出下面的代码（Java）</p>
+<pre><code>int violenceSearch(int[] level, int index, int aim) {
+        if (aim &lt;= 0) {
+            return aim == 0 ? 1 : 0;
+        }
+        if (index &gt;= level.length) {
+            return 0;
+        }
+        int sum = 0;
+        for (int i = 0; i &lt;= aim / level[index]; i++) {
+            sum = sum + violenceSearch(level, index + 1, aim - i * level[index]);
+        }
+        return sum;
+    }
+</code></pre><p>这个函数接受三个参数，第一个是钱堆的面额数组，第二个是当前是拿第几个钱堆的序号，第三个是剩余要凑的总数</p>
+<p>这个算法的核心就是<code>sum = sum + violenceSearch(level, index + 1, aim - i * level[index]);</code>，我们分别从钱堆里面取出想0张、1张…，然后计算剩下的总数和剩下的堆数方法总数和。</p>
+<p>这个算法也可以优化成记忆搜索，总共有多少种方法拼钱，主要与<code>index</code>和<code>aim</code>有关，我们只要用<code>map</code>记录一下这个值就可以优化成为记忆搜索。</p>
+<h3 id="反向暴力搜索"><a href="#反向暴力搜索" class="headerlink" title="反向暴力搜索"></a>反向暴力搜索</h3><p>反向的话比较难想到，但是正向暴力搜索没有办法分解成子函数，也就无法实现动态规划，所以我们必须要反向思考</p>
+<p>首先我们假设纸币面额为1， 2， 5， 我们要凑10块钱，我们假设已经得到了所以的次数F(x, y)(x为由多少种纸币组成，y为凑多少钱），所以我们得到这个我们想要的结果F(3, 10) （也就是由3种面额组成10块）</p>
+<p>假设我们得到了F(3, 10)所以可能的组成结果结合如下面10种</p>
+<ul>
+<li>10张1块</li>
+<li>8张1块、1张2块</li>
+<li>6张1块、2张2块</li>
+<li>5张1块、1张5块</li>
+<li>4张1块、3张2块</li>
+<li>3张1块、1张2块、1张5块</li>
+<li>2张1块、4张2块</li>
+<li>1张1块、2张2块、1张5块</li>
+<li>2张5块</li>
+<li>5张2块</li>
+</ul>
+<p>现在我们把这10种可能按照5块的张数分成3份</p>
+<ul>
+<li>0张5块</li>
+<li><ul>
+<li>10张1块</li>
+</ul>
+</li>
+<li><ul>
+<li>8张1块、1张2块</li>
+</ul>
+</li>
+<li><ul>
+<li>6张1块、2张2块</li>
+</ul>
+</li>
+<li><ul>
+<li>4张1块、3张2块</li>
+</ul>
+</li>
+<li><ul>
+<li>2张1块、4张2块</li>
+</ul>
+</li>
+<li><ul>
+<li>5张2块</li>
+</ul>
+</li>
+<li>1张5块</li>
+<li><ul>
+<li>5张1块、1张5块</li>
+</ul>
+</li>
+<li><ul>
+<li>3张1块、1张2块、1张5块</li>
+</ul>
+</li>
+<li><ul>
+<li>1张1块、2张2块、1张5块</li>
+</ul>
+</li>
+<li>2张5块</li>
+<li><ul>
+<li>2张5块</li>
+</ul>
+</li>
+</ul>
+<p>分别为0张5块（6种），1张5块（3种），2张5块（1种），也就是我们成功将F(3, 10)分解成 F(2, 10), F(2, 5), F(2, 0)</p>
+<p>通过这种方式我们成功构造出子函数，我们很容易就能写出递归函数</p>
+<pre><code>int lowBackVS(int[] level, int index, int aim) {
+    if (index == 0)
+        return aim % level[index] == 0 ? 1 : 0;
+
+    if (aim &lt; level[index]) return lowBackVS(level, index - 1, aim);
+    else {
+        int count = 0;
+        for (int i = 0; i * level[index] &lt;= aim; i++) {
+            count += lowBackVS(level, index - 1, aim - i * level[index]);
+        }
+        return count;
+    }
+}
+</code></pre><p>这里我们要看到第二个<code>if</code>，我们判断剩下的余额是否够当前的一张，如果不够，那直接就是前n-1种纸币能够组成的次数。（也就是假如你剩下4块钱要用一张5块来组成，肯定不可能，直接返回前面的n-1种货币能够凑出4块的种数）</p>
+<p>这种时间复杂度为O(n) = n X aim X aim， 假如aim比较大还是比较耗时间的，我们看看是否能够优化一下</p>
+<h3 id="反向暴力搜索优化"><a href="#反向暴力搜索优化" class="headerlink" title="反向暴力搜索优化"></a>反向暴力搜索优化</h3><p>我们还是回到上面那个例子，我们这次按照能够减去一张5块的进行分类，这样我们就分成了两类</p>
+<ul>
+<li>无法抽掉一张5块</li>
+<li><ul>
+<li>10张1块</li>
+</ul>
+</li>
+<li><ul>
+<li>8张1块、1张2块</li>
+</ul>
+</li>
+<li><ul>
+<li>6张1块、2张2块</li>
+</ul>
+</li>
+<li><ul>
+<li>4张1块、3张2块</li>
+</ul>
+</li>
+<li><ul>
+<li>2张1块、4张2块</li>
+</ul>
+</li>
+<li><ul>
+<li>5张2块</li>
+</ul>
+</li>
+<li>能够抽掉一张5块</li>
+<li><ul>
+<li>5张1块、1张5块</li>
+</ul>
+</li>
+<li><ul>
+<li>3张1块、1张2块、1张5块</li>
+</ul>
+</li>
+<li><ul>
+<li>1张1块、2张2块、1张5块</li>
+</ul>
+</li>
+<li><ul>
+<li>2张5块</li>
+</ul>
+</li>
+</ul>
+<p>一张是无法抽掉一张5块（6种），能够抽到一张5块（4）种<br>我们回到函数定义，这样我们成功将函数F(n, aim)分解成两个F(n-1, aim) 和F(n, aim - level[index])</p>
+<p>我们成功的将子函数进行化简成两项</p>
+<pre><code>int backVS(int[] level, int index, int aim) {
+    if (index == 0)
+        return aim % level[index] == 0 ? 1 : 0;
+
+    if (aim &gt;= level[index])
+        return backVS(level, index - 1, aim) + backVS(level, index, aim - level[index]);
+    else return backVS(level, index - 1, aim);
+
+}
+</code></pre><p>我们可以看到我们成功将时间复杂度降到了O(n) = n X aim，至此我们写出了比较完美的反向暴力搜索方法，当然我们也能够像正向暴力搜索优化成记忆搜索</p>
+<h3 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h3><p>前面我一直没有怎么提记忆搜索法，因为这个方法基本上等同与动态规划，只不过动态规划使用数组存贮，记忆搜索法用字典存贮。</p>
+<p>前面我们知道我们能通过分解函数将问题划分成前面的子问题，所以我们只需要构建一个二维数组，x，y分别代表由几种货币组成（index），组成的总数（aim），这样就能通过慢慢“填”写动态规划表，最后求出由N种货币组成钱数（aim）总数</p>
+<pre><code>int dynamic(int[] level, int index, int aim) {
+    int n = level.length;
+    int[][] dp = new int[n][aim + 1];
+    for (int i = 0; i &lt; n; i++) dp[i][0] = 1;
+    for (int i = 1; i &lt;= aim; i++) dp[0][i] = i % level[0] == 0 ? 1 : 0;
+    for (int i = 1; i &lt; n; i++) {
+        for (int j = 1; j &lt;= aim; j++) {
+            if (j &lt; level[i]) dp[i][j] = dp[i - 1][j];
+            else dp[i][j] = dp[i - 1][j] + dp[i][j - level[i]];
+        }
+    }
+    return dp[n - 1][aim];
+
+}
+</code></pre><p>这里要注意的是初值的初始化，默认当钱数为0的时候值为1（比如说前面的2张5块的方法F(2, 0) = 1），当只由一种钱币组成时，只要总数能够整除第一种钱币面额就为1（全部由这种货币组成）</p>
+<h3 id="动态规划的优化"><a href="#动态规划的优化" class="headerlink" title="动态规划的优化"></a>动态规划的优化</h3><p>当然这个优化可有可无，因为我们观察上面的函数，我们发现其实N层只与前面N-1层一个有关，这样的话，我们如果覆盖掉上一层的值对后面的计算结果也没有影响。所以我们就不使用多维数组，直接使用一维数组，节省了（N-1）* (aim + 1)的空间</p>
+<pre><code>int advanceDynamic(int[] level, int index, int aim) {
+    int[] f = new int[aim + 1];
+    f[0] = 1;
+    int n = level.length;
+    for (int i = 0; i &lt; n; ++i)
+        for (int j = level[i]; j &lt;= aim; ++j)
+            f[j] += f[j - level[i]];
+    return f[aim];
+}
+</code></pre><p>所以我们成功的将代码改的更短，而且更省空间</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>一开始本来想多讲几道动态规划的问题，但是写着写着发现其实大部分都是大同小异，找到子函数，构建表存贮计算过程，其中最大的挑战就是找到分解子函数，所以我就不介绍其他的问题了，我就把这些问题留在下面，你可以试试挑战一下自己</p>
+<ul>
+<li><a href="https://zh.wikipedia.org/wiki/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98" target="_blank" rel="noopener">背包问题</a></li>
+</ul>
+<blockquote>
+<p>一个背包有一定的承重cap，有N件物品，每件都有自己的价值，记录在数组v中，也都有自己的重量，记录在数组w中，每件物品只能选择要装入背包还是不装入背包，要求在不超过背包承重的前提下，选出物品的总价值最大。</p>
+</blockquote>
+<ul>
+<li><p>最优编辑</p>
+<blockquote>
+<p>对于两个字符串A和B，我们需要进行插入、删除和修改操作将A串变为B串，定义c0，c1，c2分别为三种操作的代价，请设计一个高效算法，求出将A串变为B串所需要的最少代价。</p>
+</blockquote>
+</li>
+<li><p>LIS</p>
+</li>
+</ul>
+<blockquote>
+<p>求出序列的最长上升子序列的长度</p>
+</blockquote>
+<ul>
+<li>LCS</li>
+</ul>
+<blockquote>
+<p>给定两个字符串A和B，返回两个字符串的最长公共子序列的长度。例如，A=”1A2C3D4B56”，B=”B1D23CA45B6A”，”123456”或者”12C4B6”都是最长公共子序列。</p>
+</blockquote>
+<ul>
+<li>走迷宫问题</li>
+</ul>
+<blockquote>
+<p>有一个矩阵map，它每个格子有一个权值。从左上角的格子开始每次只能向右或者向下走，最后到达右下角的位置，路径上所有的数字累加起来就是路径和，返回所有的路径中最小的路径和。</p>
+</blockquote>
 
       
     </div>
@@ -357,7 +995,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/07/01/java/Java的Char类型到底几个字节/">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2017/12/25/algorithm/从问题理解动态规划/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/myself.jpg">
@@ -371,7 +1009,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2018/07/01/java/Java的Char类型到底几个字节/" class="post-title-link" itemprop="url">Java的char类型到底几个字节</a>
+            <a href="/2017/12/25/algorithm/从问题理解动态规划/" class="post-title-link" itemprop="url">从问题理解动态规划</a>
         </h1>
 
         <div class="post-meta">
@@ -381,14 +1019,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2018-07-01 00:00:00" itemprop="dateCreated datePublished" datetime="2018-07-01T00:00:00+08:00">2018-07-01</time>
+              <time title="创建时间：2017-12-25 00:00:00" itemprop="dateCreated datePublished" datetime="2017-12-25T00:00:00+08:00">2017-12-25</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:02:26" itemprop="dateModified" datetime="2021-03-09T20:02:26+08:00">2021-03-09</time>
+                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -396,8 +1034,8 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index">
-                    <span itemprop="name">Java</span>
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
                   </a>
                 </span>
             </span>
@@ -407,13 +1045,13 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span>3.1k</span>
+              <span>2.3k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>3 分钟</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -425,41 +1063,63 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>之所以有这个疑问，是上次阅读Java基础书时碰到讲解<code>char</code>类型没有看明白，并且在代码验证过程中错误的理解了代码的意思，导致我对这么个简单问题产生疑惑并且“恶意揣测”Java内部的黑魔法，这里就把我如何走上歪路，并且最终找到“正确”的道路的故事讲出来</p>
-<h2 id="问题的产生"><a href="#问题的产生" class="headerlink" title="问题的产生"></a>问题的产生</h2><p>我们知道<code>Java</code>是采用<code>Unicode</code>进行内部编码，但是使用<code>UTF-16</code>作为外部编码。</p>
-<p>怎么来理解这个东西呢。首先你要知道<code>Unicode</code>是在我们熟悉的<code>GB 18030</code>、<code>BIG-5</code>、<code>ISO8859-1</code>之后出现的，它的出现就是为了统一全世界的编码，因为前面这些编码都太片面了，只包含自己国家或者少数几个国家的字符。</p>
-<p><code>Unicode</code>的目的就是包括全世界的编码，并且给未来可能出现的编码留下位置，你可以理解为它是一张大“表”，一般我们使用16进制来表达它，并且在前面加上<code>U+</code>。例如<code>U+0041</code>代表字母<code>A</code>，但是这里有个历史问题</p>
-<p>一开始我们知道<code>Unicode</code>为了包含全世界的字符从<code>ASCII</code>的一个字节扩展到两个字节，就能包含65536个字符了，但是随着字符包含越来越多，我们逐渐需要更多字符了，最后扩展到<code>U+0000 -&gt; U+10FFFF</code>去了，为了表示这些我们必须使用三个字符，假设我们不考虑内存成本，每个字符都使用四个字符来表示（不使用三个是为了内存对齐），那么问题就解决了，大家都用<code>Unicode</code>来表示，这样我传给你一串字符你就能秒懂了。</p>
-<p>但是学过信息论就知道，单字符越长信息熵也就是信息量就少，其实在日常通信中我们并不是每个字符都会用到，为了提高效率，我们可以使用霍夫曼、香农编码技术对信息重新编码，这个就是<code>UTF-8</code>、<code>UTF-16</code>等现代编码的理论基础。</p>
-<p>这就好比特种部队手势，我们把作战命令（Unicode）需要的指令放到手势（如UTF-8）里面，这样几个手势就能表达复杂的作战计划（假如用嘴巴说的话）。</p>
-<p>接下来我们就从JAVA和Python来看，编码与其关系</p>
-<h2 id="表面兄弟：JAVA"><a href="#表面兄弟：JAVA" class="headerlink" title="表面兄弟：JAVA"></a>表面兄弟：JAVA</h2><p><code>Unicode</code>对于JAVA来说，只能算是表面兄弟，虽然内部支持<code>Unicode</code>编码，但是其本质还是基于<code>UTF-16</code>编码，为什么要这么说呢。</p>
-<p>我们来回顾一下，我们知道<code>Unicode</code>的范围是<code>U+0000-U+10ffff</code>，这意味着我们没法用两个字节来表示，但是在<code>Java</code>里面<code>char</code>类型字节为2字节，而对于字符串类<code>String</code>来说，其组成就是一个<code>char</code>字组，对于小于<code>U+10000</code>的<code>Unicode</code>码来说，<code>String</code>对象最小组成单位就是<code>char</code>，但是对于大于<code>U+10000</code>的<code>Unicode</code>码来说却是<code>char</code>数组，我们用代码来展示一下两者之间的关系。</p>
-<pre><code>char[] chars = Character.toChars(0x1f121);
-String s = new String(chars);
-</code></pre><p>而且我们将<code>s</code>输出的话，会发现它是一个字符，但是它的<code>length</code>却为二，而且我们将<code>s</code>每个字符转换成二进制你会发现他们的值依次为<code>0xd83c</code>和<code>0xdd21</code>，他们存贮的值全部以<code>UTF-16</code>的格式存贮，具体编码详细我就不细说了，下面<a href="https://zh.wikipedia.org/wiki/UTF-16" target="_blank" rel="noopener">资料</a>介绍的很详细（需要翻墙）。在<code>Unicode</code>里面占一个字符的值，却以两个基本类型存贮，当然为了维持这种“表面兄弟”的关系，<code>Java</code>也使用了“码点”来支持一下兄弟，只要使用<code>codePointAt</code>代替<code>charAt</code>，用<code>codePointCount</code>代替<code>length</code>，我们也能处理超过<code>U+10000</code>的<code>Unicode</code>编码（对于不超过<code>U+10000</code>的字符那就是“真兄弟”）</p>
-<p>当我不知道一个<code>char</code>只能放两个字节的时候，我强行使用<code>char c = (char)0x1f121</code>来“存”一个超过<code>U+10000</code>的<code>Unicode</code>码，结果被<code>Java</code>无情的溢出掉，只取到了部分值，但是我却误以为<code>Java</code>有黑魔法能用两个字节存贮了三个字节才能存下的值，乃至我闹了个笑话。</p>
-<p>总结一下<code>Java</code>是一个非常严谨的语言，规定死的东西就不会变，表面上看<code>Java</code>能够支持<code>Unicode</code>编码，但是实际上他只是编译器支持，比如你写一个<code>🄡</code>（0x1f122）的值来赋给<code>String</code>如下面：</p>
-<pre><code>String ns = &quot;🄡&quot;
-</code></pre><p>表面上看，<code>Java</code>完全支持<code>Unicode</code>码，但在实际的上面他内部还是用<code>UTF-16</code>进行编码，只是在编译的时候帮我们将<code>0x1f122</code>转换成为两个<br><code>0xd83c</code>和<code>0xdd21</code>存贮在<code>char</code>字符组里面。</p>
-<p>其实这个表面兄弟是相对的，从<code>Python3`</code>Unicode`支持来比较一下就能发现不同。</p>
-<h2 id="亲兄弟：Python"><a href="#亲兄弟：Python" class="headerlink" title="亲兄弟：Python"></a>亲兄弟：Python</h2><p><code>Python3</code>对<code>Unicode</code>是非常友好的，它在明面上完全按照<code>Unicode</code>的编码表使用来存贮<code>Unicode</code>码，对应它的<code>Unicode</code>字符串，最小单元都是<code>Unicode</code>码，多说无意，上代码。</p>
-<pre><code>  c = chr(0x1f122)
-print(len(c))  # = 1
-print(type(c)) # str
-</code></pre><p>我们可以看到我们得到的最小的码元是字符串<code>str</code>类型，无论这个<code>Unicode</code>码是否大于<code>U+10000</code>，<code>Python</code>都把它视为一个基本单位，这样避免了你对其进行一些误操作，插句话来讲讲怎么得到这个大小呢，我们使用<code>sys.getsizeof</code>方法就能计算出来</p>
-<pre><code>sys.getsizeof(chr(0x1f122))  # 80
-sys.getsizeof(chr(0x1f122) * 2) # 84
-</code></pre><p>由于<code>Python</code>使用一些字段来标注类型，所以直接使用<code>sys.getsizeof</code>得不得一个<code>Unicode</code>码需要的字节，所以我们计算两个的差，很清楚的就能得到一个<code>Unicode</code>码使用四个字节，你可以依次乘下去，而且你发现一个有趣的现象，对于小于<code>U+007F</code>的<code>Unicode</code>码，其大小为一字节，而对于<code>U+0080-U+07FF</code>其大小为两字节。具体可以看参考<a href="https://en.wikipedia.org/wiki/UTF-8" target="_blank" rel="noopener">资料</a>，<code>Python</code>内部是使用<code>UTF-8</code>来存贮<code>Unicode</code>码的，但是<code>Python</code>将这一切都隐藏起来，你从表面上看好像一个<code>Unicode</code>就是一个最小单元，对于其底层我们不得而知，我们可以从侧面来验证一下</p>
-<pre><code> timeit.timeit(&quot;&apos;中国人&apos;.encode(&apos;gbk&apos;)&quot;)
-&gt;&gt; 0.6366317819999949
-timeit.timeit(&quot;&apos;中国人&apos;.encode(&apos;utf-8&apos;)&quot;)
-&gt;&gt; 0.2109854949999317
-</code></pre><p>我们可以看到将<code>Unicode</code>编译成其他编码方式，其中<code>utf-8</code>速度是最快的，因为基本上是复制一下就行了，而其他的差距到了三倍</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过前面我们知道，<code>Python</code>之所以 <code>Unicode</code>如此“亲兄弟”是因为做了一层封装得来的，相比<code>Java</code>将<code>Unicode</code>码（使用<code>UTF-16</code>作为底层编码）暴露给出来，<code>Java</code>在底层上却是非常“坦诚”，你想直接使用<code>Unicode</code>码值也可以，<code>Java</code>编译器会帮你把<code>Unicode</code>码值转换成<code>UTF-16</code>，你也可以从<code>UTF-16</code>码生成<code>String</code>字符串，这样底层在实现查找的时候也是使用统一的编码进行。但是也正是由于这么“底层”，代码看起来总不是那么“亲”，相比于<code>Python</code>的“一视同仁”，我们也可以理解这就是这两种语言的各自特点所在。</p>
-<p>总的来说如果你想直接接触代码底层，推荐使用<code>Java</code>，假如你只想研究其本质，推荐使用<code>Python</code>来进行自然语言处理，他的封装能让你不需要了解其内部组成。</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://zh.wikipedia.org/wiki/UTF-16" target="_blank" rel="noopener">https://zh.wikipedia.org/wiki/UTF-16</a></p>
-<p><a href="https://en.wikipedia.org/wiki/UTF-8" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/UTF-8</a></p>
+          <blockquote>
+<p>网上关于动态规划的资料，大部分直接给结论，所以一开始我一头雾水，搞不懂为什么要这么做，这篇博文就从实际问题出发，简单的剖析动态规划</p>
+</blockquote>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>现实生活中总能找到一些问题你没法给出具体答案，比如给你一堆1块、5块、10块的零钱，要你找出多少种能够拼出100块的方法。还有就是迷宫问题这种。这种问题都有一个特征，我们没有办法立刻给出答案，而且我们对这种问题的想到的第一种解决方法就是暴力搜索，把所以的可能方案列出来然后得到答案。这种暴力搜索最终能够解决问题，但是他们在计算的时候花了很多时间在相同的计算上面。为了节省时间，所以我们使用动态规划“优化”暴力搜索</p>
+<h2 id="为什么要使用动态规划？"><a href="#为什么要使用动态规划？" class="headerlink" title="为什么要使用动态规划？"></a>为什么要使用动态规划？</h2><h3 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h3><p>我们先举一个简单的例子，大家都知道走楼梯问题，这也是教科书一个经典的递归程序</p>
+<ul>
+<li>有N阶台阶，一个人一次上两个或者一个，问有多少种走法?</li>
+</ul>
+<p>我们拿到这道题，我们首先会想这样想，从第一个台阶开始，我们使用递归让这个人走一步或者两步，这样每次分解成为两种可能，最后直达走到N阶台阶，或者迈过去了，然后计算这种所以迈到N阶台阶的可能路径。</p>
+<p>这种正向思维很容易理解，但是最终它直接得到的是所以可能的路径，但是这道题我们需要求的是N阶的走法，所以我们从正向思维必须要反过来思考，假如我们从一个台阶出发有两种可能，那么我们到达第N个的台阶来看，也有两种可能，第一种是N-1（迈了一步到达），第二种是N-2（迈了两步到达），这样我们就很清楚了，假如我们要想得到到达N阶台阶的走法总数，那么我们只需要把到达N-1和到达N-2的次数加起来就可以了</p>
+<p>这是一个很重要的思想<strong>把一个复杂的问题，分解成为其他的子问题</strong>，这也是我们完成动态规划的设计的核心思想</p>
+<p>从更好的理解动态规划的优点和源头，我们就从这个简单的例子使用不同的算法来解释为什么要用动态规划</p>
+<h3 id="暴力搜索法"><a href="#暴力搜索法" class="headerlink" title="暴力搜索法"></a>暴力搜索法</h3><p>我们成功的完成了问题的分解，为了完成计算，但是我们还得计算子问题的结果，上面得到一个很重要的公式<code>F(N) = F(N-1) + F(N-2)</code></p>
+<p>我们可以很轻松的写出代码（Python）</p>
+<pre><code>def f(n):
+  return f(n-1) + f(n-2) if n &gt; 2 else n
+</code></pre><p>我们只用一行代码就能将这个问题解决掉，而且效果看起来还不错，我们可以试不同的n都能获取正确的结果，但是n大于30之后，当我在我的电脑上运行起来非常慢，需要几秒钟才能返回结果，而且当n越大，消耗的时间也越多。</p>
+<p> 这是为什么呢？我们现在来思考一下这个暴力算法有什么弊端</p>
+<ul>
+<li>暴力搜索的弊端</li>
+</ul>
+<p>我们现在假设N=10，那么我们现在就把F(10)转换成为F(9)与F(8)的和，那么F(9)又分成了F(8)和F(7)，而F(8)被分成了F(7)和F(6)</p>
+<p>从这里可以看到，F(7)在第二次分解的时候计算了两次,而每次计算的结果都是一样的，所以我们相当于重复了一遍耗时的操作，知道这个问题，我们就必须改进了，我们可以用一个东西存贮计算结果，这样就不需要重复计算了</p>
+<h3 id="记忆搜索法"><a href="#记忆搜索法" class="headerlink" title="记忆搜索法"></a>记忆搜索法</h3><p>我们修改我们算法，加一个参数<code>map</code></p>
+<pre><code>def map_get(map, n):
+    v = map.get(n-1)
+    if not v:
+      v = f(n, map)
+      map[n] = v
+    return v
+
+
+def f(n, map):
+    if n &lt; 3:
+      return n
+    if n in map:
+      return map[n]
+    return map_get(map, n - 1) + map_get(map, n - 2)
+</code></pre><p>我们添加一个辅助的字典存贮我们中间计算过程，虽然让我们的代码臃肿了不少，但是让我们代码速度有了质的变化</p>
+<p>我们尝试使用运行让N增大到100多都能迅速返回，但是当我们逐渐增大到1000的时候我们会发现<code>Python</code>直接报了超出最大堆栈限制的错误</p>
+<ul>
+<li>堆栈超出最大层数的原因</li>
+</ul>
+<p>由于我们使用了递归，递归函数是在递归的时候当前堆栈再次申请一个堆栈待，运行递归函数，为了避免一直无限调用下去耗空堆栈空间（申请也需要一点空间），Python限制了递归层数，由于为了计算超过1000的我们必须至少要递归超过1000次（从1000减一减到小于2），所以我们光荣的被当错程序错乱被误杀了。</p>
+<h3 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h3><p>反观我们这个函数，使用递归，我们很容易理解，但是对于计算机来说，只是为了计算一个数而使用递归是非常不划算的，所以我们要思考这些中间值保留有什么共同点，我们从头开始看，对于第三个来说，它只需要知道第一个和第二个的值就行，而第一个第二个我们知道分别为1和2，对于第四个来说，它只需要知道第三个和第二个，如果我们先把第三个计算下来并保留下来，我们就能知道第四个。</p>
+<p>从头开始思考我们知道，我们只需要保留前面计算的结果就能知道后面的值，我们使用一个列表保存这个中间计算过程，我们将函数改写成下面这个</p>
+<pre><code>def f(n):
+    if n &lt; 3: return n
+    values = [1, 2]
+    for i in range(2, n):
+      values.append(values[i-2]+values[i-1])
+    return values[-1]
+</code></pre><p>接下来我们运行这个函数，我们会发现就算N为10000都能迅速返回</p>
+<p>来看看我们动态规划的“损失”，我们使用了一个列表存贮中间过程，使用了空间“换回”了速度</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我们使用了一个很简单的题目来介绍动态规划，由于这个问题太过于简单，你或许自己在不知道动态规划的时候都能写出来，但是这个从暴力搜索到记忆搜索最后动态规划的算法优化过程中，我们能够清楚的知道设计动态规范其实也非常简单，<strong>将大问题分解成小问题，然后思考小问题的如何细分，最后反过来思考从小问题逆向到最终的大问题</strong>，这就是动态规划。</p>
+<p>当然这道问题并不是很经典的动态规划问题，为了让大家更好的理解动态规划，我在下面这篇的博文中介绍若干中经典的动态规划问题</p>
+<p><a href="/2017/12/26/几个有趣的动态规划/">几个有趣的动态规划</a></p>
 
       
     </div>
@@ -479,7 +1139,7 @@ timeit.timeit(&quot;&apos;中国人&apos;.encode(&apos;utf-8&apos;)&quot;)
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/05/28/java/springboot/从例子里解SpringIOC/">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2017/12/14/software/http/漫谈网络/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/myself.jpg">
@@ -493,7 +1153,7 @@ timeit.timeit(&quot;&apos;中国人&apos;.encode(&apos;utf-8&apos;)&quot;)
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2018/05/28/java/springboot/从例子里解SpringIOC/" class="post-title-link" itemprop="url">从例子里解Spring IOC</a>
+            <a href="/2017/12/14/software/http/漫谈网络/" class="post-title-link" itemprop="url">从子网到“互联网”</a>
         </h1>
 
         <div class="post-meta">
@@ -503,553 +1163,14 @@ timeit.timeit(&quot;&apos;中国人&apos;.encode(&apos;utf-8&apos;)&quot;)
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2018-05-28 00:00:00" itemprop="dateCreated datePublished" datetime="2018-05-28T00:00:00+08:00">2018-05-28</time>
+              <time title="创建时间：2017-12-14 00:00:00" itemprop="dateCreated datePublished" datetime="2017-12-14T00:00:00+08:00">2017-12-14</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:10:03" itemprop="dateModified" datetime="2021-03-09T20:10:03+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index">
-                    <span itemprop="name">Java</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>5.4k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>5 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="Spring的IOC理解"><a href="#Spring的IOC理解" class="headerlink" title="Spring的IOC理解"></a>Spring的IOC理解</h2><h2 id="什么是IOC"><a href="#什么是IOC" class="headerlink" title="什么是IOC"></a>什么是IOC</h2><p>在这里我们不谈Spring的基础知识,我们知道谈到Spring就会谈到IOC,这个IOC是什么呢,中文名叫控制反转，这个东西是伴随着一些编程思想出现,其实同Java的本身也有关</p>
-<p>就好比我熟悉的Python就是一个鸭子语言,你可以随便把一个值丢掉函数里面去,只要他满足一些特性就能正常运行,但是Java是一种强类型语言,你函数给什么参数,必须传什么参数</p>
-<p>这里就不讨论两张语言的设计优劣呢,Java这种特性也做了一些妥协,我们肯定得为语言的扩展性做点事,谁也不知道未来会发生什么,Java里面使用多态来实现这种扩展,只要他是函数参数的家族成员,他就能上去运行</p>
-<p>这个多态是实现IOC的基础,但是造成他出现的原因是因为设计模式里面的单一职责原则,这个要求我们类功能要单一,我们这里给一个例子来说明这个问题</p>
-<pre><code>class Car {
-    void run() {
-        System.out.println(&quot;Car running...&quot;);
-    }
-}
-</code></pre><p>首先我们有一个<code>Car</code>的类,一开始我们只让他有<code>run</code>这个属性,很好,接下来我们想知道是谁驾驶这辆车,于是我们便给这个类加一个字段<code>driver</code></p>
-<pre><code>public class Car {
-    String driver;
-    public Car(String driver) {
-        this.driver = driver;
-    }
-    void run() {
-        System.out.println(&quot;Driver :&quot; + driver);
-        System.out.println(&quot;Car running...&quot;);
-    }
-}
-</code></pre><p>很好我们知道驾驶这辆车的人,接着我们又想知道这个驾驶人的驾龄,如果我们继续给<code>Car</code>加入字段,这样我们就违背了<code>单一职责原则</code>,<code>Car</code>类不但承担了车的功能还承担了人的功能</p>
-<p>于是我们就把驾驶人隔离出来</p>
-<pre><code>class Driver{
-    String name;
-    String age;
-    public Driver(String name, String age) {
-        this.name = name;
-        this.age = age;
-    }
-}
-
-
-class Car {
-    Driver driver;
-    public Car(Driver driver) {
-        this.driver = driver;
-    }
-    void run() {
-        System.out.println(&quot;Driver age:&quot; + driver.age + &quot;name: &quot; + driver.name);
-        System.out.println(&quot;Car running...&quot;);
-    }
-}
-</code></pre><p>我们重新将类分成两个类来实现了这个问题,但是这个时候又来了一个问题,我们有一个飞行员的也想驾驶这辆车,但是这辆车只能司机来驾驶,但是飞行员和司机开车的动作步骤是一样的,为了复用<code>run</code>这个函数,你开始揪起了你的头发.</p>
-<p>你想呀想突然想到,Java的多态,假如我们声明一个<code>IDriver</code>的接口,让飞行员和司机都继承这个类这样我们只要给车一个<code>IDriver</code>对象就能复用<code>run</code>函数</p>
-<pre><code>//IDriver.java
-public interface IDriver{
-    String getName();
-    void setName(String name);
-    int getAge();
-    void setAge(int age);
-}
-
-// Driver.java
-public class Driver implements IDriver{
-    String name;
-    int age;
-
-
-    @Override
-    public String getName() {
-        return this.name;
-    }
-
-    @Override
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public int getAge() {
-        return this.age;
-    }
-
-    @Override
-    public void setAge(int age) {
-        this.age = age;
-    }
-}
-
-
-
-// Aviator.java
-public class Aviator implements IDriver{
-    String name;
-    int age;
-
-
-    @Override
-    public String getName() {
-        return null;
-    }
-
-    @Override
-    public void setName(String name) {
-
-    }
-
-    @Override
-    public int getAge() {
-        return 0;
-    }
-
-    @Override
-    public void setAge(int age) {
-
-    }
-}
-
-
-//Car.java
-public class Car {
-    private IDriver driver;
-
-    public void setDriver(IDriver driver) {
-        this.driver = driver;
-    }
-
-    void run() {
-        System.out.println(&quot;Driver age: &quot; + driver.getAge() + &quot; name: &quot; + driver.getName());
-        System.out.println(&quot;Car running...&quot;);
-    }
-}
-</code></pre><p>我们重构代码把<code>Driver</code>抽象为接口,然后让司机和飞行员都继承它,这样不管我们再添加什么其他的人就能适配这辆车.这个就是依赖倒置(DI)的思想</p>
-<p>网上大部分教程就停留到这里了,这里我们继续探索下去,看看Spring是如何让这个DI更加简单的</p>
-<p>首先我们反思一下,我们使用接口参数让我们的代码符合了设计模式,但是也带来了一些繁琐,我们来用代码”开”这辆车</p>
-<pre><code>IDriver driver = new Driver();
-driver.setName(&quot;allen&quot;);
-driver.setAge(18);
-Car car = new Car();
-car.setDriver(driver);
-car.run();
-</code></pre><p><strong>PS：当然可以把赋值放到构造器中减少代码，但是由于<code>Bean</code>依赖方法接口来赋值，所以为了后面讲解<code>Bean</code>这里就不采用构造器来减少代码</strong></p>
-<p>代码有2行变成了6行，而且我们发现这个代码现在带来两个问题：</p>
-<ol>
-<li>每次运行都得创建一个实现<code>IDriver</code>的对象</li>
-<li>每次我们想换人开车的时候都得修改源代码</li>
-</ol>
-<p>而且这些工作都很繁琐，作为一个偷懒的程序员，我可不想给每个用户都重新写一套代码，我们的想法很简单，我们希望这个<code>Car</code>能够开箱即用，其实前面我们已经实现了控制反转了，现在就是要解决控制反转带来的“负面影响”</p>
-<p>而且我们发现了一个问题，假如我们把上面函数放到一个代码里面，每次我们“开车”都得创建一个司机，然而我们还是相信“老司机”的手艺，所以我们也希望是否能够”记住“司机，只让一个老司机开车</p>
-<p>接下来就是隆重介绍<code>Spring</code>的<code>Bean</code>的用法了，前面我们知道我们需要某种机制来去除”IOC“的弊端，我们把每个<code>Car</code>当做一个对象，其实我们需要一个配置文件来记录<code>IDriver</code>这些依赖对象，对象的其实在Java里面表现就是一棵树，所以通俗来讲我们需一个”树结构“数据来存贮依赖关系</p>
-<p>我们程序在运行的时候解析这个树结构，然后依次给对象注入你想给他实例话的对象（比如你把”IDriver“设置为飞行员），这样的话，我们把依赖关系成功放到了配置文件中</p>
-<p>这样带来两个好处：</p>
-<ol>
-<li>想给不同用户使用软件时候，源代码不需要改变，只要给他们不同的配置文件就行</li>
-<li>我们可以保存依赖实现”老司机“的复用</li>
-</ol>
-<p>所以现在我们理理思路，我们需要的有两个东西</p>
-<ol>
-<li>配置文件</li>
-<li>一个加载配置文件并保存依赖的对象</li>
-</ol>
-<p>在<code>Spring</code>的<code>Bean</code>中这两个分别对应<code>xml文件</code>和实现<code>ResourceLoader</code>接口对象（有多种实现）</p>
-<p>为了更好的理解<code>Bean</code>，接下来我们就从代码出发来测试这个<code>Bean</code></p>
-<h2 id="最简单的实现"><a href="#最简单的实现" class="headerlink" title="最简单的实现"></a>最简单的实现</h2><p>首先我们新建一个<code>Spring</code>项目，无论你是用<code>IntelliJ</code>还是<code>Eslipse</code>都没关系，只能你能引用到<code>Spring</code>库就行，我们复用前面的代码，看看使用<code>Spring</code> <code>Bean</code>来如何解决掉IOC的”副作用“</p>
-<p>我们把前面的类分别放到同一路径不同的文件夹中，接下来我们先创建一个<code>xml</code>文件，什么名字不重要，我们这里先命名为<code>driver.xml</code></p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
-       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-       xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans
-    http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;
-
-
-    &lt;bean id=&quot;car&quot; class=&quot;Car&quot;&gt;
-        &lt;property name=&quot;driver&quot;&gt;
-            &lt;bean class=&quot;Driver&quot;&gt;
-                &lt;property name=&quot;name&quot; value=&quot;Allen&quot;&gt;&lt;/property&gt;
-                &lt;property name=&quot;age&quot; value=&quot;18&quot;&gt;&lt;/property&gt;
-            &lt;/bean&gt;
-        &lt;/property&gt;
-
-    &lt;/bean&gt;
-&lt;/beans&gt;
-</code></pre><p>写入这些东西，接下来我们看看是否能够通过这个<code>xml</code>文件来直接得到一个配置好司机<code>Allen</code>的车</p>
-<p>随便新建一个类在上面的路径中,我们这里就新建一个<code>Main</code>吧</p>
-<pre><code>import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-
-public class Main {
-    public static void main(String[] args) {
-        ApplicationContext context = new ClassPathXmlApplicationContext(&quot;driver.xml&quot;);
-        Car car  = context.getBean(&quot;car&quot;, Car.class);
-        car.run();
-
-    }
-}
-</code></pre><p>输出为</p>
-<pre><code>Driver age:18 name: Allen
-Car running...
-</code></pre><p>我们成功通过一个<code>xml</code>配置文件和一个<code>ApplicationContext</code>对象实现了一个即开即走的车，而且假如我们想换个司机，我们可以修改配置文件把<code>class</code>换成“飞行员”，而且我们可以发现我们得到的司机都是一样的，验证方法很简单，我就不写代码了，假如我们想换司机怎么办，简单在<code>bean</code>里面加上<code>scope=“prototype”</code>就行（默认值为<code>singleton</code>）</p>
-<p>接下来我们又有一个疑问，假如我们有一辆特别宝马车，我们希望只有某一种加上员能能开（假设只有飞行员），也就是是说，我们其实即不想放弃IOC，但是又不想将这个配置写到<code>Bean</code>里面去，有办法能够解决吗？</p>
-<p>当然有，<code>Spring</code>2.5就支持注解来写<code>Bean</code>配置，对于一些固定的类，我们可以把依赖关系用代码写到类中，这样一方面能够保证<code>IOC</code>，一方面又能实现<code>Bean xml</code>文件瘦身</p>
-<p>由于<code>Spring</code>默认不会去扫描注解，所以有三种方式，第一种是在<code>xml</code>里面用加上一个</p>
-<pre><code>&lt;context:component-scan base-package=&quot;....&quot;&gt;&lt;/context:component-scan&gt;
-</code></pre><p>第二种是使用<code>AnnotationConfigApplicationContext</code>来对象来进行扫描，第三种就是<code>SpringApplication</code>来运行<code>Spring</code>程序自动扫描</p>
-<p>这三种方式假如你最后要做一个<code>web</code>程序的话，第三种是非常方便的，这里我们就不谈怎么使用注解来代替<code>xml</code>文件了，本质上是一样的，其实在我没有理解<code>Bean</code>的强大之前，我比较推崇使用注解来写<code>Bean</code>，但是随着对<code>Bean</code>的探索，我发现<code>xml</code>文件才是最佳选择，他将程序依赖与代码分离开来，假如我们还想用程序依赖写在代码里面，那就违背了<code>Bean</code>的设计初衷</p>
-<p>如果你想了解怎么使用注解可以阅读这篇<a href="https://blog.csdn.net/sinat_34596644/article/details/53080026" target="_blank" rel="noopener">博客</a></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>至此，我们从问题的出现到问题的解决探索了IOC背后的故事，但是你可能会有一个疑问，为什么<code>Spring</code>里面会有<code>IOC</code>问题。</p>
-<p>其实这个也跟<code>Web</code>的发展有关，我们知道从Web的发展，一开始是没有前端的，只有后端，慢慢的后端分离出来前端，Web端页面也被分离出视图层和数据层，随着逐渐分离，也就出现我们前面举到的例子，类越来越多，比如视图层依赖数据层，数据层依赖控制层…..</p>
-<p>这种层层依赖的问题延生出来的IOC的提出，也就慢慢的促进了<code>Bean</code>这个库的开发，也正是因为<code>Bean</code>我们才能享受静态强类型语言的低耦合的酸爽。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/04/24/ai/从MNIST了解卷积神经网络/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/04/24/ai/从MNIST了解卷积神经网络/" class="post-title-link" itemprop="url">从MNIST了解卷积神经网络</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-04-24 00:00:00" itemprop="dateCreated datePublished" datetime="2018-04-24T00:00:00+08:00">2018-04-24</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 19:57:07" itemprop="dateModified" datetime="2021-03-09T19:57:07+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/" itemprop="url" rel="index">
-                    <span itemprop="name">人工智能</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>8.5k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>8 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
-<p>本文是学习Tensorflow<a href="http://www.tensorfly.cn/tfdoc/tutorials/mnist_pros.html" target="_blank" rel="noopener">官方文档</a>的过程中的一点感悟，本文假设你对矩阵运算有一定的了解，具体可以看看下面<a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html" target="_blank" rel="noopener">资料</a></p>
-</blockquote>
-<h2 id="加载数据"><a href="#加载数据" class="headerlink" title="加载数据"></a>加载数据</h2><blockquote>
-<p>首先我们得先把数据下载下来，Tensorflow给我们提供了一个函数来进行下载，这个<a href="https://github.com/tensorflow/tensorflow/blob/master/tensorflow/contrib/learn/python/learn/datasets/mnist.py" target="_blank" rel="noopener">函数</a>为<a href="https://github.com/tensorflow/tensorflow/blob/master/tensorflow/contrib/learn/python/learn/datasets/mnist.py" target="_blank" rel="noopener">read_data_sets</a></p>
-</blockquote>
-<p>这个函数<code>read_data_sets</code>函数很简单，查看在目录下面有没有文件没有就去下载，有就解析加载，一方面方便我们获取数据，一方面方便我们直接开箱即食，但是由于这个默认下载地址是需要翻墙，所以我这里提供一个不需要翻墙的<a href="http://yann.lecun.com/exdb/mnist/" target="_blank" rel="noopener">地址</a>，你只需要加载下面的函数</p>
-<pre><code>from tensorflow.examples.tutorials.mnist import input_data
-mnist = input_data.read_data_sets(&quot;input/&quot;, one_hot=True, source_url=&quot;http://yann.lecun.com/exdb/mnist/&quot;)
-</code></pre><p>等几分钟，数据就会下载到当前目录的<code>input</code>文件夹中，这样你下次运行就能直接本地文件夹中加载图片数据了</p>
-<h2 id="观察数据"><a href="#观察数据" class="headerlink" title="观察数据"></a>观察数据</h2><p>首先我们看看下载了什么数据，打开<code>input</code>文件夹，我们可以看到，Tensorflow给我下载好了四个文件，分为两组，一组训练集一组测试集，每组里面2个文件，一个是手写图片文件，一个标签文件（每张手写的图片代表的数字）</p>
-<p>加载图片数据对于新手来说挺麻烦的，为了让我们专注于模型而不是编程，Tensorflow直接帮我们做好了加载数据的事情，我们上面得到的<code>mnist</code>变量里面就存贮了我们这个项目所需要的数据，我们来看看这个<code>mnist</code>有什么</p>
-<p>我们最关心的就是<code>mnist</code>里面训练数据，这里推荐使用<code>notebook</code>来操作这个数据集，我们首先<code>mnist</code>的训练数据是什么</p>
-<p><img src="/images/mnist-nums.png" alt="mnist数据来源网络"></p>
-<p><code>mnist</code>数据就是上面这些图片，我们把图片把每个像素的二值化，然后把他们放到一个数组中，每张图片对应一个数组</p>
-<p>mnist训练数据存贮在这两个变量中</p>
-<pre><code>mnist.train.labels
-mnist.train.images
-</code></pre><p>其中<code>mnist.train.images</code>是一个<code>(55000, 784)</code>的二维数组，其中<code>mnist.train.labels.shape</code>是一个<code>(55000, 10)</code>的二维数组，现在摆在我们面前的其实很简单，通过<code>55000</code>个图片像素值来训练我们模型，以便能让模型能给一张图片像素值来预测图片代表的数字</p>
-<p>这些数字在人看来非常容易辨认，但是怎么能让电脑也能辨别他呢，这就要用到卷积神经网络的力量，通过卷积神经网络，电脑的准确率能到99%，这就非常恐怖了，我们人有时候也会看走眼呢。</p>
-<p>在谈卷积之前我们先谈谈我们以前的做法，这样通过对比就能知道卷积到底做了什么优化</p>
-<h2 id="传统做法"><a href="#传统做法" class="headerlink" title="传统做法"></a>传统做法</h2><p>其实从传统的角度来看，其实图像识别也就是通过图片的特征值来判断图片代表的含义，但是图片这个东西又很特殊，相比于其他机器学习问题，他的特征值很多，这里我们使用28X28的图片就有784个特征，如果我们图片尺寸再大，这个特征值会变得非常巨大，而且我们知道机器学习需要大量数据才能大展身手，然而每个图片如此巨大，训练巨大的数据集电脑也吃不消</p>
-<p>所以我们必须要将数据进行降维，机器学习里面有很多降维的方法，比如PCA，LDA这些，但是这些方法都有一个问题他们必须把一个图片看做一个整体输入，也就是前面的将28X28转换成一个784的数组，这个数组我们知道，他丧失了一个非常重要的东西维度，我们仔细观察上面的图片</p>
-<p><img src="/images/mnist-nums.png" alt="mnist数据来源网络"></p>
-<p>每个图片其实我们关注的都是数字的二维分布，我们通过闭合的圆的个数来区分8和0，我们通过中间的空白部分来区分0和1，所以我们希望能使用一种新的方法来确定图片特征，一方面能够保存图片的空间信息，一方面能最终数据一维的结果（图片代表的数字），这个就是卷积的引入了，卷积从二维的角度来提取图片的特征，相比于传统的一维提取，它能最大程度保留图片的信息，并且进行深度降维</p>
-<h2 id="从项目了解卷积"><a href="#从项目了解卷积" class="headerlink" title="从项目了解卷积"></a>从项目了解卷积</h2><blockquote>
-<p>一开始学习深度学习卷积神经网络，看了很多资料，但是总是感觉并没有很深的理解，至到接触这个项目，从代码的层次上再去理解卷积才给我恍然大悟的感觉</p>
-</blockquote>
-<p>首先先谈一谈Tensorflow这个库的基础知识，由于Python速度有点慢，所以Tensorflow的后端全部由C++写的，你可以这样理解Tensorflow，Python相当于一个客户端，你可以使用一个session（回话）与服务器（C++）进行交互，这样的话，我们在客户端可以享受Python的方便快捷，也可以享受C++运行的高效性，但是这个也带来一个麻烦，原来Python是一个所见即所得的，现在运行一些东西必须使用session来通知服务器来运行，我们很多中间过程就没法知道，只能通过返回的结果来进行推断了。在官方教程并没有讲太多中间过程，只是一笔带过，所以为了更好的理解卷积神经网络，我们将会以一种很难看的方法运行Tensorflow，但是我们能从这个过程中对卷积的理解更加深刻</p>
-<p><strong>所以接下来我们基本上每个操作都会让后端运行并且分析返回结果，为了方便叙述，我们假设你在运行<code>session.run</code>之前都会运行这个<code>session.run(tf.global_variables_initializer())</code>来初始化所以的变量</strong></p>
-<p>PS：之所以要运行这个，因为我们使用session与<code>C++</code>进行交互，如果我们“不声明”变量，c++会报错的</p>
-<p>下面我们就从这个项目一行一行讲起</p>
-<h3 id="准备数据"><a href="#准备数据" class="headerlink" title="准备数据"></a>准备数据</h3><p>前面我们知道，卷积就是要从二维空间中来提取我们想要的特征，首先我们把数据还原成二维的</p>
-<pre><code>x_image = tf.reshape(x, [-1,28,28,1])
-</code></pre><p>x是上面我们输入的数据，来我们来检测一下，首先我们声明一个<code>session</code></p>
-<pre><code>session = tf.Session()
-</code></pre><p>再从数据集中掏出50张图</p>
-<pre><code>data = mnist.train.next_batch(50)[0]
-</code></pre><p>接下来我们看看这个<code>x_image</code>变成了什么</p>
-<pre><code>session.run(tf.global_variables_initializer())
-
-x_image_data = session.run(x_image, feed_dict={x: data})
-</code></pre><p>我们输入两者的<code>shape</code></p>
-<pre><code>data.shape, x_image_data.shape
-(50, 784) (50, 28, 28, 1)
-</code></pre><p>我们很清楚的看到，我们成功将一维的数组图像（784）变成了二维的数组图像（28X28），其实我们生成了三维（28 X 28 X 1），但是由于我们只有有些图片还会有多个色道（RGB），所以我们为了兼容，声明成28 X 28 X 1</p>
-<p>好的，现在我们成功将一维图片还原成二维的，接下来就是将他们卷起来的时候了</p>
-<h3 id="第一层"><a href="#第一层" class="headerlink" title="第一层"></a>第一层</h3><p>如果你学过一些信号处理你会发现，深度学习使用的卷积其实并不是原始意义上的卷积，他没有“旋转180”的操作，但是他的形式其实是类似的。这个“积”的操作主要是通过矩阵运算来实现的，为了更好的理解卷这个操作，我从网上找了前辈们辛苦做的动图</p>
-<p><img src="/images/Tensorflow-mult.gif" alt="卷积操作-来源网络"></p>
-<p>PS： 这个图与我们数据有点不同，我们每张只有一个色道，这个有三个色道，这张图有两个卷积核，但是我们这个第一层会使用32个，但是其实原理都一样，如果你实在理解不过来，你可以先值看最上面那一排</p>
-<p>我们回到这种图，最左边就是图像输入，中间是卷积核，最后右边是输出，我们可以从图中可以很清楚的看到卷积的与我们平常操作不同，首先输入上我们是二维数据，通过二维的卷积核进行矩阵运算，最后我们输出二维结果，这就是卷积的强大之处，不但保留了原来的二维信息而且能够使用高效的矩阵运算来加速提取特征</p>
-<p>现在我们回到代码</p>
-<p>首先是要声明卷积核，我们可以使用简单的方法，将卷积核全部声明为全0矩阵，但是这个有可能造成0梯度，所以我们加入一点噪音，我们看看加入噪音的卷积核是什么值</p>
-<pre><code>initial = tf.truncated_normal([5, 5, 1, 32], stddev=0.1)
-W_conv1 = tf.Variable(initial)
-session.run(tf.global_variables_initializer())
-
-W_conv1_value = session.run(W_conv1)
-
-W_conv1_value.mean(), W_conv1_value.std()
-(0.001365028, 0.08744488)
-</code></pre><p>我们使用<code>tf.truncated_normal</code>函数声明了32个5X5X1的随机卷积核，看起来随机性还挺不错哦</p>
-<p>PS：前面（5，5，1）代表输入长、宽、色道，后面代表输出输出数量当然我说它是32个它不一点为32个矩阵，应该是（色道X输出数量）个卷积核，但是我们这里只有一个色道，所以只有32个，我们可以通过<code>W_conv1_value.shape</code>查看真实的维度（当前的维度为（5， 5， 1， 32））</p>
-<p>这个卷积核就对应上面图中间的小矩阵，他的长宽都为5，图中长宽都为3，当然我们可以把这个长宽修改，使用5是我们的经验值，通过这个大小的卷积核能够在模型表现能力更好。</p>
-<p>接下来我们就进行最重要的卷积操作了，由上面图可知，要进行卷积必须要有三维的数据与对应的卷积核进行相卷，其实我们在图中还可以看到一个重要的东西，卷积的步长也就是每个框移动的位置（图中的步长为2）</p>
-<p>还有一个较隐秘的知识，你有没有注意到图中的数据原来是7X7的数据，通过卷积核转换之后就变成了3X3了，影响卷积后图像尺寸不但有步长还有框子的大小，假如你的框是7，那图中只剩下一个值了，所以我们避免尺寸减少，我们使用周围填充0来使最边缘的位置卷积也成为到框子的中心，一方面避免边缘数据流失，一方面也能突出边缘数据（周边全为0）</p>
-<p>Tensorflow为我们封装好了上面所以的方法，我们只要通过传参过去就能改变部长，改变填充方式，好了现在就开始来正式“卷”了</p>
-<pre><code>session.run(tf.global_variables_initializer())
-
-v = session.run(tf.nn.conv2d(x_image, W_conv1, strides=[1, 1, 1, 1], padding=&apos;SAME&apos;), feed_dict={x: data})
-</code></pre><p>现在我们来看看卷完后<code>v</code>的<code>shape</code></p>
-<pre><code>   v.shape
-(50, 28, 28, 32)
-</code></pre><p>50代表50个数据，（28、28）代表图片维度，这个32就是卷积核数，50和32这两个应该是固定的，不难理解，我们现在来看看为什么通过卷积核的“卷”，图片还是保持28X28的，这个也是在知乎上涉及到的一个<a href="https://www.zhihu.com/question/46889310" target="_blank" rel="noopener">问题</a>，现在我们从实验上来解决一下</p>
-<p>首先我们看<code>tf.nn.conv2d</code>函数，他接受四个参数，第一个图片、第二个卷积核、第三个步长，第四个卷积方式</p>
-<p>首先问题是觉得，卷完之后应该是变成24 X 24，这个理解是没错的，我们将pading的值改成VALID再次运行</p>
-<pre><code>session.run(tf.global_variables_initializer())
-
-v = session.run(tf.nn.conv2d(x_image, W_conv1, strides=[1, 1, 1, 1], padding=&apos;VALID&apos;), feed_dict={x: data})
-
-v.shape
-(50, 24, 24, 32)
-</code></pre><p>我们得到了24 X 24的图片，这个SAME和VALID有什么区别呢，这个区别就是填充0没有填充0的原因，SAME在图像周边填0这样就能得到28 X 28</p>
-<p>我们也发现，这个还有一个参数strides，这个就是前面填的步长，步长的长宽就是中间两位设置的（最边上两位跟输入有关，第一个是输入图片数量，最后一个是图片的色道），我们在这里使用使用1步长，我们来试试2步长试试</p>
-<pre><code>v = session.run(tf.nn.conv2d(x_image, W_conv1, strides=[1, 2, 2, 1], padding=&apos;SAME&apos;), feed_dict={x: data})
-
-v.shape
-(50, 14, 14, 32)
-</code></pre><p>果然输出的图像变成28的1/2了</p>
-<p>接下来我们就要把卷积的值丢到神经元函数里面去了，为了符合实际，我们加入一个偏置量<code>b_conv1</code></p>
-<pre><code>def bias_variable(shape):
-  initial = tf.constant(0.1, shape=shape)
-  return tf.Variable(initial)
-b_conv1 = bias_variable([32])
-</code></pre><p>这里我们使用0.1来初始化偏置量，接下来就是丢到神经元函数，这里我们使用numpy 的array的传播性，将b_conv1传递给所有的28X28的维度</p>
-<pre><code>h_conv1 = tf.nn.relu(tf.nn.conv2d(x_image, W_conv1, strides=[1, 1, 1, 1], padding=&apos;SAME&apos;) + b_conv1)
-
-v = session.run(h_conv1,  feed_dict={x: data})
-
-v.shape
-(50, 28, 28, 32)
-</code></pre><p>我们可以看到卷积完后从神经元函数生成的数据是（50X28X28X32）的，最后维度由1变成32，所有我们得使用点方法来缩减数据维度，这里我们使用卷积池的方法</p>
-<p><img src="/images/tensorflow_pool.png" alt="卷积池"></p>
-<p>由上面可以看到，其实很简单就是把最大的挑出来</p>
-<pre><code>h_pool1 = tf.nn.max_pool(h_conv1, ksize=[1, 2, 2, 1],
-                    strides=[1, 2, 2, 1], padding=&apos;SAME&apos;)
-</code></pre><p>这里的参数很简单我就不介绍，这样“瘦身”之后，数据的维度由(50, 28, 28, 32)变成(50, 14, 14, 32)，减少4倍</p>
-<p>到这里我们的第一层卷积就结束了，接下来就是第二层卷积，为什么要多卷一次呢，因为前一层学到的还是太少了，要加强学习，这层和第一层没什么差别，所以我们就跳过这层</p>
-<p>直接贴代码（函数就不复制了，文档里面有）</p>
-<pre><code>W_conv2 = weight_variable([5, 5, 32, 64])
-b_conv2 = bias_variable([64])
-
-h_conv2 = tf.nn.relu(conv2d(h_pool1, W_conv2) + b_conv2)
-h_pool2 = max_pool_2x2(h_conv2)
-</code></pre><h3 id="全连接层"><a href="#全连接层" class="headerlink" title="全连接层"></a>全连接层</h3><p>当我们完成两层卷积之后，我们的数据变成了（50，7,7，64）的四维数组了，我们知道我们传统的机器学习其实最后都是采用二维数组来当做训练数据（X代表特征，Y代表样本），所以全连接层就是把卷积给“反卷”过来，这样后面你方便对接传统机器学习，而且最后我们需要的数据也是输出的也是二维的（对一堆数据统一进行预测，所以这里称二维），但是这里要注意全连接层不是输出层，所以我们可以随意设置输出的维度，最后输出层对接再进行一次全连接层类似操作就能输出我们想输出的维度，这里我们看看全连接层权值变量</p>
-<pre><code>W_fc1 = weight_variable([7 * 7 * 64, 1024])
-b_fc1 = bias_variable([1024])
-</code></pre><p>这里我们声明全连接层的权值变量<code>W_fc1</code>和偏置量<code>b_fc1</code>，我们可以看看<code>W_fc1</code>的<code>shape</code>是多少</p>
-<pre><code>session.run(tf.global_variables_initializer())
-
-session.run(W_fc1).shape
-(3136, 1024)
-</code></pre><p>我们可以看到其实就是一个二维数组维度为（3136,1024），第一个维度跟输入有关，第二个维度影响输出维度，前面我们使用<code>tf.nn.conv2d</code>卷积操作来转换图片，在全连接层我们要使用矩阵运算来转换我们的维度</p>
-<p>矩阵运算非常有趣，我们在前面其实也提到过一点，就是降维的实现PCA就是使用矩阵运算来进行降维，我们把数据分为X（特征），Y（数量），经过一次矩阵运算我们可以实现数量不变，而特征改变，这个就非常强大了，我们可以随便修改矩阵参数来动态修改我们特征数量</p>
-<p>但是矩阵运算也有一定局限性，就是两个运算的矩阵必须是前者长与后者的宽想同，这个跟矩阵运算特性有关，具体可以看看矩阵运算相关<a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html" target="_blank" rel="noopener">资料</a></p>
-<p>所以为了进行矩阵运算我们第一件事就是改变输入的<code>shape</code>，让它由四维变成二维，以便能够与我们权值矩阵<code>W_fc1</code>进行运算</p>
-<pre><code>h_pool2_flat = tf.reshape(h_pool2, [-1, 7*7*64])
-</code></pre><p>我们简单的使用<code>tf.reshape</code>就能把第二层卷积后的输出变量转换成（50，7<em>7</em>64）的维度，这样我们就能直接与权值矩阵<code>W_fc1</code>进行运算</p>
-<pre><code>h_fc1 = tf.nn.relu(tf.matmul(h_pool2_flat, W_fc1) + b_fc1)
-</code></pre><p>我们这里直接将运算后的值放到激活函数里面去完成全连接层的功能</p>
-<h3 id="输出层"><a href="#输出层" class="headerlink" title="输出层"></a>输出层</h3><p>其实输出层同全连接层很类似，我们就是把前面的变量转换成我们想输出的维度，在进行这个输出层之前，我们得先搞一层<code>Dropout</code>层，这个能有效的避免神经网络的过拟合问题，具体可以看看这篇<a href="http://jmlr.org/papers/volume15/srivastava14a.old/srivastava14a.pdf" target="_blank" rel="noopener">论文</a></p>
-<pre><code>keep_prob = tf.placeholder(&quot;float&quot;)
-h_fc1_drop = tf.nn.dropout(h_fc1, keep_prob)
-</code></pre><p>因为同全连接层原理类似，输出层我就不就不详细介绍了</p>
-<pre><code>W_fc2 = weight_variable([1024, 10])
-b_fc2 = bias_variable([10])
-
-y_conv=tf.nn.softmax(tf.matmul(h_fc1_drop, W_fc2) + b_fc2)
-</code></pre><p>我们可以看看最后我们输出是什么</p>
-<pre><code>session.run(tf.global_variables_initializer())
-
-session.run(y_conv, feed_dict={x:data, keep_prob:0.5}).shape
-(50, 10)
-</code></pre><p>ok，我们最后得到一个二维数组，50个预测结果（输出采用OneHot方法）</p>
-<h3 id="反向传播"><a href="#反向传播" class="headerlink" title="反向传播"></a>反向传播</h3><p>在前面我们得到了在初始话随机权值下得到输出结果，但是这个结果肯定是错误的，我们必须通过修改每层的权值来修正模型，使模型越来越聪明，所以第一步，我们必须“自我反省”，了解自己与真实结果差距多少</p>
-<pre><code>y_ = tf.placeholder(&quot;float&quot;, [None, 10])
-cross_entropy = -tf.reduce_sum(y_*tf.log(y_conv))
-</code></pre><p>我们引入<code>y_</code>作为实际值（我们模型预测值为<code>y</code>），我们这里使用交叉熵来评判预测准确性，但是单单知道“自己错了”没有什么卵用，我们必须要“改正”，这里我们使用<code>AdamOptimizer</code>优化算法来反向传播我们误差，让模型好好“反省改正”</p>
-<pre><code>train_step = tf.train.AdamOptimizer(1e-4).minimize(cross_entropy)
-</code></pre><p>到这里基本上差不多了，我们已经形成了一个闭环，预测-&gt;评估-&gt;改正-&gt;预测-&gt;……，只有让它不断的训练下去直到我们能接受他的误差我们的模型就训练好了</p>
-<pre><code>correct_prediction = tf.equal(tf.argmax(y_conv,1), tf.argmax(y_,1))
-accuracy = tf.reduce_mean(tf.cast(correct_prediction, &quot;float&quot;))
-session.run(tf.initialize_all_variables())
-for i in range(18000):
-  batch = mnist.train.next_batch(50)
-  if i%100 == 0:
-    train_accuracy = accuracy.eval(feed_dict={
-        x:batch[0], y_: batch[1], keep_prob: 1.0}, session=session)
-    print(&quot;step %d, training accuracy %g&quot;%(i, train_accuracy))
-    if abs(train_accuracy - 1) &lt; 0.01:
-        break
-  train_step.run(feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5}, session=session)
-</code></pre><p>由于我们使用<code>OneHot</code>方法来输出预测变量，所以我们要使用<code>tf.argmax</code>来得到我们想要的真实数字，经过20000轮训练我们正确率可以达到99%，至此卷积神经网络发挥他的威力。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>卷积神经网络是深度学习的一个很重要的组成部分，了解卷积必须要知道为什么要用卷积，用了有什么好处。总而言之，卷积并不是一个很新奇的东西，很早在信号处理中就有应用，但是在图像处理上由于他能保留图像维度信息从而在深度学习领域大放异彩，这也可以看做“是金子总会发光吧”</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="http://www.tensorfly.cn/tfdoc/tutorials/mnist_pros.html" target="_blank" rel="noopener">http://www.tensorfly.cn/tfdoc/tutorials/mnist_pros.html</a><br><a href="http://www.ruanyifeng.com/blog/2015/09/matrix-multiplication.html" target="_blank" rel="noopener">矩阵运算</a><br><a href="https://blog.csdn.net/v_july_v/article/details/51812459" target="_blank" rel="noopener">通俗理解卷积神经网络</a><br><a href="http://jmlr.org/papers/volume15/srivastava14a.old/srivastava14a.pdf" target="_blank" rel="noopener">Dropout</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/04/19/software/Ubuntu14安装Tensorflow的CPU优化/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/04/19/software/Ubuntu14安装Tensorflow的CPU优化/" class="post-title-link" itemprop="url">Ubuntu16.04安装Tensorflow的CPU优化</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-04-19 00:00:00" itemprop="dateCreated datePublished" datetime="2018-04-19T00:00:00+08:00">2018-04-19</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:08:28" itemprop="dateModified" datetime="2021-03-09T20:08:28+08:00">2021-03-09</time>
+                <time title="修改时间：2021-03-09 20:08:06" itemprop="dateModified" datetime="2021-03-09T20:08:06+08:00">2021-03-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1068,13 +1189,13 @@ for i in range(18000):
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span>1.9k</span>
+              <span>4.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>2 分钟</span>
+              <span>4 分钟</span>
             </span>
 
         </div>
@@ -1086,192 +1207,65 @@ for i in range(18000):
     <div class="post-body" itemprop="articleBody">
 
       
-          <blockquote>
-<p>由于我的笔记本是农卡，没法安装CUDA加速，而且我的显卡只有2G显存，安装OpenCL费力不讨好，而且由于我有一个Google云的300美元的体验，所以可以在Google云上使用TPU来进行加速，所以我就干脆不安装显卡加速，但是Tensorflow提供了指令集优化，由于默认使用pip安装没有提供这个功能，所以只能手动编译安装</p>
-</blockquote>
-<p>假如你是用<code>pip</code>安装的Tensorflow你可以会得到下面警告</p>
-<pre><code>the tensorflow library wasn&apos;t compiled to use sse4.1 instructions
-</code></pre><h2 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h2><p><del>1. 首先你得先看看你CPU支持什么指令集</del></p>
-<p> <del>cat /proc/cpuinfo|grep flags</del></p>
-<p><del>执行这个指令就能看到你所支持的指令集</del></p>
-<p>最新的<code>tensorflow</code>1.12不需要这步，可以根据你的CPU进行推测</p>
-<p>~~2. 然后安装<code>bazel</code></p>
-<p><del>由于直接从源代码安装比较简单，所以直接从<a href="https://github.com/bazelbuild/bazel/releases" target="_blank" rel="noopener">github</a>上面下载<code>0.18.1</code>相对应的版本就行（最好不要使用最新版，最新版没法编译）</del></p>
-<p><del>3. 安装完之后下载<code>tensorflow</code>源码</del></p>
-<pre><code>mkdir github &amp;&amp; cd github
-git clone --recurse-submodules https://github.com/tensorflow/tensorflow
-cd tensorflow
-./configure  
-</code></pre><p><del>接下来一路选择<code>N</code>就行</del></p>
-<p><del>4. 生成<code>whl</code>文件</del></p>
-<p><del>bazel build -c opt –copt=-msse3 –copt=-msse4.1 –copt=-msse4.2 –copt=-mavx –copt=-mavx2 –copt=-mfma //tensorflow/tools/pip_package:build_pip_package</del></p>
-<p><del>在源码处开始编译，注意<code>copt</code>命令主要是添加指令集支持，这里你要看看上面的指令集（去掉m就是你的指令集，如-msse3指令集为sse3）你的CPU是否支持（一般都支持我的I5 4200U都支持），如果不支持删掉那个就行</del></p>
-<p><del>这里你安装的时间比较长，要看你的CPU了</del></p>
-<p><del>最新版不需要这么复杂了，直接</del></p>
-<pre><code>bazel build --config=opt //tensorflow/tools/pip_package:build_pip_package
-</code></pre><p><del>当然如果你想开启<code>MKL</code>也可以在<code>opt</code>加上改成<code>--config mkl</code></del></p>
-<p>最新版使用<code>bazel</code>编译由于依赖网络下载，而我大天朝的网络一直报check-sum错误，官方说是我们网络的问题，我在我香港服务器尝试了一下，相同的环境下使用<code>bazel</code>是能安装的，但是由于安装到后面<code>bazel</code>需要太多内存了，所以直接爆照，而我本地内存大然而尝试了N多方法（尝试使用<code>proxychain</code>由于安装时需要连接本地<code>bazel</code>服务器，而设置过滤本地网络又没有用，也尝试使用全局代理也绕不过去），最终没有办法只能安装一个别人已经编译好的CPU的加速的。现在放出地址</p>
-<p><a href="https://github.com/mind/wheels/releases" target="_blank" rel="noopener">github tensorflow 编译好的版本下载</a></p>
-<p>你找一个你操作系统对应以及和你Python版本对应的下载下来用<code>pip</code>安装一下就可以了。</p>
-<ol start="5">
-<li>验证</li>
-</ol>
-<p>退出安装目录运行<code>python</code></p>
-<p>执行下面两句</p>
-<pre><code>    import tensorflow as tf;sess = tf.Session(config=tf.ConfigProto(log_device_placement=True))
-
-
-bazel --host_jvm_args=&quot;-Dhttp.proxyHost=localhost -Dhttp.proxyPort=8123 -Dhttps.proxyHost=localhost -Dhttps.proxyPort=8123&quot;    build --config=mkl //tensorflow/tools/pip_package:build_pip_package
-</code></pre><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><del>如果没有报上面的不支持指令集的warning，那么你的CPU指令集优化版就安装好了，当然这个加速效果因CPU而异，对于Xeon SP系列（100核心以上）已经能加速到50倍，同GPU差距也就2倍了（原来可是100倍），但是对于我的笔记本来说，加速效果可能就在30%左右（核心少），所以当前加速性价比最高的还是GPU加速，骚年还是买个好一点的GPU吧，没事还可以吃吃鸡。</del></p>
-<p>经过我测试在<code>I7 9700K</code>下相同的<code>mnist</code>数据下运行，不使用CPU指令优化比使用CPU指令优化下速度还要更快，所以在高版本下的Tensorflow CPU版其实优不优化都无所谓，推荐还是使用GPU加速</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/03/17/python/正则表达式/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/03/17/python/正则表达式/" class="post-title-link" itemprop="url">Python正则表达式</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-03-17 00:00:00" itemprop="dateCreated datePublished" datetime="2018-03-17T00:00:00+08:00">2018-03-17</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:05:18" itemprop="dateModified" datetime="2021-03-09T20:05:18+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>2.5k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>2 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <hr>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
-<p>这篇博客其实写于2016年，最近在重新学了一下正则表达之后，觉得有必要重新整理一下正则的用法</p>
-</blockquote>
-<blockquote>
-<p>Python对正则匹配的库是<code>re</code>，re是基于Perl所用的正则表达式,并有<br>一定的改进.</p>
-</blockquote>
-<p>正则本质就是搜索所需的文本,正则里面有三种搜索方式</p>
+          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>最近重温《TCP/IP协议簇》，读到子网这个部分，概念都能弄懂，但是不明白子网存在的目的，很多资料都说有两个好处，一是能够判断IP存在局域网还是远程网，另外一个将大的网段分成多个小子网。</p>
+<p>这样就搞得我一头雾水，原来我对互联网的认识是从TCP、HTTP高层协议理解的，我原来对互联网信息传递的理解就像<a href="https://www.zhihu.com/question/20717354/answer/15968282" target="_blank" rel="noopener">这篇回答</a>，网络就像一个神奇的大网，你只需要把电话线插到“网”中就能同别人连起来。原来我对这个解释并没有什么疑问，但是我越来越深入“互联网”，我就我对“互联网”越来越疑惑。</p>
+<p>举个例子，我们知道这个IPV4理论上总共有<code>4294967296（256*256*256*256）</code>个，按照当前的理论，过几年就要分配完了，那意味这至少有50%已经分配好了，也就是说至少有20亿根“网线”要连到一起，我们知道局域网只要交换机就能搭起来，假设我们一个交换机能插20根网线，那么要搭这个20亿“网线”，至少要用一个亿的交换机，你能想象一个亿的交换机堆在一起组成“互联网”吗？就算假如我们使用数字信号，作为一个程序员，我也很难想象原先的程序员是在有限的内存和硬盘，如何设计强大计算机有条不紊的处理20亿的并发。</p>
+<p>所以这篇文章就要从OSI底层协议出发让我们从底部掀一掀“互联网”的老底，将一个有血有肉的“互联网”展现在我们面前。</p>
+<h2 id="触摸“网”"><a href="#触摸“网”" class="headerlink" title="触摸“网”"></a>触摸“网”</h2><p>我们一直在说着互联网、互联网，由于无数在前人的不懈努力下，其实很多时候我们根本感受不到这张网的存在，比如打开浏览器，输入<code>www.baidu.com</code>，我们直接就能连上千里之外的服务器，其实在浏览器后面，我们发的“包”正沿着网跨越千山万水到达一个机房的服务器中。</p>
+<p>所以为了触摸到网这个东西，我们得用一些工具，我们就在打开的百度中输入<code>traceroute</code>，根据你的操作系统安装好，然后我们打开命令行输入<code>traceroute  -I www.baidu.com</code></p>
+<pre><code>traceroute to www.baidu.com (14.215.177.38), 30 hops max, 60 byte packets
+ 1  192.168.1.1 (192.168.1.1)  
+ 2  182.96.180.1 (182.96.180.1) 
+ 3  68.248.177.220.broad.nc.jx.dynamic.163data.com.cn (220.177.248.68)  
+ 4  53.251.177.220.broad.nc.jx.dynamic.163data.com.cn (220.177.251.53)  
+ 5  182.98.159.73 (182.98.159.73)  
+ 6  202.97.75.117 (202.97.75.117)  
+ 7  113.108.208.194 (113.108.208.194) 
+ 8  * * *
+ 9  14.29.121.194 (14.29.121.194)  
+10  * * *
+11  * * *
+12  14.215.177.38 (14.215.177.38) 
+</code></pre><p>由于百度存在负载均衡，所以你们看到的最终IP地址可能不会同我一样（PS：我去掉了时间），虽然中间还有一些<code>***</code>的存在，但是不管怎么我们终于触摸到这个网的存在。</p>
+<p>我第一次看到这个非常震惊，原来在我的心中，“网”上最多有两个端，一个是我们的客户端，一个是服务器端，现在突然冒充这么多个“中间人”，这些东西是什么呢？</p>
+<p>接下来我们通过回答下面两个问题来慢慢了解互联网的构造。</p>
 <ol>
-<li>第一种是知道文本内容直接使用普通字符搜索出来,比如要从<code>abcdefg</code>中搜到<code>cd</code></li>
-<li>第二种就是模糊查询,比如我想从英文中找一个数字,一般借助特殊符号(<code>.+*?</code>)或者转义符号(<code>\w\d</code>等)</li>
-<li>第三种就是结合前两种,比如我记得一个单词的前两个字母想把那个单词搜出来.</li>
+<li>为什么第一个IP是局域网内的IP（内网）？</li>
+<li>为什么中间有那么多IP端，他们的作用是什么？</li>
 </ol>
-<p>这里不介绍正则基本知识,你想知道可以<a href="http://www.regexlab.com/zh/regref.htm" target="_blank" rel="noopener">点这里</a></p>
-<p>ps: 由于在python里面也是用反斜杠做转义字符,所以比如<code>\\</code>和<code>\b</code>这两个特殊字符必须用<code>\\\\</code>和<code>\\b</code>来代替.但是python提供了一个元字符支持re模块,只要字符前面加上r比如<code>r&#39; regex &#39;</code>就能不关闭python的转义.</p>
-<h5 id="正则里面我觉得很重要的一个概念就是组概念-当我们的文本比较复杂的时候将其分成多个小组是利于我们正则的后期维护和改进"><a href="#正则里面我觉得很重要的一个概念就是组概念-当我们的文本比较复杂的时候将其分成多个小组是利于我们正则的后期维护和改进" class="headerlink" title="正则里面我觉得很重要的一个概念就是组概念,当我们的文本比较复杂的时候将其分成多个小组是利于我们正则的后期维护和改进"></a>正则里面我觉得很重要的一个概念就是组概念,当我们的文本比较复杂的时候将其分成多个小组是利于我们正则的后期维护和改进</h5><blockquote>
-<p>正则里面使用一个括号来表示组比如<code>(a)(b)</code>就分成了两个组</p>
-</blockquote>
-<p>re函数里面<code>search</code>和<code>finall</code>都支持组查询,而且<code>findall</code>方法假如里面有组分布会只显示组成员.</p>
-<p>re库支持搜索选项,这几个选项对于正则有时候非常有用</p>
-<pre><code>DOTALL [简S]-------------允许点字符匹配换行符
-IGNORECASE [简I] --------忽悠大小写
-LOCALE  [简L]  ----------支持本地化字符
-MULTILINE [简M] ---------多行,每行都支持锚点
-UNICODE [简U]  ----------支持Unicode,\w也可以是Unicode了
-VERBOSE  [简X]  --------------神器,会无视代码中的注释空格和换行
-</code></pre><p>我们也可以在正则的组里面使用这些搜索选项,只要用上面的简称的小写比如<code>(?is)</code>就可以在组里面使用这些规则.</p>
-<hr>
-<p>正则里面还有一些比较有趣的函数,同string里面的translate函数,sub函数可以替换找到的变量<br>    bold = re.compile(r’*{2}(.<em>?)\</em>{2}’)<br>    bold.sub(r’<b>\1</b>‘, ‘this <strong>foo</strong> and <strong>ok</strong>‘)</p>
+<h2 id="内网与外网的区别"><a href="#内网与外网的区别" class="headerlink" title="内网与外网的区别"></a>内网与外网的区别</h2><p>解答第一个问题前，我们必须要知道什么是内网什么是外网。</p>
+<p>从IP的角度上来看，刚开始创建以太网时，由于避免连在一起的电脑认错人，就用IP用来做每个电脑的“身份证”，一开始要连在电脑比较少，组织只需要拿个小本本记住哪台服务器对于的IP，但是随着想连在一起的电脑越来越多，这个小本本满满的一本快写满了，虽然可以在多买几本本子记住他们，但是本子越多每次要查他们的IP的时候消耗的时间越多，所以他们决定不再一个一个分IP了，于是他们把40亿IP分成A、B、C、D几类。</p>
+<p>这样组织成功用一个小本子记录了几十亿的IP分配，这里组织指的是因特网协会（ICANN），协会自己分好IP后开始发本子，找到下面的运营商，让他们自己搭网线光钎把他们自己负责的国家区域连起来，但由于地方太多，一个本子也记不下来，所以他们又把组织发给他们的本子分发到地区运营商，这样慢慢缩小，最终每个地区的局域网的本子都不会太大，这样查起来速度快而且网络的压力也平摊下去，但是摆在我们面前有一个问题</p>
 <blockquote>
-<p><code>\1</code>代表第一组变量也就是foo和ok<br>输出为<code>&#39;this &lt;b&gt;foo&lt;/b&gt; and &lt;b&gt;ok&lt;/b&gt;&#39;</code>我们使用成功用加粗了foo和ok,同<code>translate</code>不同这个方法不需要知道要替换的是什么.</p>
+<p>假设小明和小华分别住在同一条大街的街头和街尾，小明想给小华写信，小明然后写了一封信信放到邮箱，然后邮递员过来把信取走，在邮局分配再让邮递员送到小华家，本来两个人住在同一条街，邮递员只需要把信从街头送到街尾这次传递就结束了，但是由于不知道小明和小华住在同一条街，这封信绕了一个很大的圈才到小华手中。</p>
 </blockquote>
-<hr>
-<h3 id="正则的断言"><a href="#正则的断言" class="headerlink" title="正则的断言"></a>正则的断言</h3><blockquote>
-<p>我们可以使用一些特殊的符号来执行一些程序判断选择,比如说判断是否特殊字符,如果有<br>的话就不匹配,这就是断言</p>
-</blockquote>
-<p>断言有两种一种是前向,一种是后向</p>
+<p>从这个故事告诉我们，要解决不必要的传输，我们必须要提供一种机制让“邮递员”知道这封“信”是直接“送”还是发到总部发出去，这种机制就是确定是否是内网还是和外网。</p>
+<p>大家回头看一下IP，假如我们按照组织（ICANN）的本子来分内网还是外网，那会造成极大的浪费，比如说A类，从1.0.0.0 到126.255.255.255，共分了126个，每个分类下有1658万台电脑，可能现在最大的云服务商都没有几千万台机器，假如你就几十台电脑，你申请一个B类IP（子网可以容纳6万多台），那么子网的利用率约为为20/6000，这么大一个网段却只有几个IP有效，这是对IP的极大的浪费，所以我们需要再次切片，将一个IP段智能的切分成很多块。</p>
+<p>有没有什么好的方法能够切分IP呢，我们知道在TCP、HTTP这些高层协议栈中并没有子网这个概念，他们只负责连接和解析，所以我们得从数据链路层里面查看，在这层有一个非常重要的概念：<strong>子网掩码</strong></p>
+<h3 id="子网掩码"><a href="#子网掩码" class="headerlink" title="子网掩码"></a>子网掩码</h3><p>首先我们要了解一个概念：<strong>路由表</strong></p>
+<p>这个就是我们前面提到过的“小本本”，这个路由表就记载了我们主机上面有关子网划分的重要数据，我们可以通过在<code>Linux</code>上的<code>route -n</code>命令显示电脑上的路由表</p>
+<pre><code>Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+0.0.0.0         192.168.1.1     0.0.0.0         UG    0      0        0 wlan0
+192.168.1.0     0.0.0.0         255.255.255.0   U     9      0        0 wlan0
+</code></pre><p>在我的电脑的得到的结果是这样的，这里有两个很重要的参数，<code>Gateway（网关）</code>，<code>Genmask（掩码）</code>，网关和掩码是什么呢？网关就是我们连接上外网的关键，掩码就是区分内网外网的钥匙。</p>
+<p>子网是什么呢？你可以看做是IP与掩码的按位与运算得到新IP，比如说我们上面第一个<code>192.168.1.1</code>与<code>0.0.0.0</code>的运算结果是为<code>0.0.0.0</code>，而且你会发现所以的IP跟<code>0.0.0.0</code>得到结果都是一样的<code>0.0.0.0</code>，这说明对于网关来说，所有的外网IP都是属于同一子网，接下来我们看看第二行，这个网关为<code>0.0.0.0</code>说明这个是局域网，当我们的IP与这个局域网掩码运算后得到的地址与这个局域网IP相同时，说明这个IP属于局域网，我们可以看到我们子网大小为256，由于我用的是路由器，所以说明这个路由器最多可以允许254(.255为广播地址）台设备连接</p>
+<p>接下来我们看看在我的云服务器上的路由表</p>
+<pre><code>Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+0.0.0.0         10.10.6.1     0.0.0.0         UG    0      0        0 eth0
+10.15.6.0     0.0.0.0         255.255.192.0   U     0      0        0 eth0
+</code></pre><p>你可以清楚的看到在第二行我们的内网的大小约为<code>16128=256*(255-192)</code>，如果你感兴趣对子网计算，可以看看我下面引用，在这里我就不解释太多计算细节，你可以看到，通过改变内网掩码，我们可以轻轻松松的将局域网分成不同的大小。</p>
+<p>由于IPV4数量较少，所以在局域网内每个主机并不能都分到单独的独立IP，只有网关需要一个独立IP来访问互联网，在局域网内我们一般使用本地局域网IP（组织特地保留下来不分配给运营商，只在局域网内使用）。所以我们这就能解释第一个问题，<code>traceroute</code>第一个发送的地址不是我们单独IP（路由器IP），而是发送给局域网上的网关。</p>
+<h2 id="包的逐级转发"><a href="#包的逐级转发" class="headerlink" title="包的逐级转发"></a>包的逐级转发</h2><p>解决上面第一个问题之后，我们知道在一个局域网内我们能够通过子网掩码知道当前局域网的子网范围，接下来的包的“旅途”是什么呢，为什么在<code>traceroute</code>的路径中发现那么多IP地址呢。</p>
+<p>回答这个问题前，我们从物理角度上先了解互联网是怎么搭建起来的。</p>
 <blockquote>
-<p>前向是指判断语句在前面,这种就相当于一个if语句,而后向是匹配后判断,由于已经匹配好了文字所以<br>匹配的字符必须是固定长度的(不能使用*.?).</p>
+<p>当第一台计算机出现的时候，我们不需要互联网，但是随着计算机原来越多，我们想把计算机都用网线连接起来，一开始电脑都放在一起，只需要找一些长长的网线把他们连接起来，但是随着全球各地的人都有个人电脑，这时候只能靠网络运营商，也就是比如电信、移动、联通这些运营商，他们埋光钎搭网线，慢慢的将网络在各地连接起来，最后将子网络连接到骨干网，最后互联网就这么连接起来了</p>
 </blockquote>
-<p>前向就是在判断后面匹配的表达式必须与规定相同,比如一个邮箱地址我们要匹配可以用&lt;&gt;包起来的,但是不匹配只要一个的我们就可以在前面加上这个<code>^(?=(&lt;.*&gt;$)|([^&lt;].*[^&gt;]$))</code>通过使用<code>?=</code>来断言后面必须是用&lt;&gt;包起来或者没有&lt;&gt;,我们使用前向断言可以通过正则直接过滤掉不符合的(当然你可以用多个简单正则来做但是效率没有这个高),还有否定前向就是通过<code>?!</code>来声明.<br>相对应后向断言就是很简单了,直接在匹配后面使用一个<code>?&lt;=</code>(肯定后向)或<code>?&lt;!</code>(否定后向),不过要注意这个是判断前面匹配是否满足的.</p>
-<blockquote>
-<p>断言只是限定我们想选的文本的范围,他并不会被选择.<br>断言的一个有趣的应用就是选择字符间的空格,我们知道python其实假设每个字符间都一个空格(这就是我们有时候会选出一些空字符出来的原因),这个空格不是我们自己打上去的.</p>
-</blockquote>
-<h4 id="举个例子"><a href="#举个例子" class="headerlink" title="举个例子"></a>举个例子</h4><h3 id="两个字符串a1和a-1-第一个我们称为A-第二个我们称他为B-假如我们想把数字和字母分出来-对于B来说-很简单因为数字和字母之间有一个空格-我们可以直接使用字符自带的split就行-但是对于A来说-就不那么简单了"><a href="#两个字符串a1和a-1-第一个我们称为A-第二个我们称他为B-假如我们想把数字和字母分出来-对于B来说-很简单因为数字和字母之间有一个空格-我们可以直接使用字符自带的split就行-但是对于A来说-就不那么简单了" class="headerlink" title="两个字符串a1和a 1,第一个我们称为A,第二个我们称他为B,假如我们想把数字和字母分出来,对于B来说,很简单因为数字和字母之间有一个空格,我们可以直接使用字符自带的split就行,但是对于A来说,就不那么简单了."></a>两个字符串<code>a1</code>和<code>a 1</code>,第一个我们称为A,第二个我们称他为B,假如我们想把数字和字母分出来,对于B来说,很简单因为数字和字母之间有一个空格,我们可以直接使用字符自带的<code>split</code>就行,但是对于A来说,就不那么简单了.</h3><h4 id="字母a和数字1中间没有字符-我们必须把字母和数字之间的”空格”给选择出来-这时候就可以用到断言了"><a href="#字母a和数字1中间没有字符-我们必须把字母和数字之间的”空格”给选择出来-这时候就可以用到断言了" class="headerlink" title="字母a和数字1中间没有字符,我们必须把字母和数字之间的”空格”给选择出来,这时候就可以用到断言了."></a>字母a和数字1中间没有字符,我们必须把字母和数字之间的”空格”给选择出来,这时候就可以用到断言了.</h4><pre><code>r = re.compile(r&apos;(?&lt;=[a-z])(?=\d)&apos;) 
-</code></pre><p>这个<code>r</code>就可以字母和数字直接的隐形空格给选择出来了</p>
-<h3 id="遗憾的是由于python的正则并不把隐形的空格当做字符-所以我们不能简单的使用正则的re-split方法-选择字符分割-直接将字符串分解开"><a href="#遗憾的是由于python的正则并不把隐形的空格当做字符-所以我们不能简单的使用正则的re-split方法-选择字符分割-直接将字符串分解开" class="headerlink" title="遗憾的是由于python的正则并不把隐形的空格当做字符,所以我们不能简单的使用正则的re.split方法(选择字符分割)直接将字符串分解开."></a>遗憾的是由于python的正则并不把隐形的空格当做字符,所以我们不能简单的使用正则的<code>re.split</code>方法(选择字符分割)直接将字符串分解开.</h3><h4 id="我们就得写几步"><a href="#我们就得写几步" class="headerlink" title="我们就得写几步"></a>我们就得写几步</h4><h3 id="第一先把空格换成-或其他"><a href="#第一先把空格换成-或其他" class="headerlink" title="第一先把空格换成 $$$(或其他)"></a>第一先把空格换成 $$$(或其他)</h3><pre><code>&gt;&gt;&gt; s = r.sub(&apos;$$$&apos;, &apos;a1&apos;)
-&gt;&gt;&gt; print(s)
-&apos;a$$$1&apos;
-</code></pre><h3 id="然后在分割"><a href="#然后在分割" class="headerlink" title="然后在分割"></a>然后在分割</h3><pre><code>&gt;&gt;&gt; s.split(&apos;$$$&apos;)
-&gt;&gt;&gt; [&apos;a&apos;, &apos;1&apos;]
-</code></pre><p>成功分割好了,当然这个只能处理字母在前数字在后的”隐形空格”,只要加一个<code>&quot;|&quot;</code>在把前向改成后向,后向改成前向就可以选择任意字母和数字直接的”隐形空格”了.</p>
-<hr>
-<h3 id="正则的变量"><a href="#正则的变量" class="headerlink" title="正则的变量"></a>正则的变量</h3><blockquote>
-<p>我们可以使用?P<name>来声明一个组(用括号,当然其实我们每使用一个括号re自动帮我们将组取一个<br>名,依次从1-n</name></p>
-</blockquote>
-<p>有时候我们可以要求上面的匹配组,下面也要相应匹配组,我们就可以通过两种方法来引用这个变量,假如你没有使用<code>&lt;?P&lt;name&gt;</code>来声明组你只能通过<code>\n</code>来引用,n是这个变量的序号,第二种是通过<code>(?P=name)</code><br>来引用这个变量,name为你自己定义的组的名字</p>
-<p>re还提供了一种机制来让你修正你的正则,简单来说就是能判断一个组存不存在来约束匹配,语法为</p>
-<pre><code>(?(id)yes-expression|no-expression)
-</code></pre><p>id为组的编号或者name.</p>
-<h2 id="正则的起源"><a href="#正则的起源" class="headerlink" title="正则的起源"></a>正则的起源</h2><p>正则这个东西其实很简单，我们</p>
+<p>但是就像送信举的例子一样，如果邮递员能够直接把信从街头送到街尾，那么直接节省了很长一段在路上的花的时间。所以运营商就在各个分支网络搭建大大小小的“局域网”，就一层层代理一样，当一个包请求过来，首先先查看这个IP是否属于当前地区的局域网，如果是就查表找到地址发送过去，如果没有就发送到它的更高一级代理（网关），最终这个IP包到达机房区域的局域网的主机上。</p>
+<p>所以我们能在<code>traceroute</code>查看到一个IP包要传递的那么多的IP地址，那些IP地址都是勤劳的网关，不过相比我们第一个网关，也就是我们在网上冲浪的IP地址，那些网关更像一个一个交通指挥员，指导着我们的发送的“信”一步一步走到指定地点。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>互联网就像一个乐高拼成的巨人，刚开始不了解它，远远的观察它，它就像文明遗迹一样让人赞不绝口，等到你慢慢走进它，你就会发现它的组成其实也很普通，也就是一个一个乐高模块组成，但就是这种无数普通搭建我们的“万里长城”，这或许就是互联网的伟大之处。</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="http://www.cnblogs.com/JuneWang/p/3917697.html" target="_blank" rel="noopener">子网</a></p>
 
       
     </div>
@@ -1291,7 +1285,7 @@ VERBOSE  [简X]  --------------神器,会无视代码中的注释空格和换行
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/02/20/algorithm/mit6_828/用户空间隔离/">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2017/11/25/software/巧用Git钩子/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/myself.jpg">
@@ -1305,7 +1299,7 @@ VERBOSE  [简X]  --------------神器,会无视代码中的注释空格和换行
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2018/02/20/algorithm/mit6_828/用户空间隔离/" class="post-title-link" itemprop="url">用户空间隔离</a>
+            <a href="/2017/11/25/software/巧用Git钩子/" class="post-title-link" itemprop="url">巧用Git钩子</a>
         </h1>
 
         <div class="post-meta">
@@ -1315,14 +1309,14 @@ VERBOSE  [简X]  --------------神器,会无视代码中的注释空格和换行
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2018-02-20 00:00:00" itemprop="dateCreated datePublished" datetime="2018-02-20T00:00:00+08:00">2018-02-20</time>
+              <time title="创建时间：2017-11-25 00:00:00" itemprop="dateCreated datePublished" datetime="2017-11-25T00:00:00+08:00">2017-11-25</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
+                <time title="修改时间：2021-03-09 20:08:54" itemprop="dateModified" datetime="2021-03-09T20:08:54+08:00">2021-03-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1330,8 +1324,8 @@ VERBOSE  [简X]  --------------神器,会无视代码中的注释空格和换行
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
+                  <a href="/categories/软件/" itemprop="url" rel="index">
+                    <span itemprop="name">软件</span>
                   </a>
                 </span>
             </span>
@@ -1341,13 +1335,13 @@ VERBOSE  [简X]  --------------神器,会无视代码中的注释空格和换行
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span>5.6k</span>
+              <span>2.9k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>5 分钟</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -1360,109 +1354,70 @@ VERBOSE  [简X]  --------------神器,会无视代码中的注释空格和换行
 
       
           <blockquote>
-<p>通过前面的学习我们知道，在前两个实验中最主要的程序就是<code>kern/init.c</code>文件中<code>i386_init</code>函数，但是我们看到最后却是一个<code>while</code>循环结束。</p>
+<p>以前听学长提过Git钩子，但是自己一直没有仔细了解过，记得我还写过一个github更新的Python包，现在想想其实用自带的钩子就能很好的完成</p>
 </blockquote>
-<pre><code>while (1)
-    monitor(NULL);
-</code></pre><p>这个<code>monitor</code>就是简单读取用户输入然后通过字符串调用给定的几个函数。我们可以把这个函数看做<code>i386_init</code>的子函数，也就是程序一直在<code>i386_init</code>中运行，也就是一直以内核形式运行。实验三就开始完成一个正常的操作系统的用户模式的建立，以及两者直接转换。</p>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>什么是用户呢，我们把内核当做一个大程序，用户就是小程序，两者基本上没有差别，但是为了让众多用户和内核平稳运行，我们必须要区别对待用户和内核</p>
-<p>首先我们要相信内核，内核是我们精心设计的，相反用户我们不能相信它，任何人都可以犯错误，我们知道计算机程序其实非常精巧，当他们完整的时候，他们可以完成你无法想象的工作，但他们有时候少掉一行指令时，他们就会瞬间崩溃，所以我们必须要保证就算用户怎么折腾都不会把内核搞垮</p>
-<p>所以我们来考虑一下怎么来限制用户不影响整个系统，第一用户不能动内核在内存上的程序，甚至连查看的资格都没有，这就是为什么前面我们已经绞尽脑汁把内核放到高地址上确保其“高高在上”；第二个用户不能在CPU一直跑，假如它有权限一直在CPU上跑，那么内核就废了，没有CPU可以用相当于“断了胳膊”；第三用户必须要有一些内核的权限，比如说申请一些内存啥的。</p>
-<p>接下来我们就从这几个问题出发来探索一下xv6为什么要这样设计用户空间。</p>
-<h2 id="用户是个程序？"><a href="#用户是个程序？" class="headerlink" title="用户是个程序？"></a>用户是个程序？</h2><p>在完成用户设计之前，首先我们先做个实验，来验证一下用户是个程序。首先我们在<code>kern/init.c</code>文件中<code>i386_init</code> 的头部加上<code>#include &lt;inc/elf.h&gt;</code>然后在<code>#if defined(TEST)</code>代码前加入几行代码</p>
-<pre><code>extern uint8_t _binary_obj_user_hello_start[];
-struct Elf* header = ((struct Elf *) _binary_obj_user_hello_start);
-assert(header-&gt;e_magic == ELF_MAGIC);
-((void (*)(void)) (header-&gt;e_entry))();
-</code></pre><p>这段代码你如果仔细观察过前面操作系统载入的源码（<code>boot/main.c</code>中)你会发现基本上差不多。首先我们声明了<code>_binary_obj_user_hello_start</code>外部变量，这个变量是通过<code>ld</code>编译器将内核中用户程序<code>hello.c</code>的起始地址定义来的，由于我们现在没有文件系统，内核就把用户程序一股脑链接到自己身上，在以后有了文件系统就不需要了。但是它给了我们一个便利，我们现在可以直接在内存上运行它</p>
-<p>当然虽然它的确是个程序（assert那不会出错），但是它还是跑不起来，因为它的虚拟地址不在内核内存上，必须要像前面映射内存物理空间才能运行，但是他的确是一个程序，从这里我们得到一个结论，用户其实也就是一段程序，接下来我们就看看如何用软件与硬件的结合的设计解决上面的问题。</p>
-<h2 id="权限"><a href="#权限" class="headerlink" title="权限"></a>权限</h2><p>首先我们来看看权限问题，<code>x86</code>系统硬件给我们提供了一个分段式权限功能，在开启内存分页后，<code>CS</code>寄存器16位里面拿出两位来当做权限管理，分为四级（<code>0b00、0b01、0b10、0b11</code>），最小的权限最大，当然xv6只用了两级，如下图所示</p>
-<p><img src="/images/systemring.png" alt="系统环来源网络"></p>
-<p>PS：当然<code>CS</code>寄存器拿出来三位来当权限管理，但是xv6将第三位用户和内核都设置为1，所以我们也不介绍这一位</p>
-<p>我们在<code>CS</code>寄存器的这两位称为CPL，用来区分权限。在<a href="/2018/01/31/引导和操作系统的交互/">引导和操作系统的交互</a>这篇博客我们知道，在<code>x86</code>系统中，这个<code>CS</code>寄存器是标志段选择子，在<code>GDT</code>表中每个表项也有两位用来标志权限，我们称他们为<code>DPL</code>，他们的意义也就是<code>CS</code>寄存器选择这个段时他们最低拥有的权限。</p>
-<p>当然在<code>GDT</code>表中的段选择子也有一个表示权限的称作<code>RPL</code>，这三者的关系在这<a href="https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86" target="_blank" rel="noopener">里面</a>介绍的很详细，<code>RPL</code>是历史遗留问题但是操作系统基本上没有使用这个功能，所以这里我们也不解释，感兴趣可以看一下<a href="https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86" target="_blank" rel="noopener">前面</a>的介绍。</p>
-<p>在<code>kern/env.c</code>的<code>结构体gdt</code>我们声明了一个<code>GDT</code>表，并且声明了一个系统段和用户段。</p>
-<p>这两个段就是我们权限的基础我们接下来通过实验来验证权限位对操作系统的保护</p>
-<p>我们首先在<code>user/badsegment.c</code>中加入一句汇编</p>
-<pre><code>asm volatile(&quot;ljmp %0,$1f\n 1:\n&quot; :: &quot;i&quot; (0x08)); // 将CS设置为0x08
-</code></pre><p>我们尝试将<code>CS</code>设置为<code>0x08</code>（内核段）结果直接引发一个<code>General Protection</code>的异常，但是当我们尝试执行这句</p>
-<pre><code>asm volatile(&quot;ljmp %0,$1f\n 1:\n&quot; :: &quot;i&quot; (0x18));  // 将CS设置为0x18
-</code></pre><p>我们发现程序没有引发异常（这段的含义是跳转到用户段，由于已经在用户段，所以没有触发异常），这说明<code>x86</code>通过<code>CS</code>寄存器很好的实现了内核和用户的保护（用户不能直接跳到内核去执行代码）</p>
-<p>在<code>user/faultwritekernl.c</code>和<code>user/faultreadkernl</code>中我们发现尝试写入或者读取内核也失败了，这是通过前面章节的内存分页权限实现的，这里就不介绍了。</p>
-<p>现在我们知道，通过我们不懈努力内核和用户直接存在一个鸿沟，但是这时候摆在我们面前很大的问题，内核拥有一些非常重要的权限比如申请内存，如果用户没有这个权限那么功能非常受限，所以我们就要提到一个内核和用户交互的手段：Trap。</p>
-<h2 id="Trap"><a href="#Trap" class="headerlink" title="Trap"></a>Trap</h2><p>其实这个Trap包括内部中断、软中断、异常。但是xv6统一将他们叫做陷阱（Trap），这个Trap主要完成从用户到内核的一种跳转，我们就不介绍内部中断和异常，因为这些都是系统完成，我们来介绍了一下软中断，这个我们人为可以操作，而且我们可以把其他中断、异常当做系统去帮我们调用这个指令</p>
-<pre><code>int $n
-</code></pre><p>很简单x86共定义了256个中断向量，存在物理内存<code>0x000</code>-<code>0x3ff</code>之间，每个存贮一个<code>cs</code>值一个<code>eip</code>的值，这个n只要是在256直接就行，当调用这个的时候我们直接调到那里读取<code>cs</code>和<code>eip</code>的值。</p>
-<p>在正式介绍<code>Trap</code>之前我们要简单的介绍一下两个知识点</p>
-<h3 id="IRET"><a href="#IRET" class="headerlink" title="IRET"></a>IRET</h3><p>这是<code>iret</code>是一个机器码，我们前面介绍了无论是操作系统还是用户没有办法直接跳段（会引发<code>General Protection fault</code>），而且我们知道前面只是测试了跳代码段，我们知道两个不同的程序，不仅仅是代码段不同，堆栈段也要不同，才能保证各个程序的独立。所以系统为了解决这个问题，直接提供一个<code>iret</code>指令，这个全名应该叫<code>中断返回</code>，它的功能其实很简单，就是实现上面的跳代码段和堆栈段还有恢复<code>EFLAGS</code>寄存器值，这个主要应用在从系统跳转到用户上面。</p>
-<p>感兴趣的可以看看这个详细<a href="https://stackoverflow.com/questions/6892421/switching-to-user-mode-using-iret" target="_blank" rel="noopener">资料</a>，接下来我们看看在<code>xv6</code>里面如何使用<code>iret</code>来实现跳段</p>
-<p>在<code>kern/env.c</code>的<code>env_pop_tf</code>函数实现了切换程序段的功能</p>
-<pre><code>asm volatile(
-        &quot;\tmovl %0,%%esp\n&quot;
-        &quot;\tpopal\n&quot;
-        &quot;\tpopl %%es\n&quot;
-        &quot;\tpopl %%ds\n&quot;
-        &quot;\taddl $0x8,%%esp\n&quot; 
-        &quot;\tiret&quot;
-        : : &quot;g&quot; (tf) : &quot;memory&quot;);
-</code></pre><p>首先第一个就是把tf指针指向的值赋给<code>esp</code>寄存器，要想知道这个操作的意思就必须知道，一个结构体其实在程序里面就是一块连续的内存值，所以这里就是把<code>esp</code>的值指向<code>tf</code>代表的<code>Trapframe</code>结构体的开始位置，所以我们得看看这个<code>Trapframe</code>组成是什么</p>
-<pre><code>struct Trapframe {
-    struct PushRegs tf_regs;
-    uint16_t tf_es;
-    uint16_t tf_padding1;
-    uint16_t tf_ds;
-    uint16_t tf_padding2;
-    uint32_t tf_trapno;
-    /* below here defined by x86 hardware */
-    uint32_t tf_err;
-    uintptr_t tf_eip;
-    uint16_t tf_cs;
-    uint16_t tf_padding3;
-    uint32_t tf_eflags;
-    /* below here only when crossing rings, such as from user to kernel */
-    uintptr_t tf_esp;
-    uint16_t tf_ss;
-    uint16_t tf_padding4;
-} __attribute__((packed));
-</code></pre><p>第一个是<code>PushRegs</code>结构体，这个对应我们第一个操作<code>popal</code>，将<code>PushRegs</code>所有值全部从堆栈中取出，我们发现当到<code>iret</code>操作时，正好对应取出代码段还有堆栈段和<code>EFLAGS</code>寄存器，所以其实<code>iret</code>的操作非常简单，只是将三个取出指令和成了一个。</p>
-<h3 id="TSS"><a href="#TSS" class="headerlink" title="TSS"></a>TSS</h3><p>前面我们捋了捋从系统跳转到用户，因为我们给用户的都是刚新建的值，所以这个并没有什么问题，但是你要想一想，当用户想跳转到系统的时候，这个时候它也必须要切换堆栈，因为用户可以还没有准备好（有时候可以是因为堆栈内存不够，如果把寄存器值强行插值到用户堆栈会引发二次异常）。但是假如使用操作系统的堆栈，在我们切换之前系统必须要知道内核堆栈在哪</p>
-<p>所以x86提供了一个<code>tr</code>寄存器给我们使用，这个寄存器的位数为16位，专门存贮一个选择子（类似前面段选择子），这个选择子<code>base</code>地址必须指向一块空余空间。前面知道我们要想从用户跳操作系统，必须知道操作系统的堆栈（中断向量表提供了代码段cs：ip），所以x86干脆规定了这个空间名字为<code>TSS</code>，并声明了一大串寄存器的值备用，当然这些是硬件规定的，软件用不用无所谓，但是硬件会在跳转的时候，读取里面固定位置的值，也就是我们需要的堆栈段<code>ss：esp</code>，在<code>inc/mmu.h</code>的<code>Taskstate</code>结构体中声明了这段内存规定的字段</p>
-<p>所以我们在<code>kern/trap.c</code>中声明了（ss：esp）</p>
-<pre><code>   ts.ts_esp0 = KSTACKTOP;
-ts.ts_ss0 = GD_KD;
-</code></pre><p>这样我们在跳转的时候就能获取到内核的堆栈段，从而进入内核模式，当然硬件设定<code>TSS</code>的作用一开始为了考虑任务切换，它也提供了相应的指令，但是需要200左右时钟周期来完成，所以我们<code>xv6</code>嫌弃其速度太慢，只是使用了其保存内核堆栈地址的作用，所以在<code>xv6</code>中<code>TSS</code>只是一个“数据库”而已。</p>
-<hr>
-<p>介绍完前面的基础知识之后，接下来的就是这个<code>Trap</code>，前面我们知道在得到<code>int</code>这个指令时候这个时候就开始一个<code>Trap</code>开始。</p>
-<p>这个时候硬件接管程序控制，你也可以认为跳转到硬件代码去了。在给的<a href="https://pdos.csail.mit.edu/6.828/2016/xv6/book-rev9.pdf" target="_blank" rel="noopener">资料</a>第三章的<code>X86 Protection</code>里面介绍了这个过程，我们将前面几个步骤很我们前面给的资料联系起来</p>
-<blockquote>
-<p>后面推寄存器值就不解释了，同<code>Trapframe</code>的反向结构相同，之所以会这样，是因为堆栈地址是向下生长，而程序地址是向上生长的</p>
-</blockquote>
-<p>硬件这部分操作为</p>
+<h2 id="什么是钩子？"><a href="#什么是钩子？" class="headerlink" title="什么是钩子？"></a>什么是钩子？</h2><p>我们知道Git是迭代式开发工具，我们的开发流程都是<code>git add</code>、<code>git commit</code>，<code>git push</code>，钩子呢就是你完成每一步Git给你的“回调”，举个例子假如你想让服务器每次上传完新的代码后更新网站，如果你没有钩子，你只能自己<code>ssh</code>登录上服务器，自己更新软件，一次两次还好，多了的话你会骂娘的，所以钩子是给我偷懒的脚手架，我们可以很轻松的写一些脚步帮我们完成一些重复的步骤</p>
+<p>介绍玩钩子的作用，我们来介绍一下钩子的分类</p>
+<p>我们知道Git核心是<code>commit</code>和<code>push</code>两个命令，一个对应客户端，一个对应服务端，所以钩子主要分客户端和服务端，由于Git步骤分的很细，所以每个大分类下面还有很多小分类，比如<code>pre-commit</code>，<code>post-commit</code>这些。</p>
+<p>钩子的全部放在<code>.git/hooks</code>下面，在新建一个项目仓库的时候，Git已经在这个文件夹下给我们生成了很多个<code>.sample</code>后缀的钩子，这些钩子只要把<code>.sample</code>去掉就可以运行了，我们可以在这些<code>sample</code>上面修改完成我们自己的钩子</p>
+<h2 id="客户端钩子"><a href="#客户端钩子" class="headerlink" title="客户端钩子"></a>客户端钩子</h2><p>客户端钩子很好理解，你<code>commit</code>之后想做其他事，比如说编译一下程序啥的，这里我就不多讲，主要由下面几个钩子组成</p>
 <ul>
-<li>获取中断向量表第n个的地址（n为<code>int</code>后面整数）</li>
+<li>pre-commit 提交之前</li>
+<li>post-commit 提交之后</li>
+<li>pre-rebase 变基之前</li>
+<li>post-rewrite 替换提交记录之后</li>
+<li>pre-push 推之前</li>
 </ul>
-<p>然后开始权限检查，这个也是为什么程序不能随意调用系统资源的原因</p>
+<p>详细的可以看官网链接<a href="https://git-scm.com/book/zh/v2/%E8%87%AA%E5%AE%9A%E4%B9%89-Git-Git-%E9%92%A9%E5%AD%90#_git_hooks" target="_blank" rel="noopener">钩子</a></p>
+<p>客户端钩子我觉得一般没有太多作用，因为我在提交之前就会运行脚步进行开发调试什么的，我把介绍重点放在服务端钩子</p>
+<h2 id="服务端钩子"><a href="#服务端钩子" class="headerlink" title="服务端钩子"></a>服务端钩子</h2><p>服务端钩子就是你<code>push</code>之后的事情服务器要运行的脚步，有用推的步骤只有一个，所以钩子只有四个</p>
 <ul>
-<li>检测DPL与CPL的大小关系</li>
+<li>pre-receive 接受之前</li>
+<li>update 更新之前</li>
+<li>post-update 更新之后</li>
+<li>post-receive 接受之后</li>
 </ul>
-<p>这个<code>DPL</code>不是前面<code>GDT</code>里面的，这个是存贮在中断向量表中<code>CS</code>里面的值，这个设置可以让我们给每个中断向量设置一个权限，看它允许是用户调用还是系统调用，如果只允许系统调用，那么用户调用直接引发<code>General Protection Fault</code>（13号中断），在我们的xv6中，我们只允许用户调用<code>Debug</code>和<code>System Call</code>中断，其他只能由系统调用</p>
-<ul>
-<li>判断保留<code>esp</code>和<code>ss</code>，检测目标的段与当前段</li>
-</ul>
-<p>当我们在操作系统中出现中断的时候，如果硬件还傻乎乎的将操作系统的堆栈归位那么就进入死循环了，所以这个目的就是避免同属一个段的时候不会切换堆栈</p>
-<ul>
-<li>当跳段的时候，从<code>TSS</code>中取到<code>esp</code>和<code>ss</code>切换堆栈段</li>
-</ul>
-<p>这个就是前面弹到的<code>TSS</code>的功能，接下来我们所以推出去的值全部存贮在要跳的段的堆栈上面了。</p>
-<p>推完<code>Trap</code>程序的寄存器值，保留好“犯罪现场”后，就可以进入内核进行处理这个异常了。</p>
-<p>至此我们介绍完了严格有序的处理从用户到内核的跳转，当我们处理完后就可以通过<code>iret</code>回到用户程序，这样就完成了用户拥有内核权限的设计。</p>
-<hr>
-<h2 id="用户时间控制"><a href="#用户时间控制" class="headerlink" title="用户时间控制"></a>用户时间控制</h2><p>接下来的用户使用CPU时间设置也是通过这个这个<code>Trap</code>的中断实现，你可以理解为硬件在每个CPU上在每隔个<code>10ms</code>的时候就触发一个中断。这样到内核的时候，内核发现是时间中断，就保留用户的寄存器值到用户自己空间（<code>Env</code>里面有一个<code>env_tf</code>变量可以存贮这些信息），然后调用其他或者这个程序，这样的话，我们就实现了一个时间控制。</p>
-<p>PS：这里我们提一下这个<code>Env</code>结构体，内核初始化了1024个这个结构体，这说明我们可以同时拥有1024个用户程序运行，这个结构体就是用户环境，也就是我们在<code>Unix</code>系统上输入<code>ps</code>中的<code>pid</code>（每个<code>pid</code>代表一个程序）</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>至今我们介绍了通过一个简简单单的<code>Trap</code>操作就实现了复杂的权限管理和空间隔离，虽然操作系统看起来非常复杂，但其实都是由简单干练的概念搭建起来的，因为<code>Unix</code>的哲学就是<code>简单至上</code>。</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://stackoverflow.com/questions/6892421/switching-to-user-mode-using-iret" target="_blank" rel="noopener">https://stackoverflow.com/questions/6892421/switching-to-user-mode-using-iret</a></p>
-<p><a href="https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86" target="_blank" rel="noopener">https://stackoverflow.com/questions/36617718/difference-between-dpl-and-rpl-in-x86</a></p>
-<p><a href="https://en.wikipedia.org/wiki/Task_state_segment" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Task_state_segment</a></p>
+<p>服务器接收到客户端请求时，<code>pre-receive</code>先进行调用，如果返回值为非0就会拒绝推送，所以我们写钩子的时候一定要记住最后要返回0才能正常接收更新，<code>update</code>主要处理多分支推送，有的时候你一次更新，推三四个分支到服务器，<code>pre-receive</code>只会调用一次，<code>update</code>会对每个的分支调用一次，后面两个都很容易理解</p>
+<p>一般我们就是要在服务端更新代码之后运行脚步，所以我们要修改的就是<code>post-update</code>或者<code>post-receive</code></p>
+<p>bash脚步大家都会写，但是大家可能会很陌生什么是Git服务端，接下来我们就来介绍一下Git服务端是什么</p>
+<h2 id="Git-服务端"><a href="#Git-服务端" class="headerlink" title="Git 服务端"></a>Git 服务端</h2><p>大家一般使用Git都是使用的客户端，但是Git这个工具的确很强，它不但可以当做客户端，也可以当做服务端，为了让大家更好的理解Git服务端，我们先来拿本地文件做”服务器“</p>
+<p>首先我们先新建一个文件夹为<code>server</code>，在新建一个文件夹为<code>local</code>，假设文件夹都在<code>/root</code>文件夹下</p>
+<p>我们执行下面的命令生成服务器</p>
+<pre><code>cd /root/server
+git init --bare
+</code></pre><p>只需要在<code>init</code>后面添加一个<code>--bare</code>选项告诉Git，Git就会帮我们生成一个空的“服务端”，我们可以查看一下文件，我们发现Git 给我们生成下面几个文件夹，其中就有我们的hooks</p>
+<pre><code>branches  config  description  HEAD  hooks  info  objects  refs
+</code></pre><p>但是服务端和客户端生成的位置不一样，客户端是给我们生成一个<code>.git</code>文件夹，里面放了这些文件夹，然而服务端直接将这些文件夹放在主目录了</p>
+<p>行我们已经生成了服务端的，接下来我们生成客户端的钩子</p>
+<pre><code>cd /root/local
+git init
+</code></pre><p>很简单，同我们往常操作一样，我们这时候添加一个<code>README.md</code> 然后<code>commit</code>一下准备开始往服务端推代码了</p>
+<p>在 linux 下直接执行下面命令就行</p>
+<p>   echo “local update” &gt;&gt; README.md<br>   git add README.md<br>   git commit -m “Add ReadME”</p>
+<p>接下来我们就要向”服务器“提交代码了，我们先添加本地文件作为远程服务器</p>
+<pre><code>git remote add origin file:////root/server
+</code></pre><p>然后直接推代码</p>
+<pre><code>git push origin master
+</code></pre><p>这样我们就向我们文件提交了代码，这时候我们回到我们”服务器“</p>
+<pre><code>cd /root/server
+ls
+branches  config  description  HEAD  hooks  info  objects  refs
+</code></pre><p>我们惊奇的发现服务器并没有我们新建的<code>README.md</code>文件，原来Git服务端并不像SVN一样只保留一份代码大家共同修改，<strong>Git服务端只是记录文件变化和分支变化</strong></p>
+<p>这里插一句我为什么会去了解Git钩子，由于一开始实现服务器自动更新我的FastProxyScan项目代码，但是我又不想使用<code>Github</code>钩子（push后发送http请求），太麻烦了，后来我一想干脆直接推到我的服务器上，但是推到服务器上的代码只是记录了分支和提交信息，不包含源文件，所以我只好在在服务器上部署这个项目，并添加一个服务器钩子，当服务器更新完成后，再用钩子把服务器上的项目代码更新</p>
+<h2 id="如何写服务器钩子"><a href="#如何写服务器钩子" class="headerlink" title="如何写服务器钩子"></a>如何写服务器钩子</h2><p>通过上面对本地文件新建仓库，我们知道Git“服务端”新建很简单，我们一般接触比较多的是Github服务端，但是Git非常强大，他可以支持多种协议来连接“服务端”，比如说我们上面用到的本地文件（<code>file</code>协议），假如你用<code>ssh</code>连接远程服务器，你也可以使用类似<code>git remote add origin ssh://username@ip/file/path</code>添加ssh远程仓库</p>
+<p>git 支持的协议有ssh、http、https、file、git等协议，你只要确保你能连接上远程服务器就行，接下来我们谈谈如何写服务器钩子</p>
+<p>在使用<code>git init --bare</code>新建了一个Git服务端之后，在服务端文件下面有一个<code>hooks</code>文件夹，我们要做的就是把脚本放到<code>hooks</code>文件夹里面（当然你要确保它有执行权限），如果你更擅长写<code>Python</code>，<code>Ruby</code>那些脚步也可以，不过要确保前缀后后缀正确。</p>
+<p>这里要提到很重要的一点，由于在执行钩子的时候，环境变量<code>GIT_DIR</code>被设置为服务端当前目录，如果你像我一样想更新在另外一个文件夹下面的项目代码，你必须使用<code>uset GIT_DIR</code>清除变量名，否则只会更新服务端，而不会更新你的项目代码</p>
+<p>这里我提供一个模板</p>
+<p>文件名为 <code>post-update</code>或者<code>post-receive</code></p>
+<pre><code>#!/bin/sh
+cd /project/path/ || exit
+unset GIT_DIR
+git pull origin master
+
+exec git-update-server-info
+</code></pre><p>你只需修改项目文件路径和仓库名即可</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过这个Git钩子了解了Git服务端，也让自己更加了解Git这个软件，以前一直懵懵懂懂，只会向Github提交文件，一直以为Git只是一个版本记录工具而且，现在看来神器之名不是浪得虚名，通过一个小小的钩子，摇身一变成部署神器。</p>
 
       
     </div>
@@ -1482,7 +1437,7 @@ ts.ts_ss0 = GD_KD;
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/02/19/algorithm/mit6_828/KERNBASE对操作系统的影响/">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2017/11/23/opensource/FastProxyScan-Introduction/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/myself.jpg">
@@ -1496,7 +1451,7 @@ ts.ts_ss0 = GD_KD;
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2018/02/19/algorithm/mit6_828/KERNBASE对操作系统的影响/" class="post-title-link" itemprop="url">KERNBASE对操作系统的影响</a>
+            <a href="/2017/11/23/opensource/FastProxyScan-Introduction/" class="post-title-link" itemprop="url">FastProxyScan项目介绍</a>
         </h1>
 
         <div class="post-meta">
@@ -1506,14 +1461,14 @@ ts.ts_ss0 = GD_KD;
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2018-02-19 00:00:00" itemprop="dateCreated datePublished" datetime="2018-02-19T00:00:00+08:00">2018-02-19</time>
+              <time title="创建时间：2017-11-23 00:00:00" itemprop="dateCreated datePublished" datetime="2017-11-23T00:00:00+08:00">2017-11-23</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
+                <time title="修改时间：2021-03-09 20:03:15" itemprop="dateModified" datetime="2021-03-09T20:03:15+08:00">2021-03-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1521,144 +1476,8 @@ ts.ts_ss0 = GD_KD;
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>2.6k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>2 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="概括"><a href="#概括" class="headerlink" title="概括"></a>概括</h2><blockquote>
-<p>这个问题主要在这本<a href="https://pdos.csail.mit.edu/6.828/2016/xv6/book-rev9.pdf" target="_blank" rel="noopener">xv6-ref</a>的第一章的练习题2中提出来</p>
-</blockquote>
-<p>问题如下</p>
-<pre><code>KERNBASE limits the amount of memory a single process can use, which might be irritating on a machine with a full 4 GB of RAM. Would raising KERNBASE allow a process to use more memory?
-</code></pre><p>根据前面的知识可知这个问题翻译过来就是：在32位处理器下，当<code>KERNBASE</code>为<code>0x80000000</code>时用户最多可以用2GB内存，我们是否能够增加<code>KERNBASE</code>让用户使用超过2GB内存呢？</p>
-<p>ps： 下面<code>KERNBASE</code>简写为<code>KE</code></p>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>要想解答这个问题，我们必须要知道xv6是如何分配内存的，以及如何区分用户和内核，以及<code>KE</code>的作用。</p>
-<p>xv6使用内存分页技术，如果你对这个不了解可以看这篇<a href="/2018/01/31/内存分页/">引导中的静态表</a>和这篇<a href="/2018/02/内存分页设计/">内存分页设计细节</a>，了解完这个我们谈谈用户和内核的内存分页应用。</p>
-<p>注意我们所以计算的前提是在32位处理器的条件下</p>
-<h2 id="用户和内核应用内存分页"><a href="#用户和内核应用内存分页" class="headerlink" title="用户和内核应用内存分页"></a>用户和内核应用内存分页</h2><p>其实用户和内核都是程序，对于用户来说内核只有一个，对于内核来说，用户可以有无数个。为了隔离内核和用户我们必须在内存上就进行隔离，所以单一内核和每个用户都拥有一个内存目录。</p>
-<h3 id="内存分页的意义"><a href="#内存分页的意义" class="headerlink" title="内存分页的意义"></a>内存分页的意义</h3><p> 其实我们可以把内存的目录对应的所有内存表看做一张大的内存映射表，我们使用<code>1024 × 1024</code>个表单项代表<code>4GB</code>内存地址，每个代表<code>4K</code>连续的内存空间，当然大部分程序不会使用全部表单（一般就是内存目录一个，一到三个内存表）</p>
-<p> 当然好处有很多，比如任何程序都可以使用相同的虚拟地址但是在实际运行的时候不会相互影响，这个好处就是通过映射来实现的。</p>
-<ul>
-<li>映射就是虚拟地址到物理地址的一种转换，这是一种<code>多对一</code>的映射，也就是一个虚拟地址只能对应一个物理地址，然而物理地址可以对应多个虚拟地址</li>
-</ul>
-<p>这个转换带来了一个问题，给你一个虚拟地址，你可以查表然后得到物理地址，但是如果给你一个物理地址，你除了遍历没有很好的办法获取虚拟地址（而且有可能你会得到多个虚拟地址）。</p>
-<p>这个问题非常重要，因为它影响了我们后面内核与用户切换的时候地址的搜索，接下来我们看看内核初始化后内存是一种什么样的存在。</p>
-<h2 id="内核内存利用"><a href="#内核内存利用" class="headerlink" title="内核内存利用"></a>内核内存利用</h2><p>看xv6源码我们知道，内核这个程序将程序虚拟地址起点定在<code>KE</code>上，我们知道一个程序由三部分组成指令、数据、堆栈。堆栈是向下生长，而数据、指令向上生长。而xv6把堆栈固定为32KB，所以内存只能向上生长，所以理论上内核最大占用空间只有<code>2^32(4G) - KE</code></p>
-<ul>
-<li>当<code>KE</code>为<code>0xf0000000</code>时，只有256M</li>
-<li>当<code>KE</code>为<code>0x80000000</code>，有2G。</li>
-</ul>
-<p>由于用户内存空间不能超过<code>KE</code>（实际系统中为<code>UTOP</code>，值为<code>KE</code>减去一些为系统功能预留的空间，这里我们忽略他们），所以用户所能得到的内存空间最大为<code>KE</code>，也就是</p>
-<ul>
-<li>当<code>KE</code>为<code>0xf0000000</code>时，为 3840M（4G-256M）</li>
-<li>当<code>KE</code>为<code>0x80000000</code>，有2G。</li>
-</ul>
-<p>通过上面简单的理论值我们推断出答案是：</p>
-<ul>
-<li>增大<code>KE</code>可以增大用户内存</li>
-</ul>
-<p>这个结果看起来是正确的，但是我们知道作为一个操作系统不能固定用户的内存，我们接下来就看看在不同的内存下的实际应用以及<code>xv6</code>自身设计问题，由此来探索这个问题的本质</p>
-<p>我们就分两种情况来考虑 </p>
-<h3 id="物理内存小于（4G-KERNBASE）"><a href="#物理内存小于（4G-KERNBASE）" class="headerlink" title="物理内存小于（4G-KERNBASE）"></a>物理内存小于（4G-KERNBASE）</h3><p>这种情况在很早的时候经常出现，我们计算机的内存可能就几M，这个时候内核假如真的占了<code>4G-KE</code>那连内核都跑不起来何况用户程序。</p>
-<p>我们接下来进入源码来看<code>xv6</code>将实际占用的空间体现在内存表中，我们看到<code>kern/kernld.ld</code>配置文件，其中最主要的一行</p>
-<pre><code>PROVIDE(end = .);
-</code></pre><p>这行位置出现在最后一行，它的作用是提供了一个变量<code>end</code>，我们在C中就可以用这个变量代表机器码的最后一行的虚拟地址，有了这个地址之后，我们就获取了一个重要信息内核程序总长度，假如没有这个变量，我们只能人工设定一个操作系统的占用空间，假如定大了就是浪费，定小了程序就可能崩溃（内存溢出）。分配的细节可以看这篇<a href="/2018/02/内存分页设计/">文章</a>，通过这个变量，我们把内核占用的物理空间给腾出来了。接下来的剩余的物理空间就留给用户了，所以用户能用到的内存最大为<code>实际内存 - 操作系统占用的内存</code>。</p>
-<p>而且我们能够知道操作系统还将内核的内存映射直接固定了，将<code>KE：4G</code>的地址映射到<code>0:4G-KE</code>，公式为<code>虚拟内存=物理内存+KERNBASE</code>，这个映射存在于<code>kern/pmap.c</code>的<code>mem_init</code>函数中，这个带来了一个便利，就是程序变得很简单，假如我们得到一个物理内存地址，我们就能知道虚拟内存地址，但是这个也引来一个巨大的问题，就是当内存大于<code>4G - KE</code>的时候。</p>
-<p>PS：关于知道物理内存能知道虚拟地址在源码的好处主要体现在用户内存空间创建的时候，这个时候处于内核态，当我们得到一个空的物理空间页，我们只要简单的使用上面公式就能获取到虚拟地址，然后内核就能在直接通过指针修改程序。假如没有这个映射，我们就后面动态建立，但是这里涉及到一个非常棘手的<code>成本</code>的问题，我们其实只需要一个值映射，然而我们却要浪费4K的连续内存空间，而且给程序带来了很大的复杂性。</p>
-<p>我们接下来考虑系统内存大于那段映射最大值（4G-KE）时候会造成什么情况</p>
-<h2 id="物理内存大于-（4G-KERNBASE）"><a href="#物理内存大于-（4G-KERNBASE）" class="headerlink" title="物理内存大于 （4G-KERNBASE）"></a>物理内存大于 （4G-KERNBASE）</h2><p>在现在大家内存愈来愈大，这种情况比较常见，由于xv6在程序设计中是动态创建用户空间，当用户比较少占用空间比较小的时候，程序不会用到物理地址比较大的空间，但是当物理内存超过这个阀值（4G-E），在这里我们考虑<code>KE=0xf0000000</code>,也就是物理内存地址大于256M的时候，由于内核没有映射到这么高的地址，所以我们用上面那个物理地址转虚拟地址公式就失效了。</p>
-<p>由于xv6只是一个教学系统，所以为了简化系统，降低程序复杂性所以使用了最简单的直接映射的方法来处理内存，也正是由于这个原因提高<code>KE</code>并不能增加用户最大内存，当然解决的方法也有，我想了两种。</p>
-<ul>
-<li>在内核空间中分配用户内存目录空间，这种最为简单，但是会浪费一定的内存空间（必须在内核一开始运行就占用空间）</li>
-<li>在内核空间中映射一段固定的地址来存放用户内存目录地址，这个程序设计比较复杂，但是只需要初始化一个内存表单就行</li>
-</ul>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过上面的分析，我们得到一个结论：</p>
-<p>由于xv6设计的局限性，增大<code>KERNBASE</code>并不能增大用户最大可用空间，反而会减少。但是如果修改xv6设计可以实现增大<code>KERNBASE</code>增大用户最大可用空间。</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/02/05/algorithm/mit6_828/内存分页设计/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/02/05/algorithm/mit6_828/内存分页设计/" class="post-title-link" itemprop="url">内存分页设计</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-02-05 00:00:00" itemprop="dateCreated datePublished" datetime="2018-02-05T00:00:00+08:00">2018-02-05</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
+                  <a href="/categories/开源/" itemprop="url" rel="index">
+                    <span itemprop="name">开源</span>
                   </a>
                 </span>
             </span>
@@ -1686,65 +1505,85 @@ ts.ts_ss0 = GD_KD;
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>前面已经通过lab1的这篇<a href="/2018/01/03/内存分页设计/">博文</a>了解了内存分页的实现细节，接下来就谈谈如何具体实现内存分页</p>
-<h2 id="物理载体"><a href="#物理载体" class="headerlink" title="物理载体"></a>物理载体</h2><p>通过了解<a href="/2018/02/19/KERNBASE对操作系统的影响/">KERNBASE对操作系统的影响</a>这篇博文我们知道，其实内存分页就是完成对物理存在的一种分割和隔离，所以我们在完成内存分页系统设计之前必须要构建一个载体，完成对物理存在的一种表示。</p>
-<p>在xv6中声明一个动态数组来代表物理内存，每一个值代表一块4k的内存页。我们主要通过<code>offset - base</code>得到偏移倍数，每个偏移量为<code>4K</code>，也就是通过<code>(offset - base )  &lt;&lt; 12</code>得到物理地址，我们看一下这个数组成员：PageInfo结构体</p>
-<pre><code>struct PageInfo {
-    struct PageInfo *pp_link;
-    uint16_t pp_ref;
-};
-</code></pre><p>主要存在两个值：一个为下一个可用的地址指针，一个为引用次数。</p>
-<p>引用次数比较好理解，但是这个<code>pp_link</code>有什么用呢。其实你可用把这个结构体看做成一个由链表组成的堆栈，我们只需要保留栈顶值（page_free_list)，由于它保存下一个值地址，这样通过不断的push、pop，就能维持一个可用物理内存栈。</p>
-<h2 id="二级指针的妙用"><a href="#二级指针的妙用" class="headerlink" title="二级指针的妙用"></a>二级指针的妙用</h2><p>由于前面的博客原理已经介绍的很详细了，我就不再累赘了，在这里我提一下源码中二级指针的妙用，虽然它只有短短几行，但是运行的结果却是让人大开眼界，体会到指针的神奇威力。</p>
-<p>这段代码出现在<code>kern/pmap.c</code>的<code>check_page_free_list</code>函数中</p>
-<pre><code>if (only_low_memory) {
-    // Move pages with lower addresses first in the free
-    // list, since entry_pgdir does not map all pages.
-    struct PageInfo *pp1, *pp2;
-    struct PageInfo **tp[2] = { &amp;pp1, &amp;pp2 };
-    for (pp = page_free_list; pp; pp = pp-&gt;pp_link) {
-        int pagetype = PDX(page2pa(pp)) &gt;= pdx_limit;
-        *tp[pagetype] = pp;
-        tp[pagetype] = &amp;pp-&gt;pp_link;
-    }
-    *tp[1] = 0;
-    *tp[0] = pp2;
-    page_free_list = pp1;
-}
-</code></pre><p>主要的作用是将“栈底”的元素移到“栈顶”，首先它使用了两个一级指针（pp1、pp2），还有两个二级指针分别指向（pp1、pp2）</p>
-<p> 首先<code>int pagetype = PDX(page2pa(pp)) &gt;= pdx_limit;</code>判断物理地址是否为大于4M还是小于4M，我们把物理内存页分成两组</p>
+          <blockquote>
+<p>为了给我的站点增加人气，我把这个项目的介绍放到我的博客，如果你觉得这个项目还不错的话，请不要吝啬你的star</p>
+</blockquote>
+<p><a href="https://github.com/mrzhangboss/FastProxyScan" target="_blank" rel="noopener">github传送门</a><br><a href="http://115.159.146.115" target="_blank" rel="noopener">Demo传送门</a></p>
+<h2 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h2><p>一开始自己只想做一个代理池，于是搜了搜Github发现类似的项目，大多数都是爬取网上的一些代理商的免费代理，这部分代理大多都是没有用的，可用性非常低，于是我自己就干脆做一个“代理商”，自己扫描主机把可用的代理扫描出来。</p>
+<p>但是现在网络主机实在太多了，至少几百万台，所以这个项目的核心就是快速扫描，在最短的时间内检测更多的代理，目前项目的速度最好只能完成1000代理每小时的速度（日扫描两万代理），希望能继续优化代码，加快速度，如果你对这个项目感兴趣可以Fork下来，欢迎各位的Pull Request </p>
+<h2 id="项目依赖"><a href="#项目依赖" class="headerlink" title="项目依赖"></a>项目依赖</h2><p>项目基于Python3.5+开发</p>
+<p>软件依赖</p>
 <ul>
-<li>小于4M A组</li>
-<li>大于4M B组</li>
+<li>nmap</li>
 </ul>
-<p>对于小于4M的组，分两种情况</p>
-<ol>
-<li>第一个小于4M的内存页（page1）</li>
-</ol>
-<blockquote>
-<ol>
-<li>*tp[0] (也就是pp1） 存贮了pp的值，也就是pp1 = page1</li>
-<li>tp[0] 存贮了pp -&gt; link 的地址（这个没有什么用）</li>
-</ol>
-</blockquote>
-<ol start="2">
-<li>A组第二个以及以后的内存页（page2）</li>
-</ol>
-<blockquote>
-<ol>
-<li>上一个地址的值等于pp（没什么用）</li>
-<li>tp[0] 存贮了下一个空闲地址的值</li>
-</ol>
-</blockquote>
-<p>对于B组来说也是一样的，最重要的是<code>for</code>循环结束后实现的交换</p>
-<pre><code>*tp[1] = 0; 
-</code></pre><p>B组最后一个的<code>pp_link</code>地址地址设置为NULL，也就相当于把他放到栈底</p>
-<pre><code>*tp[0] = pp2;
-</code></pre><p>A组最后一个变成<code>pp_link</code>地址设置pp2，也就是B组的第一个接到了A组的最后面去了</p>
-<pre><code>page_free_list = pp1;
-</code></pre><p>栈顶变成A组第一个，通过这样的“乾坤大挪移”术就将A组部分移到B组前面去了，也就实现了先使用低地址的物理内存的作用</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>理解内存分页必须要了解背后的原理，了解了原理看具体实现的时候才能事半功倍。</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2>
+<h2 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h2><p>项目主要由三个部分组成</p>
+<ul>
+<li>主机扫描</li>
+<li>端口检测</li>
+<li>代理检查</li>
+</ul>
+<p>项目结构为</p>
+<ul>
+<li>proxy_pool</li>
+<li><ul>
+<li>scanner</li>
+</ul>
+</li>
+<li><ul>
+<li>display</li>
+</ul>
+</li>
+<li><ul>
+<li>database</li>
+</ul>
+</li>
+</ul>
+<p>现在依次介绍在搜索速度上的优化</p>
+<ul>
+<li>主机搜索</li>
+</ul>
+<p>全球的IP都是有ISP统一分配的，ISP主要由下面几大洲分配，我们中国处于亚太区，所以我们的IP由亚太互联网络信息中心（APNIC）分配IP，目前中国分配的IPV4总数为3亿左右，这个数量还是比较大</p>
+<p>我们可以从 <a href="http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest" target="_blank" rel="noopener">http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest</a>下载最新分配的IP地址</p>
+<p>但是代理服务器只存在特定的服务器上，所以现在版本还没有发布V1.0主要是因为搜索的效果不是很好（搜索的主机代理转换率太低），目前还在想其他方法，等有更好的解决方法就会发布V1.0</p>
+<ul>
+<li>端口检测</li>
+</ul>
+<p>使用<code>nmap</code>的“TCP SYN scan”最大化加快端口检测速度（需要root权限）</p>
+<ul>
+<li>代理检测</li>
+</ul>
+<p>使用<code>nmap</code>先验端口与<code>Python</code>异步最大化代理检测速率</p>
+<h2 id="安装教程"><a href="#安装教程" class="headerlink" title="安装教程"></a>安装教程</h2><p>项目采用Django做后台管理，所以只需要一点Django基础知识就能在这个项目上做二次开发，如果你只想获取最新的可用代理，可以通过<a href="http://115.159.146.115" target="_blank" rel="noopener">http://115.159.146.115</a> 调用API接口获取最新可用代理（我的站点带宽有限，所以只开放最新100个代理，并且只是20分钟更新一次）</p>
+<p>环境安装</p>
+<ul>
+<li>nmap 安装</li>
+<li>python3.5+ 安装</li>
+</ul>
+<p>运行：</p>
+<pre><code>git clone https://github.com/mrzhangboss/FastProxyScan.git
+cd FastProxyScan
+python3.5 install -r requirement.txt
+</code></pre><ul>
+<li>主机检测</li>
+</ul>
+<pre><code>cd pool/proxy_pool
+sudo python3.5 manage.py scan --vps
+</code></pre><ul>
+<li><p>端口检测</p>
+<p>  sudo python3.5 manage.py scan  –proxy -m 100</p>
+</li>
+</ul>
+<p>m是并行参数，值越大速度越快</p>
+<ul>
+<li><p>代理检测</p>
+<p>  sudo python3.5 manage.py check –start -c <a href="http://115.159.146.115/ip" target="_blank" rel="noopener">http://115.159.146.115/ip</a></p>
+</li>
+</ul>
+<p>c是检测ip头网址，可以使用我提供的 <a href="http://115.159.146.115/ip" target="_blank" rel="noopener">http://115.159.146.115/ip</a> 返回请求头，可以参考我的上一篇博文 <a href="/2017/11/20/%E4%BB%A3%E7%90%86%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/">代理的前世今生</a></p>
+<p>在我搭建的DEMO站点上，我使用supervisor让这三个程序循环运行，你可以使用crontab定时调度也可以像我一样。</p>
+<p>数据库当前采用的Sqlite3，但是数据库模型全部使用ORM开发，你可以很方便的修改<code>settings.py</code>来放入其他数据库，如果你懂一点Django的话</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>如果你像了解更多开发这个项目背后的知识的话，可以看看我上一篇博文 <a href="/2017/11/20/%E4%BB%A3%E7%90%86%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/">代理的前世今生</a></p>
+
       
     </div>
 
@@ -1763,7 +1602,7 @@ ts.ts_ss0 = GD_KD;
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/01/31/algorithm/mit6_828/内存分页/">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2017/11/20/software/http/代理的前世今生/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/myself.jpg">
@@ -1777,7 +1616,7 @@ ts.ts_ss0 = GD_KD;
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2018/01/31/algorithm/mit6_828/内存分页/" class="post-title-link" itemprop="url">内存分页</a>
+            <a href="/2017/11/20/software/http/代理的前世今生/" class="post-title-link" itemprop="url">代理的前世今生</a>
         </h1>
 
         <div class="post-meta">
@@ -1787,14 +1626,14 @@ ts.ts_ss0 = GD_KD;
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2018-01-31 00:00:00" itemprop="dateCreated datePublished" datetime="2018-01-31T00:00:00+08:00">2018-01-31</time>
+              <time title="创建时间：2017-11-20 00:00:00" itemprop="dateCreated datePublished" datetime="2017-11-20T00:00:00+08:00">2017-11-20</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
+                <time title="修改时间：2021-03-09 20:08:06" itemprop="dateModified" datetime="2021-03-09T20:08:06+08:00">2021-03-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1802,8 +1641,8 @@ ts.ts_ss0 = GD_KD;
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
+                  <a href="/categories/软件/" itemprop="url" rel="index">
+                    <span itemprop="name">软件</span>
                   </a>
                 </span>
             </span>
@@ -1813,13 +1652,13 @@ ts.ts_ss0 = GD_KD;
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span>731</span>
+              <span>2.7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>1 分钟</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -1831,14 +1670,50 @@ ts.ts_ss0 = GD_KD;
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本来自己查了很多资料，想自己写出来，结果下笔的时候发现别人已经把我想写的部分全部写出来了，而且比我想的还要具体，所以我就不写了，把链接放出了，顺便我补充一些</p>
-<p><a href="http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan/" target="_blank" rel="noopener">http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan/</a></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>由于内存分页在后面的lab2中也会设计，而且给出的资料写的非常详细，所以我就不多提了。这里提一下为了更好的理解什么内存分页的段选择子与CS的关系，我写了一篇<a href="/2018/01/30/从CS寄存器看段的前世今生/">关于CS寄存器的发展史</a></p>
-<p>最后我提一下<code>kern/entrypgdir.c</code>手写的内存分页表</p>
-<p>第一个<code>entry_pgdir</code>是页目录，第二个<code>entry_pgtable</code>页表，而且注意<code>entry_pgtable</code>是代表0-4M物理内存可写可读的真实内存地址</p>
-<p>前面知道了目录和页表的作用，在现实系统中，一个目录下有1024个页表，但是这只有一个页表，而且它代表从0-4M连续的内存空间</p>
-<p>PS：后面12位是权限位，只看前三位，可以知道是从（000-3ff）的高20位物理地址，由于我们声明了<code>__attribute__((__aligned__(PGSIZE)))</code>（地址4K对齐，其实意思是它真实物理地址后12位一定全部为0），所以直接取<code>(uintptr_t)entry_pgtable</code>地址就是页表地址，虽然后面加上权限位<code>PTE_P + PTE_W</code>，但是在寻找真实地址时都会屏蔽（只取前20位如），当初想了很久感觉取不到页表的真实地址，还以为有什么神奇的编译设定，后面查了很久资料才明白，所以这里提个醒后面我们会在lab2中正式接触内存分页技术，这里只是相当于设定了一个“常数”，后面会将器扩展变成“函数”。</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2>
+          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
+<p>自己对代理认识不深，也只是会使用而已，由于最近想做一个代理池，于是查了很多资料，发现代理这个东西还是非常有趣的</p>
+</blockquote>
+<h2 id="代理是什么？"><a href="#代理是什么？" class="headerlink" title="代理是什么？"></a>代理是什么？</h2><p>从编程上来看，<code>requests</code>只需要在请求里面加上<code>proxies</code>参数例如<code>requests.get(&#39;http://www.baidu.com&#39;, proxies={&#39;http&#39;: &#39;127.0.0.1:3128&#39;})</code>，我们就能连上代理进行访问，由于<code>requests</code>包装了太多细节，我们无法知道用了代理和没有用代理的区别</p>
+<p>接下来我们来看一下Python3的内库是如何使用代理的</p>
+<ul>
+<li><p>首先要申请一个<code>ProxyHandler</code></p>
+<p>  from urllib import request<br>  proxy = request.ProxyHandler({‘http’: ‘127.0.0.1:3128’})</p>
+</li>
+</ul>
+<p>然后我们通过这个<code>proxy</code>创建一个<code>opener</code>，然后用<code>opener</code>打开页面，最后输出结果。</p>
+<pre><code>opener = request.build_opener(proxy)
+resp = opener.open(&apos;http://www.baidu.com&apos;)
+print(resp.read())
+</code></pre><p>然后我们看一下如果没有使用代理的请求是什么</p>
+<pre><code>resp = request.urlopen(&apos;http://www.baidu.com&apos;)
+print(resp.read())
+</code></pre><p>你可以很清楚的看到，如果我们不需要代理，之前打开<code>url</code>就行，也就是说我们的请求，其实全部发给代理，交给代理了</p>
+<p>这里就稍稍谈点感想了，以前经常在书上看到人歌颂互联网的伟大，但是自己一直不明白这个伟大在哪，以前一直从表象感受互联网，有了互联网，不用打开电视就可以看影片，不用去图书馆就可以看书，感觉互联网神奇的地方就是给自己带来方便，但是没有去互联网本身的架构的伟大，通过一根根网线交换器，无数主机“连”在了一起，构成了宏大的互联网，或许你通过浏览器打开的网站主机离你几百公里，但是你不要做飞机轮船，你直接在家里就能通过层层代理传递你的请求将千里之外的“敌将首级” 探入囊中。</p>
+<p>互联网神奇的地方就是看起来各个部分非常分散，但是他们却能通过一根一根线紧密的联系起来，只有有“距离”的时候你才能感受到他的美丽</p>
+<p>以前刚学习网站的时候，在本地调试的时候，你在本地跑一个web，直接打开浏览器访问，这时候我就有一种错觉，web就是两端，客户端和服务器端，在本地调试可以这样理解，但是一旦拿到互联网，这就是不完整的，完整的应该是客户端-代理端-服务器端，当然我们的代理端有时候可能是网关、路由器、交换机等等。</p>
+<p>了解这些有什么用呢，因为我自己以前一直对代理没有什么很深理解，用爬虫的时候使用代理就不会被封IP，感觉代理是很BUG的东西，但其实代理很普通，而且无处不在，我们要想真正理解代理，就必须把它拖下圣坛。</p>
+<h2 id="代理其实很普通"><a href="#代理其实很普通" class="headerlink" title="代理其实很普通"></a>代理其实很普通</h2><p>前面我们知道代理其实很普通，但是要深入了解代理必须要先了解IP，IP是什么呢，IP就是互联网的身份证，要想在互联网上“混”，必须要有“身份”</p>
+<p>那为什么我们要用代理呢，比如说假如你是未满18岁的小朋友，你想要买上网，你必须要借一张大人的身份证去上网，这个时候代理的作用就是帮用它的身份证帮你干事。</p>
+<p>我觉得中国文化博大精深，其实一听代理这个词，我们就能知道代理是干什么用的。其实把代理吹得神乎其神没什么用，那些作用都是它的他自己瞎几把搞的，从我们客户端来看，<strong>代理就是服务端</strong>，了解这点非常重要，因为他能让我们把所以的事情都简化，而且从客户端来看，代理就是这样的</p>
+<h2 id="客户端、代理、-服务器三者之间的关系"><a href="#客户端、代理、-服务器三者之间的关系" class="headerlink" title="客户端、代理、 服务器三者之间的关系"></a>客户端、代理、 服务器三者之间的关系</h2><p>前面我们已经谈了客户端和代理之间的关系，对于客户端来说，代理就是服务器端，我们啥都不管，把请求发给代理，相信它就是我们请求的服务器</p>
+<p>对于代理来说，其实它自己最清楚，自己就是个代理，它必须要把请求转发给服务器，然后在把服务器的响应发给客户端，代理就是一个中介人，有的时候我们也可以把它看做一个双向中继，把请求传递一下，再传回来，所以在这三者之间，只有代理是个明白人，它必须清楚这次任务所以细节，所以有时候虽然说代理是安全的，但其实它也不安全，只要把代理攻克了就能了解到底是哪个家伙干的坏事，所以网上干坏事的人，一般都用很多个代理，层层代理，就算你攻克了一个，也找不到坏人</p>
+<p>对于服务器来说，代理就是客户端，它只负责响应就行，对于代理和客户端来说都是一样的策略。但是时候很奇怪，服务器为什么知道你是个代理，原来全是代理自己的锅，我们细谈一下代理的分类</p>
+<h3 id="代理的分类"><a href="#代理的分类" class="headerlink" title="代理的分类"></a>代理的分类</h3><p>代理也分很多种，有的时候代理也不老实，把客户信息暴露了，这个时候我们就说它是小透明（透明代理），有的时候它不告诉你客户信息，但是告诉服务器我是个代理，我们就说它是匿名代理，但是有时候它连它自己是啥都不告诉你，它伪装成它是客户端，这个时候我们称它为高匿代理，所以这些代理根据暴露信息的不同可以分为这三种</p>
+<ul>
+<li>透明代理</li>
+<li>匿名代理</li>
+<li>高匿代理</li>
+</ul>
+<p>当然我们最喜欢高匿代理，你可以把它当做你的分身，除了身份证不一样，两个人长得一模一样。</p>
+<p>所以我们判断一个代理的类别，必须要检测它向服务器发的报文，所以在我项目<code>FastProxyScan</code>，我搭建了一个服务器，返回客户端向服务器请求头，主要是<code>HTTP_X_FORWARDED_FOR</code>和<code>HTTP_VIA</code>头来分别暴露客户端信息和代理端信息，所以我们只要请求头检测有没有这两个字段就可以完成检测，原理非常简单</p>
+<p>在这里我介绍用Nginx高效返回检测信息</p>
+<pre><code>  location ~ ^/ip {
+      default_type application/json;
+      return 200 &apos;{&quot;REMOTE_ADDR&quot;:&quot;$remote_addr&quot;,&quot;HTTP_VIA&quot;:&quot;$http_via&quot;, &quot;HTTP_X_FORWARDED_FOR&quot;: &quot;$http_x_forwarded_for&quot;}&apos;;
+}
+</code></pre><p>在Nginx配置里面加上这个端口，我们只有请求<code>/ip</code>，就能直接从Nginx返回请求头信息，速度贼快</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>当然网上还有很多对代理的分类，缓存代理，正向代理，反向代理，但是这些都是代理自己的额外功能，我们前面介绍的代理都是傻呼呼，客户端要什么，它就做什么，这些如缓存代理高级的代理就是很聪明，它的目的就是最快返回客户端需求，比如说虽然说这个傻客户端傻乎乎一个请求请求了几十遍还没记住，代理自己拿个小本子记好，你下次来，正好对上号，直接抄给你，不用再跑几千里去拿了。但是其实本质上它还是逃不出上面的分类，只不过它有的自己的不同罢了。</p>
+
       
     </div>
 
@@ -1857,7 +1732,7 @@ ts.ts_ss0 = GD_KD;
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/8/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/8/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1925,7 +1800,7 @@ ts.ts_ss0 = GD_KD;
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">128</span>
+          <span class="site-state-item-count">113</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -2000,12 +1875,12 @@ ts.ts_ss0 = GD_KD;
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">274k</span>
+    <span title="站点总字数">273k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:09</span>
+    <span title="站点阅读时长">4:08</span>
 </div>
 
         
