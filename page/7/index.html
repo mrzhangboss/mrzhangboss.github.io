@@ -211,365 +211,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/09/12/python/如何让你的Python像C一样快/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/09/12/python/如何让你的Python像C一样快/" class="post-title-link" itemprop="url">如何让你的Python更快</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-09-12 00:00:00" itemprop="dateCreated datePublished" datetime="2018-09-12T00:00:00+08:00">2018-09-12</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:05:18" itemprop="dateModified" datetime="2021-03-09T20:05:18+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>5.3k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>5 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
-<p>其实一开始没有想到写关于<code>Python</code>的加速，一开始只想好好了解一下<code>C++</code>这门语言，没想到最后研究来研究去，基本上把所以加速框架都试验了一下，这篇博客就谈谈我对<code>Python</code>加速的看法</p>
-</blockquote>
-<p> 首先我先谈谈<code>C++</code>，虽然我上大学之前就自学过<code>C</code>，但是对于这个<code>C</code>的升级版还是没有过多的了解，花了几天时间学习，发现<code>C++</code>这门语言还是不错的，至少在兼容性上，它能兼容<code>C</code>还有以前的版本。</p>
-<p>然而作为一个用惯了了脚本语言的人来说，<code>C++</code>最麻烦的就是他的第三方库管理，当然对于类<code>Unix</code>系统有自己带的包管理器（如ubuntu上的<code>apt</code>，CentOS上的<code>yum</code>）可以来安装第三方库（就是我们平常为了安装一些软件，比如要先<code>apt install xxx-dev</code>那些库），由于这些都绑定了平台的，所以你经常能看到有些软件自己编译会列出各个平台下依赖的包，然而对于一些比较新的库（比如<code>googletest</code>，就得去<code>Github</code>上掏下来自己编译安装了。</p>
-<p>吐槽完了<code>C++</code>的缺点之后，我们不得不说<code>C++</code>的优点了，虽然比较难装（相比于脚本语言）但是那个速度真是贼快，用腾讯开源的协程库，单台机器就能开启千万协程而且内存不超过2个G，想我大<code>Python</code>开个一万都很嘚瑟了。<code>C++</code>在性能上真的的碾压的。就是因为<code>C++</code>性能上要求到极致，所以它才会有那么多的前面安装的缺点，因为<code>C++</code>是面对硬件的，对于不同的硬件，<code>C++</code>想做到最快，那么通用的代码就不可能的，通用就代表损失性能。然而让我全用<code>C++</code>写代码是不可能的，脚本语言用的多爽呀。所以了解完了<code>C++</code>的强大之后，我就越发的想了解怎么结合两者的方式来提升｀Python｀速度，最后把所有加速手段都测试了一遍，所以就有了这篇博文。</p>
-<p>PS: 之所以花这么多时间介绍<code>C++</code>是因为<code>LLVM</code>就是使用<code>C++</code>写的，而<code>numba</code>依赖<code>LLVM</code>来动态编译出比<code>C</code>更快的机器码，这个也就<code>Python</code>最后能比<code>C</code>还快的主要原因</p>
-<h2 id="（Python）-（C-）难在哪里"><a href="#（Python）-（C-）难在哪里" class="headerlink" title="（Python）+（C++）难在哪里"></a>（Python）+（C++）难在哪里</h2><p>大家都知道<code>Python</code>有很多实现，我们这里说的<code>Python</code>是<code>CPython</code>也是最常见的实现，它是由<code>C语言</code>编译出来的，我们的目标就是把两种语言给混合起来，<code>C+C++</code>。</p>
-<p>我们看看其他语言，比如<code>Java</code>其实也可以混合<code>C++</code>代码，它是采用<code>JNI</code>的方式来进行交互的，如果你了解这种方式，你会发现也非常麻烦，得先写<code>Java</code>的类，然后再生成<code>C/C++</code>头文件。然后你再写<code>C/C++</code>代码，其实我很讨厌这种方式，我希望能把<code>C/C++</code>和你的语言这两种分离开来，我们能简单通过某种方式桥接一下让两个项目能够连贯起来。</p>
-<p>我们现在来看看<code>Python</code>是如何调用<code>C++</code>的代码。在这之前我先提一下<code>Python</code>与<code>C</code>的关系。</p>
-<p>其实<code>Python</code>和<code>C</code>一直非常友好，相比于其他语言，<code>Python</code>在支持上一直尽最大努力，因为<code>Python</code>开发者也知道<code>Python</code>非常慢（相比于C，C++，而且还有GIL的存在无法使用多线程密集CPU计算），所以<code>Python</code>开发者直接在内库上提供支持：<code>ctypes</code>，一个专为调用<code>C</code>代码的库。你只有编写少量代码就能让<code>Python</code>运行你的<code>C</code>代码。理论上你碰到性能问题直接写<code>C</code>就行了，但是我们为什么还要让<code>Python</code>运行<code>C++</code>来加速呢</p>
-<p>四个字：比<code>C</code>更好，<code>C++</code>由于在性能上与<code>C</code>不相上下，而且比C要高级的多（面对对象等），编写速度与维护上比<code>C</code>更加好，而且要知道现在最流行的Java编辑器都是<code>C++</code>写的，还有很多高性能数据库以及机器学习库都是<code>C++</code>写的，虽然在<code>Python</code>中写<code>C</code>更加简单，但是我们还是希望能够用面对对象的方式来编写代码，毕竟我们主要使用的高级语言也是面对对象的</p>
-<p>也正是因为<code>C++</code>提供了一些<code>C</code>没有的面对对象，以及高级特性，这就让我们融合<code>C</code>和<code>C++</code>带来了一些困难。</p>
-<h2 id="Python为什么能够调用C-代码"><a href="#Python为什么能够调用C-代码" class="headerlink" title="Python为什么能够调用C++代码"></a>Python为什么能够调用C++代码</h2><p>我们从调用顺序来看，我们其实想用<code>C</code>代码（<code>Python</code>本质其实是<code>C</code>代码）调用<code>C++</code>，<code>C++</code>比<code>C</code>要高级，出生的也更晚，所以<code>C</code>其实是不知道<code>C++</code>这门语言的，所以<code>C</code>能调用<code>C++</code>，其实是<code>C++</code>对<code>C</code>的一种兼容，这种兼容是<code>C++</code>提供的</p>
-<p><code>C++</code>作为一门偏底层语言，它最终的目的是生成二进制码，<code>C</code>最终也生成二进制码，这个二进制码能直接在CPU里面运行，大家都知道一个代码复用的概念，在二进制层次上，就有这个<code>链接库</code>概率，反正无论谁是最终调用主体，被调用方只需要提供一个规定好的<code>函数库</code>，那么就能实现跨语言的一种交互。</p>
-<p>但是这个交互存在一个问题，<code>C++</code>比<code>C</code>有着更加特性，比如说类，<code>C</code>没有这个概念，假如<code>C++</code>在动态库里面想让<code>C</code>能够调用一个<code>类</code>方法，<code>C</code>根本不知道怎么用，一个类要使用必须牵扯到类初始化，类析构等等。所以<code>C++</code>提供一个关键字<code>extern &quot;C&quot;</code></p>
-<p>这个关键字就是告诉<code>C++</code>编译器把这个块域里面的东西编译成<code>C</code>可以接受的，当然有个前提条件里面代码声明必须是<code>C</code>式的，也就是只能使用<code>C</code>关键字来声明函数结构体什么的，但是在函数内部你可以调用<code>C++</code>代码，声明一个类什么的，最后返回结果。</p>
-<p>用一句话来总结这个关键词的作用就是：告诉编辑器和用户，里面的函数东西，不管中间过程，只需要在“开头”（函数声明），结尾（结果返回）是<code>C</code>模式的，那么这个函数就能在<code>C</code>里面用</p>
-<p>最后我们总结一下<code>Python</code>能够调用<code>C++</code>的代码的原因：只要<code>C++</code>能够”写”成<code>C</code>代码，我们就能调用。这时候你可能有疑惑了，如果把<code>C++</code>写成<code>C</code>那么我们还不如直接写<code>C</code>代码，何必如此复杂的研究这么久了。但是你有没有想过为什么<code>Python</code>是用<code>C</code>写的，最后却能拥有<code>C++</code>、<code>Java</code>这些语言的一样的类特征这个概念。</p>
-<p>这里我们必须要了解一个名词“语法糖”，在我们看来我们能在<code>Python</code>、<code>Java</code>、<code>Ｃ++</code>中使用一些面对对象的特性，比如类、继承、接口。其实这些都只是一些语法糖而已，在这些实现的底层，比如说<code>Python</code>它就是用<code>C</code>的函数来帮助我们构建这些语法糖，我们看到的一个对象的系统函数，其实它是<code>Python</code>帮助我们把一连串函数绑定在一个<code>module</code>上面，虽然表面上我们新建了一个对象，调用了一个对象函数，其实在<code>C</code>层我们就是调用了一连串的函数来完成一个对象的分配</p>
-<p>我们可以在官方文档中找到这部分<a href="https://docs.python.org/3.8/extending/extending.html#the-module-s-method-table-and-initialization-function" target="_blank" rel="noopener">介绍</a>，官方文档告诉我们只要将列表的函数赋给一个模块（<code>module</code>）我们就让你的<code>C/C++</code>代码给<code>Python</code>一个模块可以使用，从官方文档我们就可以很清楚看到<code>语法糖</code></p>
-<p><code>Python</code>的文档非常丰富，理论上我们能够根据文档完成复杂的<code>C++</code>代码与<code>Python</code>交互，但是我们从文档上可以看到，这个过程是非常繁琐的，相比于调用<code>C</code>的简单，为了实现调用<code>C++</code>的类和数据类型，我们得写很多中间代码进行转换，差不多就重新写了一遍<code>C++</code>的实现</p>
-<p>当然作为以简单为美的<code>Pythoner</code>早就发现这个问题，也就这个问题开发了<code>ctypes</code>、<code>cffi</code>、<code>numba</code>等框架帮助，就连在<code>C++</code>大名鼎鼎的<code>boost</code>库中也提供了<code>boost/python</code>来帮助<code>Python</code>更加简单的调用<code>C++</code>，接下来我就根据我对下面这些库来谈一谈我的看法</p>
-<h2 id="框架简析"><a href="#框架简析" class="headerlink" title="框架简析"></a>框架简析</h2><p>单纯的介绍这些库的功能太枯燥了，我就按照我对这些的库的理解将他们编成历史故事（真实出现的原因可能不是这样的）</p>
-<p>话说在<code>Python</code>作者设计<code>Python</code>之后，它发现<code>Python</code>实在是有点慢，为了能加速它就把<code>Python</code>的<code>C</code>API告诉社区的人让他们自己编写<code>C</code>代码然后让<code>Python</code>去调用它</p>
-<p>但是这个API实在是太繁琐了，要写太多附件的<code>C</code>代码了，有些人就发现这个问题，他们设计了一种脚本程序，你只要把你想调用的<code>C</code>函数包在<code>%{</code>里面就能帮你生成<code>Python</code>API的C代码，这样减少了不少代码量，这个框架叫做<code>Swig</code>。</p>
-<p>大家在使用<code>Swig</code>的时候发现一个问题，这个<code>Swig</code>要生成的一个很大的<code>C</code>函数，<code>C++</code>开发者发现了这个问题，他们跟<code>Python</code>开发者说你们是不是瞧不起<code>C++</code>，这个函数这么不优雅，竟然想跟我们代码混起来，想用<code>C++</code>我们帮你，你要生成什么函数告诉我，我帮你生成你引用一下我这个库就行，这样大名鼎鼎的<code>boost::python</code>就开发出来了</p>
-<p>你开心的用起来<code>boost::python</code>来包装一下代码，这样写完<code>C++</code>代码再引入<code>boost::python</code>把<code>Python</code>需要的函数定义一下，编译，OK，但是<code>Windows</code>用户不开心了，这个<code>boost::python</code>是在<code>boost</code>项目下的一个子项目，为了在<code>Windows</code>安装，还得下几百兆的软件包，要是碰到网络不好得下一天。这个时候<code>Python</code>大牛出来了，啥，这么麻烦，我来开发一个包，把<code>boost::python</code>从<code>boost</code>的掏出来，你只需要<code>pip</code>一下就行</p>
-<p>经过几个”小时”开发，<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pybind11</a>开发出来了，还是原来的配方还是原来的味道，管他<code>Windows</code>还是<code>Unix</code>，直接<code>pip</code>一下就能使用<code>boost::python</code> 一样的语法来用了</p>
-<p>就这样安安稳稳的过了一段时间，大家很开心用<code>Python</code>包轻轻松松解决生成<code>Python</code>C API代码的功能。但是随着大家用的越来越多，大家发现怎么我用<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pybind11</a>调用<code>C++</code>跑的有点慢，<code>Python</code>大牛开始研究，重要他们发现由于<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pybind11</a>由于秉承<code>Python</code>的简单至上，很多东西它都做了”通用性“，比如它帮你自动把<code>C++</code>的<code>Vector</code>的类型转成<code>Python</code>的<code>list</code>，这样程序在编译时候不会报错，但是由于这种类型转换太多了，严重的拖累了<code>C++</code>的速度，所以<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pybind11</a>虽然用的很开心，但是速度却比原生的<code>Python</code> C API要慢</p>
-<p>这个时候精通编译原理、<code>Python</code>、<code>C++</code>的大牛出现了，它发现解决这个问题的办法很简单，创造一门中间语言，这么语言可以详细的定义怎么从<code>C++</code>到<code>Python</code>的中间过程，在<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pybind11</a> 中这个完全是一个黑箱子，只有把这个黑箱子拿出来，这样我们就知道你想怎么调用<code>C++</code>，这样就能设计更加优秀的<code>Python</code>C API的代码。最后<code>Cython</code>出现了，它的出现让那些苛求性能的人闭上了嘴，它自动出来的生成<code>Python</code>C API代码近乎人工编写，在这样强的性能加持下，它的速度近乎原生</p>
-<p>至此在生成代码<code>Python</code>C API的中间代码的三方库尘埃落定，没有人想到有更好的办法来优化这一个方向。但是苛刻的人无处不在，他们攻击不了它的性能，只能攻击它的生成方式</p>
-<p>为了使用<code>Cython</code>必须编译它，要么借用<code>setuptools</code>来简单这个步骤，要么自己手动编译，一些开发者叫嚣着，都说<code>Python</code>是个动态语言，怎么还要编译呀，麻烦死了，这个时候一些开发者就站出来了，他们觉得这是个挑战，他们想解决掉它，于是<code>cffi</code>被开发出来了，你不需要用专门的文件存贮<code>C/C++</code>代码，你可以像调用函数一样把<code>C/C++</code>函数原文作为参数传进去，实现动态加载，但是这种动态性还是付出了代价，速度有了一定影响，虽然还是比<code>Python</code>快，但是远远比不上<code>Cython</code>，有得必有失</p>
-<p>这个时候精通汇编的大佬出现了，他们觉得动态加载这个地方还可以加强，他们觉得不需要我们在<code>Python</code>里面写<code>C</code>或者<code>C++</code>，你写一个<code>Python</code>函数，用一个装饰器包装一下，他们直接从底层出发，反正<code>Python</code>最终会编译成机器码，把<code>Python</code>函数的机器码加上类型（Python函数的参数可以是“鸭子”类型，不是强类型），省掉<code>Python</code>冗余的类型推断，直接从机器码层次上进行优化，最后编译成二进制接口给<code>Python</code>调用（背后使用了LLVM进行编译，这里就不详细介绍了），最终它的运行速度小胜<code>Cython</code>，并且比<code>C</code>还略胜一筹，这个就非常恐怖了，因为<code>C</code>基本上是除了汇编以外的速度标杆，所以懂汇编的大佬不要惹，太恐怖了，这个库的名字叫做<a href="https://numba.pydata.org/" target="_blank" rel="noopener">numba</a>，现在这个库已经开发6年多了，由于涉及到从<code>Python</code>源代码到了机器码实在太复杂了，所以仍然在开发中（主要适应各种硬件以及平台），目前处于<code>0.40.0</code>版本，基本上在主流平台使用是没有问题的。</p>
-<p>对于各个库速度的测试可以看看这篇<a href="https://jakevdp.github.io/blog/2013/06/15/numba-vs-cython-take-2/" target="_blank" rel="noopener">博客</a>，可以看到<code>numba</code>完胜<code>C</code>和<code>Cython</code></p>
-<p>PS: 在这里我没有提<code>ctypes</code>因为它是原生的，而且它对<code>C++</code>支持并不很好</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在速度方面<code>numba</code>加持的<code>Python</code>无疑是No.1，但是它也有几个缺点，一个就是目前还处在开发阶段(目前是0.40版本，还没有1.0版本，而且issue有500个open状态，我在试验的时候也发现存在一些在issue的bug），第二个就是它目前支持能在函数内部运行的库只有<code>numpy</code>（当然这个也是它的设计的一个初衷，就是加速numpy与<code>Python</code>的混合代码）</p>
-<p>当然它的优点完全可以盖过它的缺点，优点有很多，首先第一个它的速度，在<code>LLVM</code>加持下比<code>C</code>更快简直让人震惊，第二个是它调试和维护非常方便，都是由<code>Python</code>编写的，去掉装饰器就是<code>Python</code>代码，直接在IDE里面调试不知道多爽，上线的时候加上注释器跑的飞快（还能丢掉<code>GIL</code>）。目前<code>numba</code>还处于开发过程中，现阶段仍然有很多<code>bug</code>（500个Open的<code>issue</code>），不过正是由于大家都对他非常期望，所以它的<code>issue</code>才那么多，也希望<code>numba</code>能够越来越好，让<code>Python</code>真的起飞。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/09/06/bigdata/千万级数据处理小结/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/09/06/bigdata/千万级数据处理小结/" class="post-title-link" itemprop="url">千万级数据处理小结</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-09-06 00:00:00" itemprop="dateCreated datePublished" datetime="2018-09-06T00:00:00+08:00">2018-09-06</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:01:40" itemprop="dateModified" datetime="2021-03-09T20:01:40+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/大数据/" itemprop="url" rel="index">
-                    <span itemprop="name">大数据</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>4.1k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>4 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
-<p>这两个星期的工作主要是对千万文本数据的处理，由于我以前没有接触过类似的数据量，所以我就把我在处理这千万数据的过程中遇到的问题以及解决的方法总结一下</p>
-</blockquote>
-<h2 id="明确目标"><a href="#明确目标" class="headerlink" title="明确目标"></a>明确目标</h2><p>完成任务之前我们必须要明确自己的目标，首先谈一下数据，数据是两张表，一张是文章列表，一张是文章内容，每篇文章都牵涉到一些人，我们的目标就是给定一些搜索条件然后把最可能相关文章给找出来</p>
-<p>这个任务有点像实现一个搜索引擎，我们通过输入关键词把相关的网页寻找出来，简单点来实现就是直接使用<code>SQL</code>的<code>Like</code>查询，但是这里存在两个很大的问题</p>
-<ul>
-<li>搜索精度不准，假如我们搜<code>张华</code>可能有关<code>张华硕</code>的人也会出来</li>
-<li>搜索耗时太长，在千万级文档中全文搜索速度非常慢</li>
-</ul>
-<p>我们希望我们能精确的实现查询，而且我们希望我们的查询能够实现毫秒级的速度。所以我们就尝试使用<code>ElasticSearch</code>来当我们“数据库”，并且放弃系统默认的分词，自己”手动分词“，来实现精准快速查询</p>
-<p>所以我们的目标很简单，将数据从<code>MySQL</code>“塞”到<code>ElasticSearch</code>中，然后想办法再”取”出来</p>
-<h2 id="第一个拦路虎“MySQL”"><a href="#第一个拦路虎“MySQL”" class="headerlink" title="第一个拦路虎“MySQL”"></a>第一个拦路虎“MySQL”</h2><p>我碰到的第一个拦路虎是数据库的响应速度，为了将数据完整的从数据库里面取出来（新数据还在产生），我按照id从小到大的顺序一小块一小块的从<code>MySQL</code>中获取出来</p>
-<p>一开始程序运行的挺Happy，速度一直很稳定，但是我发现跑了十万之后速度突然慢下来，一开始我以为解析有问题，我开始打断点，调试，找了半天原来是数据库返回数据太慢了。</p>
-<p>我们来分析一下这个<code>SQL</code>为什么这么慢</p>
-<pre><code>select * from a order by id limit 10 offset 100000 
-</code></pre><p>我们虽然限制返回了10个但是后面有个条件我们必须要后面10万个，为了拿到这10个，<code>MySQL</code>必须要扫描10万个数据先，虽然我们是在主键上扫描会快一点，但是十万毕竟很大，即使一次主键扫描花0.01ms，乘以十万也是很大的</p>
-<p>基本上每次解决数据库速度的时候，我们第一考虑点就是索引，那么我们这里就多聊两句：索引为什么快？</p>
-<p>数据库其实就是一堆数据的集合，它提供工具我们快速获取我们想要，用图书馆来打比方，数据库就是图书馆，他们把所以的图书分好类，你想买什么书，按照分类去寻找就行，这样假设你图书馆有一千万本书，你要找《安徒生童话》，你只要按照这个索引（童话书&gt;丹麦&gt;安徒生)就能找到，假如你想找一本《无类》的书你不知道他的分类，你就得把整个图书馆逛一遍才能找到你要的书了，这就是没有索引的下场。</p>
-<p>在程序的世界里也一样，你想快速找到一个记录，如果不用索引，那么就得遍历了，运气好一下子就能找到，运气不好一辈子也找不到。在    <code>MySQL</code>中，索引的背后就是B+树，也就是将数据查找最坏结果降到了一个<code>log2N</code>级。如果你想了解“树”为什么这么快，可以看看我前面写的的<a href="/2017/12/27/浅谈树这种数据结构/">博客</a></p>
-<p>怎么来说明这个索引的作业呢，假设你有一千万数据，你最坏的情况下要进行24次查找，24:1000000 达到惊人的41万倍差距，而且当数据越大这个差距越大，从这里我们就知道索引的威力了。</p>
-<p>我们回到前面，为了使用索引，那么我们只能在<code>id（主键）</code>上做手脚了，我第一个想到的是按照<code>id</code>分块，但是我仔细看了看数据库，<code>id</code>不是全部连续的（可能是因为删除过数据），假如我用<code>id</code>固定的区间来的话，获取到的数据可能部分有部分没有，虽然能够实现但是不够优雅，我还得增加处理空数据的代码。</p>
-<p>这时候我想到了，我们第一次获取的<code>id</code>如果能在后面继续使用，而且更新的话那么我们就能使用上索引了，所以我们只有把每一块数据的最后一个<code>id</code>记住，然后去这个<code>id</code>获取下一批数据，这样就能实现又用索引又不用改太多代码。</p>
-<p>那么我们的<code>SQL</code>就改成下面的语句</p>
-<pre><code>select * from a where id &gt; 1111 order by id limit 10
-</code></pre><p>通过简单的测试原来需要几分钟才能“掏”出来的数据在几毫秒就取出来了，上万倍的差距。至此我们第一个拦路虎就解决了</p>
-<p>PS：在后面看<code>ElasticSearch</code>文档的时候发现他们也提供了一个<code>scroll</code>（全库获取）的超级翻页功能，在他们的参数里面也要提供一个<code>scroll_id</code>，感觉原理应该也是和这个差不多。通过使用索引<code>id</code>来加速“翻页”</p>
-<h2 id="ElasticSearch存贮和排序"><a href="#ElasticSearch存贮和排序" class="headerlink" title="ElasticSearch存贮和排序"></a><code>ElasticSearch</code>存贮和排序</h2><p>接下来我就介绍，我怎么优化存储和编写定制动态<code>DSL</code>来实现我们想要的功能。</p>
-<p>在我介绍之前，我先简单的谈一下我对<code>ElasticSearch</code>的理解</p>
-<h3 id="ElasticSearch简介"><a href="#ElasticSearch简介" class="headerlink" title="ElasticSearch简介"></a>ElasticSearch简介</h3><p>在我没有真正使用<code>ElasticSearch</code>之前，我就在知乎上听过它的大名，<code>ElasticSearch</code>真正让我震惊的是当我把上千万数据导入到它里面去，它能在毫秒级别给你响应，而我在<code>MySQL</code>调用<code>SQL</code>进行查询得花几十分钟</p>
-<p>我们可以把<code>ElasticSearch</code>类比成一个数据库，相比于<code>MySQL</code>它在查询性能上做到了苛刻的，我一开始想好好介绍它是怎么做到的，但是我发现有人已经总结的非常好了，可以看看这份<a href="https://zhuanlan.zhihu.com/p/33671444" target="_blank" rel="noopener">资料</a>，它之所以能做到这么快的原因就是这个：索引+内存+缓存</p>
-<p><code>ElasticSearch</code>使用倒叙索引让查询时间复杂度降到logN级，使用内存让物理查询速度达到极限，加上一些过滤缓存让其在复杂查询还是简单查询都能保持在一个很平稳的速度</p>
-<p><code>ElasticSearch</code>相比与<code>MySQL</code>还有一个特点，就是对大文本搜索的支持，<code>ElasticSearch</code>对文本默认自动进行分词，并且通过一些高级分类算法（TF/IDF，5.0后使用更加先进的BM25算法），对匹配的文本进行打分，依次返回得分高低列表，而<code>MySQL</code>在大文本检索只有一个全文索引支持，从实现上来看就是一个加了索引的<code>Like</code>查询，所以<code>ElasticSearch</code>在设计的特定算法加持下被称为“搜索引擎”</p>
-<p>但是<code>ElasticSearch</code>同现在商业的搜索引擎，比如Google、百度、Bing这些又有些不同，<code>ElasticSearch</code>传入的是纯文本，所以它只能使用一些<code>TF/IDF</code>算法来计算给定关键词与文本的相关项，但是现在商业引擎输入的是网页，所以现在商业引擎比如Google就使用<code>Google Page Rank</code>算法来再次计算文档相关性。当然现代商业引擎不单仅仅使用<code>Google Page Rank</code>算法，他还会考虑更加因素进去（比如百度的竞价排行，Google的恶意影响网页排行检测），但是从本质上来说，无论是<code>ElasticSearch</code>和现代商业引擎都在做同一件事，给匹配项打分，这就是他们与<code>MySQL</code>的全文检索的不同（<code>MySQL</code>没有后面打分排行的概率，他只有<code>order by</code>的这个概率）</p>
-<h3 id="设计思路"><a href="#设计思路" class="headerlink" title="设计思路"></a>设计思路</h3><p>一开始我准备直接使用<code>ElasticSearch</code>的搜索引擎来对<code>文章</code>中的涉及到的人进行检索排序，但是我们来考虑这样一件事，假如文章中存在这么一句话：“刘二能吃两碗饭”（涉及到的人是刘二能）。假如我们使用“刘二”去检索，这篇文章中的”刘二能“也能检索到，而我们的目的就是尽可能返回最可能的结果，对于那些不可能的结果一律不返回</p>
-<p>所以我们就不能让<code>ElasticSearch</code>自动帮我们对文本进行分词，但是我们想利用<code>打分</code>这个机制帮我们完成最可能在最前面返回</p>
-<p>所以我们把每篇文章里面的人物解析出来的属性（姓名，出生年月，民族等）设定为<code>keyword</code>类型，这样<code>ElasticSearch</code>就不会对这个字段进行分词，查询的时候也必须全匹配才能命中，由于一篇文章可能设计到多个人，所以我把它用一个<code>list</code>存到一个<code>document</code>里面</p>
-<p>但是这个又引起了另外一个问题，对与一个<code>document</code>里面的<code>list</code>，<code>ElasticSearch</code>会把它进行转换</p>
-<p>我们用<a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/nested.html" target="_blank" rel="noopener">官方文档的例子</a>解释，我们存入了下面这个<code>document</code></p>
-<pre><code>{
-  &quot;group&quot; : &quot;fans&quot;,
-  &quot;user&quot; : [ 
-    {
-      &quot;first&quot; : &quot;张&quot;,
-      &quot;last&quot; :  &quot;华&quot;
-    },
-    {
-      &quot;first&quot; : &quot;李&quot;,
-      &quot;last&quot; :  &quot;四&quot;
-    }
-  ]
-}
-</code></pre><p><code>ElasticSearch</code>会把它转换成</p>
-<pre><code>{
-  &quot;group&quot; :        &quot;fans&quot;,
-  &quot;user.first&quot; : [ &quot;张&quot;, &quot;李&quot; ],
-  &quot;user.last&quot; :  [ &quot;华&quot;, &quot;四&quot; ]
-}
-</code></pre><p>这样你查询这个人<code>张四</code>，我们发现上面这个文档也返回了（选了<code>user.first</code>列表的第一个值，<code>user.last</code>的第二个值，这个结果明显是错误的，我们怎么才能避免<code>ElasticSearch</code>的“自作聪明”呢，答案很简单我们把<code>user</code>声明为<code>nested</code>对象，这样<code>ElasticSearch</code>就不会把它拆开了而是把它当做两个文档（有些人可能会说这个会不要影响它的速率，恰恰相反，<code>ElasticSearch</code>会经常使用类似技术来加速，详情可以看上面的<a href="https://zhuanlan.zhihu.com/p/33671444" target="_blank" rel="noopener">博文</a>)</p>
-<p>现在我们解决了重重困难终于要到排序的阶段了，然而我们没有使用<code>string</code>类型（支持TF/IDF算法）而使用了<code>keyword</code>类型，导致我们没有办法使用<code>ElasticSearch</code>提供的高级排序算法，所以我们得自己手动进行提分，怎么来提分呢，很简单使用<a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-boost.html" target="_blank" rel="noopener">boost</a></p>
-<p>前面我们提到了我们的文档可能解析出来对象多个属性（姓名、年龄、性别、居住地），但是有些文档也可能没有这些信息，我们查询的时候是有一个信息列表（这个人姓名、年龄、性别等等），所以我们使用<code>boost</code>对命中的信息越多的进行提分，所以我们最终就能完成命中越多信息的排在越前面，当然命中信息少的也会被筛选出来只不过位置稍微靠后</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过这次直面千万数据，让我学习到了不少，虽然一开始目的只想简单搜索出来最匹配的数据，但是在实际过程中，通过不断对产生结果提出问题，最终实现了一个比较满意的产品，整个产品在不断的优化过程中逐渐成型并且稳定，我觉得对我帮助最大就是撰写设计文档，并且在产品成型的过程中把结果反馈上去，最后慢慢迭代一个最好的版本</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/08/25/summary/毕业两月反思/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/08/25/summary/毕业两月反思/" class="post-title-link" itemprop="url">毕业两月反思</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-08-25 00:00:00" itemprop="dateCreated datePublished" datetime="2018-08-25T00:00:00+08:00">2018-08-25</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-11 11:08:34" itemprop="dateModified" datetime="2020-03-11T11:08:34+08:00">2020-03-11</time>
-              </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>1.4k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>毕业近两个月了，然而这两个月对自己的状态不太满意故写下这篇博客反思</p>
-</blockquote>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>大约是去年十一月在室友的带领下走上了健身这条路，说起来也搞笑，当初室友邀请我去健身，然而我每天享受免费操场跑步，反而对于要花钱的健身嗤之以鼻，虽然我知道那些肌肉硕大的大块头都是从健身房出来的，但是我一直没有想过去练出他们一样的肌肉，我运动本身的目的就不是为了炫耀什么的，主要是想要一个健康的身体，然而南昌十一月妖风阵阵，虽然还没到冬天，晚上妖风能让你吹到感觉到冬天的气息，然而中午却非常热，我尝试过早上跑，但是我个人体质太容易出汗了，跑完就需要洗澡，然而早上没有热水（尝试过冷水，差点让我冻僵）</p>
-<p>正好这个时候室友每天去健身，在我的印象里健身房好像有跑步机，于是我一狠心就花了钱办了一张健身卡，刚开始我是奔着跑步机去的，但是我们班长拉住了我开始教我健身动作，我也是在室友和班长的带领下走上了健身这条“不归路”，可怜的跑步机我就没有用过几次，本来一开始是奔着跑步机去的呀。</p>
-<h2 id="为何健体"><a href="#为何健体" class="headerlink" title="为何健体"></a>为何健体</h2><p>到现在自己已经在三个不同的健身房办了卡了，扯远了，健身的确是一件神奇的事，我一直以为运动会让你瘦下来，没想到健身却让我“胖”起来，当我健身到六个月时，我们班长和室友惊奇的告诉我，我的胳膊整整“胖”了一圈，他们还记得我刚来健身房的时候胳膊细的同木棍一样，然而健身对于我来说却并没有很多不同，我只是找到一个地方可以挥洒我的汗水，找到一个地方可以突破自己的极限</p>
-<h2 id="健体而不健心"><a href="#健体而不健心" class="headerlink" title="健体而不健心"></a>健体而不健心</h2><p>健身真的是一件很有成就感的东西，它的成就感不是在于别人夸你的肌肉有多大，而是你能清楚的找到自己的极限，我原来是一个脑洞很大的人，每天大脑天马行空，像一个中二少年一样总想着自己是“超级赛亚人”，能像绿巨人一样发怒把汽车给掀开，一拳把树打倒。当你在健身房，你拿起一个5KG的哑铃，然而你倾尽全身力气却没法做一个标准的动作，你这个时候才知道自己不是”超人“。健身让你更加了解你自己，慢慢的你就接受了这样的自己，健身的成就感也就在于你能慢慢的感受自己的成长。</p>
-<p>也可能是过于关注自己的身体的进步吧，而自己一直忽略了自己心理的进步。自从踏入社会，开始工作。对于工作我一直是打着自己十二分的精力去做，然而对于工作结束后的那段时间自己一直没能够充分利用。主要的原因就是自己的不够自律。一方面也有自己身体的原因，自己健身都是在下班后，健身完之后自己总是筋疲力尽，本来需要充分利用的时间全部被自己的羸弱的意志给消磨掉了，虽然自己一开始能够控制自己，但是一不小心大脑发出疲惫的信号，慢慢的自己就变成“葛优躺”，大把时间就在不经意的打开手机玩上两把，我看一下微信，再看一下QQ，大块时间被手机打碎成一小块一小块，搞得一晚上下来该做的没做，不该做的做了一大堆。</p>
-<p>在这里我必须要深刻的反省，即使是因为身体疲惫的原因，最主要的还是自己不够自律的原因，我其实有很多想法，有很多想做的事情，但是总是在不自律的自己把时间给浪费掉了，毕业之后书自己也很少看了，记得以前在图书馆捧起一本书津津有味的看上一晚上的酸爽。然而现在的自己，即使是看书也要打开电脑，左手拿着手机，右手捧着书，眼镜盯着电脑看一会，书再看一会。书走马观花，看了也是白看。原来经常更新的博客也停下来了。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>自己也不下什么军令状了，我自己不是一个圣人，我会松懈，我会娱乐，但是我需要自己记住不要因为自己身体的虚弱而导致自己内心的失防，过去自己一直在因为自己过分迁就“健体”而忽视”健心“，自己要牢记只有内心强大才能强大。只要未来的自己不要因为过去的蹉跎的后悔就够了。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/08/09/python/从关系角度来看XPath/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1837,11 +1478,386 @@ ts.ts_ss0 = GD_KD;
   
   
 
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/02/19/algorithm/mit6_828/KERNBASE对操作系统的影响/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/02/19/algorithm/mit6_828/KERNBASE对操作系统的影响/" class="post-title-link" itemprop="url">KERNBASE对操作系统的影响</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-02-19 00:00:00" itemprop="dateCreated datePublished" datetime="2018-02-19T00:00:00+08:00">2018-02-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>2.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="概括"><a href="#概括" class="headerlink" title="概括"></a>概括</h2><blockquote>
+<p>这个问题主要在这本<a href="https://pdos.csail.mit.edu/6.828/2016/xv6/book-rev9.pdf" target="_blank" rel="noopener">xv6-ref</a>的第一章的练习题2中提出来</p>
+</blockquote>
+<p>问题如下</p>
+<pre><code>KERNBASE limits the amount of memory a single process can use, which might be irritating on a machine with a full 4 GB of RAM. Would raising KERNBASE allow a process to use more memory?
+</code></pre><p>根据前面的知识可知这个问题翻译过来就是：在32位处理器下，当<code>KERNBASE</code>为<code>0x80000000</code>时用户最多可以用2GB内存，我们是否能够增加<code>KERNBASE</code>让用户使用超过2GB内存呢？</p>
+<p>ps： 下面<code>KERNBASE</code>简写为<code>KE</code></p>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>要想解答这个问题，我们必须要知道xv6是如何分配内存的，以及如何区分用户和内核，以及<code>KE</code>的作用。</p>
+<p>xv6使用内存分页技术，如果你对这个不了解可以看这篇<a href="/2018/01/31/内存分页/">引导中的静态表</a>和这篇<a href="/2018/02/内存分页设计/">内存分页设计细节</a>，了解完这个我们谈谈用户和内核的内存分页应用。</p>
+<p>注意我们所以计算的前提是在32位处理器的条件下</p>
+<h2 id="用户和内核应用内存分页"><a href="#用户和内核应用内存分页" class="headerlink" title="用户和内核应用内存分页"></a>用户和内核应用内存分页</h2><p>其实用户和内核都是程序，对于用户来说内核只有一个，对于内核来说，用户可以有无数个。为了隔离内核和用户我们必须在内存上就进行隔离，所以单一内核和每个用户都拥有一个内存目录。</p>
+<h3 id="内存分页的意义"><a href="#内存分页的意义" class="headerlink" title="内存分页的意义"></a>内存分页的意义</h3><p> 其实我们可以把内存的目录对应的所有内存表看做一张大的内存映射表，我们使用<code>1024 × 1024</code>个表单项代表<code>4GB</code>内存地址，每个代表<code>4K</code>连续的内存空间，当然大部分程序不会使用全部表单（一般就是内存目录一个，一到三个内存表）</p>
+<p> 当然好处有很多，比如任何程序都可以使用相同的虚拟地址但是在实际运行的时候不会相互影响，这个好处就是通过映射来实现的。</p>
+<ul>
+<li>映射就是虚拟地址到物理地址的一种转换，这是一种<code>多对一</code>的映射，也就是一个虚拟地址只能对应一个物理地址，然而物理地址可以对应多个虚拟地址</li>
+</ul>
+<p>这个转换带来了一个问题，给你一个虚拟地址，你可以查表然后得到物理地址，但是如果给你一个物理地址，你除了遍历没有很好的办法获取虚拟地址（而且有可能你会得到多个虚拟地址）。</p>
+<p>这个问题非常重要，因为它影响了我们后面内核与用户切换的时候地址的搜索，接下来我们看看内核初始化后内存是一种什么样的存在。</p>
+<h2 id="内核内存利用"><a href="#内核内存利用" class="headerlink" title="内核内存利用"></a>内核内存利用</h2><p>看xv6源码我们知道，内核这个程序将程序虚拟地址起点定在<code>KE</code>上，我们知道一个程序由三部分组成指令、数据、堆栈。堆栈是向下生长，而数据、指令向上生长。而xv6把堆栈固定为32KB，所以内存只能向上生长，所以理论上内核最大占用空间只有<code>2^32(4G) - KE</code></p>
+<ul>
+<li>当<code>KE</code>为<code>0xf0000000</code>时，只有256M</li>
+<li>当<code>KE</code>为<code>0x80000000</code>，有2G。</li>
+</ul>
+<p>由于用户内存空间不能超过<code>KE</code>（实际系统中为<code>UTOP</code>，值为<code>KE</code>减去一些为系统功能预留的空间，这里我们忽略他们），所以用户所能得到的内存空间最大为<code>KE</code>，也就是</p>
+<ul>
+<li>当<code>KE</code>为<code>0xf0000000</code>时，为 3840M（4G-256M）</li>
+<li>当<code>KE</code>为<code>0x80000000</code>，有2G。</li>
+</ul>
+<p>通过上面简单的理论值我们推断出答案是：</p>
+<ul>
+<li>增大<code>KE</code>可以增大用户内存</li>
+</ul>
+<p>这个结果看起来是正确的，但是我们知道作为一个操作系统不能固定用户的内存，我们接下来就看看在不同的内存下的实际应用以及<code>xv6</code>自身设计问题，由此来探索这个问题的本质</p>
+<p>我们就分两种情况来考虑 </p>
+<h3 id="物理内存小于（4G-KERNBASE）"><a href="#物理内存小于（4G-KERNBASE）" class="headerlink" title="物理内存小于（4G-KERNBASE）"></a>物理内存小于（4G-KERNBASE）</h3><p>这种情况在很早的时候经常出现，我们计算机的内存可能就几M，这个时候内核假如真的占了<code>4G-KE</code>那连内核都跑不起来何况用户程序。</p>
+<p>我们接下来进入源码来看<code>xv6</code>将实际占用的空间体现在内存表中，我们看到<code>kern/kernld.ld</code>配置文件，其中最主要的一行</p>
+<pre><code>PROVIDE(end = .);
+</code></pre><p>这行位置出现在最后一行，它的作用是提供了一个变量<code>end</code>，我们在C中就可以用这个变量代表机器码的最后一行的虚拟地址，有了这个地址之后，我们就获取了一个重要信息内核程序总长度，假如没有这个变量，我们只能人工设定一个操作系统的占用空间，假如定大了就是浪费，定小了程序就可能崩溃（内存溢出）。分配的细节可以看这篇<a href="/2018/02/内存分页设计/">文章</a>，通过这个变量，我们把内核占用的物理空间给腾出来了。接下来的剩余的物理空间就留给用户了，所以用户能用到的内存最大为<code>实际内存 - 操作系统占用的内存</code>。</p>
+<p>而且我们能够知道操作系统还将内核的内存映射直接固定了，将<code>KE：4G</code>的地址映射到<code>0:4G-KE</code>，公式为<code>虚拟内存=物理内存+KERNBASE</code>，这个映射存在于<code>kern/pmap.c</code>的<code>mem_init</code>函数中，这个带来了一个便利，就是程序变得很简单，假如我们得到一个物理内存地址，我们就能知道虚拟内存地址，但是这个也引来一个巨大的问题，就是当内存大于<code>4G - KE</code>的时候。</p>
+<p>PS：关于知道物理内存能知道虚拟地址在源码的好处主要体现在用户内存空间创建的时候，这个时候处于内核态，当我们得到一个空的物理空间页，我们只要简单的使用上面公式就能获取到虚拟地址，然后内核就能在直接通过指针修改程序。假如没有这个映射，我们就后面动态建立，但是这里涉及到一个非常棘手的<code>成本</code>的问题，我们其实只需要一个值映射，然而我们却要浪费4K的连续内存空间，而且给程序带来了很大的复杂性。</p>
+<p>我们接下来考虑系统内存大于那段映射最大值（4G-KE）时候会造成什么情况</p>
+<h2 id="物理内存大于-（4G-KERNBASE）"><a href="#物理内存大于-（4G-KERNBASE）" class="headerlink" title="物理内存大于 （4G-KERNBASE）"></a>物理内存大于 （4G-KERNBASE）</h2><p>在现在大家内存愈来愈大，这种情况比较常见，由于xv6在程序设计中是动态创建用户空间，当用户比较少占用空间比较小的时候，程序不会用到物理地址比较大的空间，但是当物理内存超过这个阀值（4G-E），在这里我们考虑<code>KE=0xf0000000</code>,也就是物理内存地址大于256M的时候，由于内核没有映射到这么高的地址，所以我们用上面那个物理地址转虚拟地址公式就失效了。</p>
+<p>由于xv6只是一个教学系统，所以为了简化系统，降低程序复杂性所以使用了最简单的直接映射的方法来处理内存，也正是由于这个原因提高<code>KE</code>并不能增加用户最大内存，当然解决的方法也有，我想了两种。</p>
+<ul>
+<li>在内核空间中分配用户内存目录空间，这种最为简单，但是会浪费一定的内存空间（必须在内核一开始运行就占用空间）</li>
+<li>在内核空间中映射一段固定的地址来存放用户内存目录地址，这个程序设计比较复杂，但是只需要初始化一个内存表单就行</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过上面的分析，我们得到一个结论：</p>
+<p>由于xv6设计的局限性，增大<code>KERNBASE</code>并不能增大用户最大可用空间，反而会减少。但是如果修改xv6设计可以实现增大<code>KERNBASE</code>增大用户最大可用空间。</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/02/05/algorithm/mit6_828/内存分页设计/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/02/05/algorithm/mit6_828/内存分页设计/" class="post-title-link" itemprop="url">内存分页设计</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-02-05 00:00:00" itemprop="dateCreated datePublished" datetime="2018-02-05T00:00:00+08:00">2018-02-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>1.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>前面已经通过lab1的这篇<a href="/2018/01/03/内存分页设计/">博文</a>了解了内存分页的实现细节，接下来就谈谈如何具体实现内存分页</p>
+<h2 id="物理载体"><a href="#物理载体" class="headerlink" title="物理载体"></a>物理载体</h2><p>通过了解<a href="/2018/02/19/KERNBASE对操作系统的影响/">KERNBASE对操作系统的影响</a>这篇博文我们知道，其实内存分页就是完成对物理存在的一种分割和隔离，所以我们在完成内存分页系统设计之前必须要构建一个载体，完成对物理存在的一种表示。</p>
+<p>在xv6中声明一个动态数组来代表物理内存，每一个值代表一块4k的内存页。我们主要通过<code>offset - base</code>得到偏移倍数，每个偏移量为<code>4K</code>，也就是通过<code>(offset - base )  &lt;&lt; 12</code>得到物理地址，我们看一下这个数组成员：PageInfo结构体</p>
+<pre><code>struct PageInfo {
+    struct PageInfo *pp_link;
+    uint16_t pp_ref;
+};
+</code></pre><p>主要存在两个值：一个为下一个可用的地址指针，一个为引用次数。</p>
+<p>引用次数比较好理解，但是这个<code>pp_link</code>有什么用呢。其实你可用把这个结构体看做成一个由链表组成的堆栈，我们只需要保留栈顶值（page_free_list)，由于它保存下一个值地址，这样通过不断的push、pop，就能维持一个可用物理内存栈。</p>
+<h2 id="二级指针的妙用"><a href="#二级指针的妙用" class="headerlink" title="二级指针的妙用"></a>二级指针的妙用</h2><p>由于前面的博客原理已经介绍的很详细了，我就不再累赘了，在这里我提一下源码中二级指针的妙用，虽然它只有短短几行，但是运行的结果却是让人大开眼界，体会到指针的神奇威力。</p>
+<p>这段代码出现在<code>kern/pmap.c</code>的<code>check_page_free_list</code>函数中</p>
+<pre><code>if (only_low_memory) {
+    // Move pages with lower addresses first in the free
+    // list, since entry_pgdir does not map all pages.
+    struct PageInfo *pp1, *pp2;
+    struct PageInfo **tp[2] = { &amp;pp1, &amp;pp2 };
+    for (pp = page_free_list; pp; pp = pp-&gt;pp_link) {
+        int pagetype = PDX(page2pa(pp)) &gt;= pdx_limit;
+        *tp[pagetype] = pp;
+        tp[pagetype] = &amp;pp-&gt;pp_link;
+    }
+    *tp[1] = 0;
+    *tp[0] = pp2;
+    page_free_list = pp1;
+}
+</code></pre><p>主要的作用是将“栈底”的元素移到“栈顶”，首先它使用了两个一级指针（pp1、pp2），还有两个二级指针分别指向（pp1、pp2）</p>
+<p> 首先<code>int pagetype = PDX(page2pa(pp)) &gt;= pdx_limit;</code>判断物理地址是否为大于4M还是小于4M，我们把物理内存页分成两组</p>
+<ul>
+<li>小于4M A组</li>
+<li>大于4M B组</li>
+</ul>
+<p>对于小于4M的组，分两种情况</p>
+<ol>
+<li>第一个小于4M的内存页（page1）</li>
+</ol>
+<blockquote>
+<ol>
+<li>*tp[0] (也就是pp1） 存贮了pp的值，也就是pp1 = page1</li>
+<li>tp[0] 存贮了pp -&gt; link 的地址（这个没有什么用）</li>
+</ol>
+</blockquote>
+<ol start="2">
+<li>A组第二个以及以后的内存页（page2）</li>
+</ol>
+<blockquote>
+<ol>
+<li>上一个地址的值等于pp（没什么用）</li>
+<li>tp[0] 存贮了下一个空闲地址的值</li>
+</ol>
+</blockquote>
+<p>对于B组来说也是一样的，最重要的是<code>for</code>循环结束后实现的交换</p>
+<pre><code>*tp[1] = 0; 
+</code></pre><p>B组最后一个的<code>pp_link</code>地址地址设置为NULL，也就相当于把他放到栈底</p>
+<pre><code>*tp[0] = pp2;
+</code></pre><p>A组最后一个变成<code>pp_link</code>地址设置pp2，也就是B组的第一个接到了A组的最后面去了</p>
+<pre><code>page_free_list = pp1;
+</code></pre><p>栈顶变成A组第一个，通过这样的“乾坤大挪移”术就将A组部分移到B组前面去了，也就实现了先使用低地址的物理内存的作用</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>理解内存分页必须要了解背后的原理，了解了原理看具体实现的时候才能事半功倍。</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/01/31/algorithm/mit6_828/内存分页/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/01/31/algorithm/mit6_828/内存分页/" class="post-title-link" itemprop="url">内存分页</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-01-31 00:00:00" itemprop="dateCreated datePublished" datetime="2018-01-31T00:00:00+08:00">2018-01-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>731</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本来自己查了很多资料，想自己写出来，结果下笔的时候发现别人已经把我想写的部分全部写出来了，而且比我想的还要具体，所以我就不写了，把链接放出了，顺便我补充一些</p>
+<p><a href="http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan/" target="_blank" rel="noopener">http://leenjewel.github.io/blog/2015/11/11/%5B%28xue-xi-xv6%29%5D-nei-he-gai-lan/</a></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>由于内存分页在后面的lab2中也会设计，而且给出的资料写的非常详细，所以我就不多提了。这里提一下为了更好的理解什么内存分页的段选择子与CS的关系，我写了一篇<a href="/2018/01/30/从CS寄存器看段的前世今生/">关于CS寄存器的发展史</a></p>
+<p>最后我提一下<code>kern/entrypgdir.c</code>手写的内存分页表</p>
+<p>第一个<code>entry_pgdir</code>是页目录，第二个<code>entry_pgtable</code>页表，而且注意<code>entry_pgtable</code>是代表0-4M物理内存可写可读的真实内存地址</p>
+<p>前面知道了目录和页表的作用，在现实系统中，一个目录下有1024个页表，但是这只有一个页表，而且它代表从0-4M连续的内存空间</p>
+<p>PS：后面12位是权限位，只看前三位，可以知道是从（000-3ff）的高20位物理地址，由于我们声明了<code>__attribute__((__aligned__(PGSIZE)))</code>（地址4K对齐，其实意思是它真实物理地址后12位一定全部为0），所以直接取<code>(uintptr_t)entry_pgtable</code>地址就是页表地址，虽然后面加上权限位<code>PTE_P + PTE_W</code>，但是在寻找真实地址时都会屏蔽（只取前20位如），当初想了很久感觉取不到页表的真实地址，还以为有什么神奇的编译设定，后面查了很久资料才明白，所以这里提个醒后面我们会在lab2中正式接触内存分页技术，这里只是相当于设定了一个“常数”，后面会将器扩展变成“函数”。</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
   </div>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/8/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/8/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1909,7 +1925,7 @@ ts.ts_ss0 = GD_KD;
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">131</span>
+          <span class="site-state-item-count">128</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

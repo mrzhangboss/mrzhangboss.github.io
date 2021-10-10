@@ -211,416 +211,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2019/05/05/ai/推荐系统微博数据实战/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/05/05/ai/推荐系统微博数据实战/" class="post-title-link" itemprop="url">推荐系统微博数据实战</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-05-05 00:00:00" itemprop="dateCreated datePublished" datetime="2019-05-05T00:00:00+08:00">2019-05-05</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 19:57:07" itemprop="dateModified" datetime="2021-03-09T19:57:07+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/" itemprop="url" rel="index">
-                    <span itemprop="name">人工智能</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>7.1k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>6 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>虽然自己刚解决掉一个TB级数据导入“大项目”，但是感觉自己对大数据流程还是缺乏一定对认识，所以想通过一个完整对项目体会一下大数据如何落地再实际产出对，正好@志斌 提供了一个硬盘给我，里面有12年微博对数据，数据量在3TB左右，微博量为65亿，所以就借助这个数据来捣鼓一下推荐系统，我把自己捣鼓的过程写下来，希望能够给其他想了解推荐系统的人一点帮助。</p>
-</blockquote>
-<h2 id="什么是推荐系统"><a href="#什么是推荐系统" class="headerlink" title="什么是推荐系统"></a>什么是推荐系统</h2><p>其实从名字上面我们就知道，我们其实就是要做一件事，“推荐”，并把这个东西做成一个系统，推荐很好理解，但是怎么来做呢，我们拿买东西作为例子，我很喜欢吃苹果，所以我经常去超市买苹果，售货员大妈知道我喜欢吃苹果，所以经常推荐我一些好吃苹果，这个就是推荐，他是根据我们历史的消费记录来给我们推荐的</p>
-<p>这算一种非常简单的推荐系统，你喜欢啥我就给你推荐啥，但是有一个问题，假如你喜欢Apple，你买了一个IPhone X，但是如果我再给你推荐IPhone X其实你不会买的（当然也有可能，但是可能性非常低），那一个“高级”的推荐系统应该怎么做呢，你买了IPhone X，你就很有可能会买AirPod、会买IPod、IMac这些，你脑子里面可能会这样想，做一个归类把一类商品都归到一起，比如IPhone，Mac这些，然后只要他买了其中一个，我们就推荐其他，当然这是最容易想到的一个方法，但是这个方法成本太高而且只适用了Apple产品，假如你买小米，你的手机可能是小米的，但是你的贴膜可能不是小米的。</p>
-<p>得亏于大数据时代的到来，我们记录了很多用户的购买记录，这就相当于我们知道这些商品存在一些联系，假如我们能把这种联系找出来，再用一些算法搅拌一下数据，我们就能产生香喷喷的“推荐数据”</p>
-<h2 id="推荐系统原理"><a href="#推荐系统原理" class="headerlink" title="推荐系统原理"></a>推荐系统原理</h2><p>首先我们来看一下我们有什么数据，最主要的就三张表，第一张用户表（User表），第二张商品表（Item表），第三张用户和商品交互记录表，这个交互记录可能是评分可能是浏览记录可能是购买记录，我们简称为Rank表</p>
-<p>我们把这三个维度组合起来就是一个二维数组，我们可以用一个矩阵来代表这个，如下面所示</p>
-<p>$$\begin{bmatrix} 5 &amp; 4 &amp; 2 &amp; 1 &amp; 0 \\ 4 &amp; 3 &amp; 1 &amp; 2 &amp; 5 \\ 1 &amp; 1 &amp; 5 &amp; 0 &amp; 2 \end{bmatrix}$$</p>
-<p>有三个用户，5件商品，我们从上面伪造的数据可以看出，用户1、2品味很近，而用户三品味与他们完全不同，所以对于最后一件商品，虽然用户1没有评价或者没有购买，我们可以预测他的评价和用户2 差不多，所以我们可以把东西给推荐给用户1，这个是从我们直觉上来感受的，但是计算机可是没有知觉的，我们必须把这些东西量化才能实现智能推荐</p>
-<p>我们用一个欧几里德距离或者皮尔逊相关度来衡量这种品味，其实你可以把它想象为一个N维空间的上每个点的距离，这里我们就不谈公式，我们直接给结果，对于每个用户来说，自己跟自己的品味是100%相近，其他人则有的相同，有的不相同，所以对于用户1，我们可以算出一个“品味值”（我们其实可以不跟自己算因为绝对是1，但是在大型矩阵运算的过程中，其实少算一个比多算一个要划得来）</p>
-<p>$$\begin{bmatrix} 1 &amp; 0.8 &amp; 0.1 \end{bmatrix}$$</p>
-<p>我们得到上面的品味值（加权值），所以对于最后一个商品，我们把其他用户评价与他们与用户一的值相乘，我们就把他们对数据的评价可靠性给量化下来了，所以就可以下一步排序输出我们的推荐。</p>
-<p>我们知道现在的大数据强大在于能给所有用户都推荐他们想要的数据，但是从我们上面的描述来看，我们为了获取一个用户的品味值就得对数据进行大量运算，如果一个用户要1s的，一亿个用户就得要3年才能算完，所以我们得将我们的for循环改成矩阵运算，才能通过大数据将所以用户的推荐给算出来</p>
-<p>现在我们来谈谈怎么用矩阵运算来加速这个过程，我们用$$R_{UI}$$ 来代替上面的评价矩阵，我们首先要把$$R_{UI}$$ 给倒置，然后让两个做矩阵乘法，得到”品味矩阵“ $$W_{UU}$$</p>
-<p>$$R_{UI}$$ * $$R_{UI}^T $$ = $$W_{UU}$$</p>
-<p>这个$$W_{UU}$$ 是什么呢，他是一个行数为用户总数，列数也为用户总数的方阵，每一行代表，第i个用户，他与其他用户的品味差距，有了这个我们可以将$$W_{UU}$$ 与 $$R_{UI}$$ 做一个矩阵乘法，这样我们就得到一个$$V_{UI}$$矩阵，这个矩阵就是我们对$$R_{UI}$$的一个预测值，我们就把一些用户没有评价的值给预测出现，接下来就对每一行先做一个过滤，取出用户没有购买的，然后把没有购买的按照大小排序输出</p>
-<p>PS：也可以用点乘一下矩阵进行过滤，就是将没有将用户与商品购买记录生产一个UI矩阵，购买过置0，每购买过置1，这样点乘后购买过无论分多高都变成0了，把0过滤就ok了</p>
-<p>我们来总结一下上面用到的矩阵公式</p>
-<ol>
-<li>$$R_{UI}$$ * $$R_{UI}^T $$ = $$W_{UU}$$</li>
-<li>$$W_{UU}$$ * $$R_{UI}$$ = $$V_{UI}$$</li>
-</ol>
-<p> 初略一看没有啥问题，但是你要想一下假如用户数非常大，有一千万（很容易达到，QQ微信都10几亿了），那个$$W_{UU}$$ 矩阵的大小有 1千万 * 一千万 = 1e+14 ，我们根本没有足够的内存来存放这个矩阵，而且有一个问题，就是其实假如我们有一千万件商品，但是一个用户一辈子可能就买了几十件，这是一个巨大的稀疏矩阵</p>
-<p>所以虽然我们这个矩阵算法很高效，能通过两次运算就把用户推荐给全部输出，但是假如用户量多或者商品多第一内存不够，第二个矩阵太稀疏了，在没有大数据之前或者计算机还没有现在这么强的时候，大家的解决方法是对数据进行抽样，把大数据分解成为小数据，但是大数据的魅力就是使用全部数据而不是部分，所以我们要使用一些抽象的算法来帮助我们把这个问题给解决了</p>
-<p>首先我们还是要用所以的用户数据，所以的商品数据，但是现在我们做一个抽象，我们假设用户身上有几十种特征来决定他们的品味（比如年龄，性别，性格等），我们直接跳过前面两个计算步骤，我们假设用户特征矩阵$$U_{UP}$$ (每个用户有P个特征，决定他们品味)，对于商品，我们假设就是因为这些特征导致的一个商品特征矩阵$$I_{PI}$$</p>
-<p>最后我们假设，我们这个$$U_{UP}$$ 矩阵乘法$$I_{PI}$$就是 我们上面得到的$$V_{UI}$$ ，也就是公式为</p>
-<p>$$U_{UP}$$ *$$I_{PI}$$ = $$V_{UI}$$ </p>
-<p>假如我们能计算出来这个 $$U_{UP}$$和 $$I_{PI}$$，那么我们就基本上算出所以用户的评价了，这个就是ALS的原理，我们利用这个抽象能将原来的亿亿相乘的计算，改成亿与常数P的相乘的计算</p>
-<p>当然具体的原理没有这么简单，涉及到很多矩阵运算的知识，我这里就不多说了，具体可以看下面给的论文《Collaborative Filtering for Implicit Feedback Datasets》，Spark的Mlib中的ALS实现就是基于这篇论文的，也可以参考一下Python的实现，公式推导比较复杂，但是实现还是非常好理解的</p>
-<h2 id="Python实战"><a href="#Python实战" class="headerlink" title="Python实战"></a>Python实战</h2><p>首先我们来先试试使用Python来快速搭建我们的模型出来</p>
-<pre><code>{&apos;account&apos;: &apos;1920286160&apos;, &apos;content&apos;: &apos;你的笑容灿烂了一整个夏天!&apos;, &apos;source&apos;: &apos;http://wp1.sina.cn/wap240/5d738637jw1dpmonay1thj.jpg&apos;, &apos;time&apos;: &apos;2012-02-01 13:48:39&apos;, &apos;from&apos;: &apos;网页版&apos;, &apos;comment&apos;: 0, &apos;forward&apos;: 0, &apos;forward_account&apos;: &apos;1567852087&apos;, &apos;forward_content&apos;: &apos;民浩君！！ &apos;,&apos;forward_id&apos;: &apos;xdasfd21x-s&apos;， &apos;forword_nickname&apos;: &apos;全球流行风尚&apos;, &apos;is_forward_followed&apos;: &apos;0&apos;}
-</code></pre><p>我们原始数据全部都是这种字符串，我们没有用户点赞、浏览数据，我们只有用户所发的所以微博数据，而且假如后面有<code>forward_account</code>的值的话，说明这条微博是用户转发的，所以这里我们把用户转发当做一个用户“喜欢”这篇微博，我们系统就是要推荐更多微博给用户“转发”，所以我们把用户账号，和转发ID提取出来当做一次“记录”</p>
-<p>我们把数据全部变成，<code>user-id：forward_id</code>，字符对，然后我们导入到一个<code>pandas</code> 的<code>DataFrame</code>里面去</p>
-<p>我们这里使用一个Python 实现的ALS包<code>implicit</code>，只需要把我们生成的<code>DataFrame</code>转换成为一个压缩矩阵OK了，但是这里要注意的一点是我们所以的用户id和转发id都得变成Int型整数，最好的做法使用</p>
-<pre><code>df.user.astype(&apos;category&apos;).cat.codes
-</code></pre><p>比如上面，我们把<code>user</code>这个字符型数字转换成一个整数序号，这样我们得到的就是每个<code>user</code>id的序号</p>
-<p>完整的代码为下面</p>
-<pre><code>origin_data = [(x[&apos;forward_id&apos;], x[&apos;account&apos;], 1) for x in data if x.get(&apos;forward_id&apos;)] # data  为json数组
-df = pd.DataFrame(origin_data, columns=[&apos;item&apos;, &apos;user&apos;, &apos;num&apos;])
-df[&apos;item&apos;] =  df.item.astype(&apos;category&apos;).cat.codes.astype(&apos;int64&apos;)
-df[&apos;user&apos;] = df.user.astype(&apos;category&apos;).cat.codes.astype(&apos;int64&apos;)
-
-from scipy import sparse
-
-# convert df to martrix
-item_user_data = sparse.csr_matrix(df.values)
-# train
-import implicit
-
-model = implicit.als.AlternatingLeastSquares(factors=50)
-
-model.fit(item_user_data)
-
-# recommend items for a user
-user_items = item_user_data.T.tocsr()
-
-# recommend user
-model.recommend(1, user_items=user_items, N = 5)
-</code></pre><p>只要简单的几行代码我们就实现了一个协同过滤的算法实现，从Python代码我们可以知道，最关键的地方就是生成训练数据，然后其他都交给算法了，接下来我们来尝试实现一个使用Spark加载全部数据，来实现对几十亿微博数据的推荐</p>
-<h2 id="Spark实战"><a href="#Spark实战" class="headerlink" title="Spark实战"></a>Spark实战</h2><p>在前面我们把3个T的微博数据的用户转发数据抽取出来，最后数据量在35亿左右，数据量在100G左右，这个数据量还是有的大的，首先内存肯定放不下，假如我们使用前面Python的方式来实现的话，我们的内存至少要200个G，所以我们得使用Spark的内存加磁盘运算来实现这个推荐系统</p>
-<h3 id="生成用户和转发ID的序列值"><a href="#生成用户和转发ID的序列值" class="headerlink" title="生成用户和转发ID的序列值"></a>生成用户和转发ID的序列值</h3><p>前面Python的实现100个G的数据排序，基本的原理就是Hash表进行排序，然而我们内存不足以放下这100G的数据，所以我们要使用MapReduce来“消化”这个数据，所以我们要借助Hive来进行一个排序，一方面我们可以生成用户和物品的唯一ID，等我们产生推荐结果后也可以通过HIVE来生成对应的数据</p>
-<p>第一步我们将数据导入到HIVE中</p>
-<blockquote>
-<p>首先创表</p>
-</blockquote>
-<pre><code>create table record(item string, account int, time int) row format delimited fields terminated by &apos;,&apos;   LINES TERMINATED BY &apos;\n&apos;  stored as textfile;
-</code></pre><p>这里我还额外导入了一个时间进去，为的是方便以后做线上预测</p>
-<p>然后我们把文件导入进去（文件存贮在<code>/weibo/all_data.txt</code>中）</p>
-<pre><code>load data  local inpath &apos;/weibo/all_data.txt&apos; into table record;
-</code></pre><p>接下来我们生成用户表和物品表</p>
-<pre><code>create table items as select row_number() over (order by a.item) as id ,a.item from (select distinct item from record) a ;
-
-  create table users as select row_number() over (order by a.account) as id ,a.account from (select distinct account from record) a ;
-</code></pre><p>我们使用HIVE的<code>row_number</code>函数来生成一个唯一序列自增值，每一个值对应一个用户，最后我们生成我们训练表，最好使用<code>HIVE2</code>来进行导入，因为HIVE1的<code>row_number</code>会存贮所以的id值，由于我们数据量有35个亿，内存会爆炸，<code>HIVE2</code>优化了使用一个流来存贮</p>
-<pre><code>  create table train as 
-select account_id, item_id, count(*) as num from (select a.id as item_id, b.id as account_id from  record 
-left join items a on record.item = a.item 
-left join users b on record.account = b.account) a group by item_id, account_id ;
-</code></pre><p>接下来我们在Spark里面调用我们Mlib的<code>ALS</code>模型，首先我们从HIVE中获取数据</p>
-<pre><code>val df = sql(&quot;select * from train&quot;)
-</code></pre><p>然后我们从将数据导入ALS模型进行训练，同Python比较类似，我就直接给出代码</p>
-<pre><code>val ratings = df.map(row =&gt; Rating(row.getAs[Int](&quot;item_id&quot;).toInt, row.getAs[Int](&quot;account_id&quot;).toInt, row.getAs[Long](&quot;num&quot;).toDouble)).rdd
-val rank = 10
-val numIterations = 50
-val model = ALS.train(ratings, rank, numIterations, 0.01)
-val usersProducts = ratings.map { case Rating(user, product, rate) =&gt;
-  (user, product)
-}
-val predictions =
-  model.predict(usersProducts).map { case Rating(user, product, rate) =&gt;
-    ((user, product), rate)
-  }
-val ratesAndPreds = ratings.map { case Rating(user, product, rate) =&gt;
-  ((user, product), rate)
-}.join(predictions)
-val MSE = ratesAndPreds.map { case ((user, product), (r1, r2)) =&gt;
-  val err = (r1 - r2)
-  err * err
-}.mean()
-println(s&quot;Mean Squared Error = $MSE&quot;)
-</code></pre><p>最终我们这35亿数据用时4个半小时跑完模型并计算出MSE （均方误差），当然由于我的核心比较小，假如在一个大集群上面的话速度会快很多，值得注意的是，在Spark运行这35亿数据的时候，物理磁盘占用达到800多个G，所以在哪里省下来（内存）的就得从哪里还回来（磁盘）O(∩_∩)O哈哈~</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我们这次只是完成了一个非常简陋的推荐系统，只是具备简单的推荐功能，我们还没有考虑到一些“冷启动”问题，一个“智能”的推荐系统需要考虑到很多方面，我的推荐系统还有很多地方需要完善，但是从我的这个Demo里面也可以看到其实大数据也是非常“简单”的，由于数据量太大，你只能使用最简洁的代码来训练你的模型，你的算法要最大可能性满足分布式要求，推荐系统最核心的地方还是如何将你的推荐算法变成一个优秀的分布式算法，我们这篇博客只是走马观花的谈了一下它的原理，看看有空好好研究一下Spark分布式算法是怎么实现的。</p>
-<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><p><a href="https://blog.csdn.net/antkillerfarm/article/details/53734658" target="_blank" rel="noopener">ALS原理介绍</a></p>
-<p><a href="https://yq.aliyun.com/articles/684195" target="_blank" rel="noopener">Python实现ALS</a></p>
-<p><a href="http://yifanhu.net/PUB/cf.pdf" target="_blank" rel="noopener">Spark Mlib ALS 论文</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2019/04/13/bigdata/TB级数据存贮经验总结/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/04/13/bigdata/TB级数据存贮经验总结/" class="post-title-link" itemprop="url">TB级数据存贮经验总结</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-04-13 00:00:00" itemprop="dateCreated datePublished" datetime="2019-04-13T00:00:00+08:00">2019-04-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:01:40" itemprop="dateModified" datetime="2021-03-09T20:01:40+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/大数据/" itemprop="url" rel="index">
-                    <span itemprop="name">大数据</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>3.8k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>3 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>项目背景</p>
-</blockquote>
-<p>这个项目是深圳一家证卷公司一个TB级日志离线导入项目，当数据达到10T左右的时候，他们的存贮架构以及检索系统直接奔溃，在朋友的推荐下，我负责对这个项目进行整体的重构以及优化，对于我一个大数据新手来说这是一个挑战也是一个学习的机会，最终幸不辱命最终完成了系统的优化，由原来的48小时导入优化至7个小时，并且提供亚秒级的查询检索，下面就是我对这个项目的总结</p>
-<h2 id="历史方案介绍"><a href="#历史方案介绍" class="headerlink" title="历史方案介绍"></a>历史方案介绍</h2><blockquote>
-<p>集群架构</p>
-</blockquote>
-<p>集群由8台高性能服务器组成，其中两台负责接收历史日志包，两台提供ES和Spark服务，其他四台提供HDFS存贮服务，总存贮量在200TB，其中我们导入主要在两台高性能服务器上面，每台内存256GB，总计512G内存</p>
-<blockquote>
-<p>历史方案</p>
-</blockquote>
-<p>原来的解决方案是日志被解析完成之后导入两份数据分别存贮到ElasticSearch（下面简称ES）和Kafka之中，其中存贮到Kafka之中的数据会被Spark读取，然后写入到HBase</p>
-<h2 id="架构优化"><a href="#架构优化" class="headerlink" title="架构优化"></a>架构优化</h2><h3 id="读取和存贮优化"><a href="#读取和存贮优化" class="headerlink" title="读取和存贮优化"></a>读取和存贮优化</h3><p>历史解决方案对日志数据的存贮是一个并行化的，但是由于项目对数据准确性要求严格，假如其中ES导入或者HBase导入失败之后，所以的数据都得重新生成，但是原来架构不提供删除HBase数据的功能（能实现但是不能检测是否删除），所以在读取方面我丢弃使用Kafka并行导入的方案，待ES导入完成并且校对完成后再从ES中获取数据导入到HBase中</p>
-<p>原来的导入是直接使用HBase提供的Put方案，单个插入到HBase当中，由于我们一次导入的量多的话大概在10个亿左右，虽然HBase能够承受住压力但是由于行键设计导致会造成region的”脑裂”，原来解决方案为了避免这个现象进行了region的预分配，由于这个预分配导致了另外的一个Bug，后面会提到。所以为了提高导入效率和避免脑裂，我采用了HBase的Bulk Load将数据直接”存”至HBase</p>
-<hr>
-<p>回头看看，其实大数据解决方案非常简单，当我刚接触项目的时候，在看原来的解决方案，惊讶的发现他们的代码其实非常简单，就像教程里面的demo一样，但是随着在实际接触这个”大”数据的过程中，大数据考验的是你代码的”结实”，能不能扛的住，什么花里胡哨的骚操作都没有，所以大数据的代码非常简洁质朴，如果说那些优雅的代码是面对对象的话，那么大数据的代码就是面对数据的。所以我接下来也不谈大数据框架，谈一谈我在这个项目中学到的大数据处理经验</p>
-<h2 id="提高处理速度"><a href="#提高处理速度" class="headerlink" title="提高处理速度"></a>提高处理速度</h2><blockquote>
-<p>读取速度</p>
-</blockquote>
-<p>大数据处理最核心的点就是分而治之，也就是我们常说的<code>MapReduce</code>中<code>Map</code>，无论数据有多大，只要我们分的够小，每一份我们计算机都很很快处理，那么我同时运行这些，意味着我就能在一个很短的时间内跑一个巨大的数据。</p>
-<p>由于我们是从ES中读取数据，ES的Map的个数是由分片（shards）来控制的ES的分片默认是十片（5个原始5个备份），假如我们采用默认设置，我们读取数据Map的大小最大为10（具体跟你给的Container大小和每个核心数的大小有关，给足的话就是10），这里要谈一下这个项目中的分片设计，分片这个东西对于每一个Index来说，不是越多越好，越多读取速度快，但是写入慢，反之。所以这个项目使用别名的方法来保证分片不会膨胀，当一个Index数据大于20GB的时候，会自动新建一个别的Index，比如原来是<code>es _index_0</code>，写满20G后，再新建一个 <code>es_index_1</code>，然后把新数据导入到里面去，然后每个Index固定分片为4片，这样所有的数据会均匀的分布到ES中去</p>
-<p>这种解决方法带来一个问题就是，我们获取数据的时候只能通过<code>es_index_*</code>，而且我们的ES中每次导入的<code>Map.size</code>只能是4，所以无论给<code>Spark</code>任务多少个<code>Container</code>多少个核心，他的Task任务最大也就是4个，一开始我一直在琢磨是否能够提高这个Task来加速数据读取，我尝试使用ES时间索引把数据切分成多份，并行跑多个Spark任务，但是无论我并行多少个，从ES一个月导出来时间总和单个Spark任务读取速度一致</p>
-<p>出现这个问题的原因主要是磁盘的性能关系，由于Bulk Load有一个很重要的部分就是Shuffle排序，所以数据在导入HBase之前一定会落盘，所以读取由两个条件限制，ES的获取速度和磁盘写入速度，由于ES读取速度也跟磁盘读取速度有关，所以读取基本上由磁盘的性能有关，由于集群Spark跑在机械硬盘上，除非换SSD否则在软件上优化无法取得较大的收益</p>
-<p>所以我放弃在读取上面优化，接下来介绍我在处理上面的优化</p>
-<blockquote>
-<p>处理速度</p>
-</blockquote>
-<p>其实导入到HBase的原理非常简单，只要使用Spark生成一个HFile然后调用HRegion将数据导入到HBase中去，HFile你可以看着一个排序好的文件，但是如何将1TB数据排序并在内存中生成HFile文件（可能比1TB小如果采用压缩的话，不压缩比原始文件要大得多）这个步骤就很复杂了</p>
-<p>Spark作为大数据界的神兵利器，处理PB级的数据也不在话下，但是怎么处理呢，简单来说就是三个和尚挑水，现在缸很大，但是和尚很多，如果要像迅速把缸里的水挑完，那就让很多和尚通力合作，同时去挑，但是如果里面10个和尚，9个是不干活，只有一个挑水，那么这个任务就花很长时间来完成，这个就是我们说的数据倾斜</p>
-<p>所以其实提高处理速度的方法只有一个把任务均分给CPU每个核心，接下来我就这个项目来谈一谈我遇到的数据倾斜问题</p>
-<p>首先我们要知道一个前面我们讲了Spark作为大数据上的神兵利器，他不会假设用户内存能装下所有的数据，但是用户的磁盘一定能装下所有的数据，我们其实要Spark做的最主要的一件事就是对数据的RowKey（HBase的行键）进行排序，然后把排好序的文件导入到HBase中，排序这个东西最主要的是要把所有的数据都放到一起排一遍，也就是说1个T的数据至少都得放到内存或者磁盘里面来进行排序</p>
-<p>我们接下来缕缕Spark处理数据的流程，其实你可以在UI界面上看到所以的stage，前面读取数据算一个Map stage，接下来我们要完成，排序的stage，还有保存数据的stage，按照正常流程，每个stage都会做一个Shuffle，也就是理论上我们总共要做两次Shuffle，然而TB级数据的Shuffle在机械硬盘上的速度非常慢（相比SSD），所以我们就的优化Shuffle过程</p>
-<p>我们先来谈一下一个正常大数据的排序怎么样，我们用打擂台来打比方，首先我们将所有选手分成10个小组，等小组赛打完，所以等小组都分好名次，然后我们搞一个10个人的擂台，小组第一名全部上擂台打比赛，打完决定出第一名，第一名成为擂主出擂台，然后这个时候再从其他其他小组中找一个积分最高的上来，继续打擂台，打完再找出第一名，继续上面的循环，最后每个人都出了擂台，名次也排练出来了</p>
-<p>这个排序方法是Spark早期使用的方法，这个方法可以面对超大数据，假设数据有10个T，我只有1M内存，我也能完成数据的排序，只是每次排1M，然后写文件，这种方式可以面对海量数据，但是有一个弊端，在排完序后每次必须要把所有的文件全部都打开读取”第一名”，也就是说我们做完一次Map之后，还的进行一次Reduce</p>
-<p>那怎么来去掉这个Reduce呢，考虑这种情况，我们在分组的时候，由一个”裁判”把每个人公正的计算他原来的历史积分在什么档次，然后把他分在那个档次的组，等所有组打完，排名就出来了，你属于哪个档第几名，也就知道你的排名了</p>
-<p>这个方法就是预先评估你的组数，但是这个也有一个问题，假如选手水平层次不齐，强者太少，弱者太多，那么有些组非常多的人打比赛，有的组没有人打比赛，这样，最后总耗时是那个人最多的小组的时间</p>
-<p>接下来我们回到上面的Shuffle过程，如果我们把那个排序过程使用上面的预估方法，那么我们就能在减少一次Shuffle过程，但是这个也带来了一个风险，就是预估如果失败（HBase会加载HFile失败）或者预估不均会导致运行异常</p>
-<p>所以我采用Spark提供的<code>sortWithinPartitions</code>方法来ES数据进行一个分区并排序，分区的方法是通过账号ID来进行，很不幸线上数据部分账号异常，一个月某些账号占了总数的40%左右，这个就导致我们预估不均，那如何来解决这个问题呢，解决方案由很多，由于我们数据只有少量资金账户异常，所以我们采用最简单的方案，分多批次跑，每个任务分剔除大账户的部分，其他的任务就是单个大账户单独跑，得益ES强大的统计功能，只需要执行几次HTTP请求就能完成设计</p>
-<hr>
-<p>至此整个数据优化导入部分就说完了，当然还有其他优化的地方没有讲，比如使用堆外内存加速排序，使用更大的Shuffle cache优化写入，切分更小的块避免磁盘split …..</p>
-<p>PS：亚秒级的查询主要通过Spark一个聚合生成HBase一张小表来实现，当然也可以使用MySql这些关系型数据库</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>记得我以前去面试大数据岗位的时候，我问面试官怎么才能提高自己大数据能力，他说必须要通过实践才能体会，经过这次项目我也感受到了，只有真正的面对大数据，你才能提高自己的大数据能力，小数据一下子就跑完了，完全体会不到内存OOM的”乐趣”，大数据的难点在于了解数据如何被处理，以及对大数据各个组件“协作”对经验。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2019/03/17/summary/book/重构-总结/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/03/17/summary/book/重构-总结/" class="post-title-link" itemprop="url">重构-总结</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-03-17 00:00:00" itemprop="dateCreated datePublished" datetime="2019-03-17T00:00:00+08:00">2019-03-17</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:15:01" itemprop="dateModified" datetime="2021-03-09T20:15:01+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/随想/" itemprop="url" rel="index">
-                    <span itemprop="name">随想</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>0</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><img src="/images/重构-思维导图.png" alt="重构思维导图"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2019/03/13/summary/book/代码整洁之道-总结/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1963,11 +1553,370 @@ for i in range(100):
   
   
 
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/09/12/python/如何让你的Python像C一样快/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/09/12/python/如何让你的Python像C一样快/" class="post-title-link" itemprop="url">如何让你的Python更快</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-09-12 00:00:00" itemprop="dateCreated datePublished" datetime="2018-09-12T00:00:00+08:00">2018-09-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:05:18" itemprop="dateModified" datetime="2021-03-09T20:05:18+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>5.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
+<p>其实一开始没有想到写关于<code>Python</code>的加速，一开始只想好好了解一下<code>C++</code>这门语言，没想到最后研究来研究去，基本上把所以加速框架都试验了一下，这篇博客就谈谈我对<code>Python</code>加速的看法</p>
+</blockquote>
+<p> 首先我先谈谈<code>C++</code>，虽然我上大学之前就自学过<code>C</code>，但是对于这个<code>C</code>的升级版还是没有过多的了解，花了几天时间学习，发现<code>C++</code>这门语言还是不错的，至少在兼容性上，它能兼容<code>C</code>还有以前的版本。</p>
+<p>然而作为一个用惯了了脚本语言的人来说，<code>C++</code>最麻烦的就是他的第三方库管理，当然对于类<code>Unix</code>系统有自己带的包管理器（如ubuntu上的<code>apt</code>，CentOS上的<code>yum</code>）可以来安装第三方库（就是我们平常为了安装一些软件，比如要先<code>apt install xxx-dev</code>那些库），由于这些都绑定了平台的，所以你经常能看到有些软件自己编译会列出各个平台下依赖的包，然而对于一些比较新的库（比如<code>googletest</code>，就得去<code>Github</code>上掏下来自己编译安装了。</p>
+<p>吐槽完了<code>C++</code>的缺点之后，我们不得不说<code>C++</code>的优点了，虽然比较难装（相比于脚本语言）但是那个速度真是贼快，用腾讯开源的协程库，单台机器就能开启千万协程而且内存不超过2个G，想我大<code>Python</code>开个一万都很嘚瑟了。<code>C++</code>在性能上真的的碾压的。就是因为<code>C++</code>性能上要求到极致，所以它才会有那么多的前面安装的缺点，因为<code>C++</code>是面对硬件的，对于不同的硬件，<code>C++</code>想做到最快，那么通用的代码就不可能的，通用就代表损失性能。然而让我全用<code>C++</code>写代码是不可能的，脚本语言用的多爽呀。所以了解完了<code>C++</code>的强大之后，我就越发的想了解怎么结合两者的方式来提升｀Python｀速度，最后把所有加速手段都测试了一遍，所以就有了这篇博文。</p>
+<p>PS: 之所以花这么多时间介绍<code>C++</code>是因为<code>LLVM</code>就是使用<code>C++</code>写的，而<code>numba</code>依赖<code>LLVM</code>来动态编译出比<code>C</code>更快的机器码，这个也就<code>Python</code>最后能比<code>C</code>还快的主要原因</p>
+<h2 id="（Python）-（C-）难在哪里"><a href="#（Python）-（C-）难在哪里" class="headerlink" title="（Python）+（C++）难在哪里"></a>（Python）+（C++）难在哪里</h2><p>大家都知道<code>Python</code>有很多实现，我们这里说的<code>Python</code>是<code>CPython</code>也是最常见的实现，它是由<code>C语言</code>编译出来的，我们的目标就是把两种语言给混合起来，<code>C+C++</code>。</p>
+<p>我们看看其他语言，比如<code>Java</code>其实也可以混合<code>C++</code>代码，它是采用<code>JNI</code>的方式来进行交互的，如果你了解这种方式，你会发现也非常麻烦，得先写<code>Java</code>的类，然后再生成<code>C/C++</code>头文件。然后你再写<code>C/C++</code>代码，其实我很讨厌这种方式，我希望能把<code>C/C++</code>和你的语言这两种分离开来，我们能简单通过某种方式桥接一下让两个项目能够连贯起来。</p>
+<p>我们现在来看看<code>Python</code>是如何调用<code>C++</code>的代码。在这之前我先提一下<code>Python</code>与<code>C</code>的关系。</p>
+<p>其实<code>Python</code>和<code>C</code>一直非常友好，相比于其他语言，<code>Python</code>在支持上一直尽最大努力，因为<code>Python</code>开发者也知道<code>Python</code>非常慢（相比于C，C++，而且还有GIL的存在无法使用多线程密集CPU计算），所以<code>Python</code>开发者直接在内库上提供支持：<code>ctypes</code>，一个专为调用<code>C</code>代码的库。你只有编写少量代码就能让<code>Python</code>运行你的<code>C</code>代码。理论上你碰到性能问题直接写<code>C</code>就行了，但是我们为什么还要让<code>Python</code>运行<code>C++</code>来加速呢</p>
+<p>四个字：比<code>C</code>更好，<code>C++</code>由于在性能上与<code>C</code>不相上下，而且比C要高级的多（面对对象等），编写速度与维护上比<code>C</code>更加好，而且要知道现在最流行的Java编辑器都是<code>C++</code>写的，还有很多高性能数据库以及机器学习库都是<code>C++</code>写的，虽然在<code>Python</code>中写<code>C</code>更加简单，但是我们还是希望能够用面对对象的方式来编写代码，毕竟我们主要使用的高级语言也是面对对象的</p>
+<p>也正是因为<code>C++</code>提供了一些<code>C</code>没有的面对对象，以及高级特性，这就让我们融合<code>C</code>和<code>C++</code>带来了一些困难。</p>
+<h2 id="Python为什么能够调用C-代码"><a href="#Python为什么能够调用C-代码" class="headerlink" title="Python为什么能够调用C++代码"></a>Python为什么能够调用C++代码</h2><p>我们从调用顺序来看，我们其实想用<code>C</code>代码（<code>Python</code>本质其实是<code>C</code>代码）调用<code>C++</code>，<code>C++</code>比<code>C</code>要高级，出生的也更晚，所以<code>C</code>其实是不知道<code>C++</code>这门语言的，所以<code>C</code>能调用<code>C++</code>，其实是<code>C++</code>对<code>C</code>的一种兼容，这种兼容是<code>C++</code>提供的</p>
+<p><code>C++</code>作为一门偏底层语言，它最终的目的是生成二进制码，<code>C</code>最终也生成二进制码，这个二进制码能直接在CPU里面运行，大家都知道一个代码复用的概念，在二进制层次上，就有这个<code>链接库</code>概率，反正无论谁是最终调用主体，被调用方只需要提供一个规定好的<code>函数库</code>，那么就能实现跨语言的一种交互。</p>
+<p>但是这个交互存在一个问题，<code>C++</code>比<code>C</code>有着更加特性，比如说类，<code>C</code>没有这个概念，假如<code>C++</code>在动态库里面想让<code>C</code>能够调用一个<code>类</code>方法，<code>C</code>根本不知道怎么用，一个类要使用必须牵扯到类初始化，类析构等等。所以<code>C++</code>提供一个关键字<code>extern &quot;C&quot;</code></p>
+<p>这个关键字就是告诉<code>C++</code>编译器把这个块域里面的东西编译成<code>C</code>可以接受的，当然有个前提条件里面代码声明必须是<code>C</code>式的，也就是只能使用<code>C</code>关键字来声明函数结构体什么的，但是在函数内部你可以调用<code>C++</code>代码，声明一个类什么的，最后返回结果。</p>
+<p>用一句话来总结这个关键词的作用就是：告诉编辑器和用户，里面的函数东西，不管中间过程，只需要在“开头”（函数声明），结尾（结果返回）是<code>C</code>模式的，那么这个函数就能在<code>C</code>里面用</p>
+<p>最后我们总结一下<code>Python</code>能够调用<code>C++</code>的代码的原因：只要<code>C++</code>能够”写”成<code>C</code>代码，我们就能调用。这时候你可能有疑惑了，如果把<code>C++</code>写成<code>C</code>那么我们还不如直接写<code>C</code>代码，何必如此复杂的研究这么久了。但是你有没有想过为什么<code>Python</code>是用<code>C</code>写的，最后却能拥有<code>C++</code>、<code>Java</code>这些语言的一样的类特征这个概念。</p>
+<p>这里我们必须要了解一个名词“语法糖”，在我们看来我们能在<code>Python</code>、<code>Java</code>、<code>Ｃ++</code>中使用一些面对对象的特性，比如类、继承、接口。其实这些都只是一些语法糖而已，在这些实现的底层，比如说<code>Python</code>它就是用<code>C</code>的函数来帮助我们构建这些语法糖，我们看到的一个对象的系统函数，其实它是<code>Python</code>帮助我们把一连串函数绑定在一个<code>module</code>上面，虽然表面上我们新建了一个对象，调用了一个对象函数，其实在<code>C</code>层我们就是调用了一连串的函数来完成一个对象的分配</p>
+<p>我们可以在官方文档中找到这部分<a href="https://docs.python.org/3.8/extending/extending.html#the-module-s-method-table-and-initialization-function" target="_blank" rel="noopener">介绍</a>，官方文档告诉我们只要将列表的函数赋给一个模块（<code>module</code>）我们就让你的<code>C/C++</code>代码给<code>Python</code>一个模块可以使用，从官方文档我们就可以很清楚看到<code>语法糖</code></p>
+<p><code>Python</code>的文档非常丰富，理论上我们能够根据文档完成复杂的<code>C++</code>代码与<code>Python</code>交互，但是我们从文档上可以看到，这个过程是非常繁琐的，相比于调用<code>C</code>的简单，为了实现调用<code>C++</code>的类和数据类型，我们得写很多中间代码进行转换，差不多就重新写了一遍<code>C++</code>的实现</p>
+<p>当然作为以简单为美的<code>Pythoner</code>早就发现这个问题，也就这个问题开发了<code>ctypes</code>、<code>cffi</code>、<code>numba</code>等框架帮助，就连在<code>C++</code>大名鼎鼎的<code>boost</code>库中也提供了<code>boost/python</code>来帮助<code>Python</code>更加简单的调用<code>C++</code>，接下来我就根据我对下面这些库来谈一谈我的看法</p>
+<h2 id="框架简析"><a href="#框架简析" class="headerlink" title="框架简析"></a>框架简析</h2><p>单纯的介绍这些库的功能太枯燥了，我就按照我对这些的库的理解将他们编成历史故事（真实出现的原因可能不是这样的）</p>
+<p>话说在<code>Python</code>作者设计<code>Python</code>之后，它发现<code>Python</code>实在是有点慢，为了能加速它就把<code>Python</code>的<code>C</code>API告诉社区的人让他们自己编写<code>C</code>代码然后让<code>Python</code>去调用它</p>
+<p>但是这个API实在是太繁琐了，要写太多附件的<code>C</code>代码了，有些人就发现这个问题，他们设计了一种脚本程序，你只要把你想调用的<code>C</code>函数包在<code>%{</code>里面就能帮你生成<code>Python</code>API的C代码，这样减少了不少代码量，这个框架叫做<code>Swig</code>。</p>
+<p>大家在使用<code>Swig</code>的时候发现一个问题，这个<code>Swig</code>要生成的一个很大的<code>C</code>函数，<code>C++</code>开发者发现了这个问题，他们跟<code>Python</code>开发者说你们是不是瞧不起<code>C++</code>，这个函数这么不优雅，竟然想跟我们代码混起来，想用<code>C++</code>我们帮你，你要生成什么函数告诉我，我帮你生成你引用一下我这个库就行，这样大名鼎鼎的<code>boost::python</code>就开发出来了</p>
+<p>你开心的用起来<code>boost::python</code>来包装一下代码，这样写完<code>C++</code>代码再引入<code>boost::python</code>把<code>Python</code>需要的函数定义一下，编译，OK，但是<code>Windows</code>用户不开心了，这个<code>boost::python</code>是在<code>boost</code>项目下的一个子项目，为了在<code>Windows</code>安装，还得下几百兆的软件包，要是碰到网络不好得下一天。这个时候<code>Python</code>大牛出来了，啥，这么麻烦，我来开发一个包，把<code>boost::python</code>从<code>boost</code>的掏出来，你只需要<code>pip</code>一下就行</p>
+<p>经过几个”小时”开发，<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pybind11</a>开发出来了，还是原来的配方还是原来的味道，管他<code>Windows</code>还是<code>Unix</code>，直接<code>pip</code>一下就能使用<code>boost::python</code> 一样的语法来用了</p>
+<p>就这样安安稳稳的过了一段时间，大家很开心用<code>Python</code>包轻轻松松解决生成<code>Python</code>C API代码的功能。但是随着大家用的越来越多，大家发现怎么我用<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pybind11</a>调用<code>C++</code>跑的有点慢，<code>Python</code>大牛开始研究，重要他们发现由于<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pybind11</a>由于秉承<code>Python</code>的简单至上，很多东西它都做了”通用性“，比如它帮你自动把<code>C++</code>的<code>Vector</code>的类型转成<code>Python</code>的<code>list</code>，这样程序在编译时候不会报错，但是由于这种类型转换太多了，严重的拖累了<code>C++</code>的速度，所以<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pybind11</a>虽然用的很开心，但是速度却比原生的<code>Python</code> C API要慢</p>
+<p>这个时候精通编译原理、<code>Python</code>、<code>C++</code>的大牛出现了，它发现解决这个问题的办法很简单，创造一门中间语言，这么语言可以详细的定义怎么从<code>C++</code>到<code>Python</code>的中间过程，在<a href="https://github.com/pybind/pybind11" target="_blank" rel="noopener">pybind11</a> 中这个完全是一个黑箱子，只有把这个黑箱子拿出来，这样我们就知道你想怎么调用<code>C++</code>，这样就能设计更加优秀的<code>Python</code>C API的代码。最后<code>Cython</code>出现了，它的出现让那些苛求性能的人闭上了嘴，它自动出来的生成<code>Python</code>C API代码近乎人工编写，在这样强的性能加持下，它的速度近乎原生</p>
+<p>至此在生成代码<code>Python</code>C API的中间代码的三方库尘埃落定，没有人想到有更好的办法来优化这一个方向。但是苛刻的人无处不在，他们攻击不了它的性能，只能攻击它的生成方式</p>
+<p>为了使用<code>Cython</code>必须编译它，要么借用<code>setuptools</code>来简单这个步骤，要么自己手动编译，一些开发者叫嚣着，都说<code>Python</code>是个动态语言，怎么还要编译呀，麻烦死了，这个时候一些开发者就站出来了，他们觉得这是个挑战，他们想解决掉它，于是<code>cffi</code>被开发出来了，你不需要用专门的文件存贮<code>C/C++</code>代码，你可以像调用函数一样把<code>C/C++</code>函数原文作为参数传进去，实现动态加载，但是这种动态性还是付出了代价，速度有了一定影响，虽然还是比<code>Python</code>快，但是远远比不上<code>Cython</code>，有得必有失</p>
+<p>这个时候精通汇编的大佬出现了，他们觉得动态加载这个地方还可以加强，他们觉得不需要我们在<code>Python</code>里面写<code>C</code>或者<code>C++</code>，你写一个<code>Python</code>函数，用一个装饰器包装一下，他们直接从底层出发，反正<code>Python</code>最终会编译成机器码，把<code>Python</code>函数的机器码加上类型（Python函数的参数可以是“鸭子”类型，不是强类型），省掉<code>Python</code>冗余的类型推断，直接从机器码层次上进行优化，最后编译成二进制接口给<code>Python</code>调用（背后使用了LLVM进行编译，这里就不详细介绍了），最终它的运行速度小胜<code>Cython</code>，并且比<code>C</code>还略胜一筹，这个就非常恐怖了，因为<code>C</code>基本上是除了汇编以外的速度标杆，所以懂汇编的大佬不要惹，太恐怖了，这个库的名字叫做<a href="https://numba.pydata.org/" target="_blank" rel="noopener">numba</a>，现在这个库已经开发6年多了，由于涉及到从<code>Python</code>源代码到了机器码实在太复杂了，所以仍然在开发中（主要适应各种硬件以及平台），目前处于<code>0.40.0</code>版本，基本上在主流平台使用是没有问题的。</p>
+<p>对于各个库速度的测试可以看看这篇<a href="https://jakevdp.github.io/blog/2013/06/15/numba-vs-cython-take-2/" target="_blank" rel="noopener">博客</a>，可以看到<code>numba</code>完胜<code>C</code>和<code>Cython</code></p>
+<p>PS: 在这里我没有提<code>ctypes</code>因为它是原生的，而且它对<code>C++</code>支持并不很好</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在速度方面<code>numba</code>加持的<code>Python</code>无疑是No.1，但是它也有几个缺点，一个就是目前还处在开发阶段(目前是0.40版本，还没有1.0版本，而且issue有500个open状态，我在试验的时候也发现存在一些在issue的bug），第二个就是它目前支持能在函数内部运行的库只有<code>numpy</code>（当然这个也是它的设计的一个初衷，就是加速numpy与<code>Python</code>的混合代码）</p>
+<p>当然它的优点完全可以盖过它的缺点，优点有很多，首先第一个它的速度，在<code>LLVM</code>加持下比<code>C</code>更快简直让人震惊，第二个是它调试和维护非常方便，都是由<code>Python</code>编写的，去掉装饰器就是<code>Python</code>代码，直接在IDE里面调试不知道多爽，上线的时候加上注释器跑的飞快（还能丢掉<code>GIL</code>）。目前<code>numba</code>还处于开发过程中，现阶段仍然有很多<code>bug</code>（500个Open的<code>issue</code>），不过正是由于大家都对他非常期望，所以它的<code>issue</code>才那么多，也希望<code>numba</code>能够越来越好，让<code>Python</code>真的起飞。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/09/06/bigdata/千万级数据处理小结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/09/06/bigdata/千万级数据处理小结/" class="post-title-link" itemprop="url">千万级数据处理小结</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-09-06 00:00:00" itemprop="dateCreated datePublished" datetime="2018-09-06T00:00:00+08:00">2018-09-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:01:40" itemprop="dateModified" datetime="2021-03-09T20:01:40+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/大数据/" itemprop="url" rel="index">
+                    <span itemprop="name">大数据</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>4.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
+<p>这两个星期的工作主要是对千万文本数据的处理，由于我以前没有接触过类似的数据量，所以我就把我在处理这千万数据的过程中遇到的问题以及解决的方法总结一下</p>
+</blockquote>
+<h2 id="明确目标"><a href="#明确目标" class="headerlink" title="明确目标"></a>明确目标</h2><p>完成任务之前我们必须要明确自己的目标，首先谈一下数据，数据是两张表，一张是文章列表，一张是文章内容，每篇文章都牵涉到一些人，我们的目标就是给定一些搜索条件然后把最可能相关文章给找出来</p>
+<p>这个任务有点像实现一个搜索引擎，我们通过输入关键词把相关的网页寻找出来，简单点来实现就是直接使用<code>SQL</code>的<code>Like</code>查询，但是这里存在两个很大的问题</p>
+<ul>
+<li>搜索精度不准，假如我们搜<code>张华</code>可能有关<code>张华硕</code>的人也会出来</li>
+<li>搜索耗时太长，在千万级文档中全文搜索速度非常慢</li>
+</ul>
+<p>我们希望我们能精确的实现查询，而且我们希望我们的查询能够实现毫秒级的速度。所以我们就尝试使用<code>ElasticSearch</code>来当我们“数据库”，并且放弃系统默认的分词，自己”手动分词“，来实现精准快速查询</p>
+<p>所以我们的目标很简单，将数据从<code>MySQL</code>“塞”到<code>ElasticSearch</code>中，然后想办法再”取”出来</p>
+<h2 id="第一个拦路虎“MySQL”"><a href="#第一个拦路虎“MySQL”" class="headerlink" title="第一个拦路虎“MySQL”"></a>第一个拦路虎“MySQL”</h2><p>我碰到的第一个拦路虎是数据库的响应速度，为了将数据完整的从数据库里面取出来（新数据还在产生），我按照id从小到大的顺序一小块一小块的从<code>MySQL</code>中获取出来</p>
+<p>一开始程序运行的挺Happy，速度一直很稳定，但是我发现跑了十万之后速度突然慢下来，一开始我以为解析有问题，我开始打断点，调试，找了半天原来是数据库返回数据太慢了。</p>
+<p>我们来分析一下这个<code>SQL</code>为什么这么慢</p>
+<pre><code>select * from a order by id limit 10 offset 100000 
+</code></pre><p>我们虽然限制返回了10个但是后面有个条件我们必须要后面10万个，为了拿到这10个，<code>MySQL</code>必须要扫描10万个数据先，虽然我们是在主键上扫描会快一点，但是十万毕竟很大，即使一次主键扫描花0.01ms，乘以十万也是很大的</p>
+<p>基本上每次解决数据库速度的时候，我们第一考虑点就是索引，那么我们这里就多聊两句：索引为什么快？</p>
+<p>数据库其实就是一堆数据的集合，它提供工具我们快速获取我们想要，用图书馆来打比方，数据库就是图书馆，他们把所以的图书分好类，你想买什么书，按照分类去寻找就行，这样假设你图书馆有一千万本书，你要找《安徒生童话》，你只要按照这个索引（童话书&gt;丹麦&gt;安徒生)就能找到，假如你想找一本《无类》的书你不知道他的分类，你就得把整个图书馆逛一遍才能找到你要的书了，这就是没有索引的下场。</p>
+<p>在程序的世界里也一样，你想快速找到一个记录，如果不用索引，那么就得遍历了，运气好一下子就能找到，运气不好一辈子也找不到。在    <code>MySQL</code>中，索引的背后就是B+树，也就是将数据查找最坏结果降到了一个<code>log2N</code>级。如果你想了解“树”为什么这么快，可以看看我前面写的的<a href="/2017/12/27/浅谈树这种数据结构/">博客</a></p>
+<p>怎么来说明这个索引的作业呢，假设你有一千万数据，你最坏的情况下要进行24次查找，24:1000000 达到惊人的41万倍差距，而且当数据越大这个差距越大，从这里我们就知道索引的威力了。</p>
+<p>我们回到前面，为了使用索引，那么我们只能在<code>id（主键）</code>上做手脚了，我第一个想到的是按照<code>id</code>分块，但是我仔细看了看数据库，<code>id</code>不是全部连续的（可能是因为删除过数据），假如我用<code>id</code>固定的区间来的话，获取到的数据可能部分有部分没有，虽然能够实现但是不够优雅，我还得增加处理空数据的代码。</p>
+<p>这时候我想到了，我们第一次获取的<code>id</code>如果能在后面继续使用，而且更新的话那么我们就能使用上索引了，所以我们只有把每一块数据的最后一个<code>id</code>记住，然后去这个<code>id</code>获取下一批数据，这样就能实现又用索引又不用改太多代码。</p>
+<p>那么我们的<code>SQL</code>就改成下面的语句</p>
+<pre><code>select * from a where id &gt; 1111 order by id limit 10
+</code></pre><p>通过简单的测试原来需要几分钟才能“掏”出来的数据在几毫秒就取出来了，上万倍的差距。至此我们第一个拦路虎就解决了</p>
+<p>PS：在后面看<code>ElasticSearch</code>文档的时候发现他们也提供了一个<code>scroll</code>（全库获取）的超级翻页功能，在他们的参数里面也要提供一个<code>scroll_id</code>，感觉原理应该也是和这个差不多。通过使用索引<code>id</code>来加速“翻页”</p>
+<h2 id="ElasticSearch存贮和排序"><a href="#ElasticSearch存贮和排序" class="headerlink" title="ElasticSearch存贮和排序"></a><code>ElasticSearch</code>存贮和排序</h2><p>接下来我就介绍，我怎么优化存储和编写定制动态<code>DSL</code>来实现我们想要的功能。</p>
+<p>在我介绍之前，我先简单的谈一下我对<code>ElasticSearch</code>的理解</p>
+<h3 id="ElasticSearch简介"><a href="#ElasticSearch简介" class="headerlink" title="ElasticSearch简介"></a>ElasticSearch简介</h3><p>在我没有真正使用<code>ElasticSearch</code>之前，我就在知乎上听过它的大名，<code>ElasticSearch</code>真正让我震惊的是当我把上千万数据导入到它里面去，它能在毫秒级别给你响应，而我在<code>MySQL</code>调用<code>SQL</code>进行查询得花几十分钟</p>
+<p>我们可以把<code>ElasticSearch</code>类比成一个数据库，相比于<code>MySQL</code>它在查询性能上做到了苛刻的，我一开始想好好介绍它是怎么做到的，但是我发现有人已经总结的非常好了，可以看看这份<a href="https://zhuanlan.zhihu.com/p/33671444" target="_blank" rel="noopener">资料</a>，它之所以能做到这么快的原因就是这个：索引+内存+缓存</p>
+<p><code>ElasticSearch</code>使用倒叙索引让查询时间复杂度降到logN级，使用内存让物理查询速度达到极限，加上一些过滤缓存让其在复杂查询还是简单查询都能保持在一个很平稳的速度</p>
+<p><code>ElasticSearch</code>相比与<code>MySQL</code>还有一个特点，就是对大文本搜索的支持，<code>ElasticSearch</code>对文本默认自动进行分词，并且通过一些高级分类算法（TF/IDF，5.0后使用更加先进的BM25算法），对匹配的文本进行打分，依次返回得分高低列表，而<code>MySQL</code>在大文本检索只有一个全文索引支持，从实现上来看就是一个加了索引的<code>Like</code>查询，所以<code>ElasticSearch</code>在设计的特定算法加持下被称为“搜索引擎”</p>
+<p>但是<code>ElasticSearch</code>同现在商业的搜索引擎，比如Google、百度、Bing这些又有些不同，<code>ElasticSearch</code>传入的是纯文本，所以它只能使用一些<code>TF/IDF</code>算法来计算给定关键词与文本的相关项，但是现在商业引擎输入的是网页，所以现在商业引擎比如Google就使用<code>Google Page Rank</code>算法来再次计算文档相关性。当然现代商业引擎不单仅仅使用<code>Google Page Rank</code>算法，他还会考虑更加因素进去（比如百度的竞价排行，Google的恶意影响网页排行检测），但是从本质上来说，无论是<code>ElasticSearch</code>和现代商业引擎都在做同一件事，给匹配项打分，这就是他们与<code>MySQL</code>的全文检索的不同（<code>MySQL</code>没有后面打分排行的概率，他只有<code>order by</code>的这个概率）</p>
+<h3 id="设计思路"><a href="#设计思路" class="headerlink" title="设计思路"></a>设计思路</h3><p>一开始我准备直接使用<code>ElasticSearch</code>的搜索引擎来对<code>文章</code>中的涉及到的人进行检索排序，但是我们来考虑这样一件事，假如文章中存在这么一句话：“刘二能吃两碗饭”（涉及到的人是刘二能）。假如我们使用“刘二”去检索，这篇文章中的”刘二能“也能检索到，而我们的目的就是尽可能返回最可能的结果，对于那些不可能的结果一律不返回</p>
+<p>所以我们就不能让<code>ElasticSearch</code>自动帮我们对文本进行分词，但是我们想利用<code>打分</code>这个机制帮我们完成最可能在最前面返回</p>
+<p>所以我们把每篇文章里面的人物解析出来的属性（姓名，出生年月，民族等）设定为<code>keyword</code>类型，这样<code>ElasticSearch</code>就不会对这个字段进行分词，查询的时候也必须全匹配才能命中，由于一篇文章可能设计到多个人，所以我把它用一个<code>list</code>存到一个<code>document</code>里面</p>
+<p>但是这个又引起了另外一个问题，对与一个<code>document</code>里面的<code>list</code>，<code>ElasticSearch</code>会把它进行转换</p>
+<p>我们用<a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/nested.html" target="_blank" rel="noopener">官方文档的例子</a>解释，我们存入了下面这个<code>document</code></p>
+<pre><code>{
+  &quot;group&quot; : &quot;fans&quot;,
+  &quot;user&quot; : [ 
+    {
+      &quot;first&quot; : &quot;张&quot;,
+      &quot;last&quot; :  &quot;华&quot;
+    },
+    {
+      &quot;first&quot; : &quot;李&quot;,
+      &quot;last&quot; :  &quot;四&quot;
+    }
+  ]
+}
+</code></pre><p><code>ElasticSearch</code>会把它转换成</p>
+<pre><code>{
+  &quot;group&quot; :        &quot;fans&quot;,
+  &quot;user.first&quot; : [ &quot;张&quot;, &quot;李&quot; ],
+  &quot;user.last&quot; :  [ &quot;华&quot;, &quot;四&quot; ]
+}
+</code></pre><p>这样你查询这个人<code>张四</code>，我们发现上面这个文档也返回了（选了<code>user.first</code>列表的第一个值，<code>user.last</code>的第二个值，这个结果明显是错误的，我们怎么才能避免<code>ElasticSearch</code>的“自作聪明”呢，答案很简单我们把<code>user</code>声明为<code>nested</code>对象，这样<code>ElasticSearch</code>就不会把它拆开了而是把它当做两个文档（有些人可能会说这个会不要影响它的速率，恰恰相反，<code>ElasticSearch</code>会经常使用类似技术来加速，详情可以看上面的<a href="https://zhuanlan.zhihu.com/p/33671444" target="_blank" rel="noopener">博文</a>)</p>
+<p>现在我们解决了重重困难终于要到排序的阶段了，然而我们没有使用<code>string</code>类型（支持TF/IDF算法）而使用了<code>keyword</code>类型，导致我们没有办法使用<code>ElasticSearch</code>提供的高级排序算法，所以我们得自己手动进行提分，怎么来提分呢，很简单使用<a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-boost.html" target="_blank" rel="noopener">boost</a></p>
+<p>前面我们提到了我们的文档可能解析出来对象多个属性（姓名、年龄、性别、居住地），但是有些文档也可能没有这些信息，我们查询的时候是有一个信息列表（这个人姓名、年龄、性别等等），所以我们使用<code>boost</code>对命中的信息越多的进行提分，所以我们最终就能完成命中越多信息的排在越前面，当然命中信息少的也会被筛选出来只不过位置稍微靠后</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过这次直面千万数据，让我学习到了不少，虽然一开始目的只想简单搜索出来最匹配的数据，但是在实际过程中，通过不断对产生结果提出问题，最终实现了一个比较满意的产品，整个产品在不断的优化过程中逐渐成型并且稳定，我觉得对我帮助最大就是撰写设计文档，并且在产品成型的过程中把结果反馈上去，最后慢慢迭代一个最好的版本</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/08/25/summary/毕业两月反思/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/08/25/summary/毕业两月反思/" class="post-title-link" itemprop="url">毕业两月反思</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-08-25 00:00:00" itemprop="dateCreated datePublished" datetime="2018-08-25T00:00:00+08:00">2018-08-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-11 11:08:34" itemprop="dateModified" datetime="2020-03-11T11:08:34+08:00">2020-03-11</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>1.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>毕业近两个月了，然而这两个月对自己的状态不太满意故写下这篇博客反思</p>
+</blockquote>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>大约是去年十一月在室友的带领下走上了健身这条路，说起来也搞笑，当初室友邀请我去健身，然而我每天享受免费操场跑步，反而对于要花钱的健身嗤之以鼻，虽然我知道那些肌肉硕大的大块头都是从健身房出来的，但是我一直没有想过去练出他们一样的肌肉，我运动本身的目的就不是为了炫耀什么的，主要是想要一个健康的身体，然而南昌十一月妖风阵阵，虽然还没到冬天，晚上妖风能让你吹到感觉到冬天的气息，然而中午却非常热，我尝试过早上跑，但是我个人体质太容易出汗了，跑完就需要洗澡，然而早上没有热水（尝试过冷水，差点让我冻僵）</p>
+<p>正好这个时候室友每天去健身，在我的印象里健身房好像有跑步机，于是我一狠心就花了钱办了一张健身卡，刚开始我是奔着跑步机去的，但是我们班长拉住了我开始教我健身动作，我也是在室友和班长的带领下走上了健身这条“不归路”，可怜的跑步机我就没有用过几次，本来一开始是奔着跑步机去的呀。</p>
+<h2 id="为何健体"><a href="#为何健体" class="headerlink" title="为何健体"></a>为何健体</h2><p>到现在自己已经在三个不同的健身房办了卡了，扯远了，健身的确是一件神奇的事，我一直以为运动会让你瘦下来，没想到健身却让我“胖”起来，当我健身到六个月时，我们班长和室友惊奇的告诉我，我的胳膊整整“胖”了一圈，他们还记得我刚来健身房的时候胳膊细的同木棍一样，然而健身对于我来说却并没有很多不同，我只是找到一个地方可以挥洒我的汗水，找到一个地方可以突破自己的极限</p>
+<h2 id="健体而不健心"><a href="#健体而不健心" class="headerlink" title="健体而不健心"></a>健体而不健心</h2><p>健身真的是一件很有成就感的东西，它的成就感不是在于别人夸你的肌肉有多大，而是你能清楚的找到自己的极限，我原来是一个脑洞很大的人，每天大脑天马行空，像一个中二少年一样总想着自己是“超级赛亚人”，能像绿巨人一样发怒把汽车给掀开，一拳把树打倒。当你在健身房，你拿起一个5KG的哑铃，然而你倾尽全身力气却没法做一个标准的动作，你这个时候才知道自己不是”超人“。健身让你更加了解你自己，慢慢的你就接受了这样的自己，健身的成就感也就在于你能慢慢的感受自己的成长。</p>
+<p>也可能是过于关注自己的身体的进步吧，而自己一直忽略了自己心理的进步。自从踏入社会，开始工作。对于工作我一直是打着自己十二分的精力去做，然而对于工作结束后的那段时间自己一直没能够充分利用。主要的原因就是自己的不够自律。一方面也有自己身体的原因，自己健身都是在下班后，健身完之后自己总是筋疲力尽，本来需要充分利用的时间全部被自己的羸弱的意志给消磨掉了，虽然自己一开始能够控制自己，但是一不小心大脑发出疲惫的信号，慢慢的自己就变成“葛优躺”，大把时间就在不经意的打开手机玩上两把，我看一下微信，再看一下QQ，大块时间被手机打碎成一小块一小块，搞得一晚上下来该做的没做，不该做的做了一大堆。</p>
+<p>在这里我必须要深刻的反省，即使是因为身体疲惫的原因，最主要的还是自己不够自律的原因，我其实有很多想法，有很多想做的事情，但是总是在不自律的自己把时间给浪费掉了，毕业之后书自己也很少看了，记得以前在图书馆捧起一本书津津有味的看上一晚上的酸爽。然而现在的自己，即使是看书也要打开电脑，左手拿着手机，右手捧着书，眼镜盯着电脑看一会，书再看一会。书走马观花，看了也是白看。原来经常更新的博客也停下来了。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>自己也不下什么军令状了，我自己不是一个圣人，我会松懈，我会娱乐，但是我需要自己记住不要因为自己身体的虚弱而导致自己内心的失防，过去自己一直在因为自己过分迁就“健体”而忽视”健心“，自己要牢记只有内心强大才能强大。只要未来的自己不要因为过去的蹉跎的后悔就够了。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
   </div>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -2035,7 +1984,7 @@ for i in range(100):
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">131</span>
+          <span class="site-state-item-count">128</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

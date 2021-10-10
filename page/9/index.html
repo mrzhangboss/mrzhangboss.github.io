@@ -211,601 +211,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/01/04/algorithm/二叉搜索树实现原理/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/01/04/algorithm/二叉搜索树实现原理/" class="post-title-link" itemprop="url">二叉搜索树实现原理</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-01-04 00:00:00" itemprop="dateCreated datePublished" datetime="2018-01-04T00:00:00+08:00">2018-01-04</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>1.8k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>2 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>本篇博客主要基于这篇<a href>博客</a>的扩展，建议阅读前先阅读这篇<a href="/2017/12/27/浅谈树这种数据结构/">博文</a>，这篇博文详细介绍二叉搜索树的实现原理，完整代码在<a href="https://github.com/mrzhangboss/trees" target="_blank" rel="noopener">github</a>的<code>binary.go</code>文件中</p>
-</blockquote>
-<p><a href="/2017/12/27/浅谈树这种数据结构/">浅谈”树”这种数据结构</a><br><a href="https://github.com/mrzhangboss/trees" title="github" target="_blank" rel="noopener">Github</a><br><a href="http://www.cs.usfca.edu/~galles/visualization/BST.html" target="_blank" rel="noopener">可视化页面</a></p>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>之所以使用Go来实现，个人还是比较喜欢Go的，作为一个基础数据结构，Go用来实现这个速度比Java、C++都快，而且相比Java也能节省内存，而且我也不喜欢换使用冒号。</p>
-<h2 id="二叉搜索树的基本功能"><a href="#二叉搜索树的基本功能" class="headerlink" title="二叉搜索树的基本功能"></a>二叉搜索树的基本功能</h2><p>作为一个树结构，主要必须实现三个功能，<strong>查增删</strong>（当然有改，不过改是删和增的结合所以就不算在里面），当然二叉树还能帮我实现一些额外功能，比如寻找最大值最小值等等，实现一颗二叉搜索树必须要保证在“增”和“删”的时候保持树结构不变，也就是保证还是一颗二叉搜索树</p>
-<p>什么二叉树是二叉搜索树呢，二叉搜索树只需要保证一点</p>
-<ul>
-<li>任何一个节点，它的左子树（不为空）所有值小于这个节点值，它的右子树（不为空）所有值大于这个节点值</li>
-</ul>
-<p>所有我们在实现增删的时候必须要牢记这点，而且我们也可以知道在你开始对这颗二叉树进行增删的时候，它一定已经满足了上面这个条件</p>
-<h3 id="查"><a href="#查" class="headerlink" title="查"></a>查</h3><p><img src="/images/bst-1.png" alt="标准的二叉树"></p>
-<p>如何在上面这颗标准的二叉树里面查询到我们想要的值呢？我们知道一颗二叉树只需要知道根节点（上面的10）就能通过遍历得到所以的节点的值，所以我们在实现中声明一个二叉搜索树的时候只保存一个<code>root</code>节点，通过这个节点，我们就可以实现所以的增删查改功能了</p>
-<p>为了找到每个值a，我们依次要在每个节点上对值进行比较，因为每个节点的值代表已经将这堆数据分成两个部分，一堆比这个值大在右边，一堆比这个值小在左边，这样只要最终能找到一个那个值的最小区间的对应值（找到）或者找到一个为空的叶节点（代表没有找到），</p>
-<p>通过最简单的查找，我们可以反推出一个理论，假如我们需要插入一个值，我们只要先尝试去寻找到那个值，假如找到了，因为已经存贮了就不插入，假如没找到就会找到一个为空的叶子节点，那样只要在父节点将这个为空的叶子节点替换成这个值为a的节点，我们就完成了插入</p>
-<p>所以查找和插入是相对的，知道怎么查找就知道怎么插入，接下来我们详细介绍如何删除，这个非常关键，因为它是后面要介绍的高级树实现高效的删除的关键</p>
-<h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><p>我们还是以上面那种图举例子，删除我们最先想到的是删除12,17那些节点，直接删除掉对二叉树没有什么影响，但是如果我们要删除那些带有节点的呢？我们先简化问题，先看一个只有两个节点的树</p>
-<p><img src="/images/bst-2.png" alt="双节点树"></p>
-<p>我们要想删除10，有两种可能</p>
-<p><img src="/images/bst-3.png" alt="左移"></p>
-<p><img src="/images/bst-4.png" alt="右移"></p>
-<p>一种是将左边值移过来，一种是将右边值移过来，这两种都不会破坏二叉树的平衡，现在我们假设我们倾向将左边的值移过来，我们再回到上面那棵标准的二叉树，如果我们要删除掉10节点，我们要把那个值移过来，我们直接在<a href="http://www.cs.usfca.edu/~galles/visualization/BST.html" target="_blank" rel="noopener">可视化界面</a>进行这个操作</p>
-<p><img src="/images/bst-5.png" alt="删除10后的标准二叉树"></p>
-<p>我们发现，我们只需要将7和放到10的位置上就完成了一次删除的操作，而7与10的关系是，7是10左边的那堆值最大的，用一个通俗的话来说，<em>完成改朝换代的关键就是要找一个能镇的住手下的人</em>，由于“10”挂了，在左边只有“7”能镇住左边，所以”7”升官直接跑到“10”的位置了</p>
-<p>根据这个原则我们将情况分成三种</p>
-<ol>
-<li>左右子树都为空，直接删掉</li>
-<li>左边子树或者右边子树有一个为空，将不为空的子树提上来当做删除的节点</li>
-<li>左右子树不为空，将左边最大的值提上来替换删除的节点</li>
-</ol>
-<p>对于第三种情况，为了编程方便，我们考虑一种情况，如果左子树的右节点有没有值（比如说上面的5节点），如果它右节点有值，那么左边的最大值肯定出现在，左子树的右节点上（就像上面左子树出现在5的右节点的7节点上面）。然后我们继续判断“7”节点有没有右子树，这样循环下去，我们总能找到一个节点没有右节点，这样我们就找到左子树的最大值了。</p>
-<p>在上面这种情况下，我们将这情况分成两种</p>
-<ul>
-<li>如果左子树的右节点有值（循环下去找到一个节点右节点没有值）</li>
-<li>如果左子树的右节点没值（那么第一个左子树就是最大值）</li>
-</ul>
-<p>具体的<a href="https://github.com/mrzhangboss/trees" title="github" target="_blank" rel="noopener">代码</a>在<code>binary.go</code>的<code>Delete</code>(寻找节点）方法和<code>delete</code>（删除节点）方法中</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>总的来说，二叉搜索树的插入是最容易理解的，但是删除的话要考虑不同四种的情况所以还是稍微需要点时间理解一下的，小小的一个二叉搜索树也花了近200行代码实现，但是相比后面的AVL树、红黑树的近千行代码来说，二叉搜索树还是比较简单的，而且后面实现的高级树结构基本上都是依赖二叉搜索树的实现（必须要按照二叉树的增删满足二叉搜索树的原则），所以我们对二叉搜索树的增删必须理解透彻。</p>
-<p>引用：</p>
-<p><a href="https://en.wikipedia.org/wiki/Binary_search_tree" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Binary_search_tree</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2017/12/27/algorithm/浅谈树这种数据结构/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/12/27/algorithm/浅谈树这种数据结构/" class="post-title-link" itemprop="url">浅谈"树"这种数据结构</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-12-27 00:00:00" itemprop="dateCreated datePublished" datetime="2017-12-27T00:00:00+08:00">2017-12-27</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>4.7k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>4 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>一直以来我对树这种数据结构就比较头疼，随便找一个红黑树的博客，大部分都是在谈怎么旋转怎么插入怎么删除，将算法讲的头头是道，但是就算你看懂了也不懂为什么要这样做，所以我们这篇博文就从可视化的角度，慢慢的介绍这些树的来世今生。</p>
-</blockquote>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>首先给大家推荐一个神奇的网站，我们这篇博文很大程度上都是依托这个网站从可视化的角度分析各种树</p>
-<p>网站的网址是<a href="http://www.cs.usfca.edu/~galles/visualization/Algorithms.html" target="_blank" rel="noopener">http://www.cs.usfca.edu/~galles/visualization/Algorithms.html</a></p>
-<p>接下来我们从易到难分别谈谈下面这些树结构</p>
-<ul>
-<li>二叉搜索树</li>
-<li>AVL树</li>
-<li>红黑树</li>
-<li>Splay树</li>
-<li>Trie树</li>
-<li>B树</li>
-<li>B+树</li>
-</ul>
-<p>你可以点击下面高亮的标题尝试这种树结构的可视化操作，当然我在谈的过程中默认你已经打开可视化界面网站。</p>
-<p>在开始介绍各种树结构之前，我们先谈谈为什么我们需要树这种结构。</p>
-<p>假设我们一开始都有一个“柜子”存放东西，当我们东西很少的时候，我找东西的时候只要在柜子里面翻一翻就能找到，当我东西越来越多，在柜子里面找东西消耗的时间越来越多，这时候我就把柜子分类，让每一个柜子的东西都是固定的，这样我们查找时候不会在一个柜子里面寻找很久，这样无论你有多少东西进来，我查找的时间基本不会太长。</p>
-<p>所以树这种数据结构就是为了解决当数据量越来越大的时候相比与线性查找时间基本不会太长。对树查找和线性的区别我们可以看一下这个可视化界面</p>
-<p><a href="http://www.cs.usfca.edu/~galles/visualization/Search.html" target="_blank" rel="noopener">线性搜索与二分查找</a></p>
-<p>通过输入查找344，我们发现线性搜索花了15步才搜索到，而二分查找只需要2步，而且随着数据越来越大，线性搜索花的步数直线上升，而二分查找只会维持用Log(N)的步伐增长。</p>
-<p>树的结构基本上都是基于二分查找，但是在维护这个查找树的方法上各种树有各种优化方法，接下来我们就从可视化角度来依次介绍各种树的原理和优缺点。</p>
-<h2 id="二叉搜索树"><a href="#二叉搜索树" class="headerlink" title="二叉搜索树"></a><a href="http://www.cs.usfca.edu/~galles/visualization/BST.html" target="_blank" rel="noopener">二叉搜索树</a></h2><p>这个树可以称作所以后面变种树的鼻祖，基本上所以后面的树都是基于这个树的不足之处进行改良达到其各自的目的。</p>
-<p>我们现在尝试构造一棵二叉树，我们依次插入<code>3,2,4</code>。然后一棵标准的二叉树就出现在我们面前，在我们插入的过程中，我们可以清晰的看到，第一个插入的变成了母节点，而且插入程序实现的非常简单，首先跟母节点进行比较，如果比母节点大，从母节点右边下滑，然后依次找到最后一个为空的节点把自己插入进去。</p>
-<p> <img src="/images/bst-7.png" alt="单调递增二叉搜索树"></p>
-<p>我们接下来尝试一下如果输入一个连续递增的数组进去，比如<code>1， 2， 3， 4， 5</code>，我们发现这个二叉搜索树会逐渐把所以的值放到右节点上。这时候我们我们尝试搜索一下<code>5</code>，我们发送这个二叉搜索树需要5次查询才能得到最终结果，这个基本上等同与线性搜索。</p>
-<p>这里我们就发现二叉搜索树一个致命缺点，它容易造成一种空间的浪费，虽然这个树看起来很“高”，有5层，但是利用率极低，每层只有一个树，这样不但查找的时候效率不高，而且插入的时候效率也不高（很可能需要“爬”很多层）。</p>
-<p>二叉树搜索树实现起来非常简单，只要用一个<code>while</code>循环就能完成插入查找等功能，但是由于它结构控制太低，它对数据要求要很高，它时候依次插入那些无序数字，而对那些有序数据来说，二叉搜索树等同与一个数组。</p>
-<p>所以我们接下来介绍下面改良树，看看其他树是如何提高的空间利用率的，由于这篇主要是简单的谈一下这些树的优缺点，如果你想了解如何实现这样可以看一下我写的这篇<a href="/2018/01/04/二叉搜索树实现原理/" title="二叉搜索树Go实现">博文</a>，详细介绍了如何使用Go语言实现一个高效的二叉搜索树，如果你想彻底了解下面高级的树的实现，强烈建议一下了解一下二叉搜索树实现的方法，因为后面所以的树实现的前提<strong>必须满足是一个二叉搜索树</strong>，这点非常重要。</p>
-<p><a href="/2018/01/04/二叉搜索树实现原理/" title="二叉搜索树Go实现">二叉搜索树Go实现</a></p>
-<h2 id="AVL树"><a href="#AVL树" class="headerlink" title="AVL树"></a><a href="http://www.cs.usfca.edu/~galles/visualization/AVLtree.html" target="_blank" rel="noopener">AVL树</a></h2><p>1962发明的AVL树现在还生龙活虎的活跃在Windows进程地址空间管理，虽然作为最早的平衡二叉树现在有点干不过后面的年轻的小伙，但是作为前辈，后面小伙很多地方都是借鉴前辈的，所以我们有必要隆重介绍一下这个老前辈。</p>
-<p>首先要说明一下什么是平衡二叉树，前面我们也看到了，二叉搜索树有个弊端，它有可能子树高度不一样，比如说<code>1,2,3,4,5</code>那个母节点<code>1</code>的左子树高度为0，右字数高度为5，平衡二叉树就没有这个问题，它规定所以节点子树高度差不能超过1，这样规定的话我们的树空间利用率就能基本上达到100%了。</p>
-<p>AVL树就是一颗高度平衡二叉树，它的要求也非常简单，就两个</p>
-<ul>
-<li>必须是二叉搜索树</li>
-<li>必须是平衡二叉树</li>
-</ul>
-<p>成为一个二叉查找树非常容易，但是为了必须满足平衡二叉树条件，这里我们给每颗树定义一个高度，默认空为0，这样就可以计算左右子树的高度差是否在-1和1之间判断是否是平衡树。</p>
-<p>了解了这个之后，我们回到web页面，我们输入<code>1,2,3</code>看看AVL树如何避免像二叉搜索树一样过度生长</p>
-<p><img src="/images/avl-1.png" alt="插入前"></p>
-<p><img src="/images/avl-2.png" alt="插入后"></p>
-<p>我们从这两幅图可以看到，插入前AVL树高度为3，经过单旋转后，将2旋转到1的位置，然后让树又满足平衡二叉树的条件和二叉搜索树的条件。让我们思考一下旋转的意义。</p>
-<h3 id="旋转的意义"><a href="#旋转的意义" class="headerlink" title="旋转的意义"></a>旋转的意义</h3><p><strong>第一旋转并没有改变二叉搜索树的特性，我们将二叉树看做一个一个小区间组成的区域，旋转将区间整体移动了，所以我们保持住了区间的稳定，而且我们把旋转的支点看做中心，我们发现通过一次旋转后，支点左右之间的数量发生的变化，其中一方增加一个，其中一个减少一方，通过这种方式，把高度差由<code>2</code>转成<code>0</code></strong></p>
-<p>所以我们在插入和删除的时候造成的高度不平衡可以通过正确的旋转达到一个高度差的减少。而且我们可以很轻松的推断出在插入和删除的时候只需要通过有限的旋转就能实现树的平衡，但是我们也会发现这个平衡是非常严格的，每次插入删除的时候，删除或者增加的那条“路径”（从根节点到修改的节点）的各个节点的高度都会发生变化，所以我们需要检查和更新整条路径上高度差（也称平衡因子）是否满足平衡条件。</p>
-<p>直接纪录每个树的高度并且约束高度差的方法能够很好的规避像上面二叉搜索树造成的空间利用率低问题，但是对于增添和删除操作频繁的数据来说，AVL树并不是一个很好的解决方法，因为每次删除和增加都必须检测路径上的高度差，虽然旋转比较高效，但是每次检测和修改高度会让这个算法花费太多时间在这个严格的条件上面。</p>
-<p>总的来说，AVL树是比较好理解的一种平衡树算法，通过这个树的各种旋转操作，我们能很清晰的发现二叉树是一种很神奇的数据结构，一方面它可能是混乱的（分支混乱），一方面它又是整齐的，通过“扭动”它的身躯，将数据平均的分摊在根节点上面。我非常推荐你在这个<a href="http://www.cs.usfca.edu/~galles/visualization/AVLtree.html" target="_blank" rel="noopener">可视化界面</a>上通过一步一步将单独递增或者递减的数据插入AVL树中，你会发现AVL通过一次一次的“扭动”，将数据向根节点另一个方向传输过去。</p>
-<p>这里我也不详细介绍AVL树实现的具体原理，如果你想了解更底层的实现，可以看我下面这篇<a href="/2018/01/04/AVL树实现原理/" title="AVL树的实现原理">博客</a></p>
-<p><a href="/2018/01/04/AVL树实现原理/" title="AVL树的实现原理">AVL树的实现原理</a></p>
-<h2 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a><a href="http://www.cs.usfca.edu/~galles/visualization/RedBlack.html" target="_blank" rel="noopener">红黑树</a></h2><p>在AVL树发明10年后鲁道夫 贝尔发明了红黑树，直到现在红黑树还依旧在C++的STL、Java的HashMap中发挥着重要作用，只所以要先介绍AVL树再介绍红黑树，因为从我的理解上来看，其实红黑树和AVL树原理都是类似的，只不过红黑树修改了AVL树的缺点并且将AVL的平衡原理进行了抽象话。</p>
-<p>从数据结构上来看，红黑树相比于AVL树来说，只是将存贮高度的值换成了存贮颜色的值，从空间的角度上看，红黑树用一个二进制bool值（1Bit）换掉一个存贮int值（4Bit），节省了3Bit的空间，从增删所需要的操做来看，AVL树旋转可能需要lnN 步操作，而红黑树增不超过2次旋转，删不超高3次旋转，在增删效率上远远优于AVL树。所以我们有一个疑问为什么红黑树能用更少的空间实现更高的效率呢？</p>
-<p>回答这个问题之前，我们再捋捋AVL它的实现原理，前面介绍了AVL实现平衡的原理的就是使的左右子树高度差维持在[-1,1]之间，高度差这个东西，你想想高度这个东西其实它就是母节点到叶子节点的路径，所以高度差我们翻译一下就是左右子树路径差，现在我们把平衡后的AVL树条件更加严格一点，我们规定左右子树路径差为0，也就是左右子树高度一样。</p>
-<p><img src="/images/bst-2.png" alt="满二叉树"></p>
-<p>在上面那个严格的条件下，假如我们要新增一个到树末端，假如它加在像上面这样满二叉树上面，那么左右子树高度就立刻不相同了，但是对于一个AVL树来说，在这颗树上末端插一颗树并不会影响树的平衡，所以我们要想一个办法让插入这个值“不算高度”，这时候我们一想，如果我们把树节点分成两种颜色，一种红色一种黑色，红色不算高度，黑色才算高度，那样虽然我现在条件很苛刻“左右子树高度必须一样”，但是如果插入的是红色，那么就能很轻松的实现上面的条件。</p>
-<p>好了我们通过上面的操作成功的将高度变成了黑高（黑色节点的高度），而且满足了一种更加严格的条件“左右子树黑高必须相同），假如说前面AVL树的高度差为[-1,1]之间都能实现高空间利用率的，那么在这种更加严格的条件下也能满足，但是现在又出现一个问题，我们看下面这棵树</p>
-<p><img src="/images/rbt-1.png" alt="不平衡树"></p>
-<p>当我们插入节点3的时候，由于插入一颗红色你把红色节点不算高度，所以在前面的约束条件下，插入3满足条件，但是实际上这棵树并不是一个平衡AVL树，为了避免这种情况的发生我们必须要做一个约束，我们要约束红色节点不能太多，所以我们就约束红色节点后面只能是黑色节点，这样路径上最少都会有一半都是黑色（红色黑色相同）。</p>
-<p>我们现在得到两个约束，现在我们来说思考一下这两个条件的约束到底给我们带来了什么</p>
-<ul>
-<li>黑高相同</li>
-<li>红后面必须为黑</li>
-</ul>
-<p>首先对于黑色节点来说，这棵树是高度平衡的（假设它只能看到黑色节点），高度差为0，但是对于红色节点来说，这棵树有可能是不平衡的（假设有N个黑节点，红色高度差可能有N-1），所以从整体上来看，红黑树牺牲了一定的平衡性换来了插入删除的高效性</p>
-<p>这个高效性表现在哪呢？第一它不在需要更新所有的高度差，它只需要对受影响的路径上的有限节点进行染色就能实现再次的平衡，其次由于它不在需要高度的平衡，所以它能容忍树上的红色的不平衡现象，来减少旋转变化的次数。</p>
-<p>前面我们分析了AVL树旋转的意义那么对于红黑树来说，旋转的意义是什么呢？</p>
-<h3 id="红黑树的旋转意义"><a href="#红黑树的旋转意义" class="headerlink" title="红黑树的旋转意义"></a>红黑树的旋转意义</h3><p>前面我们知道了在AVL树中每一棵树都是独立的个体，所以每次旋转都是一次运输，将树按照节点扭动，但是对于红黑树来说，它要处理的情况是黑树高度的不同，当需要搬到的也是黑树，它的目的就是将黑树的高度平衡，对于红色的树来说，它更像一种胶水，它能保证当数据不平衡的时候（所以的树不可能全部变成黑树）还能使黑树保持一种平衡，从而使一棵树变得相对平衡。</p>
-<p>所以红黑树的旋转的意义同AVL树是类似的，只不过红黑树在旋转的时候要更加注意，它不但要考虑我们要如何在不平衡的节点上平衡黑高，而且要考虑我们平衡了这个节点的黑高有没有对其父亲的黑高造成影响。</p>
-<p>对于红黑树来说，由于颜色是可变的，所以着色（改变颜色）也是一种手段，而对于AVL树来说高度是固定的，只能通过旋转来改变，所以单独讲红黑树的旋转是没有意义的，或许有的时候只需要通过旋转就能实现黑高的统一，或许通过简单着色也能实现黑高的统一，但是只使用一种手段是不能高效的完成所以的条件。所以在我看来<em>着色和旋转是相辅相成的</em></p>
-<p>也正因为我们多了一个着色的手段，所以红黑树比AVL树在某些方面更加高效，随着而来也是更加复杂难懂，但是总体来说AVL和红黑还是类似的，在这里我就不深谈如何实现红黑树，如果你想了解如何实现红黑树，可以看我这篇<a href="/2018/01/05/红黑树实现原理/">博客</a></p>
-<p><a href="/2018/01/05/红黑树实现原理/">红黑树的实现原理</a></p>
-<h4 id="剩余的四种树的简析会待代码实现后陆续更新"><a href="#剩余的四种树的简析会待代码实现后陆续更新" class="headerlink" title="剩余的四种树的简析会待代码实现后陆续更新"></a>剩余的四种树的简析会待代码实现后陆续更新</h4><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://en.wikipedia.org/wiki/Binary_search_tree" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Binary_search_tree</a></p>
-<p><a href="https://en.wikipedia.org/wiki/AVL_tree" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/AVL_tree</a></p>
-<p><a href="https://www.cnblogs.com/vamei/archive/2013/03/21/2964092.html" target="_blank" rel="noopener">https://www.cnblogs.com/vamei/archive/2013/03/21/2964092.html</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2017/12/26/algorithm/几个有趣的动态规划/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/12/26/algorithm/几个有趣的动态规划/" class="post-title-link" itemprop="url">几个有趣的动态规划</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-12-26 00:00:00" itemprop="dateCreated datePublished" datetime="2017-12-26T00:00:00+08:00">2017-12-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>3.6k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>3 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>这篇博文是<a href="/2017/12/25/从问题理解动态规划/">从问题理解动态规划</a>的练习篇，通过几个动态规划的问题剖析进一步理解动态规划</p>
-</blockquote>
-<h2 id="找零钱练习题"><a href="#找零钱练习题" class="headerlink" title="找零钱练习题"></a>找零钱练习题</h2><ul>
-<li>给定一个零钱数组比如[1, 2, 5],每个值代表一个面额的纸币，给定一个总数(aim)，求换钱有多少种方法（每种面额纸币不限量）</li>
-</ul>
-<blockquote>
-<p>这个问题非常经典，所以我就从最先容易想到的算法出发慢慢推导出动态规划</p>
-</blockquote>
-<h3 id="正向暴力搜索"><a href="#正向暴力搜索" class="headerlink" title="正向暴力搜索"></a>正向暴力搜索</h3><p>面前一大堆钱，分成三堆，我们必须要从这三堆中抽取出来所以可能的方案，看看能够凑到总数。</p>
-<p>我们第一个想到的就是正向暴力搜索，先从第一堆取出0张、1张、2张….，然后递归下去，让取出0张、1张、2张凑剩下的总数，等到取到最后一个钱堆或者总数正好相同的时候递归停止。</p>
-<p>我们可以很轻松的写出下面的代码（Java）</p>
-<pre><code>int violenceSearch(int[] level, int index, int aim) {
-        if (aim &lt;= 0) {
-            return aim == 0 ? 1 : 0;
-        }
-        if (index &gt;= level.length) {
-            return 0;
-        }
-        int sum = 0;
-        for (int i = 0; i &lt;= aim / level[index]; i++) {
-            sum = sum + violenceSearch(level, index + 1, aim - i * level[index]);
-        }
-        return sum;
-    }
-</code></pre><p>这个函数接受三个参数，第一个是钱堆的面额数组，第二个是当前是拿第几个钱堆的序号，第三个是剩余要凑的总数</p>
-<p>这个算法的核心就是<code>sum = sum + violenceSearch(level, index + 1, aim - i * level[index]);</code>，我们分别从钱堆里面取出想0张、1张…，然后计算剩下的总数和剩下的堆数方法总数和。</p>
-<p>这个算法也可以优化成记忆搜索，总共有多少种方法拼钱，主要与<code>index</code>和<code>aim</code>有关，我们只要用<code>map</code>记录一下这个值就可以优化成为记忆搜索。</p>
-<h3 id="反向暴力搜索"><a href="#反向暴力搜索" class="headerlink" title="反向暴力搜索"></a>反向暴力搜索</h3><p>反向的话比较难想到，但是正向暴力搜索没有办法分解成子函数，也就无法实现动态规划，所以我们必须要反向思考</p>
-<p>首先我们假设纸币面额为1， 2， 5， 我们要凑10块钱，我们假设已经得到了所以的次数F(x, y)(x为由多少种纸币组成，y为凑多少钱），所以我们得到这个我们想要的结果F(3, 10) （也就是由3种面额组成10块）</p>
-<p>假设我们得到了F(3, 10)所以可能的组成结果结合如下面10种</p>
-<ul>
-<li>10张1块</li>
-<li>8张1块、1张2块</li>
-<li>6张1块、2张2块</li>
-<li>5张1块、1张5块</li>
-<li>4张1块、3张2块</li>
-<li>3张1块、1张2块、1张5块</li>
-<li>2张1块、4张2块</li>
-<li>1张1块、2张2块、1张5块</li>
-<li>2张5块</li>
-<li>5张2块</li>
-</ul>
-<p>现在我们把这10种可能按照5块的张数分成3份</p>
-<ul>
-<li>0张5块</li>
-<li><ul>
-<li>10张1块</li>
-</ul>
-</li>
-<li><ul>
-<li>8张1块、1张2块</li>
-</ul>
-</li>
-<li><ul>
-<li>6张1块、2张2块</li>
-</ul>
-</li>
-<li><ul>
-<li>4张1块、3张2块</li>
-</ul>
-</li>
-<li><ul>
-<li>2张1块、4张2块</li>
-</ul>
-</li>
-<li><ul>
-<li>5张2块</li>
-</ul>
-</li>
-<li>1张5块</li>
-<li><ul>
-<li>5张1块、1张5块</li>
-</ul>
-</li>
-<li><ul>
-<li>3张1块、1张2块、1张5块</li>
-</ul>
-</li>
-<li><ul>
-<li>1张1块、2张2块、1张5块</li>
-</ul>
-</li>
-<li>2张5块</li>
-<li><ul>
-<li>2张5块</li>
-</ul>
-</li>
-</ul>
-<p>分别为0张5块（6种），1张5块（3种），2张5块（1种），也就是我们成功将F(3, 10)分解成 F(2, 10), F(2, 5), F(2, 0)</p>
-<p>通过这种方式我们成功构造出子函数，我们很容易就能写出递归函数</p>
-<pre><code>int lowBackVS(int[] level, int index, int aim) {
-    if (index == 0)
-        return aim % level[index] == 0 ? 1 : 0;
-
-    if (aim &lt; level[index]) return lowBackVS(level, index - 1, aim);
-    else {
-        int count = 0;
-        for (int i = 0; i * level[index] &lt;= aim; i++) {
-            count += lowBackVS(level, index - 1, aim - i * level[index]);
-        }
-        return count;
-    }
-}
-</code></pre><p>这里我们要看到第二个<code>if</code>，我们判断剩下的余额是否够当前的一张，如果不够，那直接就是前n-1种纸币能够组成的次数。（也就是假如你剩下4块钱要用一张5块来组成，肯定不可能，直接返回前面的n-1种货币能够凑出4块的种数）</p>
-<p>这种时间复杂度为O(n) = n X aim X aim， 假如aim比较大还是比较耗时间的，我们看看是否能够优化一下</p>
-<h3 id="反向暴力搜索优化"><a href="#反向暴力搜索优化" class="headerlink" title="反向暴力搜索优化"></a>反向暴力搜索优化</h3><p>我们还是回到上面那个例子，我们这次按照能够减去一张5块的进行分类，这样我们就分成了两类</p>
-<ul>
-<li>无法抽掉一张5块</li>
-<li><ul>
-<li>10张1块</li>
-</ul>
-</li>
-<li><ul>
-<li>8张1块、1张2块</li>
-</ul>
-</li>
-<li><ul>
-<li>6张1块、2张2块</li>
-</ul>
-</li>
-<li><ul>
-<li>4张1块、3张2块</li>
-</ul>
-</li>
-<li><ul>
-<li>2张1块、4张2块</li>
-</ul>
-</li>
-<li><ul>
-<li>5张2块</li>
-</ul>
-</li>
-<li>能够抽掉一张5块</li>
-<li><ul>
-<li>5张1块、1张5块</li>
-</ul>
-</li>
-<li><ul>
-<li>3张1块、1张2块、1张5块</li>
-</ul>
-</li>
-<li><ul>
-<li>1张1块、2张2块、1张5块</li>
-</ul>
-</li>
-<li><ul>
-<li>2张5块</li>
-</ul>
-</li>
-</ul>
-<p>一张是无法抽掉一张5块（6种），能够抽到一张5块（4）种<br>我们回到函数定义，这样我们成功将函数F(n, aim)分解成两个F(n-1, aim) 和F(n, aim - level[index])</p>
-<p>我们成功的将子函数进行化简成两项</p>
-<pre><code>int backVS(int[] level, int index, int aim) {
-    if (index == 0)
-        return aim % level[index] == 0 ? 1 : 0;
-
-    if (aim &gt;= level[index])
-        return backVS(level, index - 1, aim) + backVS(level, index, aim - level[index]);
-    else return backVS(level, index - 1, aim);
-
-}
-</code></pre><p>我们可以看到我们成功将时间复杂度降到了O(n) = n X aim，至此我们写出了比较完美的反向暴力搜索方法，当然我们也能够像正向暴力搜索优化成记忆搜索</p>
-<h3 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h3><p>前面我一直没有怎么提记忆搜索法，因为这个方法基本上等同与动态规划，只不过动态规划使用数组存贮，记忆搜索法用字典存贮。</p>
-<p>前面我们知道我们能通过分解函数将问题划分成前面的子问题，所以我们只需要构建一个二维数组，x，y分别代表由几种货币组成（index），组成的总数（aim），这样就能通过慢慢“填”写动态规划表，最后求出由N种货币组成钱数（aim）总数</p>
-<pre><code>int dynamic(int[] level, int index, int aim) {
-    int n = level.length;
-    int[][] dp = new int[n][aim + 1];
-    for (int i = 0; i &lt; n; i++) dp[i][0] = 1;
-    for (int i = 1; i &lt;= aim; i++) dp[0][i] = i % level[0] == 0 ? 1 : 0;
-    for (int i = 1; i &lt; n; i++) {
-        for (int j = 1; j &lt;= aim; j++) {
-            if (j &lt; level[i]) dp[i][j] = dp[i - 1][j];
-            else dp[i][j] = dp[i - 1][j] + dp[i][j - level[i]];
-        }
-    }
-    return dp[n - 1][aim];
-
-}
-</code></pre><p>这里要注意的是初值的初始化，默认当钱数为0的时候值为1（比如说前面的2张5块的方法F(2, 0) = 1），当只由一种钱币组成时，只要总数能够整除第一种钱币面额就为1（全部由这种货币组成）</p>
-<h3 id="动态规划的优化"><a href="#动态规划的优化" class="headerlink" title="动态规划的优化"></a>动态规划的优化</h3><p>当然这个优化可有可无，因为我们观察上面的函数，我们发现其实N层只与前面N-1层一个有关，这样的话，我们如果覆盖掉上一层的值对后面的计算结果也没有影响。所以我们就不使用多维数组，直接使用一维数组，节省了（N-1）* (aim + 1)的空间</p>
-<pre><code>int advanceDynamic(int[] level, int index, int aim) {
-    int[] f = new int[aim + 1];
-    f[0] = 1;
-    int n = level.length;
-    for (int i = 0; i &lt; n; ++i)
-        for (int j = level[i]; j &lt;= aim; ++j)
-            f[j] += f[j - level[i]];
-    return f[aim];
-}
-</code></pre><p>所以我们成功的将代码改的更短，而且更省空间</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>一开始本来想多讲几道动态规划的问题，但是写着写着发现其实大部分都是大同小异，找到子函数，构建表存贮计算过程，其中最大的挑战就是找到分解子函数，所以我就不介绍其他的问题了，我就把这些问题留在下面，你可以试试挑战一下自己</p>
-<ul>
-<li><a href="https://zh.wikipedia.org/wiki/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98" target="_blank" rel="noopener">背包问题</a></li>
-</ul>
-<blockquote>
-<p>一个背包有一定的承重cap，有N件物品，每件都有自己的价值，记录在数组v中，也都有自己的重量，记录在数组w中，每件物品只能选择要装入背包还是不装入背包，要求在不超过背包承重的前提下，选出物品的总价值最大。</p>
-</blockquote>
-<ul>
-<li><p>最优编辑</p>
-<blockquote>
-<p>对于两个字符串A和B，我们需要进行插入、删除和修改操作将A串变为B串，定义c0，c1，c2分别为三种操作的代价，请设计一个高效算法，求出将A串变为B串所需要的最少代价。</p>
-</blockquote>
-</li>
-<li><p>LIS</p>
-</li>
-</ul>
-<blockquote>
-<p>求出序列的最长上升子序列的长度</p>
-</blockquote>
-<ul>
-<li>LCS</li>
-</ul>
-<blockquote>
-<p>给定两个字符串A和B，返回两个字符串的最长公共子序列的长度。例如，A=”1A2C3D4B56”，B=”B1D23CA45B6A”，”123456”或者”12C4B6”都是最长公共子序列。</p>
-</blockquote>
-<ul>
-<li>走迷宫问题</li>
-</ul>
-<blockquote>
-<p>有一个矩阵map，它每个格子有一个权值。从左上角的格子开始每次只能向右或者向下走，最后到达右下角的位置，路径上所有的数字累加起来就是路径和，返回所有的路径中最小的路径和。</p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2017/12/25/algorithm/从问题理解动态规划/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1779,11 +1184,559 @@ print(resp.read())
   
   
 
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2017/10/10/software/http/HTTP复用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/10/10/software/http/HTTP复用/" class="post-title-link" itemprop="url">HTTP复用</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-10-10 00:00:00" itemprop="dateCreated datePublished" datetime="2017-10-10T00:00:00+08:00">2017-10-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:08:07" itemprop="dateModified" datetime="2021-03-09T20:08:07+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/软件/" itemprop="url" rel="index">
+                    <span itemprop="name">软件</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>6.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>曾经有人问过我一个问题什么是TCP复用，我当时没有回答上来，后面我又遇到一些并发性能问题的时候，我才开始慢慢明白为什么会有这个问题，以及这个问题背后的秘密</p>
+</blockquote>
+<p>其实当时应该他想考我的是爬虫的请求优化，准确来说是HTTP持久连接（HTTP persistent connection），并不是TCP复用，这才导致我当时查阅很多资料，并没有发现TCP复用能优化客户端，因为<a href="http://gaibianziji.blog.51cto.com/1082897/1211940" target="_blank" rel="noopener">TCP复用</a>是服务端的事，现在就让我从源头开始慢慢解读这个问题</p>
+<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>我们知道我们每次发的HTTP请求在底层都是一个套接字的通信，我们可以从底层开始做一个测试</p>
+<p>我们使用个for循环，申请1024个socket</p>
+<pre><code>import socket
+l = [ ]
+for  i in range(1024):
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.bind((&apos;www.baidu.com&apos;),80))
+    print(i)
+    l.append(sock)
+</code></pre><p>这个过程有点慢，但是你会发现在申请到1000左右的时候，会直接报<code>Open too many file</code> 这个错误，但是我们并没有打开文件，为什么会报这个错误</p>
+<p>原来在Unix系统下，我们申请的套接字也就是<code>socket</code>在底层是以文件的形式存在的，<strong>客户端通过申请一个<code>socket</code>来写入和接受服务端的请求</strong>，这是一个非常重要的概念，对我们后面解析库函数有很大的帮助。</p>
+<p>由于系统资源有限而且打开很多文件系统响应会变慢，所以Unix系统或者Windows都对单个进程申请套接字有限制，在Unix系统下我们可以通过<code>ulimit -n</code>查看这个值，在笔者的<code>Ubuntu</code>上这个值为1024，基本没有修改过都是这个值，我们可以通过我们可以在命令行执行<code>ulimit -HSn 4096</code>临时增加至4096,</p>
+<p>所以我们一般来说单台机器单个进程最多只能并发1024个请求，在不修改配置的情况下这个值是固定的，所以我们提高并发数只有两种方法</p>
+<ol>
+<li>修改系统配置</li>
+<li>使用多进程</li>
+</ol>
+<p>在写这篇文章之前，我一直以为HTTP复用能在作用在并发上提高爬虫性能，但是其实并不是，它能提高性能但是却不是在并发上提高，接下来我们仔细介绍HTTP复用是怎么提高爬虫性能的</p>
+<h2 id="HTTP复用"><a href="#HTTP复用" class="headerlink" title="HTTP复用"></a>HTTP复用</h2><p>说道HTTP复用，我们不得不介绍一下HTTP和TCP协议，我们都知道Internet是由OSI七层协议构成的，但是OSI只是规定了框架，具体协议我们是通过TCP/IP来实现的</p>
+<p>我们先来说说这个TCP，我们都说互联网能够发展到现在这么稳定可靠多亏了这个TCP可靠协议，但是这个可靠是要付出代价的，建立一次连接的过程要经过三次握手，断开的过程也得四次分手，而且这个连接的过程完全不涉及我们要请求的内容，我们知道爬虫一般请求一个站点只有通过一两次请求就行，如果每次请求都得握三次手，还得分四次手，这样的代价也太大了</p>
+<p>所以HTTP的复用优化的方向就是减少TCP的连接，谈到如何减少TCP连接，我们就得说说HTTP长连接（HTTP persistent connection）</p>
+<h3 id="HTTP长连接"><a href="#HTTP长连接" class="headerlink" title="HTTP长连接"></a>HTTP长连接</h3><p><strong>在HTTP1.1规定了默认都是长连接，TCP不断开，并且在请求头添加一个<code>Connection</code>的header，如果是值为<code>keep-alive</code>则保留TCP连接，假如为<code>Close</code>请求完成之后就会关闭，在HTTP1.0的下默认为关闭状态</strong></p>
+<p>怎么来理解这个长连接呢，我们都听说过<strong>HTTP是无状态的</strong>这句话，从HTTP协议上来看，<strong>服务器客户端就是一个“Request”，“Response”组成，无论多复杂的页面都是由一个个“Request”组成</strong></p>
+<p>为了更好的理解上面的话，我们回到那个套接字，我们把HTTP请求比作打电话，对于每个电话，我们只需要先拨号，然后滴滴滴三下后确定我们同对面连上了（服务器“协商”好），然后我们把我们要说的话通过话筒传给对方，等我们说完之后，由于信号差，对面听完还要想怎么回，然后我们安安静静的在听筒那等，等他想好说什么，在慢慢的说给我们听。</p>
+<p>在HTTP1.0的时代，我们每次拨完一次好，说完一句话，听完对面的回应后，我们就会挂断电话，如果我们还想说就得再重复这个过程，在HTTP1.1下我们增加了长连接这个概念，就是如果你想这个电话里多聊几句，那么就在最后加上“你等下不要挂了，我还要说”（在header加上“Connection: Keep-alive”），那么对方就不会挂断电话，等它说完之后也想你一样在听筒那而等着，这样我们就省掉了一次拨号的时间</p>
+<p>我们现在了解为什么HTTP复用能够节省爬虫的性能了，接下来我们就从编程语言对HTTP复用的实现上了解如何实现HTTP复用</p>
+<h2 id="存贮单元—ConnectionPool"><a href="#存贮单元—ConnectionPool" class="headerlink" title="存贮单元—ConnectionPool"></a>存贮单元—ConnectionPool</h2><p>在介绍ConnectionPool之前我们先简单介绍一下HTTP复用的具体表现</p>
+<h3 id="TCP与URL的关系"><a href="#TCP与URL的关系" class="headerlink" title="TCP与URL的关系"></a>TCP与URL的关系</h3><p>我们知道HTTP复用的是TCP的连接，而TCP连接由四个部分组成</p>
+<ol>
+<li>本地ip</li>
+<li>本地port</li>
+<li>服务器ip</li>
+<li>服务器port</li>
+</ol>
+<p>简单来说就是两个二元组（local_ip, local_port), (server_ip, server_port)</p>
+<p>但是我们发一次的请求是一般是通过URL，也就是类似“<a href="http://www.baidu.com”，这样的url来请求的，这个同我们TCP有什么关系呢？" target="_blank" rel="noopener">http://www.baidu.com”，这样的url来请求的，这个同我们TCP有什么关系呢？</a></p>
+<p>首先介绍一下“http”代表通信协议，这里使用的是HTTP协议，“://”后面的就是请求的域名，域名后面如果有冒号就是我们请求的端口号这里没有，根据HTTP协议这里默认是80端口（HTTPS是443），域名后面的就是请求路径，这里也没有就默认问“/”，也就是我们通过这个“url”就知道我们这次请求的具体位置了，现在我们找到了端口，但是请求的IP在哪呢？</p>
+<p>这里就要介绍一下DNS了，我们为了让我们的站点更好记，我们使用域名代替ip地址，通过在DNS服务上注册我们域名，以及绑定我们域名对应的IP地址，我们就能让计算机通过域名来转换成IP地址，这里就不详细介绍了</p>
+<p>所以呢我们现在了解了，一个TCP连接只是涉及到URL的域名和端口号，我们请求站点的时候主要是通过不同的路径来获取内容，所以我们可以很清楚的知道，只要我们URL的域名和端口一样，那么我们所以的URL都能共用这个TCP接口</p>
+<h3 id="ConnectionPool的实现"><a href="#ConnectionPool的实现" class="headerlink" title="ConnectionPool的实现"></a>ConnectionPool的实现</h3><p>简单来说为了实现HTTP复用，我们只需要保存TCP连接就行了，但是通过前面我们知道，我们保留的TCP连接必须和你要请求的url要域名端口一样，有时候一个站点的服务可能由多个域名多个端口组成，所以原本我们只要用一个变量保留上一次请求的TCP连接，为了程序更加健壮，我们需要一个TCP连接池，存贮不同的TCP连接。</p>
+<p>每次新的URL来的时候我们就是先从TCP连接池中查看有没有相同的域名和端口，如果有就用它发请求，如果没有就新建一个TCP连接，这就是TCP连接的基本原理，当然还要一点编程的时候要注意，我们从池子里面取出一个用完必须放回，否则池子用完了又得新建，那就完全丢掉了复用这个概念了</p>
+<h2 id="HTTP复用在Requests的具体表现"><a href="#HTTP复用在Requests的具体表现" class="headerlink" title="HTTP复用在Requests的具体表现"></a>HTTP复用在Requests的具体表现</h2><p>前面介绍了一大堆概念，但是从头到尾如果让我们自己来做一个实在太难了，幸好我们有<code>Requests</code>这个库，它的<code>Session</code>对象在<a href="http://requests-docs-cn.readthedocs.io/zh_CN/latest/user/advanced.html" target="_blank" rel="noopener">文档</a>介绍了它就维护了一个TCP连接池并且能够复用TCP连接</p>
+<p>接下来我们就从代码入手来更好的理解这个进程池的高级用法，我们为了更好看到每一次请求底层的操作，我们这里自己先自己搭建一个本地服务器，我们使用<code>Flask</code>来搭建一个本地服务器<br>新建一个<code>web.py</code>文件，在运行</p>
+<pre><code>from flask import Flask, request
+from werkzeug.serving import WSGIRequestHandler
+
+app = Flask(__name__)
+WSGIRequestHandler.protocol_version = &quot;HTTP/1.1&quot;
+
+
+@app.route(&apos;/&apos;)
+def hello_world():
+    return &apos;%s %s&apos; % (request.remote_addr, request.environ.get(&apos;REMOTE_PORT&apos;))
+
+
+if __name__ == &apos;__main__&apos;:
+    app.run(host=&apos;0.0.0.0&apos;, port=8000)
+</code></pre><p>这里我们在8000端口开了一个服务器并且设置为HTTP/1.1协议，我们返回用户请求的ip和端口</p>
+<p>接下来我们开一个Python解释器来看看这个进程池的用法</p>
+<pre><code>&gt;&gt;&gt; import requests, logging
+&gt;&gt;&gt; logging.basicConfig(level=logging.DEBUG)
+&gt;&gt;&gt; session = requests.Session()
+&gt;&gt;&gt; session.get(&apos;https://baidu.com&apos;)
+DEBUG:requests.packages.urllib3.connectionpool:Starting new HTTP connection (1): www.baidu.com
+            DEBUG:requests.packages.urllib3.connectionpool:http://www.baidu.com:80 &quot;GET / HTTP/1.1&quot; 200 None
+&lt;Response [200]&gt;
+</code></pre><p>看我们可以从打印的logging日志看到我们在进程池中新建了一个TCP连接，我们在试着再请求一次</p>
+<pre><code>&gt;&gt;&gt; session.get(&apos;https://www.baidu.com&apos;)
+    DEBUG:requests.packages.urllib3.connectionpool:https://www.baidu.com:443 &quot;GET / HTTP/1.1&quot; 200 None
+&lt;Response [200]&gt;
+</code></pre><p>看我们的HTTP复用实现了，在同一个TCP连接中我们请求了两次</p>
+<h2 id="深入requests的ConnectionPool"><a href="#深入requests的ConnectionPool" class="headerlink" title="深入requests的ConnectionPool"></a>深入<code>requests</code>的ConnectionPool</h2><p>在上面我们验证了<code>requests</code>的<code>Session</code>对象的确实现连接池，但是似乎<code>requests</code>并没有给我们接口来操作这个值，通过分析代码和资料，我们发现在<code>Session</code>初始化的时候，绑定了一个    <code>HTTPAdapter</code>对象，这个对象就是<code>requests</code>封装了<code>urllib3.connectionpool.ConnectionPool</code>来实现TCP池</p>
+<p>我们查看这个<code>HTTPAdapter</code>文档发现它的用法是这个</p>
+<pre><code>&gt;&gt;&gt; import requests
+&gt;&gt;&gt; s = requests.Session()
+&gt;&gt;&gt; a = requests.adapters.HTTPAdapter(max_retries=3)
+&gt;&gt;&gt; s.mount(&apos;http://&apos;, a)
+</code></pre><p>我们可以通过创建将一个TCP池绑定到一个<code>session</code>对象上，我们可以看一下这个创建一个<code>HTTPAdapter</code>的参数</p>
+<pre><code>HTTPAdapter(self, pool_connections=10, pool_maxsize=10, max_retries=0, pool_block=False)
+</code></pre><p>我们主要看这两个参数<code>pool_connections</code>和<code>pool_maxsize</code>，通过一番测试（比较长就不演示了，可以参考引用来进行实验），我们发现这个<code>pool_connections</code>主要控制TCP池的种类数，我们知道在进程池中我们可以有很多相同的TCP连接（主要是并发新建的），这些连接有些是连接相同的域名和端口，这个<code>pool_connections</code>就是控制有多少种类的站点（域名和端口）同时能够存在池中，那么这个<code>pool_maxsize</code>代表的就是池中不管种类有多少总共的TCP连接数</p>
+<p>假如你只写单线程程序那么你只要考虑<code>pool_connections</code>这个参数，因为单线程你发出一个请求只会占用一个TCP连接，在你每次开始请求时，池中不同站点的连接只有一种，所以你可以把<code>pool_connections</code>当做池的大小，但是假如你写多线程程序，每个时间点需要的TCP连接同你多线程的个数有关，由于requests不会限制当池中无可用连接时新建TCP连接，所以你一个站点的TCP连接可能有多个，这时我们就要用<code>pool_maxsize</code>来限制池子的容纳量，为了避免无限制存贮TCP连接，TCP连接池会把超过总数的连接按照时间顺序踢出去，让池中保持不大于限制总数的TCP连接。</p>
+<p>当然这里有个非常重要的知识点，<strong>requests的TCP池并不会限制新建TCP连接</strong>,它只是限制存贮量和种类，这个知识点非常重要，这对后面我们理解<code>aiohttp</code>异步请求时候为什么要限制并发数有非常大的帮助（它只限制TCP连接总数）</p>
+<h2 id="TCP连接池的作用"><a href="#TCP连接池的作用" class="headerlink" title="TCP连接池的作用"></a>TCP连接池的作用</h2><p>经过上面的探索，我们知道TCP连接池一方面能够实现HTTP复用达到减少TCP连接时耗的作用，另一方面我们通过复用TCP连接可以节省套接字，避免经常碰到”Too many file“的错误，顺便提一下，由于TCP连接具有冷启动的特点，在刚连接上TCP时，速度会非常慢，只有系统发现负载不多才会恢复正常速度，所以这就是我们有时候用浏览器打开一个新页面要加载很久的原因。</p>
+<p>前面一直在介绍HTTP复用的理论基础，最后我们实战演练一下在异步框架<code>aiohttp</code>使用HTTP复用</p>
+<h2 id="异步框架下HTTP复用"><a href="#异步框架下HTTP复用" class="headerlink" title="异步框架下HTTP复用"></a>异步框架下HTTP复用</h2><p>在这里我们使用<code>Python</code>的<code>aiohttp</code>异步请求框架（在这里我们要求<code>Python</code>的版本必须大于等于3.5），<code>aiohttp</code>也提供了<code>TCP</code>连接池的功能，要想共享TCP连接池，我们先新建一个<code>Session</code>对象</p>
+<pre><code>connector = aiohttp.TCPConnector(limit=50)
+session = aiohttp.ClientSession(connector=connector)
+</code></pre><p>我们直接创建了一个最大容量为50的TCP池，并把它绑定到session对象上，接下来先试试跑个200个请求（要先在按照前面的代码搭建本地服务器）</p>
+<pre><code>async def fetch(url, session, semaphore):
+    async with semaphore:
+        async with session.get(url) as response:
+            print(await response.read())
+
+
+
+loop = asyncio.get_event_loop()
+</code></pre><p>接下来我们就可以直接使用aiohttp框架</p>
+<pre><code>semaphore = asyncio.Semaphore(20)
+tasks = [fetch(url, session, semaphore) for x in range(nums)]
+begin = time.time()
+try:
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(asyncio.wait(tasks))
+except:
+    pass
+finally:
+    end = time.time()
+    loop.close()
+    session.close()
+    print(&apos;cost&apos;, end - begin, &apos;speed&apos;, nums / (end - begin), &apos;req/s&apos;)
+</code></pre><p>在我的电脑测试测试下<code>421.73 req/s</code>,基本上达到异步的效率（可以调节limit至100左右达到最大）</p>
+<p>在这里解释一下为什么要使用<code>semaphore</code>（asyncio锁），由于当前版本（aiohttp==2.2.5）下<code>aiohttp</code>的HTTP连接池无法在没有锁的情况下复用TCP连接（具体可以看一下我提的这个<a href="https://github.com/aio-libs/aiohttp/issues/2323" target="_blank" rel="noopener">issue</a>,这里由于牵扯到太多异步框架的知识，我就详细不介绍异步库，如果想了解更多的话就看我上一片博文<a href="/2017/10/09/Python%E5%BC%82%E6%AD%A5%E7%9A%84%E7%90%86%E8%A7%A3/">Python异步的理解</a></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在如何提高请求效率和速度上，HTTP复用算是从协议出发上的一种优化，他主要利用方向是在单个站点多次请求上面，假如每个站点都只是一个请求的话，那他就无用武之地，不过现在站点不可能一次请求就完成交互，所以了解这个HTTP复用如何是非常有帮助的。</p>
+<p>引用：</p>
+<p><a href="https://laike9m.com/blog/requests-secret-pool_connections-and-pool_maxsize,89/" target="_blank" rel="noopener">Requests’ secret: pool_connections and pool_maxsize</a></p>
+<p><a href="https://pawelmhm.github.io/asyncio/python/aiohttp/2016/04/22/asyncio-aiohttp.html" target="_blank" rel="noopener">Making 1 million requests with python-aiohttp</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2017/10/09/python/Python异步的理解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/10/09/python/Python异步的理解/" class="post-title-link" itemprop="url">Python异步的理解</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-10-09 00:00:00" itemprop="dateCreated datePublished" datetime="2017-10-09T00:00:00+08:00">2017-10-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:05:18" itemprop="dateModified" datetime="2021-03-09T20:05:18+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>3.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><blockquote>
+<p>异步的出现主要是单线程的io等待，由于任务大部分是io处于等待，假如让一个线程工作，所有任务按照流水线形式执行，假如一个请求需要1秒，五个请求需要五秒，那么如果能让他们同时运行的话，那么速度就能增加五倍</p>
+</blockquote>
+<p>如何让五个任务同时进行有两种方法</p>
+<ol>
+<li>多线程</li>
+<li>异步</li>
+</ol>
+<p>调试过过多线程的人都知道，线程就是从头到复制主线程一遍，开多个线程不仅成本高，而且调试成本高，异步就不一样呢，你可以把它当做一个单线程来进行编程，而且比多线程更加高效</p>
+<h2 id="Python异步的多种实现"><a href="#Python异步的多种实现" class="headerlink" title="Python异步的多种实现"></a>Python异步的多种实现</h2><p>Python实现异步的框架有很多，但是核心思想大概是基于下面两种方式</p>
+<ul>
+<li>twister</li>
+<li>gevent</li>
+</ul>
+<p>twister思想是将异步操作封装起来，通过回调的方式来操作，我们看<code>scrapy</code>里面中间请求的实现就是<code>twister</code>方式</p>
+<pre><code>scrapy.Request(url=&apos;xxx&apos;, callback=func)
+</code></pre><p>通过传递封装的<code>request</code>，当框架帮我们请求完后，会通过callback进行回调，如果你的请求很简单那还好，只需要回调一次就可以，假如你的请求较复杂，那么你就会进入<code>回调地狱（callback hell）</code></p>
+<p>而且你还要写处理各种回调产生的异常，你可以看看<code>scrapy</code>中间件的实现就知道<code>scrapy</code>的异常处理有多繁琐了。但是中间间的存在的确让我们代码模块话更加容易，这里暂且不谈。</p>
+<p><code>twister</code>这种回调比较反人类，它必须依赖背后的核心进行调度，离开了背后核心的支持，这个根本跑不起来，而且由于它依赖回调来进行后续步骤处理，所以我们的代码必须被切分为不同的部分，假如我们不知道背后的核心如何回调函数或者约束，我们根本不知道这两个函数是有关联的</p>
+<p>这种编程方式比较有利于模块话开发，但是对于我们熟悉顺序编程来看，这种回调方式显然是一场噩梦，相比于<code>twister</code>这种回调方式，<code>gevent</code>采用的是绿色协程的方式进行回调。</p>
+<p>PEP-380定义了<code>yield from</code>的语句，Python3.3开始使用，为了区别协程和生成器，Python3.5开始使用<code>await</code>代替<code>yield from</code>，这样协程就有了一个专门的方法来声明（<code>await</code>和<code>async</code>），后者用来标记异步函数</p>
+<p>协程之所以能够在异步中大方光彩，其中很大一部分就是协程天生就是异步的，理解协程我们可以从一个简单的生成器与普通函数来对比</p>
+<pre><code>a = (x for x in range(10))
+b = [x for x in range(10))
+</code></pre><p>我们来看这样一个生成器a，一般我们来用这个生成器必须加    <code>for</code>循环才能得到里面的值，假如我们尝试使用<code>a.send(None)</code>，我们会发现，我们依次从返回值得到了b里面的序列</p>
+<p>就是这么一个send与接受的功能让我们实现了一种”绿色“回调，就是协程这个性质让他写异步变得更加顺理成章了，而且相比<code>twister</code>回调，协程的回调更为彻底，它把”自己”包装起来全部回调回去了。</p>
+<h2 id="了解异步基础"><a href="#了解异步基础" class="headerlink" title="了解异步基础"></a>了解异步基础</h2><p>前面简单的聊了协程的性质，现在谈谈异步存在的基础，异步的存在最关键的在于等待，为了了解这个等待意思和后面解读<code>asycio</code>库，我们先使用<code>selectors</code> （Python3对<code>select</code>的封装）来做个演示</p>
+<pre><code>import selectors
+sel = selectors.DefaultSelector()
+</code></pre><p>声明一个<code>select</code>对象sel，现在我们要调用这个核心函数</p>
+<pre><code>sel.select(10)
+</code></pre><p>这个10是代表<code>timeout</code>的时长，也就是最长等待时间，10秒之后我们发现，这个结果返回了一个空列表，这是显而易见的，我们并没有指明让它等待什么</p>
+<p><code>selectors</code>这个库的功能非常好理解，类比寄信，你如果想等别人回信，假如你没有寄出去你自己的信，你一直在邮箱那等，除了等到你不想等，否则你是收不到你的回信的，所以这个库的核心在于，“寄信”（register）和等信（select），然后自己选择处理信件</p>
+<pre><code>import selectors
+import socket
+
+sel = selectors.DefaultSelector()
+
+def accept(sock, mask):
+    conn, addr = sock.accept() 
+    print(&apos;accepted&apos;, conn, &apos;from&apos;, addr)
+
+sock = socket.socket()
+sock.bind((&apos;localhost&apos;, 8000))
+sock.listen(100)
+sock.setblocking(False)
+sel.register(sock, selectors.EVENT_READ, accept)
+
+while True:
+    events = sel.select()
+    for key, mask in events:
+        callback = key.data
+        callback(key.fileobj, mask)
+</code></pre><p>这个程序最关键的地方在于<code>sel.register</code>、<code>sel.select</code>和<code>callback</code>那里，前者是注册函数，后面是等待，最后就是回调</p>
+<p>上面就是<code>twister</code>式最简单的回调，你可以看到，为了得到连接<code>sock</code>的连接，我们必须把处理注册到等待中去，但是这只是得到<code>sock</code>连接，为了成功建立一个<code>TCP</code>连接，我们还得进行三次握手，还得处理每次回调时的错误</p>
+<p>而且你可以看到回调函数与核心驱动<code>select.select()</code>耦合度非常高，我们必须完全了解系统如何回调，处理一件事被回调分割成一段一段</p>
+<p>接下来我们来看看基于<code>gevent</code>的<code>asyncio</code>实现</p>
+<pre><code>async def wget(host):
+    connect = asyncio.open_connection(host, 80)
+    reader, writer = await connect
+    header = &apos;GET / HTTP/1.0\r\nHost: %s\r\n\r\n&apos; % host
+    writer.write(header.encode(&apos;utf-8&apos;))
+    await writer.drain()
+    while True:
+        line = await reader.readline()
+        if line == b&apos;\r\n&apos;:
+            break
+    writer.close()
+</code></pre><p>我们成功的用一个函数描绘了建立一次连接并且进行通信的过程，假如你懂一点<code>asyncio</code>，你就会发现它与<code>twister</code>回调的不同，使用<code>await</code>关键字把函数挂起，然后等待回调，根据回调接着进行下面的操作，我们成功的用同步的语句把异步写出来，而且是使用Python的原生实现，所以当<code>asyncio</code>出来的时候Guido（Python之父）是多么自豪，你可以看下面引用 <a href="https://www.youtube.com/watch?v=1coLC-MUCJc" target="_blank" rel="noopener">Tulip: Async I/O for Python 3</a>演讲的视频</p>
+<h2 id="浅析Python异步实现"><a href="#浅析Python异步实现" class="headerlink" title="浅析Python异步实现"></a>浅析Python异步实现</h2><p>前面我们知道了异步的基础就是等待，那么Guido是如何在协程的帮助下将异步实现出来的呢，接下来我们就简单的谈一下这个实现基础</p>
+<p>我们先将上面<code>twister</code>改成<code>gevent</code>方式的</p>
+<pre><code>sel = selectors.DefaultSelector()
+
+
+@asyncio.coroutine
+def get_connection(sock):
+    sel.register(sock, selectors.EVENT_READ)
+    yield True
+
+
+async def create_connection():
+    sock = socket.socket()
+    sock.bind((&apos;localhost&apos;, 8000))
+    sock.listen(100)
+    sock.setblocking(False)
+    await get_connection(sock)
+    conn, addr = sock.accept()
+    print(&apos;accepted&apos;, conn, &apos;from&apos;, addr)
+
+
+event = create_connection()
+event.send(None)
+events = sel.select(100)
+for key, mask in events:
+    try:
+        event.send(None)
+    except StopIteration:
+        pass
+</code></pre><p>我们稍稍修改一下上面的<code>twister</code>函数，我们创建一个<code>get_connection</code>函数把<code>sock</code>绑定到我们的<code>sel</code>上面，然后回调一个<code>True</code>，当然这个回调没有处理异常什么的，然后我们将得到的协程向其发送一个<code>None</code>让它启动，这时候你在在另外一个<code>ipython</code>客户端执行</p>
+<pre><code>import socket
+socket.socket()..connect((&apos;localhost&apos;, 8000))
+</code></pre><p>然后你就会发现在主线程里面打印出来客户端的连接信息</p>
+<p>通过这个小例子我们知道，实现异步要解决的问题就是一个公用注册器（能够注册所以的io等待），一个容器（能够存贮所以的协程），一个核心能够一直执行等待回调和处理回调（多个协程）</p>
+<h2 id="深入asyncio了解Python异步"><a href="#深入asyncio了解Python异步" class="headerlink" title="深入asyncio了解Python异步"></a>深入asyncio了解Python异步</h2><p>通过上面我们简单的知道了，如何通过协程与<code>select</code>合作完成异步操作，然而我们上面写的只是最最最基本的实现，接下来我们来深入<code>asyncio</code>源码了解如何让异步变得更加简单</p>
+<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><p><a href="http://blog.csdn.net/screaming/article/details/51377870" target="_blank" rel="noopener">Python异步并发框架</a></p>
+<p><a href="http://python.jobbole.com/87988/" target="_blank" rel="noopener">Python 中的异步编程：Asyncio</a><br><a href="https://www.youtube.com/watch?v=1coLC-MUCJc" target="_blank" rel="noopener">Tulip: Async I/O for Python 3</a><br><a href="https://xidui.github.io/2015/10/29/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3python3-4-Asyncio%E5%BA%93%E4%B8%8ENode-js%E7%9A%84%E5%BC%82%E6%AD%A5IO%E6%9C%BA%E5%88%B6/" target="_blank" rel="noopener">【译】深入理解python3.4中Asyncio库与Node.js的异步IO机制</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2017/10/08/software/PostgreSQL的自增键/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/10/08/software/PostgreSQL的自增键/" class="post-title-link" itemprop="url">PostgreSQL的自增键</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-10-08 00:00:00" itemprop="dateCreated datePublished" datetime="2017-10-08T00:00:00+08:00">2017-10-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:08:28" itemprop="dateModified" datetime="2021-03-09T20:08:28+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/软件/" itemprop="url" rel="index">
+                    <span itemprop="name">软件</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>2.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>平常在Django项目中大量使用自增这个键，平常都是使用ORM，很少去了解这个东西在数据库中具体使用，最近遇到要备份和复原数据的事情，趁着这次好好探索一下这个自增键的使用</p>
+</blockquote>
+<p><code>Django</code>里面大部分都是将其作为<code>Int</code>自增主键来使用，第一个不需要维护一个唯一值，第二个使用<code>Int</code>作为主键的话，搜索和外键关联速度比较快。</p>
+<p>我们这次从原生<code>SQL</code>出发，探索一下这个自增主键在数据库中的具体使用</p>
+<h3 id="新建数据库"><a href="#新建数据库" class="headerlink" title="新建数据库"></a>新建数据库</h3><p>我们先新建一个数据库</p>
+<pre><code>create table inc(
+id serial not null,
+name text
+);
+</code></pre><p>在<code>PG</code>里面简单的使用<code>serial</code>关键字就会生成一个自增键，默认会在数据库新建一个索引表，例如上面就会新建一个<code>inc_id_seq</code>的索引表，这个字段类型为<code>int</code>，如果数据库很大，我们可以使用<code>BIGSERIAL</code>键申请一个<code>bigint</code>类型的字段</p>
+<p>我们可以看一下这个索引表里面有什么</p>
+<pre><code>         Sequence &quot;public.inc_id_seq&quot;
+    Column     |  Type   |        Value        
+---------------+---------+---------------------
+ sequence_name | name    | inc_id_seq
+ last_value    | bigint  | 1
+ start_value   | bigint  | 1
+ increment_by  | bigint  | 1
+ max_value     | bigint  | 9223372036854775807
+ min_value     | bigint  | 1
+ cache_value   | bigint  | 1
+ log_cnt       | bigint  | 30
+ is_cycled     | boolean | f
+ is_called     | boolean | t
+</code></pre><p>我们可以这个索引表其实就是维护了一个参数，通过字段我们可以知道，这是一个自增为1的键，下一个值为2，目前没有插入一个值</p>
+<h3 id="增删查减"><a href="#增删查减" class="headerlink" title="增删查减"></a>增删查减</h3><p>我们通过一些基本操作来看看这个自增键的作用</p>
+<ul>
+<li>首先是插入</li>
+</ul>
+<pre><code>insert into inc (name) values (&apos;1&apos;),(&apos;2&apos;), (&apos;3&apos;);
+</code></pre><p>我们插入三个值，我们再查看索引表，发现<code>last_value</code>变成了3</p>
+<p>这个是没有指定<code>id</code>的值插入，我们试试显式声明插入</p>
+<pre><code>insert into inc  values (1, &apos;1&apos;),(2, &apos;2&apos;), (3, &apos;3&apos;), (4, &apos;4&apos;);
+</code></pre><p>我们惊奇的发现，在我们显式声明自增键的值的时候，索引表并没有变化，<code>last_value</code>还是3,<strong>这说明只有在不声明自增键，让数据库自己新建的时候，索引表才会更新</strong></p>
+<p><strong>我们可以把自增键看做一个默认值，当没有给自增键赋值的时候，这个自增键会从这个键的索引表中得到下一次自增的值</strong></p>
+<p>所以我们再尝试使用不声明自增键值的方法插入一个新值</p>
+<pre><code>insert into inc (name) values (&apos;4&apos;)
+</code></pre><p>我们发现索引表中<code>last_value</code>变成了4</p>
+<h3 id="主键自增"><a href="#主键自增" class="headerlink" title="主键自增"></a>主键自增</h3><p>由于我们在<code>Django</code>里面使用自增，一般都是将其声明为主键，设为唯一值，所以如果我们将声明表的结构变成</p>
+<pre><code>    create table inc(
+id serial not null PRIMARY KEY,
+name text
+    );
+</code></pre><p>上面的情况就不可能发生了，因为我们把自增键声明为主键，不过有意思的事就是如果你像上面一样指定了一个自增主键值为4，然后不指定再插入4，你会发现第一次会报主键不允许重复的错误，第二次则会成功插入，而且索引表的<code>last_value</code>变成了5</p>
+<p>看来并不是每次成功的时候才会更新<code>last_value</code>值，只要让系统自己去申请自增值就会更新索引表，我尝试了对表的增删查改，发现只有<code>insert</code>并且申请自增值的时候才会更新索引表，而且这个索引表之后增加，不会减少，所以有时候你删掉最大的值，自增键默认又从最后一次开始更新</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>在对单个数据表备份还原的时候，由于简单的使用了<code>COPY</code>命令进行备份还原，通过上面的探索我们发现如果涉及到自增主键的导入导出，在新表导入旧数据是不会出错的，但是由于我们没有考虑自增键的影响（我们导入自增键是显示赋值），在后面插入数据的时候有可能会报主键重复的错误</p>
+<p>为了避免以后插入入数据出现这样的错误，我们有两种措施</p>
+<ol>
+<li>使用<code>COPY</code>命令导入导出时候不获取自增键值</li>
+<li>在<code>COPY</code>导入新表后自己更新索引表</li>
+</ol>
+<p>第一种的话<code>SQL</code>比较繁琐（必须写出表所有字段值），推荐使用第二种</p>
+<p>我们可以简单的使用</p>
+<pre><code>SELECT MAX(id) FROM your_table;
+</code></pre><p>先获取自增键最大值，然后更新索引值(999为上面你获取的最大值）</p>
+<pre><code>SELECT setval(&apos;your_table_id_seq&apos;, 999, false);
+</code></pre><p>当然我们可以将这条语句合正一句话</p>
+<pre><code>SELECT setval(&apos;your_table_id_seq&apos;, COALESCE((SELECT MAX(id)+1 FROM your_table), 1), false);
+</code></pre><p>这样我们就可以开心的完成单表导入导出了</p>
+<p>ps：<br>在使用<code>COPY</code>命令时必须是superuser才能从文件中读取和导入数据，最简单的方法是用superuser账号加权使用<code>alter user xxx superuser</code>，待倒完数据后再降权<code>alter user xxx nosuperuser</code></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
   </div>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/8/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/10/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/8/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/10/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1851,7 +1804,7 @@ print(resp.read())
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">131</span>
+          <span class="site-state-item-count">128</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

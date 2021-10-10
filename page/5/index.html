@@ -211,303 +211,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2020/12/30/software/http/Select和epoll浅析/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/12/30/software/http/Select和epoll浅析/" class="post-title-link" itemprop="url">Select和epoll浅析</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-12-30 00:00:00" itemprop="dateCreated datePublished" datetime="2020-12-30T00:00:00+08:00">2020-12-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:08:06" itemprop="dateModified" datetime="2021-03-09T20:08:06+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/软件/" itemprop="url" rel="index">
-                    <span itemprop="name">软件</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>898</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>这篇文章是【Tomcat高并发浅析】的姊妹篇，专门通过分析Select和epoll两个框架来介绍如何实现高并发</p>
-</blockquote>
-<h1 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h1><p>我们知道建立TCP连接之后，就是创建了Socket链接，服务器得监控用户所有的Socket，以防用户发送请求过来</p>
-<p>首先最简单就是用个for循环，遍历每个Socket链接看看有没有数据，如果没有就进程休眠一会再来，这个就非常低效，得一直检查一直检查，所以操作系统就开发了一个接口，因为网卡数据是他控制的，首先他让进程睡觉，只要操作系统接受到了网卡数据，根据网卡数据请求的TCP上面的端口找到对应的进程，然后唤醒它，进程就开始遍历每个Socket链接，里面其中一个一定会有数据，因为操作系统已经明确告诉它了</p>
-<p>这个就是select框架，这个实现起来特别简单，不需要加很多东西就能实现，但是有个缺点就是，进程醒来之后他不知道哪个socket链接有数据，所以他得遍历所有的，假如有成千上万的Socket链接，那遍历一遍得好久，所以操作系统就限制了最多你可以监控1024个Socket接口，所有假如你使用select作为监控，你只可以同时监听1024个socket，意味着你同时只能和1024个用户建立连接</p>
-<p>这样看起来真的太低效了，当然也不是毫无优点，假如你用户少，而且都是活跃用户，这样操作系统叫醒一次你就可以同时处理很多用户了，但是假如你用户很多，那遍历耗费时间也太长了</p>
-<p>所以在Linux内核2.4提供了epoll框架，他终于开放自己的事件驱动核心，专门给他写了个函数，首先他用红黑树存贮了所有Socket连接以及他的回调函数，这样当网卡数据来了之后，他直接去回调那个函数了，这样进程不需要遍历了，直接执行函数，当然也有一定的代价，就是存贮这些Socket连接和回调地址，但是相对于的解除了1024的限制，第二直接找到有数据的Socket，读取数据一步到位，具体怎么实现我就不详细讲了，有兴趣的可以去查阅相关资料</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>服务器之所以很轻松的实现上万Socket监控靠的是操作系统的帮助，我们可以理解各种并发都是事件，操作系统就是事件并发高手，所以借助操作系统我们能够很轻松的实现管理看起来非常复杂的事情</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2020/12/24/summary/技术虾虾看/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/12/24/summary/技术虾虾看/" class="post-title-link" itemprop="url">技术虾虾看</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-12-24 00:00:00" itemprop="dateCreated datePublished" datetime="2020-12-24T00:00:00+08:00">2020-12-24</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-04-04 14:49:28" itemprop="dateModified" datetime="2021-04-04T14:49:28+08:00">2021-04-04</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/随想/" itemprop="url" rel="index">
-                    <span itemprop="name">随想</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>4.4k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>4 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          有东西被加密了, 请输入密码查看
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/12/24/summary/技术虾虾看/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2020/12/21/bigdata/大数据架构小结/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/12/21/bigdata/大数据架构小结/" class="post-title-link" itemprop="url">大数据架构小结</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-12-21 00:00:00" itemprop="dateCreated datePublished" datetime="2020-12-21T00:00:00+08:00">2020-12-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:01:40" itemprop="dateModified" datetime="2021-03-09T20:01:40+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/大数据/" itemprop="url" rel="index">
-                    <span itemprop="name">大数据</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>1.9k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>2 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>首先说说什么是大数据，最简单用数据量为单位，大于1亿就算大的，因为小于1亿就在数据库做就可以了，所以大数据是公司数据大到数据库处理不了的时候才要考虑的事情，小公司MySQL优化一下索引就可以了</p>
-</blockquote>
-<p>那怎么解决了，Google给了我们三篇论文作为解决方法，这个也是大数据的基石，所有后面才有Hadoop的横空出世，我们也知道了解决这个问题的方法，就是对症下药，你是大数据，我就是“大”机器，以前在一台服务器就可以处理，现在上十台、一百台</p>
-<p>但是又出来一个问题，怎么管理，搭建过简单的4节点的机器就知道，那些大数据组件配置虽然不负责，但是很繁琐，关键最坑的事，你一开始并不知道怎么配置最好，你大部分时间都浪费在修改配置，更新所有组件配置，重启，最坑的是依赖关，比如Hbase依赖Zookeeper，你更新了Zookeeper，HBase你也得重启。而且最麻烦的是你用的那些开源大数据组件更新频繁，你很多时候要踩很多坑才能搭一个简单的大数据架构</p>
-<p>所有就有了Cloudera和Hortonworks（被Cloudera合并了）这些提供一整套解决方法的公司，他们能提供什么了，就是管理这个大数据架构的一套系统，通过这个系统，你很容易就搭建起来一个可用的大数据集群</p>
-<p>但是一个悲伤的消息就是Cloudera也要恰饭了，6.3.3之后不会提供免费的版本供小公司使用，对于大公司自己可能会考虑做一个类似的系统（其实也不难，就是一套web管理系统以及专业的解决方案）。但是对于小公司来说，做一个这样的系统成本太高了，但是目前来看6.3.2还算良心，支持到2022年，虽然节点最多只能100个，但是超过100个，说明你公司应该负的起钱买新版了</p>
-<p>CDH是Cloudera提供给大公司的大数据一套架构，接下来我们就剖析一下Cloudera为什么能凭这一套解决方案支撑起百亿美元的市值</p>
-<p>这里我就不介绍这些基本组件了，网上都有，我就谈谈这些组件是怎么解决大数据这个问题的</p>
-<p>首先我们得知道我们要搞大数据的原因，很简单我们想从大数据中得到我们想要的结果，比如淘宝双十一大屏，我们就想知道淘宝双十一卖了多少钱，最后只要一个数字就好了。</p>
-<p>接下来我们就以最简单的求和举例子来思考Cloudera提供的CDH来处理这个问题，第一步是存第二步是算</p>
-<p>首先是存，假如你数据是具有唯一性的，你就存到HBase，用Row-key来区分，假如你不具有唯一性那你就存到Hadoop里面去，这是最基本的，也是Google三篇论文中的两个</p>
-<p>接下来就是算，MR也就是Google三篇论文中的Map-Reduce理论。由于MR写起来非常复杂，所以就有Hive把SQL转换成MR程序</p>
-<p>这三板斧下来连Google那样的大体量都能解决，但是这个方法有个弊端就是慢，很多不必要的东西比如数据落盘这些耗时间的东西拖慢了整体的速度，而且大数据是这样万一，必须要等所有的步骤都走完才能得到最终结果，所以就是最慢的那一个步骤拖慢了整体速度</p>
-<p>MR的产生是因为内存放不了所有数据才把中间数据落盘，所以假如你内存比磁盘还要大，那在内存里面跑就可以了，Spark就是这样产生的，用内存来加速计算，Spark就像一个万能工具箱一样，你可以直接用它读取各种数据源，来各种折腾，它提供了一整套的框架来帮你做这些，但是对于企业来说懂Spark的人少，懂SQL的多</p>
-<p>所以Cloudera自己开发了一个框架impala来方便那些懂SQL的人直接来进行数据计算，这个方案好是好，但是有个问题，impala一开始只能读取Hive表上的数据，由于Hive存在一个问题就是它由于存贮在Hadoop上所以她只能新增不能删除</p>
-<p>所以impala只能在离线大数据上做分析，你要全量的数据得把最新的数据覆盖掉后才能开始计算，所以他们又做了一个类似HBase的数据库Kudu，基本上融合了HBase 快速新增更新删除和Hive的SQL优好的两个，这样我们就可以用impala读取最新Kudu数据做实时大数据分析了，而且速度要比Spark还快</p>
-<p>当然也不是说impala一定是一个万能手术刀，能解决所有大数据问题，大数据这个东西吧特别有意思，我们永远也找不到一个完美的解决方法，只能找到一个相对好的解决方案。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>以前我刚开始了解大数据的时候，我一直觉得哪个强就用那个，其实恰恰相反，每个大数据组件都有其存在的意义，面对大数据，我们不需要一套方案跑通所有，而是找一个最优雅的方法来解决特定问题，其实大数据有很多开源的框架，这些开源组件都有其特定的能力去解决他们遇到的问题，等真正有一天一套解决方案能解决所有问题，那应该大部分软件工程师都应该要失业了</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2020/08/22/summary/八月杂感/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -909,6 +612,117 @@ where a.id = b.id;
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2019/10/12/software/FlinkSQLClient实战/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/10/12/software/FlinkSQLClient实战/" class="post-title-link" itemprop="url">FlinkSQL Client实战</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-10-12 00:00:00" itemprop="dateCreated datePublished" datetime="2019-10-12T00:00:00+08:00">2019-10-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:08:06" itemprop="dateModified" datetime="2021-03-09T20:08:06+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/软件/" itemprop="url" rel="index">
+                    <span itemprop="name">软件</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>1.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>Flink SQL Client 是一个帮助用户直接运行SQL，而不要进行编译运行的工具，首先他支持多个数据源，在Flink1.9.0开始支持了Hive，并且在Flink 1.10.0时候发布了企业级Hive支持，这样就把批处理和流计算结合了起来，这篇博客详解了Hive在Flink SQL Client中的安装和使用，以及探索在上面做的一些复杂开发实践</p>
+</blockquote>
+<h2 id="Hive安装"><a href="#Hive安装" class="headerlink" title="Hive安装"></a>Hive安装</h2><p><del>依赖的<code>jar</code>包如下</del></p>
+<pre><code>antlr4-runtime-4.5.jar        
+flink-connector-hive_2.11-1.9.0.jar
+antlr-runtime-3.5.2.jar        
+flink-hadoop-compatibility_2.11-1.9.0.jar
+datanucleus-api-jdo-4.2.4.jar  
+hive-exec-2.3.4.jar
+datanucleus-api-jdo-5.2.2.jar 
+javax.jdo-3.2.0-m3.jar
+datanucleus-core-4.1.17.jar   
+datanucleus-rdbms-4.1.9.jar    
+flink-shaded-hadoop-2-uber-2.7.5-8.0.jar
+</code></pre><p><del>将这些复制到<code>flink/lib</code>目录下面即可，下面是下载链接</del><br><del><a href="https://drive.google.com/file/d/1hRit-IsX7zvkHloUg5S36czWKvpBgBtN/view?usp=sharing" target="_blank" rel="noopener">1.10.0 flink hive jar Google Driver 下载地址</a></del><br><del><a href="https://drive.google.com/file/d/1WDFFa6ePkIu4Wft_0jEEhS7ekto5_DSo/view?usp=sharing" target="_blank" rel="noopener">1.9.0 flink hive jar Google Driver下载地址</a></del><br><del>百度云提取码： <a href="https://pan.baidu.com/s/1EA8YRUKjC7OzhJ3MPA0GlA" target="_blank" rel="noopener">1.9.0 flink hive 百度云下载地址</a></del><br> <del>百度云提取码: e9c7 链接:  <a href="https://pan.baidu.com/s/1WFH4T7AiV31PrptTRTqzJA" target="_blank" rel="noopener">1.10.0 flink hive 百度云下载地址</a></del></p>
+<h2 id="Hive使用中遇到的问题"><a href="#Hive使用中遇到的问题" class="headerlink" title="Hive使用中遇到的问题"></a>Hive使用中遇到的问题</h2><p><del>1. 目前只支持2.3.4和1.2.1</del><br><del>2. 支持的读取的hive类型有限，时间类型只支持1个<code>Date</code></del><br><del>PS: Sqoop导入数据库表到Hive的时候，只能将<code>DateTime</code>和<code>TimeStamp</code>设置为<code>String</code>，否则无法在Client中使用</del><br><del>3. 跨越<code>Catalog</code>读取表的时候Hive不能存放在<code>default</code>（默认）数据库中，否则会解析异常</del></p>
+<p><del>例如：想从Hive默认数据库中获取表<code>a</code>，使用<code>insert b select * from hive_catalog.default.a</code>会解析失败</del></p>
+<p><del>4. Hive不支持写入分区表，也不支持Overwrite，只支持append模式</del></p>
+<p>目前flink-1.10已经支持多个Hive版本并且修复了上面所遇到的问题，但是目前在<code>SQL Client</code>里面使用较为麻烦，需要自己安装缺少的jar包(而且版本不兼容的话会出现各种奇奇怪怪的bug），所以我写了一个项目把所以的依赖打包到一起这样只要一行命令就可以生成所需要的依赖，而且支持多个<code>Hive</code>版本</p>
+<p>下面是这个项目的github地址</p>
+<p><a href="https://github.com/mrzhangboss/flink-hive-dependence.git" target="_blank" rel="noopener">Flink SQL Client Hive 依赖生成器</a></p>
+<hr>
+<p>未完待续</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2019/10/12/software/ApacheAtlas部署实践/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1185,117 +999,6 @@ atlas.kafka.bootstrap.servers=localhost:9092
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2019/10/12/software/FlinkSQLClient实战/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/10/12/software/FlinkSQLClient实战/" class="post-title-link" itemprop="url">FlinkSQL Client实战</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-10-12 00:00:00" itemprop="dateCreated datePublished" datetime="2019-10-12T00:00:00+08:00">2019-10-12</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:08:06" itemprop="dateModified" datetime="2021-03-09T20:08:06+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/软件/" itemprop="url" rel="index">
-                    <span itemprop="name">软件</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>1.1k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>Flink SQL Client 是一个帮助用户直接运行SQL，而不要进行编译运行的工具，首先他支持多个数据源，在Flink1.9.0开始支持了Hive，并且在Flink 1.10.0时候发布了企业级Hive支持，这样就把批处理和流计算结合了起来，这篇博客详解了Hive在Flink SQL Client中的安装和使用，以及探索在上面做的一些复杂开发实践</p>
-</blockquote>
-<h2 id="Hive安装"><a href="#Hive安装" class="headerlink" title="Hive安装"></a>Hive安装</h2><p><del>依赖的<code>jar</code>包如下</del></p>
-<pre><code>antlr4-runtime-4.5.jar        
-flink-connector-hive_2.11-1.9.0.jar
-antlr-runtime-3.5.2.jar        
-flink-hadoop-compatibility_2.11-1.9.0.jar
-datanucleus-api-jdo-4.2.4.jar  
-hive-exec-2.3.4.jar
-datanucleus-api-jdo-5.2.2.jar 
-javax.jdo-3.2.0-m3.jar
-datanucleus-core-4.1.17.jar   
-datanucleus-rdbms-4.1.9.jar    
-flink-shaded-hadoop-2-uber-2.7.5-8.0.jar
-</code></pre><p><del>将这些复制到<code>flink/lib</code>目录下面即可，下面是下载链接</del><br><del><a href="https://drive.google.com/file/d/1hRit-IsX7zvkHloUg5S36czWKvpBgBtN/view?usp=sharing" target="_blank" rel="noopener">1.10.0 flink hive jar Google Driver 下载地址</a></del><br><del><a href="https://drive.google.com/file/d/1WDFFa6ePkIu4Wft_0jEEhS7ekto5_DSo/view?usp=sharing" target="_blank" rel="noopener">1.9.0 flink hive jar Google Driver下载地址</a></del><br><del>百度云提取码： <a href="https://pan.baidu.com/s/1EA8YRUKjC7OzhJ3MPA0GlA" target="_blank" rel="noopener">1.9.0 flink hive 百度云下载地址</a></del><br> <del>百度云提取码: e9c7 链接:  <a href="https://pan.baidu.com/s/1WFH4T7AiV31PrptTRTqzJA" target="_blank" rel="noopener">1.10.0 flink hive 百度云下载地址</a></del></p>
-<h2 id="Hive使用中遇到的问题"><a href="#Hive使用中遇到的问题" class="headerlink" title="Hive使用中遇到的问题"></a>Hive使用中遇到的问题</h2><p><del>1. 目前只支持2.3.4和1.2.1</del><br><del>2. 支持的读取的hive类型有限，时间类型只支持1个<code>Date</code></del><br><del>PS: Sqoop导入数据库表到Hive的时候，只能将<code>DateTime</code>和<code>TimeStamp</code>设置为<code>String</code>，否则无法在Client中使用</del><br><del>3. 跨越<code>Catalog</code>读取表的时候Hive不能存放在<code>default</code>（默认）数据库中，否则会解析异常</del></p>
-<p><del>例如：想从Hive默认数据库中获取表<code>a</code>，使用<code>insert b select * from hive_catalog.default.a</code>会解析失败</del></p>
-<p><del>4. Hive不支持写入分区表，也不支持Overwrite，只支持append模式</del></p>
-<p>目前flink-1.10已经支持多个Hive版本并且修复了上面所遇到的问题，但是目前在<code>SQL Client</code>里面使用较为麻烦，需要自己安装缺少的jar包(而且版本不兼容的话会出现各种奇奇怪怪的bug），所以我写了一个项目把所以的依赖打包到一起这样只要一行命令就可以生成所需要的依赖，而且支持多个<code>Hive</code>版本</p>
-<p>下面是这个项目的github地址</p>
-<p><a href="https://github.com/mrzhangboss/flink-hive-dependence.git" target="_blank" rel="noopener">Flink SQL Client Hive 依赖生成器</a></p>
-<hr>
-<p>未完待续</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2019/10/05/summary/如何真正精通/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1414,11 +1117,421 @@ flink-shaded-hadoop-2-uber-2.7.5-8.0.jar
   
   
 
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2019/05/05/ai/推荐系统微博数据实战/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/05/05/ai/推荐系统微博数据实战/" class="post-title-link" itemprop="url">推荐系统微博数据实战</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-05-05 00:00:00" itemprop="dateCreated datePublished" datetime="2019-05-05T00:00:00+08:00">2019-05-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 19:57:07" itemprop="dateModified" datetime="2021-03-09T19:57:07+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/" itemprop="url" rel="index">
+                    <span itemprop="name">人工智能</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>7.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>虽然自己刚解决掉一个TB级数据导入“大项目”，但是感觉自己对大数据流程还是缺乏一定对认识，所以想通过一个完整对项目体会一下大数据如何落地再实际产出对，正好@志斌 提供了一个硬盘给我，里面有12年微博对数据，数据量在3TB左右，微博量为65亿，所以就借助这个数据来捣鼓一下推荐系统，我把自己捣鼓的过程写下来，希望能够给其他想了解推荐系统的人一点帮助。</p>
+</blockquote>
+<h2 id="什么是推荐系统"><a href="#什么是推荐系统" class="headerlink" title="什么是推荐系统"></a>什么是推荐系统</h2><p>其实从名字上面我们就知道，我们其实就是要做一件事，“推荐”，并把这个东西做成一个系统，推荐很好理解，但是怎么来做呢，我们拿买东西作为例子，我很喜欢吃苹果，所以我经常去超市买苹果，售货员大妈知道我喜欢吃苹果，所以经常推荐我一些好吃苹果，这个就是推荐，他是根据我们历史的消费记录来给我们推荐的</p>
+<p>这算一种非常简单的推荐系统，你喜欢啥我就给你推荐啥，但是有一个问题，假如你喜欢Apple，你买了一个IPhone X，但是如果我再给你推荐IPhone X其实你不会买的（当然也有可能，但是可能性非常低），那一个“高级”的推荐系统应该怎么做呢，你买了IPhone X，你就很有可能会买AirPod、会买IPod、IMac这些，你脑子里面可能会这样想，做一个归类把一类商品都归到一起，比如IPhone，Mac这些，然后只要他买了其中一个，我们就推荐其他，当然这是最容易想到的一个方法，但是这个方法成本太高而且只适用了Apple产品，假如你买小米，你的手机可能是小米的，但是你的贴膜可能不是小米的。</p>
+<p>得亏于大数据时代的到来，我们记录了很多用户的购买记录，这就相当于我们知道这些商品存在一些联系，假如我们能把这种联系找出来，再用一些算法搅拌一下数据，我们就能产生香喷喷的“推荐数据”</p>
+<h2 id="推荐系统原理"><a href="#推荐系统原理" class="headerlink" title="推荐系统原理"></a>推荐系统原理</h2><p>首先我们来看一下我们有什么数据，最主要的就三张表，第一张用户表（User表），第二张商品表（Item表），第三张用户和商品交互记录表，这个交互记录可能是评分可能是浏览记录可能是购买记录，我们简称为Rank表</p>
+<p>我们把这三个维度组合起来就是一个二维数组，我们可以用一个矩阵来代表这个，如下面所示</p>
+<p>$$\begin{bmatrix} 5 &amp; 4 &amp; 2 &amp; 1 &amp; 0 \\ 4 &amp; 3 &amp; 1 &amp; 2 &amp; 5 \\ 1 &amp; 1 &amp; 5 &amp; 0 &amp; 2 \end{bmatrix}$$</p>
+<p>有三个用户，5件商品，我们从上面伪造的数据可以看出，用户1、2品味很近，而用户三品味与他们完全不同，所以对于最后一件商品，虽然用户1没有评价或者没有购买，我们可以预测他的评价和用户2 差不多，所以我们可以把东西给推荐给用户1，这个是从我们直觉上来感受的，但是计算机可是没有知觉的，我们必须把这些东西量化才能实现智能推荐</p>
+<p>我们用一个欧几里德距离或者皮尔逊相关度来衡量这种品味，其实你可以把它想象为一个N维空间的上每个点的距离，这里我们就不谈公式，我们直接给结果，对于每个用户来说，自己跟自己的品味是100%相近，其他人则有的相同，有的不相同，所以对于用户1，我们可以算出一个“品味值”（我们其实可以不跟自己算因为绝对是1，但是在大型矩阵运算的过程中，其实少算一个比多算一个要划得来）</p>
+<p>$$\begin{bmatrix} 1 &amp; 0.8 &amp; 0.1 \end{bmatrix}$$</p>
+<p>我们得到上面的品味值（加权值），所以对于最后一个商品，我们把其他用户评价与他们与用户一的值相乘，我们就把他们对数据的评价可靠性给量化下来了，所以就可以下一步排序输出我们的推荐。</p>
+<p>我们知道现在的大数据强大在于能给所有用户都推荐他们想要的数据，但是从我们上面的描述来看，我们为了获取一个用户的品味值就得对数据进行大量运算，如果一个用户要1s的，一亿个用户就得要3年才能算完，所以我们得将我们的for循环改成矩阵运算，才能通过大数据将所以用户的推荐给算出来</p>
+<p>现在我们来谈谈怎么用矩阵运算来加速这个过程，我们用$$R_{UI}$$ 来代替上面的评价矩阵，我们首先要把$$R_{UI}$$ 给倒置，然后让两个做矩阵乘法，得到”品味矩阵“ $$W_{UU}$$</p>
+<p>$$R_{UI}$$ * $$R_{UI}^T $$ = $$W_{UU}$$</p>
+<p>这个$$W_{UU}$$ 是什么呢，他是一个行数为用户总数，列数也为用户总数的方阵，每一行代表，第i个用户，他与其他用户的品味差距，有了这个我们可以将$$W_{UU}$$ 与 $$R_{UI}$$ 做一个矩阵乘法，这样我们就得到一个$$V_{UI}$$矩阵，这个矩阵就是我们对$$R_{UI}$$的一个预测值，我们就把一些用户没有评价的值给预测出现，接下来就对每一行先做一个过滤，取出用户没有购买的，然后把没有购买的按照大小排序输出</p>
+<p>PS：也可以用点乘一下矩阵进行过滤，就是将没有将用户与商品购买记录生产一个UI矩阵，购买过置0，每购买过置1，这样点乘后购买过无论分多高都变成0了，把0过滤就ok了</p>
+<p>我们来总结一下上面用到的矩阵公式</p>
+<ol>
+<li>$$R_{UI}$$ * $$R_{UI}^T $$ = $$W_{UU}$$</li>
+<li>$$W_{UU}$$ * $$R_{UI}$$ = $$V_{UI}$$</li>
+</ol>
+<p> 初略一看没有啥问题，但是你要想一下假如用户数非常大，有一千万（很容易达到，QQ微信都10几亿了），那个$$W_{UU}$$ 矩阵的大小有 1千万 * 一千万 = 1e+14 ，我们根本没有足够的内存来存放这个矩阵，而且有一个问题，就是其实假如我们有一千万件商品，但是一个用户一辈子可能就买了几十件，这是一个巨大的稀疏矩阵</p>
+<p>所以虽然我们这个矩阵算法很高效，能通过两次运算就把用户推荐给全部输出，但是假如用户量多或者商品多第一内存不够，第二个矩阵太稀疏了，在没有大数据之前或者计算机还没有现在这么强的时候，大家的解决方法是对数据进行抽样，把大数据分解成为小数据，但是大数据的魅力就是使用全部数据而不是部分，所以我们要使用一些抽象的算法来帮助我们把这个问题给解决了</p>
+<p>首先我们还是要用所以的用户数据，所以的商品数据，但是现在我们做一个抽象，我们假设用户身上有几十种特征来决定他们的品味（比如年龄，性别，性格等），我们直接跳过前面两个计算步骤，我们假设用户特征矩阵$$U_{UP}$$ (每个用户有P个特征，决定他们品味)，对于商品，我们假设就是因为这些特征导致的一个商品特征矩阵$$I_{PI}$$</p>
+<p>最后我们假设，我们这个$$U_{UP}$$ 矩阵乘法$$I_{PI}$$就是 我们上面得到的$$V_{UI}$$ ，也就是公式为</p>
+<p>$$U_{UP}$$ *$$I_{PI}$$ = $$V_{UI}$$ </p>
+<p>假如我们能计算出来这个 $$U_{UP}$$和 $$I_{PI}$$，那么我们就基本上算出所以用户的评价了，这个就是ALS的原理，我们利用这个抽象能将原来的亿亿相乘的计算，改成亿与常数P的相乘的计算</p>
+<p>当然具体的原理没有这么简单，涉及到很多矩阵运算的知识，我这里就不多说了，具体可以看下面给的论文《Collaborative Filtering for Implicit Feedback Datasets》，Spark的Mlib中的ALS实现就是基于这篇论文的，也可以参考一下Python的实现，公式推导比较复杂，但是实现还是非常好理解的</p>
+<h2 id="Python实战"><a href="#Python实战" class="headerlink" title="Python实战"></a>Python实战</h2><p>首先我们来先试试使用Python来快速搭建我们的模型出来</p>
+<pre><code>{&apos;account&apos;: &apos;1920286160&apos;, &apos;content&apos;: &apos;你的笑容灿烂了一整个夏天!&apos;, &apos;source&apos;: &apos;http://wp1.sina.cn/wap240/5d738637jw1dpmonay1thj.jpg&apos;, &apos;time&apos;: &apos;2012-02-01 13:48:39&apos;, &apos;from&apos;: &apos;网页版&apos;, &apos;comment&apos;: 0, &apos;forward&apos;: 0, &apos;forward_account&apos;: &apos;1567852087&apos;, &apos;forward_content&apos;: &apos;民浩君！！ &apos;,&apos;forward_id&apos;: &apos;xdasfd21x-s&apos;， &apos;forword_nickname&apos;: &apos;全球流行风尚&apos;, &apos;is_forward_followed&apos;: &apos;0&apos;}
+</code></pre><p>我们原始数据全部都是这种字符串，我们没有用户点赞、浏览数据，我们只有用户所发的所以微博数据，而且假如后面有<code>forward_account</code>的值的话，说明这条微博是用户转发的，所以这里我们把用户转发当做一个用户“喜欢”这篇微博，我们系统就是要推荐更多微博给用户“转发”，所以我们把用户账号，和转发ID提取出来当做一次“记录”</p>
+<p>我们把数据全部变成，<code>user-id：forward_id</code>，字符对，然后我们导入到一个<code>pandas</code> 的<code>DataFrame</code>里面去</p>
+<p>我们这里使用一个Python 实现的ALS包<code>implicit</code>，只需要把我们生成的<code>DataFrame</code>转换成为一个压缩矩阵OK了，但是这里要注意的一点是我们所以的用户id和转发id都得变成Int型整数，最好的做法使用</p>
+<pre><code>df.user.astype(&apos;category&apos;).cat.codes
+</code></pre><p>比如上面，我们把<code>user</code>这个字符型数字转换成一个整数序号，这样我们得到的就是每个<code>user</code>id的序号</p>
+<p>完整的代码为下面</p>
+<pre><code>origin_data = [(x[&apos;forward_id&apos;], x[&apos;account&apos;], 1) for x in data if x.get(&apos;forward_id&apos;)] # data  为json数组
+df = pd.DataFrame(origin_data, columns=[&apos;item&apos;, &apos;user&apos;, &apos;num&apos;])
+df[&apos;item&apos;] =  df.item.astype(&apos;category&apos;).cat.codes.astype(&apos;int64&apos;)
+df[&apos;user&apos;] = df.user.astype(&apos;category&apos;).cat.codes.astype(&apos;int64&apos;)
+
+from scipy import sparse
+
+# convert df to martrix
+item_user_data = sparse.csr_matrix(df.values)
+# train
+import implicit
+
+model = implicit.als.AlternatingLeastSquares(factors=50)
+
+model.fit(item_user_data)
+
+# recommend items for a user
+user_items = item_user_data.T.tocsr()
+
+# recommend user
+model.recommend(1, user_items=user_items, N = 5)
+</code></pre><p>只要简单的几行代码我们就实现了一个协同过滤的算法实现，从Python代码我们可以知道，最关键的地方就是生成训练数据，然后其他都交给算法了，接下来我们来尝试实现一个使用Spark加载全部数据，来实现对几十亿微博数据的推荐</p>
+<h2 id="Spark实战"><a href="#Spark实战" class="headerlink" title="Spark实战"></a>Spark实战</h2><p>在前面我们把3个T的微博数据的用户转发数据抽取出来，最后数据量在35亿左右，数据量在100G左右，这个数据量还是有的大的，首先内存肯定放不下，假如我们使用前面Python的方式来实现的话，我们的内存至少要200个G，所以我们得使用Spark的内存加磁盘运算来实现这个推荐系统</p>
+<h3 id="生成用户和转发ID的序列值"><a href="#生成用户和转发ID的序列值" class="headerlink" title="生成用户和转发ID的序列值"></a>生成用户和转发ID的序列值</h3><p>前面Python的实现100个G的数据排序，基本的原理就是Hash表进行排序，然而我们内存不足以放下这100G的数据，所以我们要使用MapReduce来“消化”这个数据，所以我们要借助Hive来进行一个排序，一方面我们可以生成用户和物品的唯一ID，等我们产生推荐结果后也可以通过HIVE来生成对应的数据</p>
+<p>第一步我们将数据导入到HIVE中</p>
+<blockquote>
+<p>首先创表</p>
+</blockquote>
+<pre><code>create table record(item string, account int, time int) row format delimited fields terminated by &apos;,&apos;   LINES TERMINATED BY &apos;\n&apos;  stored as textfile;
+</code></pre><p>这里我还额外导入了一个时间进去，为的是方便以后做线上预测</p>
+<p>然后我们把文件导入进去（文件存贮在<code>/weibo/all_data.txt</code>中）</p>
+<pre><code>load data  local inpath &apos;/weibo/all_data.txt&apos; into table record;
+</code></pre><p>接下来我们生成用户表和物品表</p>
+<pre><code>create table items as select row_number() over (order by a.item) as id ,a.item from (select distinct item from record) a ;
+
+  create table users as select row_number() over (order by a.account) as id ,a.account from (select distinct account from record) a ;
+</code></pre><p>我们使用HIVE的<code>row_number</code>函数来生成一个唯一序列自增值，每一个值对应一个用户，最后我们生成我们训练表，最好使用<code>HIVE2</code>来进行导入，因为HIVE1的<code>row_number</code>会存贮所以的id值，由于我们数据量有35个亿，内存会爆炸，<code>HIVE2</code>优化了使用一个流来存贮</p>
+<pre><code>  create table train as 
+select account_id, item_id, count(*) as num from (select a.id as item_id, b.id as account_id from  record 
+left join items a on record.item = a.item 
+left join users b on record.account = b.account) a group by item_id, account_id ;
+</code></pre><p>接下来我们在Spark里面调用我们Mlib的<code>ALS</code>模型，首先我们从HIVE中获取数据</p>
+<pre><code>val df = sql(&quot;select * from train&quot;)
+</code></pre><p>然后我们从将数据导入ALS模型进行训练，同Python比较类似，我就直接给出代码</p>
+<pre><code>val ratings = df.map(row =&gt; Rating(row.getAs[Int](&quot;item_id&quot;).toInt, row.getAs[Int](&quot;account_id&quot;).toInt, row.getAs[Long](&quot;num&quot;).toDouble)).rdd
+val rank = 10
+val numIterations = 50
+val model = ALS.train(ratings, rank, numIterations, 0.01)
+val usersProducts = ratings.map { case Rating(user, product, rate) =&gt;
+  (user, product)
+}
+val predictions =
+  model.predict(usersProducts).map { case Rating(user, product, rate) =&gt;
+    ((user, product), rate)
+  }
+val ratesAndPreds = ratings.map { case Rating(user, product, rate) =&gt;
+  ((user, product), rate)
+}.join(predictions)
+val MSE = ratesAndPreds.map { case ((user, product), (r1, r2)) =&gt;
+  val err = (r1 - r2)
+  err * err
+}.mean()
+println(s&quot;Mean Squared Error = $MSE&quot;)
+</code></pre><p>最终我们这35亿数据用时4个半小时跑完模型并计算出MSE （均方误差），当然由于我的核心比较小，假如在一个大集群上面的话速度会快很多，值得注意的是，在Spark运行这35亿数据的时候，物理磁盘占用达到800多个G，所以在哪里省下来（内存）的就得从哪里还回来（磁盘）O(∩_∩)O哈哈~</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我们这次只是完成了一个非常简陋的推荐系统，只是具备简单的推荐功能，我们还没有考虑到一些“冷启动”问题，一个“智能”的推荐系统需要考虑到很多方面，我的推荐系统还有很多地方需要完善，但是从我的这个Demo里面也可以看到其实大数据也是非常“简单”的，由于数据量太大，你只能使用最简洁的代码来训练你的模型，你的算法要最大可能性满足分布式要求，推荐系统最核心的地方还是如何将你的推荐算法变成一个优秀的分布式算法，我们这篇博客只是走马观花的谈了一下它的原理，看看有空好好研究一下Spark分布式算法是怎么实现的。</p>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><p><a href="https://blog.csdn.net/antkillerfarm/article/details/53734658" target="_blank" rel="noopener">ALS原理介绍</a></p>
+<p><a href="https://yq.aliyun.com/articles/684195" target="_blank" rel="noopener">Python实现ALS</a></p>
+<p><a href="http://yifanhu.net/PUB/cf.pdf" target="_blank" rel="noopener">Spark Mlib ALS 论文</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2019/04/13/bigdata/TB级数据存贮经验总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/04/13/bigdata/TB级数据存贮经验总结/" class="post-title-link" itemprop="url">TB级数据存贮经验总结</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-04-13 00:00:00" itemprop="dateCreated datePublished" datetime="2019-04-13T00:00:00+08:00">2019-04-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:01:40" itemprop="dateModified" datetime="2021-03-09T20:01:40+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/大数据/" itemprop="url" rel="index">
+                    <span itemprop="name">大数据</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>3.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>项目背景</p>
+</blockquote>
+<p>这个项目是深圳一家证卷公司一个TB级日志离线导入项目，当数据达到10T左右的时候，他们的存贮架构以及检索系统直接奔溃，在朋友的推荐下，我负责对这个项目进行整体的重构以及优化，对于我一个大数据新手来说这是一个挑战也是一个学习的机会，最终幸不辱命最终完成了系统的优化，由原来的48小时导入优化至7个小时，并且提供亚秒级的查询检索，下面就是我对这个项目的总结</p>
+<h2 id="历史方案介绍"><a href="#历史方案介绍" class="headerlink" title="历史方案介绍"></a>历史方案介绍</h2><blockquote>
+<p>集群架构</p>
+</blockquote>
+<p>集群由8台高性能服务器组成，其中两台负责接收历史日志包，两台提供ES和Spark服务，其他四台提供HDFS存贮服务，总存贮量在200TB，其中我们导入主要在两台高性能服务器上面，每台内存256GB，总计512G内存</p>
+<blockquote>
+<p>历史方案</p>
+</blockquote>
+<p>原来的解决方案是日志被解析完成之后导入两份数据分别存贮到ElasticSearch（下面简称ES）和Kafka之中，其中存贮到Kafka之中的数据会被Spark读取，然后写入到HBase</p>
+<h2 id="架构优化"><a href="#架构优化" class="headerlink" title="架构优化"></a>架构优化</h2><h3 id="读取和存贮优化"><a href="#读取和存贮优化" class="headerlink" title="读取和存贮优化"></a>读取和存贮优化</h3><p>历史解决方案对日志数据的存贮是一个并行化的，但是由于项目对数据准确性要求严格，假如其中ES导入或者HBase导入失败之后，所以的数据都得重新生成，但是原来架构不提供删除HBase数据的功能（能实现但是不能检测是否删除），所以在读取方面我丢弃使用Kafka并行导入的方案，待ES导入完成并且校对完成后再从ES中获取数据导入到HBase中</p>
+<p>原来的导入是直接使用HBase提供的Put方案，单个插入到HBase当中，由于我们一次导入的量多的话大概在10个亿左右，虽然HBase能够承受住压力但是由于行键设计导致会造成region的”脑裂”，原来解决方案为了避免这个现象进行了region的预分配，由于这个预分配导致了另外的一个Bug，后面会提到。所以为了提高导入效率和避免脑裂，我采用了HBase的Bulk Load将数据直接”存”至HBase</p>
+<hr>
+<p>回头看看，其实大数据解决方案非常简单，当我刚接触项目的时候，在看原来的解决方案，惊讶的发现他们的代码其实非常简单，就像教程里面的demo一样，但是随着在实际接触这个”大”数据的过程中，大数据考验的是你代码的”结实”，能不能扛的住，什么花里胡哨的骚操作都没有，所以大数据的代码非常简洁质朴，如果说那些优雅的代码是面对对象的话，那么大数据的代码就是面对数据的。所以我接下来也不谈大数据框架，谈一谈我在这个项目中学到的大数据处理经验</p>
+<h2 id="提高处理速度"><a href="#提高处理速度" class="headerlink" title="提高处理速度"></a>提高处理速度</h2><blockquote>
+<p>读取速度</p>
+</blockquote>
+<p>大数据处理最核心的点就是分而治之，也就是我们常说的<code>MapReduce</code>中<code>Map</code>，无论数据有多大，只要我们分的够小，每一份我们计算机都很很快处理，那么我同时运行这些，意味着我就能在一个很短的时间内跑一个巨大的数据。</p>
+<p>由于我们是从ES中读取数据，ES的Map的个数是由分片（shards）来控制的ES的分片默认是十片（5个原始5个备份），假如我们采用默认设置，我们读取数据Map的大小最大为10（具体跟你给的Container大小和每个核心数的大小有关，给足的话就是10），这里要谈一下这个项目中的分片设计，分片这个东西对于每一个Index来说，不是越多越好，越多读取速度快，但是写入慢，反之。所以这个项目使用别名的方法来保证分片不会膨胀，当一个Index数据大于20GB的时候，会自动新建一个别的Index，比如原来是<code>es _index_0</code>，写满20G后，再新建一个 <code>es_index_1</code>，然后把新数据导入到里面去，然后每个Index固定分片为4片，这样所有的数据会均匀的分布到ES中去</p>
+<p>这种解决方法带来一个问题就是，我们获取数据的时候只能通过<code>es_index_*</code>，而且我们的ES中每次导入的<code>Map.size</code>只能是4，所以无论给<code>Spark</code>任务多少个<code>Container</code>多少个核心，他的Task任务最大也就是4个，一开始我一直在琢磨是否能够提高这个Task来加速数据读取，我尝试使用ES时间索引把数据切分成多份，并行跑多个Spark任务，但是无论我并行多少个，从ES一个月导出来时间总和单个Spark任务读取速度一致</p>
+<p>出现这个问题的原因主要是磁盘的性能关系，由于Bulk Load有一个很重要的部分就是Shuffle排序，所以数据在导入HBase之前一定会落盘，所以读取由两个条件限制，ES的获取速度和磁盘写入速度，由于ES读取速度也跟磁盘读取速度有关，所以读取基本上由磁盘的性能有关，由于集群Spark跑在机械硬盘上，除非换SSD否则在软件上优化无法取得较大的收益</p>
+<p>所以我放弃在读取上面优化，接下来介绍我在处理上面的优化</p>
+<blockquote>
+<p>处理速度</p>
+</blockquote>
+<p>其实导入到HBase的原理非常简单，只要使用Spark生成一个HFile然后调用HRegion将数据导入到HBase中去，HFile你可以看着一个排序好的文件，但是如何将1TB数据排序并在内存中生成HFile文件（可能比1TB小如果采用压缩的话，不压缩比原始文件要大得多）这个步骤就很复杂了</p>
+<p>Spark作为大数据界的神兵利器，处理PB级的数据也不在话下，但是怎么处理呢，简单来说就是三个和尚挑水，现在缸很大，但是和尚很多，如果要像迅速把缸里的水挑完，那就让很多和尚通力合作，同时去挑，但是如果里面10个和尚，9个是不干活，只有一个挑水，那么这个任务就花很长时间来完成，这个就是我们说的数据倾斜</p>
+<p>所以其实提高处理速度的方法只有一个把任务均分给CPU每个核心，接下来我就这个项目来谈一谈我遇到的数据倾斜问题</p>
+<p>首先我们要知道一个前面我们讲了Spark作为大数据上的神兵利器，他不会假设用户内存能装下所有的数据，但是用户的磁盘一定能装下所有的数据，我们其实要Spark做的最主要的一件事就是对数据的RowKey（HBase的行键）进行排序，然后把排好序的文件导入到HBase中，排序这个东西最主要的是要把所有的数据都放到一起排一遍，也就是说1个T的数据至少都得放到内存或者磁盘里面来进行排序</p>
+<p>我们接下来缕缕Spark处理数据的流程，其实你可以在UI界面上看到所以的stage，前面读取数据算一个Map stage，接下来我们要完成，排序的stage，还有保存数据的stage，按照正常流程，每个stage都会做一个Shuffle，也就是理论上我们总共要做两次Shuffle，然而TB级数据的Shuffle在机械硬盘上的速度非常慢（相比SSD），所以我们就的优化Shuffle过程</p>
+<p>我们先来谈一下一个正常大数据的排序怎么样，我们用打擂台来打比方，首先我们将所有选手分成10个小组，等小组赛打完，所以等小组都分好名次，然后我们搞一个10个人的擂台，小组第一名全部上擂台打比赛，打完决定出第一名，第一名成为擂主出擂台，然后这个时候再从其他其他小组中找一个积分最高的上来，继续打擂台，打完再找出第一名，继续上面的循环，最后每个人都出了擂台，名次也排练出来了</p>
+<p>这个排序方法是Spark早期使用的方法，这个方法可以面对超大数据，假设数据有10个T，我只有1M内存，我也能完成数据的排序，只是每次排1M，然后写文件，这种方式可以面对海量数据，但是有一个弊端，在排完序后每次必须要把所有的文件全部都打开读取”第一名”，也就是说我们做完一次Map之后，还的进行一次Reduce</p>
+<p>那怎么来去掉这个Reduce呢，考虑这种情况，我们在分组的时候，由一个”裁判”把每个人公正的计算他原来的历史积分在什么档次，然后把他分在那个档次的组，等所有组打完，排名就出来了，你属于哪个档第几名，也就知道你的排名了</p>
+<p>这个方法就是预先评估你的组数，但是这个也有一个问题，假如选手水平层次不齐，强者太少，弱者太多，那么有些组非常多的人打比赛，有的组没有人打比赛，这样，最后总耗时是那个人最多的小组的时间</p>
+<p>接下来我们回到上面的Shuffle过程，如果我们把那个排序过程使用上面的预估方法，那么我们就能在减少一次Shuffle过程，但是这个也带来了一个风险，就是预估如果失败（HBase会加载HFile失败）或者预估不均会导致运行异常</p>
+<p>所以我采用Spark提供的<code>sortWithinPartitions</code>方法来ES数据进行一个分区并排序，分区的方法是通过账号ID来进行，很不幸线上数据部分账号异常，一个月某些账号占了总数的40%左右，这个就导致我们预估不均，那如何来解决这个问题呢，解决方案由很多，由于我们数据只有少量资金账户异常，所以我们采用最简单的方案，分多批次跑，每个任务分剔除大账户的部分，其他的任务就是单个大账户单独跑，得益ES强大的统计功能，只需要执行几次HTTP请求就能完成设计</p>
+<hr>
+<p>至此整个数据优化导入部分就说完了，当然还有其他优化的地方没有讲，比如使用堆外内存加速排序，使用更大的Shuffle cache优化写入，切分更小的块避免磁盘split …..</p>
+<p>PS：亚秒级的查询主要通过Spark一个聚合生成HBase一张小表来实现，当然也可以使用MySql这些关系型数据库</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>记得我以前去面试大数据岗位的时候，我问面试官怎么才能提高自己大数据能力，他说必须要通过实践才能体会，经过这次项目我也感受到了，只有真正的面对大数据，你才能提高自己的大数据能力，小数据一下子就跑完了，完全体会不到内存OOM的”乐趣”，大数据的难点在于了解数据如何被处理，以及对大数据各个组件“协作”对经验。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2019/03/17/summary/book/重构-总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/03/17/summary/book/重构-总结/" class="post-title-link" itemprop="url">重构-总结</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-03-17 00:00:00" itemprop="dateCreated datePublished" datetime="2019-03-17T00:00:00+08:00">2019-03-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:15:01" itemprop="dateModified" datetime="2021-03-09T20:15:01+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/随想/" itemprop="url" rel="index">
+                    <span itemprop="name">随想</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>0</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><img src="/images/重构-思维导图.png" alt="重构思维导图"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
   </div>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1486,7 +1599,7 @@ flink-shaded-hadoop-2-uber-2.7.5-8.0.jar
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">131</span>
+          <span class="site-state-item-count">128</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
