@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/wx2.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/wx2.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/wx2.png">
+  <link rel="mask-icon" href="/img/wx2.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://mrzhangboss.github.io').hostname,
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.7.1',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+
+
+  <meta name="description" content="压测让人爆炸的事，就算把你写的代码都注释掉了这个问题依旧存在，这个时候你开始怀疑网络，怀疑TCP链接，怀疑系统框架，这篇文章就线上遇到的问题好好梳理了一下一个请求进来究竟会“遭遇”什么  一、单机系统首先我们先来思考在没有Tomcat这些网络框架的时候，一个单机系统是如何处理请求 首先一个请求进来我们分成五步：  建立TCP连接  读取请求数据（先读取TCP请求头，然后根据TCP请求头读取报文）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="压测卡顿20秒引发的思考">
+<meta property="og:url" content="https://mrzhangboss.github.io/2021/10/23/java/压测卡顿20秒引发的思考/index.html">
+<meta property="og:site_name" content="小伦子的笔记">
+<meta property="og:description" content="压测让人爆炸的事，就算把你写的代码都注释掉了这个问题依旧存在，这个时候你开始怀疑网络，怀疑TCP链接，怀疑系统框架，这篇文章就线上遇到的问题好好梳理了一下一个请求进来究竟会“遭遇”什么  一、单机系统首先我们先来思考在没有Tomcat这些网络框架的时候，一个单机系统是如何处理请求 首先一个请求进来我们分成五步：  建立TCP连接  读取请求数据（先读取TCP请求头，然后根据TCP请求头读取报文）">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://mrzhangboss.github.io/images/cat-slow-service.jpg">
+<meta property="og:updated_time" content="2021-10-23T09:09:08.970Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="压测卡顿20秒引发的思考">
+<meta name="twitter:description" content="压测让人爆炸的事，就算把你写的代码都注释掉了这个问题依旧存在，这个时候你开始怀疑网络，怀疑TCP链接，怀疑系统框架，这篇文章就线上遇到的问题好好梳理了一下一个请求进来究竟会“遭遇”什么  一、单机系统首先我们先来思考在没有Tomcat这些网络框架的时候，一个单机系统是如何处理请求 首先一个请求进来我们分成五步：  建立TCP连接  读取请求数据（先读取TCP请求头，然后根据TCP请求头读取报文）">
+<meta name="twitter:image" content="https://mrzhangboss.github.io/images/cat-slow-service.jpg">
+
+<link rel="canonical" href="https://mrzhangboss.github.io/2021/10/23/java/压测卡顿20秒引发的思考/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>压测卡顿20秒引发的思考 | 小伦子的笔记</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小伦子的笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/mrzhangboss" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/10/23/java/压测卡顿20秒引发的思考/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          压测卡顿20秒引发的思考
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-10-23 17:00:14 / 修改时间：17:09:08" itemprop="dateCreated datePublished" datetime="2021-10-23T17:00:14+08:00">2021-10-23</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>2.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>压测让人爆炸的事，就算把你写的代码都注释掉了这个问题依旧存在，这个时候你开始怀疑网络，怀疑TCP链接，怀疑系统框架，这篇文章就线上遇到的问题好好梳理了一下一个请求进来究竟会“遭遇”什么</p>
+</blockquote>
+<h2 id="一、单机系统"><a href="#一、单机系统" class="headerlink" title="一、单机系统"></a>一、单机系统</h2><p>首先我们先来思考在没有Tomcat这些网络框架的时候，一个单机系统是如何处理请求</p>
+<p>首先一个请求进来我们分成五步：</p>
+<ul>
+<li><p>建立TCP连接</p>
+</li>
+<li><p>读取请求数据（先读取TCP请求头，然后根据TCP请求头读取报文）</p>
+</li>
+<li><p>处理请求</p>
+</li>
+<li><p>发送响应</p>
+</li>
+<li><p>关闭TCP连接</p>
+</li>
+</ul>
+<p>假如我们客户只有一个，那么只要它网速好，这个模型速度很快</p>
+<p>假如用户一多，其他用户就得排队，他们都堵在第一步建立TCP连接上，我们经常看到连接超时就是这种情况</p>
+<p>假如你处理请求很慢，用户发完请求之后就在那里等，这个时候就是浏览器转圈</p>
+<p>接下来我们看Tomcat是如何实现一个高并发的网络框架</p>
+<h2 id="二、Tomcat原理"><a href="#二、Tomcat原理" class="headerlink" title="二、Tomcat原理"></a>二、Tomcat原理</h2><p>首先Tomcat是采用线程池来实现一个并发框架，它把上面步骤都放到2、3、4都放在一个线程中进行，你只需要写步骤3处理请求的代码，其他的步骤它来帮你完成</p>
+<p>其中步骤1和步骤5由主线程实现，主线程的工作就是创建TCP连接，这个数量是由 server.tomcat.max-connections 控制的，当超过这个数量的时候，Tomcat会把这个请求放到请求队列中server.tomcat.accept-count ，当超过这个数量的时候，Tomcat会丢弃这个请求，客户端会收到503错误</p>
+<p>由于我们内存CPU网卡的速度是有限的，所以Tomcat规定了，我们同时能处理多少请求，这个是通过server.tomcat.threads.max 来规定的，默认是200，就是同时能处理200个请求，其他的都在连接等待过程中</p>
+<p>这样讲非常的枯燥，接下来我们来看看在Cat监控中，每个步骤处的位置</p>
+<h2 id="三、Cat例子"><a href="#三、Cat例子" class="headerlink" title="三、Cat例子"></a>三、Cat例子</h2><p>首先简单介绍一下Cat的原理，就是AOP，使用Spring的AOP能够在你想要监控的方法前后添加自己的代码</p>
+<p><img src="/images/cat-slow-service.jpg" alt></p>
+<p>上面是我限制客户端网速伪造的一个超长请求，我们来看看第一个 17:10:11.750 URL 这个是Cat在方法</p>
+<p>org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher.service 进行的一个打点</p>
+<p>你可以看到后面接着一大串同时的Service.client 这些，都是在调用这个方法之前打的，然后最后那个URL是执行完这个函数之后打的点</p>
+<p>我们可以看到在HTTP.UserAgent 和 Service 之间存在近3秒的等待，这么长的时间是在干什么呢？</p>
+<pre><code>     ￼
+@RequestMapping(value=&quot;/process&quot;, method = RequestMethod.POST)
+public void process(@RequestBody QueryRequest payload) throws Exception {
+    System.out.println(payload);
+}
+</code></pre><p>我们来看到代码，我们在定义这个这个函数的时候，指定了我们请求的Body是QueryRequest 类型，Tomcat提供了在提供了我们运行线程的同时，会给传给我们一个SocketWrapperBase<s> socketWrapper 对象，我们可以读取这个获取到请求报文，当然你也可以选择不读取（无视客户端请求哈哈），Spring通过反射获取到这个方法的时候，会根据你的类型使用你想序列化的方式将它序列化成对象给你</s></p>
+<p>所以那么耗时将近3秒的时间都是Spring框架在读取Socket报文，我们通过Arthas可以监控到，耗时99%都在 javax.ws.rs.ext.ReaderInterceptorContext.proceed  上面</p>
+<p>这个是直接请求我们单机的ip地址才能监控到耗时这么长的请求，但是假如我们把请求打到网关上去，由网关路由到我们服务，惊奇的发现Cat上面没有长耗时的请求了</p>
+<p>接下来我们看看为什么接入网关之后读取就没有了</p>
+<h2 id="四、网关的影响"><a href="#四、网关的影响" class="headerlink" title="四、网关的影响"></a>四、网关的影响</h2><p>其实网关和Tomcat一样，只不过它把处理请求下发到服务去了，所以就算客户端网速很卡，发的很慢，但是服务是无感知的，它是和网关交互，打个比方就是，网关就像一个超市，有很多收银台，就算有一个顾客走的很慢，堵住后面的顾客，但是只要它交给售货员，售货员打完了所有的单子，计算机一下子就给它算完了</p>
+<p>所以对服务来说，他从网关那边读取请求很快，他处理也很快，所以没有耗时</p>
+<h2 id="五、接收的影响"><a href="#五、接收的影响" class="headerlink" title="五、接收的影响"></a>五、接收的影响</h2><p>接下来我们思考一下，假如客户端不仅发的慢，接收也很慢，在Cat上面会有什么影响吗？</p>
+<p>答案是完全没有影响，Tomcat通过org.apache.tomcat.util.net.SocketWrapperBase.write 来实现发送响应体，无论客户端网络多卡，只要服务端不卡，耗时都非常短</p>
+<p>其实这个和网关一样，对于服务端来说，只要它和外网的交换机不卡，不管客户端网速有多炸，它啪的一下就发完了，客户端读的慢就慢慢读，对于服务端来说，它已经发完了，这个TCP连接的控制权已经交给Tomcat的</p>
+<h2 id="六、总结"><a href="#六、总结" class="headerlink" title="六、总结"></a>六、总结</h2><p>假如一个服务在网关层后面，如果监控上他有卡顿，如果网关没问题的话，99%的可能就是你程序哪个地方有死锁或者耗时的操作，基本上排除了网络接收发送这些耗时的可能</p>
+<p>我们压测最终发现的也是因为日志压缩打印的锁，导致所有请求全部都卡顿了20S，而且一般都是在压测30分钟之后才会有一次，因为日志量达到1个G了</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>原创技术分享，您的支持将鼓励我继续创作</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechat_pay.jpg" alt="张伦 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.jpeg" alt="张伦 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+            <div class="social-item">
+              <a target="_blank" class="social-link" href="/atom.xml">
+                <span class="icon">
+                  <i class="fa fa-rss"></i>
+                </span>
+
+                <span class="label">RSS</span>
+              </a>
+            </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/10/10/java/压测心得/" rel="prev" title="压测心得">
+      <i class="fa fa-chevron-left"></i> 压测心得
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、单机系统"><span class="nav-number">1.</span> <span class="nav-text">一、单机系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、Tomcat原理"><span class="nav-number">2.</span> <span class="nav-text">二、Tomcat原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、Cat例子"><span class="nav-number">3.</span> <span class="nav-text">三、Cat例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、网关的影响"><span class="nav-number">4.</span> <span class="nav-text">四、网关的影响</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、接收的影响"><span class="nav-number">5.</span> <span class="nav-text">五、接收的影响</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#六、总结"><span class="nav-number">6.</span> <span class="nav-text">六、总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="张伦"
+      src="/images/myself.jpg">
+  <p class="site-author-name" itemprop="name">张伦</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">115</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mrzhangboss" title="GitHub → https://github.com/mrzhangboss" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/xiaolunzi6@gmail.com" title="E-Mail → xiaolunzi6@gmail.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      友链
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.guyskk.com/" title="https://blog.guyskk.com/" rel="noopener" target="_blank">康德</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.ityouknow.com/" title="http://www.ityouknow.com/" rel="noopener" target="_blank">纯洁的微笑</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://bugstack.cn/" title="https://bugstack.cn/" rel="noopener" target="_blank">虫洞栈</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.javaboy.org/" title="https://www.javaboy.org/" rel="noopener" target="_blank">江南一点雨</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张伦</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">276k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">4:11</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+  <script defer src="/lib/three/three.min.js"></script>
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: 'a1640c4cb3df144d5622',
+      clientSecret: '1e1b46413b757ba7dc67d4d621a8bfbbea1f3f80',
+      repo: 'comments',
+      owner: 'mrzhangboss',
+      admin: ['mrzhangboss'],
+      id: 'fa6a7fd197d37aa13ef409410d6920fd',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

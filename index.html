@@ -211,6 +211,134 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/10/23/java/压测卡顿20秒引发的思考/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/10/23/java/压测卡顿20秒引发的思考/" class="post-title-link" itemprop="url">压测卡顿20秒引发的思考</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-10-23 17:00:14 / 修改时间：17:09:08" itemprop="dateCreated datePublished" datetime="2021-10-23T17:00:14+08:00">2021-10-23</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>2.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>压测让人爆炸的事，就算把你写的代码都注释掉了这个问题依旧存在，这个时候你开始怀疑网络，怀疑TCP链接，怀疑系统框架，这篇文章就线上遇到的问题好好梳理了一下一个请求进来究竟会“遭遇”什么</p>
+</blockquote>
+<h2 id="一、单机系统"><a href="#一、单机系统" class="headerlink" title="一、单机系统"></a>一、单机系统</h2><p>首先我们先来思考在没有Tomcat这些网络框架的时候，一个单机系统是如何处理请求</p>
+<p>首先一个请求进来我们分成五步：</p>
+<ul>
+<li><p>建立TCP连接</p>
+</li>
+<li><p>读取请求数据（先读取TCP请求头，然后根据TCP请求头读取报文）</p>
+</li>
+<li><p>处理请求</p>
+</li>
+<li><p>发送响应</p>
+</li>
+<li><p>关闭TCP连接</p>
+</li>
+</ul>
+<p>假如我们客户只有一个，那么只要它网速好，这个模型速度很快</p>
+<p>假如用户一多，其他用户就得排队，他们都堵在第一步建立TCP连接上，我们经常看到连接超时就是这种情况</p>
+<p>假如你处理请求很慢，用户发完请求之后就在那里等，这个时候就是浏览器转圈</p>
+<p>接下来我们看Tomcat是如何实现一个高并发的网络框架</p>
+<h2 id="二、Tomcat原理"><a href="#二、Tomcat原理" class="headerlink" title="二、Tomcat原理"></a>二、Tomcat原理</h2><p>首先Tomcat是采用线程池来实现一个并发框架，它把上面步骤都放到2、3、4都放在一个线程中进行，你只需要写步骤3处理请求的代码，其他的步骤它来帮你完成</p>
+<p>其中步骤1和步骤5由主线程实现，主线程的工作就是创建TCP连接，这个数量是由 server.tomcat.max-connections 控制的，当超过这个数量的时候，Tomcat会把这个请求放到请求队列中server.tomcat.accept-count ，当超过这个数量的时候，Tomcat会丢弃这个请求，客户端会收到503错误</p>
+<p>由于我们内存CPU网卡的速度是有限的，所以Tomcat规定了，我们同时能处理多少请求，这个是通过server.tomcat.threads.max 来规定的，默认是200，就是同时能处理200个请求，其他的都在连接等待过程中</p>
+<p>这样讲非常的枯燥，接下来我们来看看在Cat监控中，每个步骤处的位置</p>
+<h2 id="三、Cat例子"><a href="#三、Cat例子" class="headerlink" title="三、Cat例子"></a>三、Cat例子</h2><p>首先简单介绍一下Cat的原理，就是AOP，使用Spring的AOP能够在你想要监控的方法前后添加自己的代码</p>
+<p><img src="/images/cat-slow-service.jpg" alt></p>
+<p>上面是我限制客户端网速伪造的一个超长请求，我们来看看第一个 17:10:11.750 URL 这个是Cat在方法</p>
+<p>org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher.service 进行的一个打点</p>
+<p>你可以看到后面接着一大串同时的Service.client 这些，都是在调用这个方法之前打的，然后最后那个URL是执行完这个函数之后打的点</p>
+<p>我们可以看到在HTTP.UserAgent 和 Service 之间存在近3秒的等待，这么长的时间是在干什么呢？</p>
+<pre><code>     ￼
+@RequestMapping(value=&quot;/process&quot;, method = RequestMethod.POST)
+public void process(@RequestBody QueryRequest payload) throws Exception {
+    System.out.println(payload);
+}
+</code></pre><p>我们来看到代码，我们在定义这个这个函数的时候，指定了我们请求的Body是QueryRequest 类型，Tomcat提供了在提供了我们运行线程的同时，会给传给我们一个SocketWrapperBase<s> socketWrapper 对象，我们可以读取这个获取到请求报文，当然你也可以选择不读取（无视客户端请求哈哈），Spring通过反射获取到这个方法的时候，会根据你的类型使用你想序列化的方式将它序列化成对象给你</s></p>
+<p>所以那么耗时将近3秒的时间都是Spring框架在读取Socket报文，我们通过Arthas可以监控到，耗时99%都在 javax.ws.rs.ext.ReaderInterceptorContext.proceed  上面</p>
+<p>这个是直接请求我们单机的ip地址才能监控到耗时这么长的请求，但是假如我们把请求打到网关上去，由网关路由到我们服务，惊奇的发现Cat上面没有长耗时的请求了</p>
+<p>接下来我们看看为什么接入网关之后读取就没有了</p>
+<h2 id="四、网关的影响"><a href="#四、网关的影响" class="headerlink" title="四、网关的影响"></a>四、网关的影响</h2><p>其实网关和Tomcat一样，只不过它把处理请求下发到服务去了，所以就算客户端网速很卡，发的很慢，但是服务是无感知的，它是和网关交互，打个比方就是，网关就像一个超市，有很多收银台，就算有一个顾客走的很慢，堵住后面的顾客，但是只要它交给售货员，售货员打完了所有的单子，计算机一下子就给它算完了</p>
+<p>所以对服务来说，他从网关那边读取请求很快，他处理也很快，所以没有耗时</p>
+<h2 id="五、接收的影响"><a href="#五、接收的影响" class="headerlink" title="五、接收的影响"></a>五、接收的影响</h2><p>接下来我们思考一下，假如客户端不仅发的慢，接收也很慢，在Cat上面会有什么影响吗？</p>
+<p>答案是完全没有影响，Tomcat通过org.apache.tomcat.util.net.SocketWrapperBase.write 来实现发送响应体，无论客户端网络多卡，只要服务端不卡，耗时都非常短</p>
+<p>其实这个和网关一样，对于服务端来说，只要它和外网的交换机不卡，不管客户端网速有多炸，它啪的一下就发完了，客户端读的慢就慢慢读，对于服务端来说，它已经发完了，这个TCP连接的控制权已经交给Tomcat的</p>
+<h2 id="六、总结"><a href="#六、总结" class="headerlink" title="六、总结"></a>六、总结</h2><p>假如一个服务在网关层后面，如果监控上他有卡顿，如果网关没问题的话，99%的可能就是你程序哪个地方有死锁或者耗时的操作，基本上排除了网络接收发送这些耗时的可能</p>
+<p>我们压测最终发现的也是因为日志压缩打印的锁，导致所有请求全部都卡顿了20S，而且一般都是在压测30分钟之后才会有一次，因为日志量达到1个G了</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/10/10/java/压测心得/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -234,10 +362,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-10-10 16:47:06 / 修改时间：17:13:17" itemprop="dateCreated datePublished" datetime="2021-10-10T16:47:06+08:00">2021-10-10</time>
+              <time title="创建时间：2021-10-10 16:47:06" itemprop="dateCreated datePublished" datetime="2021-10-10T16:47:06+08:00">2021-10-10</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-10-23 17:10:25" itemprop="dateModified" datetime="2021-10-23T17:10:25+08:00">2021-10-23</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -255,7 +389,7 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span>738</span>
+              <span>802</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -285,8 +419,9 @@
 <p>我单元测试将数据库改成我本地的数据库测试，发现QPS很高，不会像压测结果那么诡异，我开始怀疑是不是MyCat网络有问题，进入MyCat宿主机想装一个监控</p>
 <p>但是发现宿主机磁盘满了，经过DBA确认是因为MyCat日志打满了导致的，清楚磁盘空间后这个情况就消失了</p>
 <h1 id="0x2-QPS抖动"><a href="#0x2-QPS抖动" class="headerlink" title="0x2 QPS抖动"></a>0x2 QPS抖动</h1><p>我们压测是连续压测15分钟，但是很神奇的是会存在偶发性情况，QPS一直很稳定，突然一抖动直接降为0，然后过了20秒又恢复了</p>
-<p>根据Cat监控和Skywalking监控发现，部分长请求会在请求Redis之前卡一下，但是Redis执行很慢，这个时候猜想是因为我们使用Jedis连接池，由于每个请求进来都会查询一下Redis</p>
-<p>这个导致都得向Jedis连接池申请连接（超时时间1s），但是由于我们Tomcat线程是200，我们给Jedis最大活跃连接数是100，导致有一半都在等，我们尝试把Jedis最大活跃连接数调到200之后这个情况就消失了，QPS一直很稳定</p>
+<p>根据Cat监控和Skywalking监控发现，部分长请求会在请求Redis之前卡一下，但是Redis执行很慢，<del>这个时候猜想是因为我们使用Jedis连接池，由于每个请求进来都会查询一下Redis这个导致都得向Jedis连接池申请连接（超时时间1s），但是由于我们Tomcat线程是200，我们给Jedis最大活跃连接数是100，导致有一半都在等，我们尝试把Jedis最大活跃连接数调到200之后这个情况就消失了，QPS一直很稳定</del></p>
+<p>这个猜想后面也是证明是错误的，在最终使用Arthas监控之后发现是日志打印死锁了</p>
+<p>具体的思考在这篇博客下面<a href="压测卡顿20秒引发的思考.md">压测卡顿20秒引发的思考</a></p>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>这次压测让我知道，业务代码看起来很简单，但是当极限压力下，我们必须清楚各个组件在干什么，这样才能做到不仅仅只是一个CRUD boy</p>
 
       
@@ -1122,199 +1257,6 @@ dishes.stream().collect(Collectors.toCollection(() -&gt; container));
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/04/05/java/mysql/GroupByAsSort/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/04/05/java/mysql/GroupByAsSort/" class="post-title-link" itemprop="url">MySQL Group By 还可以用来去重</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-04-05 10:29:00 / 修改时间：11:43:41" itemprop="dateCreated datePublished" datetime="2021-04-05T10:29:00+08:00">2021-04-05</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index">
-                    <span itemprop="name">Java</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>5.9k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>5 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>最近在接手老项目的时候，看到一个SQL： <code>select * from xx group by id</code>，<br>当时一看到这句就感觉，这个group by是不是多余的，既然select 全部了，那去掉其实也无所谓，<br>然后询问上一个接手的同事才知道这个是用来去重了，好家伙，以前一直用来分组统计的语句竟然可以用来<br>去重，涨知识了</p>
-</blockquote>
-<h2 id="Group-By-到底可不可以去重呢"><a href="#Group-By-到底可不可以去重呢" class="headerlink" title="Group By 到底可不可以去重呢"></a>Group By 到底可不可以去重呢</h2><p>首先我们新建一个测试表，并插入一些测试数据</p>
-<pre><code>CREATE TABLE test.student (
-  `sno` varchar(20) NOT NULL,
-  `sname` varchar(20) DEFAULT NULL,
-  `ssex` varchar(20) DEFAULT NULL,
-  `sage` int(11) DEFAULT NULL,
-  `sdept` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`sno`)
-);
-INSERT INTO test.student (sno, sname, ssex, sage, sdept) VALUES (&apos;201215121&apos;, &apos;李勇&apos;, &apos;男&apos;, 20, &apos;CS&apos;);
-INSERT INTO test.student (sno, sname, ssex, sage, sdept) VALUES (&apos;201215122&apos;, &apos;刘晨&apos;, &apos;女&apos;, 19, &apos;CS&apos;);
-INSERT INTO test.student (sno, sname, ssex, sage, sdept) VALUES (&apos;201215123&apos;, &apos;王敏&apos;, &apos;女&apos;, 18, &apos;MA&apos;);
-INSERT INTO test.student (sno, sname, ssex, sage, sdept) VALUES (&apos;201215124&apos;, &apos;张立&apos;, &apos;男&apos;, 19, &apos;IS&apos;);
-INSERT INTO test.student (sno, sname, ssex, sage, sdept) VALUES (&apos;201215125&apos;, &apos;张立&apos;, &apos;男&apos;, 19, &apos;IS&apos;);
-</code></pre><p>然后我们测试一些是否可以去重</p>
-<pre><code>mysql&gt; SELECT * from test.student GROUP BY ssex ;
-ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column &apos;test.student.sno&apos; which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
-</code></pre><p>哎呀出错了，意思是不支持，因为我们<code>sql_mode</code> 设置了<code>only_full_group_by</code>这个，我们来看看我们<code>sql_mode</code>里面有啥</p>
-<pre><code>mysql&gt; SELECT @@SESSION.sql_mode \G;
-*************************** 1. row ***************************
-@@SESSION.sql_mode: ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
-1 row in set (0.00 sec)
-</code></pre><p>的确我们<code>sql_mode</code>是设置了<code>ONLY_FULL_GROUP_BY</code>这个值，这个<code>sql_mode</code>是啥呢，首先我们知道<br>MySQL只是SQL一种实现软件，他为了和其他SQL兼容，就设置了这个变量，你可以通过<br>修改这个值来修改他的语法支持</p>
-<p>其实<code>group by</code>本来的意图就是一个聚合函数，正常来说，我们一般是使用下面的语法</p>
-<pre><code>select a, count(*) from xxx group by a
-</code></pre><p>但是<code>MySQL</code>非常开放，它允许你使用非group by 字段，在5.7之前都是默认允许的，但是5.7之后，它默认关闭了<br>但是你可以修改关闭</p>
-<p>接下来我们临时关闭掉这个，怎么关闭呢，非常简单，把<code>ONLY_FULL_GROUP_BY</code>在<code>sql_mode</code> 删除就好了<br>接下面执行下面语句</p>
-<pre><code>set sql_mode =(SELECT replace(@@SESSION.sql_mode, &apos;ONLY_FULL_GROUP_BY,&apos;, &apos;&apos;));
-</code></pre><p>然后我们再执行上面<code>sql</code></p>
-<pre><code>mysql&gt; SELECT * from test.student GROUP BY ssex ;
-+-----------+--------+------+------+-------+
-| sno       | sname  | ssex | sage | sdept |
-+-----------+--------+------+------+-------+
-| 201215122 | 刘晨   | 女   |   19 | CS    |
-| 201215121 | 李勇   | 男   |   20 | CS    |
-+-----------+--------+------+------+-------+
-2 rows in set (0.00 sec)
-</code></pre><p>o了，我们再看看我们目前的<code>sql_mode</code></p>
-<pre><code>mysql&gt; SELECT @@SESSION.sql_mode;
-+------------------------------------------------------------------------------------------------------------------------+
-| @@SESSION.sql_mode                                                                                                     |
-+------------------------------------------------------------------------------------------------------------------------+
-| STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION |
-+------------------------------------------------------------------------------------------------------------------------+
-</code></pre><p>的确目前看到<code>ONLY_FULL_GROUP_BY</code>这个了，而且我们发现的确去重了</p>
-<h2 id="Distinct和Group-By"><a href="#Distinct和Group-By" class="headerlink" title="Distinct和Group By"></a>Distinct和Group By</h2><p>通过上面的实验我们知道了，<code>Group By</code>的确可以去重，但是我们去重一般使用<code>Distinct</code>来，<br><code>Distinct</code>原理很简单</p>
-<p>我们执行下面语句</p>
-<pre><code>mysql&gt; explain SELECT distinct ssex from test.student ;
-+----+-------------+---------+------------+------+---------------+------+---------+------+------+----------+-----------------+
-| id | select_type | table   | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra           |
-+----+-------------+---------+------------+------+---------------+------+---------+------+------+----------+-----------------+
-|  1 | SIMPLE      | student | NULL       | ALL  | NULL          | NULL | NULL    | NULL |    5 |   100.00 | Using temporary |
-+----+-------------+---------+------------+------+---------------+------+---------+------+------+----------+-----------------+
-</code></pre><p>我们可以看到<code>Using temporary</code>告诉我们，就是创建一个临时表，然后把<br><code>Distinct</code>的字段从表里取出来，然后返回给客户端就好了</p>
-<p>我们看看<code>Group By</code>的原理</p>
-<pre><code>mysql&gt; explain SELECT * from test.student GROUP BY ssex ;
-+----+-------------+---------+------------+------+---------------+------+---------+------+------+----------+---------------------------------+
-| id | select_type | table   | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra                           |
-+----+-------------+---------+------------+------+---------------+------+---------+------+------+----------+---------------------------------+
-|  1 | SIMPLE      | student | NULL       | ALL  | NULL          | NULL | NULL    | NULL |    5 |   100.00 | Using temporary; Using filesort |
-+----+-------------+---------+------------+------+---------------+------+---------+------+------+----------+---------------------------------+
-</code></pre><p>我们也看到了<code>Using temporary;</code>，其实<code>Group By</code>底层也是用到临时表，把你<code>Group By</code>的值当<br>做主键，而且我们看到默认它会取第一个出现的值作为最终的值<br>这个是为什么呢</p>
-<h2 id="Group-By-原理解析"><a href="#Group-By-原理解析" class="headerlink" title="Group By 原理解析"></a>Group By 原理解析</h2><p>我们前面知道，<code>Group By</code> 一开始只是用来做聚合函数的，所以底层上最开始设计的时候就是</p>
-<ul>
-<li>首先建一张临时表，把<code>Group By</code>字段作为唯一主键（下面称作key）</li>
-<li>然后把原始表中所有数据按照key进行分组</li>
-<li>对分组内数据一个一个进行聚合，比如执行<code>count</code>, <code>avg</code> 等等函数，最后每组跟随主键key产生最终的一列值</li>
-<li>最后对临时表进行排序返回</li>
-</ul>
-<p>所以其实当时为了支持，不在主键内的值，MySQL只是简单的把组内第一个出现值赋值进去</p>
-<p>那为什么不把最后组内最后一个值赋值进去呢，首先是如果实现这个功能，想当于组内数据要全部执行一遍，<br>效率太低了，那有没有办法能实现去重的时候取组内最后一个呢</p>
-<p>首先说目前是不支持的，不过能通过下面两种方式来实现</p>
-<p><strong>方法一：</strong></p>
-<p>首先把你想要的数据进行排序</p>
-<pre><code>create temporary table test.tt as SELECT * from test.student order by sno desc;
-</code></pre><p>然后我们看正常来按照年龄排序</p>
-<pre><code>mysql&gt; SELECT * from test.student GROUP BY sage;
-+-----------+--------+------+------+-------+
-| sno       | sname  | ssex | sage | sdept |
-+-----------+--------+------+------+-------+
-| 201215123 | 王敏   | 女   |   18 | MA    |
-| 201215122 | 刘晨   | 女   |   19 | CS    |
-| 201215121 | 李勇   | 男   |   20 | CS    |
-+-----------+--------+------+------+-------+
-3 rows in set (0.00 sec)
-</code></pre><p>接下来我们再看看我们去重取最后一个出现的，我们看到<code>19</code>的<code>张立</code>取代了第一个出现的<code>刘晨</code></p>
-<pre><code>mysql&gt; SELECT * from test.tt GROUP BY sage;
-+-----------+--------+------+------+-------+
-| sno       | sname  | ssex | sage | sdept |
-+-----------+--------+------+------+-------+
-| 201215123 | 王敏   | 女   |   18 | MA    |
-| 201215125 | 张立   | 男   |   19 | IS    |
-| 201215121 | 李勇   | 男   |   20 | CS    |
-+-----------+--------+------+------+-------+
-3 rows in set (0.00 sec)
-</code></pre><p><strong>方法二：</strong></p>
-<p>第二种方法其实把上面两个步骤合成一个，首先我们把原始数据进行排序，然后取出组内第一个</p>
-<pre><code>select sno, sname, sage, sdept
-from (SELECT @i := if(@sage &lt;&gt; sage, 0, @i + 1) as i, @sage := sage, a.*
-from (select * from test.student order by sage, sno desc) a) a
-where i = 0
-order by sage;
-</code></pre><p>我们用上面这行函数模仿了，<code>Group By</code>去重，我们可以看到我们在末尾加了一个<code>order by sage</code><br>语句，这是因为默认<code>Group By</code>会按照<code>Group By</code>的键值给我们排序，<br>所以如果你想优化<code>Group By</code>性能，当你对组排序顺序无所谓的时候，你可以在<br><code>Group By</code> 末尾加上<code>order by null</code>关闭排序功能</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><code>Group By</code>去重功能在<code>5.7</code>之后就默认关闭了，所以其实大家用来做去重还是慎用，不过通过这个功能去探索<br>底层原理对你数据库性能优化还是非常有帮助的</p>
-<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ul>
-<li><a href="https://blog.csdn.net/Dax1n/article/details/86581472" title="MySQL中的Group By是否允许SELECT非聚合列的总结" target="_blank" rel="noopener">MySQL中的Group By是否允许SELECT非聚合列的总结</a></li>
-<li><a href="https://dev.mysql.com/doc/refman/5.7/en/sql-mode.html#sqlmode_only_full_group_by" title="mysql5.7文档" target="_blank" rel="noopener">mysql5.7官方文档</a></li>
-<li><a href="https://www.itzhai.com/articles/how-sql-works-understand-the-essence-of-tuning-by-the-execution-principle.html" title="SQL运行内幕：从执行原理看调优的本质" target="_blank" rel="noopener">SQL运行内幕：从执行原理看调优的本质</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1387,7 +1329,7 @@ order by sage;
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">114</span>
+          <span class="site-state-item-count">115</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1462,12 +1404,12 @@ order by sage;
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">274k</span>
+    <span title="站点总字数">276k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:09</span>
+    <span title="站点阅读时长">4:11</span>
 </div>
 
         
