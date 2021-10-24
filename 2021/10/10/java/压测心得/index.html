@@ -57,7 +57,7 @@
 <meta property="og:site_name" content="小伦子的笔记">
 <meta property="og:description" content="最近在做一个接口的压测，一开始以为自己优化后的代码应该没得问题，没想到中途遇到不少问题  0x1碰到第一个问题就是，压测前几分钟正常，后几分钟直线下降，且QPS出现诡异的下降，而且响应时间平均4s  根据Cat的监控显示是数据库响应慢，但是DBA说没有慢SQL，这就很尴尬了  怀疑是因为我们用的数据库连接池给定的活跃连接数太少了（20），我们使用是Tomcat默认开启200个线程，假如都在同时请">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-10-23T09:10:25.599Z">
+<meta property="og:updated_time" content="2021-10-24T03:17:42.454Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="压测心得">
 <meta name="twitter:description" content="最近在做一个接口的压测，一开始以为自己优化后的代码应该没得问题，没想到中途遇到不少问题  0x1碰到第一个问题就是，压测前几分钟正常，后几分钟直线下降，且QPS出现诡异的下降，而且响应时间平均4s  根据Cat的监控显示是数据库响应慢，但是DBA说没有慢SQL，这就很尴尬了  怀疑是因为我们用的数据库连接池给定的活跃连接数太少了（20），我们使用是Tomcat默认开启200个线程，假如都在同时请">
@@ -245,7 +245,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-10-23 17:10:25" itemprop="dateModified" datetime="2021-10-23T17:10:25+08:00">2021-10-23</time>
+                <time title="修改时间：2021-10-24 11:17:42" itemprop="dateModified" datetime="2021-10-24T11:17:42+08:00">2021-10-24</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -303,7 +303,7 @@
 <h1 id="0x2-QPS抖动"><a href="#0x2-QPS抖动" class="headerlink" title="0x2 QPS抖动"></a>0x2 QPS抖动</h1><p>我们压测是连续压测15分钟，但是很神奇的是会存在偶发性情况，QPS一直很稳定，突然一抖动直接降为0，然后过了20秒又恢复了</p>
 <p>根据Cat监控和Skywalking监控发现，部分长请求会在请求Redis之前卡一下，但是Redis执行很慢，<del>这个时候猜想是因为我们使用Jedis连接池，由于每个请求进来都会查询一下Redis这个导致都得向Jedis连接池申请连接（超时时间1s），但是由于我们Tomcat线程是200，我们给Jedis最大活跃连接数是100，导致有一半都在等，我们尝试把Jedis最大活跃连接数调到200之后这个情况就消失了，QPS一直很稳定</del></p>
 <p>这个猜想后面也是证明是错误的，在最终使用Arthas监控之后发现是日志打印死锁了</p>
-<p>具体的思考在这篇博客下面<a href="压测卡顿20秒引发的思考.md">压测卡顿20秒引发的思考</a></p>
+<p>具体的思考在这篇博客下面<a href="/2021/10/23/java/压测卡顿20秒引发的思考/">压测卡顿20秒引发的思考</a></p>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>这次压测让我知道，业务代码看起来很简单，但是当极限压力下，我们必须清楚各个组件在干什么，这样才能做到不仅仅只是一个CRUD boy</p>
 
     </div>
@@ -517,12 +517,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">276k</span>
+    <span title="站点总字数">277k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:11</span>
+    <span title="站点阅读时长">4:12</span>
 </div>
 
         
