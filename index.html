@@ -211,7 +211,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/10/23/java/压测卡顿20秒引发的思考/">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2022/07/02/java/秒杀系统/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/myself.jpg">
@@ -225,7 +225,108 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2021/10/23/java/压测卡顿20秒引发的思考/" class="post-title-link" itemprop="url">压测卡顿20秒引发的思考</a>
+            <a href="/2022/07/02/java/秒杀系统/" class="post-title-link" itemprop="url">秒杀系统的思考</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-07-02 23:22:46" itemprop="dateCreated datePublished" datetime="2022-07-02T23:22:46+08:00">2022-07-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-07-03 18:01:17" itemprop="dateModified" datetime="2022-07-03T18:01:17+08:00">2022-07-03</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>700</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>最近的业务也做了一个类似秒杀业务的，自己在做的过程中也感悟到没有完美的解决方案，每种方法都有自己的缺点，<br>要基于业务去设计核心，而不是为了秒杀而秒杀</p>
+</blockquote>
+<h2 id="什么是秒杀系统"><a href="#什么是秒杀系统" class="headerlink" title="什么是秒杀系统"></a>什么是秒杀系统</h2><p>秒杀系统就是：<code>抢</code></p>
+<p>用生活的例子就是，一群人去超市排队买瓜，一人只能买一个，一共100个，抢完了就没有了</p>
+<h2 id="秒杀系统核心"><a href="#秒杀系统核心" class="headerlink" title="秒杀系统核心"></a>秒杀系统核心</h2><p>秒杀系统最核心就是，如何确保数据一致性，不超买超卖，网上这种文章一搜一大把，你只要安安静静看几篇就能明白的七七八八了</p>
+<p>在你看完之后大概就能设计出一个简单的<code>Redis</code> Lua脚本来进行秒杀，我这里就不介绍怎么写，教程实在是太多了</p>
+<p>我这里想提出一点就是，大部分的教程都不会告诉你，<code>Redis</code>其实很脆弱的，它可能会崩溃，虽然概念很低，但是一旦崩溃，你的数据就不准确了</p>
+<p>假如你完全依赖Redis作为秒杀成功标注的话，在极端case下面会出现超买超卖现象</p>
+<p>怎么解决这个呢，其实很简单，只依赖Redis作为秒杀的过滤器，通过Redis完成秒杀，不一定抢购成功，要等数据库确认之后才能算秒杀成功</p>
+<p>那么我们Redis是不是完全没有用了呢，恰恰相反，作用非常大，Redis将流量过滤到数据库可以接受的程度，假如流量全部打到数据库上面，数据库瞬间就崩溃了</p>
+<h2 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h2><p>在使用Redis过程中，我发现一个好玩的事情就是使用Redis做一个消息队列，并且对消息进行压缩，<br>这个压缩是指在消费的过程中，使用Lua脚本，批量获取队列值，然后清空队列，达到一个消息压缩的情况</p>
+<p>相当于在Redis层做了一个数据处理的工作，优化了数据传输，但是有可能会造成Redis性能下降</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>秒杀系统说难不难，说容易不容易，新手很容易忽视在高流量下面各个系统崩溃的极端情况，然而这些情况都是必须要重视的</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2022/07/02/summary/毕业四年杂想/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/07/02/summary/毕业四年杂想/" class="post-title-link" itemprop="url">《我编程，我快乐：程序员职业规划之道读后感</a>
         </h1>
 
         <div class="post-meta">
@@ -236,7 +337,408 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-10-23 17:00:14 / 修改时间：17:09:08" itemprop="dateCreated datePublished" datetime="2021-10-23T17:00:14+08:00">2021-10-23</time>
+              <time title="创建时间：2022-07-02 21:35:48 / 修改时间：23:22:54" itemprop="dateCreated datePublished" datetime="2022-07-02T21:35:48+08:00">2022-07-02</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/随想/" itemprop="url" rel="index">
+                    <span itemprop="name">随想</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>一眨眼，四年过去了，再过几年就到了三十而立的年龄了，年轻的时候走马观花，<br>好像一直为了学习而学习，为了规划而规划，在经过被社会的毒打之后，<br>自己眼睛里面好像也没有当年的光了</p>
+</blockquote>
+<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>突然发觉自己该给自己重新规划一下未来了，之前定的规划好像变成了墓碑，矗立在哪，纹丝不动</p>
+<p>在网上找到这本书，静下心来细细品读，颇有一番感悟</p>
+<h2 id="感触"><a href="#感触" class="headerlink" title="感触"></a>感触</h2><ol>
+<li>热爱编程，而不是为了工作</li>
+</ol>
+<p>假如编程只是一份养家糊口的工作，那么你会越来越抗拒他，当你下班，你只会去做让你开心的事。<br>而程序员进步最大的时候就是在他下班后。</p>
+<p>不是说你下班之后继续忙工作的事情，而是脱离你的工作，专注于编程的进步，你当然也可以钻研你工作<br>上有疑惑的东西，去搞懂他，去优化它。</p>
+<p>你可以把编程当做一个游戏， 花时间在它上面，打通关，升级自己。</p>
+<p>对于我来说，我还算挺喜欢编程了，假如是个新技术，我会立马把它钻研到可以用的地步，<br>但是每当我想深入一个领域， 我最大的问题拖延症，<br>假如没有什么deadline，我一般就会能拖就拖，结果拖着拖着就忘了，所以其实对于我来说，<br>我需要把编程当做一个游戏，自己设定每个阶段的deadline，像升级打怪一样把某个知识点钻通</p>
+<ol start="2">
+<li>向人请教如何成长</li>
+</ol>
+<p>不知道是不是编程开发总觉得问别人不去很羞耻，应该面向google或者百度编程，但是很多时候很多问题不是百度就能解决</p>
+<p>我们需要抱着一个班级最差生的态度去向别人请教，不是问了懂而问，而是为了变的和他优秀去发问，他是如何做到</p>
+<p>大部分人比如我都很乐意把自己所学教给别人，也会把自己觉得让自己成长有帮助的方法告诉别人，你要勇于问</p>
+<p>变强的最快的方式不是像小说里面闭关修炼，而是找到一个良师，21世纪了，我们要站在巨人的肩膀上才能变得更强</p>
+<ol start="3">
+<li>自己反思、适时放弃</li>
+</ol>
+<p>书中讲到一个抓猴陷阱，就是在地上挖一个曲折的洞，里面放满米，傻猴子会拼命往洞里掏米，当猴子手里抓满米<br>之后手就拿不出来了，即使你站在他旁边他也不会选择放手手里的米，这样就抓住了一只猴子</p>
+<p>虽然我们比猴子聪明，但是当我们手里抓住的是我们看中的东西的时候，也不会舍得放手，所以给我的一个感受就是得学会分轻重</p>
+<p>好比打游戏，千万不要上头，人家交闪了还越塔追，最后被人家丝血反杀，我们得放弃击杀别人的机会，即使只需要a一下就能收到人头</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这次分享自己也学着书中的方法，提高自己的写作能力，当然书中说了一些其他不错的观点，但是我选择了三个对我感触最大的，<br>这些缺点在我身上也有，所以我感触也很深，也第一次应用上了哈哈，我给自己deadline是今晚写完，bingo！</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2022/03/19/java/rpc/RPC大纲/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/03/19/java/rpc/RPC大纲/" class="post-title-link" itemprop="url">RPC大纲</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-03-19 15:54:05" itemprop="dateCreated datePublished" datetime="2022-03-19T15:54:05+08:00">2022-03-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-03-21 23:53:49" itemprop="dateModified" datetime="2022-03-21T23:53:49+08:00">2022-03-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>228</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>最近想系统学一下RPC框架，下面是我学习路径</p>
+</blockquote>
+<p>阅读<a href="https://github.com/Snailclimb/guide-rpc-framework" target="_blank" rel="noopener">一个简易的RPC框架源码</a></p>
+<p>主要是学习了</p>
+<ul>
+<li>服务端注册中心注册服务</li>
+<li>客户端创建动态代理，当调用方法查询对应服务所在地址，序列化请求体并发起远程调用</li>
+<li>服务端使用netty，对客户端自定义协议进行拆包，并调用对应注册类方法</li>
+</ul>
+<p>com.alibaba.dubbo.rpc.proxy.InvokerInvocationHandler</p>
+<p>com.alibaba.dubbo.rpc.protocol.dubbo.DubboInvoker</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2022/03/05/summary/王者荣耀感悟/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/03/05/summary/王者荣耀感悟/" class="post-title-link" itemprop="url">王者荣耀感悟</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-03-05 22:50:40 / 修改时间：23:34:45" itemprop="dateCreated datePublished" datetime="2022-03-05T22:50:40+08:00">2022-03-05</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/随想/" itemprop="url" rel="index">
+                    <span itemprop="name">随想</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>1.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>最近玩王者玩着玩着突然有些感悟，感觉有时候通过玩一个游戏也可以看到自己身上的不足</p>
+</blockquote>
+<h2 id="追杀还是放弃"><a href="#追杀还是放弃" class="headerlink" title="追杀还是放弃"></a>追杀还是放弃</h2><p>有的时候会上头，追着残血追到二塔被他们围殴或者杀了人却被搭打死了，其实这个完全没必要，一个残血，其实你不打死它，除了那种后期吸血怪，基本上都是要回泉水补血，差不多就相当于杀了他一次</p>
+<p>有这个追人的时候，你还不如继续扩大优势，推个塔，拿野区资源等等，王者是一个经济游戏，在你装备还没成型的时候，你90%的任务都是快速发育以及阻止对面发育，通过经济差碾压别人</p>
+<p>其实我感觉在现实中我也是，有的时候学一个东西也容易上头，打破砂锅问到底，最后把自己的耐心磨完，忘记了自己真实的目的</p>
+<h2 id="观察局势"><a href="#观察局势" class="headerlink" title="观察局势"></a>观察局势</h2><p>有的时候，无论是劣势局或者优势局容易梦游，经常“目光短浅”，为了几个小兵，孤军深入，最后送个人头快速回家，或者有的时候打射手，一直就是一抓就死，前期大优势打成逆风</p>
+<p>观察局势说难不难，说简单也不简单，毕竟对面5个英雄，你又要对线，但是其实很简单，基本上关注中单和打野位置就好了，当然假如对面野辅联动也得关注辅助的位置，你只需要关注他们是否是会来抓你</p>
+<p>所以其实高端局经常看到大佬说什么给个假动作，给一个往下路走的信号，其实往上路走了，虚虚实实，真正假假</p>
+<p>其实要想养成这个意思，必须让自己脱离这个游戏，培养自己一种上帝视角，自己控制的这个角色输赢都无所谓，你会开始猜对面在干嘛，去预测对面的动向，所以以前英雄联盟有个主播叫大司马，大部门人特别敬佩就是他的预测能力</p>
+<p>基本上他能知道对方在干什么，所以其实你和大神之间的差距就在这里，大神知道你要做什么，所以他能制裁你，你在他眼中和机器人没什么区别</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>自己之前其实不怎么喜欢玩这种5V5实时对战的游戏，喜欢玩人机，因为5V5中有些人太在意输赢了，会因为别人的失误会去骂人，在这个团队游戏中，经常有射手骂打野，都被对面打野抓烂了，自己打野没来一次，大部分人只会在别人身上找原因，而从来不在自己身上找原因</p>
+<p>自己一抓就死还不是因为没有注意对面打野动态，人生也是这样，大部分把自己不成功的原因归结于没有一个好爹，起点没有别人高，与其抱怨还不如想想怎么才能混起来，发育起来</p>
+<p>其实感觉人生有的时候和游戏一样，那些成功的人他们只是比普通人看的更长远一点，普通人只看到眼前的芝麻，成功的人看到了远方的西瓜。</p>
+<p>努力不一定会成功，但是不努力补每一个兵，打团的时候就打不出伤害，你最后就会输掉这场比赛，游戏和人生一样。或许你没法决定自己的队友，但是你可以成为那个在队友发起投降的时候不放弃的那个人，只有有一个不想投降的人在你们这边，你们就不会自爆水晶。人生也是，你不放弃，没谁可以让你放弃。</p>
+<p>选择权在你手里。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2022/02/19/java/IO总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/02/19/java/IO总结/" class="post-title-link" itemprop="url">IO总结</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-02-19 11:21:52" itemprop="dateCreated datePublished" datetime="2022-02-19T11:21:52+08:00">2022-02-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-02-28 21:34:52" itemprop="dateModified" datetime="2022-02-28T21:34:52+08:00">2022-02-28</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>887</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>最近被NIO这个概念弄得有点晕，一会是Linux的NIO一会是Java 的NewIO也叫NIO，然后Linux又有一个AIO的概念，但是Java里面好像没有，所以就好好理理IO到底是个啥东西</p>
+</blockquote>
+<h1 id="IO模型"><a href="#IO模型" class="headerlink" title="IO模型"></a>IO模型</h1><p>我们都知道IO就是<code>Input Output</code>，但是IO模型其实是给读取也就是Input来做的模型，因为Output非常简单就是往网卡写数据，但是读数据就有点不一样了</p>
+<p>为了高效的从socket里面读数据，Linux给IO创建了5种模型</p>
+<p>第一种最简单，就是同步模型，执行一个系统调用，然后等内核从网卡读取完，最后讲数据从内核复制到用户空间就完成了一次IO读取，这种方式对内核来说最简单了，但是对于用户来说就很低效了</p>
+<p>一个线程基本上都卡在IO上面了，即使有多线程技术，但是万一用户量很大，线程是有限的，而且有的时候万一用户网络很卡数据包很大，网卡读数据就花了几个小时，几个小时都耗在一个链接上了</p>
+<p>所以提出来第二种IO，同步非阻塞 IO，也就是NIO，这个IO和上面区别在于，执行系统调用之后里面就返回了，不会等待内核堵塞用户了，但是假如内核没准备好，则会返回为空，但是这个也有个缺点就是<br>假如一直没准备好，你就得用个队列把这些没准备好的存贮起来进行轮询，假如队列里面多了，你会耗很多时间在无效轮询上面</p>
+<p>所以在NIO的基础上，操作系统提出一个多路复用的概念，其实就是相当于操作系统给你维护了一套消息队列，当有IO准备好了，就返回给客户端，所以其实对于客户端来说，现在的IO还是一个堵塞的，<br>只有当IO准备好了才会返回，操作系统在维护这个队列上面也做了很多升级，从最初的<code>select</code>到<code>poll</code>到最后的<code>epoll</code>，操作系统一直在优化，以达到一个完全消息驱动，节省不必要的CPU浪费</p>
+<p>当然前面的NIO的需要轮询的缺点可以通过信号来解决，所以又引出了第三个模型，就是信号模型，不幸的信号模型在大量IO的情况下会丢数据，导致不可靠，所以这个模型其实用的也少</p>
+<h1 id="Java-New-IO"><a href="#Java-New-IO" class="headerlink" title="Java New IO"></a>Java New IO</h1><h1 id="异步到底是什么"><a href="#异步到底是什么" class="headerlink" title="异步到底是什么"></a>异步到底是什么</h1><h1 id="异步优缺点"><a href="#异步优缺点" class="headerlink" title="异步优缺点"></a>异步优缺点</h1><h1 id="异步的替代方案"><a href="#异步的替代方案" class="headerlink" title="异步的替代方案"></a>异步的替代方案</h1><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://www.linuxidc.com/Linux/2017-09/146682.htm" target="_blank" rel="noopener">https://www.linuxidc.com/Linux/2017-09/146682.htm</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2022/01/17/java/Bean复制真的那么慢吗/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/01/17/java/Bean复制真的那么慢吗/" class="post-title-link" itemprop="url">Bean复制真的那么慢吗</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-01-17 21:16:12 / 修改时间：21:18:01" itemprop="dateCreated datePublished" datetime="2022-01-17T21:16:12+08:00">2022-01-17</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -255,7 +757,339 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span>2.2k</span>
+              <span>3.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>最近在业务代码中经常用到的BeanUtils.copyProperties，有的时候在想，这个东西在Java里面真方便，但是性能怎么样呢，然后找了一篇博文<br><a href="https://www.cnblogs.com/kancy/p/12089126.html" target="_blank" rel="noopener">https://www.cnblogs.com/kancy/p/12089126.html</a></p>
+<p>大吃一斤，竟然要100多ms，我们接口压测性能也就40ms左右，调用这么个方法竟然耗时要这么多，本着不传谣不信谣的精神，开始下面的测试</p>
+<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><p>首先我用Python生成两个大类A，B，两个字段数都为254（因为Java最大属性就是255），然后生成一个类C，其中有个静态方法，能将A的值全部都赋给B</p>
+<p>最后我跑了一下结果</p>
+<p>下面是结果</p>
+<pre><code>bean复制
+热身🚀      1100次耗时:      264.00000毫秒 速度：       0.24000毫秒每次
+正式🚀   1000000次耗时:    14383.00000毫秒 速度：      14.38300微秒每次
+
+硬复制
+热身🚀      1100次耗时:       12.00000毫秒 速度：       0.01091毫秒每次
+正式🚀   1000000次耗时:      116.00000毫秒 速度：       0.11600微秒每次
+</code></pre><p>因为JVM有热加载技术，所以我运行前都让它热个身，结果很哇塞，的确BeanUtils的速度要比硬copy要慢100倍左右，但是其实对于程序来说，14微妙也是非常快了，其实除非你在一次请求里面要用这个方法上百次，其实问题都不大</p>
+<h2 id="疑惑"><a href="#疑惑" class="headerlink" title="疑惑"></a>疑惑</h2><p>但是我又有个疑惑了，为啥bean复制最开始的1100次要耗时那么那么长，到底发生了什么，接下来我把热身的时候，蜂刺数据提取出来（上一次执行耗时和这次执行差距1ms），结果如下</p>
+<pre><code>0 cost: 10
+1 cost: 0
+15 cost: 95
+16 cost: 2
+17 cost: 0
+127 cost: 2
+128 cost: 0
+</code></pre><p>我执行了很多次，在第0次的时候，和第14、15、16这些的时候都会耗时巨长，第一次可能是因为建立反射缓存，但是第14、15、16为啥会耗时那么长呢</p>
+<p>接下来我们深入源代码看看，为啥会这样</p>
+<h2 id="源码探索"><a href="#源码探索" class="headerlink" title="源码探索"></a>源码探索</h2><p>源码在 <code>org.springframework.beans.BeanUtils.copyProperties</code> 中</p>
+<pre><code>private static void copyProperties(Object source, Object target, @Nullable Class&lt;?&gt; editable, @Nullable String... ignoreProperties) throws BeansException {
+    Assert.notNull(source, &quot;Source must not be null&quot;);
+    Assert.notNull(target, &quot;Target must not be null&quot;);
+    Class&lt;?&gt; actualEditable = target.getClass();
+if (editable != null) {
+if (!editable.isInstance(target)) {
+throw new IllegalArgumentException(&quot;Target class [&quot; + target.getClass().getName() + &quot;] not assignable to Editable class [&quot; + editable.getName() + &quot;]&quot;);
+}
+
+actualEditable = editable;
+}
+
+PropertyDescriptor[] targetPds = getPropertyDescriptors(actualEditable);
+List&lt;String&gt; ignoreList = ignoreProperties != null ? Arrays.asList(ignoreProperties) : null;
+PropertyDescriptor[] var7 = targetPds;
+int var8 = targetPds.length;
+
+for(int var9 = 0; var9 &lt; var8; ++var9) {
+PropertyDescriptor targetPd = var7[var9];
+Method writeMethod = targetPd.getWriteMethod();
+if (writeMethod != null &amp;&amp; (ignoreList == null || !ignoreList.contains(targetPd.getName()))) {
+PropertyDescriptor sourcePd = getPropertyDescriptor(source.getClass(), targetPd.getName());
+if (sourcePd != null) {
+Method readMethod = sourcePd.getReadMethod();
+if (readMethod != null &amp;&amp; ClassUtils.isAssignable(writeMethod.getParameterTypes()[0], readMethod.getReturnType())) {
+try {
+if (!Modifier.isPublic(readMethod.getDeclaringClass().getModifiers())) {
+readMethod.setAccessible(true);
+}
+
+Object value = readMethod.invoke(source);
+if (!Modifier.isPublic(writeMethod.getDeclaringClass().getModifiers())) {
+writeMethod.setAccessible(true);
+}
+
+writeMethod.invoke(target, value);
+} catch (Throwable var15) {
+throw new FatalBeanException(&quot;Could not copy property &apos;&quot; + targetPd.getName() + &quot;&apos; from source to target&quot;, var15);
+}
+}
+}
+}
+}
+
+}
+</code></pre><p>借助arthas我们可以知道第一次加载慢是因为耗时都在 <code>getPropertyDescriptors</code> 上面，第一次的时候需要通过反射去获取，这个时间在我电脑上要5-10ms左右，之后再次运行相同的类就不需要这么长，但是为什么在15-16次会有一次比第一次还要长的耗时呢，araths的结果我们就不粘贴了，其中其实耗时都不长，耗时99%的时候都在<code>java.lang.reflect.Method:invoke</code> 这个方法上</p>
+<p>我们知道反射慢是正常的，为啥到了15次之后就没有速度慢的呢，原因是JVM会对发射做一个优化，当请求同一个反射超过15次之后，就会编译成字节码，所以之后速度就起飞，但是由于第一次要生成字节码，所以它耗时还要比第一次通过反射获取的还要慢</p>
+<p>具体资料为：<a href="https://blog.csdn.net/zhang6622056/article/details/98950855" target="_blank" rel="noopener">https://blog.csdn.net/zhang6622056/article/details/98950855</a></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过这个实验，我们知道，原来即使使用反射，其实JVM的速度也能优化到几微秒，假如你的类不超过50个字段，其实硬编码和Bean复制其实差别不大，你追求的极致优化其实都是优化几微秒，相比于网络的ms优化简直不值一提，而且目前其实也有很多优秀的框架，如<code>JMapper</code>,<code>MapStruct</code> 等可以生成字节码，而不需要你硬编码</p>
+<p><a href="https://segmentfault.com/a/1190000040791635" target="_blank" rel="noopener">https://segmentfault.com/a/1190000040791635</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2022/01/17/summary/2021summary/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/01/17/summary/2021summary/" class="post-title-link" itemprop="url">2021年终总结</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-01-17 21:14:23 / 修改时间：21:15:30" itemprop="dateCreated datePublished" datetime="2022-01-17T21:14:23+08:00">2022-01-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/随想/" itemprop="url" rel="index">
+                    <span itemprop="name">随想</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>292</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
+<p>2021年，对于世界来说都是一个魔幻的元年，新冠在全世界肆虐，然而每个中国人都被保护的很好</p>
+</blockquote>
+<p>这一年对于我来说也是挺魔幻的</p>
+<h2 id="经历"><a href="#经历" class="headerlink" title="经历"></a>经历</h2><p>记个流水账吧，简单来说，换了家公司，谈了一段感情</p>
+<h2 id="收获"><a href="#收获" class="headerlink" title="收获"></a>收获</h2><p>在技术上，自己真正算是开始做后端开发了吧，自己对中间件、缓存有了一个新的认识，但是进步缓慢。</p>
+<p>在感情上，自己算是成熟一点，学会了怎么去爱一个人，学会了如何接纳自己，最重要的是很大程度上缓解了自己的内耗吧</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>以前很喜欢写很长很长的文字，但是慢慢发现，懂得越多不是写的越多，而且经历的越多，思考的越多，感谢2021年的故事，有快乐、有悲伤、有痛苦、有释然，2022年加油，不要让自己犯同样的错误，朝着目标努力吧！</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/12/10/java/泛型的前世今生/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/10/java/泛型的前世今生/" class="post-title-link" itemprop="url">泛型的前世今生</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-12-10 20:35:08 / 修改时间：22:21:08" itemprop="dateCreated datePublished" datetime="2021-12-10T20:35:08+08:00">2021-12-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>19</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="一、什么是泛型"><a href="#一、什么是泛型" class="headerlink" title="一、什么是泛型"></a>一、什么是泛型</h2><h2 id="二、泛型的作用是什么"><a href="#二、泛型的作用是什么" class="headerlink" title="二、泛型的作用是什么"></a>二、泛型的作用是什么</h2><p>## </p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/12/09/java/SPI破坏了双亲委派吗/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/09/java/SPI破坏了双亲委派吗/" class="post-title-link" itemprop="url">SPI破坏了双亲委派吗</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-09 20:32:50" itemprop="dateCreated datePublished" datetime="2021-12-09T20:32:50+08:00">2021-12-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-12-10 20:34:52" itemprop="dateModified" datetime="2021-12-10T20:34:52+08:00">2021-12-10</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>2.4k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -274,446 +1108,54 @@
 
       
           <blockquote>
-<p>压测让人爆炸的事，就算把你写的代码都注释掉了这个问题依旧存在，这个时候你开始怀疑网络，怀疑TCP链接，怀疑系统框架，这篇文章就线上遇到的问题好好梳理了一下一个请求进来究竟会“遭遇”什么</p>
+<p>最近在学JVM的时候，把ClassLoader部分给过了一遍，谈到ClassLoader少不了双亲委派，谈到双亲委派少不了说破坏双亲委派的SPI，也看到了知乎上一些<a href="https://www.zhihu.com/question/49667892/answer/690288611" target="_blank" rel="noopener">观点</a> ，这个时候我就疑惑了，有两个问题围绕在我头上，什么是双亲委派，为什么说SPI破坏了双亲委派，这篇博客就从源码出发，讲一讲我的理解</p>
 </blockquote>
-<h2 id="一、单机系统"><a href="#一、单机系统" class="headerlink" title="一、单机系统"></a>一、单机系统</h2><p>首先我们先来思考在没有Tomcat这些网络框架的时候，一个单机系统是如何处理请求</p>
-<p>首先一个请求进来我们分成五步：</p>
-<ul>
-<li><p>建立TCP连接</p>
-</li>
-<li><p>读取请求数据（先读取TCP请求头，然后根据TCP请求头读取报文）</p>
-</li>
-<li><p>处理请求</p>
-</li>
-<li><p>发送响应</p>
-</li>
-<li><p>关闭TCP连接</p>
-</li>
-</ul>
-<p>假如我们客户只有一个，那么只要它网速好，这个模型速度很快</p>
-<p>假如用户一多，其他用户就得排队，他们都堵在第一步建立TCP连接上，我们经常看到连接超时就是这种情况</p>
-<p>假如你处理请求很慢，用户发完请求之后就在那里等，这个时候就是浏览器转圈</p>
-<p>接下来我们看Tomcat是如何实现一个高并发的网络框架</p>
-<h2 id="二、Tomcat原理"><a href="#二、Tomcat原理" class="headerlink" title="二、Tomcat原理"></a>二、Tomcat原理</h2><p>首先Tomcat是采用线程池来实现一个并发框架，它把上面步骤都放到2、3、4都放在一个线程中进行，你只需要写步骤3处理请求的代码，其他的步骤它来帮你完成</p>
-<p>其中步骤1和步骤5由主线程实现，主线程的工作就是创建TCP连接，这个数量是由 server.tomcat.max-connections 控制的，当超过这个数量的时候，Tomcat会把这个请求放到请求队列中server.tomcat.accept-count ，当超过这个数量的时候，Tomcat会丢弃这个请求，客户端会收到503错误</p>
-<p>由于我们内存CPU网卡的速度是有限的，所以Tomcat规定了，我们同时能处理多少请求，这个是通过server.tomcat.threads.max 来规定的，默认是200，就是同时能处理200个请求，其他的都在连接等待过程中</p>
-<p>这样讲非常的枯燥，接下来我们来看看在Cat监控中，每个步骤处的位置</p>
-<h2 id="三、Cat例子"><a href="#三、Cat例子" class="headerlink" title="三、Cat例子"></a>三、Cat例子</h2><p>首先简单介绍一下Cat的原理，就是AOP，使用Spring的AOP能够在你想要监控的方法前后添加自己的代码</p>
-<p><img src="/images/cat-slow-service.jpg" alt></p>
-<p>上面是我限制客户端网速伪造的一个超长请求，我们来看看第一个 17:10:11.750 URL 这个是Cat在方法</p>
-<p>org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher.service 进行的一个打点</p>
-<p>你可以看到后面接着一大串同时的Service.client 这些，都是在调用这个方法之前打的，然后最后那个URL是执行完这个函数之后打的点</p>
-<p>我们可以看到在HTTP.UserAgent 和 Service 之间存在近3秒的等待，这么长的时间是在干什么呢？</p>
-<pre><code>     ￼
-@RequestMapping(value=&quot;/process&quot;, method = RequestMethod.POST)
-public void process(@RequestBody QueryRequest payload) throws Exception {
-    System.out.println(payload);
-}
-</code></pre><p>我们来看到代码，我们在定义这个这个函数的时候，指定了我们请求的Body是QueryRequest 类型，Tomcat提供了在提供了我们运行线程的同时，会给传给我们一个SocketWrapperBase<s> socketWrapper 对象，我们可以读取这个获取到请求报文，当然你也可以选择不读取（无视客户端请求哈哈），Spring通过反射获取到这个方法的时候，会根据你的类型使用你想序列化的方式将它序列化成对象给你</s></p>
-<p>所以那么耗时将近3秒的时间都是Spring框架在读取Socket报文，我们通过Arthas可以监控到，耗时99%都在 javax.ws.rs.ext.ReaderInterceptorContext.proceed  上面</p>
-<p>这个是直接请求我们单机的ip地址才能监控到耗时这么长的请求，但是假如我们把请求打到网关上去，由网关路由到我们服务，惊奇的发现Cat上面没有长耗时的请求了</p>
-<p>接下来我们看看为什么接入网关之后读取就没有了</p>
-<h2 id="四、网关的影响"><a href="#四、网关的影响" class="headerlink" title="四、网关的影响"></a>四、网关的影响</h2><p>其实网关和Tomcat一样，只不过它把处理请求下发到服务去了，所以就算客户端网速很卡，发的很慢，但是服务是无感知的，它是和网关交互，打个比方就是，网关就像一个超市，有很多收银台，就算有一个顾客走的很慢，堵住后面的顾客，但是只要它交给售货员，售货员打完了所有的单子，计算机一下子就给它算完了</p>
-<p>所以对服务来说，他从网关那边读取请求很快，他处理也很快，所以没有耗时</p>
-<h2 id="五、接收的影响"><a href="#五、接收的影响" class="headerlink" title="五、接收的影响"></a>五、接收的影响</h2><p>接下来我们思考一下，假如客户端不仅发的慢，接收也很慢，在Cat上面会有什么影响吗？</p>
-<p>答案是完全没有影响，Tomcat通过org.apache.tomcat.util.net.SocketWrapperBase.write 来实现发送响应体，无论客户端网络多卡，只要服务端不卡，耗时都非常短</p>
-<p>其实这个和网关一样，对于服务端来说，只要它和外网的交换机不卡，不管客户端网速有多炸，它啪的一下就发完了，客户端读的慢就慢慢读，对于服务端来说，它已经发完了，这个TCP连接的控制权已经交给Tomcat的</p>
-<h2 id="六、总结"><a href="#六、总结" class="headerlink" title="六、总结"></a>六、总结</h2><p>假如一个服务在网关层后面，如果监控上他有卡顿，如果网关没问题的话，99%的可能就是你程序哪个地方有死锁或者耗时的操作，基本上排除了网络接收发送这些耗时的可能</p>
-<p>我们压测最终发现的也是因为日志压缩打印的锁，导致所有请求全部都卡顿了20S，而且一般都是在压测30分钟之后才会有一次，因为日志量达到1个G了</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/10/10/java/压测心得/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/10/10/java/压测心得/" class="post-title-link" itemprop="url">压测心得</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-10-10 16:47:06" itemprop="dateCreated datePublished" datetime="2021-10-10T16:47:06+08:00">2021-10-10</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-10-24 11:17:42" itemprop="dateModified" datetime="2021-10-24T11:17:42+08:00">2021-10-24</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index">
-                    <span itemprop="name">Java</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>802</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>最近在做一个接口的压测，一开始以为自己优化后的代码应该没得问题，没想到中途遇到不少问题</p>
-</blockquote>
-<h1 id="0x1"><a href="#0x1" class="headerlink" title="0x1"></a>0x1</h1><p>碰到第一个问题就是，压测前几分钟正常，后几分钟直线下降，且QPS出现诡异的下降，而且响应时间平均4s</p>
-<blockquote>
-<p>根据Cat的监控显示是数据库响应慢，但是DBA说没有慢SQL，这就很尴尬了</p>
-</blockquote>
-<p>怀疑是因为我们用的数据库连接池给定的活跃连接数太少了（20），我们使用是Tomcat默认开启200个线程，假如都在同时请求的话那么会有部分等待</p>
-<p>但是尝试加到200，依旧是这个诡异的情况，我们数据库后端使用MyCat分库分表，我这个时候猜想是不是因为MyCat原因</p>
-<p>我单元测试将数据库改成我本地的数据库测试，发现QPS很高，不会像压测结果那么诡异，我开始怀疑是不是MyCat网络有问题，进入MyCat宿主机想装一个监控</p>
-<p>但是发现宿主机磁盘满了，经过DBA确认是因为MyCat日志打满了导致的，清楚磁盘空间后这个情况就消失了</p>
-<h1 id="0x2-QPS抖动"><a href="#0x2-QPS抖动" class="headerlink" title="0x2 QPS抖动"></a>0x2 QPS抖动</h1><p>我们压测是连续压测15分钟，但是很神奇的是会存在偶发性情况，QPS一直很稳定，突然一抖动直接降为0，然后过了20秒又恢复了</p>
-<p>根据Cat监控和Skywalking监控发现，部分长请求会在请求Redis之前卡一下，但是Redis执行很慢，<del>这个时候猜想是因为我们使用Jedis连接池，由于每个请求进来都会查询一下Redis这个导致都得向Jedis连接池申请连接（超时时间1s），但是由于我们Tomcat线程是200，我们给Jedis最大活跃连接数是100，导致有一半都在等，我们尝试把Jedis最大活跃连接数调到200之后这个情况就消失了，QPS一直很稳定</del></p>
-<p>这个猜想后面也是证明是错误的，在最终使用Arthas监控之后发现是日志打印死锁了</p>
-<p>具体的思考在这篇博客下面<a href="/2021/10/23/java/压测卡顿20秒引发的思考/">压测卡顿20秒引发的思考</a></p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>这次压测让我知道，业务代码看起来很简单，但是当极限压力下，我们必须清楚各个组件在干什么，这样才能做到不仅仅只是一个CRUD boy</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/09/19/java/LinkedHashMap实现LRU/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/09/19/java/LinkedHashMap实现LRU/" class="post-title-link" itemprop="url">LinkedHashMap实现LRU</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-09-19 18:28:11" itemprop="dateCreated datePublished" datetime="2021-09-19T18:28:11+08:00">2021-09-19</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-09-20 11:26:55" itemprop="dateModified" datetime="2021-09-20T11:26:55+08:00">2021-09-20</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index">
-                    <span itemprop="name">Java</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>90</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
-<li><a href="https://zhuanlan.zhihu.com/p/62322204" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/62322204</a></li>
-<li><a href="https://cloud.tencent.com/developer/article/1519813" target="_blank" rel="noopener">https://cloud.tencent.com/developer/article/1519813</a> </li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/09/17/learn2love/learn2love/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/09/17/learn2love/learn2love/" class="post-title-link" itemprop="url">learn2love</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-09-17 20:08:59" itemprop="dateCreated datePublished" datetime="2021-09-17T20:08:59+08:00">2021-09-17</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-10-24 23:20:16" itemprop="dateModified" datetime="2021-10-24T23:20:16+08:00">2021-10-24</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/学会爱/" itemprop="url" rel="index">
-                    <span itemprop="name">学会爱</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>3.3k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>3 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          有东西被加密了, 请输入密码查看
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/09/17/learn2love/learn2love/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/09/15/java/mybatis/mybatis二级缓存/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/09/15/java/mybatis/mybatis二级缓存/" class="post-title-link" itemprop="url">mybatis二级Redis缓存</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-09-15 22:15:51 / 修改时间：23:33:58" itemprop="dateCreated datePublished" datetime="2021-09-15T22:15:51+08:00">2021-09-15</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index">
-                    <span itemprop="name">Java</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>1.3k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>这篇文章不是介绍mybatis二级缓存，而是基于我们目前业务一些痛点，思考如何使用mybatis二级Redis缓存，首先mybatis也提供了一个Redis缓存类，但是那个类并不能解决我们目前业务痛点</p>
-</blockquote>
-<h2 id="一、业务痛点"><a href="#一、业务痛点" class="headerlink" title="一、业务痛点"></a>一、业务痛点</h2><p>首先我来介绍一下我们目前的两个业务痛点，第一个就是热key问题，由于我们一个服务全部使用Redis作为缓存，当业务量大起来之后，发现Redis内存占用量不大，但是程序卡顿丢包，一查发现原来是Redis带宽跑满</p>
-<p>这个解决方法有两种，一种是内存做一层缓存热key，第二种就是减少网络包传输大小，可以采取新的序列号算法（目前我们使用的是JSON）如google的 protocolBuffer，后面我们采用的是第一种解决方法</p>
-<p>我们第二个业务痛点就是缓存失效的峰刺，当大量key失效的时候，同一时间大量相同的请求打到数据库，虽然目前还没有压垮，但是等后面业务量大起来其实这个也是个瓶颈</p>
-<h2 id="二、MyBatis缓存介绍"><a href="#二、MyBatis缓存介绍" class="headerlink" title="二、MyBatis缓存介绍"></a>二、MyBatis缓存介绍</h2><p>我们这里简单介绍一下Mybatis缓存，它分两张，一种是基于session的一级缓存，一种是基于mapper的namespace二级缓存（也就是全局缓存），一级缓存只能对同一个请求有用，所以其实对于我们目前业务来说用处不大</p>
-<p>mybatis二级缓存是个好东西，你可以理解为单个实例共享的cache，它是基于内存的，非常快，基本上没有延迟</p>
-<p>mybatis默认没有开始缓存，你可以简单的在<code>mapper</code>的xml文件里面加个<code>&lt;cache&gt;&lt;/cache&gt;</code>就开启了或者使用<code>@CacheNamespace</code>注解</p>
-<p>但是目前mybatis提供的全部是基于内存缓存，当数据量大的情况下，很容易内存溢出</p>
-<h2 id="三、实现Redis二级缓存"><a href="#三、实现Redis二级缓存" class="headerlink" title="三、实现Redis二级缓存"></a>三、实现Redis二级缓存</h2><p>mybatis官方实现了一个基于<a href="https://github.com/mybatis/redis-cache" target="_blank" rel="noopener">redis二级缓存</a>，这个缓存目前对于我们两个痛点来说，只能解决第二个，只需要在二级缓存中配置<code>blocking=true</code>我们就可以在更新缓存的时候锁住所有线程，避免大量请求数据库</p>
-<p>所以我基于官方实现做了下面修改:</p>
+<h2 id="一、什么是双亲委派"><a href="#一、什么是双亲委派" class="headerlink" title="一、什么是双亲委派"></a>一、什么是双亲委派</h2><p>双亲委派我归纳为两点：</p>
 <ol>
-<li>继承原始cache类，可以兼容使用LRU这些插件</li>
-<li>使用普通redis值替换原来的哈希表，支持插入时候添加失效时间</li>
-<li>当删除的时候，将数据放置到Redis</li>
-<li>读取时候先读内存，在读Redis，假如Redis读到了，再更新到内存</li>
+<li>不可以越权</li>
+<li>委托链机制</li>
 </ol>
-<p>通过上面4个修改，就很能实现第一个痛点，而且通过第四步，你可以解决掉Lru扫表问题<br>PS： 扫表，假如使用Lru你把所有Key都扫一遍，热key会被删除到Redis上去，假如你不更新到缓存，热key永远在redis上面，导致热key还是会对Redis造成压力</p>
-<h2 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h2><p>当然这种实现目前还有下面两个弊端，不过这两个弊端现在看也很难解决</p>
-<ol>
-<li>使用Java自带序列化对Redis消耗大（理论上使用google的 protocolBuffer是最优的）但是目前除非你能知道Redis键值，否则也是难，目前我测试在20个属性下，使用JSON要比原生序列号小，但是超过这个值其实两者开始拉近，在大量属性下原生序列号还是要比Json要省空间</li>
-<li>在执行更新插入删除的时候，会把内存缓存清空，但是不会清空redis，这个会导致丢失部分实时性，但是目前我们使用场景可以在保证业务可靠性情况下，两三分钟的缓存时延</li>
-</ol>
+<p>现在我来讲讲为什么这样总结</p>
+<h3 id="不可以越权"><a href="#不可以越权" class="headerlink" title="不可以越权"></a>不可以越权</h3><p>ClassLoader分为四种：启动类加载器 &gt; 扩展类加载器 &gt; 应用程序类加载器 &gt; 自定义</p>
+<p>我们看看<code>Class.forName</code>的源代码</p>
+<pre><code>public static Class&lt;?&gt; forName(String className)
+            throws ClassNotFoundException {
+    Class&lt;?&gt; caller = Reflection.getCallerClass();
+return forName0(className, true, ClassLoader.getClassLoader(caller),                             caller);
+}
+</code></pre><p>当我们需要初始化一个类的时候，我们得会通过<code>Reflection.getCallerClass</code>获取到调用方的ClassLoader，通过这个ClassLoader去加载类</p>
+<p>PS： 其中<code>forName0</code> 是一个native方法，最终会调用C++代码<code>find_class_from_class_loader</code> 从classLoader中 调用<code>loadClass</code>方法</p>
+<p>也就是说其实源码告诉我们，我们加载一个类，默认是从加载这个类的ClassLoader去加载别的类，说起来很拗口，其实就是说你这个代码是被哪个加载器加载的，默认只能加载被这个<br>ClassLoader加载过的</p>
+<p>当然在JDK1.2 支持传入ClassLoader，这个后面会讲 ,接下来我们讲什么是委托链机制</p>
+<h3 id="委托链机制"><a href="#委托链机制" class="headerlink" title="委托链机制"></a>委托链机制</h3><p>我们来看<code>ClassLoader.loadClass</code>方法</p>
+<pre><code>Class&lt;?&gt; c = findLoadedClass(name); // 从缓存中加载
+if (c == null) {
+if (parent != null) {  // 父类不为空 委托父类加载
+c = parent.loadClass(name, false);
+} else {
+c = findBootstrapClassOrNull(name); // 当父类为空的时候就是根加载器，委托根加载器加载
+}
+if (c == null) {
+// 最后从自己这里取
+c = findClass(name);
+
+
+}
+</code></pre><p>代码很简单，就是首先从缓存中取，没找到然后在从父类里找，找不到就到自己这找，其实一个很有意思的点就是，从缓存中取的是调用的native方法，最后调用的C代码就是下面这个</p>
+<p>Klass* k = SystemDictionary::find_instance_or_array_klass(klass_name, //类名<br><br>h_loader,  // classLoader地址<br>Handle(),<br>CHECK_NULL);</p>
+<p>原理是从hash表中，通过类名和加载器类名进行查找，也就是说，对于一个类来说，java判断是否相同是根据它的类名和加载该类的ClassLoader的实例来实现的</p>
+<p>这两点其实很容易理解，接下来我们看看什么是SPI</p>
+<h2 id="二、SPI是什么"><a href="#二、SPI是什么" class="headerlink" title="二、SPI是什么"></a>二、SPI是什么</h2><p>SPI全名是Service Provider Interface，这个其实就是一个工具类</p>
+<p>原理非常的简单，我归纳成两点</p>
+<p>当调用静态方法<code>ServiceLoader.load</code> 时候根据传入的类或者接口名，读取 META-INF/services/{name} 下面的文件<br>读取字符串，然后加载 <code>Class.forName(cn, false, loader)</code> (cn代表这个字符串，loader代表加载器）</p>
+<p>其中最核心的就是调用了 Class.forName 这个方法，你可以看到，这里面调用了我们上面提到的一个重载方法，这个重载方法最大的差别就是可以自己传入自己想传入的ClassLoader</p>
+<p>接下来看看为什么我们说它破坏了双亲委托</p>
+<h2 id="为什么说SPI破坏了双亲委派"><a href="#为什么说SPI破坏了双亲委派" class="headerlink" title="为什么说SPI破坏了双亲委派"></a>为什么说SPI破坏了双亲委派</h2><p>我们回顾一下前面总结，SPI它破坏了哪点呢，其实就是我们之前说的第一点 <strong> 不可以越权</strong> ，这个SPI竟然可以自己传入classLoader，而且默认它取的是当前线程的ClassLoader</p>
+<p>我们来看看经常提到的JDBC中，为啥说SPI破坏了<code>java.sql.DriverManager</code>的双亲委托呢，因为这个<code>java.*</code>包是根加载器加载的，然而我们却在java.sql.DriverManager 中使用<br>Class.forName 调用了三方jar包（使用应用程序类加载器加载）</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>所以其实从本质上来说，为啥我们说SPI破坏了双亲委派破坏了，坏就坏在它的代码在<code>java.sql.DriverManager</code>中，假如我们在我们代码中使用这个Class.forName，我们没有破坏这个双亲委派</p>
+<p>其实即使在<code>java.sql.DriverManager</code>我们不使用SPI，我们也可以破坏双亲委派，因为它会读取<code>jdbc.drivers</code> 这个属性，我们会读取这个字符串，然后使用<code>Class.forName(aDriver,true,ClassLoader.getSystemClassLoader());</code>来加载里定义的三方Driver</p>
+<p>资料</p>
+<p><a href="https://enfangzhong.github.io/2019/12/17/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B9%8B%E7%A0%B4%E5%9D%8F%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/" target="_blank" rel="noopener">https://enfangzhong.github.io/2019/12/17/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B9%8B%E7%A0%B4%E5%9D%8F%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/</a> </p>
 
       
     </div>
@@ -733,7 +1175,7 @@ public void process(@RequestBody QueryRequest payload) throws Exception {
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/06/20/java/stream/FlatMap用法/">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/12/08/java/AOP再思考/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/myself.jpg">
@@ -747,88 +1189,7 @@ public void process(@RequestBody QueryRequest payload) throws Exception {
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2021/06/20/java/stream/FlatMap用法/" class="post-title-link" itemprop="url">FlatMap用法</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-06-20 18:59:20 / 修改时间：18:59:38" itemprop="dateCreated datePublished" datetime="2021-06-20T18:59:20+08:00">2021-06-20</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index">
-                    <span itemprop="name">Java</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>0</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/06/15/letter/letter/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/06/15/letter/letter/" class="post-title-link" itemprop="url">信</a>
+            <a href="/2021/12/08/java/AOP再思考/" class="post-title-link" itemprop="url">AOP再思考</a>
         </h1>
 
         <div class="post-meta">
@@ -838,109 +1199,14 @@ public void process(@RequestBody QueryRequest payload) throws Exception {
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-06-15 07:57:33" itemprop="dateCreated datePublished" datetime="2021-06-15T07:57:33+08:00">2021-06-15</time>
+              <time title="创建时间：2021-12-08 18:30:18" itemprop="dateCreated datePublished" datetime="2021-12-08T18:30:18+08:00">2021-12-08</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-10-10 15:25:42" itemprop="dateModified" datetime="2021-10-10T15:25:42+08:00">2021-10-10</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/恋爱日记/" itemprop="url" rel="index">
-                    <span itemprop="name">恋爱日记</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>18k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>16 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          有东西被加密了, 请输入密码查看
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/06/15/letter/letter/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/05/23/java/stream/从问题出发看源码/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/05/23/java/stream/从问题出发看源码/" class="post-title-link" itemprop="url">Stream源码（2）：从问题出发看源码</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-05-23 09:48:54" itemprop="dateCreated datePublished" datetime="2021-05-23T09:48:54+08:00">2021-05-23</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-06-01 22:22:53" itemprop="dateModified" datetime="2021-06-01T22:22:53+08:00">2021-06-01</time>
+                <time title="修改时间：2021-12-10 20:32:37" itemprop="dateModified" datetime="2021-12-10T20:32:37+08:00">2021-12-10</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -959,13 +1225,13 @@ public void process(@RequestBody QueryRequest payload) throws Exception {
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span>2.9k</span>
+              <span>2.4k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>3 分钟</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -978,271 +1244,39 @@ public void process(@RequestBody QueryRequest payload) throws Exception {
 
       
           <blockquote>
-<p>之前看一些开源项目源码的时候，发现一个问题，假如你贪全，一口气把整个代码看完，由于现在程序架构<br>比较复杂，很多功能被分成很多个组件来完成，有的时候你会被程序跳来跳去给弄晕，假如你但看一个小功能，你又<br>不知道为啥要用这个</p>
+<p>我记得之前写过Spring AOP相关的文章，但是最近在观看Cat源代码的时候发现 @Aspect 这个注解与AspectJ这个项目，查阅了不少博客，感觉还是云里雾里，这篇博客就是基于博客以及自己实际实验与测试搞懂 Spring AOP和 AspectJ之间的关系</p>
 </blockquote>
-<p>所以这次准备尝试从问题入手，首先给自己提一些<br>问题，然后在从源代码中寻找答案，<br>在寻找答案的过程中会遇到更多问题，就这样打破砂锅问到底，最终没有问题了，这个时候你就差不多看懂了</p>
-<h2 id="0x00-问题"><a href="#0x00-问题" class="headerlink" title="0x00 问题"></a>0x00 问题</h2><ol>
-<li>distinct 操作过程中是否会将新加入的元素和历史元素一一比较？</li>
-</ol>
-<p>为啥会有这个问题呢，因为在看源码</p>
-<pre><code>Returns a stream consisting of the distinct elements (according to Object.equals(Object)) of this stream.
-For ordered streams, the selection of distinct elements is stable (for duplicated elements, the element appearing first in the encounter order is preserved.) For unordered streams, no stability guarantees are made.
-</code></pre><p>这句话意思是会依靠｀Object.equals(Object)｀　来去重，我们知道｀distinct｀和｀filter｀都是中间操作<br>难道<code>distinct</code>会将每个元素和历史元素做一个<code>Object.equals</code>调用吗</p>
-<p>假如这样做的话，那么这个操作就是<code>O（n^2)</code>的时间复杂度了，显然不太靠谱，我们查看<code>distinct</code>源码发现</p>
-<p>最终<code>distinct</code>生成了一个<code>StatefulOp</code> ，而且这个类存在一个<code>reduce</code>函数，其中声明了一个</p>
-<pre><code>TerminalOp&lt;T, LinkedHashSet&lt;T&gt;&gt; reduceOp
-                = ReduceOps.&lt;T, LinkedHashSet&lt;T&gt;&gt;makeRef(LinkedHashSet::new, LinkedHashSet::add,
-                                                         LinkedHashSet::addAll);
-</code></pre><p>我们可以看到这个变量是一个终止操作，其中使用<code>LinkedHashSet</code>来进行聚合，所以看到这我们就猜测<br><code>Stream</code>没有这么傻，它声明了一个<code>LinkedHashSet</code>来存贮历史元素，这样只需要将加进来的元素进行<br>哈希计算，然后跟哈希碰撞的调用一下<code>Object.equals(Object)</code>函数就好了</p>
-<p>我们看到这篇<a href="https://blog.csdn.net/puppylpg/article/details/78556730" target="_blank" rel="noopener">博文</a>的实验也证明我们的猜测了`  </p>
-<p>接下来我们又有一个疑惑Stream内部是如何实现的呢？</p>
-<h2 id="0x01-猜测"><a href="#0x01-猜测" class="headerlink" title="0x01 猜测"></a>0x01 猜测</h2><p>我们首先从最小的代码来看，我们首先来看一个无状态的stream函数</p>
-<pre><code>Stream.of(1L, 2L, 3L, 4L).forEach(System.out::println)
-</code></pre><p>我们使用<code>for</code>循环用来实现也非常简单</p>
-<pre><code> for (long l : new long[]{1L, 2L, 3L, 4L}) {
-  System.out.println(l);
-}
-</code></pre><p>接下来我们来思考，如何实现一个有状态的<code>Stream</code>流</p>
-<pre><code>Stream.of(1L, 2L, 3L, 4L).reduce(0L, Long::sum);
-</code></pre><p>我们如何用<code>for</code>循环来实现呢，很简单，定义一个变量</p>
-<pre><code>long begin = 0;
-for (long l : new long[]{1L, 2L, 3L, 4L}) {
-    begin += l;
-}
-</code></pre><p>我们能很容易写出一层for循环，但是Stream强大的地方在于，他可以穿插很多函数处理<br>比如：</p>
-<pre><code>Stream.of(1L, 2L, 3L, 4L, 4L, 5L, 5L).distinct().filter(x -&gt; x &gt; 2).reduce(0, Long::sum);
-</code></pre><p>我们简单的穿插了<code>distinct</code>和<code>filter</code>操作，我们接下来尝试使用<code>for</code>循环来实现上面的<code>Stream</code></p>
-<p>首先我们知道<code>distinct</code> 需要一个<code>Set</code>来过滤已经存在的，其中<code>reduce</code>需要一个初始量，那就好做了</p>
-<pre><code>long start = 0L;
-for (long l : new long[]{1L, 2L, 3L, 4L}) {
-    if(!set.contains(l)) {
-        set.add(l);
-        if(l &gt; 2) {
-            start += l;
-        }
-    }
-}
-</code></pre><h2 id="00x02-源码探究"><a href="#00x02-源码探究" class="headerlink" title="00x02 源码探究"></a>00x02 源码探究</h2><p>接下来我们看看<code>Stream</code>内部如何实现这个<code>for</code>循环的，我们可以看到，其实<code>.distinct().filter(x -&gt; x &gt; 2).reduce(0, Long::sum)</code>对于每一层我们都需要能<br>创建一个<code>Sink</code>，对于这个<code>for</code>循环来说，都是把每个数据，我们把数据从一个<code>sink</code>到其他的<code>sink</code></p>
-<p>所有的<code>Sink</code>都实现了<code>Consumer</code> 接口，其中最重要的接口就是</p>
-<pre><code>void accept(T t);
-</code></pre><p>这个消费接口，我们可以理解“吃”数据，它会把我们传给它的值都“消化”掉</p>
-<p>当我们在创建<code>.distinct().filter(...)...</code>这些stream的时候，我们做了什么呢，<br>我们每进行一次中间操作，我们都新建了一个流，其中我们通过<code>upstream</code> 这个变量指向<br>之前的流</p>
-<p>当我们碰到终止操作比如<code>reduce</code>的时候，我们会进行一个回溯，把所有<code>upstream</code>都进行回溯，反过来把一个<code>sink</code>组装起来（每个sink指向它的上游）</p>
-<pre><code>// java.util.stream.AbstractPipeline.class
-final &lt;P_IN&gt; Sink&lt;P_IN&gt; wrapSink(Sink&lt;E_OUT&gt; sink) {
-    Objects.requireNonNull(sink);
-    // 回溯之前的stream流，创建sink，并让当前的sink指向上流
-    for ( @SuppressWarnings(&quot;rawtypes&quot;) AbstractPipeline p=AbstractPipeline.this; p.depth &gt; 0; p=p.previousStage) {
-        sink = p.opWrapSink(p.previousStage.combinedFlags, sink);
-    }
-    return (Sink&lt;P_IN&gt;) sink;
-}
-</code></pre><p>最终我们得到了最上流的sink，以上面为例就是<code>distinct</code>那个sink</p>
-<p>接下来我们执行<code>for</code>循环，其中最重要的就是</p>
-<pre><code>// java.util.stream.AbstractPipeline.copyInto 函数
-// 执行for循环 其中 传入的sink就是 我们上面得到的像葫芦串一样的sink
-spliterator.forEachRemaining(wrappedSink)
-</code></pre><p>我们只需要给<code>wrappedSink</code>传入<code>for</code>循环的值就好了，由于每个sink都有其上游的引用，比如说<code>distinct</code>的sink，<br>他会判断是否已经存贮在<code>sink</code>中，如果没有就往上游传，由于上游也是个<code>sink</code>，所以最终如果不传了或者到最上游了就继续下一<code>for</code>循环的值</p>
-<h2 id="0x03"><a href="#0x03" class="headerlink" title="0x03"></a>0x03</h2><p>总结，我们这边非常浅显的把源代码给介绍了一下，其实要想吃透最好使用debug功能，一行一行代码进行debug，这样就能印象更深刻</p>
-<p>##　引用</p>
-<ul>
-<li><a href="https://blog.csdn.net/puppylpg/article/details/78556730" target="_blank" rel="noopener">对Java8中distinct()的思考</a></li>
-</ul>
+<h2 id="AOP是什么"><a href="#AOP是什么" class="headerlink" title="AOP是什么"></a>AOP是什么</h2><p>网上的资料很多，我就不写那些烂大街的总结了，其实很简单，我们先了解一下Python的装饰器</p>
+<p>我们定义一个装饰器</p>
+<p>def cost(f):<br>def _real(<em>arg, **kward):<br>start = time.time()<br>reslt = f(</em>arg, **kward)<br>end = time.time()<br>print(‘cost’, end - start, ‘ seconds’)<br>Return _real</p>
+<p>然后我们可以将这个装饰器放在任何方法上</p>
+<p>@cost<br>def run():<br>print(“run”)</p>
+<p>我们运行任何代码都可以使用这个装饰器，其实AOP的核心要求也就是这个，只要我定义了一个方法，我能让我想让的函数都能执行这个，这就叫解耦，Python怎么实现这个呢，其实很简单，一个语法糖，编译器会把这个cost函数重新定义为一个新函数，具体原理我就不介绍了，我就把拆解后的代码写出来吧</p>
+<p>def _run():<br>print(“run”)</p>
+<p>def run():<br>return cost(_run)()</p>
+<p>然后在Java中虽然也有<code>@</code> 这个用法，但是那个是注解，它的作用就是一个文档，我们可以反编译有注解的类，只要这个注解的RetentionPolicy是<code>RetentionPolicy.RUNTIME</code>  它就会在保留在字节码上面</p>
+<h2 id="Spring-AOP怎么实现"><a href="#Spring-AOP怎么实现" class="headerlink" title="Spring AOP怎么实现"></a>Spring AOP怎么实现</h2><p>那Spring AOP如何实现在字节码上面读取到注解，然后实现AOP功能呢，答案就是<strong>反射</strong>（这也是为啥Spring启动很慢的原因，反射太慢了）</p>
+<p>通过<code>Class.getAnnotation</code> 这个方法，我们可以获取到类上面所有的注解，Spring 作为Bean工厂，对应所有的Bean它都会去读取它的注解，根据注解来灵活组合功能</p>
+<p>拿到注解后，如何实现把你想切入的代码插入到这个被注解到类上面呢。Java是一个面对对象的语言，它要想改变类的方法，只能通过继承</p>
+<p>继承有两张实现方式，假如类实现了接口，则使用JDK动态代理方式，即该类的<code>newProxyInstance</code>方法，第二种就是使用CGLib动态代理，自动生成类的字节码</p>
+<p>为什么能实现呢，因为所有的bean都是Spring来控制生成的。因为获取bean的时候，我们也能知道这个bean的类名，所以Spring 也提供了通过类名来控制切面，这就是自己来实现的好处，Python的装饰器只有被装饰的类才有用，而Spring由于自己实现了这套逻辑，所以它其实也支持通过类名来进行AOP</p>
+<h2 id="Spring-AOP的局限性"><a href="#Spring-AOP的局限性" class="headerlink" title="Spring AOP的局限性"></a>Spring AOP的局限性</h2><p>前面说到Spring AOP的原理，我们提到了一个关键就是被代理的都只能是<code>bean</code>，这就带来一个局限性，对应非bean的类，我们无法代理，不信你可以试试在Spring Boot里面切入一个非bean的三方如<code>org.apache.ibatis.executor.BaseExecutor</code></p>
+<p>那对应这种非Spring Bean的没法做到了吗，这里就要提到一个框架 <code>AspectJ</code></p>
+<p>这个就是AOP的鼻祖，Spring其实切面名字也叫<code>Aspect</code>,虽然实现不是用的AspectJ，但是用了它的注解类，这个框架强在哪呢，首先它提供了两种AOP方式<br>编译时候，修改编译的字节码，或者编译后增强<br>运行的时候，通过agent修改字节码</p>
+<p>编译时候修改字节码，我们比较熟悉的lombok就是这样的，是通过jdk1.6 <code>javax.annotation.processing.Processor</code> 引入的一种agent插入方式，通过SPI技术，你只要实现了这个类即可修改字节码</p>
+<p>编译后修改字节码是通过 JDK1.5 提供的 <code>java.lang.instrument.Instrumentation</code>来实现的，原理其实都很简单，使用SPI进行替换增强，感兴趣可以根据资料自己实操一下</p>
+<h2 id="AspectJ和Spring的关系"><a href="#AspectJ和Spring的关系" class="headerlink" title="AspectJ和Spring的关系"></a>AspectJ和Spring的关系</h2><p>AspectJ 对应Spring 来说只是提供了注解类，Spring用代理类或者CGLIB实现了自己的逻辑</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>之所以写这篇博文，主要是在学习JVM的时候发现对于JAVA的注解，Spring如何实现的自己不是很清楚，所以顺藤摸瓜，把这条链路给整明白，当然还有很多细节还没有深挖，比如AspectJ是怎么将切面代码进行字节码转编译，它是如何做到不出现循环依赖的</p>
+<p>要想深刻理解AspectJ和Spring实现原理，非常推荐使用Arthas使用jad将运行的类给反编译下来，通过这种，你就不会停留在网上各种花里胡哨的文字上面，Spring的确是一个很牛逼的框架，封装了很多东西，定义了很多规范，要想理解这些，必须深入到源代码层次</p>
+<p>AspectJ原理</p>
+<p><a href="https://blog.csdn.net/qq_40378034/article/details/115281684" target="_blank" rel="noopener">https://blog.csdn.net/qq_40378034/article/details/115281684</a></p>
+<p>Spring Boot AOP 原理</p>
+<p><a href="https://juejin.cn/post/6844903721101426701" target="_blank" rel="noopener">https://juejin.cn/post/6844903721101426701</a></p>
+<p><a href="https://www.cnblogs.com/tuyang1129/p/12878549.html#:~:text=Spring%20%E7%9A%84%20AOP%20%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86,%E9%87%8D%E5%86%99%E7%9A%84%E4%BB%A3%E7%90%86%E6%96%B9%E6%B3%95%E3%80%82" target="_blank" rel="noopener">https://www.cnblogs.com/tuyang1129/p/12878549.html#:~:text=Spring%20%E7%9A%84%20AOP%20%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86,%E9%87%8D%E5%86%99%E7%9A%84%E4%BB%A3%E7%90%86%E6%96%B9%E6%B3%95%E3%80%82</a></p>
+<p><a href="https://blog.mythsman.com/post/5d301cf2976abc05b34546be/" target="_blank" rel="noopener">https://blog.mythsman.com/post/5d301cf2976abc05b34546be/</a></p>
+<p>Lombok原理</p>
+<p><a href="https://blog.mythsman.com/post/5d2c11c767f841464434a3bf/" target="_blank" rel="noopener">https://blog.mythsman.com/post/5d2c11c767f841464434a3bf/</a></p>
 
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/05/15/java/stream/从去重到Stream源码/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/05/15/java/stream/从去重到Stream源码/" class="post-title-link" itemprop="url">Stream源码（1）：如何实现去重</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-05-15 22:48:20" itemprop="dateCreated datePublished" datetime="2021-05-15T22:48:20+08:00">2021-05-15</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-20 23:24:05" itemprop="dateModified" datetime="2021-05-20T23:24:05+08:00">2021-05-20</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index">
-                    <span itemprop="name">Java</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>1.6k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>本篇博客是在看代码的时候看到使用Java8使用<code>Stream</code>去重的妙用，从而对Java如何使用Stream实现几行代码<br>完成一个可支持并行化的流式计算程序</p>
-</blockquote>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
-<p>什么是<code>Stream</code></p>
-</blockquote>
-<p>简单来说<code>Stream</code>就是Java8引入的一种流式API，让只需要定义一些处理函数就能优雅的对集合的一些操作</p>
-<p>举个栗子，之前我们想遍历打印所有的参数我们得写下面代码</p>
-<pre><code>for (int i : new int[]{1, 2, 3, 4}) {
-    System.out.println(i);
-}
-</code></pre><p>假如使用Java8，我们只需要一行代码</p>
-<pre><code>Arrays.stream(new int[]{1, 2, 3, 4}).forEach(System.out::println);
-</code></pre><p>我们只需要定义一个函数，其他的<code>Stream</code>帮我们解决</p>
-<h2 id="Stream模型"><a href="#Stream模型" class="headerlink" title="Stream模型"></a>Stream模型</h2><p>简单来说<code>Stream</code>把操作分为两张，一种是中间操作，一种是终结操作</p>
-<p>中间操作你可以把他看做对数据源的一种处理，而终结操作是定义产生新数据过程，简单来说，假如我们有一堆苹果<br>需要处理，我们使用一个流水线来对经过的苹果进行各种处理（中间操作），丢掉烂掉的（filter），削掉皮（map）等等，<br>最后的我们需要对苹果进行装箱（终结操作）</p>
-<h2 id="分析功能"><a href="#分析功能" class="headerlink" title="分析功能"></a>分析功能</h2><p>我们接下来看看我们需要实现的功能，就是去重，我们知道<code>Stream</code>其实提供了一个<code>distinct</code>方法中间操作来帮我们实现去重功能，<br>对于基本类型比如<code>String</code>，<code>Integer</code>，<code>Long</code>这些我们能很容易进行去重，但是对于复杂类，我们得<br>重写<code>hashCode</code>和<code>equal</code>方法来支持去重操作了，对于集合内的每个数据都会用<code>equal</code>来进行去重</p>
-<p>接下来我们尝试直接使用终结操作<code>collect</code>来解决掉<br>怎么做呢，<code>collect</code>其实也很简单就是创建一个容器，把数据装进去，我们就只需要使用一个可以支持去重操作的<br>容器来做就好了</p>
-<p>支持去重的有<code>Map</code>和<code>Set</code>，所以我们想到的第一个方法就是将流变成一个<code>Set</code>，这个也是网上很多人提供的一个版本</p>
-<pre><code>dishes.stream().distinct().collect(Collectors.toCollection(
-            () -&gt; new TreeSet&lt;&gt;(Comparator.comparing(Dish::getType)))
-</code></pre><p>我们把这行代码给分解成两行</p>
-<pre><code>TreeSet&lt;Dish&gt; container = new TreeSet&lt;&gt;(Comparator.comparing(Dish::getType));
-dishes.stream().collect(Collectors.toCollection(() -&gt; container));
-</code></pre><p>第一行其实就是声明了一个容器，核心代码就是 <code>() -&gt; container</code> 我们传入一个容器，让他来存贮，我们使用<br><code>TreeSet</code>的一个构造器，它只需要传入一个函数，他会比较传进来的每个值，假如发现已经存在了它就不会插入了</p>
-<p>但是这个有个问题就是，他只能选择第一个出现的</p>
-<p>接下来我们试试用<code>Map</code>，</p>
-<pre><code>dishes.stream().collect(toMap(Dish::getType, d -&gt; d);
-</code></pre><p>我们写下下面的代码，但是这个代码有点问题就是假如出现重复的，他会抛异常，因为程序默认不知道你想要哪个数据</p>
-<pre><code>dishes.stream().collect(toMap(Dish::getType, d -&gt; d, (oldData, newData) -&gt; oldData));
-</code></pre><p>我们可以传入一个选择函数，这样当发现重复的时候就可以选择要哪个插入到map中去，这个也解决了上面使用<code>Set</code>来存贮的时候没法选择到底是新来的还是后来的</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这篇博客简单的介绍了实现去重功能的三种实现方法，接下来这个系列的博客会深入到源码来探究Java8如何实现<br>Stream这么多功能的</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
-<li><a href="https://cloud.tencent.com/developer/article/1756399" target="_blank" rel="noopener">Java Stream 源码分析</a></li>
-<li><a href="https://www.jianshu.com/p/3219f184bb8e" target="_blank" rel="noopener">JAVA8优雅的去重</a></li>
-<li><a href="https://club.perfma.com/article/116123" target="_blank" rel="noopener">JAVA8Stream 源码分析2</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/05/15/summary/周末杂思/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/05/15/summary/周末杂思/" class="post-title-link" itemprop="url">周末杂思</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-05-15 16:27:29 / 修改时间：16:28:01" itemprop="dateCreated datePublished" datetime="2021-05-15T16:27:29+08:00">2021-05-15</time>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>0</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          
       
     </div>
 
@@ -1261,7 +1295,7 @@ dishes.stream().collect(Collectors.toCollection(() -&gt; container));
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1329,7 +1363,7 @@ dishes.stream().collect(Collectors.toCollection(() -&gt; container));
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">115</span>
+          <span class="site-state-item-count">126</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1342,7 +1376,7 @@ dishes.stream().collect(Collectors.toCollection(() -&gt; container));
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-count">17</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1395,7 +1429,7 @@ dishes.stream().collect(Collectors.toCollection(() -&gt; container));
 <div class="copyright">
   
   &copy; 2016 – 
-  <span itemprop="copyrightYear">2021</span>
+  <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -1404,12 +1438,12 @@ dishes.stream().collect(Collectors.toCollection(() -&gt; container));
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">277k</span>
+    <span title="站点总字数">290k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:12</span>
+    <span title="站点阅读时长">4:24</span>
 </div>
 
         

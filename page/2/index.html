@@ -211,7 +211,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/04/05/java/mysql/GroupByAsSort/">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/10/30/java/jvm/JVM之ClassLoader的思考/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/myself.jpg">
@@ -225,7 +225,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2021/04/05/java/mysql/GroupByAsSort/" class="post-title-link" itemprop="url">MySQL Group By 还可以用来去重</a>
+            <a href="/2021/10/30/java/jvm/JVM之ClassLoader的思考/" class="post-title-link" itemprop="url">JVM之ClassLoader的思考</a>
         </h1>
 
         <div class="post-meta">
@@ -236,7 +236,77 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-04-05 10:29:00 / 修改时间：11:43:41" itemprop="dateCreated datePublished" datetime="2021-04-05T10:29:00+08:00">2021-04-05</time>
+              <time title="创建时间：2021-10-30 15:24:45 / 修改时间：15:25:55" itemprop="dateCreated datePublished" datetime="2021-10-30T15:24:45+08:00">2021-10-30</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>0</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/10/23/java/压测卡顿20秒引发的思考/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/10/23/java/压测卡顿20秒引发的思考/" class="post-title-link" itemprop="url">压测卡顿20秒引发的思考</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-10-23 17:00:14 / 修改时间：17:09:08" itemprop="dateCreated datePublished" datetime="2021-10-23T17:00:14+08:00">2021-10-23</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -255,13 +325,13 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span>5.9k</span>
+              <span>2.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>5 分钟</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -274,117 +344,52 @@
 
       
           <blockquote>
-<p>最近在接手老项目的时候，看到一个SQL： <code>select * from xx group by id</code>，<br>当时一看到这句就感觉，这个group by是不是多余的，既然select 全部了，那去掉其实也无所谓，<br>然后询问上一个接手的同事才知道这个是用来去重了，好家伙，以前一直用来分组统计的语句竟然可以用来<br>去重，涨知识了</p>
+<p>压测让人爆炸的事，就算把你写的代码都注释掉了这个问题依旧存在，这个时候你开始怀疑网络，怀疑TCP链接，怀疑系统框架，这篇文章就线上遇到的问题好好梳理了一下一个请求进来究竟会“遭遇”什么</p>
 </blockquote>
-<h2 id="Group-By-到底可不可以去重呢"><a href="#Group-By-到底可不可以去重呢" class="headerlink" title="Group By 到底可不可以去重呢"></a>Group By 到底可不可以去重呢</h2><p>首先我们新建一个测试表，并插入一些测试数据</p>
-<pre><code>CREATE TABLE test.student (
-  `sno` varchar(20) NOT NULL,
-  `sname` varchar(20) DEFAULT NULL,
-  `ssex` varchar(20) DEFAULT NULL,
-  `sage` int(11) DEFAULT NULL,
-  `sdept` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`sno`)
-);
-INSERT INTO test.student (sno, sname, ssex, sage, sdept) VALUES (&apos;201215121&apos;, &apos;李勇&apos;, &apos;男&apos;, 20, &apos;CS&apos;);
-INSERT INTO test.student (sno, sname, ssex, sage, sdept) VALUES (&apos;201215122&apos;, &apos;刘晨&apos;, &apos;女&apos;, 19, &apos;CS&apos;);
-INSERT INTO test.student (sno, sname, ssex, sage, sdept) VALUES (&apos;201215123&apos;, &apos;王敏&apos;, &apos;女&apos;, 18, &apos;MA&apos;);
-INSERT INTO test.student (sno, sname, ssex, sage, sdept) VALUES (&apos;201215124&apos;, &apos;张立&apos;, &apos;男&apos;, 19, &apos;IS&apos;);
-INSERT INTO test.student (sno, sname, ssex, sage, sdept) VALUES (&apos;201215125&apos;, &apos;张立&apos;, &apos;男&apos;, 19, &apos;IS&apos;);
-</code></pre><p>然后我们测试一些是否可以去重</p>
-<pre><code>mysql&gt; SELECT * from test.student GROUP BY ssex ;
-ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column &apos;test.student.sno&apos; which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
-</code></pre><p>哎呀出错了，意思是不支持，因为我们<code>sql_mode</code> 设置了<code>only_full_group_by</code>这个，我们来看看我们<code>sql_mode</code>里面有啥</p>
-<pre><code>mysql&gt; SELECT @@SESSION.sql_mode \G;
-*************************** 1. row ***************************
-@@SESSION.sql_mode: ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
-1 row in set (0.00 sec)
-</code></pre><p>的确我们<code>sql_mode</code>是设置了<code>ONLY_FULL_GROUP_BY</code>这个值，这个<code>sql_mode</code>是啥呢，首先我们知道<br>MySQL只是SQL一种实现软件，他为了和其他SQL兼容，就设置了这个变量，你可以通过<br>修改这个值来修改他的语法支持</p>
-<p>其实<code>group by</code>本来的意图就是一个聚合函数，正常来说，我们一般是使用下面的语法</p>
-<pre><code>select a, count(*) from xxx group by a
-</code></pre><p>但是<code>MySQL</code>非常开放，它允许你使用非group by 字段，在5.7之前都是默认允许的，但是5.7之后，它默认关闭了<br>但是你可以修改关闭</p>
-<p>接下来我们临时关闭掉这个，怎么关闭呢，非常简单，把<code>ONLY_FULL_GROUP_BY</code>在<code>sql_mode</code> 删除就好了<br>接下面执行下面语句</p>
-<pre><code>set sql_mode =(SELECT replace(@@SESSION.sql_mode, &apos;ONLY_FULL_GROUP_BY,&apos;, &apos;&apos;));
-</code></pre><p>然后我们再执行上面<code>sql</code></p>
-<pre><code>mysql&gt; SELECT * from test.student GROUP BY ssex ;
-+-----------+--------+------+------+-------+
-| sno       | sname  | ssex | sage | sdept |
-+-----------+--------+------+------+-------+
-| 201215122 | 刘晨   | 女   |   19 | CS    |
-| 201215121 | 李勇   | 男   |   20 | CS    |
-+-----------+--------+------+------+-------+
-2 rows in set (0.00 sec)
-</code></pre><p>o了，我们再看看我们目前的<code>sql_mode</code></p>
-<pre><code>mysql&gt; SELECT @@SESSION.sql_mode;
-+------------------------------------------------------------------------------------------------------------------------+
-| @@SESSION.sql_mode                                                                                                     |
-+------------------------------------------------------------------------------------------------------------------------+
-| STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION |
-+------------------------------------------------------------------------------------------------------------------------+
-</code></pre><p>的确目前看到<code>ONLY_FULL_GROUP_BY</code>这个了，而且我们发现的确去重了</p>
-<h2 id="Distinct和Group-By"><a href="#Distinct和Group-By" class="headerlink" title="Distinct和Group By"></a>Distinct和Group By</h2><p>通过上面的实验我们知道了，<code>Group By</code>的确可以去重，但是我们去重一般使用<code>Distinct</code>来，<br><code>Distinct</code>原理很简单</p>
-<p>我们执行下面语句</p>
-<pre><code>mysql&gt; explain SELECT distinct ssex from test.student ;
-+----+-------------+---------+------------+------+---------------+------+---------+------+------+----------+-----------------+
-| id | select_type | table   | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra           |
-+----+-------------+---------+------------+------+---------------+------+---------+------+------+----------+-----------------+
-|  1 | SIMPLE      | student | NULL       | ALL  | NULL          | NULL | NULL    | NULL |    5 |   100.00 | Using temporary |
-+----+-------------+---------+------------+------+---------------+------+---------+------+------+----------+-----------------+
-</code></pre><p>我们可以看到<code>Using temporary</code>告诉我们，就是创建一个临时表，然后把<br><code>Distinct</code>的字段从表里取出来，然后返回给客户端就好了</p>
-<p>我们看看<code>Group By</code>的原理</p>
-<pre><code>mysql&gt; explain SELECT * from test.student GROUP BY ssex ;
-+----+-------------+---------+------------+------+---------------+------+---------+------+------+----------+---------------------------------+
-| id | select_type | table   | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra                           |
-+----+-------------+---------+------------+------+---------------+------+---------+------+------+----------+---------------------------------+
-|  1 | SIMPLE      | student | NULL       | ALL  | NULL          | NULL | NULL    | NULL |    5 |   100.00 | Using temporary; Using filesort |
-+----+-------------+---------+------------+------+---------------+------+---------+------+------+----------+---------------------------------+
-</code></pre><p>我们也看到了<code>Using temporary;</code>，其实<code>Group By</code>底层也是用到临时表，把你<code>Group By</code>的值当<br>做主键，而且我们看到默认它会取第一个出现的值作为最终的值<br>这个是为什么呢</p>
-<h2 id="Group-By-原理解析"><a href="#Group-By-原理解析" class="headerlink" title="Group By 原理解析"></a>Group By 原理解析</h2><p>我们前面知道，<code>Group By</code> 一开始只是用来做聚合函数的，所以底层上最开始设计的时候就是</p>
+<h2 id="一、单机系统"><a href="#一、单机系统" class="headerlink" title="一、单机系统"></a>一、单机系统</h2><p>首先我们先来思考在没有Tomcat这些网络框架的时候，一个单机系统是如何处理请求</p>
+<p>首先一个请求进来我们分成五步：</p>
 <ul>
-<li>首先建一张临时表，把<code>Group By</code>字段作为唯一主键（下面称作key）</li>
-<li>然后把原始表中所有数据按照key进行分组</li>
-<li>对分组内数据一个一个进行聚合，比如执行<code>count</code>, <code>avg</code> 等等函数，最后每组跟随主键key产生最终的一列值</li>
-<li>最后对临时表进行排序返回</li>
+<li><p>建立TCP连接</p>
+</li>
+<li><p>读取请求数据（先读取TCP请求头，然后根据TCP请求头读取报文）</p>
+</li>
+<li><p>处理请求</p>
+</li>
+<li><p>发送响应</p>
+</li>
+<li><p>关闭TCP连接</p>
+</li>
 </ul>
-<p>所以其实当时为了支持，不在主键内的值，MySQL只是简单的把组内第一个出现值赋值进去</p>
-<p>那为什么不把最后组内最后一个值赋值进去呢，首先是如果实现这个功能，想当于组内数据要全部执行一遍，<br>效率太低了，那有没有办法能实现去重的时候取组内最后一个呢</p>
-<p>首先说目前是不支持的，不过能通过下面两种方式来实现</p>
-<p><strong>方法一：</strong></p>
-<p>首先把你想要的数据进行排序</p>
-<pre><code>create temporary table test.tt as SELECT * from test.student order by sno desc;
-</code></pre><p>然后我们看正常来按照年龄排序</p>
-<pre><code>mysql&gt; SELECT * from test.student GROUP BY sage;
-+-----------+--------+------+------+-------+
-| sno       | sname  | ssex | sage | sdept |
-+-----------+--------+------+------+-------+
-| 201215123 | 王敏   | 女   |   18 | MA    |
-| 201215122 | 刘晨   | 女   |   19 | CS    |
-| 201215121 | 李勇   | 男   |   20 | CS    |
-+-----------+--------+------+------+-------+
-3 rows in set (0.00 sec)
-</code></pre><p>接下来我们再看看我们去重取最后一个出现的，我们看到<code>19</code>的<code>张立</code>取代了第一个出现的<code>刘晨</code></p>
-<pre><code>mysql&gt; SELECT * from test.tt GROUP BY sage;
-+-----------+--------+------+------+-------+
-| sno       | sname  | ssex | sage | sdept |
-+-----------+--------+------+------+-------+
-| 201215123 | 王敏   | 女   |   18 | MA    |
-| 201215125 | 张立   | 男   |   19 | IS    |
-| 201215121 | 李勇   | 男   |   20 | CS    |
-+-----------+--------+------+------+-------+
-3 rows in set (0.00 sec)
-</code></pre><p><strong>方法二：</strong></p>
-<p>第二种方法其实把上面两个步骤合成一个，首先我们把原始数据进行排序，然后取出组内第一个</p>
-<pre><code>select sno, sname, sage, sdept
-from (SELECT @i := if(@sage &lt;&gt; sage, 0, @i + 1) as i, @sage := sage, a.*
-from (select * from test.student order by sage, sno desc) a) a
-where i = 0
-order by sage;
-</code></pre><p>我们用上面这行函数模仿了，<code>Group By</code>去重，我们可以看到我们在末尾加了一个<code>order by sage</code><br>语句，这是因为默认<code>Group By</code>会按照<code>Group By</code>的键值给我们排序，<br>所以如果你想优化<code>Group By</code>性能，当你对组排序顺序无所谓的时候，你可以在<br><code>Group By</code> 末尾加上<code>order by null</code>关闭排序功能</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><code>Group By</code>去重功能在<code>5.7</code>之后就默认关闭了，所以其实大家用来做去重还是慎用，不过通过这个功能去探索<br>底层原理对你数据库性能优化还是非常有帮助的</p>
-<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ul>
-<li><a href="https://blog.csdn.net/Dax1n/article/details/86581472" title="MySQL中的Group By是否允许SELECT非聚合列的总结" target="_blank" rel="noopener">MySQL中的Group By是否允许SELECT非聚合列的总结</a></li>
-<li><a href="https://dev.mysql.com/doc/refman/5.7/en/sql-mode.html#sqlmode_only_full_group_by" title="mysql5.7文档" target="_blank" rel="noopener">mysql5.7官方文档</a></li>
-<li><a href="https://www.itzhai.com/articles/how-sql-works-understand-the-essence-of-tuning-by-the-execution-principle.html" title="SQL运行内幕：从执行原理看调优的本质" target="_blank" rel="noopener">SQL运行内幕：从执行原理看调优的本质</a></li>
-</ul>
+<p>假如我们客户只有一个，那么只要它网速好，这个模型速度很快</p>
+<p>假如用户一多，其他用户就得排队，他们都堵在第一步建立TCP连接上，我们经常看到连接超时就是这种情况</p>
+<p>假如你处理请求很慢，用户发完请求之后就在那里等，这个时候就是浏览器转圈</p>
+<p>接下来我们看Tomcat是如何实现一个高并发的网络框架</p>
+<h2 id="二、Tomcat原理"><a href="#二、Tomcat原理" class="headerlink" title="二、Tomcat原理"></a>二、Tomcat原理</h2><p>首先Tomcat是采用线程池来实现一个并发框架，它把上面步骤都放到2、3、4都放在一个线程中进行，你只需要写步骤3处理请求的代码，其他的步骤它来帮你完成</p>
+<p>其中步骤1和步骤5由主线程实现，主线程的工作就是创建TCP连接，这个数量是由 server.tomcat.max-connections 控制的，当超过这个数量的时候，Tomcat会把这个请求放到请求队列中server.tomcat.accept-count ，当超过这个数量的时候，Tomcat会丢弃这个请求，客户端会收到503错误</p>
+<p>由于我们内存CPU网卡的速度是有限的，所以Tomcat规定了，我们同时能处理多少请求，这个是通过server.tomcat.threads.max 来规定的，默认是200，就是同时能处理200个请求，其他的都在连接等待过程中</p>
+<p>这样讲非常的枯燥，接下来我们来看看在Cat监控中，每个步骤处的位置</p>
+<h2 id="三、Cat例子"><a href="#三、Cat例子" class="headerlink" title="三、Cat例子"></a>三、Cat例子</h2><p>首先简单介绍一下Cat的原理，就是AOP，使用Spring的AOP能够在你想要监控的方法前后添加自己的代码</p>
+<p><img src="/images/cat-slow-service.jpg" alt></p>
+<p>上面是我限制客户端网速伪造的一个超长请求，我们来看看第一个 17:10:11.750 URL 这个是Cat在方法</p>
+<p>org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher.service 进行的一个打点</p>
+<p>你可以看到后面接着一大串同时的Service.client 这些，都是在调用这个方法之前打的，然后最后那个URL是执行完这个函数之后打的点</p>
+<p>我们可以看到在HTTP.UserAgent 和 Service 之间存在近3秒的等待，这么长的时间是在干什么呢？</p>
+<pre><code>     ￼
+@RequestMapping(value=&quot;/process&quot;, method = RequestMethod.POST)
+public void process(@RequestBody QueryRequest payload) throws Exception {
+    System.out.println(payload);
+}
+</code></pre><p>我们来看到代码，我们在定义这个这个函数的时候，指定了我们请求的Body是QueryRequest 类型，Tomcat提供了在提供了我们运行线程的同时，会给传给我们一个SocketWrapperBase<s> socketWrapper 对象，我们可以读取这个获取到请求报文，当然你也可以选择不读取（无视客户端请求哈哈），Spring通过反射获取到这个方法的时候，会根据你的类型使用你想序列化的方式将它序列化成对象给你</s></p>
+<p>所以那么耗时将近3秒的时间都是Spring框架在读取Socket报文，我们通过Arthas可以监控到，耗时99%都在 javax.ws.rs.ext.ReaderInterceptorContext.proceed  上面</p>
+<p>这个是直接请求我们单机的ip地址才能监控到耗时这么长的请求，但是假如我们把请求打到网关上去，由网关路由到我们服务，惊奇的发现Cat上面没有长耗时的请求了</p>
+<p>接下来我们看看为什么接入网关之后读取就没有了</p>
+<h2 id="四、网关的影响"><a href="#四、网关的影响" class="headerlink" title="四、网关的影响"></a>四、网关的影响</h2><p>其实网关和Tomcat一样，只不过它把处理请求下发到服务去了，所以就算客户端网速很卡，发的很慢，但是服务是无感知的，它是和网关交互，打个比方就是，网关就像一个超市，有很多收银台，就算有一个顾客走的很慢，堵住后面的顾客，但是只要它交给售货员，售货员打完了所有的单子，计算机一下子就给它算完了</p>
+<p>所以对服务来说，他从网关那边读取请求很快，他处理也很快，所以没有耗时</p>
+<h2 id="五、接收的影响"><a href="#五、接收的影响" class="headerlink" title="五、接收的影响"></a>五、接收的影响</h2><p>接下来我们思考一下，假如客户端不仅发的慢，接收也很慢，在Cat上面会有什么影响吗？</p>
+<p>答案是完全没有影响，Tomcat通过org.apache.tomcat.util.net.SocketWrapperBase.write 来实现发送响应体，无论客户端网络多卡，只要服务端不卡，耗时都非常短</p>
+<p>其实这个和网关一样，对于服务端来说，只要它和外网的交换机不卡，不管客户端网速有多炸，它啪的一下就发完了，客户端读的慢就慢慢读，对于服务端来说，它已经发完了，这个TCP连接的控制权已经交给Tomcat的</p>
+<h2 id="六、总结"><a href="#六、总结" class="headerlink" title="六、总结"></a>六、总结</h2><p>假如一个服务在网关层后面，如果监控上他有卡顿，如果网关没问题的话，99%的可能就是你程序哪个地方有死锁或者耗时的操作，基本上排除了网络接收发送这些耗时的可能</p>
+<p>我们压测最终发现的也是因为日志压缩打印的锁，导致所有请求全部都卡顿了20S，而且一般都是在压测30分钟之后才会有一次，因为日志量达到1个G了</p>
 
       
     </div>
@@ -404,7 +409,7 @@ order by sage;
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/04/04/summary/stage/how2writewell/">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/10/10/java/压测心得/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/myself.jpg">
@@ -418,206 +423,7 @@ order by sage;
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2021/04/04/summary/stage/how2writewell/" class="post-title-link" itemprop="url">从因材施教的角度来看写博客</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-04-04 14:32:35 / 修改时间：17:37:34" itemprop="dateCreated datePublished" datetime="2021-04-04T14:32:35+08:00">2021-04-04</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/随想/" itemprop="url" rel="index">
-                    <span itemprop="name">随想</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>1k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>一开始本来想写一篇反思自己最近文章比较浅显的博客，但是想着想着突然发现其实这样的<br>反思我已经写过很多篇了，但是效果不好，这篇博客从另外一种角度来思考如何让自己<br>写出好博客</p>
-</blockquote>
-<h2 id="什么是因材施教"><a href="#什么是因材施教" class="headerlink" title="什么是因材施教"></a>什么是因材施教</h2><p>目前我们的教育算不上是因材施教，每个人上的同样的课本，同一老师传道受业</p>
-<p>我上学的那会经常上课开小差，倒不是因为听不懂老师的内容，而是因为老师讲的我都会了，我的思维要比<br>一般的人来的要活跃一点</p>
-<p>但是那个时候老师只是告诉我们，上课开小差是不对的</p>
-<p>假如我回到过去，给自己上课，我会引导自己思考更多，这道题为什么这样做，还能怎么做，而不是单纯的给<br>我一个答案，说这道题就是这么做</p>
-<p>其实因材施教就是顺势而为，思维活跃的就是给他们更大的挑战，让他们自己去钻研原理</p>
-<h2 id="反思"><a href="#反思" class="headerlink" title="反思"></a>反思</h2><p>其实回到现在，我们仍然还是处于学生状态，可能因为我们受了很多年的素质教育，所以<br>当我们自己开始当自己的老师的时候，去自学，还是延续当初自己的学习状态</p>
-<p>那怎么才能做到因材施教呢，其实很简单，找到一种自己最喜欢的学习方式，而不是强迫自己<br>去学习，去听课，去学新的东西</p>
-<p>对于我来说，最好的学习方式是激起我的好奇心，学新东西的时候，有些部分可能之前学过，你可以<br>不断的给自己“抬杠”，激发自己的好奇心，去探究，但是还有一个非常重要的一点就是<br>得及时把自己拉回来，避免一条路走到黑，因为有的时候你会发现随着你”钻“牛角尖越来越深，<br>你会精疲力竭，你得稍作休息，这个时候做个总结，总结自己所得，以及评估继续钻下去是否<br>值得</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这段时间其实自己一直处于一种很焦虑的状态，很想一口气吃成大胖子，因为自己目前其实算是转行吧，之前一直在做<br>数据分析、大数据，目前转成后端，对于我来说我想在这个行业闯出一番事业来</p>
-<p>之前一直以被动的学习姿态去重新学习后端，搞的自己非常压抑，这段时间休息好好思考了一下，有的时候我就像对自己<br>实施了”棍棒教育“，强迫自己努力学习，但是大可不必，自己本来是喜欢这个行业的，自己这种强势的思想反而会<br>让我产生不想去学的态度，其实把学习当做一个有挑战性的事，快乐的学习比啥都重要</p>
-<h2 id="反思-1"><a href="#反思-1" class="headerlink" title="反思"></a>反思</h2><p>其实我自己反思，自己最大的一个问题就是犯了一个年轻人经常犯“好高骛远”</p>
-<p>回看我自己从大学到现在，自己一直在拼命的学，自己一直在给自己定目标，碰到新东西一定要把它<br>快速掌握</p>
-<p>甚至到现在，我还是这样，自己想成为后端专家，所以自己一直在“催促”自己抓紧把知识点掌握，<br>在知乎上看了很多后端专家需要掌握的知识点，自己为了快速掌握，催促自己赶快把这篇文章给<br>看懂</p>
-<p>其实最大的一个问题就是我太急了，无论学什么东西都是囫囵吞枣</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/04/02/summary/stage/2weekSummay/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/04/02/summary/stage/2weekSummay/" class="post-title-link" itemprop="url">新工作两周总结</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-04-02 21:44:55 / 修改时间：22:29:12" itemprop="dateCreated datePublished" datetime="2021-04-02T21:44:55+08:00">2021-04-02</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/随想/" itemprop="url" rel="index">
-                    <span itemprop="name">随想</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>885</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>一眨眼2周就过去了，在新的公司感触颇多</p>
-</blockquote>
-<h2 id="改变"><a href="#改变" class="headerlink" title="改变"></a>改变</h2><ul>
-<li>工作流程</li>
-</ul>
-<p>新的公司比原来要大的多，业务也比之前要多的多，业务多之前在小公司都是一把梭，什么测试开发运维都是自己上，<br>但是这边没法全干，每个人都有自己的工作</p>
-<p>这个带来一个好处就是你可以专心自己的业务，但是也带来一个坏处，就是想做一件事得协调很多个部门</p>
-<p>而且当你想做一个大功能的时候就得开会了，这个也是我的一个很大的感受了吧，会议越来越多，之前半年才开一次会，现在一天就开两次</p>
-<ul>
-<li>部署流程</li>
-</ul>
-<p>之前由于一般都是个人负责一个大的项目，一般都是自己选择最方便的发布方式来部署应用，但是随着公司越来越大，你得考虑到<br>各种情况，所以这边采用了K8S + Dubbo 这种来部署分布式应用</p>
-<p>底层还是普通的运行方式，但是采用了云原生镜像这种来隔离应用，以及对应用动态扩容，当然我们我们采用的是<br>云服务，基本上所有的组件都是云组件，理论上，我们是一个完全在云上的公司</p>
-<h2 id="不足"><a href="#不足" class="headerlink" title="不足"></a>不足</h2><p>目前公司是完全2C的公司，而且目前我负责的部分是主要是公共服务，所以其实整体业务并没有太多复杂性的东西，<br>但是2C最重要的一个问题就是，很在乎用户体验，应用的稳定性非常重要</p>
-<p>经过两周的磨合，我对公司的架构有个大致的了解，但是涉及到的一些组件，大部分只是会使用，目前自己需要加强对组件<br>的了解，尽快上手业务，目前公司的自动化测试也存在不足（或者是没有），自己接下来的打算就是<br>尽快扩展自己的知识树，把用到微服务组件给钻透，而不是仅仅停留在会使用的阶段</p>
-<p>这样第一个不会因为自己一些知识的欠缺而引起系统事故（听说P0事故就得背书包走人了哈哈），第二个也能让自己尽快<br>提升到下一个级别</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在这两周自己在leader的建议下也尝试在使用UML来归纳总结自己的知识，目前只能说真香，但是的确得完全掌握透才能<br>完成整体架构的理解</p>
-<p>目前自己新概念也已经背到22篇了，每天背完并默写还是有一定成就感的，其实刚入职这段时间自己一直有点焦急，首先<br>是因为，刚入职，害怕自己写着写着就背书包走人了，但是还好其实leader和同事都挺好的，</p>
-<p>但是自己发现自己有的时候的确急了一点，总想把事情给赶完，太过急躁其实也不好，太过松散也不好，尽力而为，<br>才是最好</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/03/27/java/dubbo/dubbo浅探/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/03/27/java/dubbo/dubbo浅探/" class="post-title-link" itemprop="url">Dubbo浅探</a>
+            <a href="/2021/10/10/java/压测心得/" class="post-title-link" itemprop="url">压测心得</a>
         </h1>
 
         <div class="post-meta">
@@ -627,15 +433,298 @@ order by sage;
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-03-27 21:27:53" itemprop="dateCreated datePublished" datetime="2021-03-27T21:27:53+08:00">2021-03-27</time>
+              <time title="创建时间：2021-10-10 16:47:06" itemprop="dateCreated datePublished" datetime="2021-10-10T16:47:06+08:00">2021-10-10</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-28 16:17:45" itemprop="dateModified" datetime="2021-03-28T16:17:45+08:00">2021-03-28</time>
+                <time title="修改时间：2021-10-24 11:17:42" itemprop="dateModified" datetime="2021-10-24T11:17:42+08:00">2021-10-24</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>802</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>最近在做一个接口的压测，一开始以为自己优化后的代码应该没得问题，没想到中途遇到不少问题</p>
+</blockquote>
+<h1 id="0x1"><a href="#0x1" class="headerlink" title="0x1"></a>0x1</h1><p>碰到第一个问题就是，压测前几分钟正常，后几分钟直线下降，且QPS出现诡异的下降，而且响应时间平均4s</p>
+<blockquote>
+<p>根据Cat的监控显示是数据库响应慢，但是DBA说没有慢SQL，这就很尴尬了</p>
+</blockquote>
+<p>怀疑是因为我们用的数据库连接池给定的活跃连接数太少了（20），我们使用是Tomcat默认开启200个线程，假如都在同时请求的话那么会有部分等待</p>
+<p>但是尝试加到200，依旧是这个诡异的情况，我们数据库后端使用MyCat分库分表，我这个时候猜想是不是因为MyCat原因</p>
+<p>我单元测试将数据库改成我本地的数据库测试，发现QPS很高，不会像压测结果那么诡异，我开始怀疑是不是MyCat网络有问题，进入MyCat宿主机想装一个监控</p>
+<p>但是发现宿主机磁盘满了，经过DBA确认是因为MyCat日志打满了导致的，清楚磁盘空间后这个情况就消失了</p>
+<h1 id="0x2-QPS抖动"><a href="#0x2-QPS抖动" class="headerlink" title="0x2 QPS抖动"></a>0x2 QPS抖动</h1><p>我们压测是连续压测15分钟，但是很神奇的是会存在偶发性情况，QPS一直很稳定，突然一抖动直接降为0，然后过了20秒又恢复了</p>
+<p>根据Cat监控和Skywalking监控发现，部分长请求会在请求Redis之前卡一下，但是Redis执行很慢，<del>这个时候猜想是因为我们使用Jedis连接池，由于每个请求进来都会查询一下Redis这个导致都得向Jedis连接池申请连接（超时时间1s），但是由于我们Tomcat线程是200，我们给Jedis最大活跃连接数是100，导致有一半都在等，我们尝试把Jedis最大活跃连接数调到200之后这个情况就消失了，QPS一直很稳定</del></p>
+<p>这个猜想后面也是证明是错误的，在最终使用Arthas监控之后发现是日志打印死锁了</p>
+<p>具体的思考在这篇博客下面<a href="/2021/10/23/java/压测卡顿20秒引发的思考/">压测卡顿20秒引发的思考</a></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>这次压测让我知道，业务代码看起来很简单，但是当极限压力下，我们必须清楚各个组件在干什么，这样才能做到不仅仅只是一个CRUD boy</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/09/19/java/LinkedHashMap实现LRU/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/09/19/java/LinkedHashMap实现LRU/" class="post-title-link" itemprop="url">LinkedHashMap实现LRU</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-09-19 18:28:11" itemprop="dateCreated datePublished" datetime="2021-09-19T18:28:11+08:00">2021-09-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-09-20 11:26:55" itemprop="dateModified" datetime="2021-09-20T11:26:55+08:00">2021-09-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>90</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
+<li><a href="https://zhuanlan.zhihu.com/p/62322204" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/62322204</a></li>
+<li><a href="https://cloud.tencent.com/developer/article/1519813" target="_blank" rel="noopener">https://cloud.tencent.com/developer/article/1519813</a> </li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/09/17/learn2love/learn2love/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/09/17/learn2love/learn2love/" class="post-title-link" itemprop="url">learn2love</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-09-17 20:08:59" itemprop="dateCreated datePublished" datetime="2021-09-17T20:08:59+08:00">2021-09-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-12-02 23:07:58" itemprop="dateModified" datetime="2021-12-02T23:07:58+08:00">2021-12-02</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/学会爱/" itemprop="url" rel="index">
+                    <span itemprop="name">学会爱</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>4.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          有东西被加密了, 请输入密码查看
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/09/17/learn2love/learn2love/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/09/15/java/mybatis/mybatis二级缓存/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/09/15/java/mybatis/mybatis二级缓存/" class="post-title-link" itemprop="url">mybatis二级Redis缓存</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-09-15 22:15:51 / 修改时间：23:33:58" itemprop="dateCreated datePublished" datetime="2021-09-15T22:15:51+08:00">2021-09-15</time>
+            </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -672,24 +761,29 @@ order by sage;
 
       
           <blockquote>
-<p>繁忙的一周终于过去了，加入小影第一周主要是熟悉后端架构，同事们都挺好，自己的基础还是有点弱，前段时间简单的把Spring<br>Cloud 和 Dubbo学习了一下，但是其实对于工作来说，之前学的都是最新的版本，但是其实公司用的版本很老了，所以需要时间去学习老版本</p>
+<p>这篇文章不是介绍mybatis二级缓存，而是基于我们目前业务一些痛点，思考如何使用mybatis二级Redis缓存，首先mybatis也提供了一个Redis缓存类，但是那个类并不能解决我们目前业务痛点</p>
 </blockquote>
-<h2 id="历史"><a href="#历史" class="headerlink" title="历史"></a>历史</h2><p>首先我们来看看Dubbo的历史，看Dubbo的历史的时候我们得先看看<a href="https://www.jianshu.com/p/cad51a09d0c2" title="Dubbo发展史" target="_blank" rel="noopener">Spring的历史</a>,2004年就出来了Spring1.0，随着<br>一些网站越做越大，例如淘宝，随着用户量越来越大，单一Spring无法支持他们的体量，<br>所以淘宝基于Spring开发了Dubbo这个架构</p>
-<p>Dubbo和Spring有什么不同，Dubbo其实是基于Spring开发的，只不过他和普通的Spring程序不一样，它提供的是<br>分布式服务框架</p>
-<p>原来的Spring程序放进Tomcat里面就可以跑了，但是Dubbo是将一堆Spring程序组合起来做一个分布式系统，<br>他提供了什么呢，总结起来就是Spring程序的互识和通信</p>
-<p><img src="/images/dubbo-struct.png" alt="Dubbo架构图"></p>
-<p>Dubbo使用起来非常简单，复杂的注册和监控已经帮你写了，你只要启动提供者（Provider）和消费者（Consumer）实例就好了</p>
-<h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><p>其实仔细看看整个架构，什么是提供者和消费者，之前我们写web，很简单一个url对应一个接口</p>
-<p>但是想想随着公司越来越大，小公司用户量不大直接发布新代码上线就好了，大公司需要24小时提供服务，所以Dubbo首先<br>做的就是将后端分层，逻辑需要经常变动的给独立开来，我们把原来的接口分成两个一个是提供者和一个是消费者</p>
-<p>提供者负责承担真正的代码逻辑，消费者只是提供调用的接口，这样每次代码上线的时候，只需要把新提供者注册进注册中心，<br>然后把老提供者下线，这样就无感知的将新版本替换成老版本了</p>
-<h2 id="微服务区别"><a href="#微服务区别" class="headerlink" title="微服务区别"></a>微服务区别</h2><p>随着Spring Cloud从2016年的兴起，微服务的风潮开始兴起，那么Dubbo和Spring Cloud有什么不同呢，首先<br>Dubbo和Spring Cloud的设计理念是不一样的</p>
-<p>首先Dubbo它想做的是一个Rpc框架，它提供Spring 消费者和提供者之间的通信，借此打造分布式集群，而<br>Spring Cloud做的是一种切分，它将系统切分成每个小的服务，每个服务负责的部分都不一样</p>
-<p>简单来说就是，Spring Cloud提供的积木，你可以自己组装一个系统，它也不关心你用不用什么组件，单独来看，<br>每个Spring Cloud服务都是一个网站，他们之间用HTTP进行通信</p>
-<p>Dubbo呢，考虑的更多是各个服务之间高效的通信，你可以理解为Dubbo是做一层网络中间件，这给他自己带来了一定的限制<br>而Spring Cloud本质上还是一个个网站，所以你可以很容易在里面搭建配置中心，网关，服务跟踪等等</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Dubbo出生在2011年，那个时候云服务还没有兴起，网络流量还很贵，Spring Cloud出生在2016年，正是云、Docker、K8S这些组件的大热的时候，<br>大家发现在一个系统中流量是最不值钱的，反而一个系统更加灵活更加好调试才更符合</p>
-<p>但是很多老系统都在使用Dubbo作为系统架构， 所以阿里推出了Spring Cloud Alibaba，即可以兼容原来的Dubbo系统，也可以很轻松将原来的Dubbo架构<br>迁移到Spring Cloud的架构</p>
-<p>##　资料</p>
-<p><a href="https://www.jianshu.com/p/cad51a09d0c2" title="Dubbo发展史" target="_blank" rel="noopener">Spring的历史</a></p>
+<h2 id="一、业务痛点"><a href="#一、业务痛点" class="headerlink" title="一、业务痛点"></a>一、业务痛点</h2><p>首先我来介绍一下我们目前的两个业务痛点，第一个就是热key问题，由于我们一个服务全部使用Redis作为缓存，当业务量大起来之后，发现Redis内存占用量不大，但是程序卡顿丢包，一查发现原来是Redis带宽跑满</p>
+<p>这个解决方法有两种，一种是内存做一层缓存热key，第二种就是减少网络包传输大小，可以采取新的序列号算法（目前我们使用的是JSON）如google的 protocolBuffer，后面我们采用的是第一种解决方法</p>
+<p>我们第二个业务痛点就是缓存失效的峰刺，当大量key失效的时候，同一时间大量相同的请求打到数据库，虽然目前还没有压垮，但是等后面业务量大起来其实这个也是个瓶颈</p>
+<h2 id="二、MyBatis缓存介绍"><a href="#二、MyBatis缓存介绍" class="headerlink" title="二、MyBatis缓存介绍"></a>二、MyBatis缓存介绍</h2><p>我们这里简单介绍一下Mybatis缓存，它分两张，一种是基于session的一级缓存，一种是基于mapper的namespace二级缓存（也就是全局缓存），一级缓存只能对同一个请求有用，所以其实对于我们目前业务来说用处不大</p>
+<p>mybatis二级缓存是个好东西，你可以理解为单个实例共享的cache，它是基于内存的，非常快，基本上没有延迟</p>
+<p>mybatis默认没有开始缓存，你可以简单的在<code>mapper</code>的xml文件里面加个<code>&lt;cache&gt;&lt;/cache&gt;</code>就开启了或者使用<code>@CacheNamespace</code>注解</p>
+<p>但是目前mybatis提供的全部是基于内存缓存，当数据量大的情况下，很容易内存溢出</p>
+<h2 id="三、实现Redis二级缓存"><a href="#三、实现Redis二级缓存" class="headerlink" title="三、实现Redis二级缓存"></a>三、实现Redis二级缓存</h2><p>mybatis官方实现了一个基于<a href="https://github.com/mybatis/redis-cache" target="_blank" rel="noopener">redis二级缓存</a>，这个缓存目前对于我们两个痛点来说，只能解决第二个，只需要在二级缓存中配置<code>blocking=true</code>我们就可以在更新缓存的时候锁住所有线程，避免大量请求数据库</p>
+<p>所以我基于官方实现做了下面修改:</p>
+<ol>
+<li>继承原始cache类，可以兼容使用LRU这些插件</li>
+<li>使用普通redis值替换原来的哈希表，支持插入时候添加失效时间</li>
+<li>当删除的时候，将数据放置到Redis</li>
+<li>读取时候先读内存，在读Redis，假如Redis读到了，再更新到内存</li>
+</ol>
+<p>通过上面4个修改，就很能实现第一个痛点，而且通过第四步，你可以解决掉Lru扫表问题<br>PS： 扫表，假如使用Lru你把所有Key都扫一遍，热key会被删除到Redis上去，假如你不更新到缓存，热key永远在redis上面，导致热key还是会对Redis造成压力</p>
+<h2 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h2><p>当然这种实现目前还有下面两个弊端，不过这两个弊端现在看也很难解决</p>
+<ol>
+<li>使用Java自带序列化对Redis消耗大（理论上使用google的 protocolBuffer是最优的）但是目前除非你能知道Redis键值，否则也是难，目前我测试在20个属性下，使用JSON要比原生序列号小，但是超过这个值其实两者开始拉近，在大量属性下原生序列号还是要比Json要省空间</li>
+<li>在执行更新插入删除的时候，会把内存缓存清空，但是不会清空redis，这个会导致丢失部分实时性，但是目前我们使用场景可以在保证业务可靠性情况下，两三分钟的缓存时延</li>
+</ol>
 
       
     </div>
@@ -709,7 +803,7 @@ order by sage;
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/03/27/secret/人生浅思/">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/06/20/java/stream/FlatMap用法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/myself.jpg">
@@ -723,7 +817,7 @@ order by sage;
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2021/03/27/secret/人生浅思/" class="post-title-link" itemprop="url">人生浅思</a>
+            <a href="/2021/06/20/java/stream/FlatMap用法/" class="post-title-link" itemprop="url">FlatMap用法</a>
         </h1>
 
         <div class="post-meta">
@@ -732,23 +826,28 @@ order by sage;
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2021-03-27 21:25:03" itemprop="dateCreated datePublished" datetime="2021-03-27T21:25:03+08:00">2021-03-27</time>
+              <time title="创建时间：2021-06-20 18:59:20 / 修改时间：18:59:38" itemprop="dateCreated datePublished" datetime="2021-06-20T18:59:20+08:00">2021-06-20</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-28 10:31:53" itemprop="dateModified" datetime="2021-03-28T10:31:53+08:00">2021-03-28</time>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
               </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+            </span>
 
           
             <span class="post-meta-item" title="本文字数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span>295</span>
+              <span>0</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -766,10 +865,97 @@ order by sage;
     <div class="post-body" itemprop="articleBody">
 
       
+          
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/06/15/letter/letter/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/06/15/letter/letter/" class="post-title-link" itemprop="url">信</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-06-15 07:57:33" itemprop="dateCreated datePublished" datetime="2021-06-15T07:57:33+08:00">2021-06-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-10-10 15:25:42" itemprop="dateModified" datetime="2021-10-10T15:25:42+08:00">2021-10-10</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/恋爱日记/" itemprop="url" rel="index">
+                    <span itemprop="name">恋爱日记</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>18k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>16 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
           有东西被加密了, 请输入密码查看
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2021/03/27/secret/人生浅思/#more" rel="contents">
+              <a class="btn" href="/2021/06/15/letter/letter/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -793,7 +979,7 @@ order by sage;
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/03/16/java/springcloud/springcloudalibaba浅探/">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/05/23/java/stream/从问题出发看源码/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/myself.jpg">
@@ -807,7 +993,7 @@ order by sage;
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2021/03/16/java/springcloud/springcloudalibaba浅探/" class="post-title-link" itemprop="url">Spring Cloud Alibaba浅探</a>
+            <a href="/2021/05/23/java/stream/从问题出发看源码/" class="post-title-link" itemprop="url">Stream源码（2）：从问题出发看源码</a>
         </h1>
 
         <div class="post-meta">
@@ -816,10 +1002,16 @@ order by sage;
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-03-16 20:05:53 / 修改时间：20:43:29" itemprop="dateCreated datePublished" datetime="2021-03-16T20:05:53+08:00">2021-03-16</time>
+              <time title="创建时间：2021-05-23 09:48:54" itemprop="dateCreated datePublished" datetime="2021-05-23T09:48:54+08:00">2021-05-23</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-06-01 22:22:53" itemprop="dateModified" datetime="2021-06-01T22:22:53+08:00">2021-06-01</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -837,13 +1029,13 @@ order by sage;
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span>943</span>
+              <span>2.9k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>1 分钟</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -856,18 +1048,76 @@ order by sage;
 
       
           <blockquote>
-<p>花了半天时间把Spring Cloud Alibaba 的<code>Nacos</code> 、 <code>Sentinel</code> 和 <code>Seata</code>简单的使用了一下，下面是我的一些看法</p>
+<p>之前看一些开源项目源码的时候，发现一个问题，假如你贪全，一口气把整个代码看完，由于现在程序架构<br>比较复杂，很多功能被分成很多个组件来完成，有的时候你会被程序跳来跳去给弄晕，假如你但看一个小功能，你又<br>不知道为啥要用这个</p>
 </blockquote>
-<h2 id="Nacos"><a href="#Nacos" class="headerlink" title="Nacos"></a>Nacos</h2><p>Nacos 干了三件事，第一个就是把服务注册的活给揽过来了，第二个就是把配置中心的活给揽过来了，而且由于他是要监控各个服务的心跳的，<br>所以他顺便把配置同步这个活也给抢过来了</p>
-<p>Nacos做了很多事，美中不足的地方是，Nacos更希望你在网页上进行配置（当然可以通过url），比如说Spring Cloud Config 是希望你更新源代码然后再来将配置给更新 掉</p>
-<h2 id="Sentinel"><a href="#Sentinel" class="headerlink" title="Sentinel"></a>Sentinel</h2><p>Sentinel是一个流量控制的中间件，作用和Hystrix差不多，不过，相比于Hystrix，Sentinel提供了一个web界面来<br>帮助你定制限流规则，主要是保护后端</p>
-<p>这些规则其实也很简单，多尝试一下就好了，我其实很好奇，Sentinel在其中做的工作是什么，他是如何保证异常流量不<br>把自己给打爆的，当然负载均衡可以一定量的缓解这些</p>
-<h2 id="Seata"><a href="#Seata" class="headerlink" title="Seata"></a>Seata</h2><p>这个号称实现了分布式事务的软件，我没搭起来，尝试几个小时无果后，而且网上的资料也异常的少，甚至他们官方写的demo我也跑不起来<br>我看他们的start虽然多，但是issue也多，每个版本都有坑</p>
-<p>我也尝试去搜索有没有大公司尝试使用这个分布式事务，很遗憾没找到，首先限死了用MySQL，而且非常恶心的事每个数据库上面都得创建一个<code>undo</code>表</p>
-<p>我可以理解你在一个数据库上记录这些东西，但是我没法理解你要所有的数据库都建这么个表</p>
-<p>而且非常坑的事，官网SSL证书当天正好到期，在我看了引用了这么个分布式事务，第一肯定涉及到了很多锁，我看原理介绍上<br>也说了开始事务前会上锁，对于现在通用解决方案都是消息队列来处理这个东西的,引入分布式锁并发不高，而且万一锁表凉凉了</p>
-<p>所以我就去找有没有什么大公司实践过了，可是很遗憾好像没有，也没没看到有什么性能测试，而且部署半天报各种问题，每个版本都不一样，怕是个PPT项目<br>还是改天有空的时候在研究研究</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>其实Spring Cloud Alibaba比较重要的一个部分就是将Dubbo集合到了Spring Cloud，所以我接下来的时间得好好看看Dubbo了，目前Spring Cloud这些组件只能说都上手摸了一会<br>要想真正的成长还得去实际项目考验</p>
+<p>所以这次准备尝试从问题入手，首先给自己提一些<br>问题，然后在从源代码中寻找答案，<br>在寻找答案的过程中会遇到更多问题，就这样打破砂锅问到底，最终没有问题了，这个时候你就差不多看懂了</p>
+<h2 id="0x00-问题"><a href="#0x00-问题" class="headerlink" title="0x00 问题"></a>0x00 问题</h2><ol>
+<li>distinct 操作过程中是否会将新加入的元素和历史元素一一比较？</li>
+</ol>
+<p>为啥会有这个问题呢，因为在看源码</p>
+<pre><code>Returns a stream consisting of the distinct elements (according to Object.equals(Object)) of this stream.
+For ordered streams, the selection of distinct elements is stable (for duplicated elements, the element appearing first in the encounter order is preserved.) For unordered streams, no stability guarantees are made.
+</code></pre><p>这句话意思是会依靠｀Object.equals(Object)｀　来去重，我们知道｀distinct｀和｀filter｀都是中间操作<br>难道<code>distinct</code>会将每个元素和历史元素做一个<code>Object.equals</code>调用吗</p>
+<p>假如这样做的话，那么这个操作就是<code>O（n^2)</code>的时间复杂度了，显然不太靠谱，我们查看<code>distinct</code>源码发现</p>
+<p>最终<code>distinct</code>生成了一个<code>StatefulOp</code> ，而且这个类存在一个<code>reduce</code>函数，其中声明了一个</p>
+<pre><code>TerminalOp&lt;T, LinkedHashSet&lt;T&gt;&gt; reduceOp
+                = ReduceOps.&lt;T, LinkedHashSet&lt;T&gt;&gt;makeRef(LinkedHashSet::new, LinkedHashSet::add,
+                                                         LinkedHashSet::addAll);
+</code></pre><p>我们可以看到这个变量是一个终止操作，其中使用<code>LinkedHashSet</code>来进行聚合，所以看到这我们就猜测<br><code>Stream</code>没有这么傻，它声明了一个<code>LinkedHashSet</code>来存贮历史元素，这样只需要将加进来的元素进行<br>哈希计算，然后跟哈希碰撞的调用一下<code>Object.equals(Object)</code>函数就好了</p>
+<p>我们看到这篇<a href="https://blog.csdn.net/puppylpg/article/details/78556730" target="_blank" rel="noopener">博文</a>的实验也证明我们的猜测了`  </p>
+<p>接下来我们又有一个疑惑Stream内部是如何实现的呢？</p>
+<h2 id="0x01-猜测"><a href="#0x01-猜测" class="headerlink" title="0x01 猜测"></a>0x01 猜测</h2><p>我们首先从最小的代码来看，我们首先来看一个无状态的stream函数</p>
+<pre><code>Stream.of(1L, 2L, 3L, 4L).forEach(System.out::println)
+</code></pre><p>我们使用<code>for</code>循环用来实现也非常简单</p>
+<pre><code> for (long l : new long[]{1L, 2L, 3L, 4L}) {
+  System.out.println(l);
+}
+</code></pre><p>接下来我们来思考，如何实现一个有状态的<code>Stream</code>流</p>
+<pre><code>Stream.of(1L, 2L, 3L, 4L).reduce(0L, Long::sum);
+</code></pre><p>我们如何用<code>for</code>循环来实现呢，很简单，定义一个变量</p>
+<pre><code>long begin = 0;
+for (long l : new long[]{1L, 2L, 3L, 4L}) {
+    begin += l;
+}
+</code></pre><p>我们能很容易写出一层for循环，但是Stream强大的地方在于，他可以穿插很多函数处理<br>比如：</p>
+<pre><code>Stream.of(1L, 2L, 3L, 4L, 4L, 5L, 5L).distinct().filter(x -&gt; x &gt; 2).reduce(0, Long::sum);
+</code></pre><p>我们简单的穿插了<code>distinct</code>和<code>filter</code>操作，我们接下来尝试使用<code>for</code>循环来实现上面的<code>Stream</code></p>
+<p>首先我们知道<code>distinct</code> 需要一个<code>Set</code>来过滤已经存在的，其中<code>reduce</code>需要一个初始量，那就好做了</p>
+<pre><code>long start = 0L;
+for (long l : new long[]{1L, 2L, 3L, 4L}) {
+    if(!set.contains(l)) {
+        set.add(l);
+        if(l &gt; 2) {
+            start += l;
+        }
+    }
+}
+</code></pre><h2 id="00x02-源码探究"><a href="#00x02-源码探究" class="headerlink" title="00x02 源码探究"></a>00x02 源码探究</h2><p>接下来我们看看<code>Stream</code>内部如何实现这个<code>for</code>循环的，我们可以看到，其实<code>.distinct().filter(x -&gt; x &gt; 2).reduce(0, Long::sum)</code>对于每一层我们都需要能<br>创建一个<code>Sink</code>，对于这个<code>for</code>循环来说，都是把每个数据，我们把数据从一个<code>sink</code>到其他的<code>sink</code></p>
+<p>所有的<code>Sink</code>都实现了<code>Consumer</code> 接口，其中最重要的接口就是</p>
+<pre><code>void accept(T t);
+</code></pre><p>这个消费接口，我们可以理解“吃”数据，它会把我们传给它的值都“消化”掉</p>
+<p>当我们在创建<code>.distinct().filter(...)...</code>这些stream的时候，我们做了什么呢，<br>我们每进行一次中间操作，我们都新建了一个流，其中我们通过<code>upstream</code> 这个变量指向<br>之前的流</p>
+<p>当我们碰到终止操作比如<code>reduce</code>的时候，我们会进行一个回溯，把所有<code>upstream</code>都进行回溯，反过来把一个<code>sink</code>组装起来（每个sink指向它的上游）</p>
+<pre><code>// java.util.stream.AbstractPipeline.class
+final &lt;P_IN&gt; Sink&lt;P_IN&gt; wrapSink(Sink&lt;E_OUT&gt; sink) {
+    Objects.requireNonNull(sink);
+    // 回溯之前的stream流，创建sink，并让当前的sink指向上流
+    for ( @SuppressWarnings(&quot;rawtypes&quot;) AbstractPipeline p=AbstractPipeline.this; p.depth &gt; 0; p=p.previousStage) {
+        sink = p.opWrapSink(p.previousStage.combinedFlags, sink);
+    }
+    return (Sink&lt;P_IN&gt;) sink;
+}
+</code></pre><p>最终我们得到了最上流的sink，以上面为例就是<code>distinct</code>那个sink</p>
+<p>接下来我们执行<code>for</code>循环，其中最重要的就是</p>
+<pre><code>// java.util.stream.AbstractPipeline.copyInto 函数
+// 执行for循环 其中 传入的sink就是 我们上面得到的像葫芦串一样的sink
+spliterator.forEachRemaining(wrappedSink)
+</code></pre><p>我们只需要给<code>wrappedSink</code>传入<code>for</code>循环的值就好了，由于每个sink都有其上游的引用，比如说<code>distinct</code>的sink，<br>他会判断是否已经存贮在<code>sink</code>中，如果没有就往上游传，由于上游也是个<code>sink</code>，所以最终如果不传了或者到最上游了就继续下一<code>for</code>循环的值</p>
+<h2 id="0x03"><a href="#0x03" class="headerlink" title="0x03"></a>0x03</h2><p>总结，我们这边非常浅显的把源代码给介绍了一下，其实要想吃透最好使用debug功能，一行一行代码进行debug，这样就能印象更深刻</p>
+<p>##　引用</p>
+<ul>
+<li><a href="https://blog.csdn.net/puppylpg/article/details/78556730" target="_blank" rel="noopener">对Java8中distinct()的思考</a></li>
+</ul>
 
       
     </div>
@@ -887,7 +1137,7 @@ order by sage;
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/03/15/software/UML最佳实践/">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/05/15/java/stream/从去重到Stream源码/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/myself.jpg">
@@ -901,7 +1151,7 @@ order by sage;
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2021/03/15/software/UML最佳实践/" class="post-title-link" itemprop="url">UML最佳实践</a>
+            <a href="/2021/05/15/java/stream/从去重到Stream源码/" class="post-title-link" itemprop="url">Stream源码（1）：如何实现去重</a>
         </h1>
 
         <div class="post-meta">
@@ -911,122 +1161,15 @@ order by sage;
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-03-15 19:02:08" itemprop="dateCreated datePublished" datetime="2021-03-15T19:02:08+08:00">2021-03-15</time>
+              <time title="创建时间：2021-05-15 22:48:20" itemprop="dateCreated datePublished" datetime="2021-05-15T22:48:20+08:00">2021-05-15</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-16 20:45:48" itemprop="dateModified" datetime="2021-03-16T20:45:48+08:00">2021-03-16</time>
+                <time title="修改时间：2021-05-20 23:24:05" itemprop="dateModified" datetime="2021-05-20T23:24:05+08:00">2021-05-20</time>
               </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/软件/" itemprop="url" rel="index">
-                    <span itemprop="name">软件</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>1k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>最近面试的时候一个面试官指出了我对系统架构没有固定的认知，推荐我去好好学习一下UML这个语言，我花了几个小时在B站上看了<a href="https://www.bilibili.com/video/BV1LE411T75W" target="_blank" rel="noopener">UML</a>这门课，下面是我对UML最佳实践的一点心得</p>
-</blockquote>
-<h2 id="UML是什么"><a href="#UML是什么" class="headerlink" title="UML是什么"></a>UML是什么</h2><p>首先它是一门语言，全名叫 Unified Modeling Language，翻译过来就是统一建模语言，首先为什么我们思考一下为什么我们需要这么一门语言。</p>
-<p>最开始的C语言是面对过程的，我们想做一个什么东西，直接去写就好了，等我们到了比如Java这些面对对象的语言的时候，我们就要思考怎么去建模，所以UML就是在这种情况被创建出来的</p>
-<h2 id="怎么用"><a href="#怎么用" class="headerlink" title="怎么用"></a>怎么用</h2><p>首先UML主要帮助我们设计一个系统，那一般的流程是什么呢</p>
-<ol>
-<li>确定用例 -&gt; 用例图</li>
-<li>确定类模型 -&gt; 类图</li>
-<li>确定流程 -&gt; 时序图</li>
-<li>确定细节 -&gt; 状态图</li>
-</ol>
-<h2 id="软件选择"><a href="#软件选择" class="headerlink" title="软件选择"></a>软件选择</h2><p>其实UML很核心的一个地方就是用可视化的图表展示出你的系统架构，视频里面使用的<strong>IBM Rational Rose</strong>这个软件，的确拖拽非常方便，但是有个问题就是只支持<code>window</code>，目前我主要操作系统是Ubuntu和Mac，所以我需要一个跨平台的软件</p>
-<p>我尝试了跨平台的<code>dia</code>，或者目前一些主流的在网页上拖拽的软件来完成UML图，但是这些都有一个痛点，不方便管理，而且修改起来也比较麻烦，然后有人推荐使用<a href="https://plantuml.com/zh/state-diagram" target="_blank" rel="noopener">plantuml</a>，不但跨平台，而且UML图是根据代码自动生成</p>
-<p>也就是说你不需要拖拽，你可以像写代码一样画UML图，更主要的是这个IDEA上面都有插件集成，你只要安装好插件就可以在IDE里面写UML代码生成你想要的图了</p>
-<h2 id="安装流程"><a href="#安装流程" class="headerlink" title="安装流程"></a>安装流程</h2><p>首先在插件库查找<code>plantuml intergration</code>，然后点击安装，接下面安装绘图课</p>
-<p>Mac</p>
-<p>brew install graphviz</p>
-<p>Ubuntu</p>
-<p>sudo apt-get install -y graphviz</p>
-<p>接下来你重启IDEA然后随便新建一个文件，输入下面代码</p>
-<p>@startuml<br>Alice -&gt; Bob: test<br>@enduml</p>
-<p>点开侧边栏PlantUML就能看到生成的UML图了</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>以前我只知道IDEA能写代码，后面我知道IDEA能执行SQL，我就把他当成SQL管理工具，后面我发现他也能写Markdown，我就放弃的专业markdown软件，如今我发现他也能写UML，IDEA真的太全能了</p>
-<p>PS：这篇博客简单的介绍了我对UML最佳实践的配合，没有涉及到<code>PlantUML</code>的具体使用方法，可以看我的使用<a href="https://github.com/mrzhangboss/plantuml-introduction" target="_blank" rel="noopener">UML实现</a></p>
-<p><a href="https://github.com/mrzhangboss/plantuml-introduction" target="_blank" rel="noopener">UML实现Github链接</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/03/14/java/springcloud/springcloud浅析/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/03/14/java/springcloud/springcloud浅析/" class="post-title-link" itemprop="url">SpringCloud浅析</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-03-14 08:38:19 / 修改时间：10:16:12" itemprop="dateCreated datePublished" datetime="2021-03-14T08:38:19+08:00">2021-03-14</time>
-            </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -1044,148 +1187,7 @@ order by sage;
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span>2.4k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>2 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>最近在学SpringCloud，之前一直对用视频学嗤之以鼻，觉得只有弱者才会这样，但是其实对于一些已经非常常见的技术<br>比如SpringCloud这种，已经出来很长一段时间了，而且其实非常杂，用视频学起来其实非常快，当然前提是你要三倍速播放，而且<br>你得把视频配套的代码找到，这样你就能很快的掌握这个。</p>
-</blockquote>
-<p>我把SpringCloud视频过了一遍，代码也运行了一遍花的时间可能不超过<br>5个小时吧，假如自己按照原来的做法去看别人博客然后自己慢慢搭建可能入门花的时间远远不止</p>
-<p>下面是我学习SpringCloud用到的视频已经代码，推荐你视频三倍速播放，把视频看懂之后去实际运行一下相应代码，这样你能很轻松知道这个东西是什么</p>
-<ul>
-<li><a href="https://github.com/zzyybs/atguigu_spirngcloud2020" target="_blank" rel="noopener">代码</a></li>
-<li><a href="https://www.bilibili.com/video/BV18E411x7eT?p=1" target="_blank" rel="noopener">B站视频</a></li>
-</ul>
-<p>目前我就总结一下我入门Spring Cloud的一些心得</p>
-<h2 id="什么是微服务"><a href="#什么是微服务" class="headerlink" title="什么是微服务"></a>什么是微服务</h2><p>其实微服务这个东西是模块化的一种体现，在企业开发中你会发现，好多时候我们要做一个网站如果要暴露在外网地址，<br>其实最基础就得要有一个登录，每个网站写一个登录其实非常没有必要</p>
-<p>第一个是安全，第二个是耦合，假如你想完全独立于其他系统，你必须重新使用数据库存储，这样用户在同一家公司可能得注册两个不同的账号</p>
-<p>所以微服务的理念就是模块化，把登录和其他业务给组装成不同模块，这样你就专注于你自己的业务而不用去担心其他的问题了</p>
-<h2 id="怎么做"><a href="#怎么做" class="headerlink" title="怎么做"></a>怎么做</h2><p>微服务一开始也很简单，就是单独起不同的网站，比如我们把登录单独部署在一个网站上面去，<br>登录完了就给一个<code>token</code>， 然后其他系统使用<code>token</code>来验证用户权限</p>
-<p>刚开始这样很简单，但是对于系统来说，出现了一个问题，首先是用户登录次数很少（如果他不退出登录），然而其他业务<br>使用的很多，这时候我们就想多起个实例来跑其他微服务，但是我们之前写死了，所有的业务调用都只是跳转到一个<br>网址上去了</p>
-<h2 id="服务注册"><a href="#服务注册" class="headerlink" title="服务注册"></a>服务注册</h2><p>所以我们就想到做一个调度中心来把所有的服务都注册在这里，这样你想要的时候过来查就好了，这个服务中心就是我们所说的<br>服务注册，就是他来监控所有服务实例的，每个实例都得定时发送心跳，如果一段时间没有发送就会默认认为服务下线了</p>
-<p>对于服务注册中心来说，其实就是一个登记的作用，就是记录一个服务名，以及他们的实际IP地址</p>
-<h2 id="服务调用"><a href="#服务调用" class="headerlink" title="服务调用"></a>服务调用</h2><p>服务注册核心在于注册，对于真正的调用方来说，他只能从注册中心拿到最新存活的实例的IP，实际上他还得去通过这个IP来远程调用实际服务</p>
-<p>所以Spring Cloud就创建了两个调用框架，第一个用来选择选择哪个实例，比如随机选择一个实例，还是说按照实例响应速度等等来选择</p>
-<p>这个其实是一个拦截器，他只是帮你在远程调用之前选择哪个服务</p>
-<p>第二个就是<code>OpenFeign</code>，其实这个相当于把远程调用伪装成为一个<code>Service</code>，你只要把这个<code>Service</code>名字以及相关配置给配置好就可以像普通<br><code>Service</code>一样调用了</p>
-<p>服务调用，这个本质上是给调用方写的HTTP请求库，对于被调用者来说其实什么没有影响</p>
-<h2 id="服务降级"><a href="#服务降级" class="headerlink" title="服务降级"></a>服务降级</h2><p>其实服务降级，我认为说成异常处理更好，对于微服务来说，最大的区别就是原来一个网站，现在好多网站，我以前实现一个功能</p>
-<p>一个接口就好了，目前可能需调用很多很多接口，这个调用一多就会出问题，第一个时间变长了，<code>HTTP</code>请求其实很有冷启动的缺点的，随着你的调用越来越多<br>其实花在建立链接的时间也越来越多了，而且<code>HTTP</code>其实非常啰嗦，有很多不需要的头部信息，会重复的发来发去</p>
-<p>回到刚才的问题，就是我们调用方最终要实现一个功能的时候，可能得需要很多步骤，假如正常来写，我们得写很多<code>try catch</code><br>我们得考虑这个接口调用失败怎么办，我们得返回什么东西</p>
-<p><code>Hystrix</code>就是一套异常处理框架，他能帮你把接口给管理起来，在调用前他会检查这个接口是否已经熔断，在调用的时候他会检查是否<br>会抛异常，如果抛异常就调用其他兜底的方法</p>
-<h2 id="辅助"><a href="#辅助" class="headerlink" title="辅助"></a>辅助</h2><blockquote>
-<p>网关</p>
-</blockquote>
-<p>Spring Cloud还给了我们一些其他可以选择使用的辅助功能，比如假如你想自己做一层网关，那可以使用<code>gateway</code>做一个网关，<br>网关能帮我们做一下杂碎但是非常重要的，比如说权限认证，异常流量过滤啊，日志记录啊</p>
-<p>你可以用<code>Nginx</code>来做这些，但是<code>gateway</code>这些网关是用<code>Java</code>写的，你很容易就可以进行扩展实现你自己想要的功能</p>
-<blockquote>
-<p>配置中心</p>
-</blockquote>
-<p>对于一个大的公司来说，代码运行的环境非常多，所以<code>Spring Cloud</code>提出配置中心的概念，你可以让所有的应用接入配置中心<br>这样当你想临时关闭某些东西的时候，只要修改配置中心，所有的实例都能立刻得到响应，而不需要重启</p>
-<blockquote>
-<p>调用链监控</p>
-</blockquote>
-<p>这个有点调试工具了，就是在调用方和被调用方都安上这个就能很轻松的把整个调用的线给记录下来，第一个方便你监控异常，<br>第二就是运维也能根据这个及时添加更多实例来面对突发流量</p>
-<blockquote>
-<p>Spring Cloud Stream</p>
-</blockquote>
-<p>其实我感觉这个东西设计的挺失败的，本来想法是把所有的消息队列框架都能用一个框架去调用，但是目前其实只支持两个，那其实我用原生的也没有什么太大的影响，原生的Spring Boot就支持<code>RabbitMQ</code>等这些所有的消息队列分发和消费</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>微服务架构其实就是将大web系统给模块话，其实本质上每个小的服务还是一个<code>Spring Boot</code>网站</p>
-<p>这个给系统解耦合的同时也带来一个问题，如果去保证一个复杂多模块的安全稳定的运行以及更新，这个也是后面需要去解决的问题</p>
-<p>其实<code>Spring Cloud</code>引进了微服务架构，也引进了一些其他问题，比如说发起服务调用的消耗，以及多系统日志收集等等一系列问题<br>接下来就是对<code>Spring Cloud Alibaba</code>的学习，看看<code>Spring Cloud Alibaba</code>在Spring Cloud的基础上做了什么优化</p>
-<blockquote>
-<p>当然在快速过了一遍实验代码和视频之后我也有一些疑惑，等我把<code>Spring Cloud Alibaba</code>过了之后就得解决下面问题</p>
-</blockquote>
-<h2 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h2><ol>
-<li>服务注册中心能否添加报警功能，假如服务实例低于某个值</li>
-<li>批量启动所有服务的最佳实践是什么，一般企业是怎么做的</li>
-<li>Spring Boot如何实现只添加一个依赖来插入自己想要的插件</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/03/09/summary/未来一年规划/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/03/09/summary/未来一年规划/" class="post-title-link" itemprop="url">未来一年规划</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-03-09 20:17:31" itemprop="dateCreated datePublished" datetime="2021-03-09T20:17:31+08:00">2021-03-09</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-04-04 14:49:28" itemprop="dateModified" datetime="2021-04-04T14:49:28+08:00">2021-04-04</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/随想/" itemprop="url" rel="index">
-                    <span itemprop="name">随想</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>1.4k</span>
+              <span>1.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -1203,137 +1205,43 @@ order by sage;
     <div class="post-body" itemprop="articleBody">
 
       
-          有东西被加密了, 请输入密码查看
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/03/09/summary/未来一年规划/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/03/07/summary/面试杂思/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/03/07/summary/面试杂思/" class="post-title-link" itemprop="url">面试杂思</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-03-07 00:11:16" itemprop="dateCreated datePublished" datetime="2021-03-07T00:11:16+08:00">2021-03-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:15:01" itemprop="dateModified" datetime="2021-03-09T20:15:01+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/随想/" itemprop="url" rel="index">
-                    <span itemprop="name">随想</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>2.3k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>2 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
           <blockquote>
-<p>最近在面试，面试之前总觉得有一丝焦虑</p>
+<p>本篇博客是在看代码的时候看到使用Java8使用<code>Stream</code>去重的妙用，从而对Java如何使用Stream实现几行代码<br>完成一个可支持并行化的流式计算程序</p>
 </blockquote>
-<p>我不知道这丝焦虑是不是学生时代带给我的，对于我来说，这种焦虑是害怕自己不知道这个知识点而很囧。或者对于我来说，我自己一直对自己不够自信。为什么呢，因为对于我来说，我自己一直在干的很杂，相比于其他人来说，我算是一个真“全干”工程师</p>
-<h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p>我在思考为什么会这样，我觉得第一点很重要的是我缺乏一个明确的<strong>职业规划</strong></p>
-<p>之所以我会变成“全干”工程师，是因为我一直在“瞎”折腾。为什么会这样，主要是因为好奇心，每个人都有好奇心，区别在于有些人好奇心强非得把这个东西搞懂然后再放手，有些人好奇心弱一会就结束了。相比而来，我是一个好奇心非常重的人</p>
-<p>我觉得这种好奇心可能是在我上小学的时候就养成了。为什么这么说，你能想到一个十二岁左右小屁孩捧着一本右脑记忆的书，把圆周率后面五百位完整的记下来，还能完整的记忆一副扑克吗。</p>
-<p>现在这种右脑记忆培训班在中国现在也挺流行的，但是在十几年前，图书馆里面只有几本这样的书。我觉得这是我第一次开始折腾吧，虽然最终我没能应用在我的学习上（因为我读的理科）。但是这段经历现在回头看还是得给自己竖个大拇指，现在十几岁的小孩只知道玩手机，看电视，玩游戏。当年的我在没人教导的情况下，自己去钻研学习记忆方法，而且直到我上高三，六年时间内我都没有放弃。我高三的时候用它来背古诗，读一遍就背出来，可惜背诵高考只占8分，最终也没能派上啥用场。</p>
-<p>我人生中第二个折腾就是在高一的时候，我不记得我是听老师推荐还是自己在网上搜怎么学好英语，反正那个时候是新概念英语比较火，那个时候不知道是李阳还是谁鼓吹着学好英语就是听和背，大量重复的听和读，等你读到几百遍的时候你就自然而然的背下来了，我那个时候在睡觉的时候都听着新概念的英语文章，就是重复的听一篇文章还是每天重复的读，当你自然而然的背下来的时候就换下一篇文章背。我记得我当初买的新概念英语三，用这个方法背了大概20篇，有点后悔当初没有继续背下去，如果把新概念3和4全本背完，现在英语应该流利到丝滑境界吧。</p>
-<p>当然现在捡起来其实也可以，其实自己毕业后也一直在背单词，但是其实效果也不是很明显。现在看来，自己现在会不满意自己的现状也是有原因的，自己会放弃一些好的习惯。</p>
-<p>其实写之前自己也没意识到自己放弃了什么，因为人无时无刻不在做选择，当初放弃的原因是没有看到效果，相比于虎头虎脑的背，还不如多刷几道题（最终我高考英语考了130分），从分数上看我是挣了的，但是从长远的角度上来看，我是亏了的，我只是拿到了分数，然而那种方法能给我带来一种更长远的回报，好比短期投资和长期投资。长期投资最让人恐慌的是很难在短期内看到效果，必须要有一种信念让你坚持下去。</p>
-<p>所以其实对于我来说，目前我就需要的是一种坚定的信念，首先我得明确自己的规划，然后把这些规划慢慢给他落实掉。</p>
-<h2 id="反思"><a href="#反思" class="headerlink" title="反思"></a>反思</h2><p>其实回头看看，从大学开始到现在七年时间自己一共尝试了五个方向，按照时间排序</p>
-<ul>
-<li>后端</li>
-<li>机器学习</li>
-<li>爬虫</li>
-<li>数据分析</li>
-<li>大数据</li>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
+<p>什么是<code>Stream</code></p>
+</blockquote>
+<p>简单来说<code>Stream</code>就是Java8引入的一种流式API，让只需要定义一些处理函数就能优雅的对集合的一些操作</p>
+<p>举个栗子，之前我们想遍历打印所有的参数我们得写下面代码</p>
+<pre><code>for (int i : new int[]{1, 2, 3, 4}) {
+    System.out.println(i);
+}
+</code></pre><p>假如使用Java8，我们只需要一行代码</p>
+<pre><code>Arrays.stream(new int[]{1, 2, 3, 4}).forEach(System.out::println);
+</code></pre><p>我们只需要定义一个函数，其他的<code>Stream</code>帮我们解决</p>
+<h2 id="Stream模型"><a href="#Stream模型" class="headerlink" title="Stream模型"></a>Stream模型</h2><p>简单来说<code>Stream</code>把操作分为两张，一种是中间操作，一种是终结操作</p>
+<p>中间操作你可以把他看做对数据源的一种处理，而终结操作是定义产生新数据过程，简单来说，假如我们有一堆苹果<br>需要处理，我们使用一个流水线来对经过的苹果进行各种处理（中间操作），丢掉烂掉的（filter），削掉皮（map）等等，<br>最后的我们需要对苹果进行装箱（终结操作）</p>
+<h2 id="分析功能"><a href="#分析功能" class="headerlink" title="分析功能"></a>分析功能</h2><p>我们接下来看看我们需要实现的功能，就是去重，我们知道<code>Stream</code>其实提供了一个<code>distinct</code>方法中间操作来帮我们实现去重功能，<br>对于基本类型比如<code>String</code>，<code>Integer</code>，<code>Long</code>这些我们能很容易进行去重，但是对于复杂类，我们得<br>重写<code>hashCode</code>和<code>equal</code>方法来支持去重操作了，对于集合内的每个数据都会用<code>equal</code>来进行去重</p>
+<p>接下来我们尝试直接使用终结操作<code>collect</code>来解决掉<br>怎么做呢，<code>collect</code>其实也很简单就是创建一个容器，把数据装进去，我们就只需要使用一个可以支持去重操作的<br>容器来做就好了</p>
+<p>支持去重的有<code>Map</code>和<code>Set</code>，所以我们想到的第一个方法就是将流变成一个<code>Set</code>，这个也是网上很多人提供的一个版本</p>
+<pre><code>dishes.stream().distinct().collect(Collectors.toCollection(
+            () -&gt; new TreeSet&lt;&gt;(Comparator.comparing(Dish::getType)))
+</code></pre><p>我们把这行代码给分解成两行</p>
+<pre><code>TreeSet&lt;Dish&gt; container = new TreeSet&lt;&gt;(Comparator.comparing(Dish::getType));
+dishes.stream().collect(Collectors.toCollection(() -&gt; container));
+</code></pre><p>第一行其实就是声明了一个容器，核心代码就是 <code>() -&gt; container</code> 我们传入一个容器，让他来存贮，我们使用<br><code>TreeSet</code>的一个构造器，它只需要传入一个函数，他会比较传进来的每个值，假如发现已经存在了它就不会插入了</p>
+<p>但是这个有个问题就是，他只能选择第一个出现的</p>
+<p>接下来我们试试用<code>Map</code>，</p>
+<pre><code>dishes.stream().collect(toMap(Dish::getType, d -&gt; d);
+</code></pre><p>我们写下下面的代码，但是这个代码有点问题就是假如出现重复的，他会抛异常，因为程序默认不知道你想要哪个数据</p>
+<pre><code>dishes.stream().collect(toMap(Dish::getType, d -&gt; d, (oldData, newData) -&gt; oldData));
+</code></pre><p>我们可以传入一个选择函数，这样当发现重复的时候就可以选择要哪个插入到map中去，这个也解决了上面使用<code>Set</code>来存贮的时候没法选择到底是新来的还是后来的</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这篇博客简单的介绍了实现去重功能的三种实现方法，接下来这个系列的博客会深入到源码来探究Java8如何实现<br>Stream这么多功能的</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
+<li><a href="https://cloud.tencent.com/developer/article/1756399" target="_blank" rel="noopener">Java Stream 源码分析</a></li>
+<li><a href="https://www.jianshu.com/p/3219f184bb8e" target="_blank" rel="noopener">JAVA8优雅的去重</a></li>
+<li><a href="https://club.perfma.com/article/116123" target="_blank" rel="noopener">JAVA8Stream 源码分析2</a></li>
 </ul>
-<p>每个方向其实自己都钻研成中级和高级之间的实力，等我走完这一个圈后，我发现我更喜欢做后端，我突然发现我好像走了一个圈，最后又回到了原点。有时候在想，好像自己真的在浪费时间，假如自己一直在自己喜欢的圈子里努力，那么自己的实力目前也不会之停留在中级和高级之间了。</p>
-<p>但是回头一想，其实自己也不去尝试怎么知道自己最后喜欢的是什么，没有谁天生就喜欢某一行，放牛郎的孩子没办法一辈子只能放牛，作为新一代的人，我很幸运的生活在这个互联网时代，我可以选择自己喜欢做的事，其实我也很感激毕业后呆的这家公司，虽然待遇上比不上大部分互联网人。但是在这里我没有压力没有开会，每天都在思考怎么学，怎么用。</p>
-<p>这几年就像交了5个朋友，每个朋友关系都不是很亲密，所以我会感到“孤独”，感到焦虑。</p>
-<p>要打破这个也很简单，选择自己真正想交的朋友做真心朋友，这样能解决你的焦虑和孤独</p>
-<p>其实有时候觉得做技术必须学点心理学和经济学。为什么呢。因为做到最后你会发现，99.99%的问题都能通过时间来解决，我们每天都在做选择，这个选择是有代价的，其中最大的代价就是时间，所以如何把人生价值最大化，最重要的就是规划好你的时间</p>
-<p>从大的层次上来讲，你要给自己做一个长期规划，这个一般是以年来做计划，第二个就是中期规划，这个一般以月来做单位，还有一个就是短期的，一般是以天来。</p>
-<h2 id="术和道"><a href="#术和道" class="headerlink" title="术和道"></a>术和道</h2><p>其实上面讲的做规划很早之前自己就了解过，但是之前没有意识到这个重要性，年轻的时候不珍惜时间，对于任何问题不管是三七二十一搞定再说，所以以前会通宵解决一下很小的bug。虽然成就感很高，但是其实从后面角度上来看，得不偿失。</p>
-<p>我不是说你碰到bug就放弃，而是你要去想自己为什么会碰到通宵才能解决的bug。自己的规划是不是出了问题，是自己哪个地方能力有欠缺。是debug能力，还是编程能力不足，或者没有熟悉某些工具帮助自己快速定位等等。</p>
-<p>其实我自己也在开始尝试实践这种方法，我第一次了解是在知乎上看到一个硬件工程师在分享自己在家办公如何让自己有效的工作12个小时，然后我自己开始用Microsoft的TODO来帮助我自己实践这个。</p>
-<p>下面是我这些天实践的心得：</p>
-<ol>
-<li>规划是非常严肃，你不能抱着一个完成任务的心态去制定它，你要首先把自己想做的事列出来，然后你得给他排序，对于很重要的事是必须要完成的</li>
-<li>规划完成之后会有一种成就感，对于你历史规划，你也可以定时复盘，看看自己哪些地方可以做到更好</li>
-<li>长期规划非常有必要，你可以每天开始规划之前，或者完成了当天规划之后再思考是否长期规划得做适当的调整，比如加快某项，或者你觉得某项还有更多细节需要深追</li>
-</ol>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我觉得最重要一点就是复盘吧，你把每天自己完成的TODO，以及这个TODO对你长期规划的影响在脑海里面思考计量，这样你才能以最快速度的接近你的目标。</p>
 
       
     </div>
@@ -1353,7 +1261,7 @@ order by sage;
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1421,7 +1329,7 @@ order by sage;
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">115</span>
+          <span class="site-state-item-count">126</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1434,7 +1342,7 @@ order by sage;
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-count">17</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1487,7 +1395,7 @@ order by sage;
 <div class="copyright">
   
   &copy; 2016 – 
-  <span itemprop="copyrightYear">2021</span>
+  <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -1496,12 +1404,12 @@ order by sage;
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">277k</span>
+    <span title="站点总字数">290k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:12</span>
+    <span title="站点阅读时长">4:24</span>
 </div>
 
         
