@@ -211,6 +211,130 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/05/15/java/stream/从去重到Stream源码/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/15/java/stream/从去重到Stream源码/" class="post-title-link" itemprop="url">Stream源码（1）：如何实现去重</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-05-15 22:48:20" itemprop="dateCreated datePublished" datetime="2021-05-15T22:48:20+08:00">2021-05-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-05-20 23:24:05" itemprop="dateModified" datetime="2021-05-20T23:24:05+08:00">2021-05-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>1.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>本篇博客是在看代码的时候看到使用Java8使用<code>Stream</code>去重的妙用，从而对Java如何使用Stream实现几行代码<br>完成一个可支持并行化的流式计算程序</p>
+</blockquote>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
+<p>什么是<code>Stream</code></p>
+</blockquote>
+<p>简单来说<code>Stream</code>就是Java8引入的一种流式API，让只需要定义一些处理函数就能优雅的对集合的一些操作</p>
+<p>举个栗子，之前我们想遍历打印所有的参数我们得写下面代码</p>
+<pre><code>for (int i : new int[]{1, 2, 3, 4}) {
+    System.out.println(i);
+}
+</code></pre><p>假如使用Java8，我们只需要一行代码</p>
+<pre><code>Arrays.stream(new int[]{1, 2, 3, 4}).forEach(System.out::println);
+</code></pre><p>我们只需要定义一个函数，其他的<code>Stream</code>帮我们解决</p>
+<h2 id="Stream模型"><a href="#Stream模型" class="headerlink" title="Stream模型"></a>Stream模型</h2><p>简单来说<code>Stream</code>把操作分为两张，一种是中间操作，一种是终结操作</p>
+<p>中间操作你可以把他看做对数据源的一种处理，而终结操作是定义产生新数据过程，简单来说，假如我们有一堆苹果<br>需要处理，我们使用一个流水线来对经过的苹果进行各种处理（中间操作），丢掉烂掉的（filter），削掉皮（map）等等，<br>最后的我们需要对苹果进行装箱（终结操作）</p>
+<h2 id="分析功能"><a href="#分析功能" class="headerlink" title="分析功能"></a>分析功能</h2><p>我们接下来看看我们需要实现的功能，就是去重，我们知道<code>Stream</code>其实提供了一个<code>distinct</code>方法中间操作来帮我们实现去重功能，<br>对于基本类型比如<code>String</code>，<code>Integer</code>，<code>Long</code>这些我们能很容易进行去重，但是对于复杂类，我们得<br>重写<code>hashCode</code>和<code>equal</code>方法来支持去重操作了，对于集合内的每个数据都会用<code>equal</code>来进行去重</p>
+<p>接下来我们尝试直接使用终结操作<code>collect</code>来解决掉<br>怎么做呢，<code>collect</code>其实也很简单就是创建一个容器，把数据装进去，我们就只需要使用一个可以支持去重操作的<br>容器来做就好了</p>
+<p>支持去重的有<code>Map</code>和<code>Set</code>，所以我们想到的第一个方法就是将流变成一个<code>Set</code>，这个也是网上很多人提供的一个版本</p>
+<pre><code>dishes.stream().distinct().collect(Collectors.toCollection(
+            () -&gt; new TreeSet&lt;&gt;(Comparator.comparing(Dish::getType)))
+</code></pre><p>我们把这行代码给分解成两行</p>
+<pre><code>TreeSet&lt;Dish&gt; container = new TreeSet&lt;&gt;(Comparator.comparing(Dish::getType));
+dishes.stream().collect(Collectors.toCollection(() -&gt; container));
+</code></pre><p>第一行其实就是声明了一个容器，核心代码就是 <code>() -&gt; container</code> 我们传入一个容器，让他来存贮，我们使用<br><code>TreeSet</code>的一个构造器，它只需要传入一个函数，他会比较传进来的每个值，假如发现已经存在了它就不会插入了</p>
+<p>但是这个有个问题就是，他只能选择第一个出现的</p>
+<p>接下来我们试试用<code>Map</code>，</p>
+<pre><code>dishes.stream().collect(toMap(Dish::getType, d -&gt; d);
+</code></pre><p>我们写下下面的代码，但是这个代码有点问题就是假如出现重复的，他会抛异常，因为程序默认不知道你想要哪个数据</p>
+<pre><code>dishes.stream().collect(toMap(Dish::getType, d -&gt; d, (oldData, newData) -&gt; oldData));
+</code></pre><p>我们可以传入一个选择函数，这样当发现重复的时候就可以选择要哪个插入到map中去，这个也解决了上面使用<code>Set</code>来存贮的时候没法选择到底是新来的还是后来的</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这篇博客简单的介绍了实现去重功能的三种实现方法，接下来这个系列的博客会深入到源码来探究Java8如何实现<br>Stream这么多功能的</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
+<li><a href="https://cloud.tencent.com/developer/article/1756399" target="_blank" rel="noopener">Java Stream 源码分析</a></li>
+<li><a href="https://www.jianshu.com/p/3219f184bb8e" target="_blank" rel="noopener">JAVA8优雅的去重</a></li>
+<li><a href="https://club.perfma.com/article/116123" target="_blank" rel="noopener">JAVA8Stream 源码分析2</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/05/15/summary/周末杂思/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1201,101 +1325,6 @@ order by sage;
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/03/09/summary/未来一年规划/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/03/09/summary/未来一年规划/" class="post-title-link" itemprop="url">未来一年规划</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-03-09 20:17:31" itemprop="dateCreated datePublished" datetime="2021-03-09T20:17:31+08:00">2021-03-09</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-04-04 14:49:28" itemprop="dateModified" datetime="2021-04-04T14:49:28+08:00">2021-04-04</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/随想/" itemprop="url" rel="index">
-                    <span itemprop="name">随想</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>1.4k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          有东西被加密了, 请输入密码查看
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/03/09/summary/未来一年规划/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1368,7 +1397,7 @@ order by sage;
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">126</span>
+          <span class="site-state-item-count">127</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1381,7 +1410,7 @@ order by sage;
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1443,12 +1472,12 @@ order by sage;
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">290k</span>
+    <span title="站点总字数">291k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:24</span>
+    <span title="站点阅读时长">4:25</span>
 </div>
 
         

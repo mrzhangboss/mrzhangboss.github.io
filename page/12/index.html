@@ -211,7 +211,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/software/有用的几个Shell命令/">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/python/PIL/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/myself.jpg">
@@ -225,7 +225,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2016/07/18/software/有用的几个Shell命令/" class="post-title-link" itemprop="url">有用的几个Shell命令</a>
+            <a href="/2016/07/18/python/PIL/" class="post-title-link" itemprop="url">PIL （Pillow）</a>
         </h1>
 
         <div class="post-meta">
@@ -242,7 +242,126 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:08:54" itemprop="dateModified" datetime="2021-03-09T20:08:54+08:00">2021-03-09</time>
+                <time title="修改时间：2021-03-09 20:04:03" itemprop="dateModified" datetime="2021-03-09T20:04:03+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>1.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Pillow 是 PIL的对Python3支持的另外一个分支，当然他对Python2也兼容，由于PIL安装起来比较烦，而使用pip可以很轻松的安装Pillow，所以我选择Pillow使用，但是其核心还是PIL库的。</p>
+<hr>
+<p>Python的图形处理库如PIL一直很强大，但是要想使用好它必须对图片有一定的知识储备。<br>使用起来很简单</p>
+<pre><code>from PIL import Image
+</code></pre><p>引用Image包</p>
+<pre><code>im = Image.open(&apos;1.png&apos;)
+</code></pre><p>打开图片，得到一个im对象，我们接下来就可以对这个对象进行操作（前提有这个1.png图片）</p>
+<p>我们先看一下他的一些属性</p>
+<pre><code>&gt;&gt;&gt; print im.format, im.size, im.mode
+PNG (83, 81) RGB
+</code></pre><p>第一个我们输出图片的格式，图片有很多种格式，常用的有jpg、png还有gif动图啊，PIL支持很多种格式，我们可以使用PIL轻松的将格式转换，<code>im.save(&#39;1.jpg&#39;)</code>,当然你可以选择格式假如你没选好后缀名的话，im.size就是图片大小，他返回的是一个元组第一个长度第二个是宽度，单位是像素。<br>现在就谈谈 这三个属性对应的关系吧<br> 首先我们使用一张像素图来说吧</p>
+<p><img src="http://img1.imgtn.bdimg.com/it/u=214288124,4080808149&amp;fm=21&amp;gp=0.jpg" alt></p>
+<p>我们存贮图片的时候是将整个图像分成很多个相同的小方块，每个小方块我们称为像素，当然一张图片分的越小，像素越多，那么图片就越接近真实图片，上面的<code>im.size</code>属性就告诉我们，这张图片分成了，长为83px，宽为81px的图片，那么一共有83*81=6723个像素点，每个像素点里面存什么呢，这就是<code>im.mode</code>属性告诉我们的，贴一下属性有什么吧</p>
+<ol>
+<li>1 (1-bit pixels, black and white, stored with one pixel per byte)</li>
+<li>L (8-bit pixels, black and white)</li>
+<li>P (8-bit pixels, mapped to any other mode using a color palette)</li>
+<li>RGB (3x8-bit pixels, true color)</li>
+<li>RGBA (4x8-bit pixels, true color with transparency mask)</li>
+<li>CMYK (4x8-bit pixels, color separation)</li>
+<li>YCbCr (3x8-bit pixels, color video format)</li>
+<li>I (32-bit signed integer pixels)</li>
+<li>F (32-bit floating point pixels)</li>
+</ol>
+<p>像素存贮就是涉及到颜色的存贮，在早期的黑白游戏机，只有黑和白两种，那么每个像素点就只有1位颜色来存贮，1位只能存贮两种颜色，八位色就能存256种颜色，像八位我们能用256个油漆桶/256色调色板来形容，像上面我们使用的RGB是由三种三原色红绿蓝混合而成，我们知道大自然所有的颜色都可以用红绿蓝三种颜色调配出来，所以RGB又被称为真彩（true color），每种颜色我们都分成256种，所以我们一共有256<em>256</em>256=16777216种颜色可以调配，像素的其他模式我们不介绍太多，有兴趣的可以自己钻研。<br>那么我们知道每个像素占多少字节，又知道共有多少个像素，那我们是不是就可以直接计算出来图片大小，来验证一下</p>
+<p>以第一张图片为例，共有83<em>81=6723个像素点，用RGB模式，每个像素三个字节，共有6723</em>3=20667b=20kb，但是我这张图片只有11.6kb，误差太大了吧，这时候我们就要介绍一下上面那个<code>im.format</code>属性了，这张图片采用png格式，我们先尝试一下把他转成JPG格式吧</p>
+<pre><code>im.save(&apos;1.jpg&apos;)
+</code></pre><p>我们再查看一下这个<code>1.jpg</code>的大小，只有2.24kb了，我们用PIL打开这张图片</p>
+<pre><code>&gt;&gt;&gt; im2 = Image.open(&apos;1.jpg&apos;)
+&gt;&gt;&gt; print im2.format, im2.size, im2.mode 
+JPEG (83, 81) RGB
+</code></pre><p>图片大小没有改变，但是format变成了JPEG，而且文件大小变成原来的1/5,<br>JPEG和GIF和PNG是三种图片压缩技术，他们使用压缩算法把图片压缩成很小，当我们打开图片时，解密算法把他还原出来，所以我们算出来的大小与压缩后的大小是不一样的。<br>有了这些概念我们就能更好的使用PIL提供给我们的magic方法，下次在谈我对PIL的高级应用吧。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/software/阿里云服务器初体验/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/07/18/software/阿里云服务器初体验/" class="post-title-link" itemprop="url">阿里云服务器初体验</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-07-18 16:07:36" itemprop="dateCreated datePublished" datetime="2016-07-18T16:07:36+08:00">2016-07-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 08:41:07" itemprop="dateModified" datetime="2021-03-09T08:41:07+08:00">2021-03-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -261,7 +380,7 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span>464</span>
+              <span>466</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -279,38 +398,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="管线命令-pipe-："><a href="#管线命令-pipe-：" class="headerlink" title="管线命令 (pipe)："></a>管线命令 (pipe)：</h3><ol>
-<li>撷取命令： cut, grep</li>
-<li>排序命令： sort, wc, uniq</li>
-<li>双向重导向： tee</li>
-<li>字符转换命令： tr, col, join, paste, expand</li>
-<li>分割命令： split</li>
-<li>参数代换： xargs<h3 id="分割文档"><a href="#分割文档" class="headerlink" title="分割文档"></a>分割文档</h3></li>
-</ol>
-<blockquote>
-<p>长长的一大片文档有时我们并不愿意看到全部内容,我们只想关注<br>部分内容的时候了可以考虑使用分割文档命令</p>
-</blockquote>
-<p><code>cut</code>是一个很好的分割文档工具</p>
-<h3 id="vi常用命令"><a href="#vi常用命令" class="headerlink" title="vi常用命令"></a>vi常用命令</h3><ol>
-<li>[Ctrl] + [u] 屏幕『向上』移动半页</li>
-<li><ul>
-<li>光标移动到非空格符的下一列</li>
-</ul>
-</li>
-<li><ul>
-<li>光标移动到非空格符的上一列</li>
-</ul>
-</li>
-<li>n<space>那个 n 表示『数字』，例如 20 。按下数字后会向右移动这一行的n 个字符。例如 20&lt;spac移动 20 个字符距离。</space></li>
-<li>0 这是数字『0 』：移动到这一行的最前面字符</li>
-<li>$ 移动到这一行的最后面字符处(常用)</li>
-<li>H 光标移动到这个屏幕的最上方那一行</li>
-<li>M 光标移动到这个屏幕的中央那一行</li>
-<li>L 光标移动到这个屏幕的最下方那一行</li>
-<li>G 移动到这个档案的最后一行(常用)</li>
-<li>nG n 为数字。移动到这个档案的第 n 行。例如 2档案的第 20 行(可配合 :set nu)</li>
-<li>gg 移动到这个档案的第一行，相当于 1G 啊！ (<br>n<enter> n 为数字。光标向下移动 n 行(常用)</enter></li>
-</ol>
+          <h3 id="申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。"><a href="#申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。" class="headerlink" title="申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。"></a>申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。</h3><h3 id="1-用户名和密码"><a href="#1-用户名和密码" class="headerlink" title="1.用户名和密码"></a>1.用户名和密码</h3><p>找了半天没有找到那个是用户名，试了实例的id，没有用，最后终于在登录帮助名里面找到了，用户名竟然是<code>root</code>！！！！,我用的是Ubuntu系统，说好的Ubuntu不提供root权限的呢，阿里还真会改造Linux系统<br>，但是我觉得用root登录还是不安全，我觉得新建一个用户吧</p>
+<p>在root权限下</p>
+<pre><code>useradd -s /bin/bash -r -m yourname
+</code></pre><p>解释一下，本来直接<code>useradd yourname</code> 就可以新建一个<code>yourname</code>账号，但是如果用你新建的用户登录的话，你无法使用Tab键和上下左右键 ，你键入 <code>echo $SHELL</code>，会发现是<code>/bin/sh</code>，因为Ubuntu默认创建账号使用<code>/bin/sh</code>，假如你没加这个可以删掉 用这个<code>userdel yourname</code>重新来一遍，搞完这个只是创建了一个普通用户，你使用不了sudo获取最高权限，这个怎么办，很简单在<code>/etc/sudoers</code>里面找到<br>        root ALL=(ALL:ALL) ALL</p>
+<p>模仿它加上自己的账号名就可以</p>
 
       
     </div>
@@ -676,7 +768,7 @@ print textwrap.fill(dedented_text, width=50)
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/software/阿里云服务器初体验/">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/python/python学习/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/myself.jpg">
@@ -690,7 +782,7 @@ print textwrap.fill(dedented_text, width=50)
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2016/07/18/software/阿里云服务器初体验/" class="post-title-link" itemprop="url">阿里云服务器初体验</a>
+            <a href="/2016/07/18/python/python学习/" class="post-title-link" itemprop="url">python学习</a>
         </h1>
 
         <div class="post-meta">
@@ -707,7 +799,7 @@ print textwrap.fill(dedented_text, width=50)
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 08:41:07" itemprop="dateModified" datetime="2021-03-09T08:41:07+08:00">2021-03-09</time>
+                <time title="修改时间：2021-03-09 20:04:07" itemprop="dateModified" datetime="2021-03-09T20:04:07+08:00">2021-03-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -715,8 +807,8 @@ print textwrap.fill(dedented_text, width=50)
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/软件/" itemprop="url" rel="index">
-                    <span itemprop="name">软件</span>
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
                   </a>
                 </span>
             </span>
@@ -726,7 +818,7 @@ print textwrap.fill(dedented_text, width=50)
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span>466</span>
+              <span>410</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -744,12 +836,9 @@ print textwrap.fill(dedented_text, width=50)
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。"><a href="#申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。" class="headerlink" title="申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。"></a>申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。</h3><h3 id="1-用户名和密码"><a href="#1-用户名和密码" class="headerlink" title="1.用户名和密码"></a>1.用户名和密码</h3><p>找了半天没有找到那个是用户名，试了实例的id，没有用，最后终于在登录帮助名里面找到了，用户名竟然是<code>root</code>！！！！,我用的是Ubuntu系统，说好的Ubuntu不提供root权限的呢，阿里还真会改造Linux系统<br>，但是我觉得用root登录还是不安全，我觉得新建一个用户吧</p>
-<p>在root权限下</p>
-<pre><code>useradd -s /bin/bash -r -m yourname
-</code></pre><p>解释一下，本来直接<code>useradd yourname</code> 就可以新建一个<code>yourname</code>账号，但是如果用你新建的用户登录的话，你无法使用Tab键和上下左右键 ，你键入 <code>echo $SHELL</code>，会发现是<code>/bin/sh</code>，因为Ubuntu默认创建账号使用<code>/bin/sh</code>，假如你没加这个可以删掉 用这个<code>userdel yourname</code>重新来一遍，搞完这个只是创建了一个普通用户，你使用不了sudo获取最高权限，这个怎么办，很简单在<code>/etc/sudoers</code>里面找到<br>        root ALL=(ALL:ALL) ALL</p>
-<p>模仿它加上自己的账号名就可以</p>
-
+          <h4 id="由于有其他编程语言基础，所以对于python的学习并不吃力，但是整体感觉python的确与前面学习c、c———"><a href="#由于有其他编程语言基础，所以对于python的学习并不吃力，但是整体感觉python的确与前面学习c、c———" class="headerlink" title="由于有其他编程语言基础，所以对于python的学习并不吃力，但是整体感觉python的确与前面学习c、c———"></a>由于有其他编程语言基础，所以对于python的学习并不吃力，但是整体感觉python的确与前面学习c、c———</h4><h3 id="1-实时编译VS静态编译"><a href="#1-实时编译VS静态编译" class="headerlink" title="1. 实时编译VS静态编译"></a>1. 实时编译VS静态编译</h3><p>不需要输入任何前缀，直接将代码放在python解释器上面就能运行，虽然window下不支持直接点开文件就能使用，但是只要安装了python解释器就能很轻松的运行。</p>
+<p>分量轻是他的特点吧！相比打开vs等半天然后，编译连接最后执行。python是一门很轻巧的语言，没有满屏的分号，大括号，基本类型比如int、string、float不区分直接拿来用就可以了，任何一个变量都是一个对象，对象可以千变万化，感觉python是一门很野的熊孩子什么都不在乎，比如说你什么了相同的两个变量</p>
+<h1 id="这门强类型语言则不允许，在同级作用域内他只允许声明一次，python或许已经没有声明了，每个名字只是一个对象而已并没有他的归属。"><a href="#这门强类型语言则不允许，在同级作用域内他只允许声明一次，python或许已经没有声明了，每个名字只是一个对象而已并没有他的归属。" class="headerlink" title="这门强类型语言则不允许，在同级作用域内他只允许声明一次，python或许已经没有声明了，每个名字只是一个对象而已并没有他的归属。"></a>这门强类型语言则不允许，在同级作用域内他只允许声明一次，python或许已经没有声明了，每个名字只是一个对象而已并没有他的归属。</h1><h4 id="2-动态语言VS静态语言"><a href="#2-动态语言VS静态语言" class="headerlink" title="2.动态语言VS静态语言"></a>2.动态语言VS静态语言</h4><h1 id="给我感受是一颗静止的树的话，那么python就是一匹‘野马’，C"><a href="#给我感受是一颗静止的树的话，那么python就是一匹‘野马’，C" class="headerlink" title="给我感受是一颗静止的树的话，那么python就是一匹‘野马’，C"></a>给我感受是一颗静止的树的话，那么python就是一匹‘野马’，C</h1>
       
     </div>
 
@@ -929,7 +1018,7 @@ for t in threading.enumerate():
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/python/PIL/">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/software/有用的几个Shell命令/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/myself.jpg">
@@ -943,7 +1032,7 @@ for t in threading.enumerate():
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2016/07/18/python/PIL/" class="post-title-link" itemprop="url">PIL （Pillow）</a>
+            <a href="/2016/07/18/software/有用的几个Shell命令/" class="post-title-link" itemprop="url">有用的几个Shell命令</a>
         </h1>
 
         <div class="post-meta">
@@ -960,7 +1049,7 @@ for t in threading.enumerate():
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:04:03" itemprop="dateModified" datetime="2021-03-09T20:04:03+08:00">2021-03-09</time>
+                <time title="修改时间：2021-03-09 20:08:54" itemprop="dateModified" datetime="2021-03-09T20:08:54+08:00">2021-03-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -968,8 +1057,8 @@ for t in threading.enumerate():
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
+                  <a href="/categories/软件/" itemprop="url" rel="index">
+                    <span itemprop="name">软件</span>
                   </a>
                 </span>
             </span>
@@ -979,13 +1068,13 @@ for t in threading.enumerate():
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span>1.8k</span>
+              <span>464</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>2 分钟</span>
+              <span>1 分钟</span>
             </span>
 
         </div>
@@ -997,38 +1086,38 @@ for t in threading.enumerate():
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>Pillow 是 PIL的对Python3支持的另外一个分支，当然他对Python2也兼容，由于PIL安装起来比较烦，而使用pip可以很轻松的安装Pillow，所以我选择Pillow使用，但是其核心还是PIL库的。</p>
-<hr>
-<p>Python的图形处理库如PIL一直很强大，但是要想使用好它必须对图片有一定的知识储备。<br>使用起来很简单</p>
-<pre><code>from PIL import Image
-</code></pre><p>引用Image包</p>
-<pre><code>im = Image.open(&apos;1.png&apos;)
-</code></pre><p>打开图片，得到一个im对象，我们接下来就可以对这个对象进行操作（前提有这个1.png图片）</p>
-<p>我们先看一下他的一些属性</p>
-<pre><code>&gt;&gt;&gt; print im.format, im.size, im.mode
-PNG (83, 81) RGB
-</code></pre><p>第一个我们输出图片的格式，图片有很多种格式，常用的有jpg、png还有gif动图啊，PIL支持很多种格式，我们可以使用PIL轻松的将格式转换，<code>im.save(&#39;1.jpg&#39;)</code>,当然你可以选择格式假如你没选好后缀名的话，im.size就是图片大小，他返回的是一个元组第一个长度第二个是宽度，单位是像素。<br>现在就谈谈 这三个属性对应的关系吧<br> 首先我们使用一张像素图来说吧</p>
-<p><img src="http://img1.imgtn.bdimg.com/it/u=214288124,4080808149&amp;fm=21&amp;gp=0.jpg" alt></p>
-<p>我们存贮图片的时候是将整个图像分成很多个相同的小方块，每个小方块我们称为像素，当然一张图片分的越小，像素越多，那么图片就越接近真实图片，上面的<code>im.size</code>属性就告诉我们，这张图片分成了，长为83px，宽为81px的图片，那么一共有83*81=6723个像素点，每个像素点里面存什么呢，这就是<code>im.mode</code>属性告诉我们的，贴一下属性有什么吧</p>
-<ol>
-<li>1 (1-bit pixels, black and white, stored with one pixel per byte)</li>
-<li>L (8-bit pixels, black and white)</li>
-<li>P (8-bit pixels, mapped to any other mode using a color palette)</li>
-<li>RGB (3x8-bit pixels, true color)</li>
-<li>RGBA (4x8-bit pixels, true color with transparency mask)</li>
-<li>CMYK (4x8-bit pixels, color separation)</li>
-<li>YCbCr (3x8-bit pixels, color video format)</li>
-<li>I (32-bit signed integer pixels)</li>
-<li>F (32-bit floating point pixels)</li>
+          <h3 id="管线命令-pipe-："><a href="#管线命令-pipe-：" class="headerlink" title="管线命令 (pipe)："></a>管线命令 (pipe)：</h3><ol>
+<li>撷取命令： cut, grep</li>
+<li>排序命令： sort, wc, uniq</li>
+<li>双向重导向： tee</li>
+<li>字符转换命令： tr, col, join, paste, expand</li>
+<li>分割命令： split</li>
+<li>参数代换： xargs<h3 id="分割文档"><a href="#分割文档" class="headerlink" title="分割文档"></a>分割文档</h3></li>
 </ol>
-<p>像素存贮就是涉及到颜色的存贮，在早期的黑白游戏机，只有黑和白两种，那么每个像素点就只有1位颜色来存贮，1位只能存贮两种颜色，八位色就能存256种颜色，像八位我们能用256个油漆桶/256色调色板来形容，像上面我们使用的RGB是由三种三原色红绿蓝混合而成，我们知道大自然所有的颜色都可以用红绿蓝三种颜色调配出来，所以RGB又被称为真彩（true color），每种颜色我们都分成256种，所以我们一共有256<em>256</em>256=16777216种颜色可以调配，像素的其他模式我们不介绍太多，有兴趣的可以自己钻研。<br>那么我们知道每个像素占多少字节，又知道共有多少个像素，那我们是不是就可以直接计算出来图片大小，来验证一下</p>
-<p>以第一张图片为例，共有83<em>81=6723个像素点，用RGB模式，每个像素三个字节，共有6723</em>3=20667b=20kb，但是我这张图片只有11.6kb，误差太大了吧，这时候我们就要介绍一下上面那个<code>im.format</code>属性了，这张图片采用png格式，我们先尝试一下把他转成JPG格式吧</p>
-<pre><code>im.save(&apos;1.jpg&apos;)
-</code></pre><p>我们再查看一下这个<code>1.jpg</code>的大小，只有2.24kb了，我们用PIL打开这张图片</p>
-<pre><code>&gt;&gt;&gt; im2 = Image.open(&apos;1.jpg&apos;)
-&gt;&gt;&gt; print im2.format, im2.size, im2.mode 
-JPEG (83, 81) RGB
-</code></pre><p>图片大小没有改变，但是format变成了JPEG，而且文件大小变成原来的1/5,<br>JPEG和GIF和PNG是三种图片压缩技术，他们使用压缩算法把图片压缩成很小，当我们打开图片时，解密算法把他还原出来，所以我们算出来的大小与压缩后的大小是不一样的。<br>有了这些概念我们就能更好的使用PIL提供给我们的magic方法，下次在谈我对PIL的高级应用吧。</p>
+<blockquote>
+<p>长长的一大片文档有时我们并不愿意看到全部内容,我们只想关注<br>部分内容的时候了可以考虑使用分割文档命令</p>
+</blockquote>
+<p><code>cut</code>是一个很好的分割文档工具</p>
+<h3 id="vi常用命令"><a href="#vi常用命令" class="headerlink" title="vi常用命令"></a>vi常用命令</h3><ol>
+<li>[Ctrl] + [u] 屏幕『向上』移动半页</li>
+<li><ul>
+<li>光标移动到非空格符的下一列</li>
+</ul>
+</li>
+<li><ul>
+<li>光标移动到非空格符的上一列</li>
+</ul>
+</li>
+<li>n<space>那个 n 表示『数字』，例如 20 。按下数字后会向右移动这一行的n 个字符。例如 20&lt;spac移动 20 个字符距离。</space></li>
+<li>0 这是数字『0 』：移动到这一行的最前面字符</li>
+<li>$ 移动到这一行的最后面字符处(常用)</li>
+<li>H 光标移动到这个屏幕的最上方那一行</li>
+<li>M 光标移动到这个屏幕的中央那一行</li>
+<li>L 光标移动到这个屏幕的最下方那一行</li>
+<li>G 移动到这个档案的最后一行(常用)</li>
+<li>nG n 为数字。移动到这个档案的第 n 行。例如 2档案的第 20 行(可配合 :set nu)</li>
+<li>gg 移动到这个档案的第一行，相当于 1G 啊！ (<br>n<enter> n 为数字。光标向下移动 n 行(常用)</enter></li>
+</ol>
 
       
     </div>
@@ -1281,120 +1370,6 @@ $ make
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/useless/EF搭建可扩展菜单/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/07/18/useless/EF搭建可扩展菜单/" class="post-title-link" itemprop="url">EF搭建可扩展菜单</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-07-18 16:07:36" itemprop="dateCreated datePublished" datetime="2016-07-18T16:07:36+08:00">2016-07-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:34:28" itemprop="dateModified" datetime="2021-03-09T20:34:28+08:00">2021-03-09</time>
-              </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>1.9k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>2 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-</blockquote>
-<h3 id="由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。"><a href="#由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。" class="headerlink" title="由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。"></a>由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。</h3><h4 id="由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF-Code-First更是坑了我一把，我想把我碰到坑给大家分享一下。"><a href="#由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF-Code-First更是坑了我一把，我想把我碰到坑给大家分享一下。" class="headerlink" title="由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF Code First更是坑了我一把，我想把我碰到坑给大家分享一下。"></a>由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF Code First更是坑了我一把，我想把我碰到坑给大家分享一下。</h4><h2 id="1-类库的实现"><a href="#1-类库的实现" class="headerlink" title="1.类库的实现"></a>1.类库的实现</h2><h3 id="首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个bool类型IsFoot来定义是否为根菜单，每个Menus有一个父级菜单Menus，有一群子菜单，下面是我定义的Menu库。"><a href="#首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个bool类型IsFoot来定义是否为根菜单，每个Menus有一个父级菜单Menus，有一群子菜单，下面是我定义的Menu库。" class="headerlink" title="首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个bool类型IsFoot来定义是否为根菜单，每个Menus有一个父级菜单Menus，有一群子菜单，下面是我定义的Menu库。"></a>首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个<code>bool</code>类型<strong>IsFoot</strong>来定义是否为根菜单，每个Menus有一个父级菜单Menus，有一群子菜单，下面是我定义的Menu库。</h3><pre><code>  [Description(&quot;菜单&quot;)]
-public class Menus
-{
-    [Key]
-    [Display(Name=&quot;菜单ID&quot;)]
-    public int MenusID { get; set; }
-    [Required]
-    [Display(Name=&quot;是否为根节点&quot;)]
-    public bool IsFoot { get; set; }
-    [Required]
-    [StringLength(25)]
-    [Display(Name=&quot;目录名字&quot;)]
-    public string Name { get; set; }
-    [Display(Name=&quot;是否删除&quot;)]
-    public bool IsDelete { get; set; }
-    [Display(Name=&quot;包含的文章&quot;)]
-    public virtual List&lt;Article&gt; articles { get; set; }
-    [Display(Name = &quot;父级菜单&quot;)]
-    public virtual Menus fatherMenus { get; set; }
-    [Display(Name = &quot;子菜单&quot;)]
-    public virtual List&lt;Menus&gt; sonList { get; set; }
-
-
-}
-</code></pre><h3 id="每个Menus都包含了一个文章集合-虽然有些菜单不一定有文章但是EF可以允许我们0对多，或1对多。"><a href="#每个Menus都包含了一个文章集合-虽然有些菜单不一定有文章但是EF可以允许我们0对多，或1对多。" class="headerlink" title="每个Menus都包含了一个文章集合,虽然有些菜单不一定有文章但是EF可以允许我们0对多，或1对多。"></a>每个Menus都包含了一个文章集合,虽然有些菜单不一定有文章但是EF可以允许我们0对多，或1对多。</h3><h2 id="2-生成数据库"><a href="#2-生成数据库" class="headerlink" title="2.  生成数据库"></a>2.  生成数据库</h2><hr>
-<p>EF比较人性化的是，当我们数据库里面没有我们想要生成的表时，我们不需要多余的代码，只要当成数据库有表，像平时一样添加数据然后EF会帮我们自动在数据库里面建好表，当然你如果有相同名字的表话它报错，会提醒你数据库里面有如果想保存数据要做好数据迁移工作，数据迁移不是我们的重点，如果想了解的话，<a href="http://www.cnblogs.com/guomingfeng/archive/2013/06/15/mvc-ef-configuration-migration.html" target="_blank" rel="noopener">点击这里</a></p>
-<h3 id="生成的数据库包含两个表，一个Menus表，一个是Article表（PS：上面没有给出Article的类型定义，想要的可以自己写），对于这个来说，我们并没有在表里面定义外键属性，只是用来一个引用属性，引用属性是一种“虚属性”，我们通过这个属性来建立起两个对象的虚拟联系，比如说父与子，这种关系是虚拟的对于两者之间的联系是通过血缘来联系的，这个血缘是存在的，相对应就是数据库里面的外键联系，外键也可以看做是表中的一个字段，它记录了一种关系。"><a href="#生成的数据库包含两个表，一个Menus表，一个是Article表（PS：上面没有给出Article的类型定义，想要的可以自己写），对于这个来说，我们并没有在表里面定义外键属性，只是用来一个引用属性，引用属性是一种“虚属性”，我们通过这个属性来建立起两个对象的虚拟联系，比如说父与子，这种关系是虚拟的对于两者之间的联系是通过血缘来联系的，这个血缘是存在的，相对应就是数据库里面的外键联系，外键也可以看做是表中的一个字段，它记录了一种关系。" class="headerlink" title="生成的数据库包含两个表，一个Menus表，一个是Article表（PS：上面没有给出Article的类型定义，想要的可以自己写），对于这个来说，我们并没有在表里面定义外键属性，只是用来一个引用属性，引用属性是一种“虚属性”，我们通过这个属性来建立起两个对象的虚拟联系，比如说父与子，这种关系是虚拟的对于两者之间的联系是通过血缘来联系的，这个血缘是存在的，相对应就是数据库里面的外键联系，外键也可以看做是表中的一个字段，它记录了一种关系。"></a>生成的数据库包含两个表，一个Menus表，一个是Article表（PS：上面没有给出Article的类型定义，想要的可以自己写），对于这个来说，我们并没有在表里面定义外键属性，只是用来一个引用属性，引用属性是一种“虚属性”，我们通过这个属性来建立起两个对象的虚拟联系，比如说父与子，这种关系是虚拟的对于两者之间的联系是通过血缘来联系的，这个血缘是存在的，相对应就是数据库里面的外键联系，外键也可以看做是表中的一个字段，它记录了一种关系。</h3><h4 id="由于EF的智能关系，当我们Code-First时，他会帮我们自动建好外键如果我们不定义的话，当我们使用EF的时候是不需要考虑外键的值的初始化，如果我们没有给他赋值EF会自动给他赋值。"><a href="#由于EF的智能关系，当我们Code-First时，他会帮我们自动建好外键如果我们不定义的话，当我们使用EF的时候是不需要考虑外键的值的初始化，如果我们没有给他赋值EF会自动给他赋值。" class="headerlink" title="由于EF的智能关系，当我们Code First时，他会帮我们自动建好外键如果我们不定义的话，当我们使用EF的时候是不需要考虑外键的值的初始化，如果我们没有给他赋值EF会自动给他赋值。"></a>由于EF的智能关系，当我们Code First时，他会帮我们自动建好外键如果我们不定义的话，当我们使用EF的时候是不需要考虑外键的值的初始化，如果我们没有给他赋值EF会自动给他赋值。</h4><hr>
-<p>讲完了EF的建立，现在就谈谈使用Code First在项目中遇到的问题。</p>
-<hr>
-<p>这个问题主要出在给创建子菜单上，当我们创建子菜单时，我们用的是我们自己的类库代码进行初始化数据库，我们先得到菜单的ID然后在EF里面查询这个菜单，我们查询到这个实体，然后在菜单实体里面添加子菜单，在SaveChange()时候就报错了，EF称检测到有循环赋值的可能，让我们添加外键以避免冲突，我不记得看到的那篇博客看到有人也遇到相同的问题，如果只是普通的一对多（假如是A对1，2，3，4···），当我们给A那个新建一个5时，这个外键的位置是知道的，我们只要在5的外键位置存贮A的主键，然而当我们建立这种父级菜单时，每个菜单里面的外键可以是存贮父级的主键，也可以是子集的主键，所以EF并不能解决冲突，解决这个问题的方法有两种一种是在表中添加外键<br>如：</p>
-<pre><code>       [ForeignKey(&quot;sonList&quot;)]
-public int sonListMenusID{get;set;}
-</code></pre><p>或者用Fluent API 在继承的方法 onModelCreate中添加</p>
-<pre><code>modelBuilder.Entity&lt;Menus&gt;().HasRequired(p=&gt;p.sonList).WithMany(l=&gt;l.Menus).HasForeignKey(p=&gt;p.sonListMenusID)
-</code></pre><p>通过这种创建方式当我们创建子集菜单时我们就可以成功利用EF特性帮我们自动添加上外键，以及建立好实体关系。</p>
-<p>关于更详细的外键知识可以点击<a href="http://www.cnblogs.com/Gyoung/archive/2013/01/22/2869782.html" target="_blank" rel="noopener">这里</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1467,7 +1442,7 @@ public int sonListMenusID{get;set;}
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">126</span>
+          <span class="site-state-item-count">127</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1480,7 +1455,7 @@ public int sonListMenusID{get;set;}
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1542,12 +1517,12 @@ public int sonListMenusID{get;set;}
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">290k</span>
+    <span title="站点总字数">291k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:24</span>
+    <span title="站点阅读时长">4:25</span>
 </div>
 
         

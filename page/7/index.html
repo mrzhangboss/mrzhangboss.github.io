@@ -211,6 +211,128 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/07/01/java/Java的Char类型到底几个字节/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/07/01/java/Java的Char类型到底几个字节/" class="post-title-link" itemprop="url">Java的char类型到底几个字节</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-07-01 00:00:00" itemprop="dateCreated datePublished" datetime="2018-07-01T00:00:00+08:00">2018-07-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:02:26" itemprop="dateModified" datetime="2021-03-09T20:02:26+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>3.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>之所以有这个疑问，是上次阅读Java基础书时碰到讲解<code>char</code>类型没有看明白，并且在代码验证过程中错误的理解了代码的意思，导致我对这么个简单问题产生疑惑并且“恶意揣测”Java内部的黑魔法，这里就把我如何走上歪路，并且最终找到“正确”的道路的故事讲出来</p>
+<h2 id="问题的产生"><a href="#问题的产生" class="headerlink" title="问题的产生"></a>问题的产生</h2><p>我们知道<code>Java</code>是采用<code>Unicode</code>进行内部编码，但是使用<code>UTF-16</code>作为外部编码。</p>
+<p>怎么来理解这个东西呢。首先你要知道<code>Unicode</code>是在我们熟悉的<code>GB 18030</code>、<code>BIG-5</code>、<code>ISO8859-1</code>之后出现的，它的出现就是为了统一全世界的编码，因为前面这些编码都太片面了，只包含自己国家或者少数几个国家的字符。</p>
+<p><code>Unicode</code>的目的就是包括全世界的编码，并且给未来可能出现的编码留下位置，你可以理解为它是一张大“表”，一般我们使用16进制来表达它，并且在前面加上<code>U+</code>。例如<code>U+0041</code>代表字母<code>A</code>，但是这里有个历史问题</p>
+<p>一开始我们知道<code>Unicode</code>为了包含全世界的字符从<code>ASCII</code>的一个字节扩展到两个字节，就能包含65536个字符了，但是随着字符包含越来越多，我们逐渐需要更多字符了，最后扩展到<code>U+0000 -&gt; U+10FFFF</code>去了，为了表示这些我们必须使用三个字符，假设我们不考虑内存成本，每个字符都使用四个字符来表示（不使用三个是为了内存对齐），那么问题就解决了，大家都用<code>Unicode</code>来表示，这样我传给你一串字符你就能秒懂了。</p>
+<p>但是学过信息论就知道，单字符越长信息熵也就是信息量就少，其实在日常通信中我们并不是每个字符都会用到，为了提高效率，我们可以使用霍夫曼、香农编码技术对信息重新编码，这个就是<code>UTF-8</code>、<code>UTF-16</code>等现代编码的理论基础。</p>
+<p>这就好比特种部队手势，我们把作战命令（Unicode）需要的指令放到手势（如UTF-8）里面，这样几个手势就能表达复杂的作战计划（假如用嘴巴说的话）。</p>
+<p>接下来我们就从JAVA和Python来看，编码与其关系</p>
+<h2 id="表面兄弟：JAVA"><a href="#表面兄弟：JAVA" class="headerlink" title="表面兄弟：JAVA"></a>表面兄弟：JAVA</h2><p><code>Unicode</code>对于JAVA来说，只能算是表面兄弟，虽然内部支持<code>Unicode</code>编码，但是其本质还是基于<code>UTF-16</code>编码，为什么要这么说呢。</p>
+<p>我们来回顾一下，我们知道<code>Unicode</code>的范围是<code>U+0000-U+10ffff</code>，这意味着我们没法用两个字节来表示，但是在<code>Java</code>里面<code>char</code>类型字节为2字节，而对于字符串类<code>String</code>来说，其组成就是一个<code>char</code>字组，对于小于<code>U+10000</code>的<code>Unicode</code>码来说，<code>String</code>对象最小组成单位就是<code>char</code>，但是对于大于<code>U+10000</code>的<code>Unicode</code>码来说却是<code>char</code>数组，我们用代码来展示一下两者之间的关系。</p>
+<pre><code>char[] chars = Character.toChars(0x1f121);
+String s = new String(chars);
+</code></pre><p>而且我们将<code>s</code>输出的话，会发现它是一个字符，但是它的<code>length</code>却为二，而且我们将<code>s</code>每个字符转换成二进制你会发现他们的值依次为<code>0xd83c</code>和<code>0xdd21</code>，他们存贮的值全部以<code>UTF-16</code>的格式存贮，具体编码详细我就不细说了，下面<a href="https://zh.wikipedia.org/wiki/UTF-16" target="_blank" rel="noopener">资料</a>介绍的很详细（需要翻墙）。在<code>Unicode</code>里面占一个字符的值，却以两个基本类型存贮，当然为了维持这种“表面兄弟”的关系，<code>Java</code>也使用了“码点”来支持一下兄弟，只要使用<code>codePointAt</code>代替<code>charAt</code>，用<code>codePointCount</code>代替<code>length</code>，我们也能处理超过<code>U+10000</code>的<code>Unicode</code>编码（对于不超过<code>U+10000</code>的字符那就是“真兄弟”）</p>
+<p>当我不知道一个<code>char</code>只能放两个字节的时候，我强行使用<code>char c = (char)0x1f121</code>来“存”一个超过<code>U+10000</code>的<code>Unicode</code>码，结果被<code>Java</code>无情的溢出掉，只取到了部分值，但是我却误以为<code>Java</code>有黑魔法能用两个字节存贮了三个字节才能存下的值，乃至我闹了个笑话。</p>
+<p>总结一下<code>Java</code>是一个非常严谨的语言，规定死的东西就不会变，表面上看<code>Java</code>能够支持<code>Unicode</code>编码，但是实际上他只是编译器支持，比如你写一个<code>🄡</code>（0x1f122）的值来赋给<code>String</code>如下面：</p>
+<pre><code>String ns = &quot;🄡&quot;
+</code></pre><p>表面上看，<code>Java</code>完全支持<code>Unicode</code>码，但在实际的上面他内部还是用<code>UTF-16</code>进行编码，只是在编译的时候帮我们将<code>0x1f122</code>转换成为两个<br><code>0xd83c</code>和<code>0xdd21</code>存贮在<code>char</code>字符组里面。</p>
+<p>其实这个表面兄弟是相对的，从<code>Python3`</code>Unicode`支持来比较一下就能发现不同。</p>
+<h2 id="亲兄弟：Python"><a href="#亲兄弟：Python" class="headerlink" title="亲兄弟：Python"></a>亲兄弟：Python</h2><p><code>Python3</code>对<code>Unicode</code>是非常友好的，它在明面上完全按照<code>Unicode</code>的编码表使用来存贮<code>Unicode</code>码，对应它的<code>Unicode</code>字符串，最小单元都是<code>Unicode</code>码，多说无意，上代码。</p>
+<pre><code>  c = chr(0x1f122)
+print(len(c))  # = 1
+print(type(c)) # str
+</code></pre><p>我们可以看到我们得到的最小的码元是字符串<code>str</code>类型，无论这个<code>Unicode</code>码是否大于<code>U+10000</code>，<code>Python</code>都把它视为一个基本单位，这样避免了你对其进行一些误操作，插句话来讲讲怎么得到这个大小呢，我们使用<code>sys.getsizeof</code>方法就能计算出来</p>
+<pre><code>sys.getsizeof(chr(0x1f122))  # 80
+sys.getsizeof(chr(0x1f122) * 2) # 84
+</code></pre><p>由于<code>Python</code>使用一些字段来标注类型，所以直接使用<code>sys.getsizeof</code>得不得一个<code>Unicode</code>码需要的字节，所以我们计算两个的差，很清楚的就能得到一个<code>Unicode</code>码使用四个字节，你可以依次乘下去，而且你发现一个有趣的现象，对于小于<code>U+007F</code>的<code>Unicode</code>码，其大小为一字节，而对于<code>U+0080-U+07FF</code>其大小为两字节。具体可以看参考<a href="https://en.wikipedia.org/wiki/UTF-8" target="_blank" rel="noopener">资料</a>，<code>Python</code>内部是使用<code>UTF-8</code>来存贮<code>Unicode</code>码的，但是<code>Python</code>将这一切都隐藏起来，你从表面上看好像一个<code>Unicode</code>就是一个最小单元，对于其底层我们不得而知，我们可以从侧面来验证一下</p>
+<pre><code> timeit.timeit(&quot;&apos;中国人&apos;.encode(&apos;gbk&apos;)&quot;)
+&gt;&gt; 0.6366317819999949
+timeit.timeit(&quot;&apos;中国人&apos;.encode(&apos;utf-8&apos;)&quot;)
+&gt;&gt; 0.2109854949999317
+</code></pre><p>我们可以看到将<code>Unicode</code>编译成其他编码方式，其中<code>utf-8</code>速度是最快的，因为基本上是复制一下就行了，而其他的差距到了三倍</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过前面我们知道，<code>Python</code>之所以 <code>Unicode</code>如此“亲兄弟”是因为做了一层封装得来的，相比<code>Java</code>将<code>Unicode</code>码（使用<code>UTF-16</code>作为底层编码）暴露给出来，<code>Java</code>在底层上却是非常“坦诚”，你想直接使用<code>Unicode</code>码值也可以，<code>Java</code>编译器会帮你把<code>Unicode</code>码值转换成<code>UTF-16</code>，你也可以从<code>UTF-16</code>码生成<code>String</code>字符串，这样底层在实现查找的时候也是使用统一的编码进行。但是也正是由于这么“底层”，代码看起来总不是那么“亲”，相比于<code>Python</code>的“一视同仁”，我们也可以理解这就是这两种语言的各自特点所在。</p>
+<p>总的来说如果你想直接接触代码底层，推荐使用<code>Java</code>，假如你只想研究其本质，推荐使用<code>Python</code>来进行自然语言处理，他的封装能让你不需要了解其内部组成。</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://zh.wikipedia.org/wiki/UTF-16" target="_blank" rel="noopener">https://zh.wikipedia.org/wiki/UTF-16</a></p>
+<p><a href="https://en.wikipedia.org/wiki/UTF-8" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/UTF-8</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/05/28/java/springboot/从例子里解SpringIOC/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1726,104 +1848,6 @@ ELF Header:
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2018/01/30/algorithm/mit6_828/从CS寄存器看段的前世今生/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/01/30/algorithm/mit6_828/从CS寄存器看段的前世今生/" class="post-title-link" itemprop="url">从CS寄存器看段的前世今生</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-01-30 00:00:00" itemprop="dateCreated datePublished" datetime="2018-01-30T00:00:00+08:00">2018-01-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>931</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>Intel作为作为微处理器的航头老大，一直引导CPU的进步发展，也正是因为Intel是一个有着历史包袱的企业，所以站在现代CPU看起来，有一些非常奇葩的设计遗留下来，这些设计一开始是为了兼容，慢慢的将这种兼容又发展成新的功能，把“包袱”转换成“亮点”，段设计就是其中的一个很重要的代表，要想搞懂这个设计在不同的CPU的如何保持兼容和强化，我们必须要慢慢的把CPU的历史给捋顺。</p>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>我们要介绍第一个CPU是8086，虽然Intel前面也生产了4004、8008、8080微处理器，但是8086基本上后面所以现代化CPU始祖，Intel后面生产的CPU都对8086兼容，所以可以说段这个“祸端”就是从8086种下来的</p>
-<p>8086作为第一款的16位处理器，由于技术的问题，出现了一个严重问题寄存器只有16位，而地址总线却有20位，要想只通过一个寄存器表达地址的值显示无法实现，所以8086采用了一个段寄存器，segment × 16+offset（CS:IP），采用这个方式就能实现20位地址索引</p>
-<h2 id="段设计对程序影响"><a href="#段设计对程序影响" class="headerlink" title="段设计对程序影响"></a>段设计对程序影响</h2><p>前面简单的介绍了段设计的原因，现在我们来看看这个设计的对16位程序的影响。</p>
-<h3 id="兼容性"><a href="#兼容性" class="headerlink" title="兼容性"></a>兼容性</h3><p>由于段的存在，我们设计程序的时候可以更加自由，我们可以假设我们是在任何低16位置的内存上，只有到时切换程序时候切换段就可以</p>
-<h3 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h3><p>我们可以用相同的低地址存代码和数据，只需要切换段就行，而且我们也不需要考虑数据要多少空间，代码要多少空间，以便设定跳转地址</p>
-<blockquote>
-<p>可以说段设计是16位程序的一个很优雅的做法，但是到了３２位的时候程序不行了</p>
-</blockquote>
-<h2 id="32位处理器的改变"><a href="#32位处理器的改变" class="headerlink" title="32位处理器的改变"></a>32位处理器的改变</h2><p>我们知道32位处理器的诞生带来了两件事,第一个就是寄存器有32位了,说明最大内存地址可以到4G了(<code>0x000000-0xffffff</code>),而且总线地址也有32位了。这个时候就很尴尬了，原来的段设计到这里就成鸡肋了。但是为了兼容，我们还是给他一个功能，段选择子，当然现代Unix操作系统没有用这个东西，只是在初始化的时候意思意思一下，具体可以看一下这篇<a href="http://leenjewel.github.io/blog/2014/07/29/%5B%28xue-xi-xv6%29%5D-cong-shi-mo-shi-dao-bao-hu-mo-shi/" target="_blank" rel="noopener">博客</a>的<code>GDB</code>表</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>最近学操作系统感觉有很多疑惑，了解很多知识，总想好好总结一下细节，结果发现总有大神们早就写出来了，而且非常详细，我就不班门弄釜了，把下面的lab好好思考，提炼出自己的知识。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1896,7 +1920,7 @@ ELF Header:
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">126</span>
+          <span class="site-state-item-count">127</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1909,7 +1933,7 @@ ELF Header:
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1971,12 +1995,12 @@ ELF Header:
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">290k</span>
+    <span title="站点总字数">291k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:24</span>
+    <span title="站点阅读时长">4:25</span>
 </div>
 
         
