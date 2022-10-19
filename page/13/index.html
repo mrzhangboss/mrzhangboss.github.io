@@ -211,7 +211,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/useless/EF搭建可扩展菜单/">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/useless/泛型继承的理解/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/myself.jpg">
@@ -225,7 +225,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2016/07/18/useless/EF搭建可扩展菜单/" class="post-title-link" itemprop="url">EF搭建可扩展菜单</a>
+            <a href="/2016/07/18/useless/泛型继承的理解/" class="post-title-link" itemprop="url">泛型继承的理解</a>
         </h1>
 
         <div class="post-meta">
@@ -250,13 +250,13 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span>1.9k</span>
+              <span>901</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>2 分钟</span>
+              <span>1 分钟</span>
             </span>
 
         </div>
@@ -268,44 +268,55 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <blockquote>
-</blockquote>
-<h3 id="由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。"><a href="#由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。" class="headerlink" title="由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。"></a>由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。</h3><h4 id="由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF-Code-First更是坑了我一把，我想把我碰到坑给大家分享一下。"><a href="#由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF-Code-First更是坑了我一把，我想把我碰到坑给大家分享一下。" class="headerlink" title="由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF Code First更是坑了我一把，我想把我碰到坑给大家分享一下。"></a>由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF Code First更是坑了我一把，我想把我碰到坑给大家分享一下。</h4><h2 id="1-类库的实现"><a href="#1-类库的实现" class="headerlink" title="1.类库的实现"></a>1.类库的实现</h2><h3 id="首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个bool类型IsFoot来定义是否为根菜单，每个Menus有一个父级菜单Menus，有一群子菜单，下面是我定义的Menu库。"><a href="#首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个bool类型IsFoot来定义是否为根菜单，每个Menus有一个父级菜单Menus，有一群子菜单，下面是我定义的Menu库。" class="headerlink" title="首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个bool类型IsFoot来定义是否为根菜单，每个Menus有一个父级菜单Menus，有一群子菜单，下面是我定义的Menu库。"></a>首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个<code>bool</code>类型<strong>IsFoot</strong>来定义是否为根菜单，每个Menus有一个父级菜单Menus，有一群子菜单，下面是我定义的Menu库。</h3><pre><code>  [Description(&quot;菜单&quot;)]
-public class Menus
+          <h3 id="泛型对于解决面对对象编程的算法设计可以提高其运算速度，但是对于引用类型来说还是没什么差别，因为引用类型只是指针的地址的调用，简单来说泛型还是挺好理解的，但是对于泛型、非泛型、继承和接口的融合就有些迷惑了。"><a href="#泛型对于解决面对对象编程的算法设计可以提高其运算速度，但是对于引用类型来说还是没什么差别，因为引用类型只是指针的地址的调用，简单来说泛型还是挺好理解的，但是对于泛型、非泛型、继承和接口的融合就有些迷惑了。" class="headerlink" title="泛型对于解决面对对象编程的算法设计可以提高其运算速度，但是对于引用类型来说还是没什么差别，因为引用类型只是指针的地址的调用，简单来说泛型还是挺好理解的，但是对于泛型、非泛型、继承和接口的融合就有些迷惑了。"></a>泛型对于解决面对对象编程的算法设计可以提高其运算速度，但是对于引用类型来说还是没什么差别，因为引用类型只是指针的地址的调用，简单来说泛型还是挺好理解的，但是对于泛型、非泛型、继承和接口的融合就有些迷惑了。</h3><h5 id="比如说这种接口"><a href="#比如说这种接口" class="headerlink" title="比如说这种接口"></a>比如说这种接口</h5><pre><code>public interface IEnumeratot&lt;T&gt;:IDisposable,IEnumerator,ICompare&lt;T&gt;
+</code></pre><h4 id="这个泛型接口继承了两个非泛型接口，和一个泛型接口。"><a href="#这个泛型接口继承了两个非泛型接口，和一个泛型接口。" class="headerlink" title="这个泛型接口继承了两个非泛型接口，和一个泛型接口。"></a>这个泛型接口继承了两个非泛型接口，和一个泛型接口。</h4><hr>
+<h3 id="我一开始理解泛型就是一个个模型，只要我们把类型一个参数赋给他，他就能生成一个标准的类型，他缺少的只是一个参数而已，我们引用的时候感觉就像我们引用一个“全体方法”，把参数赋给类型后就可以一直调用类中的方法了，但是对于接口的继承如何理解？"><a href="#我一开始理解泛型就是一个个模型，只要我们把类型一个参数赋给他，他就能生成一个标准的类型，他缺少的只是一个参数而已，我们引用的时候感觉就像我们引用一个“全体方法”，把参数赋给类型后就可以一直调用类中的方法了，但是对于接口的继承如何理解？" class="headerlink" title="我一开始理解泛型就是一个个模型，只要我们把类型一个参数赋给他，他就能生成一个标准的类型，他缺少的只是一个参数而已，我们引用的时候感觉就像我们引用一个“全体方法”，把参数赋给类型后就可以一直调用类中的方法了，但是对于接口的继承如何理解？"></a>我一开始理解泛型就是一个个模型，只要我们把类型一个参数赋给他，他就能生成一个标准的类型，他缺少的只是一个参数而已，我们引用的时候感觉就像我们引用一个“全体方法”，把参数赋给类型后就可以一直调用类中的方法了，但是对于接口的继承如何理解？</h3><p>对于泛型类的继承，继承的类必须实现泛型的参数或者保留泛型的参数，比如下面</p>
+<pre><code>  public class A&lt;T&gt;
 {
-    [Key]
-    [Display(Name=&quot;菜单ID&quot;)]
-    public int MenusID { get; set; }
-    [Required]
-    [Display(Name=&quot;是否为根节点&quot;)]
-    public bool IsFoot { get; set; }
-    [Required]
-    [StringLength(25)]
-    [Display(Name=&quot;目录名字&quot;)]
-    public string Name { get; set; }
-    [Display(Name=&quot;是否删除&quot;)]
-    public bool IsDelete { get; set; }
-    [Display(Name=&quot;包含的文章&quot;)]
-    public virtual List&lt;Article&gt; articles { get; set; }
-    [Display(Name = &quot;父级菜单&quot;)]
-    public virtual Menus fatherMenus { get; set; }
-    [Display(Name = &quot;子菜单&quot;)]
-    public virtual List&lt;Menus&gt; sonList { get; set; }
-
-
+    public T tt;
 }
-</code></pre><h3 id="每个Menus都包含了一个文章集合-虽然有些菜单不一定有文章但是EF可以允许我们0对多，或1对多。"><a href="#每个Menus都包含了一个文章集合-虽然有些菜单不一定有文章但是EF可以允许我们0对多，或1对多。" class="headerlink" title="每个Menus都包含了一个文章集合,虽然有些菜单不一定有文章但是EF可以允许我们0对多，或1对多。"></a>每个Menus都包含了一个文章集合,虽然有些菜单不一定有文章但是EF可以允许我们0对多，或1对多。</h3><h2 id="2-生成数据库"><a href="#2-生成数据库" class="headerlink" title="2.  生成数据库"></a>2.  生成数据库</h2><hr>
-<p>EF比较人性化的是，当我们数据库里面没有我们想要生成的表时，我们不需要多余的代码，只要当成数据库有表，像平时一样添加数据然后EF会帮我们自动在数据库里面建好表，当然你如果有相同名字的表话它报错，会提醒你数据库里面有如果想保存数据要做好数据迁移工作，数据迁移不是我们的重点，如果想了解的话，<a href="http://www.cnblogs.com/guomingfeng/archive/2013/06/15/mvc-ef-configuration-migration.html" target="_blank" rel="noopener">点击这里</a></p>
-<h3 id="生成的数据库包含两个表，一个Menus表，一个是Article表（PS：上面没有给出Article的类型定义，想要的可以自己写），对于这个来说，我们并没有在表里面定义外键属性，只是用来一个引用属性，引用属性是一种“虚属性”，我们通过这个属性来建立起两个对象的虚拟联系，比如说父与子，这种关系是虚拟的对于两者之间的联系是通过血缘来联系的，这个血缘是存在的，相对应就是数据库里面的外键联系，外键也可以看做是表中的一个字段，它记录了一种关系。"><a href="#生成的数据库包含两个表，一个Menus表，一个是Article表（PS：上面没有给出Article的类型定义，想要的可以自己写），对于这个来说，我们并没有在表里面定义外键属性，只是用来一个引用属性，引用属性是一种“虚属性”，我们通过这个属性来建立起两个对象的虚拟联系，比如说父与子，这种关系是虚拟的对于两者之间的联系是通过血缘来联系的，这个血缘是存在的，相对应就是数据库里面的外键联系，外键也可以看做是表中的一个字段，它记录了一种关系。" class="headerlink" title="生成的数据库包含两个表，一个Menus表，一个是Article表（PS：上面没有给出Article的类型定义，想要的可以自己写），对于这个来说，我们并没有在表里面定义外键属性，只是用来一个引用属性，引用属性是一种“虚属性”，我们通过这个属性来建立起两个对象的虚拟联系，比如说父与子，这种关系是虚拟的对于两者之间的联系是通过血缘来联系的，这个血缘是存在的，相对应就是数据库里面的外键联系，外键也可以看做是表中的一个字段，它记录了一种关系。"></a>生成的数据库包含两个表，一个Menus表，一个是Article表（PS：上面没有给出Article的类型定义，想要的可以自己写），对于这个来说，我们并没有在表里面定义外键属性，只是用来一个引用属性，引用属性是一种“虚属性”，我们通过这个属性来建立起两个对象的虚拟联系，比如说父与子，这种关系是虚拟的对于两者之间的联系是通过血缘来联系的，这个血缘是存在的，相对应就是数据库里面的外键联系，外键也可以看做是表中的一个字段，它记录了一种关系。</h3><h4 id="由于EF的智能关系，当我们Code-First时，他会帮我们自动建好外键如果我们不定义的话，当我们使用EF的时候是不需要考虑外键的值的初始化，如果我们没有给他赋值EF会自动给他赋值。"><a href="#由于EF的智能关系，当我们Code-First时，他会帮我们自动建好外键如果我们不定义的话，当我们使用EF的时候是不需要考虑外键的值的初始化，如果我们没有给他赋值EF会自动给他赋值。" class="headerlink" title="由于EF的智能关系，当我们Code First时，他会帮我们自动建好外键如果我们不定义的话，当我们使用EF的时候是不需要考虑外键的值的初始化，如果我们没有给他赋值EF会自动给他赋值。"></a>由于EF的智能关系，当我们Code First时，他会帮我们自动建好外键如果我们不定义的话，当我们使用EF的时候是不需要考虑外键的值的初始化，如果我们没有给他赋值EF会自动给他赋值。</h4><hr>
-<p>讲完了EF的建立，现在就谈谈使用Code First在项目中遇到的问题。</p>
-<hr>
-<p>这个问题主要出在给创建子菜单上，当我们创建子菜单时，我们用的是我们自己的类库代码进行初始化数据库，我们先得到菜单的ID然后在EF里面查询这个菜单，我们查询到这个实体，然后在菜单实体里面添加子菜单，在SaveChange()时候就报错了，EF称检测到有循环赋值的可能，让我们添加外键以避免冲突，我不记得看到的那篇博客看到有人也遇到相同的问题，如果只是普通的一对多（假如是A对1，2，3，4···），当我们给A那个新建一个5时，这个外键的位置是知道的，我们只要在5的外键位置存贮A的主键，然而当我们建立这种父级菜单时，每个菜单里面的外键可以是存贮父级的主键，也可以是子集的主键，所以EF并不能解决冲突，解决这个问题的方法有两种一种是在表中添加外键<br>如：</p>
-<pre><code>       [ForeignKey(&quot;sonList&quot;)]
-public int sonListMenusID{get;set;}
-</code></pre><p>或者用Fluent API 在继承的方法 onModelCreate中添加</p>
-<pre><code>modelBuilder.Entity&lt;Menus&gt;().HasRequired(p=&gt;p.sonList).WithMany(l=&gt;l.Menus).HasForeignKey(p=&gt;p.sonListMenusID)
-</code></pre><p>通过这种创建方式当我们创建子集菜单时我们就可以成功利用EF特性帮我们自动添加上外键，以及建立好实体关系。</p>
-<p>关于更详细的外键知识可以点击<a href="http://www.cnblogs.com/Gyoung/archive/2013/01/22/2869782.html" target="_blank" rel="noopener">这里</a></p>
+public class C&lt;T&gt; : A&lt;T&gt;
+{
+    public T tt;
+}
+</code></pre><p>或者是这样</p>
+<pre><code>  public class A&lt;T&gt;
+{
+    public T tt;
+}
+public class C : A&lt;string&gt;
+{
+    C cc;
+}
+</code></pre><p>对于泛型继承非泛型类，比如下面</p>
+<pre><code>public class A 
+{
+     A aa;
+ }
+
+ public class B&lt;T&gt;:A
+{
+    B&lt;T&gt; bb;
+}
+</code></pre><p>基类是非泛型，而继承的是泛型类，我感觉这种构造就是让泛型类多了一种<strong>包容性</strong>,比如下面的链表实现的代码，让基类是非泛型，而继承是泛型，就能让链表可以连起很多种类型的数据，而本身的类型安全没有丢失。</p>
+<pre><code>public class Node
+{
+        pretected Node next;
+          public Node(Node next){
+            this.next=next;
+            }
+}
+public class TypeNode&lt;T&gt;:Node
+{
+    public T data ;
+    public TypeNode(T data):this(data ,null){
+        }
+    public TypeNode(T data,Node next):base(next){
+        this.data=data;
+        }
+
+    }
+</code></pre><p>泛型的约束</p>
 
       
     </div>
@@ -325,7 +336,7 @@ public int sonListMenusID{get;set;}
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/software/GitHubEducationPack/">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/software/阿里云服务器初体验/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/myself.jpg">
@@ -339,7 +350,7 @@ public int sonListMenusID{get;set;}
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2016/07/18/software/GitHubEducationPack/" class="post-title-link" itemprop="url">GitHub Education Pack</a>
+            <a href="/2016/07/18/software/阿里云服务器初体验/" class="post-title-link" itemprop="url">阿里云服务器初体验</a>
         </h1>
 
         <div class="post-meta">
@@ -356,7 +367,7 @@ public int sonListMenusID{get;set;}
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:08:06" itemprop="dateModified" datetime="2021-03-09T20:08:06+08:00">2021-03-09</time>
+                <time title="修改时间：2021-03-09 08:41:07" itemprop="dateModified" datetime="2021-03-09T08:41:07+08:00">2021-03-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -375,7 +386,7 @@ public int sonListMenusID{get;set;}
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span>1.1k</span>
+              <span>466</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -393,19 +404,130 @@ public int sonListMenusID{get;set;}
     <div class="post-body" itemprop="articleBody">
 
       
-          <blockquote>
-<p>GitHub推出一个对学生和教师的福利包,对于学生来说这是一个不小<br>的福利,只要通过一个edu邮箱就可以领取,但奈何国内有些无良人买卖<br>邮箱,所以GitHub对于.cn的邮箱一律拒绝,但是可以通过上传学生证的方法<br>得到验证,题主刚开始用学校邮箱试了试,失败了,抱着试一试的心态,上传了<br>学生证,没想到第二天就给我回复,并给我这个豪华大礼包,接下来我就介绍介绍<br>如何用这个包来.</p>
+          <h3 id="申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。"><a href="#申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。" class="headerlink" title="申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。"></a>申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。</h3><h3 id="1-用户名和密码"><a href="#1-用户名和密码" class="headerlink" title="1.用户名和密码"></a>1.用户名和密码</h3><p>找了半天没有找到那个是用户名，试了实例的id，没有用，最后终于在登录帮助名里面找到了，用户名竟然是<code>root</code>！！！！,我用的是Ubuntu系统，说好的Ubuntu不提供root权限的呢，阿里还真会改造Linux系统<br>，但是我觉得用root登录还是不安全，我觉得新建一个用户吧</p>
+<p>在root权限下</p>
+<pre><code>useradd -s /bin/bash -r -m yourname
+</code></pre><p>解释一下，本来直接<code>useradd yourname</code> 就可以新建一个<code>yourname</code>账号，但是如果用你新建的用户登录的话，你无法使用Tab键和上下左右键 ，你键入 <code>echo $SHELL</code>，会发现是<code>/bin/sh</code>，因为Ubuntu默认创建账号使用<code>/bin/sh</code>，假如你没加这个可以删掉 用这个<code>userdel yourname</code>重新来一遍，搞完这个只是创建了一个普通用户，你使用不了sudo获取最高权限，这个怎么办，很简单在<code>/etc/sudoers</code>里面找到<br>        root ALL=(ALL:ALL) ALL</p>
+<p>模仿它加上自己的账号名就可以</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/software/有用的几个Shell命令/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/07/18/software/有用的几个Shell命令/" class="post-title-link" itemprop="url">有用的几个Shell命令</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-07-18 16:07:36" itemprop="dateCreated datePublished" datetime="2016-07-18T16:07:36+08:00">2016-07-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:08:54" itemprop="dateModified" datetime="2021-03-09T20:08:54+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/软件/" itemprop="url" rel="index">
+                    <span itemprop="name">软件</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>464</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="管线命令-pipe-："><a href="#管线命令-pipe-：" class="headerlink" title="管线命令 (pipe)："></a>管线命令 (pipe)：</h3><ol>
+<li>撷取命令： cut, grep</li>
+<li>排序命令： sort, wc, uniq</li>
+<li>双向重导向： tee</li>
+<li>字符转换命令： tr, col, join, paste, expand</li>
+<li>分割命令： split</li>
+<li>参数代换： xargs<h3 id="分割文档"><a href="#分割文档" class="headerlink" title="分割文档"></a>分割文档</h3></li>
+</ol>
+<blockquote>
+<p>长长的一大片文档有时我们并不愿意看到全部内容,我们只想关注<br>部分内容的时候了可以考虑使用分割文档命令</p>
 </blockquote>
-<h3 id="有些人在网上说-上传学生证没有用-可能是那个plan-GitHub会叫你写一点你想用GitHub做什么-用的是中文写的-最好用英文写-回复的会快一点"><a href="#有些人在网上说-上传学生证没有用-可能是那个plan-GitHub会叫你写一点你想用GitHub做什么-用的是中文写的-最好用英文写-回复的会快一点" class="headerlink" title="有些人在网上说,上传学生证没有用,可能是那个plan(GitHub会叫你写一点你想用GitHub做什么)用的是中文写的,最好用英文写-_-,回复的会快一点."></a>有些人在网上说,上传学生证没有用,可能是那个plan(GitHub会叫你写一点你想用GitHub做什么)用的是中文写的,最好用英文写-_-,回复的会快一点.</h3><h2 id="Digital-Ocean-—VPS-50刀"><a href="#Digital-Ocean-—VPS-50刀" class="headerlink" title="Digital Ocean —VPS 50刀"></a>Digital Ocean —VPS 50刀</h2><blockquote>
-<p>以前貌似是100刀,现在缩水一半了,不知道为什么.</p>
-</blockquote>
-<h4 id="DigitalOcean是一家以优质的VPS服务器著名-毕竟用SSD做存贮的服务器商没几家"><a href="#DigitalOcean是一家以优质的VPS服务器著名-毕竟用SSD做存贮的服务器商没几家" class="headerlink" title="DigitalOcean是一家以优质的VPS服务器著名,毕竟用SSD做存贮的服务器商没几家."></a>DigitalOcean是一家以优质的VPS服务器著名,毕竟用SSD做存贮的服务器商没几家.</h4><h6 id="这个是包小时的我们可以最便宜的5刀每月-提供20GSSD-1TB流量-我们可以用它来搭建服务器或者搭建一个shadowsocks服务器-安装shadowsocks很简单-但是怎么得到这50刀就要花点时间了"><a href="#这个是包小时的我们可以最便宜的5刀每月-提供20GSSD-1TB流量-我们可以用它来搭建服务器或者搭建一个shadowsocks服务器-安装shadowsocks很简单-但是怎么得到这50刀就要花点时间了" class="headerlink" title="这个是包小时的我们可以最便宜的5刀每月,提供20GSSD,1TB流量,我们可以用它来搭建服务器或者搭建一个shadowsocks服务器,安装shadowsocks很简单,但是怎么得到这50刀就要花点时间了."></a>这个是包小时的我们可以最便宜的5刀每月,提供20GSSD,1TB流量,我们可以用它来搭建服务器或者搭建一个shadowsocks服务器,安装shadowsocks很简单,但是怎么得到这50刀就要花点时间了.</h6><h4 id="你要是想得到这50刀必须先充值5刀-但是怎么给钱有是个问题-真是有钱也花出去啊-你可以选择绑卡-但是很复杂不一定能绑的上-最好的方式使用PayPal付这5刀-PayPal可以绑定银联卡付款-但是这个PayPal注册又是个问题-当时题主注册的时候一直提示服务器故障"><a href="#你要是想得到这50刀必须先充值5刀-但是怎么给钱有是个问题-真是有钱也花出去啊-你可以选择绑卡-但是很复杂不一定能绑的上-最好的方式使用PayPal付这5刀-PayPal可以绑定银联卡付款-但是这个PayPal注册又是个问题-当时题主注册的时候一直提示服务器故障" class="headerlink" title="你要是想得到这50刀必须先充值5刀,但是怎么给钱有是个问题,真是有钱也花出去啊.你可以选择绑卡,但是很复杂不一定能绑的上,最好的方式使用PayPal付这5刀,PayPal可以绑定银联卡付款,但是这个PayPal注册又是个问题,当时题主注册的时候一直提示服务器故障."></a>你要是想得到这50刀必须先充值5刀,但是怎么给钱有是个问题,真是有钱也花出去啊.你可以选择绑卡,但是很复杂不一定能绑的上,最好的方式使用PayPal付这5刀,PayPal可以绑定银联卡付款,但是这个PayPal注册又是个问题,当时题主注册的时候一直提示服务器故障.</h4><h3 id="当时去上网搜了搜-中国大陆是有这个情况-可以通过贝宝-PayPal在中国的分公司-来注册"><a href="#当时去上网搜了搜-中国大陆是有这个情况-可以通过贝宝-PayPal在中国的分公司-来注册" class="headerlink" title="当时去上网搜了搜,中国大陆是有这个情况,可以通过贝宝(PayPal在中国的分公司)来注册"></a>当时去上网搜了搜,中国大陆是有这个情况,可以通过贝宝(PayPal在中国的分公司)来注册</h3><h5 id="提醒一句-绑银联卡的时候最好用IE来绑定-别问我为什么谷歌浏览器不行—"><a href="#提醒一句-绑银联卡的时候最好用IE来绑定-别问我为什么谷歌浏览器不行—" class="headerlink" title="提醒一句,绑银联卡的时候最好用IE来绑定,别问我为什么谷歌浏览器不行—-"></a>提醒一句,绑银联卡的时候最好用IE来绑定,别问我为什么谷歌浏览器不行—-</h5><h4 id="选择VPS的时候推荐San-Francisco-延迟最低"><a href="#选择VPS的时候推荐San-Francisco-延迟最低" class="headerlink" title="选择VPS的时候推荐San Francisco,延迟最低."></a>选择VPS的时候推荐San Francisco,延迟最低.</h4><h4 id="搭建shadowsocks可以参考这篇博客"><a href="#搭建shadowsocks可以参考这篇博客" class="headerlink" title="搭建shadowsocks可以参考这篇博客"></a>搭建shadowsocks可以参考这篇<a href="https://segmentfault.com/a/1190000002511795" target="_blank" rel="noopener">博客</a></h4><h2 id="NameCheap"><a href="#NameCheap" class="headerlink" title="NameCheap"></a>NameCheap</h2><h3 id="ME域名一个（一年，价值8-99刀）PositiveSSL一个-（一年，价值9刀）"><a href="#ME域名一个（一年，价值8-99刀）PositiveSSL一个-（一年，价值9刀）" class="headerlink" title="ME域名一个（一年，价值8.99刀）PositiveSSL一个 （一年，价值9刀）"></a>ME域名一个（一年，价值8.99刀）PositiveSSL一个 （一年，价值9刀）</h3><blockquote>
-<p>这个要想得到域名必须通过邮箱验证还好NameCheape承认.edu.cn邮箱</p>
-</blockquote>
-<h5 id="提醒一下-通过DVC验证的时候选择邮箱验证就够了-虽然不是你的邮箱但是会把资料发到你提供的邮箱"><a href="#提醒一下-通过DVC验证的时候选择邮箱验证就够了-虽然不是你的邮箱但是会把资料发到你提供的邮箱" class="headerlink" title="提醒一下,通过DVC验证的时候选择邮箱验证就够了.虽然不是你的邮箱但是会把资料发到你提供的邮箱"></a>提醒一下,通过DVC验证的时候选择邮箱验证就够了.虽然不是你的邮箱但是会把资料发到你提供的邮箱</h5><h4 id="可以参考这篇博客搭建你的https网站-本站也是采用这种方法搭建的-但是有一点不同的时-现在NameCheap直接发给我一个-crt文件和-ca-bundle文件-用于Apache-所以把-key文件和-crt文件放到服务器上配置一下就好了"><a href="#可以参考这篇博客搭建你的https网站-本站也是采用这种方法搭建的-但是有一点不同的时-现在NameCheap直接发给我一个-crt文件和-ca-bundle文件-用于Apache-所以把-key文件和-crt文件放到服务器上配置一下就好了" class="headerlink" title="可以参考这篇博客搭建你的https网站,本站也是采用这种方法搭建的.但是有一点不同的时,现在NameCheap直接发给我一个.crt文件和.ca-bundle文件(用于Apache),所以把.key文件和.crt文件放到服务器上配置一下就好了."></a>可以参考这篇<a href="http://www.freehao123.com/namecheap-ssl/" target="_blank" rel="noopener">博客</a>搭建你的https网站,本站也是采用这种方法搭建的.但是有一点不同的时,现在NameCheap直接发给我一个.crt文件和.ca-bundle文件(用于Apache),所以把.key文件和.crt文件放到服务器上配置一下就好了.</h4><h2 id="GitHub-Micro-account-7刀-month"><a href="#GitHub-Micro-account-7刀-month" class="headerlink" title="GitHub Micro account 7刀/month"></a>GitHub Micro account 7刀/month</h2><blockquote>
-<p>这个不错我们可以有五个私有项目,一直可以用到你毕业.</p>
-</blockquote>
-<p>这个不错哦,妈妈再也不怕我写的stupid代码被人看到了 O(∩_∩)O哈哈~.</p>
+<p><code>cut</code>是一个很好的分割文档工具</p>
+<h3 id="vi常用命令"><a href="#vi常用命令" class="headerlink" title="vi常用命令"></a>vi常用命令</h3><ol>
+<li>[Ctrl] + [u] 屏幕『向上』移动半页</li>
+<li><ul>
+<li>光标移动到非空格符的下一列</li>
+</ul>
+</li>
+<li><ul>
+<li>光标移动到非空格符的上一列</li>
+</ul>
+</li>
+<li>n<space>那个 n 表示『数字』，例如 20 。按下数字后会向右移动这一行的n 个字符。例如 20&lt;spac移动 20 个字符距离。</space></li>
+<li>0 这是数字『0 』：移动到这一行的最前面字符</li>
+<li>$ 移动到这一行的最后面字符处(常用)</li>
+<li>H 光标移动到这个屏幕的最上方那一行</li>
+<li>M 光标移动到这个屏幕的中央那一行</li>
+<li>L 光标移动到这个屏幕的最下方那一行</li>
+<li>G 移动到这个档案的最后一行(常用)</li>
+<li>nG n 为数字。移动到这个档案的第 n 行。例如 2档案的第 20 行(可配合 :set nu)</li>
+<li>gg 移动到这个档案的第一行，相当于 1G 啊！ (<br>n<enter> n 为数字。光标向下移动 n 行(常用)</enter></li>
+</ol>
 
       
     </div>
@@ -518,7 +640,7 @@ public int sonListMenusID{get;set;}
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/useless/泛型继承的理解/">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/useless/EF搭建可扩展菜单/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/myself.jpg">
@@ -532,7 +654,7 @@ public int sonListMenusID{get;set;}
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2016/07/18/useless/泛型继承的理解/" class="post-title-link" itemprop="url">泛型继承的理解</a>
+            <a href="/2016/07/18/useless/EF搭建可扩展菜单/" class="post-title-link" itemprop="url">EF搭建可扩展菜单</a>
         </h1>
 
         <div class="post-meta">
@@ -557,13 +679,13 @@ public int sonListMenusID{get;set;}
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span>901</span>
+              <span>1.9k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>1 分钟</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -575,55 +697,44 @@ public int sonListMenusID{get;set;}
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="泛型对于解决面对对象编程的算法设计可以提高其运算速度，但是对于引用类型来说还是没什么差别，因为引用类型只是指针的地址的调用，简单来说泛型还是挺好理解的，但是对于泛型、非泛型、继承和接口的融合就有些迷惑了。"><a href="#泛型对于解决面对对象编程的算法设计可以提高其运算速度，但是对于引用类型来说还是没什么差别，因为引用类型只是指针的地址的调用，简单来说泛型还是挺好理解的，但是对于泛型、非泛型、继承和接口的融合就有些迷惑了。" class="headerlink" title="泛型对于解决面对对象编程的算法设计可以提高其运算速度，但是对于引用类型来说还是没什么差别，因为引用类型只是指针的地址的调用，简单来说泛型还是挺好理解的，但是对于泛型、非泛型、继承和接口的融合就有些迷惑了。"></a>泛型对于解决面对对象编程的算法设计可以提高其运算速度，但是对于引用类型来说还是没什么差别，因为引用类型只是指针的地址的调用，简单来说泛型还是挺好理解的，但是对于泛型、非泛型、继承和接口的融合就有些迷惑了。</h3><h5 id="比如说这种接口"><a href="#比如说这种接口" class="headerlink" title="比如说这种接口"></a>比如说这种接口</h5><pre><code>public interface IEnumeratot&lt;T&gt;:IDisposable,IEnumerator,ICompare&lt;T&gt;
-</code></pre><h4 id="这个泛型接口继承了两个非泛型接口，和一个泛型接口。"><a href="#这个泛型接口继承了两个非泛型接口，和一个泛型接口。" class="headerlink" title="这个泛型接口继承了两个非泛型接口，和一个泛型接口。"></a>这个泛型接口继承了两个非泛型接口，和一个泛型接口。</h4><hr>
-<h3 id="我一开始理解泛型就是一个个模型，只要我们把类型一个参数赋给他，他就能生成一个标准的类型，他缺少的只是一个参数而已，我们引用的时候感觉就像我们引用一个“全体方法”，把参数赋给类型后就可以一直调用类中的方法了，但是对于接口的继承如何理解？"><a href="#我一开始理解泛型就是一个个模型，只要我们把类型一个参数赋给他，他就能生成一个标准的类型，他缺少的只是一个参数而已，我们引用的时候感觉就像我们引用一个“全体方法”，把参数赋给类型后就可以一直调用类中的方法了，但是对于接口的继承如何理解？" class="headerlink" title="我一开始理解泛型就是一个个模型，只要我们把类型一个参数赋给他，他就能生成一个标准的类型，他缺少的只是一个参数而已，我们引用的时候感觉就像我们引用一个“全体方法”，把参数赋给类型后就可以一直调用类中的方法了，但是对于接口的继承如何理解？"></a>我一开始理解泛型就是一个个模型，只要我们把类型一个参数赋给他，他就能生成一个标准的类型，他缺少的只是一个参数而已，我们引用的时候感觉就像我们引用一个“全体方法”，把参数赋给类型后就可以一直调用类中的方法了，但是对于接口的继承如何理解？</h3><p>对于泛型类的继承，继承的类必须实现泛型的参数或者保留泛型的参数，比如下面</p>
-<pre><code>  public class A&lt;T&gt;
+          <blockquote>
+</blockquote>
+<h3 id="由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。"><a href="#由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。" class="headerlink" title="由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。"></a>由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。</h3><h4 id="由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF-Code-First更是坑了我一把，我想把我碰到坑给大家分享一下。"><a href="#由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF-Code-First更是坑了我一把，我想把我碰到坑给大家分享一下。" class="headerlink" title="由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF Code First更是坑了我一把，我想把我碰到坑给大家分享一下。"></a>由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF Code First更是坑了我一把，我想把我碰到坑给大家分享一下。</h4><h2 id="1-类库的实现"><a href="#1-类库的实现" class="headerlink" title="1.类库的实现"></a>1.类库的实现</h2><h3 id="首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个bool类型IsFoot来定义是否为根菜单，每个Menus有一个父级菜单Menus，有一群子菜单，下面是我定义的Menu库。"><a href="#首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个bool类型IsFoot来定义是否为根菜单，每个Menus有一个父级菜单Menus，有一群子菜单，下面是我定义的Menu库。" class="headerlink" title="首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个bool类型IsFoot来定义是否为根菜单，每个Menus有一个父级菜单Menus，有一群子菜单，下面是我定义的Menu库。"></a>首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个<code>bool</code>类型<strong>IsFoot</strong>来定义是否为根菜单，每个Menus有一个父级菜单Menus，有一群子菜单，下面是我定义的Menu库。</h3><pre><code>  [Description(&quot;菜单&quot;)]
+public class Menus
 {
-    public T tt;
-}
-public class C&lt;T&gt; : A&lt;T&gt;
-{
-    public T tt;
-}
-</code></pre><p>或者是这样</p>
-<pre><code>  public class A&lt;T&gt;
-{
-    public T tt;
-}
-public class C : A&lt;string&gt;
-{
-    C cc;
-}
-</code></pre><p>对于泛型继承非泛型类，比如下面</p>
-<pre><code>public class A 
-{
-     A aa;
- }
+    [Key]
+    [Display(Name=&quot;菜单ID&quot;)]
+    public int MenusID { get; set; }
+    [Required]
+    [Display(Name=&quot;是否为根节点&quot;)]
+    public bool IsFoot { get; set; }
+    [Required]
+    [StringLength(25)]
+    [Display(Name=&quot;目录名字&quot;)]
+    public string Name { get; set; }
+    [Display(Name=&quot;是否删除&quot;)]
+    public bool IsDelete { get; set; }
+    [Display(Name=&quot;包含的文章&quot;)]
+    public virtual List&lt;Article&gt; articles { get; set; }
+    [Display(Name = &quot;父级菜单&quot;)]
+    public virtual Menus fatherMenus { get; set; }
+    [Display(Name = &quot;子菜单&quot;)]
+    public virtual List&lt;Menus&gt; sonList { get; set; }
 
- public class B&lt;T&gt;:A
-{
-    B&lt;T&gt; bb;
-}
-</code></pre><p>基类是非泛型，而继承的是泛型类，我感觉这种构造就是让泛型类多了一种<strong>包容性</strong>,比如下面的链表实现的代码，让基类是非泛型，而继承是泛型，就能让链表可以连起很多种类型的数据，而本身的类型安全没有丢失。</p>
-<pre><code>public class Node
-{
-        pretected Node next;
-          public Node(Node next){
-            this.next=next;
-            }
-}
-public class TypeNode&lt;T&gt;:Node
-{
-    public T data ;
-    public TypeNode(T data):this(data ,null){
-        }
-    public TypeNode(T data,Node next):base(next){
-        this.data=data;
-        }
 
-    }
-</code></pre><p>泛型的约束</p>
+}
+</code></pre><h3 id="每个Menus都包含了一个文章集合-虽然有些菜单不一定有文章但是EF可以允许我们0对多，或1对多。"><a href="#每个Menus都包含了一个文章集合-虽然有些菜单不一定有文章但是EF可以允许我们0对多，或1对多。" class="headerlink" title="每个Menus都包含了一个文章集合,虽然有些菜单不一定有文章但是EF可以允许我们0对多，或1对多。"></a>每个Menus都包含了一个文章集合,虽然有些菜单不一定有文章但是EF可以允许我们0对多，或1对多。</h3><h2 id="2-生成数据库"><a href="#2-生成数据库" class="headerlink" title="2.  生成数据库"></a>2.  生成数据库</h2><hr>
+<p>EF比较人性化的是，当我们数据库里面没有我们想要生成的表时，我们不需要多余的代码，只要当成数据库有表，像平时一样添加数据然后EF会帮我们自动在数据库里面建好表，当然你如果有相同名字的表话它报错，会提醒你数据库里面有如果想保存数据要做好数据迁移工作，数据迁移不是我们的重点，如果想了解的话，<a href="http://www.cnblogs.com/guomingfeng/archive/2013/06/15/mvc-ef-configuration-migration.html" target="_blank" rel="noopener">点击这里</a></p>
+<h3 id="生成的数据库包含两个表，一个Menus表，一个是Article表（PS：上面没有给出Article的类型定义，想要的可以自己写），对于这个来说，我们并没有在表里面定义外键属性，只是用来一个引用属性，引用属性是一种“虚属性”，我们通过这个属性来建立起两个对象的虚拟联系，比如说父与子，这种关系是虚拟的对于两者之间的联系是通过血缘来联系的，这个血缘是存在的，相对应就是数据库里面的外键联系，外键也可以看做是表中的一个字段，它记录了一种关系。"><a href="#生成的数据库包含两个表，一个Menus表，一个是Article表（PS：上面没有给出Article的类型定义，想要的可以自己写），对于这个来说，我们并没有在表里面定义外键属性，只是用来一个引用属性，引用属性是一种“虚属性”，我们通过这个属性来建立起两个对象的虚拟联系，比如说父与子，这种关系是虚拟的对于两者之间的联系是通过血缘来联系的，这个血缘是存在的，相对应就是数据库里面的外键联系，外键也可以看做是表中的一个字段，它记录了一种关系。" class="headerlink" title="生成的数据库包含两个表，一个Menus表，一个是Article表（PS：上面没有给出Article的类型定义，想要的可以自己写），对于这个来说，我们并没有在表里面定义外键属性，只是用来一个引用属性，引用属性是一种“虚属性”，我们通过这个属性来建立起两个对象的虚拟联系，比如说父与子，这种关系是虚拟的对于两者之间的联系是通过血缘来联系的，这个血缘是存在的，相对应就是数据库里面的外键联系，外键也可以看做是表中的一个字段，它记录了一种关系。"></a>生成的数据库包含两个表，一个Menus表，一个是Article表（PS：上面没有给出Article的类型定义，想要的可以自己写），对于这个来说，我们并没有在表里面定义外键属性，只是用来一个引用属性，引用属性是一种“虚属性”，我们通过这个属性来建立起两个对象的虚拟联系，比如说父与子，这种关系是虚拟的对于两者之间的联系是通过血缘来联系的，这个血缘是存在的，相对应就是数据库里面的外键联系，外键也可以看做是表中的一个字段，它记录了一种关系。</h3><h4 id="由于EF的智能关系，当我们Code-First时，他会帮我们自动建好外键如果我们不定义的话，当我们使用EF的时候是不需要考虑外键的值的初始化，如果我们没有给他赋值EF会自动给他赋值。"><a href="#由于EF的智能关系，当我们Code-First时，他会帮我们自动建好外键如果我们不定义的话，当我们使用EF的时候是不需要考虑外键的值的初始化，如果我们没有给他赋值EF会自动给他赋值。" class="headerlink" title="由于EF的智能关系，当我们Code First时，他会帮我们自动建好外键如果我们不定义的话，当我们使用EF的时候是不需要考虑外键的值的初始化，如果我们没有给他赋值EF会自动给他赋值。"></a>由于EF的智能关系，当我们Code First时，他会帮我们自动建好外键如果我们不定义的话，当我们使用EF的时候是不需要考虑外键的值的初始化，如果我们没有给他赋值EF会自动给他赋值。</h4><hr>
+<p>讲完了EF的建立，现在就谈谈使用Code First在项目中遇到的问题。</p>
+<hr>
+<p>这个问题主要出在给创建子菜单上，当我们创建子菜单时，我们用的是我们自己的类库代码进行初始化数据库，我们先得到菜单的ID然后在EF里面查询这个菜单，我们查询到这个实体，然后在菜单实体里面添加子菜单，在SaveChange()时候就报错了，EF称检测到有循环赋值的可能，让我们添加外键以避免冲突，我不记得看到的那篇博客看到有人也遇到相同的问题，如果只是普通的一对多（假如是A对1，2，3，4···），当我们给A那个新建一个5时，这个外键的位置是知道的，我们只要在5的外键位置存贮A的主键，然而当我们建立这种父级菜单时，每个菜单里面的外键可以是存贮父级的主键，也可以是子集的主键，所以EF并不能解决冲突，解决这个问题的方法有两种一种是在表中添加外键<br>如：</p>
+<pre><code>       [ForeignKey(&quot;sonList&quot;)]
+public int sonListMenusID{get;set;}
+</code></pre><p>或者用Fluent API 在继承的方法 onModelCreate中添加</p>
+<pre><code>modelBuilder.Entity&lt;Menus&gt;().HasRequired(p=&gt;p.sonList).WithMany(l=&gt;l.Menus).HasForeignKey(p=&gt;p.sonListMenusID)
+</code></pre><p>通过这种创建方式当我们创建子集菜单时我们就可以成功利用EF特性帮我们自动添加上外键，以及建立好实体关系。</p>
+<p>关于更详细的外键知识可以点击<a href="http://www.cnblogs.com/Gyoung/archive/2013/01/22/2869782.html" target="_blank" rel="noopener">这里</a></p>
 
       
     </div>
@@ -896,7 +1007,7 @@ public SexInfo{
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/software/富文本编辑器CKEditor配置CKFinder/">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/software/GitHubEducationPack/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/myself.jpg">
@@ -910,7 +1021,7 @@ public SexInfo{
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2016/07/18/software/富文本编辑器CKEditor配置CKFinder/" class="post-title-link" itemprop="url">富文本编辑器CKEditor配置CKFinder</a>
+            <a href="/2016/07/18/software/GitHubEducationPack/" class="post-title-link" itemprop="url">GitHub Education Pack</a>
         </h1>
 
         <div class="post-meta">
@@ -927,7 +1038,7 @@ public SexInfo{
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:08:28" itemprop="dateModified" datetime="2021-03-09T20:08:28+08:00">2021-03-09</time>
+                <time title="修改时间：2021-03-09 20:08:06" itemprop="dateModified" datetime="2021-03-09T20:08:06+08:00">2021-03-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -946,13 +1057,13 @@ public SexInfo{
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span>2.5k</span>
+              <span>1.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>2 分钟</span>
+              <span>1 分钟</span>
             </span>
 
         </div>
@@ -965,44 +1076,19 @@ public SexInfo{
 
       
           <blockquote>
-<p>由于网站要实现图片和文字的混排的上传<br>所以在网上找了富文本编辑器的插件，发现<a href="http://ckeditor.com/download" target="_blank" rel="noopener">CKEditor</a>这款还不错的插件</p>
+<p>GitHub推出一个对学生和教师的福利包,对于学生来说这是一个不小<br>的福利,只要通过一个edu邮箱就可以领取,但奈何国内有些无良人买卖<br>邮箱,所以GitHub对于.cn的邮箱一律拒绝,但是可以通过上传学生证的方法<br>得到验证,题主刚开始用学校邮箱试了试,失败了,抱着试一试的心态,上传了<br>学生证,没想到第二天就给我回复,并给我这个豪华大礼包,接下来我就介绍介绍<br>如何用这个包来.</p>
 </blockquote>
-<h3 id="我用的是4-5-1这个版本，的确很好用，只是引用了一个js文件就可以实现。"><a href="#我用的是4-5-1这个版本，的确很好用，只是引用了一个js文件就可以实现。" class="headerlink" title="我用的是4.5.1这个版本，的确很好用，只是引用了一个js文件就可以实现。"></a>我用的是<strong>4.5.1</strong>这个版本，的确很好用，只是引用了一个<strong>js</strong>文件就可以实现。</h3><hr>
-<ol>
-<li>将网上下的CKEditor包解压放在根目录下</li>
-<li><p>在页面上引用CKEditor的核心包<strong>ckeditor.js</strong></p>
-<pre><code>&lt;script src=&quot;ckeditor/ckeditor.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;;
-</code></pre></li>
-<li><p>在页面添加一个输入框<strong>textarea</strong></p>
-<pre><code>&lt;textarea name=&quot;individual&quot; id=&quot;individual&quot; runat=&quot;server&quot;&gt;&lt;/textarea&gt;
-&lt;script type=&quot;text/javascript&quot;&gt;
- CKEDITOR.replace(&apos;individual&apos;);
- &lt;/script&gt;
-</code></pre></li>
-</ol>
-<hr>
-<h3 id="只要通过上面上面几个步骤就能实现富文本编辑器，但是点开图片上传功能，发现只有上传url的功能，并不能本地上传图片，百度了一下发现由于安全性问题CKEditor没有上传功能，只有安上CKFinder才能实现上传功能，于是我在官网下了ckfinder-aspnet-2-5-0-1-同CKEditor一样引用JS文件（只要引用ckfinder-js"><a href="#只要通过上面上面几个步骤就能实现富文本编辑器，但是点开图片上传功能，发现只有上传url的功能，并不能本地上传图片，百度了一下发现由于安全性问题CKEditor没有上传功能，只有安上CKFinder才能实现上传功能，于是我在官网下了ckfinder-aspnet-2-5-0-1-同CKEditor一样引用JS文件（只要引用ckfinder-js" class="headerlink" title="只要通过上面上面几个步骤就能实现富文本编辑器，但是点开图片上传功能，发现只有上传url的功能，并不能本地上传图片，百度了一下发现由于安全性问题CKEditor没有上传功能，只有安上CKFinder才能实现上传功能，于是我在官网下了ckfinder__aspnet_2.5.0.1,同CKEditor一样引用JS文件（只要引用ckfinder.js)"></a>只要通过上面上面几个步骤就能实现富文本编辑器，但是点开图片上传功能，发现只有上传url的功能，并不能本地上传图片，百度了一下发现由于安全性问题<strong>CKEditor</strong>没有上传功能，只有安上<a href="http://ckfinder.com/download" title="CKFinder" target="_blank" rel="noopener">CKFinder</a>才能实现上传功能，于是我在官网下了<strong>ckfinder__aspnet_2.5.0.1</strong>,同CKEditor一样引用JS文件（只要引用ckfinder.js)</h3><pre><code>&lt;script src=&quot;ckfinder/ckfinder.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
-</code></pre><ul>
-<li>由于我是MVC的网站基于.net4.5，在官方给的包里面有一个asp.net网站实例放在<strong>_source</strong>文件夹里面，里面有一个基于.net2的示例网站，一运行就报找不到 <strong>System.Web.UI.Design</strong>这个命名空间的错，所以我把它从项目中排除，把项目中bin中debug文件夹下的<strong>CKFinder.dll</strong>复制出来，引用到我自己的项目中。<h3 id="接下来要配置CKEditor来让CKFinder引用进来，在CKEditor文件夹下config-js在CKEDITOR-editorConfig-function-config-方法中添加如下代码："><a href="#接下来要配置CKEditor来让CKFinder引用进来，在CKEditor文件夹下config-js在CKEDITOR-editorConfig-function-config-方法中添加如下代码：" class="headerlink" title="接下来要配置CKEditor来让CKFinder引用进来，在CKEditor文件夹下config.js在CKEDITOR.editorConfig = function (config) {};方法中添加如下代码："></a>接下来要配置<strong>CKEditor</strong>来让CKFinder引用进来，在CKEditor文件夹下config.js在CKEDITOR.editorConfig = function (config) {};方法中添加如下代码：</h3>   config.filebrowserImageBrowseUrl = ‘ckfinder/ckfinder.html?Type=Images’;<br>   config.filebrowserFlashBrowseUrl = ‘ckfinder/ckfinder.html?Type=Flash’;<pre><code>config.filebrowserUploadUrl = &apos;ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&amp;type=Files&apos;;
-</code></pre>  config.filebrowserImageUploadUrl = ‘ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&amp;type=Images’;<br>  config.filebrowserFlashUploadUrl = ‘ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&amp;type=Flash’;<br>  config.filebrowserWindowWidth = ‘800’;  //“浏览服务器”弹出框的size设置<br>  config.filebrowserWindowHeight = ‘500’;</li>
-</ul>
-<hr>
-<h4 id="注意在配置Url的时候要修改成相对于网站本地网站磁盘文件路径，比如说，你的网址是http-example-com-cn-你把ckfinder文件夹放在Admin下的Editor文件夹，那么所有url要改成下面类似的格式"><a href="#注意在配置Url的时候要修改成相对于网站本地网站磁盘文件路径，比如说，你的网址是http-example-com-cn-你把ckfinder文件夹放在Admin下的Editor文件夹，那么所有url要改成下面类似的格式" class="headerlink" title="注意在配置Url的时候要修改成相对于网站本地网站磁盘文件路径，比如说，你的网址是http://example.com.cn ,你把ckfinder文件夹放在Admin下的Editor文件夹，那么所有url要改成下面类似的格式"></a>注意在配置Url的时候要修改成相对于网站本地网站磁盘文件路径，比如说，你的网址是<a href="http://example.com.cn" target="_blank" rel="noopener">http://example.com.cn</a> ,你把ckfinder文件夹放在Admin下的Editor文件夹，那么所有url要改成下面类似的格式</h4><pre><code>config.filebrowserImageBrowseUrl =&apos;/Admin/Editor/ckfinder/ckfinder.html?Type=Images&apos;;
-</code></pre><h4 id="否则会报404错误，"><a href="#否则会报404错误，" class="headerlink" title="否则会报404错误，"></a>否则会报404错误，</h4><h4 id="最后一步是修改一个函数让所有人能看到服务器上传文件夹里面的文件，在ckfinder文件夹下面的cofig-ascx文件，找到-CheckAuthentication函数将返回值改成true"><a href="#最后一步是修改一个函数让所有人能看到服务器上传文件夹里面的文件，在ckfinder文件夹下面的cofig-ascx文件，找到-CheckAuthentication函数将返回值改成true" class="headerlink" title="最后一步是修改一个函数让所有人能看到服务器上传文件夹里面的文件，在ckfinder文件夹下面的cofig.ascx文件，找到 CheckAuthentication函数将返回值改成true"></a>最后一步是修改一个函数让所有人能看到服务器上传文件夹里面的文件，在ckfinder文件夹下面的cofig.ascx文件，找到 CheckAuthentication函数将返回值改成true</h4><p>当然如果你想修改上传文件的地址，你可以在上面方法里面找到SetConfig()方法，找到BaseUrl，修改为你想上传的地址，</p>
-<hr>
-<hr>
-<h3 id="PS："><a href="#PS：" class="headerlink" title="PS："></a>PS：</h3><h4 id="我是在在VS里面进行调试的，由于VS的IIS在调试的时候不允许对磁盘文件的路由地址访问，就是CKFinder通过ckfinder-html这个html来实现上传图片的功能，但是这个在调试的时候VS无法访问这个文件，所以一直报404错误，可以修改IIS来允许IIS访问磁盘文件，步骤如下："><a href="#我是在在VS里面进行调试的，由于VS的IIS在调试的时候不允许对磁盘文件的路由地址访问，就是CKFinder通过ckfinder-html这个html来实现上传图片的功能，但是这个在调试的时候VS无法访问这个文件，所以一直报404错误，可以修改IIS来允许IIS访问磁盘文件，步骤如下：" class="headerlink" title="我是在在VS里面进行调试的，由于VS的IIS在调试的时候不允许对磁盘文件的路由地址访问，就是CKFinder通过ckfinder.html这个html来实现上传图片的功能，但是这个在调试的时候VS无法访问这个文件，所以一直报404错误，可以修改IIS来允许IIS访问磁盘文件，步骤如下："></a>我是在在VS里面进行调试的，由于VS的IIS在调试的时候不允许对磁盘文件的路由地址访问，就是CKFinder通过<strong>ckfinder.html</strong>这个html来实现上传图片的功能，但是这个在调试的时候VS无法访问这个文件，所以一直报404错误，可以修改IIS来允许IIS访问磁盘文件，步骤如下：</h4><ol>
-<li>右键点击IIS Express，选择显示所有应用程序</li>
-<li>找到运行网站的配置，进入applicationhost.config文件夹</li>
-<li>ctrl+f 寻找UrlRoutingModule</li>
-<li><p>将preCodition设置为空字符</p>
-<pre><code>&lt;add name=&quot;UrlRoutingModule-4.0&quot; type=&quot;System.Web.Routing.UrlRoutingModule&quot; preCondition=&quot;&quot; /&gt;
-</code></pre></li>
-</ol>
-<hr>
-<h3 id="如果你是用MVC进行表单传值的话，你必须在post方法上面添加-ValidateInput-false-属性，如果不这样的话就会报下面的错"><a href="#如果你是用MVC进行表单传值的话，你必须在post方法上面添加-ValidateInput-false-属性，如果不这样的话就会报下面的错" class="headerlink" title="如果你是用MVC进行表单传值的话，你必须在post方法上面添加 [ValidateInput(false)] 属性，如果不这样的话就会报下面的错"></a>如果你是用MVC进行表单传值的话，你必须在post方法上面添加 <strong>[ValidateInput(false)]</strong> 属性，如果不这样的话就会报下面的错</h3><pre><code>“/”应用程序中的服务器错误。
-从客户端(content=&quot;&lt;p&gt;sdfsdafwewo shdfh...&quot;)中检测到有潜在危险的 Request.Form 值。
-</code></pre>
+<h3 id="有些人在网上说-上传学生证没有用-可能是那个plan-GitHub会叫你写一点你想用GitHub做什么-用的是中文写的-最好用英文写-回复的会快一点"><a href="#有些人在网上说-上传学生证没有用-可能是那个plan-GitHub会叫你写一点你想用GitHub做什么-用的是中文写的-最好用英文写-回复的会快一点" class="headerlink" title="有些人在网上说,上传学生证没有用,可能是那个plan(GitHub会叫你写一点你想用GitHub做什么)用的是中文写的,最好用英文写-_-,回复的会快一点."></a>有些人在网上说,上传学生证没有用,可能是那个plan(GitHub会叫你写一点你想用GitHub做什么)用的是中文写的,最好用英文写-_-,回复的会快一点.</h3><h2 id="Digital-Ocean-—VPS-50刀"><a href="#Digital-Ocean-—VPS-50刀" class="headerlink" title="Digital Ocean —VPS 50刀"></a>Digital Ocean —VPS 50刀</h2><blockquote>
+<p>以前貌似是100刀,现在缩水一半了,不知道为什么.</p>
+</blockquote>
+<h4 id="DigitalOcean是一家以优质的VPS服务器著名-毕竟用SSD做存贮的服务器商没几家"><a href="#DigitalOcean是一家以优质的VPS服务器著名-毕竟用SSD做存贮的服务器商没几家" class="headerlink" title="DigitalOcean是一家以优质的VPS服务器著名,毕竟用SSD做存贮的服务器商没几家."></a>DigitalOcean是一家以优质的VPS服务器著名,毕竟用SSD做存贮的服务器商没几家.</h4><h6 id="这个是包小时的我们可以最便宜的5刀每月-提供20GSSD-1TB流量-我们可以用它来搭建服务器或者搭建一个shadowsocks服务器-安装shadowsocks很简单-但是怎么得到这50刀就要花点时间了"><a href="#这个是包小时的我们可以最便宜的5刀每月-提供20GSSD-1TB流量-我们可以用它来搭建服务器或者搭建一个shadowsocks服务器-安装shadowsocks很简单-但是怎么得到这50刀就要花点时间了" class="headerlink" title="这个是包小时的我们可以最便宜的5刀每月,提供20GSSD,1TB流量,我们可以用它来搭建服务器或者搭建一个shadowsocks服务器,安装shadowsocks很简单,但是怎么得到这50刀就要花点时间了."></a>这个是包小时的我们可以最便宜的5刀每月,提供20GSSD,1TB流量,我们可以用它来搭建服务器或者搭建一个shadowsocks服务器,安装shadowsocks很简单,但是怎么得到这50刀就要花点时间了.</h6><h4 id="你要是想得到这50刀必须先充值5刀-但是怎么给钱有是个问题-真是有钱也花出去啊-你可以选择绑卡-但是很复杂不一定能绑的上-最好的方式使用PayPal付这5刀-PayPal可以绑定银联卡付款-但是这个PayPal注册又是个问题-当时题主注册的时候一直提示服务器故障"><a href="#你要是想得到这50刀必须先充值5刀-但是怎么给钱有是个问题-真是有钱也花出去啊-你可以选择绑卡-但是很复杂不一定能绑的上-最好的方式使用PayPal付这5刀-PayPal可以绑定银联卡付款-但是这个PayPal注册又是个问题-当时题主注册的时候一直提示服务器故障" class="headerlink" title="你要是想得到这50刀必须先充值5刀,但是怎么给钱有是个问题,真是有钱也花出去啊.你可以选择绑卡,但是很复杂不一定能绑的上,最好的方式使用PayPal付这5刀,PayPal可以绑定银联卡付款,但是这个PayPal注册又是个问题,当时题主注册的时候一直提示服务器故障."></a>你要是想得到这50刀必须先充值5刀,但是怎么给钱有是个问题,真是有钱也花出去啊.你可以选择绑卡,但是很复杂不一定能绑的上,最好的方式使用PayPal付这5刀,PayPal可以绑定银联卡付款,但是这个PayPal注册又是个问题,当时题主注册的时候一直提示服务器故障.</h4><h3 id="当时去上网搜了搜-中国大陆是有这个情况-可以通过贝宝-PayPal在中国的分公司-来注册"><a href="#当时去上网搜了搜-中国大陆是有这个情况-可以通过贝宝-PayPal在中国的分公司-来注册" class="headerlink" title="当时去上网搜了搜,中国大陆是有这个情况,可以通过贝宝(PayPal在中国的分公司)来注册"></a>当时去上网搜了搜,中国大陆是有这个情况,可以通过贝宝(PayPal在中国的分公司)来注册</h3><h5 id="提醒一句-绑银联卡的时候最好用IE来绑定-别问我为什么谷歌浏览器不行—"><a href="#提醒一句-绑银联卡的时候最好用IE来绑定-别问我为什么谷歌浏览器不行—" class="headerlink" title="提醒一句,绑银联卡的时候最好用IE来绑定,别问我为什么谷歌浏览器不行—-"></a>提醒一句,绑银联卡的时候最好用IE来绑定,别问我为什么谷歌浏览器不行—-</h5><h4 id="选择VPS的时候推荐San-Francisco-延迟最低"><a href="#选择VPS的时候推荐San-Francisco-延迟最低" class="headerlink" title="选择VPS的时候推荐San Francisco,延迟最低."></a>选择VPS的时候推荐San Francisco,延迟最低.</h4><h4 id="搭建shadowsocks可以参考这篇博客"><a href="#搭建shadowsocks可以参考这篇博客" class="headerlink" title="搭建shadowsocks可以参考这篇博客"></a>搭建shadowsocks可以参考这篇<a href="https://segmentfault.com/a/1190000002511795" target="_blank" rel="noopener">博客</a></h4><h2 id="NameCheap"><a href="#NameCheap" class="headerlink" title="NameCheap"></a>NameCheap</h2><h3 id="ME域名一个（一年，价值8-99刀）PositiveSSL一个-（一年，价值9刀）"><a href="#ME域名一个（一年，价值8-99刀）PositiveSSL一个-（一年，价值9刀）" class="headerlink" title="ME域名一个（一年，价值8.99刀）PositiveSSL一个 （一年，价值9刀）"></a>ME域名一个（一年，价值8.99刀）PositiveSSL一个 （一年，价值9刀）</h3><blockquote>
+<p>这个要想得到域名必须通过邮箱验证还好NameCheape承认.edu.cn邮箱</p>
+</blockquote>
+<h5 id="提醒一下-通过DVC验证的时候选择邮箱验证就够了-虽然不是你的邮箱但是会把资料发到你提供的邮箱"><a href="#提醒一下-通过DVC验证的时候选择邮箱验证就够了-虽然不是你的邮箱但是会把资料发到你提供的邮箱" class="headerlink" title="提醒一下,通过DVC验证的时候选择邮箱验证就够了.虽然不是你的邮箱但是会把资料发到你提供的邮箱"></a>提醒一下,通过DVC验证的时候选择邮箱验证就够了.虽然不是你的邮箱但是会把资料发到你提供的邮箱</h5><h4 id="可以参考这篇博客搭建你的https网站-本站也是采用这种方法搭建的-但是有一点不同的时-现在NameCheap直接发给我一个-crt文件和-ca-bundle文件-用于Apache-所以把-key文件和-crt文件放到服务器上配置一下就好了"><a href="#可以参考这篇博客搭建你的https网站-本站也是采用这种方法搭建的-但是有一点不同的时-现在NameCheap直接发给我一个-crt文件和-ca-bundle文件-用于Apache-所以把-key文件和-crt文件放到服务器上配置一下就好了" class="headerlink" title="可以参考这篇博客搭建你的https网站,本站也是采用这种方法搭建的.但是有一点不同的时,现在NameCheap直接发给我一个.crt文件和.ca-bundle文件(用于Apache),所以把.key文件和.crt文件放到服务器上配置一下就好了."></a>可以参考这篇<a href="http://www.freehao123.com/namecheap-ssl/" target="_blank" rel="noopener">博客</a>搭建你的https网站,本站也是采用这种方法搭建的.但是有一点不同的时,现在NameCheap直接发给我一个.crt文件和.ca-bundle文件(用于Apache),所以把.key文件和.crt文件放到服务器上配置一下就好了.</h4><h2 id="GitHub-Micro-account-7刀-month"><a href="#GitHub-Micro-account-7刀-month" class="headerlink" title="GitHub Micro account 7刀/month"></a>GitHub Micro account 7刀/month</h2><blockquote>
+<p>这个不错我们可以有五个私有项目,一直可以用到你毕业.</p>
+</blockquote>
+<p>这个不错哦,妈妈再也不怕我写的stupid代码被人看到了 O(∩_∩)O哈哈~.</p>
+
       
     </div>
 
@@ -1089,7 +1175,7 @@ public SexInfo{
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">127</span>
+          <span class="site-state-item-count">128</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1169,7 +1255,7 @@ public SexInfo{
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:25</span>
+    <span title="站点阅读时长">4:26</span>
 </div>
 
         
