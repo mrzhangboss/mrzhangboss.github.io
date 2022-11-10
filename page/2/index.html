@@ -211,262 +211,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/12/09/java/SPI破坏了双亲委派吗/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/12/09/java/SPI破坏了双亲委派吗/" class="post-title-link" itemprop="url">SPI破坏了双亲委派吗</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-12-09 20:32:50" itemprop="dateCreated datePublished" datetime="2021-12-09T20:32:50+08:00">2021-12-09</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-10 20:34:52" itemprop="dateModified" datetime="2021-12-10T20:34:52+08:00">2021-12-10</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index">
-                    <span itemprop="name">Java</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>2.4k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>2 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>最近在学JVM的时候，把ClassLoader部分给过了一遍，谈到ClassLoader少不了双亲委派，谈到双亲委派少不了说破坏双亲委派的SPI，也看到了知乎上一些<a href="https://www.zhihu.com/question/49667892/answer/690288611" target="_blank" rel="noopener">观点</a> ，这个时候我就疑惑了，有两个问题围绕在我头上，什么是双亲委派，为什么说SPI破坏了双亲委派，这篇博客就从源码出发，讲一讲我的理解</p>
-</blockquote>
-<h2 id="一、什么是双亲委派"><a href="#一、什么是双亲委派" class="headerlink" title="一、什么是双亲委派"></a>一、什么是双亲委派</h2><p>双亲委派我归纳为两点：</p>
-<ol>
-<li>不可以越权</li>
-<li>委托链机制</li>
-</ol>
-<p>现在我来讲讲为什么这样总结</p>
-<h3 id="不可以越权"><a href="#不可以越权" class="headerlink" title="不可以越权"></a>不可以越权</h3><p>ClassLoader分为四种：启动类加载器 &gt; 扩展类加载器 &gt; 应用程序类加载器 &gt; 自定义</p>
-<p>我们看看<code>Class.forName</code>的源代码</p>
-<pre><code>public static Class&lt;?&gt; forName(String className)
-            throws ClassNotFoundException {
-    Class&lt;?&gt; caller = Reflection.getCallerClass();
-return forName0(className, true, ClassLoader.getClassLoader(caller),                             caller);
-}
-</code></pre><p>当我们需要初始化一个类的时候，我们得会通过<code>Reflection.getCallerClass</code>获取到调用方的ClassLoader，通过这个ClassLoader去加载类</p>
-<p>PS： 其中<code>forName0</code> 是一个native方法，最终会调用C++代码<code>find_class_from_class_loader</code> 从classLoader中 调用<code>loadClass</code>方法</p>
-<p>也就是说其实源码告诉我们，我们加载一个类，默认是从加载这个类的ClassLoader去加载别的类，说起来很拗口，其实就是说你这个代码是被哪个加载器加载的，默认只能加载被这个<br>ClassLoader加载过的</p>
-<p>当然在JDK1.2 支持传入ClassLoader，这个后面会讲 ,接下来我们讲什么是委托链机制</p>
-<h3 id="委托链机制"><a href="#委托链机制" class="headerlink" title="委托链机制"></a>委托链机制</h3><p>我们来看<code>ClassLoader.loadClass</code>方法</p>
-<pre><code>Class&lt;?&gt; c = findLoadedClass(name); // 从缓存中加载
-if (c == null) {
-if (parent != null) {  // 父类不为空 委托父类加载
-c = parent.loadClass(name, false);
-} else {
-c = findBootstrapClassOrNull(name); // 当父类为空的时候就是根加载器，委托根加载器加载
-}
-if (c == null) {
-// 最后从自己这里取
-c = findClass(name);
-
-
-}
-</code></pre><p>代码很简单，就是首先从缓存中取，没找到然后在从父类里找，找不到就到自己这找，其实一个很有意思的点就是，从缓存中取的是调用的native方法，最后调用的C代码就是下面这个</p>
-<p>Klass* k = SystemDictionary::find_instance_or_array_klass(klass_name, //类名<br><br>h_loader,  // classLoader地址<br>Handle(),<br>CHECK_NULL);</p>
-<p>原理是从hash表中，通过类名和加载器类名进行查找，也就是说，对于一个类来说，java判断是否相同是根据它的类名和加载该类的ClassLoader的实例来实现的</p>
-<p>这两点其实很容易理解，接下来我们看看什么是SPI</p>
-<h2 id="二、SPI是什么"><a href="#二、SPI是什么" class="headerlink" title="二、SPI是什么"></a>二、SPI是什么</h2><p>SPI全名是Service Provider Interface，这个其实就是一个工具类</p>
-<p>原理非常的简单，我归纳成两点</p>
-<p>当调用静态方法<code>ServiceLoader.load</code> 时候根据传入的类或者接口名，读取 META-INF/services/{name} 下面的文件<br>读取字符串，然后加载 <code>Class.forName(cn, false, loader)</code> (cn代表这个字符串，loader代表加载器）</p>
-<p>其中最核心的就是调用了 Class.forName 这个方法，你可以看到，这里面调用了我们上面提到的一个重载方法，这个重载方法最大的差别就是可以自己传入自己想传入的ClassLoader</p>
-<p>接下来看看为什么我们说它破坏了双亲委托</p>
-<h2 id="为什么说SPI破坏了双亲委派"><a href="#为什么说SPI破坏了双亲委派" class="headerlink" title="为什么说SPI破坏了双亲委派"></a>为什么说SPI破坏了双亲委派</h2><p>我们回顾一下前面总结，SPI它破坏了哪点呢，其实就是我们之前说的第一点 <strong> 不可以越权</strong> ，这个SPI竟然可以自己传入classLoader，而且默认它取的是当前线程的ClassLoader</p>
-<p>我们来看看经常提到的JDBC中，为啥说SPI破坏了<code>java.sql.DriverManager</code>的双亲委托呢，因为这个<code>java.*</code>包是根加载器加载的，然而我们却在java.sql.DriverManager 中使用<br>Class.forName 调用了三方jar包（使用应用程序类加载器加载）</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>所以其实从本质上来说，为啥我们说SPI破坏了双亲委派破坏了，坏就坏在它的代码在<code>java.sql.DriverManager</code>中，假如我们在我们代码中使用这个Class.forName，我们没有破坏这个双亲委派</p>
-<p>其实即使在<code>java.sql.DriverManager</code>我们不使用SPI，我们也可以破坏双亲委派，因为它会读取<code>jdbc.drivers</code> 这个属性，我们会读取这个字符串，然后使用<code>Class.forName(aDriver,true,ClassLoader.getSystemClassLoader());</code>来加载里定义的三方Driver</p>
-<p>资料</p>
-<p><a href="https://enfangzhong.github.io/2019/12/17/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B9%8B%E7%A0%B4%E5%9D%8F%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/" target="_blank" rel="noopener">https://enfangzhong.github.io/2019/12/17/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B9%8B%E7%A0%B4%E5%9D%8F%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/</a> </p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/12/08/java/AOP再思考/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/12/08/java/AOP再思考/" class="post-title-link" itemprop="url">AOP再思考</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-12-08 18:30:18" itemprop="dateCreated datePublished" datetime="2021-12-08T18:30:18+08:00">2021-12-08</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-10 20:32:37" itemprop="dateModified" datetime="2021-12-10T20:32:37+08:00">2021-12-10</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index">
-                    <span itemprop="name">Java</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>2.4k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>2 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>我记得之前写过Spring AOP相关的文章，但是最近在观看Cat源代码的时候发现 @Aspect 这个注解与AspectJ这个项目，查阅了不少博客，感觉还是云里雾里，这篇博客就是基于博客以及自己实际实验与测试搞懂 Spring AOP和 AspectJ之间的关系</p>
-</blockquote>
-<h2 id="AOP是什么"><a href="#AOP是什么" class="headerlink" title="AOP是什么"></a>AOP是什么</h2><p>网上的资料很多，我就不写那些烂大街的总结了，其实很简单，我们先了解一下Python的装饰器</p>
-<p>我们定义一个装饰器</p>
-<p>def cost(f):<br>def _real(<em>arg, **kward):<br>start = time.time()<br>reslt = f(</em>arg, **kward)<br>end = time.time()<br>print(‘cost’, end - start, ‘ seconds’)<br>Return _real</p>
-<p>然后我们可以将这个装饰器放在任何方法上</p>
-<p>@cost<br>def run():<br>print(“run”)</p>
-<p>我们运行任何代码都可以使用这个装饰器，其实AOP的核心要求也就是这个，只要我定义了一个方法，我能让我想让的函数都能执行这个，这就叫解耦，Python怎么实现这个呢，其实很简单，一个语法糖，编译器会把这个cost函数重新定义为一个新函数，具体原理我就不介绍了，我就把拆解后的代码写出来吧</p>
-<p>def _run():<br>print(“run”)</p>
-<p>def run():<br>return cost(_run)()</p>
-<p>然后在Java中虽然也有<code>@</code> 这个用法，但是那个是注解，它的作用就是一个文档，我们可以反编译有注解的类，只要这个注解的RetentionPolicy是<code>RetentionPolicy.RUNTIME</code>  它就会在保留在字节码上面</p>
-<h2 id="Spring-AOP怎么实现"><a href="#Spring-AOP怎么实现" class="headerlink" title="Spring AOP怎么实现"></a>Spring AOP怎么实现</h2><p>那Spring AOP如何实现在字节码上面读取到注解，然后实现AOP功能呢，答案就是<strong>反射</strong>（这也是为啥Spring启动很慢的原因，反射太慢了）</p>
-<p>通过<code>Class.getAnnotation</code> 这个方法，我们可以获取到类上面所有的注解，Spring 作为Bean工厂，对应所有的Bean它都会去读取它的注解，根据注解来灵活组合功能</p>
-<p>拿到注解后，如何实现把你想切入的代码插入到这个被注解到类上面呢。Java是一个面对对象的语言，它要想改变类的方法，只能通过继承</p>
-<p>继承有两张实现方式，假如类实现了接口，则使用JDK动态代理方式，即该类的<code>newProxyInstance</code>方法，第二种就是使用CGLib动态代理，自动生成类的字节码</p>
-<p>为什么能实现呢，因为所有的bean都是Spring来控制生成的。因为获取bean的时候，我们也能知道这个bean的类名，所以Spring 也提供了通过类名来控制切面，这就是自己来实现的好处，Python的装饰器只有被装饰的类才有用，而Spring由于自己实现了这套逻辑，所以它其实也支持通过类名来进行AOP</p>
-<h2 id="Spring-AOP的局限性"><a href="#Spring-AOP的局限性" class="headerlink" title="Spring AOP的局限性"></a>Spring AOP的局限性</h2><p>前面说到Spring AOP的原理，我们提到了一个关键就是被代理的都只能是<code>bean</code>，这就带来一个局限性，对应非bean的类，我们无法代理，不信你可以试试在Spring Boot里面切入一个非bean的三方如<code>org.apache.ibatis.executor.BaseExecutor</code></p>
-<p>那对应这种非Spring Bean的没法做到了吗，这里就要提到一个框架 <code>AspectJ</code></p>
-<p>这个就是AOP的鼻祖，Spring其实切面名字也叫<code>Aspect</code>,虽然实现不是用的AspectJ，但是用了它的注解类，这个框架强在哪呢，首先它提供了两种AOP方式<br>编译时候，修改编译的字节码，或者编译后增强<br>运行的时候，通过agent修改字节码</p>
-<p>编译时候修改字节码，我们比较熟悉的lombok就是这样的，是通过jdk1.6 <code>javax.annotation.processing.Processor</code> 引入的一种agent插入方式，通过SPI技术，你只要实现了这个类即可修改字节码</p>
-<p>编译后修改字节码是通过 JDK1.5 提供的 <code>java.lang.instrument.Instrumentation</code>来实现的，原理其实都很简单，使用SPI进行替换增强，感兴趣可以根据资料自己实操一下</p>
-<h2 id="AspectJ和Spring的关系"><a href="#AspectJ和Spring的关系" class="headerlink" title="AspectJ和Spring的关系"></a>AspectJ和Spring的关系</h2><p>AspectJ 对应Spring 来说只是提供了注解类，Spring用代理类或者CGLIB实现了自己的逻辑</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>之所以写这篇博文，主要是在学习JVM的时候发现对于JAVA的注解，Spring如何实现的自己不是很清楚，所以顺藤摸瓜，把这条链路给整明白，当然还有很多细节还没有深挖，比如AspectJ是怎么将切面代码进行字节码转编译，它是如何做到不出现循环依赖的</p>
-<p>要想深刻理解AspectJ和Spring实现原理，非常推荐使用Arthas使用jad将运行的类给反编译下来，通过这种，你就不会停留在网上各种花里胡哨的文字上面，Spring的确是一个很牛逼的框架，封装了很多东西，定义了很多规范，要想理解这些，必须深入到源代码层次</p>
-<p>AspectJ原理</p>
-<p><a href="https://blog.csdn.net/qq_40378034/article/details/115281684" target="_blank" rel="noopener">https://blog.csdn.net/qq_40378034/article/details/115281684</a></p>
-<p>Spring Boot AOP 原理</p>
-<p><a href="https://juejin.cn/post/6844903721101426701" target="_blank" rel="noopener">https://juejin.cn/post/6844903721101426701</a></p>
-<p><a href="https://www.cnblogs.com/tuyang1129/p/12878549.html#:~:text=Spring%20%E7%9A%84%20AOP%20%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86,%E9%87%8D%E5%86%99%E7%9A%84%E4%BB%A3%E7%90%86%E6%96%B9%E6%B3%95%E3%80%82" target="_blank" rel="noopener">https://www.cnblogs.com/tuyang1129/p/12878549.html#:~:text=Spring%20%E7%9A%84%20AOP%20%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86,%E9%87%8D%E5%86%99%E7%9A%84%E4%BB%A3%E7%90%86%E6%96%B9%E6%B3%95%E3%80%82</a></p>
-<p><a href="https://blog.mythsman.com/post/5d301cf2976abc05b34546be/" target="_blank" rel="noopener">https://blog.mythsman.com/post/5d301cf2976abc05b34546be/</a></p>
-<p>Lombok原理</p>
-<p><a href="https://blog.mythsman.com/post/5d2c11c767f841464434a3bf/" target="_blank" rel="noopener">https://blog.mythsman.com/post/5d2c11c767f841464434a3bf/</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/10/30/java/jvm/JVM之ClassLoader的思考/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -859,101 +603,6 @@ public void process(@RequestBody QueryRequest payload) throws Exception {
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/09/17/learn2love/learn2love/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/09/17/learn2love/learn2love/" class="post-title-link" itemprop="url">分手笔记</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-09-17 20:08:59" itemprop="dateCreated datePublished" datetime="2021-09-17T20:08:59+08:00">2021-09-17</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-11 09:24:10" itemprop="dateModified" datetime="2022-08-11T09:24:10+08:00">2022-08-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/感情/" itemprop="url" rel="index">
-                    <span itemprop="name">感情</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>4.4k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>4 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          有东西被加密了, 请输入密码查看
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/09/17/learn2love/learn2love/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/09/15/java/mybatis/mybatis二级缓存/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1140,7 +789,7 @@ public void process(@RequestBody QueryRequest payload) throws Exception {
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/06/15/learn2love/letter/">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/05/23/java/stream/从问题出发看源码/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/myself.jpg">
@@ -1154,7 +803,7 @@ public void process(@RequestBody QueryRequest payload) throws Exception {
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2021/06/15/learn2love/letter/" class="post-title-link" itemprop="url">信</a>
+            <a href="/2021/05/23/java/stream/从问题出发看源码/" class="post-title-link" itemprop="url">Stream源码（2）：从问题出发看源码</a>
         </h1>
 
         <div class="post-meta">
@@ -1164,14 +813,14 @@ public void process(@RequestBody QueryRequest payload) throws Exception {
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-06-15 07:57:33" itemprop="dateCreated datePublished" datetime="2021-06-15T07:57:33+08:00">2021-06-15</time>
+              <time title="创建时间：2021-05-23 09:48:54" itemprop="dateCreated datePublished" datetime="2021-05-23T09:48:54+08:00">2021-05-23</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-10 23:04:08" itemprop="dateModified" datetime="2022-08-10T23:04:08+08:00">2022-08-10</time>
+                <time title="修改时间：2021-06-01 22:22:53" itemprop="dateModified" datetime="2021-06-01T22:22:53+08:00">2021-06-01</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1179,8 +828,8 @@ public void process(@RequestBody QueryRequest payload) throws Exception {
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/感情/" itemprop="url" rel="index">
-                    <span itemprop="name">感情</span>
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
                   </a>
                 </span>
             </span>
@@ -1190,13 +839,13 @@ public void process(@RequestBody QueryRequest payload) throws Exception {
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span>18k</span>
+              <span>2.9k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
-              <span>16 分钟</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -1208,15 +857,465 @@ public void process(@RequestBody QueryRequest payload) throws Exception {
     <div class="post-body" itemprop="articleBody">
 
       
-          有东西被加密了, 请输入密码查看
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/06/15/learn2love/letter/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
+          <blockquote>
+<p>之前看一些开源项目源码的时候，发现一个问题，假如你贪全，一口气把整个代码看完，由于现在程序架构<br>比较复杂，很多功能被分成很多个组件来完成，有的时候你会被程序跳来跳去给弄晕，假如你但看一个小功能，你又<br>不知道为啥要用这个</p>
+</blockquote>
+<p>所以这次准备尝试从问题入手，首先给自己提一些<br>问题，然后在从源代码中寻找答案，<br>在寻找答案的过程中会遇到更多问题，就这样打破砂锅问到底，最终没有问题了，这个时候你就差不多看懂了</p>
+<h2 id="0x00-问题"><a href="#0x00-问题" class="headerlink" title="0x00 问题"></a>0x00 问题</h2><ol>
+<li>distinct 操作过程中是否会将新加入的元素和历史元素一一比较？</li>
+</ol>
+<p>为啥会有这个问题呢，因为在看源码</p>
+<pre><code>Returns a stream consisting of the distinct elements (according to Object.equals(Object)) of this stream.
+For ordered streams, the selection of distinct elements is stable (for duplicated elements, the element appearing first in the encounter order is preserved.) For unordered streams, no stability guarantees are made.
+</code></pre><p>这句话意思是会依靠｀Object.equals(Object)｀　来去重，我们知道｀distinct｀和｀filter｀都是中间操作<br>难道<code>distinct</code>会将每个元素和历史元素做一个<code>Object.equals</code>调用吗</p>
+<p>假如这样做的话，那么这个操作就是<code>O（n^2)</code>的时间复杂度了，显然不太靠谱，我们查看<code>distinct</code>源码发现</p>
+<p>最终<code>distinct</code>生成了一个<code>StatefulOp</code> ，而且这个类存在一个<code>reduce</code>函数，其中声明了一个</p>
+<pre><code>TerminalOp&lt;T, LinkedHashSet&lt;T&gt;&gt; reduceOp
+                = ReduceOps.&lt;T, LinkedHashSet&lt;T&gt;&gt;makeRef(LinkedHashSet::new, LinkedHashSet::add,
+                                                         LinkedHashSet::addAll);
+</code></pre><p>我们可以看到这个变量是一个终止操作，其中使用<code>LinkedHashSet</code>来进行聚合，所以看到这我们就猜测<br><code>Stream</code>没有这么傻，它声明了一个<code>LinkedHashSet</code>来存贮历史元素，这样只需要将加进来的元素进行<br>哈希计算，然后跟哈希碰撞的调用一下<code>Object.equals(Object)</code>函数就好了</p>
+<p>我们看到这篇<a href="https://blog.csdn.net/puppylpg/article/details/78556730" target="_blank" rel="noopener">博文</a>的实验也证明我们的猜测了`  </p>
+<p>接下来我们又有一个疑惑Stream内部是如何实现的呢？</p>
+<h2 id="0x01-猜测"><a href="#0x01-猜测" class="headerlink" title="0x01 猜测"></a>0x01 猜测</h2><p>我们首先从最小的代码来看，我们首先来看一个无状态的stream函数</p>
+<pre><code>Stream.of(1L, 2L, 3L, 4L).forEach(System.out::println)
+</code></pre><p>我们使用<code>for</code>循环用来实现也非常简单</p>
+<pre><code> for (long l : new long[]{1L, 2L, 3L, 4L}) {
+  System.out.println(l);
+}
+</code></pre><p>接下来我们来思考，如何实现一个有状态的<code>Stream</code>流</p>
+<pre><code>Stream.of(1L, 2L, 3L, 4L).reduce(0L, Long::sum);
+</code></pre><p>我们如何用<code>for</code>循环来实现呢，很简单，定义一个变量</p>
+<pre><code>long begin = 0;
+for (long l : new long[]{1L, 2L, 3L, 4L}) {
+    begin += l;
+}
+</code></pre><p>我们能很容易写出一层for循环，但是Stream强大的地方在于，他可以穿插很多函数处理<br>比如：</p>
+<pre><code>Stream.of(1L, 2L, 3L, 4L, 4L, 5L, 5L).distinct().filter(x -&gt; x &gt; 2).reduce(0, Long::sum);
+</code></pre><p>我们简单的穿插了<code>distinct</code>和<code>filter</code>操作，我们接下来尝试使用<code>for</code>循环来实现上面的<code>Stream</code></p>
+<p>首先我们知道<code>distinct</code> 需要一个<code>Set</code>来过滤已经存在的，其中<code>reduce</code>需要一个初始量，那就好做了</p>
+<pre><code>long start = 0L;
+for (long l : new long[]{1L, 2L, 3L, 4L}) {
+    if(!set.contains(l)) {
+        set.add(l);
+        if(l &gt; 2) {
+            start += l;
+        }
+    }
+}
+</code></pre><h2 id="00x02-源码探究"><a href="#00x02-源码探究" class="headerlink" title="00x02 源码探究"></a>00x02 源码探究</h2><p>接下来我们看看<code>Stream</code>内部如何实现这个<code>for</code>循环的，我们可以看到，其实<code>.distinct().filter(x -&gt; x &gt; 2).reduce(0, Long::sum)</code>对于每一层我们都需要能<br>创建一个<code>Sink</code>，对于这个<code>for</code>循环来说，都是把每个数据，我们把数据从一个<code>sink</code>到其他的<code>sink</code></p>
+<p>所有的<code>Sink</code>都实现了<code>Consumer</code> 接口，其中最重要的接口就是</p>
+<pre><code>void accept(T t);
+</code></pre><p>这个消费接口，我们可以理解“吃”数据，它会把我们传给它的值都“消化”掉</p>
+<p>当我们在创建<code>.distinct().filter(...)...</code>这些stream的时候，我们做了什么呢，<br>我们每进行一次中间操作，我们都新建了一个流，其中我们通过<code>upstream</code> 这个变量指向<br>之前的流</p>
+<p>当我们碰到终止操作比如<code>reduce</code>的时候，我们会进行一个回溯，把所有<code>upstream</code>都进行回溯，反过来把一个<code>sink</code>组装起来（每个sink指向它的上游）</p>
+<pre><code>// java.util.stream.AbstractPipeline.class
+final &lt;P_IN&gt; Sink&lt;P_IN&gt; wrapSink(Sink&lt;E_OUT&gt; sink) {
+    Objects.requireNonNull(sink);
+    // 回溯之前的stream流，创建sink，并让当前的sink指向上流
+    for ( @SuppressWarnings(&quot;rawtypes&quot;) AbstractPipeline p=AbstractPipeline.this; p.depth &gt; 0; p=p.previousStage) {
+        sink = p.opWrapSink(p.previousStage.combinedFlags, sink);
+    }
+    return (Sink&lt;P_IN&gt;) sink;
+}
+</code></pre><p>最终我们得到了最上流的sink，以上面为例就是<code>distinct</code>那个sink</p>
+<p>接下来我们执行<code>for</code>循环，其中最重要的就是</p>
+<pre><code>// java.util.stream.AbstractPipeline.copyInto 函数
+// 执行for循环 其中 传入的sink就是 我们上面得到的像葫芦串一样的sink
+spliterator.forEachRemaining(wrappedSink)
+</code></pre><p>我们只需要给<code>wrappedSink</code>传入<code>for</code>循环的值就好了，由于每个sink都有其上游的引用，比如说<code>distinct</code>的sink，<br>他会判断是否已经存贮在<code>sink</code>中，如果没有就往上游传，由于上游也是个<code>sink</code>，所以最终如果不传了或者到最上游了就继续下一<code>for</code>循环的值</p>
+<h2 id="0x03"><a href="#0x03" class="headerlink" title="0x03"></a>0x03</h2><p>总结，我们这边非常浅显的把源代码给介绍了一下，其实要想吃透最好使用debug功能，一行一行代码进行debug，这样就能印象更深刻</p>
+<p>##　引用</p>
+<ul>
+<li><a href="https://blog.csdn.net/puppylpg/article/details/78556730" target="_blank" rel="noopener">对Java8中distinct()的思考</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
         
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/05/15/java/stream/从去重到Stream源码/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/15/java/stream/从去重到Stream源码/" class="post-title-link" itemprop="url">Stream源码（1）：如何实现去重</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-05-15 22:48:20" itemprop="dateCreated datePublished" datetime="2021-05-15T22:48:20+08:00">2021-05-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-05-20 23:24:05" itemprop="dateModified" datetime="2021-05-20T23:24:05+08:00">2021-05-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>1.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>本篇博客是在看代码的时候看到使用Java8使用<code>Stream</code>去重的妙用，从而对Java如何使用Stream实现几行代码<br>完成一个可支持并行化的流式计算程序</p>
+</blockquote>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
+<p>什么是<code>Stream</code></p>
+</blockquote>
+<p>简单来说<code>Stream</code>就是Java8引入的一种流式API，让只需要定义一些处理函数就能优雅的对集合的一些操作</p>
+<p>举个栗子，之前我们想遍历打印所有的参数我们得写下面代码</p>
+<pre><code>for (int i : new int[]{1, 2, 3, 4}) {
+    System.out.println(i);
+}
+</code></pre><p>假如使用Java8，我们只需要一行代码</p>
+<pre><code>Arrays.stream(new int[]{1, 2, 3, 4}).forEach(System.out::println);
+</code></pre><p>我们只需要定义一个函数，其他的<code>Stream</code>帮我们解决</p>
+<h2 id="Stream模型"><a href="#Stream模型" class="headerlink" title="Stream模型"></a>Stream模型</h2><p>简单来说<code>Stream</code>把操作分为两张，一种是中间操作，一种是终结操作</p>
+<p>中间操作你可以把他看做对数据源的一种处理，而终结操作是定义产生新数据过程，简单来说，假如我们有一堆苹果<br>需要处理，我们使用一个流水线来对经过的苹果进行各种处理（中间操作），丢掉烂掉的（filter），削掉皮（map）等等，<br>最后的我们需要对苹果进行装箱（终结操作）</p>
+<h2 id="分析功能"><a href="#分析功能" class="headerlink" title="分析功能"></a>分析功能</h2><p>我们接下来看看我们需要实现的功能，就是去重，我们知道<code>Stream</code>其实提供了一个<code>distinct</code>方法中间操作来帮我们实现去重功能，<br>对于基本类型比如<code>String</code>，<code>Integer</code>，<code>Long</code>这些我们能很容易进行去重，但是对于复杂类，我们得<br>重写<code>hashCode</code>和<code>equal</code>方法来支持去重操作了，对于集合内的每个数据都会用<code>equal</code>来进行去重</p>
+<p>接下来我们尝试直接使用终结操作<code>collect</code>来解决掉<br>怎么做呢，<code>collect</code>其实也很简单就是创建一个容器，把数据装进去，我们就只需要使用一个可以支持去重操作的<br>容器来做就好了</p>
+<p>支持去重的有<code>Map</code>和<code>Set</code>，所以我们想到的第一个方法就是将流变成一个<code>Set</code>，这个也是网上很多人提供的一个版本</p>
+<pre><code>dishes.stream().distinct().collect(Collectors.toCollection(
+            () -&gt; new TreeSet&lt;&gt;(Comparator.comparing(Dish::getType)))
+</code></pre><p>我们把这行代码给分解成两行</p>
+<pre><code>TreeSet&lt;Dish&gt; container = new TreeSet&lt;&gt;(Comparator.comparing(Dish::getType));
+dishes.stream().collect(Collectors.toCollection(() -&gt; container));
+</code></pre><p>第一行其实就是声明了一个容器，核心代码就是 <code>() -&gt; container</code> 我们传入一个容器，让他来存贮，我们使用<br><code>TreeSet</code>的一个构造器，它只需要传入一个函数，他会比较传进来的每个值，假如发现已经存在了它就不会插入了</p>
+<p>但是这个有个问题就是，他只能选择第一个出现的</p>
+<p>接下来我们试试用<code>Map</code>，</p>
+<pre><code>dishes.stream().collect(toMap(Dish::getType, d -&gt; d);
+</code></pre><p>我们写下下面的代码，但是这个代码有点问题就是假如出现重复的，他会抛异常，因为程序默认不知道你想要哪个数据</p>
+<pre><code>dishes.stream().collect(toMap(Dish::getType, d -&gt; d, (oldData, newData) -&gt; oldData));
+</code></pre><p>我们可以传入一个选择函数，这样当发现重复的时候就可以选择要哪个插入到map中去，这个也解决了上面使用<code>Set</code>来存贮的时候没法选择到底是新来的还是后来的</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这篇博客简单的介绍了实现去重功能的三种实现方法，接下来这个系列的博客会深入到源码来探究Java8如何实现<br>Stream这么多功能的</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
+<li><a href="https://cloud.tencent.com/developer/article/1756399" target="_blank" rel="noopener">Java Stream 源码分析</a></li>
+<li><a href="https://www.jianshu.com/p/3219f184bb8e" target="_blank" rel="noopener">JAVA8优雅的去重</a></li>
+<li><a href="https://club.perfma.com/article/116123" target="_blank" rel="noopener">JAVA8Stream 源码分析2</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/05/15/summary/周末杂思/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/15/summary/周末杂思/" class="post-title-link" itemprop="url">周末杂思</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-05-15 16:27:29 / 修改时间：16:28:01" itemprop="dateCreated datePublished" datetime="2021-05-15T16:27:29+08:00">2021-05-15</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>0</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2021/04/05/java/mysql/GroupByAsSort/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/04/05/java/mysql/GroupByAsSort/" class="post-title-link" itemprop="url">MySQL Group By 还可以用来去重</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-04-05 10:29:00 / 修改时间：11:43:41" itemprop="dateCreated datePublished" datetime="2021-04-05T10:29:00+08:00">2021-04-05</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>5.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>最近在接手老项目的时候，看到一个SQL： <code>select * from xx group by id</code>，<br>当时一看到这句就感觉，这个group by是不是多余的，既然select 全部了，那去掉其实也无所谓，<br>然后询问上一个接手的同事才知道这个是用来去重了，好家伙，以前一直用来分组统计的语句竟然可以用来<br>去重，涨知识了</p>
+</blockquote>
+<h2 id="Group-By-到底可不可以去重呢"><a href="#Group-By-到底可不可以去重呢" class="headerlink" title="Group By 到底可不可以去重呢"></a>Group By 到底可不可以去重呢</h2><p>首先我们新建一个测试表，并插入一些测试数据</p>
+<pre><code>CREATE TABLE test.student (
+  `sno` varchar(20) NOT NULL,
+  `sname` varchar(20) DEFAULT NULL,
+  `ssex` varchar(20) DEFAULT NULL,
+  `sage` int(11) DEFAULT NULL,
+  `sdept` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`sno`)
+);
+INSERT INTO test.student (sno, sname, ssex, sage, sdept) VALUES (&apos;201215121&apos;, &apos;李勇&apos;, &apos;男&apos;, 20, &apos;CS&apos;);
+INSERT INTO test.student (sno, sname, ssex, sage, sdept) VALUES (&apos;201215122&apos;, &apos;刘晨&apos;, &apos;女&apos;, 19, &apos;CS&apos;);
+INSERT INTO test.student (sno, sname, ssex, sage, sdept) VALUES (&apos;201215123&apos;, &apos;王敏&apos;, &apos;女&apos;, 18, &apos;MA&apos;);
+INSERT INTO test.student (sno, sname, ssex, sage, sdept) VALUES (&apos;201215124&apos;, &apos;张立&apos;, &apos;男&apos;, 19, &apos;IS&apos;);
+INSERT INTO test.student (sno, sname, ssex, sage, sdept) VALUES (&apos;201215125&apos;, &apos;张立&apos;, &apos;男&apos;, 19, &apos;IS&apos;);
+</code></pre><p>然后我们测试一些是否可以去重</p>
+<pre><code>mysql&gt; SELECT * from test.student GROUP BY ssex ;
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column &apos;test.student.sno&apos; which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+</code></pre><p>哎呀出错了，意思是不支持，因为我们<code>sql_mode</code> 设置了<code>only_full_group_by</code>这个，我们来看看我们<code>sql_mode</code>里面有啥</p>
+<pre><code>mysql&gt; SELECT @@SESSION.sql_mode \G;
+*************************** 1. row ***************************
+@@SESSION.sql_mode: ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
+1 row in set (0.00 sec)
+</code></pre><p>的确我们<code>sql_mode</code>是设置了<code>ONLY_FULL_GROUP_BY</code>这个值，这个<code>sql_mode</code>是啥呢，首先我们知道<br>MySQL只是SQL一种实现软件，他为了和其他SQL兼容，就设置了这个变量，你可以通过<br>修改这个值来修改他的语法支持</p>
+<p>其实<code>group by</code>本来的意图就是一个聚合函数，正常来说，我们一般是使用下面的语法</p>
+<pre><code>select a, count(*) from xxx group by a
+</code></pre><p>但是<code>MySQL</code>非常开放，它允许你使用非group by 字段，在5.7之前都是默认允许的，但是5.7之后，它默认关闭了<br>但是你可以修改关闭</p>
+<p>接下来我们临时关闭掉这个，怎么关闭呢，非常简单，把<code>ONLY_FULL_GROUP_BY</code>在<code>sql_mode</code> 删除就好了<br>接下面执行下面语句</p>
+<pre><code>set sql_mode =(SELECT replace(@@SESSION.sql_mode, &apos;ONLY_FULL_GROUP_BY,&apos;, &apos;&apos;));
+</code></pre><p>然后我们再执行上面<code>sql</code></p>
+<pre><code>mysql&gt; SELECT * from test.student GROUP BY ssex ;
++-----------+--------+------+------+-------+
+| sno       | sname  | ssex | sage | sdept |
++-----------+--------+------+------+-------+
+| 201215122 | 刘晨   | 女   |   19 | CS    |
+| 201215121 | 李勇   | 男   |   20 | CS    |
++-----------+--------+------+------+-------+
+2 rows in set (0.00 sec)
+</code></pre><p>o了，我们再看看我们目前的<code>sql_mode</code></p>
+<pre><code>mysql&gt; SELECT @@SESSION.sql_mode;
++------------------------------------------------------------------------------------------------------------------------+
+| @@SESSION.sql_mode                                                                                                     |
++------------------------------------------------------------------------------------------------------------------------+
+| STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION |
++------------------------------------------------------------------------------------------------------------------------+
+</code></pre><p>的确目前看到<code>ONLY_FULL_GROUP_BY</code>这个了，而且我们发现的确去重了</p>
+<h2 id="Distinct和Group-By"><a href="#Distinct和Group-By" class="headerlink" title="Distinct和Group By"></a>Distinct和Group By</h2><p>通过上面的实验我们知道了，<code>Group By</code>的确可以去重，但是我们去重一般使用<code>Distinct</code>来，<br><code>Distinct</code>原理很简单</p>
+<p>我们执行下面语句</p>
+<pre><code>mysql&gt; explain SELECT distinct ssex from test.student ;
++----+-------------+---------+------------+------+---------------+------+---------+------+------+----------+-----------------+
+| id | select_type | table   | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra           |
++----+-------------+---------+------------+------+---------------+------+---------+------+------+----------+-----------------+
+|  1 | SIMPLE      | student | NULL       | ALL  | NULL          | NULL | NULL    | NULL |    5 |   100.00 | Using temporary |
++----+-------------+---------+------------+------+---------------+------+---------+------+------+----------+-----------------+
+</code></pre><p>我们可以看到<code>Using temporary</code>告诉我们，就是创建一个临时表，然后把<br><code>Distinct</code>的字段从表里取出来，然后返回给客户端就好了</p>
+<p>我们看看<code>Group By</code>的原理</p>
+<pre><code>mysql&gt; explain SELECT * from test.student GROUP BY ssex ;
++----+-------------+---------+------------+------+---------------+------+---------+------+------+----------+---------------------------------+
+| id | select_type | table   | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra                           |
++----+-------------+---------+------------+------+---------------+------+---------+------+------+----------+---------------------------------+
+|  1 | SIMPLE      | student | NULL       | ALL  | NULL          | NULL | NULL    | NULL |    5 |   100.00 | Using temporary; Using filesort |
++----+-------------+---------+------------+------+---------------+------+---------+------+------+----------+---------------------------------+
+</code></pre><p>我们也看到了<code>Using temporary;</code>，其实<code>Group By</code>底层也是用到临时表，把你<code>Group By</code>的值当<br>做主键，而且我们看到默认它会取第一个出现的值作为最终的值<br>这个是为什么呢</p>
+<h2 id="Group-By-原理解析"><a href="#Group-By-原理解析" class="headerlink" title="Group By 原理解析"></a>Group By 原理解析</h2><p>我们前面知道，<code>Group By</code> 一开始只是用来做聚合函数的，所以底层上最开始设计的时候就是</p>
+<ul>
+<li>首先建一张临时表，把<code>Group By</code>字段作为唯一主键（下面称作key）</li>
+<li>然后把原始表中所有数据按照key进行分组</li>
+<li>对分组内数据一个一个进行聚合，比如执行<code>count</code>, <code>avg</code> 等等函数，最后每组跟随主键key产生最终的一列值</li>
+<li>最后对临时表进行排序返回</li>
+</ul>
+<p>所以其实当时为了支持，不在主键内的值，MySQL只是简单的把组内第一个出现值赋值进去</p>
+<p>那为什么不把最后组内最后一个值赋值进去呢，首先是如果实现这个功能，想当于组内数据要全部执行一遍，<br>效率太低了，那有没有办法能实现去重的时候取组内最后一个呢</p>
+<p>首先说目前是不支持的，不过能通过下面两种方式来实现</p>
+<p><strong>方法一：</strong></p>
+<p>首先把你想要的数据进行排序</p>
+<pre><code>create temporary table test.tt as SELECT * from test.student order by sno desc;
+</code></pre><p>然后我们看正常来按照年龄排序</p>
+<pre><code>mysql&gt; SELECT * from test.student GROUP BY sage;
++-----------+--------+------+------+-------+
+| sno       | sname  | ssex | sage | sdept |
++-----------+--------+------+------+-------+
+| 201215123 | 王敏   | 女   |   18 | MA    |
+| 201215122 | 刘晨   | 女   |   19 | CS    |
+| 201215121 | 李勇   | 男   |   20 | CS    |
++-----------+--------+------+------+-------+
+3 rows in set (0.00 sec)
+</code></pre><p>接下来我们再看看我们去重取最后一个出现的，我们看到<code>19</code>的<code>张立</code>取代了第一个出现的<code>刘晨</code></p>
+<pre><code>mysql&gt; SELECT * from test.tt GROUP BY sage;
++-----------+--------+------+------+-------+
+| sno       | sname  | ssex | sage | sdept |
++-----------+--------+------+------+-------+
+| 201215123 | 王敏   | 女   |   18 | MA    |
+| 201215125 | 张立   | 男   |   19 | IS    |
+| 201215121 | 李勇   | 男   |   20 | CS    |
++-----------+--------+------+------+-------+
+3 rows in set (0.00 sec)
+</code></pre><p><strong>方法二：</strong></p>
+<p>第二种方法其实把上面两个步骤合成一个，首先我们把原始数据进行排序，然后取出组内第一个</p>
+<pre><code>select sno, sname, sage, sdept
+from (SELECT @i := if(@sage &lt;&gt; sage, 0, @i + 1) as i, @sage := sage, a.*
+from (select * from test.student order by sage, sno desc) a) a
+where i = 0
+order by sage;
+</code></pre><p>我们用上面这行函数模仿了，<code>Group By</code>去重，我们可以看到我们在末尾加了一个<code>order by sage</code><br>语句，这是因为默认<code>Group By</code>会按照<code>Group By</code>的键值给我们排序，<br>所以如果你想优化<code>Group By</code>性能，当你对组排序顺序无所谓的时候，你可以在<br><code>Group By</code> 末尾加上<code>order by null</code>关闭排序功能</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><code>Group By</code>去重功能在<code>5.7</code>之后就默认关闭了，所以其实大家用来做去重还是慎用，不过通过这个功能去探索<br>底层原理对你数据库性能优化还是非常有帮助的</p>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ul>
+<li><a href="https://blog.csdn.net/Dax1n/article/details/86581472" title="MySQL中的Group By是否允许SELECT非聚合列的总结" target="_blank" rel="noopener">MySQL中的Group By是否允许SELECT非聚合列的总结</a></li>
+<li><a href="https://dev.mysql.com/doc/refman/5.7/en/sql-mode.html#sqlmode_only_full_group_by" title="mysql5.7文档" target="_blank" rel="noopener">mysql5.7官方文档</a></li>
+<li><a href="https://www.itzhai.com/articles/how-sql-works-understand-the-essence-of-tuning-by-the-execution-principle.html" title="SQL运行内幕：从执行原理看调优的本质" target="_blank" rel="noopener">SQL运行内幕：从执行原理看调优的本质</a></li>
+</ul>
+
       
     </div>
 
@@ -1303,7 +1402,7 @@ public void process(@RequestBody QueryRequest payload) throws Exception {
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">128</span>
+          <span class="site-state-item-count">124</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1378,12 +1477,12 @@ public void process(@RequestBody QueryRequest payload) throws Exception {
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">292k</span>
+    <span title="站点总字数">268k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:26</span>
+    <span title="站点阅读时长">4:04</span>
 </div>
 
         

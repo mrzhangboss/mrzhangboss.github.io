@@ -211,613 +211,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2017/12/25/algorithm/从问题理解动态规划/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/12/25/algorithm/从问题理解动态规划/" class="post-title-link" itemprop="url">从问题理解动态规划</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-12-25 00:00:00" itemprop="dateCreated datePublished" datetime="2017-12-25T00:00:00+08:00">2017-12-25</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>2.3k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>2 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>网上关于动态规划的资料，大部分直接给结论，所以一开始我一头雾水，搞不懂为什么要这么做，这篇博文就从实际问题出发，简单的剖析动态规划</p>
-</blockquote>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>现实生活中总能找到一些问题你没法给出具体答案，比如给你一堆1块、5块、10块的零钱，要你找出多少种能够拼出100块的方法。还有就是迷宫问题这种。这种问题都有一个特征，我们没有办法立刻给出答案，而且我们对这种问题的想到的第一种解决方法就是暴力搜索，把所以的可能方案列出来然后得到答案。这种暴力搜索最终能够解决问题，但是他们在计算的时候花了很多时间在相同的计算上面。为了节省时间，所以我们使用动态规划“优化”暴力搜索</p>
-<h2 id="为什么要使用动态规划？"><a href="#为什么要使用动态规划？" class="headerlink" title="为什么要使用动态规划？"></a>为什么要使用动态规划？</h2><h3 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h3><p>我们先举一个简单的例子，大家都知道走楼梯问题，这也是教科书一个经典的递归程序</p>
-<ul>
-<li>有N阶台阶，一个人一次上两个或者一个，问有多少种走法?</li>
-</ul>
-<p>我们拿到这道题，我们首先会想这样想，从第一个台阶开始，我们使用递归让这个人走一步或者两步，这样每次分解成为两种可能，最后直达走到N阶台阶，或者迈过去了，然后计算这种所以迈到N阶台阶的可能路径。</p>
-<p>这种正向思维很容易理解，但是最终它直接得到的是所以可能的路径，但是这道题我们需要求的是N阶的走法，所以我们从正向思维必须要反过来思考，假如我们从一个台阶出发有两种可能，那么我们到达第N个的台阶来看，也有两种可能，第一种是N-1（迈了一步到达），第二种是N-2（迈了两步到达），这样我们就很清楚了，假如我们要想得到到达N阶台阶的走法总数，那么我们只需要把到达N-1和到达N-2的次数加起来就可以了</p>
-<p>这是一个很重要的思想<strong>把一个复杂的问题，分解成为其他的子问题</strong>，这也是我们完成动态规划的设计的核心思想</p>
-<p>从更好的理解动态规划的优点和源头，我们就从这个简单的例子使用不同的算法来解释为什么要用动态规划</p>
-<h3 id="暴力搜索法"><a href="#暴力搜索法" class="headerlink" title="暴力搜索法"></a>暴力搜索法</h3><p>我们成功的完成了问题的分解，为了完成计算，但是我们还得计算子问题的结果，上面得到一个很重要的公式<code>F(N) = F(N-1) + F(N-2)</code></p>
-<p>我们可以很轻松的写出代码（Python）</p>
-<pre><code>def f(n):
-  return f(n-1) + f(n-2) if n &gt; 2 else n
-</code></pre><p>我们只用一行代码就能将这个问题解决掉，而且效果看起来还不错，我们可以试不同的n都能获取正确的结果，但是n大于30之后，当我在我的电脑上运行起来非常慢，需要几秒钟才能返回结果，而且当n越大，消耗的时间也越多。</p>
-<p> 这是为什么呢？我们现在来思考一下这个暴力算法有什么弊端</p>
-<ul>
-<li>暴力搜索的弊端</li>
-</ul>
-<p>我们现在假设N=10，那么我们现在就把F(10)转换成为F(9)与F(8)的和，那么F(9)又分成了F(8)和F(7)，而F(8)被分成了F(7)和F(6)</p>
-<p>从这里可以看到，F(7)在第二次分解的时候计算了两次,而每次计算的结果都是一样的，所以我们相当于重复了一遍耗时的操作，知道这个问题，我们就必须改进了，我们可以用一个东西存贮计算结果，这样就不需要重复计算了</p>
-<h3 id="记忆搜索法"><a href="#记忆搜索法" class="headerlink" title="记忆搜索法"></a>记忆搜索法</h3><p>我们修改我们算法，加一个参数<code>map</code></p>
-<pre><code>def map_get(map, n):
-    v = map.get(n-1)
-    if not v:
-      v = f(n, map)
-      map[n] = v
-    return v
-
-
-def f(n, map):
-    if n &lt; 3:
-      return n
-    if n in map:
-      return map[n]
-    return map_get(map, n - 1) + map_get(map, n - 2)
-</code></pre><p>我们添加一个辅助的字典存贮我们中间计算过程，虽然让我们的代码臃肿了不少，但是让我们代码速度有了质的变化</p>
-<p>我们尝试使用运行让N增大到100多都能迅速返回，但是当我们逐渐增大到1000的时候我们会发现<code>Python</code>直接报了超出最大堆栈限制的错误</p>
-<ul>
-<li>堆栈超出最大层数的原因</li>
-</ul>
-<p>由于我们使用了递归，递归函数是在递归的时候当前堆栈再次申请一个堆栈待，运行递归函数，为了避免一直无限调用下去耗空堆栈空间（申请也需要一点空间），Python限制了递归层数，由于为了计算超过1000的我们必须至少要递归超过1000次（从1000减一减到小于2），所以我们光荣的被当错程序错乱被误杀了。</p>
-<h3 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h3><p>反观我们这个函数，使用递归，我们很容易理解，但是对于计算机来说，只是为了计算一个数而使用递归是非常不划算的，所以我们要思考这些中间值保留有什么共同点，我们从头开始看，对于第三个来说，它只需要知道第一个和第二个的值就行，而第一个第二个我们知道分别为1和2，对于第四个来说，它只需要知道第三个和第二个，如果我们先把第三个计算下来并保留下来，我们就能知道第四个。</p>
-<p>从头开始思考我们知道，我们只需要保留前面计算的结果就能知道后面的值，我们使用一个列表保存这个中间计算过程，我们将函数改写成下面这个</p>
-<pre><code>def f(n):
-    if n &lt; 3: return n
-    values = [1, 2]
-    for i in range(2, n):
-      values.append(values[i-2]+values[i-1])
-    return values[-1]
-</code></pre><p>接下来我们运行这个函数，我们会发现就算N为10000都能迅速返回</p>
-<p>来看看我们动态规划的“损失”，我们使用了一个列表存贮中间过程，使用了空间“换回”了速度</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我们使用了一个很简单的题目来介绍动态规划，由于这个问题太过于简单，你或许自己在不知道动态规划的时候都能写出来，但是这个从暴力搜索到记忆搜索最后动态规划的算法优化过程中，我们能够清楚的知道设计动态规范其实也非常简单，<strong>将大问题分解成小问题，然后思考小问题的如何细分，最后反过来思考从小问题逆向到最终的大问题</strong>，这就是动态规划。</p>
-<p>当然这道问题并不是很经典的动态规划问题，为了让大家更好的理解动态规划，我在下面这篇的博文中介绍若干中经典的动态规划问题</p>
-<p><a href="/2017/12/26/几个有趣的动态规划/">几个有趣的动态规划</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2017/12/14/software/http/漫谈网络/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/12/14/software/http/漫谈网络/" class="post-title-link" itemprop="url">从子网到“互联网”</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-12-14 00:00:00" itemprop="dateCreated datePublished" datetime="2017-12-14T00:00:00+08:00">2017-12-14</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:08:06" itemprop="dateModified" datetime="2021-03-09T20:08:06+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/软件/" itemprop="url" rel="index">
-                    <span itemprop="name">软件</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>4.2k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>4 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>最近重温《TCP/IP协议簇》，读到子网这个部分，概念都能弄懂，但是不明白子网存在的目的，很多资料都说有两个好处，一是能够判断IP存在局域网还是远程网，另外一个将大的网段分成多个小子网。</p>
-<p>这样就搞得我一头雾水，原来我对互联网的认识是从TCP、HTTP高层协议理解的，我原来对互联网信息传递的理解就像<a href="https://www.zhihu.com/question/20717354/answer/15968282" target="_blank" rel="noopener">这篇回答</a>，网络就像一个神奇的大网，你只需要把电话线插到“网”中就能同别人连起来。原来我对这个解释并没有什么疑问，但是我越来越深入“互联网”，我就我对“互联网”越来越疑惑。</p>
-<p>举个例子，我们知道这个IPV4理论上总共有<code>4294967296（256*256*256*256）</code>个，按照当前的理论，过几年就要分配完了，那意味这至少有50%已经分配好了，也就是说至少有20亿根“网线”要连到一起，我们知道局域网只要交换机就能搭起来，假设我们一个交换机能插20根网线，那么要搭这个20亿“网线”，至少要用一个亿的交换机，你能想象一个亿的交换机堆在一起组成“互联网”吗？就算假如我们使用数字信号，作为一个程序员，我也很难想象原先的程序员是在有限的内存和硬盘，如何设计强大计算机有条不紊的处理20亿的并发。</p>
-<p>所以这篇文章就要从OSI底层协议出发让我们从底部掀一掀“互联网”的老底，将一个有血有肉的“互联网”展现在我们面前。</p>
-<h2 id="触摸“网”"><a href="#触摸“网”" class="headerlink" title="触摸“网”"></a>触摸“网”</h2><p>我们一直在说着互联网、互联网，由于无数在前人的不懈努力下，其实很多时候我们根本感受不到这张网的存在，比如打开浏览器，输入<code>www.baidu.com</code>，我们直接就能连上千里之外的服务器，其实在浏览器后面，我们发的“包”正沿着网跨越千山万水到达一个机房的服务器中。</p>
-<p>所以为了触摸到网这个东西，我们得用一些工具，我们就在打开的百度中输入<code>traceroute</code>，根据你的操作系统安装好，然后我们打开命令行输入<code>traceroute  -I www.baidu.com</code></p>
-<pre><code>traceroute to www.baidu.com (14.215.177.38), 30 hops max, 60 byte packets
- 1  192.168.1.1 (192.168.1.1)  
- 2  182.96.180.1 (182.96.180.1) 
- 3  68.248.177.220.broad.nc.jx.dynamic.163data.com.cn (220.177.248.68)  
- 4  53.251.177.220.broad.nc.jx.dynamic.163data.com.cn (220.177.251.53)  
- 5  182.98.159.73 (182.98.159.73)  
- 6  202.97.75.117 (202.97.75.117)  
- 7  113.108.208.194 (113.108.208.194) 
- 8  * * *
- 9  14.29.121.194 (14.29.121.194)  
-10  * * *
-11  * * *
-12  14.215.177.38 (14.215.177.38) 
-</code></pre><p>由于百度存在负载均衡，所以你们看到的最终IP地址可能不会同我一样（PS：我去掉了时间），虽然中间还有一些<code>***</code>的存在，但是不管怎么我们终于触摸到这个网的存在。</p>
-<p>我第一次看到这个非常震惊，原来在我的心中，“网”上最多有两个端，一个是我们的客户端，一个是服务器端，现在突然冒充这么多个“中间人”，这些东西是什么呢？</p>
-<p>接下来我们通过回答下面两个问题来慢慢了解互联网的构造。</p>
-<ol>
-<li>为什么第一个IP是局域网内的IP（内网）？</li>
-<li>为什么中间有那么多IP端，他们的作用是什么？</li>
-</ol>
-<h2 id="内网与外网的区别"><a href="#内网与外网的区别" class="headerlink" title="内网与外网的区别"></a>内网与外网的区别</h2><p>解答第一个问题前，我们必须要知道什么是内网什么是外网。</p>
-<p>从IP的角度上来看，刚开始创建以太网时，由于避免连在一起的电脑认错人，就用IP用来做每个电脑的“身份证”，一开始要连在电脑比较少，组织只需要拿个小本本记住哪台服务器对于的IP，但是随着想连在一起的电脑越来越多，这个小本本满满的一本快写满了，虽然可以在多买几本本子记住他们，但是本子越多每次要查他们的IP的时候消耗的时间越多，所以他们决定不再一个一个分IP了，于是他们把40亿IP分成A、B、C、D几类。</p>
-<p>这样组织成功用一个小本子记录了几十亿的IP分配，这里组织指的是因特网协会（ICANN），协会自己分好IP后开始发本子，找到下面的运营商，让他们自己搭网线光钎把他们自己负责的国家区域连起来，但由于地方太多，一个本子也记不下来，所以他们又把组织发给他们的本子分发到地区运营商，这样慢慢缩小，最终每个地区的局域网的本子都不会太大，这样查起来速度快而且网络的压力也平摊下去，但是摆在我们面前有一个问题</p>
-<blockquote>
-<p>假设小明和小华分别住在同一条大街的街头和街尾，小明想给小华写信，小明然后写了一封信信放到邮箱，然后邮递员过来把信取走，在邮局分配再让邮递员送到小华家，本来两个人住在同一条街，邮递员只需要把信从街头送到街尾这次传递就结束了，但是由于不知道小明和小华住在同一条街，这封信绕了一个很大的圈才到小华手中。</p>
-</blockquote>
-<p>从这个故事告诉我们，要解决不必要的传输，我们必须要提供一种机制让“邮递员”知道这封“信”是直接“送”还是发到总部发出去，这种机制就是确定是否是内网还是和外网。</p>
-<p>大家回头看一下IP，假如我们按照组织（ICANN）的本子来分内网还是外网，那会造成极大的浪费，比如说A类，从1.0.0.0 到126.255.255.255，共分了126个，每个分类下有1658万台电脑，可能现在最大的云服务商都没有几千万台机器，假如你就几十台电脑，你申请一个B类IP（子网可以容纳6万多台），那么子网的利用率约为为20/6000，这么大一个网段却只有几个IP有效，这是对IP的极大的浪费，所以我们需要再次切片，将一个IP段智能的切分成很多块。</p>
-<p>有没有什么好的方法能够切分IP呢，我们知道在TCP、HTTP这些高层协议栈中并没有子网这个概念，他们只负责连接和解析，所以我们得从数据链路层里面查看，在这层有一个非常重要的概念：<strong>子网掩码</strong></p>
-<h3 id="子网掩码"><a href="#子网掩码" class="headerlink" title="子网掩码"></a>子网掩码</h3><p>首先我们要了解一个概念：<strong>路由表</strong></p>
-<p>这个就是我们前面提到过的“小本本”，这个路由表就记载了我们主机上面有关子网划分的重要数据，我们可以通过在<code>Linux</code>上的<code>route -n</code>命令显示电脑上的路由表</p>
-<pre><code>Kernel IP routing table
-Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
-0.0.0.0         192.168.1.1     0.0.0.0         UG    0      0        0 wlan0
-192.168.1.0     0.0.0.0         255.255.255.0   U     9      0        0 wlan0
-</code></pre><p>在我的电脑的得到的结果是这样的，这里有两个很重要的参数，<code>Gateway（网关）</code>，<code>Genmask（掩码）</code>，网关和掩码是什么呢？网关就是我们连接上外网的关键，掩码就是区分内网外网的钥匙。</p>
-<p>子网是什么呢？你可以看做是IP与掩码的按位与运算得到新IP，比如说我们上面第一个<code>192.168.1.1</code>与<code>0.0.0.0</code>的运算结果是为<code>0.0.0.0</code>，而且你会发现所以的IP跟<code>0.0.0.0</code>得到结果都是一样的<code>0.0.0.0</code>，这说明对于网关来说，所有的外网IP都是属于同一子网，接下来我们看看第二行，这个网关为<code>0.0.0.0</code>说明这个是局域网，当我们的IP与这个局域网掩码运算后得到的地址与这个局域网IP相同时，说明这个IP属于局域网，我们可以看到我们子网大小为256，由于我用的是路由器，所以说明这个路由器最多可以允许254(.255为广播地址）台设备连接</p>
-<p>接下来我们看看在我的云服务器上的路由表</p>
-<pre><code>Kernel IP routing table
-Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
-0.0.0.0         10.10.6.1     0.0.0.0         UG    0      0        0 eth0
-10.15.6.0     0.0.0.0         255.255.192.0   U     0      0        0 eth0
-</code></pre><p>你可以清楚的看到在第二行我们的内网的大小约为<code>16128=256*(255-192)</code>，如果你感兴趣对子网计算，可以看看我下面引用，在这里我就不解释太多计算细节，你可以看到，通过改变内网掩码，我们可以轻轻松松的将局域网分成不同的大小。</p>
-<p>由于IPV4数量较少，所以在局域网内每个主机并不能都分到单独的独立IP，只有网关需要一个独立IP来访问互联网，在局域网内我们一般使用本地局域网IP（组织特地保留下来不分配给运营商，只在局域网内使用）。所以我们这就能解释第一个问题，<code>traceroute</code>第一个发送的地址不是我们单独IP（路由器IP），而是发送给局域网上的网关。</p>
-<h2 id="包的逐级转发"><a href="#包的逐级转发" class="headerlink" title="包的逐级转发"></a>包的逐级转发</h2><p>解决上面第一个问题之后，我们知道在一个局域网内我们能够通过子网掩码知道当前局域网的子网范围，接下来的包的“旅途”是什么呢，为什么在<code>traceroute</code>的路径中发现那么多IP地址呢。</p>
-<p>回答这个问题前，我们从物理角度上先了解互联网是怎么搭建起来的。</p>
-<blockquote>
-<p>当第一台计算机出现的时候，我们不需要互联网，但是随着计算机原来越多，我们想把计算机都用网线连接起来，一开始电脑都放在一起，只需要找一些长长的网线把他们连接起来，但是随着全球各地的人都有个人电脑，这时候只能靠网络运营商，也就是比如电信、移动、联通这些运营商，他们埋光钎搭网线，慢慢的将网络在各地连接起来，最后将子网络连接到骨干网，最后互联网就这么连接起来了</p>
-</blockquote>
-<p>但是就像送信举的例子一样，如果邮递员能够直接把信从街头送到街尾，那么直接节省了很长一段在路上的花的时间。所以运营商就在各个分支网络搭建大大小小的“局域网”，就一层层代理一样，当一个包请求过来，首先先查看这个IP是否属于当前地区的局域网，如果是就查表找到地址发送过去，如果没有就发送到它的更高一级代理（网关），最终这个IP包到达机房区域的局域网的主机上。</p>
-<p>所以我们能在<code>traceroute</code>查看到一个IP包要传递的那么多的IP地址，那些IP地址都是勤劳的网关，不过相比我们第一个网关，也就是我们在网上冲浪的IP地址，那些网关更像一个一个交通指挥员，指导着我们的发送的“信”一步一步走到指定地点。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>互联网就像一个乐高拼成的巨人，刚开始不了解它，远远的观察它，它就像文明遗迹一样让人赞不绝口，等到你慢慢走进它，你就会发现它的组成其实也很普通，也就是一个一个乐高模块组成，但就是这种无数普通搭建我们的“万里长城”，这或许就是互联网的伟大之处。</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="http://www.cnblogs.com/JuneWang/p/3917697.html" target="_blank" rel="noopener">子网</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2017/11/25/software/巧用Git钩子/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/11/25/software/巧用Git钩子/" class="post-title-link" itemprop="url">巧用Git钩子</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-11-25 00:00:00" itemprop="dateCreated datePublished" datetime="2017-11-25T00:00:00+08:00">2017-11-25</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:08:54" itemprop="dateModified" datetime="2021-03-09T20:08:54+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/软件/" itemprop="url" rel="index">
-                    <span itemprop="name">软件</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>2.9k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>3 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>以前听学长提过Git钩子，但是自己一直没有仔细了解过，记得我还写过一个github更新的Python包，现在想想其实用自带的钩子就能很好的完成</p>
-</blockquote>
-<h2 id="什么是钩子？"><a href="#什么是钩子？" class="headerlink" title="什么是钩子？"></a>什么是钩子？</h2><p>我们知道Git是迭代式开发工具，我们的开发流程都是<code>git add</code>、<code>git commit</code>，<code>git push</code>，钩子呢就是你完成每一步Git给你的“回调”，举个例子假如你想让服务器每次上传完新的代码后更新网站，如果你没有钩子，你只能自己<code>ssh</code>登录上服务器，自己更新软件，一次两次还好，多了的话你会骂娘的，所以钩子是给我偷懒的脚手架，我们可以很轻松的写一些脚步帮我们完成一些重复的步骤</p>
-<p>介绍玩钩子的作用，我们来介绍一下钩子的分类</p>
-<p>我们知道Git核心是<code>commit</code>和<code>push</code>两个命令，一个对应客户端，一个对应服务端，所以钩子主要分客户端和服务端，由于Git步骤分的很细，所以每个大分类下面还有很多小分类，比如<code>pre-commit</code>，<code>post-commit</code>这些。</p>
-<p>钩子的全部放在<code>.git/hooks</code>下面，在新建一个项目仓库的时候，Git已经在这个文件夹下给我们生成了很多个<code>.sample</code>后缀的钩子，这些钩子只要把<code>.sample</code>去掉就可以运行了，我们可以在这些<code>sample</code>上面修改完成我们自己的钩子</p>
-<h2 id="客户端钩子"><a href="#客户端钩子" class="headerlink" title="客户端钩子"></a>客户端钩子</h2><p>客户端钩子很好理解，你<code>commit</code>之后想做其他事，比如说编译一下程序啥的，这里我就不多讲，主要由下面几个钩子组成</p>
-<ul>
-<li>pre-commit 提交之前</li>
-<li>post-commit 提交之后</li>
-<li>pre-rebase 变基之前</li>
-<li>post-rewrite 替换提交记录之后</li>
-<li>pre-push 推之前</li>
-</ul>
-<p>详细的可以看官网链接<a href="https://git-scm.com/book/zh/v2/%E8%87%AA%E5%AE%9A%E4%B9%89-Git-Git-%E9%92%A9%E5%AD%90#_git_hooks" target="_blank" rel="noopener">钩子</a></p>
-<p>客户端钩子我觉得一般没有太多作用，因为我在提交之前就会运行脚步进行开发调试什么的，我把介绍重点放在服务端钩子</p>
-<h2 id="服务端钩子"><a href="#服务端钩子" class="headerlink" title="服务端钩子"></a>服务端钩子</h2><p>服务端钩子就是你<code>push</code>之后的事情服务器要运行的脚步，有用推的步骤只有一个，所以钩子只有四个</p>
-<ul>
-<li>pre-receive 接受之前</li>
-<li>update 更新之前</li>
-<li>post-update 更新之后</li>
-<li>post-receive 接受之后</li>
-</ul>
-<p>服务器接收到客户端请求时，<code>pre-receive</code>先进行调用，如果返回值为非0就会拒绝推送，所以我们写钩子的时候一定要记住最后要返回0才能正常接收更新，<code>update</code>主要处理多分支推送，有的时候你一次更新，推三四个分支到服务器，<code>pre-receive</code>只会调用一次，<code>update</code>会对每个的分支调用一次，后面两个都很容易理解</p>
-<p>一般我们就是要在服务端更新代码之后运行脚步，所以我们要修改的就是<code>post-update</code>或者<code>post-receive</code></p>
-<p>bash脚步大家都会写，但是大家可能会很陌生什么是Git服务端，接下来我们就来介绍一下Git服务端是什么</p>
-<h2 id="Git-服务端"><a href="#Git-服务端" class="headerlink" title="Git 服务端"></a>Git 服务端</h2><p>大家一般使用Git都是使用的客户端，但是Git这个工具的确很强，它不但可以当做客户端，也可以当做服务端，为了让大家更好的理解Git服务端，我们先来拿本地文件做”服务器“</p>
-<p>首先我们先新建一个文件夹为<code>server</code>，在新建一个文件夹为<code>local</code>，假设文件夹都在<code>/root</code>文件夹下</p>
-<p>我们执行下面的命令生成服务器</p>
-<pre><code>cd /root/server
-git init --bare
-</code></pre><p>只需要在<code>init</code>后面添加一个<code>--bare</code>选项告诉Git，Git就会帮我们生成一个空的“服务端”，我们可以查看一下文件，我们发现Git 给我们生成下面几个文件夹，其中就有我们的hooks</p>
-<pre><code>branches  config  description  HEAD  hooks  info  objects  refs
-</code></pre><p>但是服务端和客户端生成的位置不一样，客户端是给我们生成一个<code>.git</code>文件夹，里面放了这些文件夹，然而服务端直接将这些文件夹放在主目录了</p>
-<p>行我们已经生成了服务端的，接下来我们生成客户端的钩子</p>
-<pre><code>cd /root/local
-git init
-</code></pre><p>很简单，同我们往常操作一样，我们这时候添加一个<code>README.md</code> 然后<code>commit</code>一下准备开始往服务端推代码了</p>
-<p>在 linux 下直接执行下面命令就行</p>
-<p>   echo “local update” &gt;&gt; README.md<br>   git add README.md<br>   git commit -m “Add ReadME”</p>
-<p>接下来我们就要向”服务器“提交代码了，我们先添加本地文件作为远程服务器</p>
-<pre><code>git remote add origin file:////root/server
-</code></pre><p>然后直接推代码</p>
-<pre><code>git push origin master
-</code></pre><p>这样我们就向我们文件提交了代码，这时候我们回到我们”服务器“</p>
-<pre><code>cd /root/server
-ls
-branches  config  description  HEAD  hooks  info  objects  refs
-</code></pre><p>我们惊奇的发现服务器并没有我们新建的<code>README.md</code>文件，原来Git服务端并不像SVN一样只保留一份代码大家共同修改，<strong>Git服务端只是记录文件变化和分支变化</strong></p>
-<p>这里插一句我为什么会去了解Git钩子，由于一开始实现服务器自动更新我的FastProxyScan项目代码，但是我又不想使用<code>Github</code>钩子（push后发送http请求），太麻烦了，后来我一想干脆直接推到我的服务器上，但是推到服务器上的代码只是记录了分支和提交信息，不包含源文件，所以我只好在在服务器上部署这个项目，并添加一个服务器钩子，当服务器更新完成后，再用钩子把服务器上的项目代码更新</p>
-<h2 id="如何写服务器钩子"><a href="#如何写服务器钩子" class="headerlink" title="如何写服务器钩子"></a>如何写服务器钩子</h2><p>通过上面对本地文件新建仓库，我们知道Git“服务端”新建很简单，我们一般接触比较多的是Github服务端，但是Git非常强大，他可以支持多种协议来连接“服务端”，比如说我们上面用到的本地文件（<code>file</code>协议），假如你用<code>ssh</code>连接远程服务器，你也可以使用类似<code>git remote add origin ssh://username@ip/file/path</code>添加ssh远程仓库</p>
-<p>git 支持的协议有ssh、http、https、file、git等协议，你只要确保你能连接上远程服务器就行，接下来我们谈谈如何写服务器钩子</p>
-<p>在使用<code>git init --bare</code>新建了一个Git服务端之后，在服务端文件下面有一个<code>hooks</code>文件夹，我们要做的就是把脚本放到<code>hooks</code>文件夹里面（当然你要确保它有执行权限），如果你更擅长写<code>Python</code>，<code>Ruby</code>那些脚步也可以，不过要确保前缀后后缀正确。</p>
-<p>这里要提到很重要的一点，由于在执行钩子的时候，环境变量<code>GIT_DIR</code>被设置为服务端当前目录，如果你像我一样想更新在另外一个文件夹下面的项目代码，你必须使用<code>uset GIT_DIR</code>清除变量名，否则只会更新服务端，而不会更新你的项目代码</p>
-<p>这里我提供一个模板</p>
-<p>文件名为 <code>post-update</code>或者<code>post-receive</code></p>
-<pre><code>#!/bin/sh
-cd /project/path/ || exit
-unset GIT_DIR
-git pull origin master
-
-exec git-update-server-info
-</code></pre><p>你只需修改项目文件路径和仓库名即可</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过这个Git钩子了解了Git服务端，也让自己更加了解Git这个软件，以前一直懵懵懂懂，只会向Github提交文件，一直以为Git只是一个版本记录工具而且，现在看来神器之名不是浪得虚名，通过一个小小的钩子，摇身一变成部署神器。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2017/11/23/opensource/FastProxyScan-Introduction/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/11/23/opensource/FastProxyScan-Introduction/" class="post-title-link" itemprop="url">FastProxyScan项目介绍</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-11-23 00:00:00" itemprop="dateCreated datePublished" datetime="2017-11-23T00:00:00+08:00">2017-11-23</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:03:15" itemprop="dateModified" datetime="2021-03-09T20:03:15+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/开源/" itemprop="url" rel="index">
-                    <span itemprop="name">开源</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>1.5k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>为了给我的站点增加人气，我把这个项目的介绍放到我的博客，如果你觉得这个项目还不错的话，请不要吝啬你的star</p>
-</blockquote>
-<p><a href="https://github.com/mrzhangboss/FastProxyScan" target="_blank" rel="noopener">github传送门</a><br><a href="http://115.159.146.115" target="_blank" rel="noopener">Demo传送门</a></p>
-<h2 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h2><p>一开始自己只想做一个代理池，于是搜了搜Github发现类似的项目，大多数都是爬取网上的一些代理商的免费代理，这部分代理大多都是没有用的，可用性非常低，于是我自己就干脆做一个“代理商”，自己扫描主机把可用的代理扫描出来。</p>
-<p>但是现在网络主机实在太多了，至少几百万台，所以这个项目的核心就是快速扫描，在最短的时间内检测更多的代理，目前项目的速度最好只能完成1000代理每小时的速度（日扫描两万代理），希望能继续优化代码，加快速度，如果你对这个项目感兴趣可以Fork下来，欢迎各位的Pull Request </p>
-<h2 id="项目依赖"><a href="#项目依赖" class="headerlink" title="项目依赖"></a>项目依赖</h2><p>项目基于Python3.5+开发</p>
-<p>软件依赖</p>
-<ul>
-<li>nmap</li>
-</ul>
-<h2 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h2><p>项目主要由三个部分组成</p>
-<ul>
-<li>主机扫描</li>
-<li>端口检测</li>
-<li>代理检查</li>
-</ul>
-<p>项目结构为</p>
-<ul>
-<li>proxy_pool</li>
-<li><ul>
-<li>scanner</li>
-</ul>
-</li>
-<li><ul>
-<li>display</li>
-</ul>
-</li>
-<li><ul>
-<li>database</li>
-</ul>
-</li>
-</ul>
-<p>现在依次介绍在搜索速度上的优化</p>
-<ul>
-<li>主机搜索</li>
-</ul>
-<p>全球的IP都是有ISP统一分配的，ISP主要由下面几大洲分配，我们中国处于亚太区，所以我们的IP由亚太互联网络信息中心（APNIC）分配IP，目前中国分配的IPV4总数为3亿左右，这个数量还是比较大</p>
-<p>我们可以从 <a href="http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest" target="_blank" rel="noopener">http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest</a>下载最新分配的IP地址</p>
-<p>但是代理服务器只存在特定的服务器上，所以现在版本还没有发布V1.0主要是因为搜索的效果不是很好（搜索的主机代理转换率太低），目前还在想其他方法，等有更好的解决方法就会发布V1.0</p>
-<ul>
-<li>端口检测</li>
-</ul>
-<p>使用<code>nmap</code>的“TCP SYN scan”最大化加快端口检测速度（需要root权限）</p>
-<ul>
-<li>代理检测</li>
-</ul>
-<p>使用<code>nmap</code>先验端口与<code>Python</code>异步最大化代理检测速率</p>
-<h2 id="安装教程"><a href="#安装教程" class="headerlink" title="安装教程"></a>安装教程</h2><p>项目采用Django做后台管理，所以只需要一点Django基础知识就能在这个项目上做二次开发，如果你只想获取最新的可用代理，可以通过<a href="http://115.159.146.115" target="_blank" rel="noopener">http://115.159.146.115</a> 调用API接口获取最新可用代理（我的站点带宽有限，所以只开放最新100个代理，并且只是20分钟更新一次）</p>
-<p>环境安装</p>
-<ul>
-<li>nmap 安装</li>
-<li>python3.5+ 安装</li>
-</ul>
-<p>运行：</p>
-<pre><code>git clone https://github.com/mrzhangboss/FastProxyScan.git
-cd FastProxyScan
-python3.5 install -r requirement.txt
-</code></pre><ul>
-<li>主机检测</li>
-</ul>
-<pre><code>cd pool/proxy_pool
-sudo python3.5 manage.py scan --vps
-</code></pre><ul>
-<li><p>端口检测</p>
-<p>  sudo python3.5 manage.py scan  –proxy -m 100</p>
-</li>
-</ul>
-<p>m是并行参数，值越大速度越快</p>
-<ul>
-<li><p>代理检测</p>
-<p>  sudo python3.5 manage.py check –start -c <a href="http://115.159.146.115/ip" target="_blank" rel="noopener">http://115.159.146.115/ip</a></p>
-</li>
-</ul>
-<p>c是检测ip头网址，可以使用我提供的 <a href="http://115.159.146.115/ip" target="_blank" rel="noopener">http://115.159.146.115/ip</a> 返回请求头，可以参考我的上一篇博文 <a href="/2017/11/20/%E4%BB%A3%E7%90%86%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/">代理的前世今生</a></p>
-<p>在我搭建的DEMO站点上，我使用supervisor让这三个程序循环运行，你可以使用crontab定时调度也可以像我一样。</p>
-<p>数据库当前采用的Sqlite3，但是数据库模型全部使用ORM开发，你可以很方便的修改<code>settings.py</code>来放入其他数据库，如果你懂一点Django的话</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>如果你像了解更多开发这个项目背后的知识的话，可以看看我上一篇博文 <a href="/2017/11/20/%E4%BB%A3%E7%90%86%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/">代理的前世今生</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2017/11/20/software/http/代理的前世今生/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1732,6 +1125,553 @@ name text
   
   
 
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2017/10/07/summary/my_college_mistakes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/10/07/summary/my_college_mistakes/" class="post-title-link" itemprop="url">大学的错觉</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-10-07 00:00:00" itemprop="dateCreated datePublished" datetime="2017-10-07T00:00:00+08:00">2017-10-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:15:01" itemprop="dateModified" datetime="2021-03-09T20:15:01+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/随想/" itemprop="url" rel="index">
+                    <span itemprop="name">随想</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>1.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>其实这篇文章很早就像写了，但是自己也一直没有明白自己想写什么，直到最近自己慢慢才有一点思路</p>
+</blockquote>
+<p>   这篇文章并不想高谈阔论，只是自己的一些碎碎念，把自己对人生的一些看法的小总结。你可以把它当做一篇小说来看，我也想把它当做小说来写。</p>
+<h2 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h2><p>中秋回家，同自己表妹聊天，她突然问了一句,大学哥哥没有谈一个女朋友，接着说道没有恋爱的大学是不完整的，我楞了一愣，一本正经的对她说道，大学其实就是培养自己一个完整人格的过程，在这个过程中我们学习并且养成自己一个完整独立认知。</p>
+<p>回去之后我仔细想想，我好像并没有回答表妹的问题，但是我自己也陷入了深思，大学这几年到底对我干了什么。</p>
+<h2 id="错觉"><a href="#错觉" class="headerlink" title="错觉"></a>错觉</h2><p>先不说大学对我做了什么，我仔细想了想我自己对自己定位。</p>
+<h3 id="你觉得你很努力"><a href="#你觉得你很努力" class="headerlink" title="你觉得你很努力?"></a>你觉得你很努力?</h3><p>我一直觉得自己在大学还是很努力的，我没有沉迷游戏超过两天，我没有放弃学习新知识，在大学图书馆借了几百本书，可能比全班人加起来都多，大一到大三我经常去图书馆读书，尤其是大三，有时候会在图书馆读一天书</p>
+<p><strong>但是上面的上面全部我自己的错觉，我虽然不沉迷游戏但是经常会被游戏分心，我虽然读过很多书但是我一直是读那些别人认为是必读的书，而且我读过的书大部分都没有转换成为我真正的源泉</strong></p>
+<p>我就像一个饥渴的行者，在大河面前用手拼命的往口里塞水，我的确看了很多的书，但是这么多书就像流水一样，全部都流走了;这些知识对于我来说只是解渴之物，当我非常饥渴的时候，我会拼命的想得到它，但是当我满足的时候，这些东西就像泥土一样对我一文不值</p>
+<p>所以这就可以解释为什么我每次借书的时候都是兴高采烈，但是当借回来时候往往翻了几页，然后就束之高阁，然后循环往复</p>
+<h3 id="你觉得你懂很多"><a href="#你觉得你懂很多" class="headerlink" title="你觉得你懂很多?"></a>你觉得你懂很多?</h3><p>没有出去之前，我在大学社团里面干过不少项目，所以我有时候觉得自己技术很牛逼，我是大神级别的人。我懂很多别人不知道的知识，我用过很多框架，我知道怎么搭集群，我知道什么是机器学习，什么是分布式，什么是代码规范。</p>
+<p>然而出去之后才发现这都是错觉，你做过很多项目，你经历过百万规模的并发吗，你了解很多框架，随便挑一个框架出来，你能说出它的优点和不足吗，你看过源代码吗，你知道如何保证上千集群的容错率，你知道什么是大规模机器学习吗</p>
+<p>挑出任何一个你会发现自己一直处在皮毛阶段，有时候你会用你还年轻但是学习能力强来掩饰你的不足，但是这只是你的错觉吧，不懂就是不懂。</p>
+<h3 id="你觉得你不需要明确方向"><a href="#你觉得你不需要明确方向" class="headerlink" title="你觉得你不需要明确方向?"></a>你觉得你不需要明确方向?</h3><p>有段时间我一直很困惑自己未来发展方向，我搞过UI，搞过前端、后端，搞过机器学习、数据分析，搞过分布式、爬虫。编程语言更是多，C、C#、Python、Java、C++，node，JS。我对我自己的定位一直很模糊，我不知道我未来到底想干什么，我很羡慕那些从小就明确目标的人。</p>
+<p>我一直为此苦恼，我也看过很多人的书籍、博客，我也看到过很多人写的相同的文章，在很长一段时间我都认为它是正确的，它告诉我你不需要明确你的职业规划，它给了很多有名的人例子，奥巴马、马云、马化腾、李开复他们在大学都不知道自己要干什么。在很长一段时间我都觉得大学就是应该多学东西，把东西学杂。</p>
+<p>但是我仔细想想，这个也是<strong>错觉</strong>。</p>
+<p>我从大二就开始有转行的念头，当时我是web后端开发，我当时觉得有没有方向无所谓，只要你多学就行，就这样陆陆续续混杂看了一年多书，直到七八个月前，我才开始反思。</p>
+<p>我开始明确我的目标，把它当做我要干一辈子的方向去搞，我开始扣书，像一个干涸的大地一样汲取天空飘下的雨滴，我这时候发现知识是那么的宝贵，自己是多么的“native”；从一窍不通到入门到小小成就只花了短短几个月的时间，完成了一年多都完成不了的入门。</p>
+<p>当然我最终没有选择这个方向，但是这个过程我从来没有后悔过，而且在这个学习过程中，它帮助我更加了解我自己，而且节省了我选择的时间。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>好像我的大学一直全部都是由错误组成的，但是这些错误真的对我来说毫无作用吗。其实未必，当我学完第一门编程语言C的时候，所以的“错误”都在默默的发挥的作用，我用静态语言的辩证思想学Python，我用动态语言的思想反过来学习Java，好像全部的“错误”全部融合成为一个圈，</p>
+<p><strong>我们好像一直在害怕自己出错，其实慢慢的发现那些没有错误的人生不是完整的。</strong></p>
+<p>小时候很羡慕那些一直走在正确的道路上的人，也有时候会幻想成为他们一样的人。没错那样的人生固然完美，但是我更喜欢一直跌跌撞撞的我，或许我经常走在错误的道路上，但是我享受了沿途的风景，不论最终结果如何，人生的意义还是沿途的风景吧!</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2017/08/09/ai/competition/vip_ctrip_competitions_summary/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/08/09/ai/competition/vip_ctrip_competitions_summary/" class="post-title-link" itemprop="url">唯品会预测和携程房屋预测总结</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-08-09 19:21:40" itemprop="dateCreated datePublished" datetime="2017-08-09T19:21:40+08:00">2017-08-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 19:55:16" itemprop="dateModified" datetime="2021-03-09T19:55:16+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/" itemprop="url" rel="index">
+                    <span itemprop="name">人工智能</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>3.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>最近打了两个比赛，一直忙着工作和打比赛，没有时间总结，今天抽空好好总结一番</p>
+</blockquote>
+<p>先说一下比赛结果吧，队名全为<code>OfferGo</code><a href="https://www.datafountain.cn/competitions/260/details" target="_blank" rel="noopener">唯品会购买预测</a>第五名，<a href="https://www.kesci.com/apps/home/#!/competition/597172316a1cd9104c2df248/leaderboard/0" target="_blank" rel="noopener">携程房屋预测复赛</a>第六名,两个比赛打的都不算太好,只能算勉强及格,虽然离大神的距离还有十万八千米，不过总算可以称的上入了门，现在来总结一下我入门的经验吧。</p>
+<h2 id="观察数据"><a href="#观察数据" class="headerlink" title="观察数据"></a>观察数据</h2><blockquote>
+<p>我参加过很多群,发现很多新手缺乏观察数据的能力,他们每次进入一个群总是嚷嚷这让大神发<code>baseline</code></p>
+</blockquote>
+<p>这一点对于新手来说很不利的，比赛考的就是你对数据的掌握能力,你对数据把握的越好，你的比赛成绩就越好，要真正掌握数据就要从观察数据入手</p>
+<hr>
+<p>在我看来观察数据主要从四个方面来，我总结为<code>望闻问切</code></p>
+<h3 id="望"><a href="#望" class="headerlink" title="望"></a>望</h3><p>观察数据缺失值，缺失值对数据影响很大，有时候我们能够从缺失值里面了解很多信息,而且对于缺失值，后期我们对不同的缺失值要采取不同的手段，比如补全、统计占比、丢弃等等。</p>
+<p>对于缺失值我一般从两个方面来观察</p>
+<ul>
+<li>全局观察</li>
+<li><ul>
+<li>一般采用<code>datafram.info(null_counts=True, verbose=True)</code>方法来观察全局数据缺失情况</li>
+</ul>
+</li>
+<li>局部观察</li>
+<li><ul>
+<li>一般采用<code>series.isnull().count()</code>和<code>series.loc[series.notnull()]</code>观察单一列表缺失情况</li>
+</ul>
+</li>
+</ul>
+<p>这个阶段我们主要从大的方向远远的<code>望</code>一下数据，主要建立对数据的全局观。</p>
+<h3 id="闻"><a href="#闻" class="headerlink" title="闻"></a>闻</h3><blockquote>
+<p>对于数据来说，一般分为三种，一种为数值型数据（整数、浮点数、时间等），一种为字符型，最后一种为图像型，三种类型数据处理难度依次增强</p>
+</blockquote>
+<p>对于大多数比赛都是设计前两种数据，第三种只有牵扯到图像处理才能遇到。对于前两种数据，我们在闻的阶段，主要是探查数据分布情况，了解数据分布情况，我们才能对症下药。</p>
+<p>了解数据分布情况有两种方法</p>
+<ol>
+<li>图像观察</li>
+<li>数学统计观察</li>
+</ol>
+<p>图像观察主要使用<code>Pandas</code>的<code>Matplotlib</code>绘图接口，或者使用<code>seaborn</code>（一个友好的封装了<code>Matplotlib</code>的包），一般我们可以从直方图、饼图、频率图方向来观察数据</p>
+<p>数学统计我们主要采用<code>Pandas</code>的<code>describe</code>方法，对于数值型数据，主要从平均值（<code>mean</code>）、中位数（<code>50%</code>）、标准差（<code>std</code>）、最大（<code>max</code>）、最小（<code>min</code>）、非空总数（<code>count</code>）来探测数据，对于字符型我们主要从最频繁的值（<code>top</code>）、最频繁的值的个数（<code>freq</code>），非空总数（<code>count</code>）、不相同的值（<code>unique</code>）。</p>
+<p>通过上面两种方法，我们能够从数据分布的角度大致勾画出数据的轮廓。</p>
+<h3 id="问"><a href="#问" class="headerlink" title="问"></a>问</h3><blockquote>
+<p>比赛的目的就是找到最优解，而最优解的跟相关特征紧密联系的，你的特征对结果影响越大，你就要审<code>问</code>这个特征</p>
+</blockquote>
+<p>举个例子，我们要预测三组数据</p>
+<ul>
+<li>1 1.8  2</li>
+<li>2 3.5  4</li>
+<li>3  5.4  16</li>
+</ul>
+<p>第一行为我们要训练的值，我们发现第二行的数据是第一行的1.8倍，而第三行只是2的次方，对于这两个特征来说，第二个特征就是最好的特征，我们只要建立一个映射，准确率能接近100%，而第三个特征对预测结果毫无联系，这个特征不但对结果没有作用，而且有时候会起到反作用</p>
+<p>当然在这里我们举这么一个例子在实际中不可能遇到，我们遇到是更多数据，而数据之间的联系并不是这么简单的线性关系，但是线性关系有的时候能让我察觉到特征与预测值的关联，毕竟如果特征值是随机值那么与预测值之间的相关性是非常低的。</p>
+<p>在<code>Python</code>里面探测线性关系最简单的方法是调用特征值和预测值的相关性系数（<code>corr</code>），我们可以简单的使用<code>df[[&#39;feature&#39;, &#39;target&#39;]].corr()</code>就可以得到线性相关系数，这个数的绝对值越接近1，相关性越大，一般来说相关性越大和越好对结果都不好，最好的特征相关性处于中间位置。</p>
+<p>相关性低我们可以理解，为什么相关性高反而不好呢，因为数据比赛里面给我们的数据大部分都是不平衡的数据，正负样本失衡，一般相关性很高的值一般为分类同预测值相同，比如一个二分类问题，预测值为0和1，给的样本正负比为1000:1，那么如果有一个特征全为0或者其他，那么他与预测值的相关性会达到90%以上，然而这个值是毫无作用的。</p>
+<p>所以我们通过简单的相关系数并不能很好的观察特征真正相关性，一般我们要辅助图像法和统计法。</p>
+<p>图像法就是通过将特征值分布与预测值相关性图表画在同一个图表里，具体可以参考<a href="https://www.kaggle.com/benhamner/d/uciml/iris/python-data-visualizations" target="_blank" rel="noopener">可视化特征</a></p>
+<p>统计法类似图标，使用统计方法观察，特征值与预测值的相关性，一般使用<code>groupby</code>方法对两个特征进行统计就可以进行简单的观察</p>
+<p><code>问</code>只是一个简单的手段，一般我们在大量添加特征的时候，为了节省模型训练时间，在将特征放入管道之前进行一个简单的过滤删除的工作，真正重要的步骤在<code>切</code>这个方面</p>
+<h3 id="切"><a href="#切" class="headerlink" title="切"></a>切</h3><blockquote>
+<p><code>切</code>这个步骤放在最后是因为，这个步骤也是我们一趟循环下来的最后一步</p>
+</blockquote>
+<p>数据比赛中前期大家最喜欢用的模型是树模型，比如随机森林、<code>Xgboost</code>，<code>LightBoost</code>等，这些模型属于弱学习器组合模型，我们最后可以从训练结果得到每个特征在模型占的比重</p>
+<p>对于这个比重，是非常重要的，他代表了每个特征对应在模型中占的权重，也可以理解特征与结果的相关性</p>
+<p>对于相关性很强的不同的特征，我们可以将他们组合，有时候这种强强组合生成出来的特征会比原来母特征相关性更强，当然组合的方法有千种万种，如何验证他们有效就要从头开始对数据进行<code>望闻问切</code>了</p>
+<h4 id="总结：-数据比赛就如同问诊，我们不断对特征进行望闻问切，对于高手来说他们能很快的从原始特征中挑选出病根，对症下药，而新手的话，一阵摸瞎，经常会碰到在比赛中期做出一个很好的结果，接下来很长一段时间都没有进步的情况。掌握科学有效的挑选特征方法需要一个“医者心”，必须学会对特征“负责”，要学会望闻问切。"><a href="#总结：-数据比赛就如同问诊，我们不断对特征进行望闻问切，对于高手来说他们能很快的从原始特征中挑选出病根，对症下药，而新手的话，一阵摸瞎，经常会碰到在比赛中期做出一个很好的结果，接下来很长一段时间都没有进步的情况。掌握科学有效的挑选特征方法需要一个“医者心”，必须学会对特征“负责”，要学会望闻问切。" class="headerlink" title="总结： 数据比赛就如同问诊，我们不断对特征进行望闻问切，对于高手来说他们能很快的从原始特征中挑选出病根，对症下药，而新手的话，一阵摸瞎，经常会碰到在比赛中期做出一个很好的结果，接下来很长一段时间都没有进步的情况。掌握科学有效的挑选特征方法需要一个“医者心”，必须学会对特征“负责”，要学会望闻问切。"></a>总结： 数据比赛就如同问诊，我们不断对特征进行<code>望闻问切</code>，对于高手来说他们能很快的从原始特征中挑选出<code>病根</code>，对症下药，而新手的话，一阵摸瞎，经常会碰到在比赛中期做出一个很好的结果，接下来很长一段时间都没有进步的情况。掌握科学有效的挑选特征方法需要一个“医者心”，必须学会对特征“负责”，要学会<code>望闻问切</code>。</h4><h2 id="并行化算法"><a href="#并行化算法" class="headerlink" title="并行化算法"></a>并行化算法</h2><blockquote>
+<p>由于<code>Python</code>本身对多核利用不好，如何利用多核加快特征生成对于比赛来说意义重大</p>
+</blockquote>
+<p>就拿我来举例子，我每天下班打比赛的时间不超过8个小时，前期算法没有并行化的时候，走一遍管道要四个小时，这意味着我一天只能跑两次，而进行并行化优化以后，我跑一遍四线程全开（笔记本双核四线程）只要十分钟就能跑完，每次生成新特征只有10分钟就能拿到特征相关性数据，来验证特征的好坏。</p>
+<p>下面我从三个方面来谈谈怎么实现并行话算法</p>
+<h3 id="1-使用系统自带函数，拒绝for循环"><a href="#1-使用系统自带函数，拒绝for循环" class="headerlink" title="1 . 使用系统自带函数，拒绝for循环"></a>1 . 使用系统自带函数，拒绝<code>for</code>循环</h3><p>举个例子，作为新手，实现对两个个特征求平均，一般采用<code>for</code>循环将每一行两个特征值加起来然后除以2，假如有1000万行，每行加法和除法运算花0.001ms，那1000万也要10秒钟，只是进行一个最简单的求平均，你就花掉10秒钟，上百个特征你得运行几天</p>
+<p>学过矩阵的都知道，矩阵就是一种高效的并行化结构，它将集合统一进行计算，可能一个大矩阵运算要比单一计算要慢，但是单一计算要1000万次的话，大矩阵运算只需要两次就够了，这个效率比就出来了</p>
+<p>而<code>Python</code>由于是一门解释性语言，比其他静态语音速度要慢许多，你一方面使用<code>for</code>循环加大运算次数，一方面执行一次时间长，这相重叠加你的算法会跑的比蜗牛还慢</p>
+<p>所以我们避免使用我们写的函数，尽量使用库系统函数，因为库系统函数底层是使用<code>C</code>或<code>C++</code>实现的，而且他们在底层进行使用矩阵话运算代替单一浮点计算，我们使用库的函数（比如<code>mean</code>，<code>groupby</code>等）一方面能底层能使用C加快速度，一方面使用矩阵运算加快速度，两个叠加你的算法跑的比飞机还快。</p>
+<h3 id="2-使用多进程，充分发挥使用多核性能"><a href="#2-使用多进程，充分发挥使用多核性能" class="headerlink" title="2 . 使用多进程，充分发挥使用多核性能"></a>2 . 使用多进程，充分发挥使用多核性能</h3><p>由于<code>Python</code>的<code>GIL</code>锁，使得<code>Python</code>无法利用多核进行计算，所以我们只能使用多个进程来充分利用多核</p>
+<p>实现多进程有两个要点（具体可以参考我携程比赛代码 <a href="https://www.github.com/mrzhangboss" target="_blank" rel="noopener">Github地址</a>)</p>
+<ul>
+<li>特征提取模块化</li>
+<li>进程池的搭建和维护</li>
+</ul>
+<p>我在携程比赛中的<code>mult_run.ipynb</code>中搭建了一个进程池，通过第三方调度和监控进程内存CPU等信息，达到充分“榨干”每个核的功效</p>
+<h3 id="3-压缩数据，让矩阵运算更快"><a href="#3-压缩数据，让矩阵运算更快" class="headerlink" title="3 . 压缩数据，让矩阵运算更快"></a>3 . 压缩数据，让矩阵运算更快</h3><p>由于在对特征进行提取过程中，<code>Python</code>会自动将低位制值转换成高位制值，比如<code>float16</code>在进行一次<code>groupby</code>之后就会转换成<code>float64</code>，由于在矩阵运算时候，高进制值会占更多内存和运行时间，所以为了加快算法运行，我们要将其压缩，一方面节省内存，一方面能够让算法运行的更快</p>
+<p>在携程的比赛中，原始数据有一个G，我将其压缩之后只占用300M内存空间，这为我后面在一台12G内存的笔记本实现并行化算法提供了巨大帮助，当然我每次在生成新特征的时候也会进行压缩，具体可以参考我携程的<code>utils.py</code>文件</p>
+<h3 id="总结：-这两次比赛，我从菜鸟出发慢慢的从一个程序员变成了数据挖掘机，在模块化和并行化方面，我觉得我的进步不错，但是在数据特征挖掘方面我与大神之间的差距还是巨大的，这也是我止步于前五的主要原因，接下来我要加强对数据方向的锻炼，希望能够在工作和比赛之中得到更好的进步"><a href="#总结：-这两次比赛，我从菜鸟出发慢慢的从一个程序员变成了数据挖掘机，在模块化和并行化方面，我觉得我的进步不错，但是在数据特征挖掘方面我与大神之间的差距还是巨大的，这也是我止步于前五的主要原因，接下来我要加强对数据方向的锻炼，希望能够在工作和比赛之中得到更好的进步" class="headerlink" title="总结： 这两次比赛，我从菜鸟出发慢慢的从一个程序员变成了数据挖掘机，在模块化和并行化方面，我觉得我的进步不错，但是在数据特征挖掘方面我与大神之间的差距还是巨大的，这也是我止步于前五的主要原因，接下来我要加强对数据方向的锻炼，希望能够在工作和比赛之中得到更好的进步"></a>总结： 这两次比赛，我从菜鸟出发慢慢的从一个程序员变成了数据挖掘机，在模块化和并行化方面，我觉得我的进步不错，但是在数据特征挖掘方面我与大神之间的差距还是巨大的，这也是我止步于前五的主要原因，接下来我要加强对数据方向的锻炼，希望能够在工作和比赛之中得到更好的进步</h3><h4 id="在最下面贴一下我的携程比赛代码（基于Notebook）"><a href="#在最下面贴一下我的携程比赛代码（基于Notebook）" class="headerlink" title="在最下面贴一下我的携程比赛代码（基于Notebook）"></a>在最下面贴一下我的携程比赛代码（基于Notebook）</h4><p><a href="https://www.github.com/mrzhangboss/ctrip_room_predict" target="_blank" rel="noopener">https://www.github.com/mrzhangboss/ctrip_room_predict</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2017/06/13/ai/competition/大航杯“智造扬中”电力AI大赛参赛经验/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/06/13/ai/competition/大航杯“智造扬中”电力AI大赛参赛经验/" class="post-title-link" itemprop="url">如何搭建自动生成上万特征的管道</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-06-13 18:56:31" itemprop="dateCreated datePublished" datetime="2017-06-13T18:56:31+08:00">2017-06-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 19:55:42" itemprop="dateModified" datetime="2021-03-09T19:55:42+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/" itemprop="url" rel="index">
+                    <span itemprop="name">人工智能</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>4.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>基于:大航杯“智造扬中”电力AI大赛参赛经验</p>
+<p><img src="/images/electric_power_ai.jpg" alt="大航杯AI大赛"></p>
+<p>赛题背景</p>
+<blockquote>
+<p> 主办方为大航集团提供21个月江苏省杨中市1454家企业日用电量,来估计下一个月日总用电量</p>
+</blockquote>
+<p>从给的数据分析,这次给的数据只有历史企业日用电量,用来估计日总用电量,是一个典型的时域分析问题</p>
+<p>但是这同我们以往的时序问题不一样,向往常时序问题预测的是每个企业的未来每日的用电量,而这个比赛却是求全部企业的总数.</p>
+<p>由于我报名比赛时候比较晚,比赛已经接近尾声,比赛5月18号开始,6月8号中午切换数据,13号截止,我6月8号晚上下载数据,由于我以前已经做了几个类似的比赛,但是一直没有系统的做一个,抱着锻炼的自己的态度,决定系统做一次,权当练手.</p>
+<p>首先分析一下提交的结果,预测一个月的日总用电量,总共为31个数据,给的历史数据只有21个月的,按月的比例来看,只有21个值去训练值去预测一个值,根据往常的比赛经验来看,这种比赛适合使用规则方法来做,然而我剩下的验证机会不多了,只能用模型,但是过拟合的危险非常大,如果不能找到一个好的方法克服过拟合,复赛都进不去.</p>
+<p>当然最后还是没有找到一个很好的办法,止步于复赛,不过这次比赛让我学到很多,主要通过这次比赛自己琢磨出来自己如何搭建基于<code>IPython Notebook</code>的管道结构,这个管道帮我自动生成上万特征.</p>
+<h2 id="管道"><a href="#管道" class="headerlink" title="管道"></a>管道</h2><blockquote>
+<p>什么是管道,在数据挖掘比赛中很多大神都着重讲了一定要搭建一个自动化的架构,我们暂且称他为”管道”,这个”管道”我们要能够把数据倒进去,结果倒出来.</p>
+</blockquote>
+<p>这个管道用专业的术语来看要有以下几个功能</p>
+<ul>
+<li>能够自由添加<code>Feture</code></li>
+<li>能够自动评判得到添加的<code>Feture</code>的效果</li>
+<li>管道能够自己选择合适的参数训练模型</li>
+<li>能够输出结果</li>
+</ul>
+<p>其实简单来说,我们要做的是一个能够非常方便的扩展的脚手架,我们不可以第一次就把所以的特征全部找出来,所以我们要搭建一个能够实时添加<code>Feture</code>的框架.</p>
+<p>其实很早以前就看过类似文章,也有很多人推荐<a href="https://github.com/ChenglongChen/Kaggle_HomeDepot" target="_blank" rel="noopener">大神开源的一个脚手架</a>,然而找到的大多是用<code>python</code>实现</p>
+<p>我因为一开始就是使用<code>Notebook</code>进行数据挖掘,主要<code>Notebook</code>能够提供一个实时的反馈,而纯<code>python</code>,对于复杂多变的数据来说,显得非常笨重,你经常有个好想法想验证一下,又得重新跑一遍,尤其是对于我的机器配置来说,重新跑一边的时间都够我喝杯茶了.而且<code>notebook</code>有个特点,可视化特别方便,有时候从数据上看不到,可以画个图表</p>
+<p>好了,夸了这么久,现在就来仔细讲讲脚手架如何搭建.</p>
+<p>我们先回到赛题,第一步审题,当时我看到日平均两个字,直接把日字省略,看成平均用电量,结果白白浪费了两个验证机会…..</p>
+<p>审完了题我们来看我们要提交的数据,换数据后要预测十月日用电总量.我们来看看给我们数据,只有一份数据,表头如下</p>
+<pre><code>record_date,user_id,power_consumption
+2015/1/1,1,1135
+2015/1/2,1,570
+2015/1/3,1,3418
+2015/1/4,1,3968
+2015/1/5,1,3986
+</code></pre><p>解释一下字段,<code>record_date</code>–日期,<code>user_id</code>–企业id, <code>power_consumption</code>–日用电量<br>非常简单,就这么简单单单的数据,我现在要教大家怎么从这么简单的数据上抽取6000维度的</p>
+<p>我把代码已经推到<code>Github</code>上了(由于数据比较少,我把数据也推上去了,方便大家本地跑跑,看完如果对你有帮助的话,请不要吝啬你的star哦),我就对照我的代码解释如何搭建一个可以跑出上万维度的脚手架</p>
+<h2 id="数据划分-split-samples-ipynb"><a href="#数据划分-split-samples-ipynb" class="headerlink" title="数据划分(split_samples.ipynb)"></a>数据划分(<code>split_samples.ipynb</code>)</h2><p>首先要搭建本地预测集,也就是线下样本(这个很重要,有时候线下的结果很大程度对应你线上的结果)</p>
+<p>给的数据要我们从前面21个月预测下一个月的日总用电量,我们很容易就能想到,那我们用前面20个月预测第21个月来做线下测试,但是这样我们就只有30个训练样本,要来预测30个,99.999%过拟合啊,首先我们要扩大样本,我们采用滑动移窗的方法把预测的样本按照月份推移,也就是分别预测9月8月7月等等</p>
+<p>这种方法在实现<code>Notebook</code>有几个难点,首先你划分了预测集,那么就也要划分训练集,就相当于把一份数据切分成好几份,切分完之后有个问题,你必须要隔离每个部分</p>
+<p>举个例子,我们把训练集划分成为2份,1月到7月预测8月,2月到8月预测9月,训练1-7月数据集的时候,我们不能让这个训练集接触到2月到8月的数据,因为8月对于前一个训练集来说是未知的,<br>如果我们让第一个训练集接触倒第二个训练集我们称为信息泄露,很影响线上的结果</p>
+<p>我们知道这个问题之后,我们就要用巧妙的方法来解决,首先我们要考虑我们代码的复杂度,以前我的解决训练集隔离的方法采用的是循环法,使用一个列表存贮所以训练集,然后使用<code>for</code>循环分别传参到函数里面,这个方法能解决隔离训练集,但是有几个问题</p>
+<p>在单个<code>ipy</code>文件中训练所以的样本,在测试的时候跑起来太慢,而且要把数据全部加载在内存里面,这次数据量还算小,但是对于某些小内存的电脑来说,这种方法时不时就得报<code>Memory Error</code>,而且感觉调试起来特别麻烦,所以一直在寻找更好的解决方案.</p>
+<p>这次想到了一种巧妙的方法,虽然有点取巧但是效果我很满意.</p>
+<p>我们先看到<code>split_samples.ipynb</code>文件,首先我把数据划分为9个样本,一个预测样本.分别放入不同文件夹进行物理隔离.但是名字相同.</p>
+<p>再其次我让<code>ipy</code>能够获取参数,这样我通过外部参数就能更换数据集,平常添加<code>Feture</code>的时候默认选取一个训练集,这样我开发的时候调试就非常方便,而且可以丢掉<code>for</code>循环,还我一个清新脱俗的<code>ipy</code>.</p>
+<p>这里说一个小细节,因为我传参必须要外部调用这种,对于运行<code>ipy</code>我使用了<code>runipy</code>这个工具,然后我死活没有找到,如何使用<code>runipy</code>把参数传倒<code>ipy</code>里面去的方法(如果找到了请告诉我),我一拍脑袋那就转换成<code>py</code>文件传过去,通过<code>sys.argv</code>很轻松就能获取到,所以我又用<code>jupyter nbconvert</code>的工具把<code>ipy</code>转换成<code>py</code>文件</p>
+<p>所以绕了一圈最后又回到了<code>py</code>上(手动滑稽).不过我们工作还是在<code>ipy</code>上进行,生成的<code>py</code>文件我好像没打开过….</p>
+<h2 id="特征提取-extract-fetures-ipynb"><a href="#特征提取-extract-fetures-ipynb" class="headerlink" title="特征提取(extract_fetures.ipynb)"></a>特征提取(<code>extract_fetures.ipynb</code>)</h2><p>聊完如何划分数据集,现在我们进入如何特征提取,我们可以看到这次数据其实就三个特征:时间-企业-用电量.由于企业的信息只有一个<code>id</code>,所以我首先提取的是时序的特征,首先把时间分解为八个维度</p>
+<ul>
+<li>dayofweek</li>
+<li>dayofyear</li>
+<li>days_in_month</li>
+<li>quarter</li>
+<li>week</li>
+<li>weekofyear</li>
+<li>month</li>
+<li>year</li>
+</ul>
+<p>我们可以通过<code>pandas</code>轻松提取出来</p>
+<p>然后我们再从两个方向来看,第一个就是我们日总用电量特征,从全部企业日总用电量</p>
+<p>第二个就是日用电量特征,从每个企业日用电量来看,这些特征我们使用简单统计又可以得到10个维度数据(mean,std,等等)</p>
+<p>看完这些之后我们又可以从多个时间维度来看这些特征,比如30天前,90天前等等(我划分了30,60, 90,180,360五个),</p>
+<p>这样我们就有了 <code>8 * 2 * 5 * 10</code>个特征,但是这远远达不到我们说的上万维度,</p>
+<p>现在我们从业务逻辑上来思考,因为我们知道,其实我们中国节假日和周末,天气这些对用电量影响非常大(我们老家打雷就停电…..)</p>
+<p>所以我们要引入外部数据集,我采用两个爬虫分别是<code>weather_crawl,holiday_crawl</code>爬取了天气和节假日的数据</p>
+<p>我们按照前面的思路,从天气节假日的角度又可以划分出n多特征(这时候我的特征已经达到3000了)</p>
+<p>完了这些基础特征后,我发现有些特征重要性特别大(使用<code>Randomforest</code>得到),这时候我们又要请出我们第二大神器,交叉特征,比如月和假期的特征融合,这一波操作直接让我的特征到了6000+维度(如果将窗口扩大轻轻松松上万)</p>
+<p>在这里要介绍一个特征生成的方法,有时候我们特征少,我们会采用自己命名的,自己生成,然后这个由于规律性比较大,<br>如果我们自己手动一个一个写的话,这上万<code>Fetures</code>够你写的,所以要让他自己生成特征,我们只要建好模子就行,由于这次<br>时间仓促,基本上我没有自己手动命名<code>feture</code>,全部都由程序生成,省掉很多代码量,具体可以看看代码实现,原理很简单.</p>
+<h1 id="训练模型-train-model-ipynb"><a href="#训练模型-train-model-ipynb" class="headerlink" title="训练模型(train_model.ipynb)"></a>训练模型(<code>train_model.ipynb</code>)</h1><p>训练模型的话,一般比赛都推荐先使用树模型,一方面速度快,第二个可以看到<code>feture</code>的重要性,这对于你挑选交叉特征非常有用,模型调参的我这里就不讲,一方面我自己也不是很懂,第二个方面也网上教程也多,我讲的不一定比他好</p>
+<p>这里要推荐一个发现有趣的包,<code>mlxtend</code>,我用他来进行<code>stacking</code>特别方便,有意思的时,我用他融合了四个模型,最后我的训练结果竟然为1,完全拟合了……</p>
+<p>这个包可以很简单的进行模型的<code>stacking</code>,然而这个比赛我没有把他用好(手动滑稽)</p>
+<p>通过训练模型后我们把模型存到<code>pkl</code>文件中,然后在用他来预测数据,这样在文件夹里转一圈的原因,因为原来打过部分比赛数据量太大,训练模型后内存不足,只能先<code>del</code>,清空内存,再预测,存到文件夹后,结束进程,清空内存,这样就能省下空间来读取下一步数据.</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>其实在这个脚手架上可以扩展很多东西,比如最后搏一搏单车变摩托的时候,我就在分割数据和训练数据之间加了一个过滤清洗数据层,在训练模型和融合特征之间加了一个降维的中间层.</p>
+<p>建立一个好的脚手架只是能让你在增添特征,选择特征时更加轻松,其实比赛看的还是你对数据的一种掌控力,建立这个脚手架主要是为了节省更多时间给提取特征、选择特征上.特征决定你的上限.</p>
+<p>这次比赛比较特殊,模型在这个比赛效果可能没有规则好,因为数据量太小,我<code>stacking</code>一下直接完全拟合了.可惜验证的次数还是<br>太少,除去前面两次错误的提交,我只有三次验证机会,如果次数多一点的话,选择特征降维或者模型调参一下遏制拟合结果可能会好很多吧.</p>
+<p>但是这次比赛自己学到了如何搭一个<code>ipy</code>的管道和增加了一些特征调参、特征降维的经验。因为以前看到的搭建管道资料都是基于<code>py</code>,很少基于<code>ipy</code>的,所以把自己搭建<code>ipy</code>管道经验分享出来,也希望自己写的这篇博文能够抛砖引玉,帮助大家搭建自己的完美管道.</p>
+<p>附上我的<a href="https://github.com/mrzhangboss/electricAI" target="_blank" rel="noopener">开源示例</a>:  <a href="https://github.com/mrzhangboss/electricAI" target="_blank" rel="noopener">https://github.com/mrzhangboss/electricAI</a><br>大家觉得有帮助就给我点个star吧</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2017/05/16/ai/如何成为一名数据挖掘机/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/05/16/ai/如何成为一名数据挖掘机/" class="post-title-link" itemprop="url">如何成为一名数据挖掘机</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-05-16 19:47:12" itemprop="dateCreated datePublished" datetime="2017-05-16T19:47:12+08:00">2017-05-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 19:57:07" itemprop="dateModified" datetime="2021-03-09T19:57:07+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/" itemprop="url" rel="index">
+                    <span itemprop="name">人工智能</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>123</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>自我介绍</p>
+<p>前端 - &gt; 后端  -&gt; 数据挖掘机</p>
+<p>ML DM AI  的区别</p>
+<p>我的自学之旅</p>
+<p>给新手的推荐</p>
+<ul>
+<li>机器学习课程(MOOC)</li>
+<li>Kaggle、天池、数据城堡</li>
+</ul>
+<p>掌握的技能</p>
+<ul>
+<li>Java + Python</li>
+<li>数据可视化</li>
+<li>训练团队感</li>
+</ul>
+<p>未来的发展方向</p>
+<ul>
+<li>全栈数据挖掘工程师</li>
+<li>增长黑客</li>
+<li>ML算法工程师</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
   </div>
 
   
@@ -1804,7 +1744,7 @@ name text
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">128</span>
+          <span class="site-state-item-count">124</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1879,12 +1819,12 @@ name text
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">292k</span>
+    <span title="站点总字数">268k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:26</span>
+    <span title="站点阅读时长">4:04</span>
 </div>
 
         

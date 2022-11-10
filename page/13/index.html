@@ -211,6 +211,337 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/python/关于python3和python2import区别/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/07/18/python/关于python3和python2import区别/" class="post-title-link" itemprop="url">关于python3和python2 import区别</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-07-18 16:07:36" itemprop="dateCreated datePublished" datetime="2016-07-18T16:07:36+08:00">2016-07-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:05:18" itemprop="dateModified" datetime="2021-03-09T20:05:18+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>1.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>最近从python2转到python3,发现还是有一些不同,一些库改名字很好解决,但是这个import机制不了解原理是不好理解的.</p>
+</blockquote>
+<h4 id="python2是默认相对路径导入-python3是默认绝对路径导入"><a href="#python2是默认相对路径导入-python3是默认绝对路径导入" class="headerlink" title="python2是默认相对路径导入,python3是默认绝对路径导入"></a>python2是默认相对路径导入,python3是默认绝对路径导入</h4><p>首先这个包的导入机制,就是你在一个module里面引用另一个module,python运行文件有两种方式,一种是直接以主文件运行(默认以这种方式运行,同下面一种有点区别),一种是以module形式运行,就是用<code>python -m filename</code>方式调用.</p>
+<h2 id="以module的方式运行"><a href="#以module的方式运行" class="headerlink" title="以module的方式运行"></a>以module的方式运行</h2><p>####### 什么是相对导入和绝对导入呢<br>相对导入是用一个<code>.</code>来声明的,相当于Unix上的选择当前文件夹.</p>
+<p>假设你的文件目录为下面的</p>
+<pre><code>main
+|    main.py
+|     __init__py
+|   momod+
+|      | __init__.py
+|      | pack.py
+|       | flask
+|      |    |  __init__.py
+|       |    |  myflask.py
+--------------------
+</code></pre><h5 id="python里面的module分三种-一种是build-in-module-内建库-一种是第三方库-还有一种是你自己写的库-如上面的flask"><a href="#python里面的module分三种-一种是build-in-module-内建库-一种是第三方库-还有一种是你自己写的库-如上面的flask" class="headerlink" title="python里面的module分三种,一种是build-in module(内建库),一种是第三方库,还有一种是你自己写的库(如上面的flask)."></a>python里面的module分三种,一种是build-in module(内建库),一种是第三方库,还有一种是你自己写的库(如上面的flask).</h5><p>在python2里面,当你import 一个module时,搜索的顺序是 内建库,自己的库,第三方库.</p>
+<p>####### 而在python3里面顺序为 内建库,第三方库,你自己的库.</p>
+<p>我自己感觉python3的import的机制更为清晰,因为当你import一个库时,假如你写的库和第三方库重合时,你优先导入第三方库,如果你不适用声明相对导入的话,你无法正确的导入自己的库,而使用<code>.</code>来声明库来自自己的代码让代码的结构更加清晰了.所以如果你想让你的代码兼容py2和py3,你自己的库都要采用相对导入方法来导入.<br>比如在momod 里面的pack.py假如想引用flask的myflask.py要这样写</p>
+<pre><code>from .flask import myflask
+</code></pre><p>########### 假如你在py2中写了 <code>from flask import myflask</code>(并且你安装了flask库),这个是可以成功运行但是在py3中就会报错,因为他会优先导入flask库假如你没有显示声明相对导入的话.</p>
+<hr>
+<p>上面成立的前提是将pack.py以module方式运行,或者运行main.py在其中引入pack.py.接下来讲讲以主文件运行的不同.</p>
+<h4 id="当你直接使用"><a href="#当你直接使用" class="headerlink" title="当你直接使用"></a>当你直接使用</h4><pre><code>python pack.py
+</code></pre><p>你假如在pack.py里面使用了这个</p>
+<pre><code>from .flask import myflask
+</code></pre><p>引用了自己的myflaskmodule,在py2和py3中都会下面报这个错</p>
+<pre><code>SystemError: Parent module &apos;&apos; not loaded, cannot perform relative import
+</code></pre><p>因为当你以主文件方式运行 pack.py ,python会吧pack.py重命名为<code>__main__</code>,所以用.相对路径也不会是当前文件.所以全部都只能用绝对引用.所以在主文件运行在python3里面有个问题,假如你自己的库与第三方库有重名.</p>
+<h4 id="python3默认绝对路径-自己的库不会优先于第三方库被扫描-有两个解决方法-把自己的库重命名-第二个方法就是把包含主文件的文件夹加上init-py-你可以在sys-path的路径里加上-或者具体上一个上一个文件夹的路径-怪绕口的-其实你只要python能找到你的上一个文件夹-就行"><a href="#python3默认绝对路径-自己的库不会优先于第三方库被扫描-有两个解决方法-把自己的库重命名-第二个方法就是把包含主文件的文件夹加上init-py-你可以在sys-path的路径里加上-或者具体上一个上一个文件夹的路径-怪绕口的-其实你只要python能找到你的上一个文件夹-就行" class="headerlink" title="python3默认绝对路径,自己的库不会优先于第三方库被扫描.有两个解决方法,把自己的库重命名,第二个方法就是把包含主文件的文件夹加上init.py,你可以在sys.path的路径里加上..或者具体上一个上一个文件夹的路径.怪绕口的,其实你只要python能找到你的上一个文件夹,就行."></a>python3默认绝对路径,自己的库不会优先于第三方库被扫描.有两个解决方法,把自己的库重命名,第二个方法就是把包含主文件的文件夹加上<strong>init</strong>.py,你可以在sys.path的路径里加上<code>..</code>或者具体上一个上一个文件夹的路径.怪绕口的,其实你只要python能找到你的上一个文件夹,就行.</h4><p>说到这里顺便插一句对doctest和集成测试的理解.</p>
+<h4 id="由于我平时喜欢一边写代码一遍测试功能-图方便就使用doctest直接插在方法里面-在代码后面加上"><a href="#由于我平时喜欢一边写代码一遍测试功能-图方便就使用doctest直接插在方法里面-在代码后面加上" class="headerlink" title="由于我平时喜欢一边写代码一遍测试功能,图方便就使用doctest直接插在方法里面,在代码后面加上"></a>由于我平时喜欢一边写代码一遍测试功能,图方便就使用doctest直接插在方法里面,在代码后面加上</h4><pre><code>if __name__ == &apos;__main__&apos;:
+        import doctest
+        doctest.tesmod()
+</code></pre><p>平时写小module的时候没有问题,在将python2转python3时候,出现问题,因为我要测试这个module时,会报上面的那个错,因为我要测试他的话必须将它作为主文件.查了资料知道,其实doctest虽然在当前页面代码测试,但是对于module的话,最好采用集成测试,一是module很多,假如一个一个运行很麻烦,二是有时候module必须多个一起测试,所以测试module时要用集成测试来取代doctest.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/python/python的编码问题研究/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/07/18/python/python的编码问题研究/" class="post-title-link" itemprop="url">python的编码问题研究------使用scrapy体验</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-07-18 16:07:36" itemprop="dateCreated datePublished" datetime="2016-07-18T16:07:36+08:00">2016-07-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:05:18" itemprop="dateModified" datetime="2021-03-09T20:05:18+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>2.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>基于python2</p>
+</blockquote>
+<p>scrapy是一款非常轻量级的爬虫框架，但是由于它隐藏了太多关于网络请求的细节，所以我们有时候会遭遇到一下很尴尬的bug，当然这主要是因为碰到一些不规范的网站。</p>
+<p>python的编码转码网上有很多文章，如果你不了解这个你可以参考下面了解。</p>
+<p><a href="http://nedbatchelder.com/text/unipain.html" target="_blank" rel="noopener">Ned Batchelder 关于python unicode和str的理解，通俗易懂</a></p>
+<p><a href="http://www.tuicool.com/articles/ZbEFnya" target="_blank" rel="noopener">关于scrapy 入门</a></p>
+<p><a href="http://blog.csdn.net/crazyhacking/article/details/39375535" target="_blank" rel="noopener"> 关于 encode的认识</a></p>
+<p>通过上面我们可以很好的理解python的转码译码，在这里我想谈一下我自己对其的认识吧，我一开始接触的c语言序列的基本上都是强类型，比如C里面假如我想写一个函数每个传人的参数都得是有类型的，但是python弱化了类型这一点，python也是面对对象的，但是他的对象就是鸡同鸭讲，照猫画虎就能运行，弱类型适合动态语言，我们不确定下一行代码输入的是什么，自从学python起，一直感觉python对类型一直不严格，这样就给了我一种错觉，只要长得差不多就能一样的比划，比如在两个string，<code>&#39;中国&#39;</code>,<code>u&#39;中国&#39;</code>,看起来差不多但是如果你把<code>u&#39;中国&#39;</code>存入文件中就会出错（假如你没定义编码规则)</p>
+<pre><code>UnicodeEncodeError: &apos;ascii&apos; codec can&apos;t encode characters in position 344-351: ordinal not in range(128)
+</code></pre><p>unicode字符编码错误，要想理解这个要对unicode字符集和unicode编码有一定的理解，推荐你读一下这篇博客<a href="http://www.techug.com/character-set" target="_blank" rel="noopener">字符编码的知识</a>,python内部使用unicode字符集存贮所以的编码的字符，为什么要用unicode字符集举个栗子吧：</p>
+<blockquote>
+<p>A是米国的程序员，他使用asicc编码的文件上传了一封邮件，<br>B是中国的程序员他使用gbk编码的文件上传了一封邮件，<br>现在C要用程序同时处理A和B的邮件，有两种解决方法他把A的文件译码再编码成B的gbk，或者将B的文件译码成asicc但是中文无法处理，那么只能使用第一种方法将A的文件编码成gbk，但是改天D又来啦，他是俄国人，天啊噜gbk可能没有把俄语编进去，那肿么办，我们迫切需要一种编码可以把所以的字符放进去，所以unicode出现了，Unicode中将字符集按照一定的类别划分到0~16这17个层面（Planes）中，每个层面中拥有216=65536个字符码，因此Unicode总共拥有的字符码，也即是Unicode的字符空间总共有17*65536=1114112，一共有1114112这么多的字符可以用，这下我们不用担心了吧，太好了这下不用愁了，</p>
+</blockquote>
+<p>python 内部使用unicode字符集作为一个译码中转站，因为他编码了所以的字符集，只要你能在自己编码方案上找到自己的字，我就能在unicode字符集找到你的位置，所以使用unicode可以很好的解决多种编码方案产生的问题（比如gbk，utf-8）</p>
+<p>当然其他编码方案如果想使用unicode解码成其他的必须同unicode有一一对应关系，不过现在主流的编码方案如gbk，gb2312，utf-8都是unicode系的。</p>
+<p>了解了这些基础知识就可以知道了为什么存贮<code>u&#39;中国&#39;</code>存不进文件里面去了，因为unicode并不提供给当今字符解析器的方法，就是<code>\u234e</code>一个16进制数字，屏幕上不知道他对应什么图形，所以python系统要求存进文件的必须是字节流，也就是可以unicode是一种更高级的字符流，这个字符流能存贮当今世界所以定义的字符，但是他只是一个规定字符集合，我们只需要把发现的字符放进去占据一个位置，但是我们不需要考虑屏幕是否认识这个字符，这个字符的存贮由编码方案负责，如utf-8这些，假如没有字符编码方案可以存贮这些，我们虽然在unicode上有这个字符但是我们无法print出来，所以我们必须将unicode转换成普通字符流，有人就会问了，假如我真的没有找到一个合适编码方案可以存贮所有语言，我们可以将他编码成unicode—escape类型，这里我们不多讲。</p>
+<p>这就可以解释我们大部分碰到的错误unicodedecodeerror和unicodeencodeerror错误，都是因为字符编码方案不了解造成的，网上很多说碰到这种错误就encode，decode搞一下就行但是不弄清楚这背后的知识就会犯迷糊。</p>
+<p>接下来我谈谈我遇到的错误吧，在爬取<code>http://yjsy.ncu.edu.cn/yjs_showmsg.asp?id=2770</code>这个页面时（这是一个不规范的页面没有设置charset），因为每个spider调用的</p>
+<pre><code>response.xpath(&apos;//xpath&apos;).extract()    
+</code></pre><p>选择器返回的是一个unicode编码的字符集，但是他是接受的是一个字符流，spider可能调用了<br><code>response.body.decode(response.encoding)</code>进行转码，但是这个response.encoding有时候会判断错误，比如将我一个gbk编码的文件判断成cp1253,这个时候假如我把他解码成encode成其他编码方式的话，我们就会得到乱码，那怎么纠正呢，我们可以这样干<br>先将得到的列表中每个<code>content</code>取出来，然后使用<code>content.encode(resonse.encoding)</code>转码成原始字符流，现在你可以将它用正确的编码转换成unicode了</p>
+<p>下面是我github上的关于这个scrapy的项目，在coding_pitch.py文件里面就是对于这个乱码的处理</p>
+<p><a href="https://github.com/MrZhangLoveLearning/ncuscrapy.git" target="_blank" rel="noopener">南昌大学教务处公告爬取</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/ai/机器学习实战心得/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/07/18/ai/机器学习实战心得/" class="post-title-link" itemprop="url"><<机器学习实战>>心得.</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-07-18 16:07:36" itemprop="dateCreated datePublished" datetime="2016-07-18T16:07:36+08:00">2016-07-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 19:57:07" itemprop="dateModified" datetime="2021-03-09T19:57:07+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/" itemprop="url" rel="index">
+                    <span itemprop="name">人工智能</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>880</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h6 id="先谈谈我对机器学习的理解"><a href="#先谈谈我对机器学习的理解" class="headerlink" title="先谈谈我对机器学习的理解"></a>先谈谈我对机器学习的理解</h6><h2 id="什么是机器学习"><a href="#什么是机器学习" class="headerlink" title="什么是机器学习?"></a>什么是机器学习?</h2><p>我们人类有从婴儿开始就开始学习,父母教我们穿衣吃饭、老师教我们读书写字，我们开始能辨别好人坏人，开始通过自己的经验来判断新事物。</p>
+<h5 id="机器学习很简单，就像人一样，我们教机器通过我们教的来判断新的事物，或者在从新的事物里面学习处理新的事物。"><a href="#机器学习很简单，就像人一样，我们教机器通过我们教的来判断新的事物，或者在从新的事物里面学习处理新的事物。" class="headerlink" title="机器学习很简单，就像人一样，我们教机器通过我们教的来判断新的事物，或者在从新的事物里面学习处理新的事物。"></a>机器学习很简单，就像人一样，我们教机器通过我们教的来判断新的事物，或者在从新的事物里面学习处理新的事物。</h5><p>这看起来很复杂的样子,但是从我们神经网络来看,我们可以把学习当做建立一个神经元连接,通过输入的信号得到一个输出的信号.我们只要简单的把输入的信号分类就可以了.通过无数个分类我们就可以建立复杂的神经系统,进而实现’学习’这个功能.</p>
+<h2 id="如何分类"><a href="#如何分类" class="headerlink" title="如何分类?"></a>如何分类?</h2><blockquote>
+<p>涉及到分类,假如输入的信号种类只要两种,我们就可以简单用if-else来实现分类功能,但是有时候输入信号种类个个都有细微的差别,只是遵循某种规律,这时候我们不能用简单的if-else来进行分类了,下面我就按照书的顺序来解释各种强大的分类方法.</p>
+</blockquote>
+<h1 id="K-近邻算法-k-Nearest-Neighbor"><a href="#K-近邻算法-k-Nearest-Neighbor" class="headerlink" title="K-近邻算法 ( k-Nearest Neighbor )"></a>K-近邻算法 ( k-Nearest Neighbor )</h1><blockquote>
+<p>作为本书的第一个机器学习算法,K-NN算是我感觉原理最简单的一个了.</p>
+</blockquote>
+<p>假设我们有两个点, 红点为(-1,  -1)分为红类, 绿点为(1, 1)分为绿类<br><img src="http://7xsxdn.com1.z0.glb.clouddn.com/knn1.png" alt="图片1"></p>
+<h4 id="接下来我一个点-0-1-这个点应该分为红还是绿呢-我们添加两条辅助线"><a href="#接下来我一个点-0-1-这个点应该分为红还是绿呢-我们添加两条辅助线" class="headerlink" title="接下来我一个点(0, -1),这个点应该分为红还是绿呢,我们添加两条辅助线"></a>接下来我一个点(0, -1),这个点应该分为红还是绿呢,我们添加两条辅助线</h4><p><img src="http://7xsxdn.com1.z0.glb.clouddn.com/knn2.png" alt></p>
+<p>蓝点离红点距离为1,蓝点离绿点距离为2.2,我们很轻松的可以知道这个点应该分为红类.<br>现在我们进一步推广,当有很多种类点的时候,当我们二维扩展到N维,给一个点a我们只要选取距离a最近的K个种类,我们就基本能判断他属于这K个种类的,这就是K-近邻的原理了.</p>
+<h4 id="K-近邻算法是最简单最有效的算法了-但是他也有缺点-比如他必须保存所有训练样本的数据-当训练样本很大的时候就会占用很多内存空间-我们后面会学到的KVM只取支持向量的训练样本来计算可以减少很多占用内存"><a href="#K-近邻算法是最简单最有效的算法了-但是他也有缺点-比如他必须保存所有训练样本的数据-当训练样本很大的时候就会占用很多内存空间-我们后面会学到的KVM只取支持向量的训练样本来计算可以减少很多占用内存" class="headerlink" title="K-近邻算法是最简单最有效的算法了,但是他也有缺点,比如他必须保存所有训练样本的数据,当训练样本很大的时候就会占用很多内存空间,我们后面会学到的KVM只取支持向量的训练样本来计算可以减少很多占用内存"></a>K-近邻算法是最简单最有效的算法了,但是他也有缺点,比如他必须保存所有训练样本的数据,当训练样本很大的时候就会占用很多内存空间,我们后面会学到的KVM只取支持向量的训练样本来计算可以减少很多占用内存</h4><h5 id="而且K-近邻算法对训练数据集都要计算距离值-实际使用可能会非常耗时-我们后面学到的logistic回归能很好解决这个问题"><a href="#而且K-近邻算法对训练数据集都要计算距离值-实际使用可能会非常耗时-我们后面学到的logistic回归能很好解决这个问题" class="headerlink" title="而且K-近邻算法对训练数据集都要计算距离值,实际使用可能会非常耗时,我们后面学到的logistic回归能很好解决这个问题."></a>而且K-近邻算法对训练数据集都要计算距离值,实际使用可能会非常耗时,我们后面学到的logistic回归能很好解决这个问题.</h5><p>######### 总而言之,KNN作为小样本时非常简单粗暴,但是他无法给出任何数据的基本结构信息.接下来我们要学习用概率测量解决分类问题,这个算法能解决这个问题</p>
+<p>(决策树)[]</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/useless/泛型继承的理解/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -332,777 +663,6 @@ public class TypeNode&lt;T&gt;:Node
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/software/阿里云服务器初体验/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/07/18/software/阿里云服务器初体验/" class="post-title-link" itemprop="url">阿里云服务器初体验</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-07-18 16:07:36" itemprop="dateCreated datePublished" datetime="2016-07-18T16:07:36+08:00">2016-07-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 08:41:07" itemprop="dateModified" datetime="2021-03-09T08:41:07+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/软件/" itemprop="url" rel="index">
-                    <span itemprop="name">软件</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>466</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。"><a href="#申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。" class="headerlink" title="申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。"></a>申请了一个阿里的15体验的云服务器，同自己玩的虚拟机还是有点不同的。</h3><h3 id="1-用户名和密码"><a href="#1-用户名和密码" class="headerlink" title="1.用户名和密码"></a>1.用户名和密码</h3><p>找了半天没有找到那个是用户名，试了实例的id，没有用，最后终于在登录帮助名里面找到了，用户名竟然是<code>root</code>！！！！,我用的是Ubuntu系统，说好的Ubuntu不提供root权限的呢，阿里还真会改造Linux系统<br>，但是我觉得用root登录还是不安全，我觉得新建一个用户吧</p>
-<p>在root权限下</p>
-<pre><code>useradd -s /bin/bash -r -m yourname
-</code></pre><p>解释一下，本来直接<code>useradd yourname</code> 就可以新建一个<code>yourname</code>账号，但是如果用你新建的用户登录的话，你无法使用Tab键和上下左右键 ，你键入 <code>echo $SHELL</code>，会发现是<code>/bin/sh</code>，因为Ubuntu默认创建账号使用<code>/bin/sh</code>，假如你没加这个可以删掉 用这个<code>userdel yourname</code>重新来一遍，搞完这个只是创建了一个普通用户，你使用不了sudo获取最高权限，这个怎么办，很简单在<code>/etc/sudoers</code>里面找到<br>        root ALL=(ALL:ALL) ALL</p>
-<p>模仿它加上自己的账号名就可以</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/software/有用的几个Shell命令/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/07/18/software/有用的几个Shell命令/" class="post-title-link" itemprop="url">有用的几个Shell命令</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-07-18 16:07:36" itemprop="dateCreated datePublished" datetime="2016-07-18T16:07:36+08:00">2016-07-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:08:54" itemprop="dateModified" datetime="2021-03-09T20:08:54+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/软件/" itemprop="url" rel="index">
-                    <span itemprop="name">软件</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>464</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="管线命令-pipe-："><a href="#管线命令-pipe-：" class="headerlink" title="管线命令 (pipe)："></a>管线命令 (pipe)：</h3><ol>
-<li>撷取命令： cut, grep</li>
-<li>排序命令： sort, wc, uniq</li>
-<li>双向重导向： tee</li>
-<li>字符转换命令： tr, col, join, paste, expand</li>
-<li>分割命令： split</li>
-<li>参数代换： xargs<h3 id="分割文档"><a href="#分割文档" class="headerlink" title="分割文档"></a>分割文档</h3></li>
-</ol>
-<blockquote>
-<p>长长的一大片文档有时我们并不愿意看到全部内容,我们只想关注<br>部分内容的时候了可以考虑使用分割文档命令</p>
-</blockquote>
-<p><code>cut</code>是一个很好的分割文档工具</p>
-<h3 id="vi常用命令"><a href="#vi常用命令" class="headerlink" title="vi常用命令"></a>vi常用命令</h3><ol>
-<li>[Ctrl] + [u] 屏幕『向上』移动半页</li>
-<li><ul>
-<li>光标移动到非空格符的下一列</li>
-</ul>
-</li>
-<li><ul>
-<li>光标移动到非空格符的上一列</li>
-</ul>
-</li>
-<li>n<space>那个 n 表示『数字』，例如 20 。按下数字后会向右移动这一行的n 个字符。例如 20&lt;spac移动 20 个字符距离。</space></li>
-<li>0 这是数字『0 』：移动到这一行的最前面字符</li>
-<li>$ 移动到这一行的最后面字符处(常用)</li>
-<li>H 光标移动到这个屏幕的最上方那一行</li>
-<li>M 光标移动到这个屏幕的中央那一行</li>
-<li>L 光标移动到这个屏幕的最下方那一行</li>
-<li>G 移动到这个档案的最后一行(常用)</li>
-<li>nG n 为数字。移动到这个档案的第 n 行。例如 2档案的第 20 行(可配合 :set nu)</li>
-<li>gg 移动到这个档案的第一行，相当于 1G 啊！ (<br>n<enter> n 为数字。光标向下移动 n 行(常用)</enter></li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/bigdata/大数据学习小总结/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/07/18/bigdata/大数据学习小总结/" class="post-title-link" itemprop="url">大数据学习小总结</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-07-18 16:07:36" itemprop="dateCreated datePublished" datetime="2016-07-18T16:07:36+08:00">2016-07-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:01:40" itemprop="dateModified" datetime="2021-03-09T20:01:40+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/大数据/" itemprop="url" rel="index">
-                    <span itemprop="name">大数据</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>453</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>最近在学习大数据,书看了不少,但是总是觉得很迷茫,不知道怎么学下去,今天<br>突然想写点什么来<br>总结一下这些天.</p>
-</blockquote>
-<h3 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h3><p>逛博客的时候看到一篇分享<a href="http://www.36dsj.com/archives/8094" target="_blank" rel="noopener">如何修炼成大数据高手</a>感觉很有趣</p>
-<h4 id="买了两本书"><a href="#买了两本书" class="headerlink" title="买了两本书"></a>买了两本书</h4><p><img src="http://www.36dsj.com/wp-content/uploads/2014/05/15.png" alt="大数据时代"></p>
-<p><img src="http://www.36dsj.com/wp-content/uploads/2014/05/23.png" alt="失控"></p>
-<h3 id="这两本书都是很多年前写的-但是最近这几年随着”大数据”被大家越炒越热-随即被大家所看重"><a href="#这两本书都是很多年前写的-但是最近这几年随着”大数据”被大家越炒越热-随即被大家所看重" class="headerlink" title="这两本书都是很多年前写的,但是最近这几年随着”大数据”被大家越炒越热,随即被大家所看重."></a>这两本书都是很多年前写的,但是最近这几年随着”大数据”被大家越炒越热,随即被大家所看重.</h3><h3 id="这两个作者很牛-在30年前大数据还只是萌芽的时候就提出未来大数据的重要性和价值"><a href="#这两个作者很牛-在30年前大数据还只是萌芽的时候就提出未来大数据的重要性和价值" class="headerlink" title="这两个作者很牛,在30年前大数据还只是萌芽的时候就提出未来大数据的重要性和价值."></a>这两个作者很牛,在30年前大数据还只是萌芽的时候就提出未来大数据的重要性和价值.</h3><h2 id="大数据是什么了-现在为什么这么火-以前没有大数据吗"><a href="#大数据是什么了-现在为什么这么火-以前没有大数据吗" class="headerlink" title="大数据是什么了,现在为什么这么火,以前没有大数据吗?"></a>大数据是什么了,现在为什么这么火,以前没有大数据吗?</h2><h3 id="大数据的产生就像是科技带来的附带品一样-原来我们把信息存贮在图书馆里面-因为人类的活动产生的信息越来越多-图书馆也越来越大-但是由于管理和存贮的成本越来越多-我们被迫要缩减浓缩我们的信息-我们想出了很多很方法来对付这种情况-比如抽样-只要抽取一部分的代表信息存在图书馆里面然后记录主要特征和平均分量-我们就可以把信息降低几个数量级"><a href="#大数据的产生就像是科技带来的附带品一样-原来我们把信息存贮在图书馆里面-因为人类的活动产生的信息越来越多-图书馆也越来越大-但是由于管理和存贮的成本越来越多-我们被迫要缩减浓缩我们的信息-我们想出了很多很方法来对付这种情况-比如抽样-只要抽取一部分的代表信息存在图书馆里面然后记录主要特征和平均分量-我们就可以把信息降低几个数量级" class="headerlink" title="大数据的产生就像是科技带来的附带品一样,原来我们把信息存贮在图书馆里面,因为人类的活动产生的信息越来越多,图书馆也越来越大,但是由于管理和存贮的成本越来越多,我们被迫要缩减浓缩我们的信息,我们想出了很多很方法来对付这种情况,比如抽样,只要抽取一部分的代表信息存在图书馆里面然后记录主要特征和平均分量,我们就可以把信息降低几个数量级."></a>大数据的产生就像是科技带来的附带品一样,原来我们把信息存贮在图书馆里面,因为人类的活动产生的信息越来越多,图书馆也越来越大,但是由于管理和存贮的成本越来越多,我们被迫要缩减浓缩我们的信息,我们想出了很多很方法来对付这种情况,比如抽样,只要抽取一部分的代表信息存在图书馆里面然后记录主要特征和平均分量,我们就可以把信息降低几个数量级.</h3><h3 id="但是现在不同"><a href="#但是现在不同" class="headerlink" title="但是现在不同."></a>但是现在不同.</h3><h3 id="芯片做的越来越小-容量做的越来越大-我们有能力存贮所以的信息-一些先驱发现我们用另一种思维去对待信息"><a href="#芯片做的越来越小-容量做的越来越大-我们有能力存贮所以的信息-一些先驱发现我们用另一种思维去对待信息" class="headerlink" title="芯片做的越来越小,容量做的越来越大,我们有能力存贮所以的信息,一些先驱发现我们用另一种思维去对待信息."></a>芯片做的越来越小,容量做的越来越大,我们有能力存贮所以的信息,一些先驱发现我们用另一种思维去对待信息.</h3><h2 id="用全体数据而不是随机样本"><a href="#用全体数据而不是随机样本" class="headerlink" title="用全体数据而不是随机样本"></a>用全体数据而不是随机样本</h2><h2 id="用混杂性而不是精确性"><a href="#用混杂性而不是精确性" class="headerlink" title="用混杂性而不是精确性"></a>用混杂性而不是精确性</h2><h2 id="用相关关系而不是因果性"><a href="#用相关关系而不是因果性" class="headerlink" title="用相关关系而不是因果性"></a>用相关关系而不是因果性</h2>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/useless/EF搭建可扩展菜单/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/07/18/useless/EF搭建可扩展菜单/" class="post-title-link" itemprop="url">EF搭建可扩展菜单</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-07-18 16:07:36" itemprop="dateCreated datePublished" datetime="2016-07-18T16:07:36+08:00">2016-07-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:34:28" itemprop="dateModified" datetime="2021-03-09T20:34:28+08:00">2021-03-09</time>
-              </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>1.9k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>2 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-</blockquote>
-<h3 id="由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。"><a href="#由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。" class="headerlink" title="由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。"></a>由于要做一个三级菜单存贮菜单和文章，由于菜单在很多地方用的到，于是想做一个可扩展性的菜单以便以后使用。</h3><h4 id="由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF-Code-First更是坑了我一把，我想把我碰到坑给大家分享一下。"><a href="#由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF-Code-First更是坑了我一把，我想把我碰到坑给大家分享一下。" class="headerlink" title="由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF Code First更是坑了我一把，我想把我碰到坑给大家分享一下。"></a>由于以前从来没有做过动态的菜单，所以走了很多弯路，尤其搭配EF Code First更是坑了我一把，我想把我碰到坑给大家分享一下。</h4><h2 id="1-类库的实现"><a href="#1-类库的实现" class="headerlink" title="1.类库的实现"></a>1.类库的实现</h2><h3 id="首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个bool类型IsFoot来定义是否为根菜单，每个Menus有一个父级菜单Menus，有一群子菜单，下面是我定义的Menu库。"><a href="#首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个bool类型IsFoot来定义是否为根菜单，每个Menus有一个父级菜单Menus，有一群子菜单，下面是我定义的Menu库。" class="headerlink" title="首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个bool类型IsFoot来定义是否为根菜单，每个Menus有一个父级菜单Menus，有一群子菜单，下面是我定义的Menu库。"></a>首先我选择树这个数据结构来存贮我的菜单，我定义菜单Menus来作为一个最小单元，定义一个<code>bool</code>类型<strong>IsFoot</strong>来定义是否为根菜单，每个Menus有一个父级菜单Menus，有一群子菜单，下面是我定义的Menu库。</h3><pre><code>  [Description(&quot;菜单&quot;)]
-public class Menus
-{
-    [Key]
-    [Display(Name=&quot;菜单ID&quot;)]
-    public int MenusID { get; set; }
-    [Required]
-    [Display(Name=&quot;是否为根节点&quot;)]
-    public bool IsFoot { get; set; }
-    [Required]
-    [StringLength(25)]
-    [Display(Name=&quot;目录名字&quot;)]
-    public string Name { get; set; }
-    [Display(Name=&quot;是否删除&quot;)]
-    public bool IsDelete { get; set; }
-    [Display(Name=&quot;包含的文章&quot;)]
-    public virtual List&lt;Article&gt; articles { get; set; }
-    [Display(Name = &quot;父级菜单&quot;)]
-    public virtual Menus fatherMenus { get; set; }
-    [Display(Name = &quot;子菜单&quot;)]
-    public virtual List&lt;Menus&gt; sonList { get; set; }
-
-
-}
-</code></pre><h3 id="每个Menus都包含了一个文章集合-虽然有些菜单不一定有文章但是EF可以允许我们0对多，或1对多。"><a href="#每个Menus都包含了一个文章集合-虽然有些菜单不一定有文章但是EF可以允许我们0对多，或1对多。" class="headerlink" title="每个Menus都包含了一个文章集合,虽然有些菜单不一定有文章但是EF可以允许我们0对多，或1对多。"></a>每个Menus都包含了一个文章集合,虽然有些菜单不一定有文章但是EF可以允许我们0对多，或1对多。</h3><h2 id="2-生成数据库"><a href="#2-生成数据库" class="headerlink" title="2.  生成数据库"></a>2.  生成数据库</h2><hr>
-<p>EF比较人性化的是，当我们数据库里面没有我们想要生成的表时，我们不需要多余的代码，只要当成数据库有表，像平时一样添加数据然后EF会帮我们自动在数据库里面建好表，当然你如果有相同名字的表话它报错，会提醒你数据库里面有如果想保存数据要做好数据迁移工作，数据迁移不是我们的重点，如果想了解的话，<a href="http://www.cnblogs.com/guomingfeng/archive/2013/06/15/mvc-ef-configuration-migration.html" target="_blank" rel="noopener">点击这里</a></p>
-<h3 id="生成的数据库包含两个表，一个Menus表，一个是Article表（PS：上面没有给出Article的类型定义，想要的可以自己写），对于这个来说，我们并没有在表里面定义外键属性，只是用来一个引用属性，引用属性是一种“虚属性”，我们通过这个属性来建立起两个对象的虚拟联系，比如说父与子，这种关系是虚拟的对于两者之间的联系是通过血缘来联系的，这个血缘是存在的，相对应就是数据库里面的外键联系，外键也可以看做是表中的一个字段，它记录了一种关系。"><a href="#生成的数据库包含两个表，一个Menus表，一个是Article表（PS：上面没有给出Article的类型定义，想要的可以自己写），对于这个来说，我们并没有在表里面定义外键属性，只是用来一个引用属性，引用属性是一种“虚属性”，我们通过这个属性来建立起两个对象的虚拟联系，比如说父与子，这种关系是虚拟的对于两者之间的联系是通过血缘来联系的，这个血缘是存在的，相对应就是数据库里面的外键联系，外键也可以看做是表中的一个字段，它记录了一种关系。" class="headerlink" title="生成的数据库包含两个表，一个Menus表，一个是Article表（PS：上面没有给出Article的类型定义，想要的可以自己写），对于这个来说，我们并没有在表里面定义外键属性，只是用来一个引用属性，引用属性是一种“虚属性”，我们通过这个属性来建立起两个对象的虚拟联系，比如说父与子，这种关系是虚拟的对于两者之间的联系是通过血缘来联系的，这个血缘是存在的，相对应就是数据库里面的外键联系，外键也可以看做是表中的一个字段，它记录了一种关系。"></a>生成的数据库包含两个表，一个Menus表，一个是Article表（PS：上面没有给出Article的类型定义，想要的可以自己写），对于这个来说，我们并没有在表里面定义外键属性，只是用来一个引用属性，引用属性是一种“虚属性”，我们通过这个属性来建立起两个对象的虚拟联系，比如说父与子，这种关系是虚拟的对于两者之间的联系是通过血缘来联系的，这个血缘是存在的，相对应就是数据库里面的外键联系，外键也可以看做是表中的一个字段，它记录了一种关系。</h3><h4 id="由于EF的智能关系，当我们Code-First时，他会帮我们自动建好外键如果我们不定义的话，当我们使用EF的时候是不需要考虑外键的值的初始化，如果我们没有给他赋值EF会自动给他赋值。"><a href="#由于EF的智能关系，当我们Code-First时，他会帮我们自动建好外键如果我们不定义的话，当我们使用EF的时候是不需要考虑外键的值的初始化，如果我们没有给他赋值EF会自动给他赋值。" class="headerlink" title="由于EF的智能关系，当我们Code First时，他会帮我们自动建好外键如果我们不定义的话，当我们使用EF的时候是不需要考虑外键的值的初始化，如果我们没有给他赋值EF会自动给他赋值。"></a>由于EF的智能关系，当我们Code First时，他会帮我们自动建好外键如果我们不定义的话，当我们使用EF的时候是不需要考虑外键的值的初始化，如果我们没有给他赋值EF会自动给他赋值。</h4><hr>
-<p>讲完了EF的建立，现在就谈谈使用Code First在项目中遇到的问题。</p>
-<hr>
-<p>这个问题主要出在给创建子菜单上，当我们创建子菜单时，我们用的是我们自己的类库代码进行初始化数据库，我们先得到菜单的ID然后在EF里面查询这个菜单，我们查询到这个实体，然后在菜单实体里面添加子菜单，在SaveChange()时候就报错了，EF称检测到有循环赋值的可能，让我们添加外键以避免冲突，我不记得看到的那篇博客看到有人也遇到相同的问题，如果只是普通的一对多（假如是A对1，2，3，4···），当我们给A那个新建一个5时，这个外键的位置是知道的，我们只要在5的外键位置存贮A的主键，然而当我们建立这种父级菜单时，每个菜单里面的外键可以是存贮父级的主键，也可以是子集的主键，所以EF并不能解决冲突，解决这个问题的方法有两种一种是在表中添加外键<br>如：</p>
-<pre><code>       [ForeignKey(&quot;sonList&quot;)]
-public int sonListMenusID{get;set;}
-</code></pre><p>或者用Fluent API 在继承的方法 onModelCreate中添加</p>
-<pre><code>modelBuilder.Entity&lt;Menus&gt;().HasRequired(p=&gt;p.sonList).WithMany(l=&gt;l.Menus).HasForeignKey(p=&gt;p.sonListMenusID)
-</code></pre><p>通过这种创建方式当我们创建子集菜单时我们就可以成功利用EF特性帮我们自动添加上外键，以及建立好实体关系。</p>
-<p>关于更详细的外键知识可以点击<a href="http://www.cnblogs.com/Gyoung/archive/2013/01/22/2869782.html" target="_blank" rel="noopener">这里</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/useless/EFCodeFirst导航属性/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/07/18/useless/EFCodeFirst导航属性/" class="post-title-link" itemprop="url">EFCode First 导航属性</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-07-18 16:07:36" itemprop="dateCreated datePublished" datetime="2016-07-18T16:07:36+08:00">2016-07-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:34:28" itemprop="dateModified" datetime="2021-03-09T20:34:28+08:00">2021-03-09</time>
-              </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>3.5k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>3 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="首先谈谈自己对EF的接触的过程吧，最先接触EF只是因为EF支持从数据库把关系扒下来，可以省掉自己写Select、Update、Insert这些SQL语句，而且修改非常方便，后来在使用的过程中发现导航属性这个关系，然后才慢慢知道数据库的索引是什么，由于自己接管的是大学生社团的数据库，大多时候创建者并不会考虑表的联系，一般创个主键就完事了（顺便吐槽一句，握草，数据库的表名和列名是什么鬼全用拼音首字母，为了兼容前面的内容我们还得花一半时间猜你们的列名，简直醉了，除了ID这个英文他们会，你们的英语是体育老师教的吗？？？）言归正传，用EF的确学到了对数据库表的的建立的理解，毕竟自己刚学数据库的时候就是把所有的字段塞到一张表里面，刚开始自己使用EF从数据库拔下来的表然后修改实体的关系的数据（感觉其实就是使用EF的EMDX的Code-First），使用这个并没有出现很多问题，后来又接触完整的Code-First，就是直接用代码生成数据库，虽然中间遇到无数的BUG但是这些BUG让我对数据库和EF的关系有了更深的理解，话不多说，直接上BUG。"><a href="#首先谈谈自己对EF的接触的过程吧，最先接触EF只是因为EF支持从数据库把关系扒下来，可以省掉自己写Select、Update、Insert这些SQL语句，而且修改非常方便，后来在使用的过程中发现导航属性这个关系，然后才慢慢知道数据库的索引是什么，由于自己接管的是大学生社团的数据库，大多时候创建者并不会考虑表的联系，一般创个主键就完事了（顺便吐槽一句，握草，数据库的表名和列名是什么鬼全用拼音首字母，为了兼容前面的内容我们还得花一半时间猜你们的列名，简直醉了，除了ID这个英文他们会，你们的英语是体育老师教的吗？？？）言归正传，用EF的确学到了对数据库表的的建立的理解，毕竟自己刚学数据库的时候就是把所有的字段塞到一张表里面，刚开始自己使用EF从数据库拔下来的表然后修改实体的关系的数据（感觉其实就是使用EF的EMDX的Code-First），使用这个并没有出现很多问题，后来又接触完整的Code-First，就是直接用代码生成数据库，虽然中间遇到无数的BUG但是这些BUG让我对数据库和EF的关系有了更深的理解，话不多说，直接上BUG。" class="headerlink" title="首先谈谈自己对EF的接触的过程吧，最先接触EF只是因为EF支持从数据库把关系扒下来，可以省掉自己写Select、Update、Insert这些SQL语句，而且修改非常方便，后来在使用的过程中发现导航属性这个关系，然后才慢慢知道数据库的索引是什么，由于自己接管的是大学生社团的数据库，大多时候创建者并不会考虑表的联系，一般创个主键就完事了（顺便吐槽一句，握草，数据库的表名和列名是什么鬼全用拼音首字母，为了兼容前面的内容我们还得花一半时间猜你们的列名，简直醉了，除了ID这个英文他们会，你们的英语是体育老师教的吗？？？）言归正传，用EF的确学到了对数据库表的的建立的理解，毕竟自己刚学数据库的时候就是把所有的字段塞到一张表里面，刚开始自己使用EF从数据库拔下来的表然后修改实体的关系的数据（感觉其实就是使用EF的EMDX的Code First），使用这个并没有出现很多问题，后来又接触完整的Code First，就是直接用代码生成数据库，虽然中间遇到无数的BUG但是这些BUG让我对数据库和EF的关系有了更深的理解，话不多说，直接上BUG。"></a>首先谈谈自己对EF的接触的过程吧，最先接触EF只是因为EF支持从数据库把关系扒下来，可以省掉自己写Select、Update、Insert这些SQL语句，而且修改非常方便，后来在使用的过程中发现导航属性这个关系，然后才慢慢知道数据库的索引是什么，由于自己接管的是大学生社团的数据库，大多时候创建者并不会考虑表的联系，一般创个主键就完事了（顺便吐槽一句，握草，数据库的表名和列名是什么鬼全用拼音首字母，为了兼容前面的内容我们还得花一半时间猜你们的列名，简直醉了，除了ID这个英文他们会，你们的英语是体育老师教的吗？？？）言归正传，用EF的确学到了对数据库表的的建立的理解，毕竟自己刚学数据库的时候就是把所有的字段塞到一张表里面，刚开始自己使用EF从数据库拔下来的表然后修改实体的关系的数据（感觉其实就是使用EF的EMDX的Code First），使用这个并没有出现很多问题，后来又接触完整的<strong>Code First</strong>，就是直接用代码生成数据库，虽然中间遇到无数的BUG但是这些BUG让我对数据库和EF的关系有了更深的理解，话不多说，直接上BUG。</h4><hr>
-<h2 id="1-EF未能确定外键，请用注解属性或Fluent-API标记外键"><a href="#1-EF未能确定外键，请用注解属性或Fluent-API标记外键" class="headerlink" title="1.    EF未能确定外键，请用注解属性或Fluent API标记外键"></a>1.    EF未能确定外键，请用注解属性或Fluent API标记外键</h2><p>网上关于如何用代码的（<a href="http://www.cnblogs.com/Gyoung/archive/2013/01/22/2869782.html" target="_blank" rel="noopener">Fluent API或注解属性</a>）指定外键的文章有很多有很多。在这里我想谈谈对外键的理解，首先建立起一张主表</p>
-<table class="table table-bordered table-striped table-condensed"><br>主表<br><tr><br><th><br>列名<br></th><br><th><br>类型<br></th><br></tr><br><tr><br><br><td><br>ID<br></td><br><td><br>int<br></td><br></tr><br><tr><br><td><br>Name<br></td><br><td><br>nvarchar(50)<br></td><br></tr><br></table>
-
-
-<h4 id="首先ID是独一无二的，而Name不是（重名的有很多），当我们给ID套上主键的时候，这时候插入这张表的ID只能有一种（这是数据库的一种约束，当然你可以不选择这种约束），一个人除了姓名还有其他东西，假如这时我们还有帮他加入性别这个信息，我们可以修改上一张表添加一个字段，也可以新建一张表存贮性别这个信息（当然在实际生活中只用一张表存一个信息很少），我们新建的这张表是这样的，"><a href="#首先ID是独一无二的，而Name不是（重名的有很多），当我们给ID套上主键的时候，这时候插入这张表的ID只能有一种（这是数据库的一种约束，当然你可以不选择这种约束），一个人除了姓名还有其他东西，假如这时我们还有帮他加入性别这个信息，我们可以修改上一张表添加一个字段，也可以新建一张表存贮性别这个信息（当然在实际生活中只用一张表存一个信息很少），我们新建的这张表是这样的，" class="headerlink" title="首先ID是独一无二的，而Name不是（重名的有很多），当我们给ID套上主键的时候，这时候插入这张表的ID只能有一种（这是数据库的一种约束，当然你可以不选择这种约束），一个人除了姓名还有其他东西，假如这时我们还有帮他加入性别这个信息，我们可以修改上一张表添加一个字段，也可以新建一张表存贮性别这个信息（当然在实际生活中只用一张表存一个信息很少），我们新建的这张表是这样的，"></a>首先ID是独一无二的，而Name不是（重名的有很多），当我们给ID套上主键的时候，这时候插入这张表的ID只能有一种（这是数据库的一种约束，当然你可以不选择这种约束），一个人除了姓名还有其他东西，假如这时我们还有帮他加入性别这个信息，我们可以修改上一张表添加一个字段，也可以新建一张表存贮性别这个信息（当然在实际生活中只用一张表存一个信息很少），我们新建的这张表是这样的，</h4><table class="table table-bordered table-striped table-condensed"><br>附表<br><tr><br><th><br>列名<br></th><br><th><br>类型<br></th><br></tr><br><br><tr><br><td><br>Sex<br></td><br><td><br>bit<br></td><br></tr><br></table>
-
-
-<p>这张表存贮了性别这个信息，但是如何将他从主表联系起来呢，我们先提取主表中的ID作为联系（我们称为外键）表改为</p>
-<table class="table table-bordered table-striped table-condensed"><br>附表<br><tr><br><th><br>列名<br></th><br><th><br>类型<br></th><br></tr><br><tr><br><br><td><br>ID<br></td><br><td><br>int<br></td><br></tr><br><tr><br><td><br>Sex<br></td><br><td><br>bit<br></td><br></tr><br></table>
-
-<p>我们把列名ID设为主键，这样我们就建立了一对一的关系，这个附表的ID必须不为空，这种关系还有一种就是将外键存贮在主表里面，就是将主表里面添加一个外键SexID，主表和附表要改成下面这种</p>
-<table class="table table-bordered table-striped table-condensed"><br>主表<br><tr><br><th><br>列名<br></th><br><th><br>类型<br></th><br></tr><br><tr><br><br><td><br>ID<br></td><br><td><br>int<br></td><br></tr><br><tr><br><td><br>Name<br></td><br><td><br>nvarchar(50)<br></td><br></tr><br><tr><br><br><td><br>SexID<br></td><br><td><br>int<br></td><br></tr><br><tr><br></tr></table>
-
-<table class="table table-bordered table-striped table-condensed"><br>附表<br><tr><br><th><br>列名<br></th><br><th><br>类型<br></th><br></tr><br><br><tr><br><td><br>Sex<br></td><br><td><br>bit<br></td><br></tr><br></table>
-
-<p>现在这种结构就是外键SexID可以为空（注上面的外键不能为空），</p>
-<h6 id="ps：说到外键不能为空我插一句，有些教科书上说外键不能为空也是对的，外键只是一个列名，当这个列名不唯一（也就是不为主键的时候）这是外键可以为空，为空的含义是不确定对应主表的值。"><a href="#ps：说到外键不能为空我插一句，有些教科书上说外键不能为空也是对的，外键只是一个列名，当这个列名不唯一（也就是不为主键的时候）这是外键可以为空，为空的含义是不确定对应主表的值。" class="headerlink" title="ps：说到外键不能为空我插一句，有些教科书上说外键不能为空也是对的，外键只是一个列名，当这个列名不唯一（也就是不为主键的时候）这是外键可以为空，为空的含义是不确定对应主表的值。"></a>ps：说到外键不能为空我插一句，有些教科书上说外键不能为空也是对的，外键只是一个列名，当这个列名不唯一（也就是不为主键的时候）这是外键可以为空，为空的含义是不确定对应主表的值。</h6><p>现在开始谈谈这种情况在EF发生的原因，你吧主表设为Person表，附表为SexInfo表，对应的代码如下</p>
-<pre><code>public Person{
-    public int ID{get;set;}
-    public string name{get;set;}
-    public virtual SexInfo Sex{get;set;
-                                            }
-
-
-public SexInfo{
-    public int ID{get;set;
-    public bool Sex{get;set;
-    public Person person{get;set;}
-                            }
-</code></pre><p>这个时候EF无法判断哪个是主表那个是附表，就是无法将外键加在哪个表的ID上，或者像上面的表中在Person表中添加一个外键。也就是在这种情况里面有四种可能的情况</p>
-<ol>
-<li>在Person表里面添加一个外键（假设为Person_SexInfoID)</li>
-<li>将Person表中的ID设为主键和外键</li>
-<li>在SexInfo表中添加一个外键（假设为SexInfo_PersonID)</li>
-<li>将SexInfo表中的ID设为主键和外键。</li>
-</ol>
-<h6 id="注假设在EF中没有给属性添加-Key-注解属性或在Fluent-API中声明一个属性为主键的话，EF会自动将有ID后缀的属性设置为主键并让他为标志字段自增，还有表中没有主键无法导入到EF中。"><a href="#注假设在EF中没有给属性添加-Key-注解属性或在Fluent-API中声明一个属性为主键的话，EF会自动将有ID后缀的属性设置为主键并让他为标志字段自增，还有表中没有主键无法导入到EF中。" class="headerlink" title="注假设在EF中没有给属性添加[Key]注解属性或在Fluent API中声明一个属性为主键的话，EF会自动将有ID后缀的属性设置为主键并让他为标志字段自增，还有表中没有主键无法导入到EF中。"></a>注假设在EF中没有给属性添加[Key]注解属性或在Fluent API中声明一个属性为主键的话，EF会自动将有ID后缀的属性设置为主键并让他为标志字段自增，还有表中没有主键无法导入到EF中。</h6><p>虽然EF有自动检测代码生成关系，但是本人还是比较推崇自己在Code First时就想好外键，这样在用模型绑定的时候就不会发生一些很可能发生的错误。在这张表里面为了节约数据库空间最好在SexInfo里面添加一个外键，现在我就来谈谈分别在两个表里面添加外键可能会遇到的BUG。</p>
-<ol>
-<li>在SexInfo里面添加外键PersonID</li>
-</ol>
-<p>类修改成为</p>
-<pre><code>public Person{
-    public int ID{get;set;}
-    public string name{get;set;}
-    public virtual SexInfo Sex{get;set;
-                                            }
-
-
-public SexInfo{
-    public int ID{get;set;
-    public bool Sex{get;set;
-    public int PersonID{get;set;}
-    public Person person{get;set;}
-                            }
-</code></pre><p>然后我们可以选择在PersonID上加上<code>[ForeignKey(&quot;Person&quot;)]</code>和<code>[Requird]</code>,或者在重写的OnModelCreating方法中加入 这样一句代码 </p>
-<pre><code>modelBuilder.Entity&lt;SexInfo&gt;().HasRequired(x =&gt; x.Person)
-.WithRequiredPrincipal(x =&gt; x.BindingRole).HasForeignKey(x =&gt; x.MenusManageID)        
-</code></pre><p>其实我更推崇写Fluent API 来约束，因为将注解属性放在Model里面太乱而且容易错，比如说假如你在<strong>PersonID</strong>上面少注释了一个<code>[Required]</code> 你又会得到一个模型验证错误，这个BUG是隐藏的最深的，现在来重点提一提这个BUG</p>
-<h4 id="BUG：模型验证错误····多重性与关系“········”中-Role“··············”中的引用约束冲突。因为-Dependent-Role-中的所有属性都不可以为-null，Principal-Role-的多重性必须为“1”。"><a href="#BUG：模型验证错误····多重性与关系“········”中-Role“··············”中的引用约束冲突。因为-Dependent-Role-中的所有属性都不可以为-null，Principal-Role-的多重性必须为“1”。" class="headerlink" title="BUG：模型验证错误····多重性与关系“········”中 Role“··············”中的引用约束冲突。因为 Dependent Role 中的所有属性都不可以为 null，Principal Role 的多重性必须为“1”。"></a>BUG：模型验证错误····多重性与关系“········”中 Role“··············”中的引用约束冲突。因为 Dependent Role 中的所有属性都不可以为 null，Principal Role 的多重性必须为“1”。</h4><h1 id="里面值类型不能为空（如果没有初始化时为0），所以EF报错，你要么给外键加上Required标记指定它必须存在，要么给一个可为空的int型，像这个示例里面外键PersonID是必须的，然后有些对应是0-1-对-1，所以这时候就疑惑了我们怎么给外键赋值，我们有一种办法命名一种类型他的值可以int也可以为空，但是EF会认识我们这种独特的外键吗？还好EF早想到了这点，有一种泛型可以为空也可以为你想要的类型，这种就是Nullable-lt-T-gt-在这个方法中我们只要将外键PersonID的类型换成-这个"><a href="#里面值类型不能为空（如果没有初始化时为0），所以EF报错，你要么给外键加上Required标记指定它必须存在，要么给一个可为空的int型，像这个示例里面外键PersonID是必须的，然后有些对应是0-1-对-1，所以这时候就疑惑了我们怎么给外键赋值，我们有一种办法命名一种类型他的值可以int也可以为空，但是EF会认识我们这种独特的外键吗？还好EF早想到了这点，有一种泛型可以为空也可以为你想要的类型，这种就是Nullable-lt-T-gt-在这个方法中我们只要将外键PersonID的类型换成-这个" class="headerlink" title="里面值类型不能为空（如果没有初始化时为0），所以EF报错，你要么给外键加上Required标记指定它必须存在，要么给一个可为空的int型，像这个示例里面外键PersonID是必须的，然后有些对应是0-1 对 1，所以这时候就疑惑了我们怎么给外键赋值，我们有一种办法命名一种类型他的值可以int也可以为空，但是EF会认识我们这种独特的外键吗？还好EF早想到了这点，有一种泛型可以为空也可以为你想要的类型，这种就是Nullable&lt;T&gt; ,在这个方法中我们只要将外键PersonID的类型换成 这个"></a>里面值类型不能为空（如果没有初始化时为0），所以EF报错，你要么给外键加上<code>Required</code>标记指定它必须存在，要么给一个可为空的int型，像这个示例里面外键PersonID是必须的，然后有些对应是0-1 对 1，所以这时候就疑惑了我们怎么给外键赋值，我们有一种办法命名一种类型他的值可以int也可以为空，但是EF会认识我们这种独特的外键吗？还好EF早想到了这点，有一种泛型可以为空也可以为你想要的类型，这种就是<code>Nullable&lt;T&gt;</code> ,在这个方法中我们只要将外键PersonID的类型换成 这个</h1><pre><code>public Nullable&lt;int&gt; PersonID{get;set;}
-</code></pre><h1 id="自己本身与数据库类型的对应，C"><a href="#自己本身与数据库类型的对应，C" class="headerlink" title="自己本身与数据库类型的对应，C"></a>自己本身与数据库类型的对应，C</h1><p>还有一个比较常见的BUG吧，来提一提。</p>
-<h4 id="BUG：······-引用约束的-Dependent-Role-中所有属性的类型都必须与-Principal-Role-中相应的属性类型相同。引用约束“·····”中，实体“····”的属性“····”的类型与实体“·····”的属性“·····”的类型不匹配。"><a href="#BUG：······-引用约束的-Dependent-Role-中所有属性的类型都必须与-Principal-Role-中相应的属性类型相同。引用约束“·····”中，实体“····”的属性“····”的类型与实体“·····”的属性“·····”的类型不匹配。" class="headerlink" title="BUG：······: 引用约束的 Dependent Role 中所有属性的类型都必须与 Principal Role 中相应的属性类型相同。引用约束“·····”中，实体“····”的属性“····”的类型与实体“·····”的属性“·····”的类型不匹配。"></a>BUG：······: 引用约束的 Dependent Role 中所有属性的类型都必须与 Principal Role 中相应的属性类型相同。引用约束“·····”中，实体“····”的属性“····”的类型与实体“·····”的属性“·····”的类型不匹配。</h4><p>这个bug就是相对应主体和外键不匹配的情况，相对应的类如下</p>
-<pre><code>    public Person{
-    public long ID{get;set;}
-    public string name{get;set;}
-    public virtual SexInfo Sex{get;set;
-                                            }
-
-
-public SexInfo{
-    public int ID{get;set;
-    public bool Sex{get;set;
-    public int PersonID{get;set;}
-    public Person person{get;set;}
-                            }
-</code></pre><p>Person里面的主键我改成了long型，然而外键PersonID却是int型，出现这个错误是对外键的认识还不够，外键其实就是主键的“分身”,主键是long型，外键必须也是long型，同理主键是int型外键也必须是ing型，</p>
-<h4 id="ps：导航属性是指对象，比如说Person类实例person，而外键是指存贮在数据库里面的一个特殊的列名。"><a href="#ps：导航属性是指对象，比如说Person类实例person，而外键是指存贮在数据库里面的一个特殊的列名。" class="headerlink" title="ps：导航属性是指对象，比如说Person类实例person，而外键是指存贮在数据库里面的一个特殊的列名。"></a>ps：导航属性是指对象，比如说Person类实例person，而外键是指存贮在数据库里面的一个特殊的列名。</h4><hr>
-<h3 id="充分认识导航属性和外键是搭建一个扎实的数据库结构的基础，在学习和应用EF的过程中也是了解数据库的结构的学习过程，EF或许在运行速度方法上比一般的SQL语句要慢，但是用EF我们可以更加方便的搭建一个好的数据体系，搭建一个好的数据体系可以让你在完成项目的时候事半功倍。"><a href="#充分认识导航属性和外键是搭建一个扎实的数据库结构的基础，在学习和应用EF的过程中也是了解数据库的结构的学习过程，EF或许在运行速度方法上比一般的SQL语句要慢，但是用EF我们可以更加方便的搭建一个好的数据体系，搭建一个好的数据体系可以让你在完成项目的时候事半功倍。" class="headerlink" title="充分认识导航属性和外键是搭建一个扎实的数据库结构的基础，在学习和应用EF的过程中也是了解数据库的结构的学习过程，EF或许在运行速度方法上比一般的SQL语句要慢，但是用EF我们可以更加方便的搭建一个好的数据体系，搭建一个好的数据体系可以让你在完成项目的时候事半功倍。"></a>充分认识导航属性和外键是搭建一个扎实的数据库结构的基础，在学习和应用EF的过程中也是了解数据库的结构的学习过程，EF或许在运行速度方法上比一般的SQL语句要慢，但是用EF我们可以更加方便的搭建一个好的数据体系，搭建一个好的数据体系可以让你在完成项目的时候事半功倍。</h3>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/ai/机器学习实战心得/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/07/18/ai/机器学习实战心得/" class="post-title-link" itemprop="url"><<机器学习实战>>心得.</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-07-18 16:07:36" itemprop="dateCreated datePublished" datetime="2016-07-18T16:07:36+08:00">2016-07-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 19:57:07" itemprop="dateModified" datetime="2021-03-09T19:57:07+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/" itemprop="url" rel="index">
-                    <span itemprop="name">人工智能</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>880</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h6 id="先谈谈我对机器学习的理解"><a href="#先谈谈我对机器学习的理解" class="headerlink" title="先谈谈我对机器学习的理解"></a>先谈谈我对机器学习的理解</h6><h2 id="什么是机器学习"><a href="#什么是机器学习" class="headerlink" title="什么是机器学习?"></a>什么是机器学习?</h2><p>我们人类有从婴儿开始就开始学习,父母教我们穿衣吃饭、老师教我们读书写字，我们开始能辨别好人坏人，开始通过自己的经验来判断新事物。</p>
-<h5 id="机器学习很简单，就像人一样，我们教机器通过我们教的来判断新的事物，或者在从新的事物里面学习处理新的事物。"><a href="#机器学习很简单，就像人一样，我们教机器通过我们教的来判断新的事物，或者在从新的事物里面学习处理新的事物。" class="headerlink" title="机器学习很简单，就像人一样，我们教机器通过我们教的来判断新的事物，或者在从新的事物里面学习处理新的事物。"></a>机器学习很简单，就像人一样，我们教机器通过我们教的来判断新的事物，或者在从新的事物里面学习处理新的事物。</h5><p>这看起来很复杂的样子,但是从我们神经网络来看,我们可以把学习当做建立一个神经元连接,通过输入的信号得到一个输出的信号.我们只要简单的把输入的信号分类就可以了.通过无数个分类我们就可以建立复杂的神经系统,进而实现’学习’这个功能.</p>
-<h2 id="如何分类"><a href="#如何分类" class="headerlink" title="如何分类?"></a>如何分类?</h2><blockquote>
-<p>涉及到分类,假如输入的信号种类只要两种,我们就可以简单用if-else来实现分类功能,但是有时候输入信号种类个个都有细微的差别,只是遵循某种规律,这时候我们不能用简单的if-else来进行分类了,下面我就按照书的顺序来解释各种强大的分类方法.</p>
-</blockquote>
-<h1 id="K-近邻算法-k-Nearest-Neighbor"><a href="#K-近邻算法-k-Nearest-Neighbor" class="headerlink" title="K-近邻算法 ( k-Nearest Neighbor )"></a>K-近邻算法 ( k-Nearest Neighbor )</h1><blockquote>
-<p>作为本书的第一个机器学习算法,K-NN算是我感觉原理最简单的一个了.</p>
-</blockquote>
-<p>假设我们有两个点, 红点为(-1,  -1)分为红类, 绿点为(1, 1)分为绿类<br><img src="http://7xsxdn.com1.z0.glb.clouddn.com/knn1.png" alt="图片1"></p>
-<h4 id="接下来我一个点-0-1-这个点应该分为红还是绿呢-我们添加两条辅助线"><a href="#接下来我一个点-0-1-这个点应该分为红还是绿呢-我们添加两条辅助线" class="headerlink" title="接下来我一个点(0, -1),这个点应该分为红还是绿呢,我们添加两条辅助线"></a>接下来我一个点(0, -1),这个点应该分为红还是绿呢,我们添加两条辅助线</h4><p><img src="http://7xsxdn.com1.z0.glb.clouddn.com/knn2.png" alt></p>
-<p>蓝点离红点距离为1,蓝点离绿点距离为2.2,我们很轻松的可以知道这个点应该分为红类.<br>现在我们进一步推广,当有很多种类点的时候,当我们二维扩展到N维,给一个点a我们只要选取距离a最近的K个种类,我们就基本能判断他属于这K个种类的,这就是K-近邻的原理了.</p>
-<h4 id="K-近邻算法是最简单最有效的算法了-但是他也有缺点-比如他必须保存所有训练样本的数据-当训练样本很大的时候就会占用很多内存空间-我们后面会学到的KVM只取支持向量的训练样本来计算可以减少很多占用内存"><a href="#K-近邻算法是最简单最有效的算法了-但是他也有缺点-比如他必须保存所有训练样本的数据-当训练样本很大的时候就会占用很多内存空间-我们后面会学到的KVM只取支持向量的训练样本来计算可以减少很多占用内存" class="headerlink" title="K-近邻算法是最简单最有效的算法了,但是他也有缺点,比如他必须保存所有训练样本的数据,当训练样本很大的时候就会占用很多内存空间,我们后面会学到的KVM只取支持向量的训练样本来计算可以减少很多占用内存"></a>K-近邻算法是最简单最有效的算法了,但是他也有缺点,比如他必须保存所有训练样本的数据,当训练样本很大的时候就会占用很多内存空间,我们后面会学到的KVM只取支持向量的训练样本来计算可以减少很多占用内存</h4><h5 id="而且K-近邻算法对训练数据集都要计算距离值-实际使用可能会非常耗时-我们后面学到的logistic回归能很好解决这个问题"><a href="#而且K-近邻算法对训练数据集都要计算距离值-实际使用可能会非常耗时-我们后面学到的logistic回归能很好解决这个问题" class="headerlink" title="而且K-近邻算法对训练数据集都要计算距离值,实际使用可能会非常耗时,我们后面学到的logistic回归能很好解决这个问题."></a>而且K-近邻算法对训练数据集都要计算距离值,实际使用可能会非常耗时,我们后面学到的logistic回归能很好解决这个问题.</h5><p>######### 总而言之,KNN作为小样本时非常简单粗暴,但是他无法给出任何数据的基本结构信息.接下来我们要学习用概率测量解决分类问题,这个算法能解决这个问题</p>
-<p>(决策树)[]</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/software/GitHubEducationPack/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/07/18/software/GitHubEducationPack/" class="post-title-link" itemprop="url">GitHub Education Pack</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-07-18 16:07:36" itemprop="dateCreated datePublished" datetime="2016-07-18T16:07:36+08:00">2016-07-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:08:06" itemprop="dateModified" datetime="2021-03-09T20:08:06+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/软件/" itemprop="url" rel="index">
-                    <span itemprop="name">软件</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>1.1k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>GitHub推出一个对学生和教师的福利包,对于学生来说这是一个不小<br>的福利,只要通过一个edu邮箱就可以领取,但奈何国内有些无良人买卖<br>邮箱,所以GitHub对于.cn的邮箱一律拒绝,但是可以通过上传学生证的方法<br>得到验证,题主刚开始用学校邮箱试了试,失败了,抱着试一试的心态,上传了<br>学生证,没想到第二天就给我回复,并给我这个豪华大礼包,接下来我就介绍介绍<br>如何用这个包来.</p>
-</blockquote>
-<h3 id="有些人在网上说-上传学生证没有用-可能是那个plan-GitHub会叫你写一点你想用GitHub做什么-用的是中文写的-最好用英文写-回复的会快一点"><a href="#有些人在网上说-上传学生证没有用-可能是那个plan-GitHub会叫你写一点你想用GitHub做什么-用的是中文写的-最好用英文写-回复的会快一点" class="headerlink" title="有些人在网上说,上传学生证没有用,可能是那个plan(GitHub会叫你写一点你想用GitHub做什么)用的是中文写的,最好用英文写-_-,回复的会快一点."></a>有些人在网上说,上传学生证没有用,可能是那个plan(GitHub会叫你写一点你想用GitHub做什么)用的是中文写的,最好用英文写-_-,回复的会快一点.</h3><h2 id="Digital-Ocean-—VPS-50刀"><a href="#Digital-Ocean-—VPS-50刀" class="headerlink" title="Digital Ocean —VPS 50刀"></a>Digital Ocean —VPS 50刀</h2><blockquote>
-<p>以前貌似是100刀,现在缩水一半了,不知道为什么.</p>
-</blockquote>
-<h4 id="DigitalOcean是一家以优质的VPS服务器著名-毕竟用SSD做存贮的服务器商没几家"><a href="#DigitalOcean是一家以优质的VPS服务器著名-毕竟用SSD做存贮的服务器商没几家" class="headerlink" title="DigitalOcean是一家以优质的VPS服务器著名,毕竟用SSD做存贮的服务器商没几家."></a>DigitalOcean是一家以优质的VPS服务器著名,毕竟用SSD做存贮的服务器商没几家.</h4><h6 id="这个是包小时的我们可以最便宜的5刀每月-提供20GSSD-1TB流量-我们可以用它来搭建服务器或者搭建一个shadowsocks服务器-安装shadowsocks很简单-但是怎么得到这50刀就要花点时间了"><a href="#这个是包小时的我们可以最便宜的5刀每月-提供20GSSD-1TB流量-我们可以用它来搭建服务器或者搭建一个shadowsocks服务器-安装shadowsocks很简单-但是怎么得到这50刀就要花点时间了" class="headerlink" title="这个是包小时的我们可以最便宜的5刀每月,提供20GSSD,1TB流量,我们可以用它来搭建服务器或者搭建一个shadowsocks服务器,安装shadowsocks很简单,但是怎么得到这50刀就要花点时间了."></a>这个是包小时的我们可以最便宜的5刀每月,提供20GSSD,1TB流量,我们可以用它来搭建服务器或者搭建一个shadowsocks服务器,安装shadowsocks很简单,但是怎么得到这50刀就要花点时间了.</h6><h4 id="你要是想得到这50刀必须先充值5刀-但是怎么给钱有是个问题-真是有钱也花出去啊-你可以选择绑卡-但是很复杂不一定能绑的上-最好的方式使用PayPal付这5刀-PayPal可以绑定银联卡付款-但是这个PayPal注册又是个问题-当时题主注册的时候一直提示服务器故障"><a href="#你要是想得到这50刀必须先充值5刀-但是怎么给钱有是个问题-真是有钱也花出去啊-你可以选择绑卡-但是很复杂不一定能绑的上-最好的方式使用PayPal付这5刀-PayPal可以绑定银联卡付款-但是这个PayPal注册又是个问题-当时题主注册的时候一直提示服务器故障" class="headerlink" title="你要是想得到这50刀必须先充值5刀,但是怎么给钱有是个问题,真是有钱也花出去啊.你可以选择绑卡,但是很复杂不一定能绑的上,最好的方式使用PayPal付这5刀,PayPal可以绑定银联卡付款,但是这个PayPal注册又是个问题,当时题主注册的时候一直提示服务器故障."></a>你要是想得到这50刀必须先充值5刀,但是怎么给钱有是个问题,真是有钱也花出去啊.你可以选择绑卡,但是很复杂不一定能绑的上,最好的方式使用PayPal付这5刀,PayPal可以绑定银联卡付款,但是这个PayPal注册又是个问题,当时题主注册的时候一直提示服务器故障.</h4><h3 id="当时去上网搜了搜-中国大陆是有这个情况-可以通过贝宝-PayPal在中国的分公司-来注册"><a href="#当时去上网搜了搜-中国大陆是有这个情况-可以通过贝宝-PayPal在中国的分公司-来注册" class="headerlink" title="当时去上网搜了搜,中国大陆是有这个情况,可以通过贝宝(PayPal在中国的分公司)来注册"></a>当时去上网搜了搜,中国大陆是有这个情况,可以通过贝宝(PayPal在中国的分公司)来注册</h3><h5 id="提醒一句-绑银联卡的时候最好用IE来绑定-别问我为什么谷歌浏览器不行—"><a href="#提醒一句-绑银联卡的时候最好用IE来绑定-别问我为什么谷歌浏览器不行—" class="headerlink" title="提醒一句,绑银联卡的时候最好用IE来绑定,别问我为什么谷歌浏览器不行—-"></a>提醒一句,绑银联卡的时候最好用IE来绑定,别问我为什么谷歌浏览器不行—-</h5><h4 id="选择VPS的时候推荐San-Francisco-延迟最低"><a href="#选择VPS的时候推荐San-Francisco-延迟最低" class="headerlink" title="选择VPS的时候推荐San Francisco,延迟最低."></a>选择VPS的时候推荐San Francisco,延迟最低.</h4><h4 id="搭建shadowsocks可以参考这篇博客"><a href="#搭建shadowsocks可以参考这篇博客" class="headerlink" title="搭建shadowsocks可以参考这篇博客"></a>搭建shadowsocks可以参考这篇<a href="https://segmentfault.com/a/1190000002511795" target="_blank" rel="noopener">博客</a></h4><h2 id="NameCheap"><a href="#NameCheap" class="headerlink" title="NameCheap"></a>NameCheap</h2><h3 id="ME域名一个（一年，价值8-99刀）PositiveSSL一个-（一年，价值9刀）"><a href="#ME域名一个（一年，价值8-99刀）PositiveSSL一个-（一年，价值9刀）" class="headerlink" title="ME域名一个（一年，价值8.99刀）PositiveSSL一个 （一年，价值9刀）"></a>ME域名一个（一年，价值8.99刀）PositiveSSL一个 （一年，价值9刀）</h3><blockquote>
-<p>这个要想得到域名必须通过邮箱验证还好NameCheape承认.edu.cn邮箱</p>
-</blockquote>
-<h5 id="提醒一下-通过DVC验证的时候选择邮箱验证就够了-虽然不是你的邮箱但是会把资料发到你提供的邮箱"><a href="#提醒一下-通过DVC验证的时候选择邮箱验证就够了-虽然不是你的邮箱但是会把资料发到你提供的邮箱" class="headerlink" title="提醒一下,通过DVC验证的时候选择邮箱验证就够了.虽然不是你的邮箱但是会把资料发到你提供的邮箱"></a>提醒一下,通过DVC验证的时候选择邮箱验证就够了.虽然不是你的邮箱但是会把资料发到你提供的邮箱</h5><h4 id="可以参考这篇博客搭建你的https网站-本站也是采用这种方法搭建的-但是有一点不同的时-现在NameCheap直接发给我一个-crt文件和-ca-bundle文件-用于Apache-所以把-key文件和-crt文件放到服务器上配置一下就好了"><a href="#可以参考这篇博客搭建你的https网站-本站也是采用这种方法搭建的-但是有一点不同的时-现在NameCheap直接发给我一个-crt文件和-ca-bundle文件-用于Apache-所以把-key文件和-crt文件放到服务器上配置一下就好了" class="headerlink" title="可以参考这篇博客搭建你的https网站,本站也是采用这种方法搭建的.但是有一点不同的时,现在NameCheap直接发给我一个.crt文件和.ca-bundle文件(用于Apache),所以把.key文件和.crt文件放到服务器上配置一下就好了."></a>可以参考这篇<a href="http://www.freehao123.com/namecheap-ssl/" target="_blank" rel="noopener">博客</a>搭建你的https网站,本站也是采用这种方法搭建的.但是有一点不同的时,现在NameCheap直接发给我一个.crt文件和.ca-bundle文件(用于Apache),所以把.key文件和.crt文件放到服务器上配置一下就好了.</h4><h2 id="GitHub-Micro-account-7刀-month"><a href="#GitHub-Micro-account-7刀-month" class="headerlink" title="GitHub Micro account 7刀/month"></a>GitHub Micro account 7刀/month</h2><blockquote>
-<p>这个不错我们可以有五个私有项目,一直可以用到你毕业.</p>
-</blockquote>
-<p>这个不错哦,妈妈再也不怕我写的stupid代码被人看到了 O(∩_∩)O哈哈~.</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1175,7 +735,7 @@ public SexInfo{
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">128</span>
+          <span class="site-state-item-count">124</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1250,12 +810,12 @@ public SexInfo{
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">292k</span>
+    <span title="站点总字数">268k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:26</span>
+    <span title="站点阅读时长">4:04</span>
 </div>
 
         

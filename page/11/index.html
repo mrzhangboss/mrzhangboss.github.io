@@ -211,515 +211,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/09/17/ai/recommendations-Programming-Colletive-Intelligence-impression/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/09/17/ai/recommendations-Programming-Colletive-Intelligence-impression/" class="post-title-link" itemprop="url">集体智慧编程之推荐系统(Programming Colletive Intelligence)</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-09-17 21:36:00" itemprop="dateCreated datePublished" datetime="2016-09-17T21:36:00+08:00">2016-09-17</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 19:53:53" itemprop="dateModified" datetime="2021-03-09T19:53:53+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/" itemprop="url" rel="index">
-                    <span itemprop="name">人工智能</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>1k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>看过好几把关于机器学习的书,但是很多书只是停留于算法原理阶段,或者更着重介绍算法原理, &lt;&lt;集体智慧编程&gt;&gt;这本书更多的是从实践来介绍书,比如你要撘一个推荐系统你怎么做,,还有怎么来做一个垃圾邮件过滤系统等….<br>接下来介绍一下我对于做一个推荐系统的理解.</p>
-</blockquote>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
-<p>推荐系统是一个什么东西呢<br>简单来说就是两个字—-<code>推荐</code></p>
-</blockquote>
-<p>推荐系统的出现是伴随评价系统出现而出现的,评价系统就是我们的打分制,比如对一部电影每个人都对他进行打分</p>
-<table>
-<thead>
-<tr>
-<th>用户</th>
-<th>电影A评价</th>
-<th>电影B评价</th>
-<th>新电影C评价</th>
-<th>新电影D评价</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>张三</td>
-<td>5.0</td>
-<td>3.5</td>
-<td>4.9</td>
-<td>2.0</td>
-</tr>
-<tr>
-<td>李四</td>
-<td>2.5</td>
-<td>5.0</td>
-<td>2.0</td>
-<td>3.0</td>
-</tr>
-<tr>
-<td>王二</td>
-<td>3.1</td>
-<td>4.7</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p>比如现在三个人张三李四王二,王二有两部电影没有看过,但是张三和李四看过了,现在就是要把电影C或D推荐给王二,推荐系统就是从其他数据分析来确定推荐次序</p>
-<h2 id="相似度"><a href="#相似度" class="headerlink" title="相似度"></a>相似度</h2><blockquote>
-<p>推荐系统如何根据其他用户的数据来推荐呢</p>
-</blockquote>
-<p>这里就要介绍一个相似度的概念,也可以加权系数,对于张三和李四,这两个人都看过电影C和D,但是我们该听谁的呢,我们可以把两个人的评价加起来然后排序,但是假如张三和李四品味相差太多,而且张三的评价可能会把某个王二喜欢看的电影评价总值拉低</p>
-<p>这个时候我们就要考虑一个相似度问题,就是尽量避免一些品味同王二不同的人对排名造成影响</p>
-<p>这里我们引进相似度这个概念,我们看张三和李四对电影A、B同王二的差别，这里我们使用距离这个概念，我们使用距离公式 <code>l=（（r1^2 + r2^2+....rN^2)^1/n)</code></p>
-<p>然后通过距离算得<code>S(相似度)=1/(1+l)</code></p>
-<p><em>当l=0时,两者相似度为1(最大),当l很大时,相似度几乎为零</em></p>
-<table>
-<thead>
-<tr>
-<th>用户</th>
-<th>电影A评价</th>
-<th>电影B评价</th>
-<th>相似度</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>张三</td>
-<td>5.0</td>
-<td>3.5</td>
-<td>0.23</td>
-</tr>
-<tr>
-<td>李四</td>
-<td>2.5</td>
-<td>5.0</td>
-<td>0.59</td>
-</tr>
-</tbody>
-</table>
-<p>通过求相似度(权重)我们就把同我们臭味相投的人的评价提高了,那些同我们不一样品味的人评价作用降低了</p>
-<h2 id="选择"><a href="#选择" class="headerlink" title="选择"></a>选择</h2><p>基于人物的评价推荐有个缺点就是人的评价有时候会比物品多,而且变化频繁,假如使用上面的方法的话,每次每一个用户评价过后,就要重新算一次相似度了,假如用户不多或者电影不多还好,一旦数据偏多服务器就扛不住了</p>
-<p>所以我们要换一个角度出发,计算物品的相似度,这样图表就变成这样了</p>
-<table>
-<thead>
-<tr>
-<th>电影</th>
-<th>用户-张三</th>
-<th>用户-李四</th>
-<th>相似度</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>A</td>
-<td>5.0</td>
-<td>2.5</td>
-<td></td>
-</tr>
-<tr>
-<td>B</td>
-<td>3.5</td>
-<td>5.0</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p>这样有个好处就是可以离线处理数据,我们可以搭建一个离线处理系统,让一个系统专门处理数据,当服务器需要的时候再拿取过去.</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>搭建一个简单推荐系统并不会你想象中那么简单,但是要搭建一个功能强大速度快的推荐系统需要的不仅仅是这么一点,还需要考虑系统的稳定和速度.</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/09/07/software/git-working-streamline/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/09/07/software/git-working-streamline/" class="post-title-link" itemprop="url">git 工作流程</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-09-07 19:22:51" itemprop="dateCreated datePublished" datetime="2016-09-07T19:22:51+08:00">2016-09-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:08:06" itemprop="dateModified" datetime="2021-03-09T20:08:06+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/软件/" itemprop="url" rel="index">
-                    <span itemprop="name">软件</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>1.1k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p><code>git</code>是当今流行的版本控制工具,一般我们可能只要会<code>push</code>, <code>pull</code>就可以了,<br>但是当我们同别人共同工作的时候,我们必须要了解<code>git</code>协同开发的一些重要流程.</p>
-</blockquote>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
-<p><code>git</code>作为当今最流行的版本控制工具之一,当时开发出来就是为了管理<code>Linux</code>庞大源代码的分布式版本控制工具.<br>由于<code>Linux</code>源代码过于巨大,仅靠一个人的力量是完成不了的,那就必须把工作分配下去,然后将代码合并,所以<code>git</code>一开始设计的时候就是一种分布式的、多分支的</p>
-</blockquote>
-<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>所以<code>git</code>最重要的就是<strong>分支</strong>这个性质,分支是什么呢.</p>
-<p>要了解<strong>分支</strong>必须要了解<code>git</code>工作原理.</p>
-<p><code>git</code>工作原理很简单就是<code>add</code>、<code>commit</code>，<code>add</code>、<code>commit</code>….,简单来说就是添加记录,添加记录,保存快照,添加记录,添加记录,保存快照</p>
-<p><img src="/images/git-workflow-release-cycle-4maintenance.png" alt="git工作分支流程-来源网上"></p>
-<p>  如上图,随着master分支快照的一个一个建立,软件就慢慢的迭代下去了</p>
-<h2 id="分支工作流程"><a href="#分支工作流程" class="headerlink" title="分支工作流程"></a>分支工作流程</h2><p>  接下来我们要着重讲一下分支,我们看到<code>master</code>分支的<code>v0.1</code>版本,我们已经开发出稳定的<code>v0.1</code>版,这时候我们决定开发一个新功能.</p>
-<p> 在这里我们分了一个<code>Develop</code>分支,我们在<code>Develop</code>分支开发新代码.</p>
-<p> 这时候我们发现<code>v0,1</code>的一个<code>bug</code>,假如是没有使用版本控制的话,一般人会停下手中的活,然后从当前的新代码处来修复这个<code>bug</code>,当这个<code>bug</code>很简单的时候,我们不会遇到很大困难,但是当<code>bug</code>藏的很深,而且新代码隐藏了这个<code>bug</code>,或者被这个<code>bug</code>影响,这时修复工作就变得很困难.</p>
-<p> 还好我们有<code>git</code>,我们从<code>v0.1</code>直接分一个<code>Hotfix</code>分支,这两个分支的父都是<code>v0.1</code>,我们直接从稳定版本修复,不牵涉到新代码,这样修改好后我们就能很快从<code>Develop</code>分支继续工作了</p>
-<p> 而且这样有一个好处我们将<code>master</code>和<code>Develop</code>分支合并的时候很大可能不会产生冲突.</p>
-<p> <em>冲突(coflic)是什么了,怎么能避免呢?</em></p>
-<p> 从两个分支的父亲<code>v0.1</code>看起,我们每次改动一个保存文件就会产生一个<code>modify</code>(修改)的动作,我们假如分支里面都对同一个文件产生了<code>modify</code>(修改)动作,当我们合并的时候这就是一个冲突,<code>git</code>无法理解采用哪个分支的<code>modify</code>动作,这时候就要你人工来修改采用哪个分支.</p>
-<p> 假如没有相同的文件有<code>modify</code>(修改)动作,<code>git</code>就会聪明的知道采用每个分支的最新的<code>modify</code>(修改)修改出一份所以文件的最新版.</p>
-<p> 那我们怎么来避免这个冲突呢,这就要求我们分支要分的合理,分支只要完成特定的工作,不要越俎代庖,那有些人会说我这个分支一定要改父的耦合地方否则我的代码工作不了,这时我们要好好思考自己的分支的功能,把合并耦合的代码放在主分支里面,次分支只要完成特定功能就可以了,这样合并分支时候不但可以安全的<code>merge</code>(合并)了, 而且修改<code>bug</code>的时候也可以对症下药,直接在问题开始的地方修改.</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/08/21/algorithm/刷题笔记/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/08/21/algorithm/刷题笔记/" class="post-title-link" itemprop="url">刷题笔记</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-08-21 20:26:34" itemprop="dateCreated datePublished" datetime="2016-08-21T20:26:34+08:00">2016-08-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 19:59:44" itemprop="dateModified" datetime="2021-03-09T19:59:44+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>252</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>在牛客网刷了16道题了,在这做个总结</p>
-</blockquote>
-<h2 id="概况"><a href="#概况" class="headerlink" title="概况"></a>概况</h2><p>编程题无非两种一种考算法,一种考数据结构</p>
-<p>算法的话,考验你对事情的分析程度和脑袋的灵光,用好的算法还是又大又重的算法,用算法复杂度来看,一般能到 <code>o(n)</code>就算勉强可以,当到了<code>o(n * n)</code>你就要考虑是不是你算法有问题了.</p>
-<p>数据结构的话,队列和链表和二叉树是比较常见的,当然有些奇怪的一般算法反倒很简单.</p>
-<h3 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h3><p>谈算法的话不得不谈递归了,递归其实我感觉更想一种思想</p>
-<p>话不多说请看题,斐波那契数列一直是递归的代表</p>
-<pre><code>                      0                 n= 1    
-f(n) ={           1                   n= 2
-            f(n-1) + f(n-2)     n&gt;2
-</code></pre><p>  虽然</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/08/21/summary/8-conclusion/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myself.jpg">
-      <meta itemprop="name" content="张伦">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小伦子的笔记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/08/21/summary/8-conclusion/" class="post-title-link" itemprop="url">8月 总结</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-08-21 18:57:27" itemprop="dateCreated datePublished" datetime="2016-08-21T18:57:27+08:00">2016-08-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 20:15:01" itemprop="dateModified" datetime="2021-03-09T20:15:01+08:00">2021-03-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/随想/" itemprop="url" rel="index">
-                    <span itemprop="name">随想</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>1.4k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>因为这段时间待在家没什么事干,虽然完成一个小的项目,也还有很多功能需要完善,但是说实话还是有点迷茫,明年就大三了,接下来有两条路给我走,要么是考研,要么是出去工作.<br>自己算是个半个程序员吧,web开发那一套前后端撸起袖子都能搞出点名堂来,但是为什么说我是半个程序员呢,因为现在我还不知道我是爱他还是不爱他呢.</p>
-</blockquote>
-<p>兴趣这东西是培养来的,谁也不是天生就死心塌地的爱上某个东西.</p>
-<p>现在学习新东西的成本太低了,这两个月来我也尝试过很多以前没有接触的东西,<code>Android</code>,<code>Deskapp</code>,用了几个框架做了几个<code>apk</code>和软件,虽然用前端栈实现的东西但是所以的语言都差不多.</p>
-<p>当然项目基本功能都很单一,当然复杂的也就是简单的堆积而成.</p>
-<p>完成之后反倒更迷茫了,为什么了,互联网技术太好学了,无论你的文化程度有多低,按照<code>demo</code>依葫芦画瓢搞几下也能像模像样,我们作为一个文化程度比较高的一群人,或许花半天就能比别人一天能掌握的东西.</p>
-<p>但是人家索要的报酬却比你的四分之一还要低,你拿什么跟人家竞争</p>
-<p>我有一些志同道合的同学虽然像我一样学了几年web这一块,但是他们决定考研,web谁都能做,不用读大学就能做,他们想多读点出来改造世界,也可以说让世界更美好吧.</p>
-<p>其实我对考研的态度是消极的,我现在嘛并不准备投身科研这方面,在美国其实大学都是少部分人才能上,比起我们现在博士硕士满天飞,在美国其实只有真正喜欢科研的人才会去读大学.</p>
-<p>其实我写的时候很纠结,该怎么写才不跑题……</p>
-<p>我其实想总结的是<strong>注重基础</strong>,但是我脑海里面出现无数个论点,好像回到了高中时代写议论文了, 想把主人公塑造成一个焕然大悟顿悟人生的形象…..</p>
-<p>以上是个小插曲跳过跳过</p>
-<p>现在开始正式总结了,越短越好.</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>七八两个月自己还是很急躁的两个月,一方面在于选择技术栈,一方面在于选择出路.</p>
-<p>虽然没有想通,但是在想的过程中发现自己好焦躁…….</p>
-<p>总是想一秒钟决定自己未来N年的时,有点像人生规划一样</p>
-<p>虽然说搞个人生规划很好,但是发现真的是白费力气,因为无论那个伟人,谁也不知道自己将来会干什么,奥巴马在大学客堂睡觉的时候也不知道自己将领导美国.</p>
-<p>焦躁点找到了,接下来就静下来想了怎么解决了,既然无法预测未来那就好好准备未来吧.</p>
-<p>怎么准备呢?做你不屑做的事,并坚持下去.</p>
-<p>你们不要想歪了,不屑做的事是指那些你看起来没什么卵用的建议.</p>
-<p>比如说每天背几个单词,每天看一点英文原著,每天刷一刷编程题</p>
-<p>在这我要提一句,虽然很多人从高中过来有点嫌弃刷题了,但是我们是大学生不能用高中生的观点去看待问题,高中的刷题是为了分数,大学的刷题是为了醒脑</p>
-<p>你看不起一天在<code>leetcode</code>刷几道题,那是因为你刷不动,不愿刷,以前刷题刷到你一眼就能看出答案,现在我们刷题要每刷一遍都要有新的感受,让大脑活跃起来.</p>
-<p>而且当年把运动刷题背单词看书写博客当成<code>副本</code>规定题量字数的时候,每次完成你的任务都会很爽,一方面脑子变得活跃了,另一方面你有种马上就升级的感觉.</p>
-<p>每天都能发现自己的进步这是你前进的动力,虽然我们无法预测未来,好好准备,当未来真的来的时候,不会慌.</p>
-<p>私下插个话,现在<code>app</code>泛滥,你刷单词完全可以搞个扇贝,刷题搞个牛客或leetcode,健身搞个keep,虽然我没收他们的广告费,但是这些东西给我的反馈比我自己搞个小本记着好多了.不多说了与君共勉,希望大家都能沉下焦躁的心,一起慢慢”升级”.</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/08/21/algorithm/TDD/TDD-byexample-transform/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1504,6 +995,453 @@ var moveY = function(y) {
   
   
 
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/19/summary/关于技术栈的总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/07/19/summary/关于技术栈的总结/" class="post-title-link" itemprop="url">关于技术栈的总结</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-07-19 21:51:01" itemprop="dateCreated datePublished" datetime="2016-07-19T21:51:01+08:00">2016-07-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:15:01" itemprop="dateModified" datetime="2021-03-09T20:15:01+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/随想/" itemprop="url" rel="index">
+                    <span itemprop="name">随想</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>1.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>这段时间重新学习了web前端的技术栈,其实一开始加入社团时就是从前端开始入门的,等到了会仿写几个页面后就跳到了后端的坑,从html、css、js（只学了一点）又马不停蹄的转到.net平台、后来在老司机的带领下我们放弃了不开放的.net平台投入了python的怀抱</p>
+</blockquote>
+<p> python的确很好，“内裤”很多，相对于.net 相对于封闭的生态圈， python对第三方的类库的依赖很大，<code>pip</code> 是程序的常客，看到一个好的类库就pip下来了。</p>
+<blockquote>
+<p>学了不少程序语言，从静态语言到动态语言，这其中的转变刚开始的确让人很苦闷。</p>
+</blockquote>
+<p> 自己从c系的语言过来，刚接触C的时候对于“过程编程”有很深的体会，结果并不重要，重要的是过程，有时候为了写好一个完美的函数自己苦思冥想好几天，花在一个函数上的时间比项目的时间都多。</p>
+<blockquote>
+<p>然而到了学习python, 自己把C系的学习习惯带到python , 在做项目的过程中,当自己写完一个函数的时候总在想怎么优化代码,怎么抽象化对象让事情简单,慢慢的走入一个误区,让我忘记了python的口号  <strong>life is short, I use python</strong> .</p>
+</blockquote>
+<h5 id="python是一门目的性很强的语言-先让我实现功能-其他以后再说-我以前使用的时候对过程强调的太多了-一个函数我得测试测试很多遍-确定每个参数的作用还有影响-花了太多时间-适得其反-我的代码一点都不-pythonic"><a href="#python是一门目的性很强的语言-先让我实现功能-其他以后再说-我以前使用的时候对过程强调的太多了-一个函数我得测试测试很多遍-确定每个参数的作用还有影响-花了太多时间-适得其反-我的代码一点都不-pythonic" class="headerlink" title="python是一门目的性很强的语言, 先让我实现功能,其他以后再说, 我以前使用的时候对过程强调的太多了, 一个函数我得测试测试很多遍,确定每个参数的作用还有影响, 花了太多时间, 适得其反,我的代码一点都不 pythonic"></a>python是一门目的性很强的语言, <strong>先让我实现功能,其他以后再说</strong>, 我以前使用的时候对过程强调的太多了, 一个函数我得测试测试很多遍,确定每个参数的作用还有影响, 花了太多时间, 适得其反,我的代码一点都不 <strong>pythonic</strong></h5><p>我在学习 python的过程中走了很多误区,总结起来有几点:</p>
+<ul>
+<li>太注重过程,不注重结果</li>
+<li>太注重功能丰富,不注重简单</li>
+</ul>
+<h4 id="在我看来-pythonic-就是用最简短清晰的代码最快的完成自己的目的"><a href="#在我看来-pythonic-就是用最简短清晰的代码最快的完成自己的目的" class="headerlink" title="在我看来, pythonic 就是用最简短清晰的代码最快的完成自己的目的"></a>在我看来, <strong>pythonic</strong> 就是<strong>用最简短清晰的代码最快的完成自己的目的</strong></h4><h2 id="python和javascript"><a href="#python和javascript" class="headerlink" title="python和javascript"></a>python和javascript</h2><blockquote>
+<p>这个都是动态的脚本语言,javascript更倾向于脚本</p>
+</blockquote>
+<p>两个家伙在我看来都是<strong>鸭式</strong>语言, 当然js更倾向函数式,而python更倾向于对象式.</p>
+<h3 id="python-是目的性强-javascrip-是表现力强"><a href="#python-是目的性强-javascrip-是表现力强" class="headerlink" title="python 是目的性强, javascrip 是表现力强"></a>python 是目的性强, javascrip 是表现力强</h3><p>以前在后端的时候总觉得只要把自己那端的语言学好就行了, 任何事python都能用来解决, 无论是数据库还是服务器,就算是图像都能用python处理(使用PIL),虽然有着GIL,有这性能低下等等的问题 .<br>颇有一番”学好数理化走遍全天下都不怕”的念头,</p>
+<p>  然而在实际项目中慢慢发现, 计算我能用几百行python代码画出一朵花来,用js几句话就在canvas上弄出来了,而且很轻松就能换成其他的东西.</p>
+<p>  得益于node.js社区的火热, 现在javascript也能在后端大显身手了, 学习了一点node.js,感觉通过node.js对js的封装,让javascript变成了一门类python的语言, 原本js文件只能运行在浏览器里面,通过node.js将每个文件封装成模块,就像python将每个文件封装成package,通过模块与模块的合作,js也能像python那样简单的用几行代码就构成一个强壮的服务器(虽然说现在node.js有点不稳定,但是随着node社区的努力也能将node.js强壮起来)</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><blockquote>
+<p> 通过一个星期的重温js, 自己简单的涉猎了现在很火的Angular,Ionic.和Node.js,并简单的搭建 Electron + Cordova + Ionic + Angular <a href="http://www.zhanglun.me" target="_blank" rel="noopener">原来博客</a> 的 Desktop端<br>  (linux + windows + OS)的软件版,还有移动版(由于本人没有OS操作系统,只做了Android版),还花了半天时间搭建了这个基于hexo的博客,算是完成了全平台的搭建 </p>
+</blockquote>
+<p> 接下来我会自己工作前的大学时光好好的培养自己解决问题的能力,希望能在工作前爱上并享受自己将要做的工作!</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/software/有用的几个Shell命令/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/07/18/software/有用的几个Shell命令/" class="post-title-link" itemprop="url">有用的几个Shell命令</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-07-18 16:07:36" itemprop="dateCreated datePublished" datetime="2016-07-18T16:07:36+08:00">2016-07-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:08:54" itemprop="dateModified" datetime="2021-03-09T20:08:54+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/软件/" itemprop="url" rel="index">
+                    <span itemprop="name">软件</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>464</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="管线命令-pipe-："><a href="#管线命令-pipe-：" class="headerlink" title="管线命令 (pipe)："></a>管线命令 (pipe)：</h3><ol>
+<li>撷取命令： cut, grep</li>
+<li>排序命令： sort, wc, uniq</li>
+<li>双向重导向： tee</li>
+<li>字符转换命令： tr, col, join, paste, expand</li>
+<li>分割命令： split</li>
+<li>参数代换： xargs<h3 id="分割文档"><a href="#分割文档" class="headerlink" title="分割文档"></a>分割文档</h3></li>
+</ol>
+<blockquote>
+<p>长长的一大片文档有时我们并不愿意看到全部内容,我们只想关注<br>部分内容的时候了可以考虑使用分割文档命令</p>
+</blockquote>
+<p><code>cut</code>是一个很好的分割文档工具</p>
+<h3 id="vi常用命令"><a href="#vi常用命令" class="headerlink" title="vi常用命令"></a>vi常用命令</h3><ol>
+<li>[Ctrl] + [u] 屏幕『向上』移动半页</li>
+<li><ul>
+<li>光标移动到非空格符的下一列</li>
+</ul>
+</li>
+<li><ul>
+<li>光标移动到非空格符的上一列</li>
+</ul>
+</li>
+<li>n<space>那个 n 表示『数字』，例如 20 。按下数字后会向右移动这一行的n 个字符。例如 20&lt;spac移动 20 个字符距离。</space></li>
+<li>0 这是数字『0 』：移动到这一行的最前面字符</li>
+<li>$ 移动到这一行的最后面字符处(常用)</li>
+<li>H 光标移动到这个屏幕的最上方那一行</li>
+<li>M 光标移动到这个屏幕的中央那一行</li>
+<li>L 光标移动到这个屏幕的最下方那一行</li>
+<li>G 移动到这个档案的最后一行(常用)</li>
+<li>nG n 为数字。移动到这个档案的第 n 行。例如 2档案的第 20 行(可配合 :set nu)</li>
+<li>gg 移动到这个档案的第一行，相当于 1G 啊！ (<br>n<enter> n 为数字。光标向下移动 n 行(常用)</enter></li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/software/富文本编辑器CKEditor配置CKFinder/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/07/18/software/富文本编辑器CKEditor配置CKFinder/" class="post-title-link" itemprop="url">富文本编辑器CKEditor配置CKFinder</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-07-18 16:07:36" itemprop="dateCreated datePublished" datetime="2016-07-18T16:07:36+08:00">2016-07-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:08:28" itemprop="dateModified" datetime="2021-03-09T20:08:28+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/软件/" itemprop="url" rel="index">
+                    <span itemprop="name">软件</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>2.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>由于网站要实现图片和文字的混排的上传<br>所以在网上找了富文本编辑器的插件，发现<a href="http://ckeditor.com/download" target="_blank" rel="noopener">CKEditor</a>这款还不错的插件</p>
+</blockquote>
+<h3 id="我用的是4-5-1这个版本，的确很好用，只是引用了一个js文件就可以实现。"><a href="#我用的是4-5-1这个版本，的确很好用，只是引用了一个js文件就可以实现。" class="headerlink" title="我用的是4.5.1这个版本，的确很好用，只是引用了一个js文件就可以实现。"></a>我用的是<strong>4.5.1</strong>这个版本，的确很好用，只是引用了一个<strong>js</strong>文件就可以实现。</h3><hr>
+<ol>
+<li>将网上下的CKEditor包解压放在根目录下</li>
+<li><p>在页面上引用CKEditor的核心包<strong>ckeditor.js</strong></p>
+<pre><code>&lt;script src=&quot;ckeditor/ckeditor.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;;
+</code></pre></li>
+<li><p>在页面添加一个输入框<strong>textarea</strong></p>
+<pre><code>&lt;textarea name=&quot;individual&quot; id=&quot;individual&quot; runat=&quot;server&quot;&gt;&lt;/textarea&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+ CKEDITOR.replace(&apos;individual&apos;);
+ &lt;/script&gt;
+</code></pre></li>
+</ol>
+<hr>
+<h3 id="只要通过上面上面几个步骤就能实现富文本编辑器，但是点开图片上传功能，发现只有上传url的功能，并不能本地上传图片，百度了一下发现由于安全性问题CKEditor没有上传功能，只有安上CKFinder才能实现上传功能，于是我在官网下了ckfinder-aspnet-2-5-0-1-同CKEditor一样引用JS文件（只要引用ckfinder-js"><a href="#只要通过上面上面几个步骤就能实现富文本编辑器，但是点开图片上传功能，发现只有上传url的功能，并不能本地上传图片，百度了一下发现由于安全性问题CKEditor没有上传功能，只有安上CKFinder才能实现上传功能，于是我在官网下了ckfinder-aspnet-2-5-0-1-同CKEditor一样引用JS文件（只要引用ckfinder-js" class="headerlink" title="只要通过上面上面几个步骤就能实现富文本编辑器，但是点开图片上传功能，发现只有上传url的功能，并不能本地上传图片，百度了一下发现由于安全性问题CKEditor没有上传功能，只有安上CKFinder才能实现上传功能，于是我在官网下了ckfinder__aspnet_2.5.0.1,同CKEditor一样引用JS文件（只要引用ckfinder.js)"></a>只要通过上面上面几个步骤就能实现富文本编辑器，但是点开图片上传功能，发现只有上传url的功能，并不能本地上传图片，百度了一下发现由于安全性问题<strong>CKEditor</strong>没有上传功能，只有安上<a href="http://ckfinder.com/download" title="CKFinder" target="_blank" rel="noopener">CKFinder</a>才能实现上传功能，于是我在官网下了<strong>ckfinder__aspnet_2.5.0.1</strong>,同CKEditor一样引用JS文件（只要引用ckfinder.js)</h3><pre><code>&lt;script src=&quot;ckfinder/ckfinder.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+</code></pre><ul>
+<li>由于我是MVC的网站基于.net4.5，在官方给的包里面有一个asp.net网站实例放在<strong>_source</strong>文件夹里面，里面有一个基于.net2的示例网站，一运行就报找不到 <strong>System.Web.UI.Design</strong>这个命名空间的错，所以我把它从项目中排除，把项目中bin中debug文件夹下的<strong>CKFinder.dll</strong>复制出来，引用到我自己的项目中。<h3 id="接下来要配置CKEditor来让CKFinder引用进来，在CKEditor文件夹下config-js在CKEDITOR-editorConfig-function-config-方法中添加如下代码："><a href="#接下来要配置CKEditor来让CKFinder引用进来，在CKEditor文件夹下config-js在CKEDITOR-editorConfig-function-config-方法中添加如下代码：" class="headerlink" title="接下来要配置CKEditor来让CKFinder引用进来，在CKEditor文件夹下config.js在CKEDITOR.editorConfig = function (config) {};方法中添加如下代码："></a>接下来要配置<strong>CKEditor</strong>来让CKFinder引用进来，在CKEditor文件夹下config.js在CKEDITOR.editorConfig = function (config) {};方法中添加如下代码：</h3>   config.filebrowserImageBrowseUrl = ‘ckfinder/ckfinder.html?Type=Images’;<br>   config.filebrowserFlashBrowseUrl = ‘ckfinder/ckfinder.html?Type=Flash’;<pre><code>config.filebrowserUploadUrl = &apos;ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&amp;type=Files&apos;;
+</code></pre>  config.filebrowserImageUploadUrl = ‘ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&amp;type=Images’;<br>  config.filebrowserFlashUploadUrl = ‘ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&amp;type=Flash’;<br>  config.filebrowserWindowWidth = ‘800’;  //“浏览服务器”弹出框的size设置<br>  config.filebrowserWindowHeight = ‘500’;</li>
+</ul>
+<hr>
+<h4 id="注意在配置Url的时候要修改成相对于网站本地网站磁盘文件路径，比如说，你的网址是http-example-com-cn-你把ckfinder文件夹放在Admin下的Editor文件夹，那么所有url要改成下面类似的格式"><a href="#注意在配置Url的时候要修改成相对于网站本地网站磁盘文件路径，比如说，你的网址是http-example-com-cn-你把ckfinder文件夹放在Admin下的Editor文件夹，那么所有url要改成下面类似的格式" class="headerlink" title="注意在配置Url的时候要修改成相对于网站本地网站磁盘文件路径，比如说，你的网址是http://example.com.cn ,你把ckfinder文件夹放在Admin下的Editor文件夹，那么所有url要改成下面类似的格式"></a>注意在配置Url的时候要修改成相对于网站本地网站磁盘文件路径，比如说，你的网址是<a href="http://example.com.cn" target="_blank" rel="noopener">http://example.com.cn</a> ,你把ckfinder文件夹放在Admin下的Editor文件夹，那么所有url要改成下面类似的格式</h4><pre><code>config.filebrowserImageBrowseUrl =&apos;/Admin/Editor/ckfinder/ckfinder.html?Type=Images&apos;;
+</code></pre><h4 id="否则会报404错误，"><a href="#否则会报404错误，" class="headerlink" title="否则会报404错误，"></a>否则会报404错误，</h4><h4 id="最后一步是修改一个函数让所有人能看到服务器上传文件夹里面的文件，在ckfinder文件夹下面的cofig-ascx文件，找到-CheckAuthentication函数将返回值改成true"><a href="#最后一步是修改一个函数让所有人能看到服务器上传文件夹里面的文件，在ckfinder文件夹下面的cofig-ascx文件，找到-CheckAuthentication函数将返回值改成true" class="headerlink" title="最后一步是修改一个函数让所有人能看到服务器上传文件夹里面的文件，在ckfinder文件夹下面的cofig.ascx文件，找到 CheckAuthentication函数将返回值改成true"></a>最后一步是修改一个函数让所有人能看到服务器上传文件夹里面的文件，在ckfinder文件夹下面的cofig.ascx文件，找到 CheckAuthentication函数将返回值改成true</h4><p>当然如果你想修改上传文件的地址，你可以在上面方法里面找到SetConfig()方法，找到BaseUrl，修改为你想上传的地址，</p>
+<hr>
+<hr>
+<h3 id="PS："><a href="#PS：" class="headerlink" title="PS："></a>PS：</h3><h4 id="我是在在VS里面进行调试的，由于VS的IIS在调试的时候不允许对磁盘文件的路由地址访问，就是CKFinder通过ckfinder-html这个html来实现上传图片的功能，但是这个在调试的时候VS无法访问这个文件，所以一直报404错误，可以修改IIS来允许IIS访问磁盘文件，步骤如下："><a href="#我是在在VS里面进行调试的，由于VS的IIS在调试的时候不允许对磁盘文件的路由地址访问，就是CKFinder通过ckfinder-html这个html来实现上传图片的功能，但是这个在调试的时候VS无法访问这个文件，所以一直报404错误，可以修改IIS来允许IIS访问磁盘文件，步骤如下：" class="headerlink" title="我是在在VS里面进行调试的，由于VS的IIS在调试的时候不允许对磁盘文件的路由地址访问，就是CKFinder通过ckfinder.html这个html来实现上传图片的功能，但是这个在调试的时候VS无法访问这个文件，所以一直报404错误，可以修改IIS来允许IIS访问磁盘文件，步骤如下："></a>我是在在VS里面进行调试的，由于VS的IIS在调试的时候不允许对磁盘文件的路由地址访问，就是CKFinder通过<strong>ckfinder.html</strong>这个html来实现上传图片的功能，但是这个在调试的时候VS无法访问这个文件，所以一直报404错误，可以修改IIS来允许IIS访问磁盘文件，步骤如下：</h4><ol>
+<li>右键点击IIS Express，选择显示所有应用程序</li>
+<li>找到运行网站的配置，进入applicationhost.config文件夹</li>
+<li>ctrl+f 寻找UrlRoutingModule</li>
+<li><p>将preCodition设置为空字符</p>
+<pre><code>&lt;add name=&quot;UrlRoutingModule-4.0&quot; type=&quot;System.Web.Routing.UrlRoutingModule&quot; preCondition=&quot;&quot; /&gt;
+</code></pre></li>
+</ol>
+<hr>
+<h3 id="如果你是用MVC进行表单传值的话，你必须在post方法上面添加-ValidateInput-false-属性，如果不这样的话就会报下面的错"><a href="#如果你是用MVC进行表单传值的话，你必须在post方法上面添加-ValidateInput-false-属性，如果不这样的话就会报下面的错" class="headerlink" title="如果你是用MVC进行表单传值的话，你必须在post方法上面添加 [ValidateInput(false)] 属性，如果不这样的话就会报下面的错"></a>如果你是用MVC进行表单传值的话，你必须在post方法上面添加 <strong>[ValidateInput(false)]</strong> 属性，如果不这样的话就会报下面的错</h3><pre><code>“/”应用程序中的服务器错误。
+从客户端(content=&quot;&lt;p&gt;sdfsdafwewo shdfh...&quot;)中检测到有潜在危险的 Request.Form 值。
+</code></pre>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mrzhangboss.github.io/2016/07/18/python/python学习/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myself.jpg">
+      <meta itemprop="name" content="张伦">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小伦子的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/07/18/python/python学习/" class="post-title-link" itemprop="url">python学习</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-07-18 16:07:36" itemprop="dateCreated datePublished" datetime="2016-07-18T16:07:36+08:00">2016-07-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-09 20:04:07" itemprop="dateModified" datetime="2021-03-09T20:04:07+08:00">2021-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>410</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="由于有其他编程语言基础，所以对于python的学习并不吃力，但是整体感觉python的确与前面学习c、c———"><a href="#由于有其他编程语言基础，所以对于python的学习并不吃力，但是整体感觉python的确与前面学习c、c———" class="headerlink" title="由于有其他编程语言基础，所以对于python的学习并不吃力，但是整体感觉python的确与前面学习c、c———"></a>由于有其他编程语言基础，所以对于python的学习并不吃力，但是整体感觉python的确与前面学习c、c———</h4><h3 id="1-实时编译VS静态编译"><a href="#1-实时编译VS静态编译" class="headerlink" title="1. 实时编译VS静态编译"></a>1. 实时编译VS静态编译</h3><p>不需要输入任何前缀，直接将代码放在python解释器上面就能运行，虽然window下不支持直接点开文件就能使用，但是只要安装了python解释器就能很轻松的运行。</p>
+<p>分量轻是他的特点吧！相比打开vs等半天然后，编译连接最后执行。python是一门很轻巧的语言，没有满屏的分号，大括号，基本类型比如int、string、float不区分直接拿来用就可以了，任何一个变量都是一个对象，对象可以千变万化，感觉python是一门很野的熊孩子什么都不在乎，比如说你什么了相同的两个变量</p>
+<h1 id="这门强类型语言则不允许，在同级作用域内他只允许声明一次，python或许已经没有声明了，每个名字只是一个对象而已并没有他的归属。"><a href="#这门强类型语言则不允许，在同级作用域内他只允许声明一次，python或许已经没有声明了，每个名字只是一个对象而已并没有他的归属。" class="headerlink" title="这门强类型语言则不允许，在同级作用域内他只允许声明一次，python或许已经没有声明了，每个名字只是一个对象而已并没有他的归属。"></a>这门强类型语言则不允许，在同级作用域内他只允许声明一次，python或许已经没有声明了，每个名字只是一个对象而已并没有他的归属。</h1><h4 id="2-动态语言VS静态语言"><a href="#2-动态语言VS静态语言" class="headerlink" title="2.动态语言VS静态语言"></a>2.动态语言VS静态语言</h4><h1 id="给我感受是一颗静止的树的话，那么python就是一匹‘野马’，C"><a href="#给我感受是一颗静止的树的话，那么python就是一匹‘野马’，C" class="headerlink" title="给我感受是一颗静止的树的话，那么python就是一匹‘野马’，C"></a>给我感受是一颗静止的树的话，那么python就是一匹‘野马’，C</h1>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
   </div>
 
   
@@ -1576,7 +1514,7 @@ var moveY = function(y) {
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">128</span>
+          <span class="site-state-item-count">124</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1651,12 +1589,12 @@ var moveY = function(y) {
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">292k</span>
+    <span title="站点总字数">268k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:26</span>
+    <span title="站点阅读时长">4:04</span>
 </div>
 
         
