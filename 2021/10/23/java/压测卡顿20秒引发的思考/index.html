@@ -57,12 +57,12 @@
 <meta property="og:site_name" content="小伦子的笔记">
 <meta property="og:description" content="压测让人爆炸的事，就算把你写的代码都注释掉了这个问题依旧存在，这个时候你开始怀疑网络，怀疑TCP链接，怀疑系统框架，这篇文章就线上遇到的问题好好梳理了一下一个请求进来究竟会“遭遇”什么  一、单机系统首先我们先来思考在没有Tomcat这些网络框架的时候，一个单机系统是如何处理请求 首先一个请求进来我们分成五步：  建立TCP连接  读取请求数据（先读取TCP请求头，然后根据TCP请求头读取报文）">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://mrzhangboss.github.io/images/cat-17.png">
-<meta property="og:updated_time" content="2022-11-20T12:04:18.338Z">
+<meta property="og:image" content="https://mrzhangboss.github.io/images/cat-slow-service.png">
+<meta property="og:updated_time" content="2022-11-20T12:12:12.920Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="压测卡顿20秒引发的思考">
 <meta name="twitter:description" content="压测让人爆炸的事，就算把你写的代码都注释掉了这个问题依旧存在，这个时候你开始怀疑网络，怀疑TCP链接，怀疑系统框架，这篇文章就线上遇到的问题好好梳理了一下一个请求进来究竟会“遭遇”什么  一、单机系统首先我们先来思考在没有Tomcat这些网络框架的时候，一个单机系统是如何处理请求 首先一个请求进来我们分成五步：  建立TCP连接  读取请求数据（先读取TCP请求头，然后根据TCP请求头读取报文）">
-<meta name="twitter:image" content="https://mrzhangboss.github.io/images/cat-17.png">
+<meta name="twitter:image" content="https://mrzhangboss.github.io/images/cat-slow-service.png">
 
 <link rel="canonical" href="https://mrzhangboss.github.io/2021/10/23/java/压测卡顿20秒引发的思考/">
 
@@ -247,7 +247,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-11-20 20:04:18" itemprop="dateModified" datetime="2022-11-20T20:04:18+08:00">2022-11-20</time>
+                <time title="修改时间：2022-11-20 20:12:12" itemprop="dateModified" datetime="2022-11-20T20:12:12+08:00">2022-11-20</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -317,7 +317,7 @@
 <p>由于我们内存CPU网卡的速度是有限的，所以Tomcat规定了，我们同时能处理多少请求，这个是通过server.tomcat.threads.max 来规定的，默认是200，就是同时能处理200个请求，其他的都在连接等待过程中</p>
 <p>这样讲非常的枯燥，接下来我们来看看在Cat监控中，每个步骤处的位置</p>
 <h2 id="三、Cat例子"><a href="#三、Cat例子" class="headerlink" title="三、Cat例子"></a>三、Cat例子</h2><p>首先简单介绍一下Cat的原理，就是AOP，使用Spring的AOP能够在你想要监控的方法前后添加自己的代码</p>
-<p><img src="/images/cat-17.png" alt></p>
+<p><img src="/images/cat-slow-service.png" alt></p>
 <p>上面是我限制客户端网速伪造的一个超长请求，我们来看看第一个 17:10:11.750 URL 这个是Cat在方法</p>
 <p>org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher.service 进行的一个打点</p>
 <p>你可以看到后面接着一大串同时的Service.client 这些，都是在调用这个方法之前打的，然后最后那个URL是执行完这个函数之后打的点</p>
