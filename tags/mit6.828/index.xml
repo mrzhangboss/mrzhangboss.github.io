@@ -1,1 +1,60 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>MIT6.828 on 阿伦博客</title><link>https://mrzhangboss.github.io/tags/mit6.828/</link><description>Recent content in MIT6.828 on 阿伦博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>© 2024 阿伦</copyright><lastBuildDate>Tue, 20 Feb 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://mrzhangboss.github.io/tags/mit6.828/index.xml" rel="self" type="application/rss+xml"/><item><title>用户空间隔离</title><link>https://mrzhangboss.github.io/posts/essays/programming/mit6_828/%E7%94%A8%E6%88%B7%E7%A9%BA%E9%97%B4%E9%9A%94%E7%A6%BB/</link><pubDate>Tue, 20 Feb 2018 00:00:00 +0000</pubDate><guid>https://mrzhangboss.github.io/posts/essays/programming/mit6_828/%E7%94%A8%E6%88%B7%E7%A9%BA%E9%97%B4%E9%9A%94%E7%A6%BB/</guid><description>通过前面的学习我们知道，在前两个实验中最主要的程序就是ker</description></item><item><title>KERNBASE对操作系统的影响</title><link>https://mrzhangboss.github.io/posts/essays/programming/mit6_828/kernbase%E5%AF%B9%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%BD%B1%E5%93%8D/</link><pubDate>Mon, 19 Feb 2018 00:00:00 +0000</pubDate><guid>https://mrzhangboss.github.io/posts/essays/programming/mit6_828/kernbase%E5%AF%B9%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%BD%B1%E5%93%8D/</guid><description>概括 # 这个问题主要在这本xv6-ref的第一章的练习题2中提</description></item><item><title>内存分页设计</title><link>https://mrzhangboss.github.io/posts/essays/programming/mit6_828/%E5%86%85%E5%AD%98%E5%88%86%E9%A1%B5%E8%AE%BE%E8%AE%A1/</link><pubDate>Mon, 05 Feb 2018 00:00:00 +0000</pubDate><guid>https://mrzhangboss.github.io/posts/essays/programming/mit6_828/%E5%86%85%E5%AD%98%E5%88%86%E9%A1%B5%E8%AE%BE%E8%AE%A1/</guid><description>引言 # 前面已经通过lab1的这篇博文了解了内存分页的实现细节</description></item><item><title>内存分页</title><link>https://mrzhangboss.github.io/posts/essays/programming/mit6_828/%E5%86%85%E5%AD%98%E5%88%86%E9%A1%B5/</link><pubDate>Wed, 31 Jan 2018 00:00:00 +0000</pubDate><guid>https://mrzhangboss.github.io/posts/essays/programming/mit6_828/%E5%86%85%E5%AD%98%E5%88%86%E9%A1%B5/</guid><description>引言 # 本来自己查了很多资料，想自己写出来，结果下笔的时候发现</description></item><item><title>引导和操作系统的交互</title><link>https://mrzhangboss.github.io/posts/essays/programming/mit6_828/%E5%BC%95%E5%AF%BC%E5%92%8C%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E4%BA%A4%E4%BA%92/</link><pubDate>Wed, 31 Jan 2018 00:00:00 +0000</pubDate><guid>https://mrzhangboss.github.io/posts/essays/programming/mit6_828/%E5%BC%95%E5%AF%BC%E5%92%8C%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E4%BA%A4%E4%BA%92/</guid><description>引言 # 本来自己查了很多资料，想自己写出来，结果下笔的时候发现</description></item><item><title>从CS寄存器看段的前世今生</title><link>https://mrzhangboss.github.io/posts/essays/programming/mit6_828/%E4%BB%8Ecs%E5%AF%84%E5%AD%98%E5%99%A8%E7%9C%8B%E6%AE%B5%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/</link><pubDate>Tue, 30 Jan 2018 00:00:00 +0000</pubDate><guid>https://mrzhangboss.github.io/posts/essays/programming/mit6_828/%E4%BB%8Ecs%E5%AF%84%E5%AD%98%E5%99%A8%E7%9C%8B%E6%AE%B5%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/</guid><description>引言 # Intel作为作为微处理器的航头老大，一直引导CPU的</description></item><item><title>什么是操作系统</title><link>https://mrzhangboss.github.io/posts/essays/programming/mit6_828/%E4%BB%80%E4%B9%88%E6%98%AF%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</link><pubDate>Mon, 29 Jan 2018 00:00:00 +0000</pubDate><guid>https://mrzhangboss.github.io/posts/essays/programming/mit6_828/%E4%BB%80%E4%B9%88%E6%98%AF%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</guid><description>引言 # 本文是基于mit6.828 的lab1对操作系统的思考，</description></item><item><title>mit6.828课程总结</title><link>https://mrzhangboss.github.io/posts/essays/programming/mit6_828/mit6.828%E8%AF%BE%E7%A8%8B%E6%80%BB%E7%BB%93/</link><pubDate>Tue, 09 Jan 2018 00:00:00 +0000</pubDate><guid>https://mrzhangboss.github.io/posts/essays/programming/mit6_828/mit6.828%E8%AF%BE%E7%A8%8B%E6%80%BB%E7%BB%93/</guid><description>引言 # 一开始想直接做一个操作系统，但是万事开头难，学习操作系</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>MIT6.828 on 阿伦博客</title><link>https://mrzhangboss.github.io/tags/mit6.828/</link><description>Recent content in MIT6.828 on 阿伦博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>© 2024 阿伦</copyright><lastBuildDate>Tue, 20 Feb 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://mrzhangboss.github.io/tags/mit6.828/index.xml" rel="self" type="application/rss+xml"/><item><title>用户空间隔离</title><link>https://mrzhangboss.github.io/posts/essays/programming/mit6_828/%E7%94%A8%E6%88%B7%E7%A9%BA%E9%97%B4%E9%9A%94%E7%A6%BB/</link><pubDate>Tue, 20 Feb 2018 00:00:00 +0000</pubDate><guid>https://mrzhangboss.github.io/posts/essays/programming/mit6_828/%E7%94%A8%E6%88%B7%E7%A9%BA%E9%97%B4%E9%9A%94%E7%A6%BB/</guid><description>&lt;blockquote>
+&lt;p>通过前面的学习我们知道，在前两个实验中最主要的程序就是&lt;code>kern/init.c&lt;/code>文件中&lt;code>i386_init&lt;/code>函数，但是我们看到最后却是一个&lt;code>while&lt;/code>循环结束。&lt;/p></description></item><item><title>KERNBASE对操作系统的影响</title><link>https://mrzhangboss.github.io/posts/essays/programming/mit6_828/kernbase%E5%AF%B9%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%BD%B1%E5%93%8D/</link><pubDate>Mon, 19 Feb 2018 00:00:00 +0000</pubDate><guid>https://mrzhangboss.github.io/posts/essays/programming/mit6_828/kernbase%E5%AF%B9%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%BD%B1%E5%93%8D/</guid><description>&lt;h2 class="relative group">概括
+&lt;div id="%E6%A6%82%E6%8B%AC" class="anchor">&lt;/div>
+&lt;span
+class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+&lt;a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+style="text-decoration-line: none !important;" href="#%E6%A6%82%E6%8B%AC" aria-label="锚点">#&lt;/a>
+&lt;/span>
+&lt;/h2>
+&lt;blockquote>
+&lt;p>这个问题主要在这本&lt;a href="https://pdos.csail.mit.edu/6.828/2016/xv6/book-rev9.pdf" target="_blank">xv6-ref&lt;/a>的第一章的练习题2中提出来&lt;/p></description></item><item><title>内存分页设计</title><link>https://mrzhangboss.github.io/posts/essays/programming/mit6_828/%E5%86%85%E5%AD%98%E5%88%86%E9%A1%B5%E8%AE%BE%E8%AE%A1/</link><pubDate>Mon, 05 Feb 2018 00:00:00 +0000</pubDate><guid>https://mrzhangboss.github.io/posts/essays/programming/mit6_828/%E5%86%85%E5%AD%98%E5%88%86%E9%A1%B5%E8%AE%BE%E8%AE%A1/</guid><description>&lt;h2 class="relative group">引言
+&lt;div id="%E5%BC%95%E8%A8%80" class="anchor">&lt;/div>
+&lt;span
+class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+&lt;a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+style="text-decoration-line: none !important;" href="#%E5%BC%95%E8%A8%80" aria-label="锚点">#&lt;/a>
+&lt;/span>
+&lt;/h2>
+&lt;p>前面已经通过lab1的这篇&lt;a href="https://mrzhangboss.github.io/2018/01/03/%e5%86%85%e5%ad%98%e5%88%86%e9%a1%b5%e8%ae%be%e8%ae%a1/">博文&lt;/a>了解了内存分页的实现细节，接下来就谈谈如何具体实现内存分页&lt;/p></description></item><item><title>内存分页</title><link>https://mrzhangboss.github.io/posts/essays/programming/mit6_828/%E5%86%85%E5%AD%98%E5%88%86%E9%A1%B5/</link><pubDate>Wed, 31 Jan 2018 00:00:00 +0000</pubDate><guid>https://mrzhangboss.github.io/posts/essays/programming/mit6_828/%E5%86%85%E5%AD%98%E5%88%86%E9%A1%B5/</guid><description>&lt;h2 class="relative group">引言
+&lt;div id="%E5%BC%95%E8%A8%80" class="anchor">&lt;/div>
+&lt;span
+class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+&lt;a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+style="text-decoration-line: none !important;" href="#%E5%BC%95%E8%A8%80" aria-label="锚点">#&lt;/a>
+&lt;/span>
+&lt;/h2>
+&lt;p>本来自己查了很多资料，想自己写出来，结果下笔的时候发现别人已经把我想写的部分全部写出来了，而且比我想的还要具体，所以我就不写了，把链接放出了，顺便我补充一些&lt;/p></description></item><item><title>引导和操作系统的交互</title><link>https://mrzhangboss.github.io/posts/essays/programming/mit6_828/%E5%BC%95%E5%AF%BC%E5%92%8C%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E4%BA%A4%E4%BA%92/</link><pubDate>Wed, 31 Jan 2018 00:00:00 +0000</pubDate><guid>https://mrzhangboss.github.io/posts/essays/programming/mit6_828/%E5%BC%95%E5%AF%BC%E5%92%8C%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E4%BA%A4%E4%BA%92/</guid><description>&lt;h2 class="relative group">引言
+&lt;div id="%E5%BC%95%E8%A8%80" class="anchor">&lt;/div>
+&lt;span
+class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+&lt;a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+style="text-decoration-line: none !important;" href="#%E5%BC%95%E8%A8%80" aria-label="锚点">#&lt;/a>
+&lt;/span>
+&lt;/h2>
+&lt;p>本来自己查了很多资料，想自己写出来，结果下笔的时候发现别人已经把我想写的部分全部写出来了，而且比我想的还要具体，所以我就不写了，把链接放出了，顺便我补充一些&lt;/p></description></item><item><title>从CS寄存器看段的前世今生</title><link>https://mrzhangboss.github.io/posts/essays/programming/mit6_828/%E4%BB%8Ecs%E5%AF%84%E5%AD%98%E5%99%A8%E7%9C%8B%E6%AE%B5%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/</link><pubDate>Tue, 30 Jan 2018 00:00:00 +0000</pubDate><guid>https://mrzhangboss.github.io/posts/essays/programming/mit6_828/%E4%BB%8Ecs%E5%AF%84%E5%AD%98%E5%99%A8%E7%9C%8B%E6%AE%B5%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/</guid><description>&lt;h2 class="relative group">引言
+&lt;div id="%E5%BC%95%E8%A8%80" class="anchor">&lt;/div>
+&lt;span
+class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+&lt;a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+style="text-decoration-line: none !important;" href="#%E5%BC%95%E8%A8%80" aria-label="锚点">#&lt;/a>
+&lt;/span>
+&lt;/h2>
+&lt;p>Intel作为作为微处理器的航头老大，一直引导CPU的进步发展，也正是因为Intel是一个有着历史包袱的企业，所以站在现代CPU看起来，有一些非常奇葩的设计遗留下来，这些设计一开始是为了兼容，慢慢的将这种兼容又发展成新的功能，把“包袱”转换成“亮点”，段设计就是其中的一个很重要的代表，要想搞懂这个设计在不同的CPU的如何保持兼容和强化，我们必须要慢慢的把CPU的历史给捋顺。&lt;/p></description></item><item><title>什么是操作系统</title><link>https://mrzhangboss.github.io/posts/essays/programming/mit6_828/%E4%BB%80%E4%B9%88%E6%98%AF%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</link><pubDate>Mon, 29 Jan 2018 00:00:00 +0000</pubDate><guid>https://mrzhangboss.github.io/posts/essays/programming/mit6_828/%E4%BB%80%E4%B9%88%E6%98%AF%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</guid><description>&lt;h2 class="relative group">引言
+&lt;div id="%E5%BC%95%E8%A8%80" class="anchor">&lt;/div>
+&lt;span
+class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+&lt;a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+style="text-decoration-line: none !important;" href="#%E5%BC%95%E8%A8%80" aria-label="锚点">#&lt;/a>
+&lt;/span>
+&lt;/h2>
+&lt;p>本文是基于mit6.828 的lab1对操作系统的思考，网上有不少关于lab1的博客，大部分都是介绍如何完成lab1的问题，介绍的比较详细的有这个&lt;a href="http://www.cnblogs.com/fatsheep9146/category/769143.html" target="_blank">博客&lt;/a>，在这里我就不从问题出发，建议大家看完上面的博客在看我这篇博文，我这篇博文就是从把我遇到的疑惑提炼出知识点，然后再把这些知识点串起来&lt;/p></description></item><item><title>mit6.828课程总结</title><link>https://mrzhangboss.github.io/posts/essays/programming/mit6_828/mit6.828%E8%AF%BE%E7%A8%8B%E6%80%BB%E7%BB%93/</link><pubDate>Tue, 09 Jan 2018 00:00:00 +0000</pubDate><guid>https://mrzhangboss.github.io/posts/essays/programming/mit6_828/mit6.828%E8%AF%BE%E7%A8%8B%E6%80%BB%E7%BB%93/</guid><description>&lt;h2 class="relative group">引言
+&lt;div id="%E5%BC%95%E8%A8%80" class="anchor">&lt;/div>
+&lt;span
+class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+&lt;a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+style="text-decoration-line: none !important;" href="#%E5%BC%95%E8%A8%80" aria-label="锚点">#&lt;/a>
+&lt;/span>
+&lt;/h2>
+&lt;blockquote>
+&lt;p>一开始想直接做一个操作系统，但是万事开头难，学习操作系统需要太多基础知识了，所以就按照网上推荐先学习mit6.828的课程，先把xvf6操作系统搞懂，然后在来实现自己的操作系统，下面就是学习这个课程的体会，按照各个lab的顺序，介绍自己的心得体会&lt;/p></description></item></channel></rss>

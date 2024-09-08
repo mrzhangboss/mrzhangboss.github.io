@@ -1,1 +1,19 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Allen Blog</title><link>https://mrzhangboss.github.io/en/</link><description>Recent content on Allen Blog</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>© 2024 Allen</copyright><lastBuildDate>Fri, 02 Feb 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://mrzhangboss.github.io/en/index.xml" rel="self" type="application/rss+xml"/><item><title>About me</title><link>https://mrzhangboss.github.io/en/about/</link><pubDate>Fri, 02 Feb 2024 00:00:00 +0000</pubDate><guid>https://mrzhangboss.github.io/en/about/</guid><description>a man</description></item><item><title>Latest</title><link>https://mrzhangboss.github.io/en/latest/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://mrzhangboss.github.io/en/latest/</guid><description>Recent About me 2 February 2024&amp;middot;1 min a man</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Allen Blog</title><link>https://mrzhangboss.github.io/en/</link><description>Recent content on Allen Blog</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>© 2024 Allen</copyright><lastBuildDate>Fri, 02 Feb 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://mrzhangboss.github.io/en/index.xml" rel="self" type="application/rss+xml"/><item><title>About me</title><link>https://mrzhangboss.github.io/en/about/</link><pubDate>Fri, 02 Feb 2024 00:00:00 +0000</pubDate><guid>https://mrzhangboss.github.io/en/about/</guid><description>&lt;p>a man&lt;/p></description></item><item><title>Latest</title><link>https://mrzhangboss.github.io/en/latest/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://mrzhangboss.github.io/en/latest/</guid><description>&lt;h2 class="mt-20 text-2xl font-extrabold mb-10">Recent&lt;/h2>
+&lt;section class="space-y-10 w-full mt-10 mb-10">
+&lt;a class="flex flex-wrap article border border-neutral-200 dark:border-neutral-700 border-2 rounded-md overflow-hidden max-w-prose" href="https://mrzhangboss.github.io/en/about/">
+&lt;div class=" p-4">
+&lt;div class="items-center text-left text-xl font-semibold">
+&lt;div class="font-bold text-xl text-neutral-800 decoration-primary-500 hover:underline hover:underline-offset-2 dark:text-neutral"
+href="https://mrzhangboss.github.io/en/about/">About me&lt;/div>
+&lt;/div>
+&lt;div class="text-sm text-neutral-500 dark:text-neutral-400">
+&lt;div class="flex flex-row flex-wrap items-center">
+&lt;time datetime="2024-02-02 00:00:00 &amp;#43;0000 UTC">2 February 2024&lt;/time>&lt;span class="px-2 text-primary-500">&amp;middot;&lt;/span>&lt;span title="Reading time">1 min&lt;/span>
+&lt;/div>
+&lt;div class="flex flex-row flex-wrap items-center">
+&lt;/div>
+&lt;div class="flex flex-row flex-wrap items-center">
+&lt;/div>
+&lt;/div>
+&lt;div class="py-1 max-w-fit prose dark:prose-invert">
+&lt;p>a man&lt;/p></description></item></channel></rss>
