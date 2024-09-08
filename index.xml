@@ -1,13 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>欢迎来到 Blowfish! :tada: on 阿伦博客</title><link>https://mrzhangboss.github.io/</link><description>Recent content in 欢迎来到 Blowfish! :tada: on 阿伦博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>© 2024 阿伦</copyright><lastBuildDate>Sun, 08 Sep 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://mrzhangboss.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>歇一会再跑</title><link>https://mrzhangboss.github.io/posts/essays/life/%E6%AD%87%E4%B8%80%E4%BC%9A%E5%86%8D%E8%B7%91/</link><pubDate>Tue, 16 Jul 2024 00:00:00 +0000</pubDate><guid>https://mrzhangboss.github.io/posts/essays/life/%E6%AD%87%E4%B8%80%E4%BC%9A%E5%86%8D%E8%B7%91/</guid><description>&lt;blockquote>
-&lt;p>每天忙碌，有一天突然完成手头的活，看着离上班还有十几分钟，戴上耳机听起了音乐，突然世界一下子就清净了&lt;/p></description></item><item><title>Hugo 使用教程</title><link>https://mrzhangboss.github.io/posts/backend/software/hugo%E4%BD%BF%E7%94%A8/</link><pubDate>Mon, 15 Jul 2024 00:00:00 +0000</pubDate><guid>https://mrzhangboss.github.io/posts/backend/software/hugo%E4%BD%BF%E7%94%A8/</guid><description>&lt;h2 class="relative group">背景
-&lt;div id="%E8%83%8C%E6%99%AF" class="anchor">&lt;/div>
-&lt;span
-class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
-&lt;a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
-style="text-decoration-line: none !important;" href="#%E8%83%8C%E6%99%AF" aria-label="锚点">#&lt;/a>
-&lt;/span>
-&lt;/h2>
-&lt;p>博客这次由Hexo 转为 Hugo，我来简单介绍为什么要用Hugo&lt;/p></description></item><item><title>关于</title><link>https://mrzhangboss.github.io/about/</link><pubDate>Sun, 14 Jul 2024 00:00:00 +0000</pubDate><guid>https://mrzhangboss.github.io/about/</guid><description>&lt;h2 class="relative group">I am a software engineer.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>欢迎来到 Blowfish! :tada: on 阿伦博客</title><link>https://mrzhangboss.github.io/</link><description>Recent content in 欢迎来到 Blowfish! :tada: on 阿伦博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>© 2024 阿伦</copyright><lastBuildDate>Sun, 08 Sep 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://mrzhangboss.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>业务开发如何成长</title><link>https://mrzhangboss.github.io/posts/essays/life/%E4%B8%9A%E5%8A%A1%E5%BC%80%E5%8F%91%E5%A6%82%E4%BD%95%E6%88%90%E9%95%BF/</link><pubDate>Sun, 08 Sep 2024 00:00:00 +0000</pubDate><guid>https://mrzhangboss.github.io/posts/essays/life/%E4%B8%9A%E5%8A%A1%E5%BC%80%E5%8F%91%E5%A6%82%E4%BD%95%E6%88%90%E9%95%BF/</guid><description>业务开发如何成长</description></item><item><title>歇一会再跑</title><link>https://mrzhangboss.github.io/posts/essays/life/%E6%AD%87%E4%B8%80%E4%BC%9A%E5%86%8D%E8%B7%91/</link><pubDate>Tue, 16 Jul 2024 00:00:00 +0000</pubDate><guid>https://mrzhangboss.github.io/posts/essays/life/%E6%AD%87%E4%B8%80%E4%BC%9A%E5%86%8D%E8%B7%91/</guid><description>&lt;blockquote>
+&lt;p>每天忙碌，有一天突然完成手头的活，看着离上班还有十几分钟，戴上耳机听起了音乐，突然世界一下子就清净了&lt;/p></description></item><item><title>Hugo 使用教程</title><link>https://mrzhangboss.github.io/posts/backend/software/hugo%E4%BD%BF%E7%94%A8/</link><pubDate>Mon, 15 Jul 2024 00:00:00 +0000</pubDate><guid>https://mrzhangboss.github.io/posts/backend/software/hugo%E4%BD%BF%E7%94%A8/</guid><description>Hugo 使用教程</description></item><item><title>关于</title><link>https://mrzhangboss.github.io/about/</link><pubDate>Sun, 14 Jul 2024 00:00:00 +0000</pubDate><guid>https://mrzhangboss.github.io/about/</guid><description>&lt;h2 class="relative group">I am a software engineer.
 &lt;div id="i-am-a-software-engineer" class="anchor">&lt;/div>
 &lt;span
 class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
@@ -593,6 +585,40 @@ style="text-decoration-line: none !important;" href="#%E9%A9%B1%E5%8A%A8%E5%8A%9
 &lt;blockquote>
 &lt;p>驱动力就鞭子，小的时候我们被父母教育考的好就是棒棒糖,考的差就是鞭子，等我们走进社会,工资就是我们是驱动力。&lt;/p></description></item><item><title>最新文章</title><link>https://mrzhangboss.github.io/latest/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://mrzhangboss.github.io/latest/</guid><description>&lt;h2 class="mt-20 text-2xl font-extrabold mb-10">最近的文章&lt;/h2>
 &lt;section class="space-y-10 w-full mt-10 mb-10">
+&lt;a class="flex flex-wrap article border border-neutral-200 dark:border-neutral-700 border-2 rounded-md overflow-hidden max-w-prose" href="https://mrzhangboss.github.io/posts/essays/life/%E4%B8%9A%E5%8A%A1%E5%BC%80%E5%8F%91%E5%A6%82%E4%BD%95%E6%88%90%E9%95%BF/">
+&lt;div class=" p-4">
+&lt;div class="items-center text-left text-xl font-semibold">
+&lt;div class="font-bold text-xl text-neutral-800 decoration-primary-500 hover:underline hover:underline-offset-2 dark:text-neutral"
+href="https://mrzhangboss.github.io/posts/essays/life/%E4%B8%9A%E5%8A%A1%E5%BC%80%E5%8F%91%E5%A6%82%E4%BD%95%E6%88%90%E9%95%BF/">业务开发如何成长&lt;/div>
+&lt;/div>
+&lt;div class="text-sm text-neutral-500 dark:text-neutral-400">
+&lt;div class="flex flex-row flex-wrap items-center">
+&lt;time datetime="2024-09-08 00:00:00 &amp;#43;0000 UTC">2024-09-08&lt;/time>&lt;span class="px-2 text-primary-500">&amp;middot;&lt;/span>&lt;span title="预计阅读">2 分钟&lt;/span>
+&lt;/div>
+&lt;div class="flex flex-row flex-wrap items-center">
+&lt;/div>
+&lt;div class="flex flex-row flex-wrap items-center">
+&lt;span style="margin-top:0.5rem" class="mr-2" onclick="window.open(&amp;#34;/categories/%E9%9A%8F%E7%AC%94/&amp;#34;,'_self');">
+&lt;span class="flex" style="cursor: pointer;">
+&lt;span class="rounded-md border border-primary-400 px-1 py-[1px] text-xs font-normal text-primary-700 dark:border-primary-600 dark:text-primary-400">
+随笔
+&lt;/span>
+&lt;/span>
+&lt;/span>
+&lt;span style="margin-top:0.5rem" class="mr-2" onclick="window.open(&amp;#34;/categories/%E4%BA%BA%E7%94%9F/&amp;#34;,'_self');">
+&lt;span class="flex" style="cursor: pointer;">
+&lt;span class="rounded-md border border-primary-400 px-1 py-[1px] text-xs font-normal text-primary-700 dark:border-primary-600 dark:text-primary-400">
+人生
+&lt;/span>
+&lt;/span>
+&lt;/span>
+&lt;/div>
+&lt;/div>
+&lt;div class="py-1 max-w-fit prose dark:prose-invert">
+业务开发如何成长
+&lt;/div>
+&lt;/div>
+&lt;/a>
 &lt;a class="flex flex-wrap article border border-neutral-200 dark:border-neutral-700 border-2 rounded-md overflow-hidden max-w-prose" href="https://mrzhangboss.github.io/posts/essays/life/%E6%AD%87%E4%B8%80%E4%BC%9A%E5%86%8D%E8%B7%91/">
 &lt;div class=" p-4">
 &lt;div class="items-center text-left text-xl font-semibold">
